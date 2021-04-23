@@ -7,11 +7,11 @@ import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import { Button } from "@material-ui/core";
 
 import {
-    addInstantLaunch,
     ALL_INSTANT_LAUNCHES_KEY,
     LIST_PUBLIC_QUICK_LAUNCHES_KEY,
     getPublicQuicklaunches,
     listFullInstantLaunches,
+    addInstantLaunch,
 } from "serviceFacades/instantlaunches";
 
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
@@ -33,15 +33,7 @@ import { useTranslation } from "i18n";
 import { build as buildID } from "@cyverse-de/ui-lib";
 import ids from "components/instantlaunches/ids";
 
-import { shortenUsername } from "../functions";
-
-const promoteQuickLaunch = async (quicklaunch) =>
-    await addInstantLaunch(quicklaunch.id);
-
-const isInInstantLaunch = (qlID, instantlaunches) => {
-    const ilIDs = instantlaunches.map((il) => il.quick_launch_id);
-    return ilIDs.includes(qlID);
-};
+import { shortenUsername, isInInstantLaunch } from "../functions";
 
 const QuickLaunchList = ({ showErrorAnnouncer }) => {
     const baseID = buildID(ids.BASE, ids.QL, ids.LIST);
@@ -54,7 +46,7 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
 
     const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
 
-    const [promote] = useMutation(promoteQuickLaunch, {
+    const [promote] = useMutation(addInstantLaunch, {
         onSuccess: () => queryCache.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY),
         onError: (error) =>
             showErrorAnnouncer(t("instantLaunchCreationError"), error),
@@ -132,7 +124,7 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
                                                     onClick={(event) => {
                                                         event.stopPropagation();
                                                         event.preventDefault();
-                                                        promote(row);
+                                                        promote(row.id);
                                                     }}
                                                 >
                                                     {t("common:create")}

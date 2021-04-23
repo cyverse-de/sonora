@@ -4,11 +4,7 @@ import { queryCache, useMutation, useQuery } from "react-query";
 
 import {
     listFullInstantLaunches,
-    upsertInstantLaunchMetadata,
     listInstantLaunchesByMetadata,
-    getInstantLaunchMetadata,
-    resetInstantLaunchMetadata,
-    deleteInstantLaunch,
     ALL_INSTANT_LAUNCHES_KEY,
     DASHBOARD_INSTANT_LAUNCHES_KEY,
 } from "serviceFacades/instantlaunches";
@@ -22,6 +18,11 @@ import { format as formatDate } from "date-fns";
 
 import { build as buildID } from "@cyverse-de/ui-lib";
 import ids from "components/instantlaunches/ids";
+import {
+    addToDashboardHandler,
+    removeFromDashboardHandler,
+    deleteInstantLaunchHandler,
+} from "components/instantlaunches/handlers";
 
 import {
     Button,
@@ -48,69 +49,10 @@ import {
 } from "@material-ui/icons";
 
 import { useTranslation } from "i18n";
-import { validateForDashboard } from "components/instantlaunches";
 
 import { shortenUsername } from "../functions";
 
 import QuickLaunchList from "./QuickLaunchList";
-
-/**
- * Adds the instant launch to the list of instant launches
- * in the dashboard if it isn't already there.
- *
- * @param {string} id
- */
-const addToDashboardHandler = async (il, t) =>
-    await validateForDashboard(il)
-        .then((isValid) => {
-            if (!isValid) {
-                console.log("not valid");
-                throw new Error(t("cannotAddILToDashboard"));
-            }
-        })
-        .then(() =>
-            upsertInstantLaunchMetadata(il.id, {
-                attr: "ui_location",
-                value: "dashboard",
-                unit: "",
-            })
-        );
-
-/**
- * Removes an instant launch from the dashboard.
- *
- * @param {string} id
- */
-const removeFromDashboardHandler = async (id) => {
-    const ilMeta = await getInstantLaunchMetadata(id);
-
-    if (!ilMeta.avus) {
-        throw new Error("no avus in response");
-    }
-
-    const dashCount = ilMeta.avus.filter(
-        ({ attr, value }) => attr === "ui_location" && value === "dashboard"
-    ).length;
-
-    if (dashCount > 0) {
-        const filtered = ilMeta.avus.filter(
-            ({ attr, value }) => attr !== "ui_location" && value !== "dashboard"
-        );
-        return await resetInstantLaunchMetadata(id, filtered);
-    }
-
-    return new Promise((resolve, reject) => resolve(ilMeta));
-};
-
-/**
- * Deletes an instant launch.
- * @param {*} id - The UUID of the instant launch to be deleted.
- */
-const deleteInstantLaunchHandler = async (id) => {
-    return await removeFromDashboardHandler(id).then((_) =>
-        deleteInstantLaunch(id)
-    );
-};
 
 /**
  * Checks if the instant launch associated with 'id' is in

@@ -29,7 +29,6 @@ import AppStepDisplay, { BottomNavigationSkeleton } from "../AppStepDisplay";
 import { getAppEditPath } from "../utils";
 
 import BackButton from "components/utils/BackButton";
-import ComingSoonInfo from "components/utils/ComingSoonInfo";
 import SaveButton from "components/utils/SaveButton";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 
@@ -191,7 +190,11 @@ const AppEditor = (props) => {
         contentLabel: t("commandLineOrder"),
     };
 
-    const steps = [stepAppInfo, stepParameters, stepPreview, stepCmdLineOrder];
+    const steps = [stepAppInfo, stepParameters, stepPreview];
+
+    if (!cosmeticOnly) {
+        steps.push(stepCmdLineOrder);
+    }
 
     const isLastStep = () => {
         return activeStep === steps.length - 1;
@@ -219,8 +222,6 @@ const AppEditor = (props) => {
         <AppStepperFormSkeleton baseId={baseId} header />
     ) : loadingError ? (
         <WrappedErrorHandler baseId={baseId} errorObject={loadingError} />
-    ) : cosmeticOnly ? (
-        <ComingSoonInfo>{t("publicAppEditingNotSupported")}</ComingSoonInfo>
     ) : (
         <Formik
             initialValues={initAppValues(appDescription)}
@@ -384,13 +385,18 @@ const AppEditor = (props) => {
                                         setEditParamField(null);
                                     }}
                                     fieldName={editParamField}
+                                    cosmeticOnly={cosmeticOnly}
                                     values={values}
                                 />
                             ) : activeStepInfo === stepAppInfo ? (
-                                <AppInfo baseId={baseId} />
+                                <AppInfo
+                                    baseId={baseId}
+                                    cosmeticOnly={cosmeticOnly}
+                                />
                             ) : activeStepInfo === stepParameters ? (
                                 <ParamGroups
                                     baseId={baseId}
+                                    cosmeticOnly={cosmeticOnly}
                                     values={values}
                                     keyCount={keyCount}
                                     setKeyCount={setKeyCount}

@@ -44,7 +44,14 @@ import { Add, ArrowUpward, ArrowDownward, Delete } from "@material-ui/icons";
 const useStyles = makeStyles(styles);
 
 function SelectionItemEditorRow(props) {
-    const { baseId, fieldName, onMoveUp, onMoveDown, onDelete } = props;
+    const {
+        baseId,
+        cosmeticOnly,
+        fieldName,
+        onMoveUp,
+        onMoveDown,
+        onDelete,
+    } = props;
 
     const { t } = useTranslation("common");
     const classes = useStyles();
@@ -68,6 +75,7 @@ function SelectionItemEditorRow(props) {
                     )}
                     name={`${fieldName}.name`}
                     component={FormTextField}
+                    disabled={cosmeticOnly}
                 />
             </TableCell>
             <TableCell padding="none">
@@ -78,34 +86,43 @@ function SelectionItemEditorRow(props) {
                     )}
                     name={`${fieldName}.value`}
                     component={FormTextField}
+                    disabled={cosmeticOnly}
                 />
             </TableCell>
-            <TableCell padding="none">
-                <ButtonGroup color="primary" variant="text">
-                    <Button
-                        id={buildID(baseParamArgId, ids.BUTTONS.MOVE_UP_BTN)}
-                        aria-label={t("moveUp")}
-                        onClick={onMoveUp}
-                    >
-                        <ArrowUpward />
-                    </Button>
-                    <Button
-                        id={buildID(baseParamArgId, ids.BUTTONS.MOVE_DOWN_BTN)}
-                        aria-label={t("moveDown")}
-                        onClick={onMoveDown}
-                    >
-                        <ArrowDownward />
-                    </Button>
-                    <Button
-                        id={buildID(baseParamArgId, ids.BUTTONS.DELETE_BTN)}
-                        aria-label={t("delete")}
-                        className={classes.deleteIcon}
-                        onClick={onDelete}
-                    >
-                        <Delete />
-                    </Button>
-                </ButtonGroup>
-            </TableCell>
+            {!cosmeticOnly && (
+                <TableCell padding="none">
+                    <ButtonGroup color="primary" variant="text">
+                        <Button
+                            id={buildID(
+                                baseParamArgId,
+                                ids.BUTTONS.MOVE_UP_BTN
+                            )}
+                            aria-label={t("moveUp")}
+                            onClick={onMoveUp}
+                        >
+                            <ArrowUpward />
+                        </Button>
+                        <Button
+                            id={buildID(
+                                baseParamArgId,
+                                ids.BUTTONS.MOVE_DOWN_BTN
+                            )}
+                            aria-label={t("moveDown")}
+                            onClick={onMoveDown}
+                        >
+                            <ArrowDownward />
+                        </Button>
+                        <Button
+                            id={buildID(baseParamArgId, ids.BUTTONS.DELETE_BTN)}
+                            aria-label={t("delete")}
+                            className={classes.deleteIcon}
+                            onClick={onDelete}
+                        >
+                            <Delete />
+                        </Button>
+                    </ButtonGroup>
+                </TableCell>
+            )}
         </TableRow>
     );
 }
@@ -113,6 +130,7 @@ function SelectionItemEditorRow(props) {
 function SelectionItemEditor(props) {
     const {
         baseId,
+        cosmeticOnly,
         fieldName,
         paramArguments,
         onAdd,
@@ -142,20 +160,22 @@ function SelectionItemEditor(props) {
                         <TableCell>{t("paramArgDisplay")}</TableCell>
                         <TableCell>{t("paramArgName")}</TableCell>
                         <TableCell>{t("paramArgValue")}</TableCell>
-                        <TableCell>
-                            <Button
-                                id={buildID(
-                                    baseParamId,
-                                    ids.BUTTONS.ADD_PARAM_ARG
-                                )}
-                                color="primary"
-                                variant="outlined"
-                                startIcon={<Add />}
-                                onClick={onAdd}
-                            >
-                                {t("common:add")}
-                            </Button>
-                        </TableCell>
+                        {!cosmeticOnly && (
+                            <TableCell>
+                                <Button
+                                    id={buildID(
+                                        baseParamId,
+                                        ids.BUTTONS.ADD_PARAM_ARG
+                                    )}
+                                    color="primary"
+                                    variant="outlined"
+                                    startIcon={<Add />}
+                                    onClick={onAdd}
+                                >
+                                    {t("common:add")}
+                                </Button>
+                            </TableCell>
+                        )}
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -163,6 +183,7 @@ function SelectionItemEditor(props) {
                         <SelectionItemEditorRow
                             key={paramArg.id || index}
                             baseId={baseId}
+                            cosmeticOnly={cosmeticOnly}
                             fieldName={`${fieldName}.${index}`}
                             onMoveUp={onMoveUp(index)}
                             onMoveDown={onMoveDown(index)}
@@ -176,7 +197,7 @@ function SelectionItemEditor(props) {
 }
 
 export default function SelectionPropertyFields(props) {
-    const { baseId, fieldName, paramArguments } = props;
+    const { baseId, cosmeticOnly, fieldName, paramArguments } = props;
 
     const [confirmDeleteIndex, setConfirmDeleteIndex] = React.useState(-1);
     const onCloseDeleteConfirm = () => setConfirmDeleteIndex(-1);
@@ -197,6 +218,7 @@ export default function SelectionPropertyFields(props) {
                 variant="outlined"
                 margin="normal"
                 size="small"
+                disabled={cosmeticOnly}
             >
                 <MenuItem value="">&nbsp;</MenuItem>
                 {paramArguments?.map((paramArg) => (
@@ -207,8 +229,17 @@ export default function SelectionPropertyFields(props) {
             </DefaultValueField>
 
             <DescriptionField baseId={baseParamId} fieldName={fieldName} />
-            <RequiredField baseId={baseParamId} fieldName={fieldName} />
-            <ExcludeArgumentField baseId={baseParamId} fieldName={fieldName} />
+
+            <RequiredField
+                baseId={baseParamId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <ExcludeArgumentField
+                baseId={baseParamId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
 
             <FieldArray
                 name={`${fieldName}.arguments`}
@@ -247,6 +278,7 @@ export default function SelectionPropertyFields(props) {
                         <>
                             <SelectionItemEditor
                                 baseId={baseId}
+                                cosmeticOnly={cosmeticOnly}
                                 fieldName={`${fieldName}.arguments`}
                                 paramArguments={paramArguments}
                                 onAdd={onAdd}

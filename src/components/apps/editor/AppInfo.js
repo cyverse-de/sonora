@@ -28,7 +28,7 @@ import Search from "@material-ui/icons/Search";
  */
 const ToolSelector = (props) => {
     // These props need to be spread down into the FormTextField
-    const { id, field, form } = props;
+    const { id, disabled, field, form } = props;
     const { setFieldValue } = form;
 
     const [open, setOpen] = React.useState(false);
@@ -40,7 +40,7 @@ const ToolSelector = (props) => {
             InputProps={{
                 readOnly: true,
                 value: field.value?.name || "",
-                endAdornment: (
+                endAdornment: !disabled && (
                     <InputAdornment position="end">
                         <IconButton
                             id={buildID(id, ids.BUTTONS.SELECT_TOOL)}
@@ -70,7 +70,7 @@ const ToolSelector = (props) => {
 };
 
 export default function AppInfo(props) {
-    const { baseId } = props;
+    const { baseId, cosmeticOnly } = props;
 
     const { t } = useTranslation(["app_editor", "app_editor_help"]);
 
@@ -82,6 +82,7 @@ export default function AppInfo(props) {
                 label={t("appName")}
                 required
                 component={FormTextField}
+                disabled={cosmeticOnly}
             />
             <FastField
                 id={buildID(baseId, ids.APP_DESCRIPTION)}
@@ -106,6 +107,7 @@ export default function AppInfo(props) {
                     />
                 }
                 component={ToolSelector}
+                disabled={cosmeticOnly}
             />
         </>
     );

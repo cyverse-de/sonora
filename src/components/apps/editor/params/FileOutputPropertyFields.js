@@ -33,7 +33,7 @@ export const DataSources = {
 };
 
 export default function FileOutputPropertyFields(props) {
-    const { baseId, fieldName } = props;
+    const { baseId, cosmeticOnly, fieldName } = props;
 
     const { t } = useTranslation([
         "app_editor",
@@ -46,17 +46,35 @@ export default function FileOutputPropertyFields(props) {
     return (
         <Grid container direction="column">
             <LabelField baseId={baseId} fieldName={fieldName} />
-            <ArgumentOptionField baseId={baseId} fieldName={fieldName} />
+            <ArgumentOptionField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
             <DefaultValueField
                 baseId={baseId}
                 fieldName={fieldName}
                 label={t("fileOutputDefaultLabel")}
                 component={FormTextField}
+                disabled={cosmeticOnly}
             />
             <DescriptionField baseId={baseId} fieldName={fieldName} />
-            <RequiredField baseId={baseId} fieldName={fieldName} />
-            <VisibleField baseId={baseId} fieldName={fieldName} />
-            <ExcludeArgumentField baseId={baseId} fieldName={fieldName} />
+
+            <RequiredField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <VisibleField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <ExcludeArgumentField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
 
             <FastField
                 id={buildID(baseId, ids.PARAM_FIELDS.DATA_SOURCE)}
@@ -67,6 +85,7 @@ export default function FileOutputPropertyFields(props) {
                 variant="outlined"
                 margin="normal"
                 size="small"
+                disabled={cosmeticOnly}
             >
                 <MenuItem value={DataSources.FILE}>
                     {t("app_param_types:DataSrcFile")}
@@ -81,6 +100,7 @@ export default function FileOutputPropertyFields(props) {
 
             <FileInfoTypesSelector
                 baseId={baseId}
+                disabled={cosmeticOnly}
                 fieldName={fileParamsFieldName}
                 label={t("fileInfoTypeLabel")}
             />
@@ -89,6 +109,7 @@ export default function FileOutputPropertyFields(props) {
                 baseId={baseId}
                 fieldName={fileParamsFieldName}
                 helperText={t("app_editor_help:IsImplicitOutput")}
+                disabled={cosmeticOnly}
             />
         </Grid>
     );

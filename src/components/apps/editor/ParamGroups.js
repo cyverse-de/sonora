@@ -40,6 +40,7 @@ const useStyles = makeStyles(styles);
 function ParamGroupForm(props) {
     const {
         baseId,
+        cosmeticOnly,
         fieldName,
         group,
         onDelete,
@@ -77,6 +78,7 @@ function ParamGroupForm(props) {
                     <Typography variant="subtitle2">{group.label}</Typography>
                     <ParamLayoutActions
                         baseId={groupBaseId}
+                        cosmeticOnly={cosmeticOnly}
                         ButtonProps={{
                             color: "primary",
                             variant: "contained",
@@ -94,6 +96,7 @@ function ParamGroupForm(props) {
             <AccordionDetails className={classes.accordionDetails}>
                 <Parameters
                     baseId={baseId}
+                    cosmeticOnly={cosmeticOnly}
                     groupFieldName={fieldName}
                     parameters={group.parameters}
                     onEditParam={onEditParam}
@@ -110,6 +113,7 @@ function ParamGroupForm(props) {
 function ParamGroups(props) {
     const {
         baseId,
+        cosmeticOnly,
         values,
         keyCount,
         setKeyCount,
@@ -145,30 +149,33 @@ function ParamGroups(props) {
                                 />
                             </Typography>
                         </CardContent>
-                        <CardActions>
-                            <Button
-                                id={buildID(baseId, ids.BUTTONS.ADD_GROUP)}
-                                color="primary"
-                                variant="outlined"
-                                startIcon={<Add />}
-                                onClick={() => {
-                                    arrayHelpers.unshift({
-                                        key: keyCount,
-                                        label: t("newSectionLabel"),
-                                        isVisible: true,
-                                        parameters: [],
-                                    });
-                                    setKeyCount(keyCount + 1);
-                                }}
-                            >
-                                {t("addSection")}
-                            </Button>
-                        </CardActions>
+                        {!cosmeticOnly && (
+                            <CardActions>
+                                <Button
+                                    id={buildID(baseId, ids.BUTTONS.ADD_GROUP)}
+                                    color="primary"
+                                    variant="outlined"
+                                    startIcon={<Add />}
+                                    onClick={() => {
+                                        arrayHelpers.unshift({
+                                            key: keyCount,
+                                            label: t("newSectionLabel"),
+                                            isVisible: true,
+                                            parameters: [],
+                                        });
+                                        setKeyCount(keyCount + 1);
+                                    }}
+                                >
+                                    {t("addSection")}
+                                </Button>
+                            </CardActions>
+                        )}
                     </Card>
                     {groups?.map((group, index) => (
                         <ParamGroupForm
                             key={group.key}
                             baseId={baseId}
+                            cosmeticOnly={cosmeticOnly}
                             fieldName={`groups.${index}`}
                             group={group}
                             keyCount={keyCount}

@@ -25,24 +25,42 @@ import { build as buildID, FormTextField } from "@cyverse-de/ui-lib";
 import { Grid } from "@material-ui/core";
 
 export default function TextPropertyFields(props) {
-    const { baseId, fieldName, param } = props;
+    const { baseId, cosmeticOnly, fieldName, param } = props;
 
     const validatorsFieldName = `${fieldName}.validators`;
 
     return (
         <Grid container direction="column">
             <LabelField baseId={baseId} fieldName={fieldName} />
-            <ArgumentOptionField baseId={baseId} fieldName={fieldName} />
+            <ArgumentOptionField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
             <DefaultValueField
                 baseId={baseId}
                 fieldName={fieldName}
                 component={FormTextField}
                 inputProps={getTextFieldInputProps(param)}
+                disabled={cosmeticOnly}
             />
             <DescriptionField baseId={baseId} fieldName={fieldName} />
-            <RequiredField baseId={baseId} fieldName={fieldName} />
-            <VisibleField baseId={baseId} fieldName={fieldName} />
-            <ExcludeArgumentField baseId={baseId} fieldName={fieldName} />
+
+            <RequiredField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <VisibleField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <ExcludeArgumentField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
 
             <FieldArray
                 name={validatorsFieldName}
@@ -61,6 +79,7 @@ export default function TextPropertyFields(props) {
                     return (
                         <ValidationRulesEditor
                             baseId={buildID(baseId, "validators")}
+                            cosmeticOnly={cosmeticOnly}
                             fieldName={validatorsFieldName}
                             validators={param.validators}
                             ruleOptions={[

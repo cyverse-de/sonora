@@ -77,7 +77,7 @@ export const KitchenSinkEditor = (props) => {
             appDescription={!(loading || loadingError) && AppDescriptionMock}
             loading={loading}
             loadingError={loadingError && mockErrorResponse}
-            cosmeticOnly={cosmeticOnly}
+            cosmeticOnly={!!cosmeticOnly}
         />
     );
 };

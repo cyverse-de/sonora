@@ -29,6 +29,7 @@ import TextPropertyFields from "./params/TextPropertyFields";
 
 import { getAppParameterLaunchComponent } from "../utils";
 
+import Info from "components/apps/launch/params/Info";
 import MultiFileSelector from "components/apps/launch/params/MultiFileSelector";
 
 import AppParamTypes from "components/models/AppParamTypes";
@@ -44,12 +45,16 @@ import {
 } from "@material-ui/core";
 
 function ParamPreview(props) {
-    const { baseId, fieldName, param } = props;
+    const { baseId, cosmeticOnly, fieldName, param } = props;
 
     const defaultValueFieldName = `${fieldName}.defaultValue`;
 
     const FieldComponent = getAppParameterLaunchComponent(param.type);
-    const fieldProps = { disabled: FieldComponent === MultiFileSelector };
+    const fieldProps = {
+        disabled:
+            FieldComponent === MultiFileSelector ||
+            (cosmeticOnly && FieldComponent !== Info),
+    };
 
     return (
         <Field
@@ -63,7 +68,7 @@ function ParamPreview(props) {
 }
 
 function PropertyFormFields(props) {
-    const { baseId, fieldName, param } = props;
+    const { baseId, cosmeticOnly, fieldName, param } = props;
 
     const baseParamId = buildID(baseId, fieldName);
 
@@ -75,6 +80,7 @@ function PropertyFormFields(props) {
             return (
                 <MultiLineTextPropertyFields
                     baseId={baseParamId}
+                    cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                 />
             );
@@ -83,6 +89,7 @@ function PropertyFormFields(props) {
             return (
                 <IntegerPropertyFields
                     baseId={baseParamId}
+                    cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                     param={param}
                 />
@@ -92,6 +99,7 @@ function PropertyFormFields(props) {
             return (
                 <DoublePropertyFields
                     baseId={baseParamId}
+                    cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                     param={param}
                 />
@@ -101,6 +109,7 @@ function PropertyFormFields(props) {
             return (
                 <CheckboxPropertyFields
                     baseId={baseParamId}
+                    cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                 />
             );
@@ -109,6 +118,7 @@ function PropertyFormFields(props) {
             return (
                 <EnvironmentVariablePropertyFields
                     baseId={baseParamId}
+                    cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                 />
             );
@@ -119,6 +129,7 @@ function PropertyFormFields(props) {
             return (
                 <SelectionPropertyFields
                     baseId={baseId}
+                    cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                     paramArguments={param.arguments}
                 />
@@ -128,6 +139,7 @@ function PropertyFormFields(props) {
             return (
                 <FileInputPropertyFields
                     baseId={baseParamId}
+                    cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                 />
             );
@@ -136,6 +148,7 @@ function PropertyFormFields(props) {
             return (
                 <FolderInputPropertyFields
                     baseId={baseParamId}
+                    cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                 />
             );
@@ -144,6 +157,7 @@ function PropertyFormFields(props) {
             return (
                 <MultiFileSelectorPropertyFields
                     baseId={baseParamId}
+                    cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                 />
             );
@@ -152,6 +166,7 @@ function PropertyFormFields(props) {
             return (
                 <FileOutputPropertyFields
                     baseId={baseParamId}
+                    cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                 />
             );
@@ -160,6 +175,7 @@ function PropertyFormFields(props) {
             return (
                 <FolderOutputPropertyFields
                     baseId={baseParamId}
+                    cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                 />
             );
@@ -168,6 +184,7 @@ function PropertyFormFields(props) {
             return (
                 <MultiFileOutputPropertyFields
                     baseId={baseParamId}
+                    cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                 />
             );
@@ -178,6 +195,7 @@ function PropertyFormFields(props) {
             return (
                 <ReferenceGenomePropertyFields
                     baseId={baseParamId}
+                    cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                     param={param}
                 />
@@ -188,6 +206,7 @@ function PropertyFormFields(props) {
                 <TextPropertyFields
                     baseId={baseParamId}
                     fieldName={fieldName}
+                    cosmeticOnly={cosmeticOnly}
                     param={param}
                 />
             );
@@ -195,7 +214,7 @@ function PropertyFormFields(props) {
 }
 
 function ParamPropertyForm(props) {
-    const { baseId, values, fieldName, onClose } = props;
+    const { baseId, cosmeticOnly, values, fieldName, onClose } = props;
 
     const { t } = useTranslation(["app_editor", "app_param_types", "common"]);
 
@@ -227,6 +246,7 @@ function ParamPropertyForm(props) {
             <CardContent>
                 <ParamPreview
                     baseId={baseId}
+                    cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                     param={param}
                 />
@@ -241,6 +261,7 @@ function ParamPropertyForm(props) {
             <CardContent>
                 <PropertyFormFields
                     baseId={baseId}
+                    cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                     param={param}
                 />

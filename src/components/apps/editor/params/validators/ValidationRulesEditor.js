@@ -47,7 +47,7 @@ import { Add, Delete } from "@material-ui/icons";
 const useStyles = makeStyles(styles);
 
 function ValidationRulesEditorRow(props) {
-    const { baseId, fieldName, ruleType, onDelete } = props;
+    const { baseId, cosmeticOnly, fieldName, ruleType, onDelete } = props;
 
     const { t } = useTranslation(["app_editor", "common"]);
     const classes = useStyles();
@@ -120,18 +120,21 @@ function ValidationRulesEditorRow(props) {
                 <RuleParamComponent
                     baseId={buildID(baseId, "params")}
                     fieldName={fieldName}
+                    disabled={cosmeticOnly}
                 />
             </TableCell>
-            <TableCell padding="none">
-                <Button
-                    id={buildID(baseId, ids.BUTTONS.DELETE_BTN)}
-                    aria-label={t("common:delete")}
-                    className={classes.deleteIcon}
-                    onClick={onDelete}
-                >
-                    <Delete />
-                </Button>
-            </TableCell>
+            {!cosmeticOnly && (
+                <TableCell padding="none">
+                    <Button
+                        id={buildID(baseId, ids.BUTTONS.DELETE_BTN)}
+                        aria-label={t("common:delete")}
+                        className={classes.deleteIcon}
+                        onClick={onDelete}
+                    >
+                        <Delete />
+                    </Button>
+                </TableCell>
+            )}
         </TableRow>
     );
 }
@@ -139,6 +142,7 @@ function ValidationRulesEditorRow(props) {
 function ValidationRulesEditor(props) {
     const {
         baseId,
+        cosmeticOnly,
         fieldName,
         validators,
         ruleOptions,
@@ -192,20 +196,22 @@ function ValidationRulesEditor(props) {
                             <TableCell>
                                 <Typography>{t("validatorParams")}</Typography>
                             </TableCell>
-                            <TableCell>
-                                <Button
-                                    id={buildID(
-                                        baseId,
-                                        ids.BUTTONS.ADD_PARAM_ARG
-                                    )}
-                                    color="primary"
-                                    variant="outlined"
-                                    startIcon={<Add />}
-                                    onClick={handleAddRuleClick}
-                                >
-                                    {t("common:add")}
-                                </Button>
-                            </TableCell>
+                            {!cosmeticOnly && (
+                                <TableCell>
+                                    <Button
+                                        id={buildID(
+                                            baseId,
+                                            ids.BUTTONS.ADD_PARAM_ARG
+                                        )}
+                                        color="primary"
+                                        variant="outlined"
+                                        startIcon={<Add />}
+                                        onClick={handleAddRuleClick}
+                                    >
+                                        {t("common:add")}
+                                    </Button>
+                                </TableCell>
+                            )}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -213,6 +219,7 @@ function ValidationRulesEditor(props) {
                             <ValidationRulesEditorRow
                                 key={index}
                                 baseId={buildID(baseId, index)}
+                                cosmeticOnly={cosmeticOnly}
                                 fieldName={`${fieldName}.${index}`}
                                 ruleType={rule.type}
                                 onDelete={onDelete(index)}

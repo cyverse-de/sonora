@@ -23,7 +23,7 @@ import { FormTextField } from "@cyverse-de/ui-lib";
 import { Grid } from "@material-ui/core";
 
 export default function MultiFileOutputPropertyFields(props) {
-    const { baseId, fieldName } = props;
+    const { baseId, cosmeticOnly, fieldName } = props;
 
     const { t } = useTranslation([
         "app_editor",
@@ -36,20 +36,39 @@ export default function MultiFileOutputPropertyFields(props) {
     return (
         <Grid container direction="column">
             <LabelField baseId={baseId} fieldName={fieldName} />
-            <ArgumentOptionField baseId={baseId} fieldName={fieldName} />
+            <ArgumentOptionField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
             <DefaultValueField
                 baseId={baseId}
                 fieldName={fieldName}
                 label={t("multiFileOutputDefaultLabel")}
                 component={FormTextField}
+                disabled={cosmeticOnly}
             />
             <DescriptionField baseId={baseId} fieldName={fieldName} />
-            <RequiredField baseId={baseId} fieldName={fieldName} />
-            <VisibleField baseId={baseId} fieldName={fieldName} />
-            <ExcludeArgumentField baseId={baseId} fieldName={fieldName} />
+
+            <RequiredField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <VisibleField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <ExcludeArgumentField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
 
             <FileInfoTypesSelector
                 baseId={baseId}
+                disabled={cosmeticOnly}
                 fieldName={fileParamsFieldName}
                 label={t("multiFileInfoTypeLabel")}
             />
@@ -58,6 +77,7 @@ export default function MultiFileOutputPropertyFields(props) {
                 baseId={baseId}
                 fieldName={fileParamsFieldName}
                 helperText={t("app_editor_help:IsImplicitOutput")}
+                disabled={cosmeticOnly}
             />
         </Grid>
     );

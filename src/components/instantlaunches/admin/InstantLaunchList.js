@@ -127,8 +127,6 @@ const isInDashboard = (id, dashboardILs) => {
 
 const useStyles = makeStyles((theme) => ({
     addButton: {
-        // marginTop: theme.spacing(2),
-        // marginBottom: theme.spacing(4),
         marginRight: theme.spacing(2),
         float: "right",
     },

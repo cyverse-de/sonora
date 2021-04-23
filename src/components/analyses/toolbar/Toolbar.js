@@ -155,6 +155,7 @@ function AnalysesToolbar(props) {
         handleSaveAndComplete,
         handleBatchIconClick,
         canShare,
+        setPendingTerminationDlgOpen,
     } = props;
     const classes = useStyles();
     const theme = useTheme();
@@ -257,6 +258,9 @@ function AnalysesToolbar(props) {
                         onFilterSelected={() => setOpenFilterDialog(true)}
                         canShare={canShare}
                         setSharingDlgOpen={setSharingDlgOpen}
+                        setPendingTerminationDlgOpen={
+                            setPendingTerminationDlgOpen
+                        }
                     />
                 )}
             </Toolbar>

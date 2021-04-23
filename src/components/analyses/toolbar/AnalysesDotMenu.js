@@ -20,6 +20,7 @@ import {
     allowAnalysisTimeExtn,
     isBatchAnalysis,
     isInteractive,
+    isTerminated,
     useGotoOutputFolderLink,
     useRelaunchLink,
 } from "../utils";
@@ -70,14 +71,29 @@ const RelaunchMenuItem = React.forwardRef((props, ref) => {
 });
 
 const OutputFolderMenuItem = React.forwardRef((props, ref) => {
-    const { baseId, onClick, href } = props;
+    const {
+        baseId,
+        onClick,
+        onClose,
+        href,
+        analysis,
+        setPendingTerminationDlgOpen,
+    } = props;
     const { t } = useTranslation("analyses");
+    const terminated = isTerminated(analysis);
     return (
         <MenuItem
             key={build(baseId, ids.MENUITEM_GO_TO_FOLDER)}
             id={build(baseId, ids.MENUITEM_GO_TO_FOLDER)}
             href={href}
-            onClick={onClick}
+            onClick={(event) => {
+                if (terminated) {
+                    onClick();
+                } else {
+                    onClose();
+                    setPendingTerminationDlgOpen(true);
+                }
+            }}
             ref={ref}
         >
             <ListItemIcon>
@@ -114,6 +130,7 @@ function DotMenuItems(props) {
         setSharingDlgOpen,
         isSingleSelection,
         onFilterSelected,
+        setPendingTerminationDlgOpen,
     } = props;
     const { t } = useTranslation("analyses");
     const theme = useTheme();
@@ -150,7 +167,12 @@ function DotMenuItems(props) {
         </Hidden>,
         isSingleSelection && (
             <Link href={outputFolderHref} as={outputFolderAs} passHref>
-                <OutputFolderMenuItem baseId={baseId} />
+                <OutputFolderMenuItem
+                    baseId={baseId}
+                    analysis={selectedAnalyses[0]}
+                    onClose={onClose}
+                    setPendingTerminationDlgOpen={setPendingTerminationDlgOpen}
+                />
             </Link>
         ),
         isSingleSelection && allowRelaunch && (

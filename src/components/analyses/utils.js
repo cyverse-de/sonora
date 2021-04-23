@@ -210,6 +210,22 @@ const canShare = (selectedAnalyses) => {
     );
 };
 
+const ANALYSIS_TERMINAL_STATES = [
+    analysisStatus.CANCELED,
+    analysisStatus.COMPLETED,
+    analysisStatus.FAILED,
+    analysisStatus.REMOVED,
+];
+
+/**
+ * Checks if the analysis is in one of the terminal states
+ * @param {object} analysis
+ * @returns {boolean}
+ */
+const isTerminated = (analysis) => {
+    return ANALYSIS_TERMINAL_STATES.includes(analysis?.status);
+};
+
 export {
     getAnalysisUser,
     isInteractive,
@@ -223,6 +239,7 @@ export {
     getAnalysisDetailsLinkRefs,
     getAnalysisRelaunchPage,
     getListingPath,
+    isTerminated,
     openInteractiveUrl,
     useRelaunchLink,
     useGotoOutputFolderLink,

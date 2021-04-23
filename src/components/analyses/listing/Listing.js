@@ -54,6 +54,7 @@ import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import { useNotifications } from "contexts/pushNotifications";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
+import PendingTerminationDlg from "../PendingTerminationDlg";
 
 /**
  * Filters
@@ -118,6 +119,9 @@ function Listing(props) {
         analysesListingQueryEnabled,
         setAnalysesListingQueryEnabled,
     ] = useState(false);
+    const [pendingTerminationDlgOpen, setPendingTerminationDlgOpen] = useState(
+        false
+    );
 
     const { isFetching, error } = useQuery({
         queryKey: analysesKey,
@@ -683,6 +687,7 @@ function Listing(props) {
                 handleSaveAndComplete={handleSaveAndComplete}
                 handleBatchIconClick={handleBatchIconClick}
                 canShare={sharingEnabled}
+                setPendingTerminationDlgOpen={setPendingTerminationDlgOpen}
             />
             <TableView
                 loading={
@@ -707,6 +712,7 @@ function Listing(props) {
                 handleBatchIconClick={handleBatchIconClick}
                 handleDetailsClick={onDetailsSelected}
                 handleStatusClick={handleStatusClick}
+                setPendingTerminationDlgOpen={setPendingTerminationDlgOpen}
             />
 
             <ConfirmationDialog
@@ -760,6 +766,12 @@ function Listing(props) {
                 />
             )}
 
+            <PendingTerminationDlg
+                open={pendingTerminationDlgOpen}
+                onClose={() => setPendingTerminationDlgOpen(false)}
+                analysisName={selectedAnalysis?.name}
+            />
+
             {detailsOpen && (
                 <Drawer
                     selectedAnalysis={selectedAnalysis}
@@ -781,4 +793,5 @@ function Listing(props) {
         </>
     );
 }
+
 export default withErrorAnnouncer(Listing);

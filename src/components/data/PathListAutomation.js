@@ -57,7 +57,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 export default function PathListAutomation(props) {
     const {
-        scroll,
         baseId,
         requestedInfoType,
         onCreatePathList,
@@ -236,9 +235,7 @@ export default function PathListAutomation(props) {
                                         />
                                     )}
 
-                                    <DialogContent
-                                        dividers={scroll === "paper"}
-                                    >
+                                    <DialogContent>
                                         <>
                                             <Grid
                                                 container
@@ -477,6 +474,7 @@ export default function PathListAutomation(props) {
                                             )}
                                             color="primary"
                                             type="submit"
+                                            onClick={handleSubmit}
                                         >
                                             {i18nCommon("done")}
                                         </Button>

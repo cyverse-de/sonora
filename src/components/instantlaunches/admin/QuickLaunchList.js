@@ -75,7 +75,7 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
                     <Table id={buildID(baseID, ids.TABLE)}>
                         <TableHead>
                             <TableRow>
-                                <TableCell>{t("common:name")}</TableCell>
+                                <TableCell>{t("quickLaunch")}</TableCell>
                                 <TableCell>{t("createdBy")}</TableCell>
                                 <TableCell></TableCell>
                             </TableRow>

@@ -30,7 +30,11 @@ import {
 import { Add as AddIcon } from "@material-ui/icons";
 
 import { useTranslation } from "i18n";
-import { build as buildID } from "@cyverse-de/ui-lib";
+import {
+    build as buildID,
+    announce,
+    AnnouncerConstants,
+} from "@cyverse-de/ui-lib";
 import ids from "components/instantlaunches/ids";
 
 import { shortenUsername, isInInstantLaunch } from "../functions";
@@ -47,7 +51,13 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
     const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
 
     const [promote] = useMutation(addInstantLaunch, {
-        onSuccess: () => queryCache.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY),
+        onSuccess: () => {
+            queryCache.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
+            announce({
+                text: t("createdInstantLaunch"),
+                variant: AnnouncerConstants.SUCCESS,
+            });
+        },
         onError: (error) =>
             showErrorAnnouncer(t("instantLaunchCreationError"), error),
     });

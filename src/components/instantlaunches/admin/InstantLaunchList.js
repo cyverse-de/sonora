@@ -19,7 +19,11 @@ import { Skeleton } from "@material-ui/lab";
 
 import { format as formatDate } from "date-fns";
 
-import { build as buildID } from "@cyverse-de/ui-lib";
+import {
+    build as buildID,
+    announce,
+    AnnouncerConstants,
+} from "@cyverse-de/ui-lib";
 import ids from "components/instantlaunches/ids";
 
 import {
@@ -152,6 +156,10 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const [addToDash] = useMutation(addToDashboardHandler, {
         onSuccess: () => {
             queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+            announce({
+                text: t("addedToDashboard"),
+                variant: AnnouncerConstants.SUCCESS,
+            });
         },
         onError: (error) => {
             showErrorAnnouncer(error.message, error);
@@ -161,6 +169,10 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const [removeFromDash] = useMutation(removeFromDashboardHandler, {
         onSuccess: () => {
             queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+            announce({
+                text: t("removedFromDashboard"),
+                variant: AnnouncerConstants.SUCCESS,
+            });
         },
         onError: (error) => {
             showErrorAnnouncer(t("removeDashboardILError"), error);
@@ -171,6 +183,10 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
         onSuccess: () => {
             queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
             queryCache.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
+            announce({
+                text: t("deletedInstantLaunch"),
+                variant: AnnouncerConstants.SUCCESS,
+            });
         },
 
         onError: (error) => {

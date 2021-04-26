@@ -219,11 +219,12 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
         getPublicQuicklaunches
     );
 
-    const handleDelete = async (index) => {
-        const newEntries = Object.entries(defaultsMapping.data.mapping);
-        newEntries.splice(index, 1);
-        const newObj = Object.fromEntries(newEntries);
-        return await updateDefaultsMapping(newObj);
+    const handleDelete = async (mappingName) => {
+        const {
+            [mappingName]: _,
+            ...newMapping
+        } = defaultsMapping.data.mapping;
+        return await updateDefaultsMapping(newMapping);
     };
 
     const [deleteEntry] = useMutation(handleDelete, {
@@ -431,7 +432,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                                                             event.stopPropagation();
                                                             event.preventDefault();
 
-                                                            deleteEntry(index);
+                                                            deleteEntry(name);
                                                         }}
                                                     >
                                                         <DeleteIcon />

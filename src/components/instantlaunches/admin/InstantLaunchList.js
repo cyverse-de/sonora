@@ -267,7 +267,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                                                 <TableCell
                                                     id={buildID(
                                                         rowID,
-                                                        ids.ADDED_BY
+                                                        ids.ADDED_ON
                                                     )}
                                                 >
                                                     {formatDate(

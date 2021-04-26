@@ -117,7 +117,7 @@ const InputSelector = ({
                     onConfirm={(selection) => {
                         setFieldValue(field.name, selection);
                         const updatedPref = {
-                            ...(bootstrapInfo?.preferences || {}),
+                            ...bootstrapInfo.preferences,
                             lastFolder: getParentPath(selection),
                         };
                         mutatePreferences({ preferences: updatedPref });

@@ -288,6 +288,8 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                                                             .instant_launches
                                                     ) ? (
                                                         <Button
+                                                            variant="outlined"
+                                                            color="primary"
                                                             onClick={(
                                                                 event
                                                             ) => {
@@ -310,6 +312,8 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                                                         </Button>
                                                     ) : (
                                                         <Button
+                                                            variant="outlined"
+                                                            color="primary"
                                                             onClick={(
                                                                 event
                                                             ) => {

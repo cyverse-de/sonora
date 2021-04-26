@@ -22,8 +22,8 @@ export const InstantLaunchListTest = () => {
         .onGet("/api/instantlaunches/full")
         .reply(200, testFullInstantLaunchList);
     mockAxios
-        .onGet("/api/instantlaunches/metadata/full", {
-            params: { ui_location: "dashboard" },
+        .onGet("/api/admin/instantlaunches/metadata/full", {
+            params: { attribute: "ui_location", value: "dashboard", unit: "" },
         })
         .reply(200, testInstantLaunchesDashboard);
 

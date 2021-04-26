@@ -6,6 +6,7 @@
   "cannotAddILToDashboard" : "Cannot add IL to the dashboard, a required input parameter is present.",
   "createInstantLaunch" : "Create Instant Launch",
   "createdBy" : "Created By",
+  "creationDescription": "Use the Create buttons in the list below to make a new Instant Launch based on the corresponding Quick Launch. The Instant Launch is created immediately.", 
   "currentInstantLaunches": "Instant Launches",
   "dataMapping" : "Data Mapping",
   "deleteInstantLaunch" : "Delete",

@@ -70,6 +70,13 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
         float: "right",
     },
+    closeButton: {
+        marginTop: theme.spacing(2),
+    },
+    creationDescription: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+    },
     table: {
         minWidth: "100%",
     },
@@ -90,9 +97,19 @@ const CreationDialog = ({ t, open, onClose }) => {
     const titleID = buildID(createID, ids.TITLE);
     const closeID = buildID(createID, ids.CLOSE, ids.BUTTON);
 
+    const classes = useStyles();
+
     return (
         <Dialog open={open} onClose={onClose} id={createID}>
-            <DialogTitle id={titleID}>{t("createInstantLaunch")}</DialogTitle>
+            <DialogTitle id={titleID}>
+                {t("createInstantLaunch")}
+                <Typography
+                    variant="body2"
+                    className={classes.creationDescription}
+                >
+                    {t("creationDescription")}
+                </Typography>
+            </DialogTitle>
 
             <DialogContent>
                 <QuickLaunchList />
@@ -105,6 +122,7 @@ const CreationDialog = ({ t, open, onClose }) => {
                     color="primary"
                     onClick={onClose}
                     id={closeID}
+                    className={classes.closeButton}
                 >
                     {t("common:close")}
                 </Button>

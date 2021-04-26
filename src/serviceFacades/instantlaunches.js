@@ -20,14 +20,14 @@ export const getDefaultsMapping = () =>
 
 export const updateDefaultsMapping = (newMapping) =>
     callApi({
-        endpoint: "/api/instantlaunches/mappings/defaults/latest",
+        endpoint: "/api/admin/instantlaunches/mappings/defaults/latest",
         method: "POST",
         body: newMapping,
     });
 
 export const createDefaultsMapping = (newMapping) =>
     callApi({
-        endpoint: "/api/instantlaunches/mappings/defaults/latest",
+        endpoint: "/api/admin/instantlaunches/mappings/defaults/latest",
         method: "PUT",
         body: newMapping,
     });
@@ -38,7 +38,7 @@ export const addInstantLaunch = (id) => {
     };
 
     return callApi({
-        endpoint: `/api/instantlaunches`,
+        endpoint: `/api/admin/instantlaunches`,
         method: "PUT",
         body: bodyObj,
     });
@@ -52,7 +52,7 @@ export const listInstantLaunches = (id) =>
 
 export const deleteInstantLaunch = (id) =>
     callApi({
-        endpoint: `/api/instantlaunches/${id}`,
+        endpoint: `/api/admin/instantlaunches/${id}`,
         method: "DELETE",
     });
 
@@ -64,7 +64,7 @@ export const listFullInstantLaunches = (id) =>
 
 export const getInstantLaunchMetadata = (id) =>
     callApi({
-        endpoint: `/api/instantlaunches/${id}/metadata`,
+        endpoint: `/api/admin/instantlaunches/${id}/metadata`,
         method: "GET",
     });
 
@@ -80,7 +80,7 @@ export const upsertInstantLaunchMetadata = (id, metadata) => {
         avus: [metadata],
     };
     return callApi({
-        endpoint: `/api/instantlaunches/${id}/metadata`,
+        endpoint: `/api/admin/instantlaunches/${id}/metadata`,
         method: "POST",
         body: bodyObj,
     });
@@ -91,7 +91,7 @@ export const resetInstantLaunchMetadata = (id, avuList) => {
         avus: avuList,
     };
     return callApi({
-        endpoint: `/api/instantlaunches/${id}/metadata`,
+        endpoint: `/api/admin/instantlaunches/${id}/metadata`,
         method: "PUT",
         body: bodyObj,
     });
@@ -99,7 +99,7 @@ export const resetInstantLaunchMetadata = (id, avuList) => {
 
 export const listInstantLaunchesByMetadata = (key, queryKey, queryValue) =>
     callApi({
-        endpoint: `/api/instantlaunches/metadata/full`,
+        endpoint: `/api/admin/instantlaunches/metadata/full`,
         method: "GET",
         params: { attribute: queryKey, value: queryValue, unit: "" },
     });

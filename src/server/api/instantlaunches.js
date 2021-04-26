@@ -32,10 +32,10 @@ export default () => {
     );
 
     logger.info(
-        "adding the POST /instantlaunches/mappings/defaults/latest handler"
+        "adding the POST /admin/instantlaunches/mappings/defaults/latest handler"
     );
     api.post(
-        "/instantlaunches/mappings/defaults/latest",
+        "/admin/instantlaunches/mappings/defaults/latest",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
@@ -47,10 +47,10 @@ export default () => {
     );
 
     logger.info(
-        "adding the PUT /instantlaunches/mappings/defaults/latest handler"
+        "adding the PUT /admin/instantlaunches/mappings/defaults/latest handler"
     );
     api.put(
-        "/instantlaunches/mappings/defaults/latest",
+        "/admin/instantlaunches/mappings/defaults/latest",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "PUT",
@@ -61,9 +61,9 @@ export default () => {
         })
     );
 
-    logger.info("adding the PUT /instantlaunches handler");
+    logger.info("adding the PUT /admin/instantlaunches handler");
     api.put(
-        "/instantlaunches",
+        "/admin/instantlaunches",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "PUT",
@@ -100,9 +100,9 @@ export default () => {
         })
     );
 
-    logger.info("adding the GET /instantlaunches/metadata/full handler");
+    logger.info("adding the GET /admin/instantlaunches/metadata/full handler");
     api.get(
-        "/instantlaunches/metadata/full",
+        "/admin/instantlaunches/metadata/full",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
@@ -113,9 +113,9 @@ export default () => {
         })
     );
 
-    logger.info("add the DELETE /instantlaunches/:id handler");
+    logger.info("add the DELETE /admin/instantlaunches/:id handler");
     api.delete(
-        "/instantlaunches/:id",
+        "/admin/instantlaunches/:id",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "DELETE",
@@ -126,9 +126,9 @@ export default () => {
         })
     );
 
-    logger.info("adding the GET /instantlaunches/:id/metadata handler");
+    logger.info("adding the GET /admin/instantlaunches/:id/metadata handler");
     api.get(
-        "/instantlaunches/:id/metadata",
+        "/admin/instantlaunches/:id/metadata",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
@@ -139,9 +139,9 @@ export default () => {
         })
     );
 
-    logger.info("Adding the POST /instantlaunches/:id/metadata handler");
+    logger.info("Adding the POST /admin/instantlaunches/:id/metadata handler");
     api.post(
-        "/instantlaunches/:id/metadata",
+        "/admin/instantlaunches/:id/metadata",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
@@ -152,9 +152,9 @@ export default () => {
         })
     );
 
-    logger.info("Add the PUT /instantlaunches/:id/metadata handler");
+    logger.info("Add the PUT /admin/instantlaunches/:id/metadata handler");
     api.put(
-        "/instantlaunches/:id/metadata",
+        "/admin/instantlaunches/:id/metadata",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "PUT",

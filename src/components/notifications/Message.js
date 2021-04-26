@@ -18,7 +18,10 @@ import {
 import NotificationCategory from "components/models/NotificationCategory";
 import SystemId from "components/models/systemId";
 
-import { getAnalysisDetailsLinkRefs } from "components/analyses/utils";
+import {
+    getAnalysisDetailsLinkRefs,
+    isTerminated,
+} from "components/analyses/utils";
 import { getAppListingLinkRefs } from "components/apps/utils";
 import { getFolderPage, getParentPath } from "components/data/utils";
 import DELink from "components/utils/DELink";
@@ -46,10 +49,13 @@ function AnalysisLink(props) {
     const { notification } = props;
     const { t } = useTranslation("common");
     const message = getDisplayMessage(notification);
-    const action = notification.payload?.action;
+    const payload = notification.payload;
+    const action = payload?.action;
 
     const isJobStatusChange = action === "job_status_change";
     const isShare = action === "share";
+    const isComplete = isTerminated(payload);
+
     if (isShare || isJobStatusChange) {
         const accessUrl = notification.payload.access_url;
         if (accessUrl) {
@@ -60,21 +66,28 @@ function AnalysisLink(props) {
             );
         }
 
+        if (isComplete) {
+            const resultFolder = payload?.analysisresultsfolder;
+            const href = getFolderPage(resultFolder);
+
+            return <MessageLink href={href} message={message} />;
+        }
+
         const analysisId =
-            isShare && notification.payload?.analyses?.length > 0
-                ? notification.payload.analyses[0].analysis_id
-                : isJobStatusChange && notification.payload?.id;
+            isShare && payload?.analyses?.length > 0
+                ? payload.analyses[0].analysis_id
+                : isJobStatusChange && payload?.id;
 
         if (analysisId) {
             const [href, as] = getAnalysisDetailsLinkRefs(analysisId);
 
             const allowRating =
                 isJobStatusChange &&
-                notification.payload?.system_id === systemIds.de &&
-                (notification.payload?.status === analysisStatus.COMPLETED ||
-                    notification.payload?.status === analysisStatus.FAILED ||
-                    notification.payload?.status === analysisStatus.CANCELED);
-            const payload = notification?.payload;
+                payload?.system_id === systemIds.de &&
+                (payload?.status === analysisStatus.COMPLETED ||
+                    payload?.status === analysisStatus.FAILED ||
+                    payload?.status === analysisStatus.CANCELED);
+
             return (
                 <>
                     <MessageLink message={message} href={href} as={as} />

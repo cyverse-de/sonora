@@ -223,7 +223,8 @@ const ANALYSIS_TERMINAL_STATES = [
  * @returns {boolean}
  */
 const isTerminated = (analysis) => {
-    return ANALYSIS_TERMINAL_STATES.includes(analysis?.status);
+    const status = analysis?.status || analysis?.analysisstatus;
+    return ANALYSIS_TERMINAL_STATES.includes(status);
 };
 
 export {

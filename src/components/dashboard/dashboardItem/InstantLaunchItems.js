@@ -2,12 +2,11 @@ import React from "react";
 
 import { formatDate } from "@cyverse-de/ui-lib";
 
-import { useTheme, IconButton } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import { Info, InsertEmoticon as Smiley } from "@material-ui/icons";
 
 import * as constants from "../constants";
 import ItemBase, { ItemAction } from "./ItemBase";
-import { useTranslation } from "i18n";
 import InstantLaunchButton from "components/instantlaunches";
 
 const sanitizeContent = (content) => {
@@ -32,11 +31,13 @@ class InstantLaunchItem extends ItemBase {
 
     static create(props) {
         const item = new InstantLaunchItem(props);
-        const { showErrorAnnouncer, setDetailsApp } = props;
-        const { t } = useTranslation("dashboard");
-        const theme = useTheme();
-
-        const instantLaunch = props.content;
+        const {
+            showErrorAnnouncer,
+            setDetailsApp,
+            t,
+            theme,
+            content: instantLaunch,
+        } = props;
 
         const baseId = `${constants.KIND_INSTANT_LAUNCHES}-${instantLaunch.id}`;
         const buildKey = (keyType) => `${baseId}-${keyType}`;

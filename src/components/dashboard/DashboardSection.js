@@ -56,6 +56,8 @@ const DashboardSection = ({
             showErrorAnnouncer,
             setDetailsApp,
             setDetailsAnalysis,
+            theme,
+            t,
         }).component(index);
 
     const uncollapsed = items.slice(0, limit).map(itemComponent);

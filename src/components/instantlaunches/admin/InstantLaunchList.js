@@ -165,7 +165,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const isError = allILs.isError || dashboardILs.isError;
 
     return (
-        <div width="100%">
+        <div style={{ width: "100%" }}>
             {isLoading ? (
                 <Skeleton
                     variant="rect"

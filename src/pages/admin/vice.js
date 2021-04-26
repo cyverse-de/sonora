@@ -49,6 +49,7 @@ const VICEAdminSkeleton = () => {
                 animation="wave"
                 height={100}
                 width="100%"
+                id="vice-admin-skeleton-0"
                 classes={{ root: classes.filterSkeleton }}
             />
             <Skeleton
@@ -56,6 +57,7 @@ const VICEAdminSkeleton = () => {
                 animation="wave"
                 height={300}
                 width="100%"
+                id="vice-admin-skeleton-1"
             />
         </>
     );

@@ -256,7 +256,6 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                 setDoCreate(true);
             }
         }
-        return () => {};
     }, [defaultsMapping]);
 
     const handleSubmit = (values) => {

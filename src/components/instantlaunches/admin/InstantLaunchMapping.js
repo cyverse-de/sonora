@@ -313,7 +313,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                     errorObject={
                         defaultsMapping.error ||
                         instantlaunches.error ||
-                        allQL.isError
+                        allQL.error
                     }
                     baseId={baseID}
                 />

@@ -161,7 +161,7 @@ const Dashboard = (props) => {
               .filter((section) => {
                   if (Array.isArray(data[section.kind])) {
                       return data[section.kind].length > 0;
-                  } else if (section.name && section.name !== "") {
+                  } else if (section.name) {
                       return (
                           data[section.kind].hasOwnProperty(section.name) &&
                           data[section.kind][section.name].length > 0

@@ -94,4 +94,15 @@ export default {
         TOOLS_USED_LISTING: "toolsUsedListing",
         REQUEST_LISTING: "requestListing",
     },
+    PUBLISH_DLG: "publishDlg",
+    PUBLISH: {
+        NAME: "name",
+        DESCRIPTION: "description",
+        INPUT: "inputDescription",
+        PARAMS: "paramsDescription",
+        OUTPUT: "outputDescription",
+        LINK: "link",
+        LINK_DEL_BTN: "deleteLinkBtn",
+        LINK_ADD_BTN: "linkAddBtn",
+    },
 };

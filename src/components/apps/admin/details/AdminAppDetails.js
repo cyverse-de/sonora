@@ -29,7 +29,7 @@ import {
 
 import DEDialog from "components/utils/DEDialog";
 import { getHost } from "components/utils/getHost";
-import {validateAppName} from "components/apps/utils";
+import { validateAppName } from "components/apps/utils";
 import { Skeleton } from "@material-ui/lab";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
@@ -332,4 +332,3 @@ function AdminAppDetailsForm(props) {
         </Form>
     );
 }
-

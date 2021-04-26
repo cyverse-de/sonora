@@ -24,10 +24,6 @@ import ids from "components/instantlaunches/ids";
 
 import {
     Button,
-    Dialog,
-    DialogContent,
-    DialogTitle,
-    DialogActions,
     makeStyles,
     Table,
     TableContainer,
@@ -39,6 +35,8 @@ import {
     Paper,
     IconButton,
 } from "@material-ui/core";
+
+import DEDialog from "components/utils/DEDialog";
 
 import {
     Add as AddIcon,
@@ -94,28 +92,27 @@ const useStyles = makeStyles((theme) => ({
 
 const CreationDialog = ({ t, open, onClose }) => {
     const createID = buildID(ids.BASE, ids.CREATE, ids.DIALOG);
-    const titleID = buildID(createID, ids.TITLE);
     const closeID = buildID(createID, ids.CLOSE, ids.BUTTON);
 
     const classes = useStyles();
 
     return (
-        <Dialog open={open} onClose={onClose} id={createID}>
-            <DialogTitle id={titleID}>
-                {t("createInstantLaunch")}
-                <Typography
-                    variant="body2"
-                    className={classes.creationDescription}
-                >
-                    {t("creationDescription")}
-                </Typography>
-            </DialogTitle>
-
-            <DialogContent>
-                <QuickLaunchList />
-            </DialogContent>
-
-            <DialogActions>
+        <DEDialog
+            title={
+                <>
+                    {t("createInstantLaunch")}
+                    <Typography
+                        variant="body2"
+                        className={classes.creationDescription}
+                    >
+                        {t("creationDescription")}
+                    </Typography>
+                </>
+            }
+            open={open}
+            onClose={onClose}
+            baseId={createID}
+            actions={
                 <Button
                     variant="contained"
                     startIcon={<CloseIcon />}
@@ -126,8 +123,10 @@ const CreationDialog = ({ t, open, onClose }) => {
                 >
                     {t("common:close")}
                 </Button>
-            </DialogActions>
-        </Dialog>
+            }
+        >
+            <QuickLaunchList />
+        </DEDialog>
     );
 };
 

@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(4),
         marginRight: theme.spacing(2),
         display: "flex",
+        flexWrap: "wrap",
 
         "& .MuiTextField-root": {
             margin: theme.spacing(1),

@@ -182,7 +182,7 @@ export default function quickLaunchRouter() {
         "/quicklaunches/:id/app-info",
         auth.authnTokenMiddleware,
         terrainHandler({
-            method: "get",
+            method: "GET",
             pathname: "/quicklaunches/:id/app-info",
             headers: {
                 "Content-Type": "application/json",

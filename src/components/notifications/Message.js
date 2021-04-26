@@ -70,7 +70,12 @@ function AnalysisLink(props) {
             const resultFolder = payload?.analysisresultsfolder;
             const href = getFolderPage(resultFolder);
 
-            return <MessageLink href={href} message={message} />;
+            return (
+                <MessageLink
+                    href={href}
+                    message={t("accessAnalysisOutput", { message })}
+                />
+            );
         }
 
         const analysisId =

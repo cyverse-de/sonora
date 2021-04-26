@@ -1,5 +1,6 @@
 {
     "about": "About",
+    "accessAnalysisOutput": "{{message}}. Access your output files here.",
     "add": "Add",
     "admin": "Admin",
     "all": "All",

@@ -2,16 +2,21 @@ import React from "react";
 
 import Listing from "../../src/components/data/listing/Listing";
 import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
+
 import {
     fileTypesResp,
     dataRootsResp,
     listingSuccessResp as successResp,
+} from "./DataMocks";
+
+import {
     instantLaunchMapping,
     instantLaunchAppInfo,
     instantLaunchQuickLaunch,
     instantLaunchGlobalQuickLaunches,
     instantLaunchSubmissionResponse,
-} from "./DataMocks";
+} from "./DataMocksInstantLaunch";
+
 import { mockAxios } from "../axiosMock";
 import constants from "../../src/constants";
 

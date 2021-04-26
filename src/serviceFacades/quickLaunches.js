@@ -61,14 +61,14 @@ function listGlobalQuickLaunches() {
  * @param {string} qID
  */
 function addGlobalQuickLaunch({ id, app_id }) {
-    const bodyObj = {
+    const body = {
         app_id,
         quick_launch_id: id,
     };
     return callApi({
         endpoint: `/api/quicklaunches/defaults/global`,
         method: "POST",
-        body: bodyObj,
+        body,
     });
 }
 

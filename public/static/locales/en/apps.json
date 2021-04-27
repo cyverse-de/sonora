@@ -83,6 +83,8 @@
     "publicLabel": "Public",
     "publicQLTooltip": "Quick Launch visible to all users",
     "publishedOn": "Published on:",
+    "publicationRequestSuccess": "Your request to publish {{appName}} has been submitted. You will be notified when the request is complete.",
+    "publicationRequestFailed": "Unable to submit your request. Please try again.",
     "qLaunchEmbedToolTip": "Copy embed code",
     "qLaunchShareToolTip": "Share Quick Launch URL",
     "qLaunchToolTip": "Use this Quick Launch",

@@ -9,25 +9,29 @@
 import React from "react";
 import { useTranslation } from "i18n";
 import { Field, FieldArray, Form, Formik } from "formik";
-import { useQuery, useMutation, queryCache } from "react-query";
+import { useMutation } from "react-query";
 
 import ids from "./ids";
-
+import constants from "../../constants";
 import appsConstants from "./constants";
 
 import {
+    announce,
+    AnnouncerConstants,
     build,
     FormMultilineTextField,
     FormTextField,
 } from "@cyverse-de/ui-lib";
 
 import DEDialog from "components/utils/DEDialog";
-import InputSelector from "components/apps/launch/InputSelector";
 import ResourceTypes from "components/models/ResourceTypes";
-import { validateAppName } from "components/apps/utils";
+import InputSelector from "components/apps/launch/InputSelector";
+import { validateAppName, formatAppDoc } from "components/apps/utils";
+
+import { requestToPublishApp } from "serviceFacades/apps";
+
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
-import { Skeleton } from "@material-ui/lab";
 import { Add, Remove } from "@material-ui/icons";
 import {
     Button,
@@ -41,9 +45,47 @@ export default function PublishAppDialog(props) {
     const { open, app, handleClose } = props;
     const { t } = useTranslation("apps");
     const { t: i18nCommon } = useTranslation("common");
-    const parentId = "publishDlg";
+    const parentId = ids.PUBLISH_DLG;
+    const [error, setError] = React.useState(null);
+
+    const [requestAppPublication, { status: requestStatus }] = useMutation(
+        requestToPublishApp,
+        {
+            onSuccess: () => {
+                announce({
+                    text: t("publicationRequestSuccess"),
+                    variant: AnnouncerConstants.INFO,
+                });
+                handleClose();
+            },
+            onError: setError,
+        }
+    );
+
     const handleSubmit = (values) => {
-        console.log("values=>" + JSON.stringify(values));
+        const documentation = formatAppDoc(
+            values?.name,
+            values.description,
+            values.testData,
+            values?.inputDesc,
+            values?.parameterDesc,
+            values?.outputDesc
+        );
+        const request = {
+            description: values?.description,
+            documentation,
+            id: app?.id,
+            name: values?.name,
+            system_id: app?.system_id,
+            references: values?.references,
+        };
+        if (requestStatus !== constants.LOADING) {
+            requestAppPublication({
+                systemId: app?.system_id,
+                appId: app?.id,
+                request,
+            });
+        }
     };
     return (
         <Formik
@@ -55,7 +97,7 @@ export default function PublishAppDialog(props) {
                 inputDesc: "",
                 parameterDesc: "",
                 outputDesc: "",
-                links: [],
+                references: [],
             }}
             onSubmit={handleSubmit}
             enableReinitialize={true}
@@ -89,6 +131,23 @@ export default function PublishAppDialog(props) {
                                 </>
                             }
                         >
+                            {requestStatus === constants.LOADING && (
+                                <CircularProgress
+                                    size={30}
+                                    thickness={5}
+                                    style={{
+                                        position: "absolute",
+                                        top: "50%",
+                                        left: "50%",
+                                    }}
+                                />
+                            )}
+                            {error && (
+                                <ErrorTypographyWithDialog
+                                    errorMessage={t("publicationRequestFailed")}
+                                    errorObject={error}
+                                />
+                            )}
                             <Field
                                 name={"name"}
                                 label={t("name")}
@@ -142,48 +201,41 @@ export default function PublishAppDialog(props) {
                             />
                             <Typography>{t("attributionLinks")}</Typography>
                             <FieldArray
-                                name="links"
+                                name="references"
                                 render={(arrayHelpers) => (
                                     <Grid container spacing={3}>
-                                        {values.links &&
-                                        values.links.length > 0 ? (
-                                            values.links.map((link, index) => (
-                                                <>
-                                                    <Grid
-                                                        item
-                                                        xs={6}
-                                                        key={build(
-                                                            parentId,
-                                                            ids.PUBLISH.LINK,
-                                                            index
-                                                        )}
-                                                    >
-                                                        <Field
-                                                            id={build(
+                                        {values.references &&
+                                        values.references.length > 0 ? (
+                                            values.references.map(
+                                                (link, index) => (
+                                                    <>
+                                                        <Grid
+                                                            item
+                                                            xs={6}
+                                                            key={build(
                                                                 parentId,
                                                                 ids.PUBLISH
                                                                     .LINK,
                                                                 index
                                                             )}
-                                                            name={`links.${index}`}
-                                                            component={
-                                                                FormTextField
-                                                            }
-                                                        />
-                                                    </Grid>
-                                                    <Grid
-                                                        item
-                                                        xs={3}
-                                                        key={build(
-                                                            parentId,
-                                                            ids.PUBLISH.LINK,
-                                                            index,
-                                                            ids.PUBLISH
-                                                                .LINK_DEL_BTN
-                                                        )}
-                                                    >
-                                                        <IconButton
-                                                            id={build(
+                                                        >
+                                                            <Field
+                                                                id={build(
+                                                                    parentId,
+                                                                    ids.PUBLISH
+                                                                        .LINK,
+                                                                    index
+                                                                )}
+                                                                name={`references.${index}`}
+                                                                component={
+                                                                    FormTextField
+                                                                }
+                                                            />
+                                                        </Grid>
+                                                        <Grid
+                                                            item
+                                                            xs={3}
+                                                            key={build(
                                                                 parentId,
                                                                 ids.PUBLISH
                                                                     .LINK,
@@ -191,28 +243,29 @@ export default function PublishAppDialog(props) {
                                                                 ids.PUBLISH
                                                                     .LINK_DEL_BTN
                                                             )}
-                                                            onClick={() =>
-                                                                arrayHelpers.remove(
-                                                                    index
-                                                                )
-                                                            } // remove a link from the list
                                                         >
-                                                            <Remove />
-                                                        </IconButton>
-                                                    </Grid>
-                                                    <Grid
-                                                        item
-                                                        xs={3}
-                                                        key={build(
-                                                            parentId,
-                                                            ids.PUBLISH.LINK,
-                                                            index,
-                                                            ids.PUBLISH
-                                                                .LINK_ADD_BTN
-                                                        )}
-                                                    >
-                                                        <IconButton
-                                                            id={build(
+                                                            <IconButton
+                                                                id={build(
+                                                                    parentId,
+                                                                    ids.PUBLISH
+                                                                        .LINK,
+                                                                    index,
+                                                                    ids.PUBLISH
+                                                                        .LINK_DEL_BTN
+                                                                )}
+                                                                onClick={() =>
+                                                                    arrayHelpers.remove(
+                                                                        index
+                                                                    )
+                                                                } // remove a link from the list
+                                                            >
+                                                                <Remove />
+                                                            </IconButton>
+                                                        </Grid>
+                                                        <Grid
+                                                            item
+                                                            xs={3}
+                                                            key={build(
                                                                 parentId,
                                                                 ids.PUBLISH
                                                                     .LINK,
@@ -220,18 +273,29 @@ export default function PublishAppDialog(props) {
                                                                 ids.PUBLISH
                                                                     .LINK_ADD_BTN
                                                             )}
-                                                            onClick={() =>
-                                                                arrayHelpers.insert(
-                                                                    index,
-                                                                    ""
-                                                                )
-                                                            } // insert an empty string at a position
                                                         >
-                                                            <Add />
-                                                        </IconButton>
-                                                    </Grid>
-                                                </>
-                                            ))
+                                                            <IconButton
+                                                                id={build(
+                                                                    parentId,
+                                                                    ids.PUBLISH
+                                                                        .LINK,
+                                                                    index,
+                                                                    ids.PUBLISH
+                                                                        .LINK_ADD_BTN
+                                                                )}
+                                                                onClick={() =>
+                                                                    arrayHelpers.insert(
+                                                                        index,
+                                                                        ""
+                                                                    )
+                                                                } // insert an empty string at a position
+                                                            >
+                                                                <Add />
+                                                            </IconButton>
+                                                        </Grid>
+                                                    </>
+                                                )
+                                            )
                                         ) : (
                                             <Grid item xs={12}>
                                                 <Button

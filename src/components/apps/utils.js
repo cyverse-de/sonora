@@ -3,8 +3,9 @@
  *
  * Apps related utility functions.
  */
-import NavigationConstants from "../../common/NavigationConstants";
+import Handlebars from "handlebars";
 
+import NavigationConstants from "common/NavigationConstants";
 import Checkbox from "components/apps/launch/params/Checkbox";
 import Double from "components/apps/launch/params/Double";
 import FileFolderInput from "components/apps/launch/params/FileFolderInput";
@@ -198,4 +199,26 @@ export const validateAppName = (
             inValid: invalid.join(""),
         });
     }
+};
+
+export const formatAppDoc = (
+    name,
+    desc,
+    testData,
+    inputFilesDesc,
+    paramsDesc,
+    outputFilesDesc
+) => {
+    const compiledTemplate = Handlebars.compile(
+        "### {{name}}\n#### Description and Quick Start\n{{desc}}\n####Test Data \n{{testData}}\n#### Input File(s) \n{{inputFilesDesc}} \n#### Parameters Used in App \n{{paramsDesc}} \n#### Output File(s) \n{{outputFilesDesc}}"
+    );
+
+    return compiledTemplate({
+        name,
+        desc,
+        testData,
+        inputFilesDesc,
+        paramsDesc,
+        outputFilesDesc,
+    });
 };

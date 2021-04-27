@@ -12,7 +12,7 @@
     "detailsBtn": "Details",
     "downloadingDEImages": "Downloading DE container images",
     "downloadingDEImagesError": "Error while downloading DE container images.  Please contact support.",
-    "downloadingInputs": "Downloading selected input files.<break/><bold>NOTE</bold>: Large input files may take some time to complete downloading. For some VICE apps, it is possible to launch without input files. If downloads are taking too long, you may want to consider this option.",
+    "downloadingInputs": "Downloading selected input files.<break/><bold>NOTE</bold>: Download time depends on the relative size and number of input files you selected.",
     "downloadingInputsError": "Error while downloading input files.<break/>- Cause: Could not find input files or encountered iRods system error.<break/>- Troubleshoot: Review your input file selections and relaunch the app.<break/>- If app relaunch fails, please contact support.",
     "downloadingVICEImage": "Downloading container image '{{image}}' for {{appName}}",
     "downloadingVICEImageError": "Error while downloading VICE image '{{image}}' for {{appName}}.<break/>- Troubleshoot: Confirm the image works with the app integrator; if not, select a different app to launch.<break/>- If the app is confirmed as working, then please contact support.",

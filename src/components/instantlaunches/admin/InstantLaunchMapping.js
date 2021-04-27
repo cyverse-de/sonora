@@ -82,17 +82,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const initialValues = {
+    mappingName: "",
+    patternKind: "",
+    pattern: "",
+    instantLaunch: "",
+};
+
 const AddMappingForm = ({ t, handleSubmit, instantlaunches, infoTypes }) => {
     const baseID = buildID(ids.BASE, ids.MAPPING, ids.ADD, ids.FORM);
     const classes = useStyles();
 
     const formik = useFormik({
-        initialValues: {
-            mappingName: "",
-            patternKind: "",
-            pattern: "",
-            instantLaunch: "",
-        },
+        initialValues,
         onSubmit: handleSubmit,
     });
 
@@ -290,7 +292,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
         }
     }, [defaultsMapping]);
 
-    const handleSubmit = (values) => {
+    const handleSubmit = (values, { resetForm }) => {
         // We're storing the index into the instantlaunches Array in the formik Values,
         // so we have to get it from the list.
         const selectedIL =
@@ -318,9 +320,9 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
 
         // Create the mapping if we got a 404 when grabbing the values.
         if (doCreate) {
-            return createMapping(m);
+            return createMapping(m).then((_) => resetForm(initialValues));
         }
-        return updateMapping(m);
+        return updateMapping(m).then((_) => resetForm(initialValues));
     };
 
     const isLoading =

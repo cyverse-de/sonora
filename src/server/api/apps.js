@@ -81,6 +81,19 @@ export default function appsRouter() {
         })
     );
 
+    logger.info("adding the PATCH /apps/:systemId/:appId handler");
+    api.patch(
+        "/apps/:systemId/:appId",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/apps/:systemId/:appId",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the PUT /apps/:systemId/:appId handler");
     api.put(
         "/apps/:systemId/:appId",

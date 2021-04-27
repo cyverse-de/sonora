@@ -9,7 +9,7 @@ import { useTranslation } from "i18n";
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 
 import ids from "../ids";
-import { isWritable } from "../utils";
+import { hasOwn, isWritable } from "../utils";
 import { getHost } from "components/utils/getHost";
 import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
 import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
@@ -22,7 +22,7 @@ import CopyLinkMenuItem from "components/utils/CopyLinkMenuItem";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
 import shareIds from "components/sharing/ids";
 import { getAppListingLinkRefs } from "components/apps/utils";
-import Permissions from "components/models/Permissions";
+import { useUserProfile } from "contexts/userProfile";
 import PublishAppDialog from "../PublishAppDialog";
 
 function RowDotMenu(props) {
@@ -38,10 +38,14 @@ function RowDotMenu(props) {
         isAdminView,
     } = props;
 
-    const canEdit = isWritable(app.permission);
-    const canPublish = app?.permission === Permissions.OWN;
     const [publishDialogOpen, setPublishDialogOpen] = React.useState(false);
+    const [userProfile] = useUserProfile();
     const { t } = useTranslation("common");
+
+    const canPublish = hasOwn(app?.permission);
+    const canEdit =
+        isWritable(app?.permission) ||
+        app?.integrator_email === userProfile?.attributes?.email;
 
     return (
         <>

@@ -35,7 +35,7 @@ import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import useComponentHeight from "components/utils/useComponentHeight";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
-import { addApp, updateApp } from "serviceFacades/apps";
+import { addApp, updateApp, updateAppLabels } from "serviceFacades/apps";
 
 import {
     AnnouncerConstants,
@@ -159,9 +159,13 @@ const AppEditor = (props) => {
         ({ app }) => {
             const { system_id: systemId, id: appId } = app;
 
+            const request = { systemId, appId, app };
+
             return appId
-                ? updateApp({ systemId, appId, app })
-                : addApp({ systemId, app });
+                ? cosmeticOnly
+                    ? updateAppLabels(request)
+                    : updateApp(request)
+                : addApp(request);
         },
         {
             onSuccess: (resp, { onSuccess }) => {
@@ -301,6 +305,17 @@ const AppEditor = (props) => {
                                 onSave={handleSubmit}
                             />
                         </Grid>
+
+                        {cosmeticOnly && (
+                            <>
+                                <Typography variant="h6" color="error">
+                                    {t("editingPublicApp")}
+                                </Typography>
+                                <Typography variant="body2">
+                                    {t("editPublicAppHelp")}
+                                </Typography>
+                            </>
+                        )}
 
                         {isSubmitting ? (
                             <StepperSkeleton baseId={baseId} ref={stepperRef} />

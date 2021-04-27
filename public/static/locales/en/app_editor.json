@@ -27,6 +27,8 @@
     "defaultValue": "Default value",
     "doNotPass": "Do not pass this argument to command line.",
     "editApp": "Edit App: {{name}}",
+    "editingPublicApp": "You are editing a public app",
+    "editPublicAppHelp": "Only labels, help text, info text, and other items that are not passed to the command line may be changed. This limitation is to maintain the reproducibility of results from your app. Only the author may edit their own public app.",
     "editParameter": "Edit Parameter",
     "envVarNameLabel": "Environment Variable name",
     "errorLoadingInfoTypes": "Error loading File Info Types",

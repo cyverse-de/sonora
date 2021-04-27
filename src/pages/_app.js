@@ -191,6 +191,8 @@ function MyApp({ Component, pageProps }) {
             admin: publicRuntimeConfig.GROUPER_ADMIN,
         };
 
+        const legacyDeUrl = publicRuntimeConfig.LEGACY_DE_URL;
+
         if (
             intercom ||
             admin ||
@@ -200,7 +202,8 @@ function MyApp({ Component, pageProps }) {
             tools ||
             fileIdentifiers ||
             vice ||
-            grouper
+            grouper ||
+            legacyDeUrl
         ) {
             setConfig({
                 intercom,
@@ -212,6 +215,7 @@ function MyApp({ Component, pageProps }) {
                 fileIdentifiers,
                 vice,
                 grouper,
+                legacyDeUrl,
             });
         }
 

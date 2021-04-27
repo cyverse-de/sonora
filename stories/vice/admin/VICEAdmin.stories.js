@@ -1,6 +1,6 @@
 import React from "react";
 
-import VICEAdmin from "../../../src/components/vice/admin";
+import { VICEAdmin } from "pages/admin/vice";
 
 import { mockAxios } from "../../axiosMock";
 

@@ -2,6 +2,15 @@ import callApi from "../common/callApi";
 
 const QUICK_LAUNCH_LISTING = "fetchQuickLaunches";
 const QUICK_LAUNCH_APP_INFO = "fetchAppInfoForQuickLaunch";
+const QUICK_LAUNCH_LIST_ALL = "listAllQuickLaunches";
+
+function listAllQuickLaunches(key) {
+    return callApi({
+        endpoint: "/api/quicklaunches",
+        method: "GET",
+    });
+}
+
 /**
  * Add a quick launch
  * @param {object} quickLaunch
@@ -38,6 +47,43 @@ function deleteQuickLaunch(qid) {
 }
 
 /**
+ * List global quick launches
+ */
+function listGlobalQuickLaunches() {
+    return callApi({
+        endpoint: "/api/quicklaunches/defaults/global",
+        method: "GET",
+    });
+}
+
+/**
+ * Adds the quick launch as a global default.
+ * @param {string} qID
+ */
+function addGlobalQuickLaunch({ id, app_id }) {
+    const body = {
+        app_id,
+        quick_launch_id: id,
+    };
+    return callApi({
+        endpoint: `/api/quicklaunches/defaults/global`,
+        method: "POST",
+        body,
+    });
+}
+
+/**
+ * Get description of the quick launch by its UUID.
+ * @param {String} qID
+ */
+function getQuickLaunch(qID) {
+    return callApi({
+        endpoint: `/api/quicklaunches/${qID}`,
+        method: "GET",
+    });
+}
+
+/**
  * Get app launch information for selected quick launch
  *
  * @param {*} key
@@ -53,8 +99,13 @@ function getAppInfo(key, { qId }) {
 export {
     QUICK_LAUNCH_APP_INFO,
     QUICK_LAUNCH_LISTING,
+    QUICK_LAUNCH_LIST_ALL,
+    listAllQuickLaunches,
     addQuickLaunch,
     listQuickLaunches,
     deleteQuickLaunch,
+    listGlobalQuickLaunches,
+    addGlobalQuickLaunch,
+    getQuickLaunch,
     getAppInfo,
 };

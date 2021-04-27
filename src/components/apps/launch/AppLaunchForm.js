@@ -334,7 +334,10 @@ const AppLaunchForm = (props) => {
                                         handleSaveQuickLaunch={() => {
                                             setQuickLaunchDialogOpen(true);
                                             setQuickLaunchSubmission(
-                                                formatSubmission()
+                                                formatSubmission(
+                                                    defaultOutputDir,
+                                                    values
+                                                )
                                             );
                                         }}
                                     />

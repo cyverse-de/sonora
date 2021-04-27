@@ -15,6 +15,7 @@ import metadataRouter from "./api/metadata";
 import notificationsRouter from "./api/notifications";
 import oauthRouter from "./api/oauth";
 import quickLaunchRouter from "./api/quickLaunch";
+import instantlaunchRouter from "./api/instantlaunches";
 import refGenomeRouter from "./api/referenceGenomes";
 import sharingRouter from "./api/sharing";
 import supportRouter from "./api/support";
@@ -126,6 +127,7 @@ app.prepare()
         server.use("/api", notificationsRouter());
         server.use("/api", oauthRouter());
         server.use("/api", quickLaunchRouter());
+        server.use("/api", instantlaunchRouter());
         server.use("/api", sharingRouter());
         server.use("/api", supportRouter());
         server.use("/api", refGenomeRouter());

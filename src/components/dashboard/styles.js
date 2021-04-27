@@ -60,6 +60,6 @@ export default makeStyles((theme) => ({
         marginTop: theme.spacing(2),
         padding: 0,
         marginLeft: theme.spacing(0),
-        marginBottom: theme.spacing(4),
+        marginBottom: theme.spacing(1),
     },
 }));

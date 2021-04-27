@@ -25,6 +25,9 @@ import { useConfig } from "contexts/config";
 
 import { build, DECheckbox, EmptyTable, formatDate } from "@cyverse-de/ui-lib";
 
+import InstantLaunchButton from "components/instantlaunches";
+import { defaultInstantLaunch } from "serviceFacades/instantlaunches";
+
 import {
     fade,
     makeStyles,
@@ -34,6 +37,7 @@ import {
     TableCell,
     TableContainer,
 } from "@material-ui/core";
+
 import RowDotMenu from "./RowDotMenu";
 
 function SizeCell({ resource }) {
@@ -140,6 +144,7 @@ function TableView(props) {
         onDownloadSelected,
         onRenameSelected,
         onMoveSelected,
+        instantLaunchDefaultsMapping,
     } = props;
     const invalidRowClass = invalidRowStyles();
     const { t } = useTranslation("data");
@@ -294,10 +299,15 @@ function TableView(props) {
                             listing.map((resource, index) => {
                                 const resourceName = resource.label;
                                 const resourceId = resource.id;
+                                const resourcePath = resource.path;
                                 const isSelected =
                                     selected.indexOf(resourceId) !== -1;
                                 const isInvalid =
                                     isSelected && isInvalidSelection(resource);
+                                const [instantLaunch] = defaultInstantLaunch(
+                                    instantLaunchDefaultsMapping,
+                                    resource
+                                );
                                 return (
                                     <DERow
                                         classes={
@@ -369,7 +379,7 @@ function TableView(props) {
                                                 )}
                                                 onClick={() => {
                                                     handlePathChange(
-                                                        `${path}/${resource.label}`,
+                                                        resourcePath,
                                                         resource.type,
                                                         resource.id
                                                     );
@@ -377,6 +387,18 @@ function TableView(props) {
                                             >
                                                 {resource.label}
                                             </SpanLink>
+
+                                            {instantLaunch && (
+                                                <InstantLaunchButton
+                                                    instantLaunch={
+                                                        instantLaunch
+                                                    }
+                                                    resource={resource}
+                                                    size="small"
+                                                    color="default"
+                                                    themeSpacing={3}
+                                                />
+                                            )}
                                         </TableCell>
                                         {getColumnDetails(displayColumns).map(
                                             (column, index) => (

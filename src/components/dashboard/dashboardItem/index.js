@@ -5,6 +5,7 @@ import AnalysisItem from "./AnalysisItem";
 import NewsItem from "./NewsItem";
 import VideoItem from "./VideoItem";
 import EventItem from "./EventItem";
+import InstantLaunchItem from "./InstantLaunchItems";
 
 export default (props) => {
     switch (props.kind) {
@@ -14,6 +15,8 @@ export default (props) => {
             return AppItem.create(props);
         case constants.KIND_EVENTS:
             return new EventItem(props);
+        case constants.KIND_INSTANT_LAUNCHES:
+            return InstantLaunchItem.create(props);
         default:
             if (props.section === constants.SECTION_VIDEOS) {
                 return new VideoItem(props);

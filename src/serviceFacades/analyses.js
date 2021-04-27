@@ -36,6 +36,14 @@ function getAnalyses(key, { rowsPerPage, orderBy, order, page, filter }) {
     });
 }
 
+function getAnalysis(id) {
+    const filter = JSON.stringify({ field: "id", value: id });
+    return callApi({
+        endpoint: `/api/analyses?filter=[${filter}]`,
+        method: "GET",
+    });
+}
+
 function submitAnalysis(submission) {
     return callApi({
         endpoint: "/api/analyses",
@@ -179,6 +187,7 @@ export {
     cancelAnalyses,
     cancelAnalysis,
     getAnalyses,
+    getAnalysis,
     getAnalysisHistory,
     getAnalysisParameters,
     getAnalysisRelaunchInfo,

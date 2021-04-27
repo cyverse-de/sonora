@@ -389,6 +389,14 @@ function adminUpdateApp({ app, details, avus, values }) {
     return Promise.all(promises);
 }
 
+function requestToPublishApp({ systemId, appId, request }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}/publish`,
+        method: "POST",
+        body: request,
+    });
+}
+
 function getAppPublicationRequests(key) {
     return callApi({
         endpoint: `/api/admin/apps/publication-requests`,
@@ -429,6 +437,7 @@ export {
     adminUpdateAppMetadata,
     getAppPublicationRequests,
     adminPublishApp,
+    requestToPublishApp,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,

@@ -53,7 +53,9 @@ export default function PublishAppDialog(props) {
         {
             onSuccess: () => {
                 announce({
-                    text: t("publicationRequestSuccess"),
+                    text: t("publicationRequestSuccess", {
+                        appName: app?.name,
+                    }),
                     variant: AnnouncerConstants.INFO,
                 });
                 handleClose();
@@ -299,6 +301,11 @@ export default function PublishAppDialog(props) {
                                         ) : (
                                             <Grid item xs={12}>
                                                 <Button
+                                                    id={build(
+                                                        parentId,
+                                                        ids.PUBLISH.LINK,
+                                                        ids.PUBLISH.LINK_ADD_BTN
+                                                    )}
                                                     onClick={() =>
                                                         arrayHelpers.push("")
                                                     }

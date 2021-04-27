@@ -15,6 +15,8 @@ import {
     updateDefaultsMapping,
 } from "serviceFacades/instantlaunches";
 
+import { getInfoTypes, INFO_TYPES_QUERY_KEY } from "serviceFacades/filesystem";
+
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 
 import { Skeleton } from "@material-ui/lab";
@@ -80,7 +82,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const AddMappingForm = ({ t, handleSubmit, instantlaunches }) => {
+const AddMappingForm = ({ t, handleSubmit, instantlaunches, infoTypes }) => {
     const baseID = buildID(ids.BASE, ids.MAPPING, ids.ADD, ids.FORM);
     const classes = useStyles();
 
@@ -151,16 +153,43 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches }) => {
                 </MenuItem>
             </TextField>
 
-            <TextField
-                id={buildID(baseID, ids.PATTERN)}
-                name="pattern"
-                label={t("pattern")}
-                value={formik.values.pattern}
-                onChange={formik.handleChange}
-                className={classes.flexItem}
-                error={formik.touched.pattern && formik.errors.pattern}
-                helperText={formik.touched.pattern && formik.errors.pattern}
-            />
+            {formik.values.patternKind === "infoType" ? (
+                <TextField
+                    id={buildID(baseID, ids.INFO_TYPE, ids.MENU)}
+                    name="pattern"
+                    label={t("infoType")}
+                    className={classes.flexItem}
+                    value={formik.values.pattern}
+                    onChange={formik.handleChange}
+                    select
+                >
+                    {infoTypes.map((infoType) => (
+                        <MenuItem
+                            value={infoType}
+                            key={infoType}
+                            id={buildID(
+                                baseID,
+                                ids.INFO_TYPE,
+                                ids.MENU,
+                                infoType
+                            )}
+                        >
+                            {infoType}
+                        </MenuItem>
+                    ))}
+                </TextField>
+            ) : (
+                <TextField
+                    id={buildID(baseID, ids.PATTERN)}
+                    name="pattern"
+                    label={t("pattern")}
+                    value={formik.values.pattern}
+                    onChange={formik.handleChange}
+                    className={classes.flexItem}
+                    error={formik.touched.pattern && formik.errors.pattern}
+                    helperText={formik.touched.pattern && formik.errors.pattern}
+                />
+            )}
 
             <TextField
                 id={buildID(baseID, ids.BASE, ids.MENU)}
@@ -219,6 +248,8 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
         LIST_PUBLIC_QUICK_LAUNCHES_KEY,
         getPublicQuicklaunches
     );
+
+    const infoTypes = useQuery(INFO_TYPES_QUERY_KEY, getInfoTypes);
 
     const handleDelete = async (mappingName) => {
         const {
@@ -295,9 +326,14 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
     const isLoading =
         defaultsMapping.isLoading ||
         instantlaunches.isLoading ||
-        allQL.isLoading;
+        allQL.isLoading ||
+        infoTypes.isLoading;
+
     const isError =
-        defaultsMapping.isError || instantlaunches.isError || allQL.isError;
+        defaultsMapping.isError ||
+        instantlaunches.isError ||
+        allQL.isError ||
+        infoTypes.isError;
 
     return (
         <div>
@@ -314,7 +350,8 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                     errorObject={
                         defaultsMapping.error ||
                         instantlaunches.error ||
-                        allQL.error
+                        allQL.error ||
+                        infoTypes.error
                     }
                     baseId={baseID}
                 />
@@ -342,6 +379,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                         handleSubmit={handleSubmit}
                         mapping={defaultsMapping}
                         instantlaunches={instantlaunches.data.instant_launches}
+                        infoTypes={infoTypes.data.types}
                         t={t}
                     />
 

@@ -299,7 +299,7 @@ function TableView(props) {
                             listing.map((resource, index) => {
                                 const resourceName = resource.label;
                                 const resourceId = resource.id;
-                                const resourcePath = `${path}/${resource.label}`;
+                                const resourcePath = resource.path;
                                 const isSelected =
                                     selected.indexOf(resourceId) !== -1;
                                 const isInvalid =

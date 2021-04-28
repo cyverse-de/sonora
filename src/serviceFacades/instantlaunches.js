@@ -215,7 +215,7 @@ export const deleteInstantLaunchHandler = async (id) => {
  * @param {Object} instantLaunch - The instant launch object returned by defaultInstantLaunch().
  * @param {Object} resource - An array of resources to use as inputs to the instantly launched app.
  */
-export const instantlyLaunch = async (instantLaunch, resource) => {
+export const instantlyLaunch = async ({ instantLaunch, resource }) => {
     let qID; // The quick launch ID, used to get app information.
     let qlp; // The promise used to get quick launch information.
 

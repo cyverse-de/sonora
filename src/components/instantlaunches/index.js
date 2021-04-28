@@ -23,6 +23,7 @@ import { useTranslation } from "i18n";
 import { build as buildID } from "@cyverse-de/ui-lib";
 import ids from "components/instantlaunches/ids";
 import { instantlyLaunch } from "serviceFacades/instantlaunches";
+import { useMutation } from "react-query";
 
 const useStyles = makeStyles((theme) => ({
     progress: {
@@ -104,6 +105,33 @@ const InstantLaunchButton = ({
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
 
+    const [launch] = useMutation(instantlyLaunch, {
+        onSuccess: (listing) => {
+            if (listing.analyses.length > 0) {
+                const analysis = listing.analyses[0];
+                if (analysis.interactive_urls.length > 0) {
+                    router
+                        .push(
+                            `${
+                                constants.VICE_LOADING_PAGE
+                            }/${encodeURIComponent(
+                                analysis.interactive_urls[0]
+                            )}`
+                        )
+                        .then(() => setOpen(false));
+                } else {
+                    setOpen(false);
+                }
+            } else {
+                setOpen(false);
+            }
+        },
+        onError: (err) => {
+            setOpen(false);
+            showErrorAnnouncer(err.message, err);
+        },
+    });
+
     return (
         <IconButton
             id={baseID}
@@ -116,32 +144,7 @@ const InstantLaunchButton = ({
                 event.preventDefault();
 
                 setOpen(true);
-
-                await instantlyLaunch(instantLaunch, resource)
-                    .then((listing) => {
-                        if (listing.analyses.length > 0) {
-                            const analysis = listing.analyses[0];
-                            if (analysis.interactive_urls.length > 0) {
-                                router
-                                    .push(
-                                        `${
-                                            constants.VICE_LOADING_PAGE
-                                        }/${encodeURIComponent(
-                                            analysis.interactive_urls[0]
-                                        )}`
-                                    )
-                                    .then(() => setOpen(false));
-                            } else {
-                                setOpen(false);
-                            }
-                        } else {
-                            setOpen(false);
-                        }
-                    })
-                    .catch((error) => {
-                        setOpen(false);
-                        showErrorAnnouncer(error.message, error);
-                    });
+                launch({ instantLaunch, resource });
             }}
         >
             <InstantLaunchSubmissionDialog open={open} />

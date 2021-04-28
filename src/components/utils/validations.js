@@ -1,3 +1,4 @@
+import constants from "../../constants";
 const nonEmptyField = (value, t) =>
     value && value.length > 0 ? undefined : t("emptyValue");
 const minValue = (value, t) =>
@@ -14,5 +15,7 @@ const nonEmptyMinValue = (value, t) => {
         }
     }
 };
+const urlField = (value, t) =>
+    !constants.URL_REGEX.test(value) ? t("inValidUrl") : undefined;
 
-export { nonEmptyField, minValue, nonEmptyMinValue };
+export { nonEmptyField, minValue, nonEmptyMinValue, urlField };

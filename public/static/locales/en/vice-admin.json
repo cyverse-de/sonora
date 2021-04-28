@@ -102,7 +102,6 @@
     "requestDeniedPrompt": "Leave a message for the user: {{username}}",
     "requestLimitTabLabel": "Limits & Access Requests",
     "analysesTabLabel": "Analyses Run By Users",
-    "instantLaunchesTabLabel" : "Instant Launches",
-    "dataMappingTabLabel" : "Data Mapping"
-
+    "instantLaunchesTabLabel": "Instant Launches",
+    "dataMappingTabLabel": "Data Mapping"
 }

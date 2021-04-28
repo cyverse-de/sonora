@@ -86,6 +86,7 @@ export default {
         RENAME: "rename",
         STATUS_HELP: "statusHelp",
         SUBMIT: "submit",
+        CLOSE: "close",
     },
 
     ICONS: {
@@ -115,4 +116,5 @@ export default {
 
     TERMINATE_ANALYSIS_DLG: "terminateAnalysisDlg",
     TERMINATE_BTN: "terminateBtn",
+    PENDING_TERMINATION_DLG: "pendingTerminationDlg",
 };

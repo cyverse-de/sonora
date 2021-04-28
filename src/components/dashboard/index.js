@@ -50,6 +50,9 @@ const AppDetailsDrawer = dynamic(() =>
 const AnalysesDetailsDrawer = dynamic(() =>
     import("components/analyses/details/Drawer")
 );
+const PendingTerminationDlg = dynamic(() =>
+    import("components/analyses/PendingTerminationDlg")
+);
 
 const DashboardSkeleton = () => {
     const classes = useStyles();
@@ -133,6 +136,7 @@ const Dashboard = (props) => {
     // State variables.
     const [detailsApp, setDetailsApp] = useState(null);
     const [detailsAnalysis, setDetailsAnalysis] = useState(null);
+    const [pendingAnalysis, setPendingAnalysis] = useState(null);
 
     let sections = [
         // new NewsFeed(),
@@ -181,6 +185,7 @@ const Dashboard = (props) => {
                       showErrorAnnouncer,
                       setDetailsApp,
                       setDetailsAnalysis,
+                      setPendingAnalysis,
                   })
               )
         : [];
@@ -233,6 +238,14 @@ const Dashboard = (props) => {
                     baseId={baseId}
                     open={detailsAnalysis !== null}
                     onClose={() => setDetailsAnalysis(null)}
+                />
+            )}
+            {pendingAnalysis && (
+                <PendingTerminationDlg
+                    open={!!pendingAnalysis}
+                    onClose={() => setPendingAnalysis(null)}
+                    analysisName={pendingAnalysis?.name}
+                    analysisStatus={pendingAnalysis?.status}
                 />
             )}
             <div className={classes.footer} />

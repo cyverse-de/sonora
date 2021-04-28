@@ -17,6 +17,7 @@ import {
     isBatchAnalysis,
     useRelaunchLink,
     useGotoOutputFolderLink,
+    isTerminated,
 } from "../utils";
 
 import { IconButton } from "@material-ui/core";
@@ -49,7 +50,13 @@ const RelaunchButton = React.forwardRef((props, ref) => {
 });
 
 const GotoOutputFolderButton = React.forwardRef((props, ref) => {
-    const { baseId, className, onClick, href } = props;
+    const {
+        baseId,
+        className,
+        href,
+        isTerminated,
+        setPendingTerminationDlgOpen,
+    } = props;
     const { t } = useTranslation("analyses");
     return (
         <IconButton
@@ -57,8 +64,15 @@ const GotoOutputFolderButton = React.forwardRef((props, ref) => {
             id={build(baseId, ids.ICONS.OUTPUT, ids.BUTTON)}
             className={className}
             href={href}
-            onClick={onClick}
             ref={ref}
+            onClick={(event) => {
+                if (!isTerminated) {
+                    event.preventDefault();
+                    setPendingTerminationDlgOpen(true);
+                    return false;
+                }
+                // else, do the default link behavior
+            }}
             color="primary"
             title={t("goOutputFolder")}
         >
@@ -75,6 +89,7 @@ export default function Actions(props) {
         handleDetailsClick,
         handleInteractiveUrlClick,
         handleBatchIconClick,
+        setPendingTerminationDlgOpen,
         baseId,
         username,
     } = props;
@@ -89,10 +104,15 @@ export default function Actions(props) {
     const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
         analysis?.resultfolderid
     );
+    const isTerminatedAnalysis = isTerminated(analysis);
     return (
         <>
             <Link href={outputFolderHref} as={outputFolderAs} passHref>
-                <GotoOutputFolderButton baseId={baseId} />
+                <GotoOutputFolderButton
+                    baseId={baseId}
+                    isTerminated={isTerminatedAnalysis}
+                    setPendingTerminationDlgOpen={setPendingTerminationDlgOpen}
+                />
             </Link>
             {allowBatchDrillDown && isBatch && (
                 <IconButton

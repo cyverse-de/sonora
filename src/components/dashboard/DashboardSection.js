@@ -30,6 +30,7 @@ const DashboardSection = ({
     showErrorAnnouncer,
     setDetailsApp,
     setDetailsAnalysis,
+    setPendingAnalysis,
 }) => {
     const classes = useStyles();
     const { t } = useTranslation("dashboard");
@@ -56,6 +57,7 @@ const DashboardSection = ({
             showErrorAnnouncer,
             setDetailsApp,
             setDetailsAnalysis,
+            setPendingAnalysis,
             theme,
             t,
         }).component(index);
@@ -124,6 +126,7 @@ class SectionBase {
         showErrorAnnouncer,
         setDetailsApp,
         setDetailsAnalysis,
+        setPendingAnalysis,
     }) {
         let sectionItems;
 
@@ -163,6 +166,7 @@ class SectionBase {
                 showErrorAnnouncer={showErrorAnnouncer}
                 setDetailsApp={setDetailsApp}
                 setDetailsAnalysis={setDetailsAnalysis}
+                setPendingAnalysis={setPendingAnalysis}
             />
         );
     }

@@ -171,6 +171,7 @@ function TableView(props) {
         handleDetailsClick,
         handleCheckboxClick,
         handleStatusClick,
+        setPendingTerminationDlgOpen,
     } = props;
 
     const theme = useTheme();
@@ -329,6 +330,9 @@ function TableView(props) {
                                                     }
                                                     handleDetailsClick={
                                                         handleDetailsClick
+                                                    }
+                                                    setPendingTerminationDlgOpen={
+                                                        setPendingTerminationDlgOpen
                                                     }
                                                 />
                                             </TableCell>

@@ -62,7 +62,7 @@ function ViceLoading(props) {
     const deployment = deployments?.[0];
     const appName = deployment?.appName;
 
-    const { isFetching, error: statusError } = useQuery({
+    const { error: statusError } = useQuery({
         queryKey: [VICE_LOADING_STATUS_QUERY, { accessUrl }],
         queryFn: getLoadingStatus,
         config: {
@@ -287,10 +287,6 @@ function ViceLoading(props) {
 
     if (statusError) {
         return <ErrorHandler errorObject={statusError} />;
-    }
-
-    if (isFetching && Object.keys(data).length === 0 && !statusError) {
-        return <LoadingAnimation />;
     }
 
     if (ready) {

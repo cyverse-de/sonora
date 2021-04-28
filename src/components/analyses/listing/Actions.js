@@ -63,11 +63,13 @@ const GotoOutputFolderButton = React.forwardRef((props, ref) => {
             size="small"
             id={build(baseId, ids.ICONS.OUTPUT, ids.BUTTON)}
             className={className}
-            href={isTerminated ? href : null}
-            ref={isTerminated ? ref : null}
-            onClick={() => {
+            href={href}
+            ref={ref}
+            onClick={(event) => {
                 if (!isTerminated) {
+                    event.preventDefault();
                     setPendingTerminationDlgOpen(true);
+                    return false;
                 }
                 // else, do the default link behavior
             }}

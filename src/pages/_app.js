@@ -149,6 +149,7 @@ function MyApp({ Component, pageProps }) {
         const irods = {
             home_path: publicRuntimeConfig.IRODS_HOME_PATH,
             trash_path: publicRuntimeConfig.IRODS_TRASH_PATH,
+            community_path: publicRuntimeConfig.IRODS_COMMUNITY_PATH,
         };
         const sessions = {
             poll_interval_ms: publicRuntimeConfig.SESSION_POLL_INTERVAL_MS,

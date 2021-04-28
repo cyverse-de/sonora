@@ -49,12 +49,12 @@ function AnalysisLink(props) {
     const { notification } = props;
     const { t } = useTranslation("common");
     const message = getDisplayMessage(notification);
-    const payload = notification.payload;
-    const action = payload?.action;
+    const analysis = notification.payload;
+    const action = analysis?.action;
 
     const isJobStatusChange = action === "job_status_change";
     const isShare = action === "share";
-    const isComplete = isTerminated(payload);
+    const isComplete = isTerminated(analysis);
 
     if (isShare || isJobStatusChange) {
         const accessUrl = notification.payload.access_url;
@@ -67,7 +67,7 @@ function AnalysisLink(props) {
         }
 
         if (isComplete) {
-            const resultFolder = payload?.analysisresultsfolder;
+            const resultFolder = analysis?.analysisresultsfolder;
             const href = getFolderPage(resultFolder);
 
             return (
@@ -79,19 +79,19 @@ function AnalysisLink(props) {
         }
 
         const analysisId =
-            isShare && payload?.analyses?.length > 0
-                ? payload.analyses[0].analysis_id
-                : isJobStatusChange && payload?.id;
+            isShare && analysis?.analyses?.length > 0
+                ? analysis.analyses[0].analysis_id
+                : isJobStatusChange && analysis?.id;
 
         if (analysisId) {
             const [href, as] = getAnalysisDetailsLinkRefs(analysisId);
 
             const allowRating =
                 isJobStatusChange &&
-                payload?.system_id === systemIds.de &&
-                (payload?.status === analysisStatus.COMPLETED ||
-                    payload?.status === analysisStatus.FAILED ||
-                    payload?.status === analysisStatus.CANCELED);
+                analysis?.system_id === systemIds.de &&
+                (analysis?.status === analysisStatus.COMPLETED ||
+                    analysis?.status === analysisStatus.FAILED ||
+                    analysis?.status === analysisStatus.CANCELED);
 
             return (
                 <>
@@ -99,9 +99,9 @@ function AnalysisLink(props) {
                     <br />
                     {allowRating && (
                         <RatingWidget
-                            appId={payload?.app_id}
-                            appName={payload?.app_name}
-                            systemId={payload?.system_id}
+                            appId={analysis?.app_id}
+                            appName={analysis?.app_name}
+                            systemId={analysis?.system_id}
                         />
                     )}
                 </>

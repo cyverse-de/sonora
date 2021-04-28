@@ -770,6 +770,7 @@ function Listing(props) {
                 open={pendingTerminationDlgOpen}
                 onClose={() => setPendingTerminationDlgOpen(false)}
                 analysisName={selectedAnalysis?.name}
+                analysisStatus={selectedAnalysis?.status}
             />
 
             {detailsOpen && (

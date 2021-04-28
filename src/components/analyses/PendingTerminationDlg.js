@@ -13,11 +13,13 @@ import { Button, Typography } from "@material-ui/core";
 import DEDialog from "components/utils/DEDialog";
 import { useTranslation } from "i18n";
 import ids from "./ids";
+import { ANALYSIS_TERMINAL_STATES } from "./utils";
 
 function PendingTerminationDlg(props) {
-    const { open, onClose, analysisName } = props;
+    const { open, onClose, analysisName, analysisStatus } = props;
     const { t } = useTranslation("analyses");
     const dialogId = ids.PENDING_TERMINATION_DLG;
+    const terminalStatesStr = ANALYSIS_TERMINAL_STATES.join(", ");
 
     return (
         <DEDialog
@@ -37,7 +39,11 @@ function PendingTerminationDlg(props) {
             }
         >
             <Typography>
-                {t("pendingTerminationMessage", { name: analysisName })}
+                {t("pendingTerminationMessage", {
+                    name: analysisName,
+                    status: analysisStatus,
+                    terminalStates: terminalStatesStr,
+                })}
             </Typography>
         </DEDialog>
     );

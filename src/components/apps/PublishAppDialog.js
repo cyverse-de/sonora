@@ -11,9 +11,11 @@ import { useTranslation } from "i18n";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { useMutation } from "react-query";
 
+import { nonEmptyField, urlField } from "components/utils/validations";
 import ids from "./ids";
 import constants from "../../constants";
 import appsConstants from "./constants";
+import { useConfig } from "contexts/config";
 
 import {
     announce,
@@ -25,7 +27,7 @@ import {
 
 import DEDialog from "components/utils/DEDialog";
 import ResourceTypes from "components/models/ResourceTypes";
-import InputSelector from "components/apps/launch/InputSelector";
+import FolderInput from "components/apps/launch/params/FolderInput";
 import { validateAppName, formatAppDoc } from "components/apps/utils";
 
 import { requestToPublishApp } from "serviceFacades/apps";
@@ -45,6 +47,9 @@ export default function PublishAppDialog(props) {
     const { open, app, handleClose } = props;
     const { t } = useTranslation("apps");
     const { t: i18nCommon } = useTranslation("common");
+    const { t: i18nUtil } = useTranslation("util");
+    const [config] = useConfig();
+    const communityPath = config?.irods?.community_path;
     const parentId = ids.PUBLISH_DLG;
     const [error, setError] = React.useState(null);
 
@@ -89,6 +94,14 @@ export default function PublishAppDialog(props) {
             });
         }
     };
+
+    const validateTestDataPath = (value) => {
+        if (!value.includes(communityPath)) {
+            return t("testDataPathError");
+        }
+        return;
+    };
+
     return (
         <Formik
             initialValues={{
@@ -113,7 +126,9 @@ export default function PublishAppDialog(props) {
                             maxWidth="sm"
                             onClose={handleClose}
                             baseId={parentId}
-                            title={app.name}
+                            title={t("publicSubmissionPrompt", {
+                                appName: app.name,
+                            })}
                             actions={
                                 <>
                                     <Button
@@ -123,12 +138,12 @@ export default function PublishAppDialog(props) {
                                         {i18nCommon("cancel")}
                                     </Button>
                                     <Button
-                                        id={build(parentId, ids.SAVE_BTN)}
+                                        id={build(parentId, ids.SUBMIT_BTN)}
                                         type="submit"
                                         color="primary"
                                         onClick={handleSubmit}
                                     >
-                                        {i18nCommon("done")}
+                                        {i18nCommon("submit")}
                                     </Button>
                                 </>
                             }
@@ -171,14 +186,20 @@ export default function PublishAppDialog(props) {
                                 id={build(parentId, ids.PUBLISH.DESCRIPTION)}
                                 required={true}
                                 component={FormMultilineTextField}
+                                validate={(value) =>
+                                    nonEmptyField(value, i18nUtil)
+                                }
                             />
                             <Field
                                 name="testData"
                                 id={build(parentId, ids.PATH)}
                                 acceptedType={ResourceTypes.FOLDER}
                                 label={t("testDataLocation")}
-                                component={InputSelector}
+                                component={FolderInput}
                                 required={true}
+                                validate={(value) =>
+                                    validateTestDataPath(value)
+                                }
                             />
                             <Field
                                 name={"inputDesc"}
@@ -186,6 +207,9 @@ export default function PublishAppDialog(props) {
                                 id={build(parentId, ids.PUBLISH.INPUT)}
                                 required={true}
                                 component={FormMultilineTextField}
+                                validate={(value) =>
+                                    nonEmptyField(value, i18nUtil)
+                                }
                             />
                             <Field
                                 name={"parameterDesc"}
@@ -193,6 +217,9 @@ export default function PublishAppDialog(props) {
                                 id={build(parentId, ids.PUBLISH.PARAMS)}
                                 required={true}
                                 component={FormMultilineTextField}
+                                validate={(value) =>
+                                    nonEmptyField(value, i18nUtil)
+                                }
                             />
                             <Field
                                 name={"outputDesc"}
@@ -200,6 +227,9 @@ export default function PublishAppDialog(props) {
                                 id={build(parentId, ids.PUBLISH.OUTPUT)}
                                 required={true}
                                 component={FormMultilineTextField}
+                                validate={(value) =>
+                                    nonEmptyField(value, i18nUtil)
+                                }
                             />
                             <Typography>{t("attributionLinks")}</Typography>
                             <FieldArray
@@ -231,6 +261,14 @@ export default function PublishAppDialog(props) {
                                                                 name={`references.${index}`}
                                                                 component={
                                                                     FormTextField
+                                                                }
+                                                                validate={(
+                                                                    value
+                                                                ) =>
+                                                                    urlField(
+                                                                        value,
+                                                                        i18nUtil
+                                                                    )
                                                                 }
                                                             />
                                                         </Grid>

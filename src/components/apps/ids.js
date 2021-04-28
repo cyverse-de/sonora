@@ -68,6 +68,7 @@ export default {
     },
     EDIT_BTN: "editButton",
     SAVE_BTN: "saveButton",
+    SUBMIT_BTN: "submitButton",
     CANCEL_BTN: "cancelButton",
     ADMIN_DETAILS: {
         NAME: "name",

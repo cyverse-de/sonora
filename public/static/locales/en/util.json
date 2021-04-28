@@ -29,5 +29,6 @@
     "timestamp": "Timestamp",
     "unexpectedError": "This wasn't supposed to happen. Please try again or contact support!",
     "user": "User",
-    "viewDetails": "View Details"
+    "viewDetails": "View Details",
+    "inValidUrl": "A valid URL must begin with either ftp or http or https."
 }

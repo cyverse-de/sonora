@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { BarChart, Repeat, Info, PermMedia } from "@material-ui/icons";
-import { IconButton } from "@material-ui/core";
+import { BarChart, Info, PermMedia, Repeat } from "@material-ui/icons";
+import { IconButton, useTheme } from "@material-ui/core";
 
 import { formatDate } from "@cyverse-de/ui-lib";
 
@@ -12,8 +12,8 @@ import ItemBase, { ItemAction } from "./ItemBase";
 import { getFolderPage } from "../../data/utils";
 
 import NavConstants from "../../../common/NavigationConstants";
+import { isTerminated } from "components/analyses/utils";
 import { useTranslation } from "i18n";
-import { useTheme } from "@material-ui/core";
 
 class AnalysisItem extends ItemBase {
     constructor({ section, content, height, width }) {
@@ -29,9 +29,10 @@ class AnalysisItem extends ItemBase {
     static create(props) {
         const item = new AnalysisItem(props);
         const analysis = props.content;
-        const { setDetailsAnalysis } = props;
+        const { setDetailsAnalysis, setPendingAnalysis } = props;
         const { t } = useTranslation("dashboard");
         const theme = useTheme();
+        const isTerminatedAnalysis = isTerminated(analysis);
         return item.addActions([
             <ItemAction
                 ariaLabel={t("relaunchAria")}
@@ -66,6 +67,13 @@ class AnalysisItem extends ItemBase {
                             margin: theme.spacing(1),
                         }}
                         size="small"
+                        onClick={(event) => {
+                            if (!isTerminatedAnalysis) {
+                                event.preventDefault();
+                                setPendingAnalysis(analysis);
+                                return false;
+                            }
+                        }}
                     >
                         <PermMedia color="primary" />
                     </IconButton>

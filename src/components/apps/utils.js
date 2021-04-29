@@ -207,12 +207,29 @@ export const formatAppDoc = (
     testData,
     inputFilesDesc,
     paramsDesc,
-    outputFilesDesc
+    outputFilesDesc,
+    licenseType,
+    licenseLink,
+    references
 ) => {
+    const combinedRefs = references?.join(",");
     const compiledTemplate = Handlebars.compile(
-        "### {{name}}\n\n#### Description and Quick Start\n{{desc}}\n\n#### Test Data\n{{testData}}\n\n#### Input File(s)\n{{inputFilesDesc}}\n\n#### Parameters Used in App\n{{paramsDesc}}\n\n#### Output File(s)\n{{outputFilesDesc}}\n"
+        "### {{name}}\n\n#### Description and Quick Start\n{{desc}}\n\n#### Test Data\n{{testData}}\n\n#### Input File(s)\n{{inputFilesDesc}}\n\n#### Parameters Used in App\n{{paramsDesc}}\n\n#### Output File(s)\n{{outputFilesDesc}}\n\n### License\n{{licenseType}}\n{{licenseLink}}\n\n### Reference(s)\n{{references}}"
     );
-
+    console.log(
+        "Doc=>" +
+            compiledTemplate({
+                name,
+                desc,
+                testData,
+                inputFilesDesc,
+                paramsDesc,
+                outputFilesDesc,
+                licenseType,
+                licenseLink,
+                references: combinedRefs,
+            })
+    );
     return compiledTemplate({
         name,
         desc,
@@ -220,5 +237,8 @@ export const formatAppDoc = (
         inputFilesDesc,
         paramsDesc,
         outputFilesDesc,
+        licenseType,
+        licenseLink,
+        references: combinedRefs,
     });
 };

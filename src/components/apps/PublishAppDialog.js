@@ -78,7 +78,10 @@ export default function PublishAppDialog(props) {
             values?.testData,
             values?.inputDesc,
             values?.parameterDesc,
-            values?.outputDesc
+            values?.outputDesc,
+            values?.licenseType,
+            values?.licenseLink,
+            values?.references
         );
         const request = {
             description: values?.description,
@@ -113,6 +116,8 @@ export default function PublishAppDialog(props) {
                 inputDesc: "",
                 parameterDesc: "",
                 outputDesc: "",
+                licenseType: "",
+                licenseLink: "",
                 references: [],
             }}
             onSubmit={handleSubmit}
@@ -123,8 +128,7 @@ export default function PublishAppDialog(props) {
                     <Form>
                         <DEDialog
                             open={open}
-                            fullWidth={true}
-                            maxWidth="sm"
+                            maxWidth="md"
                             onClose={handleClose}
                             baseId={parentId}
                             title={t("publicSubmissionTitle", {
@@ -254,6 +258,23 @@ export default function PublishAppDialog(props) {
                                 }
                                 helperText={t("outputDescHelpText")}
                             />
+                            <Field
+                                name="licenseType"
+                                label={t("licenseType")}
+                                id={build(parentId, ids.PUBLISH.LICENSE_TYPE)}
+                                component={FormTextField}
+                                helperText={t("licenseTypeHelp")}
+                            />
+                            <Field
+                                name="licenseLink"
+                                label={t("licenseLink")}
+                                id={build(parentId, ids.PUBLISH.LICENSE_LINK)}
+                                component={FormTextField}
+                                validate={(value) =>
+                                    urlField(value, i18nUtil, false)
+                                }
+                            />
+
                             <Typography>{t("attributionLinks")}</Typography>
                             <FieldArray
                                 name="references"

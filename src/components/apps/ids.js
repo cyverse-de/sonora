@@ -96,6 +96,7 @@ export default {
         REQUEST_LISTING: "requestListing",
     },
     PUBLISH_DLG: "publishDlg",
+    PUBLISH_MENU_ITEM: "publishMenuItem",
     PUBLISH: {
         NAME: "name",
         DESCRIPTION: "description",
@@ -105,5 +106,7 @@ export default {
         LINK: "link",
         LINK_DEL_BTN: "deleteLinkBtn",
         LINK_ADD_BTN: "linkAddBtn",
+        LICENSE_TYPE: "licenseType",
+        LICENSE_LINK: "licenseLink",
     },
 };

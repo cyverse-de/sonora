@@ -8,8 +8,9 @@ import {
     CardContent,
     CardHeader,
     Typography,
+    useTheme,
 } from "@material-ui/core";
-import { FiberNew } from "@material-ui/icons";
+import { NewReleases } from "@material-ui/icons";
 
 import DELink from "components/utils/DELink";
 import { useConfig } from "contexts/config";
@@ -20,8 +21,11 @@ import useStyles from "./styles";
 
 function LegacyDE(props) {
     const { parentId, onDismiss } = props;
+
     const [userProfile] = useUserProfile();
     const [config] = useConfig();
+    const theme = useTheme();
+
     const baseId = build(parentId, ids.LEGACY_CARD);
     const classes = useStyles();
 
@@ -32,7 +36,12 @@ function LegacyDE(props) {
     return (
         <Card id={baseId} classes={{ root: classes.legacyCard }}>
             <CardHeader
-                avatar={<FiberNew color="primary" />}
+                avatar={
+                    <NewReleases
+                        style={{ color: theme.palette.gold }}
+                        fontSize="large"
+                    />
+                }
                 title={
                     <Typography variant="subtitle2">
                         {t("legacyDeTitle")}

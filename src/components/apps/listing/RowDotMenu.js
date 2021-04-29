@@ -17,10 +17,13 @@ import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DocMenuItem from "../menuItems/DocMenuItem";
 import EditMenuItem from "../menuItems/EditMenuItem";
 import QLMenuItem from "../menuItems/QLMenuItem";
+import PublishMenuItem from "../menuItems/PublishMenuItem";
 import CopyLinkMenuItem from "components/utils/CopyLinkMenuItem";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
 import shareIds from "components/sharing/ids";
 import { getAppListingLinkRefs } from "components/apps/utils";
+import Permissions from "components/models/Permissions";
+import PublishAppDialog from "../PublishAppDialog";
 
 function RowDotMenu(props) {
     const {
@@ -36,65 +39,84 @@ function RowDotMenu(props) {
     } = props;
 
     const canEdit = isWritable(app.permission);
+    const canPublish = app?.permission === Permissions.OWN;
+    const [publishDialogOpen, setPublishDialogOpen] = React.useState(false);
     const { t } = useTranslation("common");
 
     return (
-        <DotMenu
-            baseId={baseId}
-            ButtonProps={ButtonProps}
-            render={(onClose) => [
-                <DetailsMenuItem
-                    key={build(baseId, ids.DETAILS_MENU_ITEM)}
-                    baseId={baseId}
-                    onClose={onClose}
-                    onDetailsSelected={onDetailsSelected}
-                />,
-                !isAdminView && [
-                    canShare && (
-                        <SharingMenuItem
-                            key={build(baseId, shareIds.SHARING_MENU_ITEM)}
+        <>
+            <DotMenu
+                baseId={baseId}
+                ButtonProps={ButtonProps}
+                render={(onClose) => [
+                    <DetailsMenuItem
+                        key={build(baseId, ids.DETAILS_MENU_ITEM)}
+                        baseId={baseId}
+                        onClose={onClose}
+                        onDetailsSelected={onDetailsSelected}
+                    />,
+                    !isAdminView && [
+                        canEdit && (
+                            <EditMenuItem
+                                key={build(baseId, ids.EDIT_MENU_ITEM)}
+                                baseId={baseId}
+                                onClose={onClose}
+                                app={app}
+                            />
+                        ),
+                        canShare && (
+                            <SharingMenuItem
+                                key={build(baseId, shareIds.SHARING_MENU_ITEM)}
+                                baseId={baseId}
+                                onClose={onClose}
+                                setSharingDlgOpen={setSharingDlgOpen}
+                            />
+                        ),
+                        canPublish && (
+                            <PublishMenuItem
+                                key={build(baseId, shareIds.PUBLISH_MENU_ITEM)}
+                                baseId={baseId}
+                                onClose={onClose}
+                                onPublishSelected={() =>
+                                    setPublishDialogOpen(true)
+                                }
+                            />
+                        ),
+                        <DocMenuItem
+                            key={build(baseId, ids.DOC_MENU_ITEM)}
                             baseId={baseId}
                             onClose={onClose}
-                            setSharingDlgOpen={setSharingDlgOpen}
-                        />
-                    ),
-                    canEdit && (
-                        <EditMenuItem
-                            key={build(baseId, ids.EDIT_MENU_ITEM)}
+                            onDocSelected={onDocSelected}
+                        />,
+                        <QLMenuItem
+                            key={build(baseId, ids.QL_MENU_ITEM)}
                             baseId={baseId}
                             onClose={onClose}
-                            app={app}
-                        />
-                    ),
-                    <DocMenuItem
-                        key={build(baseId, ids.DOC_MENU_ITEM)}
-                        baseId={baseId}
-                        onClose={onClose}
-                        onDocSelected={onDocSelected}
-                    />,
-                    <QLMenuItem
-                        key={build(baseId, ids.QL_MENU_ITEM)}
-                        baseId={baseId}
-                        onClose={onClose}
-                        onQLSelected={onQLSelected}
-                    />,
-                    <CopyLinkMenuItem
-                        key={build(baseId, ids.COPY_LINK_MENU_ITEM)}
-                        baseId={baseId}
-                        onClose={onClose}
-                        onCopyLinkSelected={() => {
-                            const partialLink = getAppListingLinkRefs(
-                                app.system_id,
-                                app.id
-                            )[1];
-                            const link = `${getHost()}/${partialLink}`;
-                            const copyPromise = copyStringToClipboard(link);
-                            copyLinkToClipboardHandler(t, copyPromise);
-                        }}
-                    />,
-                ],
-            ]}
-        />
+                            onQLSelected={onQLSelected}
+                        />,
+                        <CopyLinkMenuItem
+                            key={build(baseId, ids.COPY_LINK_MENU_ITEM)}
+                            baseId={baseId}
+                            onClose={onClose}
+                            onCopyLinkSelected={() => {
+                                const partialLink = getAppListingLinkRefs(
+                                    app.system_id,
+                                    app.id
+                                )[1];
+                                const link = `${getHost()}/${partialLink}`;
+                                const copyPromise = copyStringToClipboard(link);
+                                copyLinkToClipboardHandler(t, copyPromise);
+                            }}
+                        />,
+                    ],
+                ]}
+            />
+            <PublishAppDialog
+                open={publishDialogOpen}
+                app={app}
+                handleClose={() => setPublishDialogOpen(false)}
+            />
+        </>
     );
 }
 

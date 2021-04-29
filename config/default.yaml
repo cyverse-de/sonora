@@ -43,6 +43,7 @@ analysis:
 irods:
     home_path: /iplant/home
     trash_path: /iplant/trash/home/de-irods
+    community_path: /iplant/home/shared
 
 fileIdentifier:
     htPathList: "# application/vnd.de.path-list+csv; version=1"

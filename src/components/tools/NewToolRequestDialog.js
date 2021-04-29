@@ -13,7 +13,7 @@ import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWit
 import ids from "./ids";
 import constants from "../../constants";
 import { toolRequest } from "serviceFacades/tools";
-import { nonEmptyField } from "components/utils/validations";
+import { nonEmptyField, urlField } from "components/utils/validations";
 
 import {
     build,
@@ -29,6 +29,7 @@ export default function NewToolRequestDialog(props) {
     const [requestError, setRequestError] = useState();
 
     const { t } = useTranslation("tools");
+    const { t: i18nUtil } = useTranslation("utils");
     const baseId = ids.TOOL_REQUEST.DIALOG;
 
     const [submitNewToolRequest, { status: submitRequestStatus }] = useMutation(
@@ -58,15 +59,6 @@ export default function NewToolRequestDialog(props) {
             submitNewToolRequest({ submission });
         }
     };
-
-    const validateUrl = (value) => {
-        let error;
-        if (!constants.URL_REGEX.test(value)) {
-            error = t("validationErrMsgURL");
-        }
-        return error;
-    };
-
     return (
         <Formik
             initialValues={{
@@ -132,7 +124,7 @@ export default function NewToolRequestDialog(props) {
                                 label={t("toolSrcLinkLabel")}
                                 required={true}
                                 margin="dense"
-                                validate={validateUrl}
+                                validate={(value) => urlField(value, i18nUtil)}
                                 id={build(baseId, ids.TOOL_REQUEST.SRC_LINK)}
                                 component={FormTextField}
                             />
@@ -154,7 +146,7 @@ export default function NewToolRequestDialog(props) {
                                     baseId,
                                     ids.TOOL_REQUEST.DOCUMENTATION
                                 )}
-                                validate={validateUrl}
+                                validate={(value) => urlField(value, i18nUtil)}
                                 component={FormTextField}
                             />
                             <Field

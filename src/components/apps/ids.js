@@ -68,6 +68,7 @@ export default {
     },
     EDIT_BTN: "editButton",
     SAVE_BTN: "saveButton",
+    SUBMIT_BTN: "submitButton",
     CANCEL_BTN: "cancelButton",
     ADMIN_DETAILS: {
         NAME: "name",
@@ -93,5 +94,19 @@ export default {
         TOOLS_USED_DIALOG: "toolsUsedDialog",
         TOOLS_USED_LISTING: "toolsUsedListing",
         REQUEST_LISTING: "requestListing",
+    },
+    PUBLISH_DLG: "publishDlg",
+    PUBLISH_MENU_ITEM: "publishMenuItem",
+    PUBLISH: {
+        NAME: "name",
+        DESCRIPTION: "description",
+        INPUT: "inputDescription",
+        PARAMS: "paramsDescription",
+        OUTPUT: "outputDescription",
+        LINK: "link",
+        LINK_DEL_BTN: "deleteLinkBtn",
+        LINK_ADD_BTN: "linkAddBtn",
+        LICENSE_TYPE: "licenseType",
+        LICENSE_LINK: "licenseLink",
     },
 };

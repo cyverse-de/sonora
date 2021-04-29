@@ -8,10 +8,10 @@ import PropTypes from "prop-types";
 import { useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
-import deConstants from "../../../constants";
 
 import ids from "../ids";
 import styles from "../styles";
+import { urlField } from "components/utils/validations";
 
 import AttributeTypes from "components/models/metadata/TemplateAttributeTypes";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
@@ -564,6 +564,7 @@ const MetadataTemplateView = (props) => {
     const [uatSearch, searchAstroThesaurusTerms] = React.useState(null);
 
     const { t } = useTranslation("metadata");
+    const { t: i18nUtil } = useTranslation("util");
 
     const { isFetching } = useQuery({
         queryKey: [FILESYSTEM_METADATA_TEMPLATE_QUERY_KEY, templateId],
@@ -670,7 +671,6 @@ const MetadataTemplateView = (props) => {
 
     const validateAVUs = (avus, attributeMap) => {
         const avuArrayErrors = [];
-
         avus.forEach((avu, avuIndex) => {
             const avuErrors = {};
             const value = avu.value;
@@ -711,8 +711,9 @@ const MetadataTemplateView = (props) => {
                         break;
 
                     case AttributeTypes.URL:
-                        if (!deConstants.URL_REGEX.test(value)) {
-                            avuErrors.value = t("templateValidationErrMsgURL");
+                        const err = urlField(value, i18nUtil);
+                        if (err) {
+                            avuErrors.value = err;
                             avuErrors.error = true;
                             avuArrayErrors[avuIndex] = avuErrors;
                         }

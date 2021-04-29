@@ -331,5 +331,18 @@ export default function appsRouter() {
         })
     );
 
+    logger.info("adding the POST /apps/:systemId/:appId/publish handler");
+    api.post(
+        "/apps/:systemId/:appId/publish",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/apps/:systemId/:appId/publish",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

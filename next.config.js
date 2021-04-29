@@ -18,6 +18,7 @@ module.exports = withBundleAnalyzer({
         ANALYSIS_SUPPORT_SOURCE_ID: config.get("analysis.support.source_id"),
         IRODS_HOME_PATH: config.get("irods.home_path"),
         IRODS_TRASH_PATH: config.get("irods.trash_path"),
+        IRODS_COMMUNITY_PATH: config.get("irods.community_path"),
         SESSION_POLL_INTERVAL_MS: config.has("sessions.poll_interval_ms")
             ? config.get("sessions.poll_interval_ms")
             : 5000,

@@ -3,8 +3,9 @@
  *
  * Apps related utility functions.
  */
-import NavigationConstants from "../../common/NavigationConstants";
+import Handlebars from "handlebars";
 
+import NavigationConstants from "common/NavigationConstants";
 import Checkbox from "components/apps/launch/params/Checkbox";
 import Double from "components/apps/launch/params/Double";
 import FileFolderInput from "components/apps/launch/params/FileFolderInput";
@@ -164,4 +165,80 @@ export const getAppParameterLaunchComponent = (paramType) => {
         default:
             return Text;
     }
+};
+
+export const validateAppName = (
+    restrictedStartingChars,
+    restrictedChars,
+    value,
+    t
+) => {
+    if (!value) {
+        return t("emptyValue");
+    }
+
+    let startingCharsRegex = new RegExp("^[" + restrictedStartingChars + "]");
+    let invalid = value.match(startingCharsRegex);
+    if (invalid) {
+        return t("nameBeginsWithInvalidChars", {
+            restrictedStartingChars,
+            inValid: invalid.join(""),
+        });
+    }
+
+    // Escape each non-alphanumeric char since some are used as special chars in regex
+    let escapedRestrictedChars = restrictedChars.replace(/\W/g, "\\$&");
+    let restrictedCharsRegex = new RegExp(
+        "[" + escapedRestrictedChars + "]",
+        "g"
+    );
+    invalid = value.match(restrictedCharsRegex);
+    if (invalid) {
+        return t("nameContainsInvalidChars", {
+            restrictedChars,
+            inValid: invalid.join(""),
+        });
+    }
+};
+
+export const formatAppDoc = (
+    name,
+    desc,
+    testData,
+    inputFilesDesc,
+    paramsDesc,
+    outputFilesDesc,
+    licenseType,
+    licenseLink,
+    references
+) => {
+    const combinedRefs = references?.join(",");
+    const compiledTemplate = Handlebars.compile(
+        "### {{name}}\n\n#### Description and Quick Start\n{{desc}}\n\n#### Test Data\n{{testData}}\n\n#### Input File(s)\n{{inputFilesDesc}}\n\n#### Parameters Used in App\n{{paramsDesc}}\n\n#### Output File(s)\n{{outputFilesDesc}}\n\n### License\n{{licenseType}}\n{{licenseLink}}\n\n### Reference(s)\n{{references}}"
+    );
+    console.log(
+        "Doc=>" +
+            compiledTemplate({
+                name,
+                desc,
+                testData,
+                inputFilesDesc,
+                paramsDesc,
+                outputFilesDesc,
+                licenseType,
+                licenseLink,
+                references: combinedRefs,
+            })
+    );
+    return compiledTemplate({
+        name,
+        desc,
+        testData,
+        inputFilesDesc,
+        paramsDesc,
+        outputFilesDesc,
+        licenseType,
+        licenseLink,
+        references: combinedRefs,
+    });
 };

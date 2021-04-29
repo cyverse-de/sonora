@@ -16,16 +16,10 @@ const nonEmptyMinValue = (value, t) => {
     }
 };
 const urlField = (value, t, isRequired = true) => {
-    if (!isRequired) {
-        if (value === "") {
-            return;
-        } else {
-            return !constants.URL_REGEX.test(value)
-                ? t("inValidUrl")
-                : undefined;
-        }
+    if (!isRequired && !value) {
+        return;
     }
-    return !constants.URL_REGEX.test(value) ? t("inValidUrl") : undefined;
+    return !constants.URL_REGEX.test(value) ? t("invalidUrl") : undefined;
 };
 
 export { nonEmptyField, minValue, nonEmptyMinValue, urlField };

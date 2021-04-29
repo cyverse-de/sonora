@@ -45,6 +45,114 @@ import {
     Typography,
 } from "@material-ui/core";
 
+function ReferencesField(props) {
+    const { parentId, values } = props;
+    const { t } = useTranslation("apps");
+    const { t: i18nUtil } = useTranslation("util");
+    return (
+        <>
+            <Typography>{t("attributionLinks")}</Typography>
+            <FieldArray
+                name="references"
+                render={(arrayHelpers) => (
+                    <Grid container spacing={3}>
+                        {values.references && values.references.length > 0 ? (
+                            values.references.map((link, index) => (
+                                <>
+                                    <Grid
+                                        item
+                                        xs={6}
+                                        key={build(
+                                            parentId,
+                                            ids.PUBLISH.LINK,
+                                            index
+                                        )}
+                                    >
+                                        <Field
+                                            id={build(
+                                                parentId,
+                                                ids.PUBLISH.LINK,
+                                                index
+                                            )}
+                                            name={`references.${index}`}
+                                            component={FormTextField}
+                                            validate={(value) =>
+                                                urlField(value, i18nUtil)
+                                            }
+                                        />
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        xs={3}
+                                        key={build(
+                                            parentId,
+                                            ids.PUBLISH.LINK,
+                                            index,
+                                            ids.PUBLISH.LINK_DEL_BTN
+                                        )}
+                                    >
+                                        <IconButton
+                                            id={build(
+                                                parentId,
+                                                ids.PUBLISH.LINK,
+                                                index,
+                                                ids.PUBLISH.LINK_DEL_BTN
+                                            )}
+                                            onClick={() =>
+                                                arrayHelpers.remove(index)
+                                            } // remove a link from the list
+                                        >
+                                            <Remove />
+                                        </IconButton>
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        xs={3}
+                                        key={build(
+                                            parentId,
+                                            ids.PUBLISH.LINK,
+                                            index,
+                                            ids.PUBLISH.LINK_ADD_BTN
+                                        )}
+                                    >
+                                        <IconButton
+                                            id={build(
+                                                parentId,
+                                                ids.PUBLISH.LINK,
+                                                index,
+                                                ids.PUBLISH.LINK_ADD_BTN
+                                            )}
+                                            onClick={() =>
+                                                arrayHelpers.insert(index, "")
+                                            } // insert an empty string at a position
+                                        >
+                                            <Add />
+                                        </IconButton>
+                                    </Grid>
+                                </>
+                            ))
+                        ) : (
+                            <Grid item xs={12}>
+                                <Button
+                                    id={build(
+                                        parentId,
+                                        ids.PUBLISH.LINK,
+                                        ids.PUBLISH.LINK_ADD_BTN
+                                    )}
+                                    onClick={() => arrayHelpers.push("")}
+                                    variant="outlined"
+                                >
+                                    {t("addLink")}
+                                </Button>
+                            </Grid>
+                        )}
+                    </Grid>
+                )}
+            />
+        </>
+    );
+}
+
 export default function PublishAppDialog(props) {
     const { open, app, handleClose } = props;
     const { t } = useTranslation("apps");
@@ -101,7 +209,7 @@ export default function PublishAppDialog(props) {
     };
 
     const validateTestDataPath = (value) => {
-        if (!value.includes(communityPath)) {
+        if (!value.startsWith(communityPath)) {
             return t("testDataPathError");
         }
         return;
@@ -178,6 +286,7 @@ export default function PublishAppDialog(props) {
                                     br: <br />,
                                     support: (
                                         <Link
+                                            variant="body2"
                                             href="#"
                                             component="button"
                                             onClick={(event) => {
@@ -275,130 +384,9 @@ export default function PublishAppDialog(props) {
                                 }
                             />
 
-                            <Typography>{t("attributionLinks")}</Typography>
-                            <FieldArray
-                                name="references"
-                                render={(arrayHelpers) => (
-                                    <Grid container spacing={3}>
-                                        {values.references &&
-                                        values.references.length > 0 ? (
-                                            values.references.map(
-                                                (link, index) => (
-                                                    <>
-                                                        <Grid
-                                                            item
-                                                            xs={6}
-                                                            key={build(
-                                                                parentId,
-                                                                ids.PUBLISH
-                                                                    .LINK,
-                                                                index
-                                                            )}
-                                                        >
-                                                            <Field
-                                                                id={build(
-                                                                    parentId,
-                                                                    ids.PUBLISH
-                                                                        .LINK,
-                                                                    index
-                                                                )}
-                                                                name={`references.${index}`}
-                                                                component={
-                                                                    FormTextField
-                                                                }
-                                                                validate={(
-                                                                    value
-                                                                ) =>
-                                                                    urlField(
-                                                                        value,
-                                                                        i18nUtil
-                                                                    )
-                                                                }
-                                                            />
-                                                        </Grid>
-                                                        <Grid
-                                                            item
-                                                            xs={3}
-                                                            key={build(
-                                                                parentId,
-                                                                ids.PUBLISH
-                                                                    .LINK,
-                                                                index,
-                                                                ids.PUBLISH
-                                                                    .LINK_DEL_BTN
-                                                            )}
-                                                        >
-                                                            <IconButton
-                                                                id={build(
-                                                                    parentId,
-                                                                    ids.PUBLISH
-                                                                        .LINK,
-                                                                    index,
-                                                                    ids.PUBLISH
-                                                                        .LINK_DEL_BTN
-                                                                )}
-                                                                onClick={() =>
-                                                                    arrayHelpers.remove(
-                                                                        index
-                                                                    )
-                                                                } // remove a link from the list
-                                                            >
-                                                                <Remove />
-                                                            </IconButton>
-                                                        </Grid>
-                                                        <Grid
-                                                            item
-                                                            xs={3}
-                                                            key={build(
-                                                                parentId,
-                                                                ids.PUBLISH
-                                                                    .LINK,
-                                                                index,
-                                                                ids.PUBLISH
-                                                                    .LINK_ADD_BTN
-                                                            )}
-                                                        >
-                                                            <IconButton
-                                                                id={build(
-                                                                    parentId,
-                                                                    ids.PUBLISH
-                                                                        .LINK,
-                                                                    index,
-                                                                    ids.PUBLISH
-                                                                        .LINK_ADD_BTN
-                                                                )}
-                                                                onClick={() =>
-                                                                    arrayHelpers.insert(
-                                                                        index,
-                                                                        ""
-                                                                    )
-                                                                } // insert an empty string at a position
-                                                            >
-                                                                <Add />
-                                                            </IconButton>
-                                                        </Grid>
-                                                    </>
-                                                )
-                                            )
-                                        ) : (
-                                            <Grid item xs={12}>
-                                                <Button
-                                                    id={build(
-                                                        parentId,
-                                                        ids.PUBLISH.LINK,
-                                                        ids.PUBLISH.LINK_ADD_BTN
-                                                    )}
-                                                    onClick={() =>
-                                                        arrayHelpers.push("")
-                                                    }
-                                                    variant="outlined"
-                                                >
-                                                    {t("addLink")}
-                                                </Button>
-                                            </Grid>
-                                        )}
-                                    </Grid>
-                                )}
+                            <ReferencesField
+                                parentId={parentId}
+                                values={values}
                             />
                         </DEDialog>
                     </Form>

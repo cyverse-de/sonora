@@ -44,7 +44,7 @@ import {
 import { Add as AddIcon, Delete as DeleteIcon } from "@material-ui/icons";
 
 import { useTranslation } from "i18n";
-import { useFormik } from "formik";
+import { Formik } from "formik";
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -92,140 +92,141 @@ const initialValues = {
 const AddMappingForm = ({ t, handleSubmit, instantlaunches, infoTypes }) => {
     const baseID = buildID(ids.BASE, ids.MAPPING, ids.ADD, ids.FORM);
     const classes = useStyles();
-
-    const formik = useFormik({
-        initialValues,
-        onSubmit: handleSubmit,
-    });
-
     return (
-        <form
-            onSubmit={formik.handleSubmit}
-            className={classes.flexContainer}
-            id={baseID}
-        >
-            <TextField
-                id={buildID(baseID, ids.NAME)}
-                name="mappingName"
-                label={t("common:name")}
-                className={classes.flexItem}
-                value={formik.values.mappingName}
-                onChange={formik.handleChange}
-                error={formik.touched.mappingName && formik.errors.mappingName}
-                helperText={
-                    formik.touched.mappingName && formik.errors.mappingName
-                }
-            />
-
-            <TextField
-                value={formik.values.patternKind}
-                onChange={formik.handleChange}
-                id={buildID(baseID, ids.PATTERN, ids.KIND, ids.MENU)}
-                name="patternKind"
-                label={t("patternKind")}
-                className={classes.flexItem}
-                select
-            >
-                <MenuItem
-                    value="glob"
-                    key="glob"
-                    id={buildID(
-                        baseID,
-                        ids.PATTERN,
-                        ids.KIND,
-                        ids.MENU,
-                        ids.GLOB
-                    )}
+        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+            {({ handleSubmit, values, handleChange, touched, errors }) => (
+                <form
+                    onSubmit={handleSubmit}
+                    className={classes.flexContainer}
+                    id={baseID}
                 >
-                    {t("glob")}
-                </MenuItem>
+                    <TextField
+                        id={buildID(baseID, ids.NAME)}
+                        name="mappingName"
+                        label={t("common:name")}
+                        className={classes.flexItem}
+                        value={values.mappingName}
+                        onChange={handleChange}
+                        error={touched.mappingName && errors.mappingName}
+                        helperText={touched.mappingName && errors.mappingName}
+                    />
 
-                <MenuItem
-                    value="infoType"
-                    key="infoType"
-                    id={buildID(
-                        baseID,
-                        ids.PATTERN,
-                        ids.KIND,
-                        ids.MENU,
-                        ids.INFO_TYPE
-                    )}
-                >
-                    {t("infoType")}
-                </MenuItem>
-            </TextField>
-
-            {formik.values.patternKind === "infoType" ? (
-                <TextField
-                    id={buildID(baseID, ids.INFO_TYPE, ids.MENU)}
-                    name="pattern"
-                    label={t("infoType")}
-                    className={classes.flexItem}
-                    value={formik.values.pattern}
-                    onChange={formik.handleChange}
-                    select
-                >
-                    {infoTypes.map((infoType) => (
+                    <TextField
+                        value={values.patternKind}
+                        onChange={handleChange}
+                        id={buildID(baseID, ids.PATTERN, ids.KIND, ids.MENU)}
+                        name="patternKind"
+                        label={t("patternKind")}
+                        className={classes.flexItem}
+                        select
+                    >
                         <MenuItem
-                            value={infoType}
-                            key={infoType}
+                            value="glob"
+                            key="glob"
                             id={buildID(
                                 baseID,
-                                ids.INFO_TYPE,
+                                ids.PATTERN,
+                                ids.KIND,
                                 ids.MENU,
-                                infoType
+                                ids.GLOB
                             )}
                         >
-                            {infoType}
+                            {t("glob")}
                         </MenuItem>
-                    ))}
-                </TextField>
-            ) : (
-                <TextField
-                    id={buildID(baseID, ids.PATTERN)}
-                    name="pattern"
-                    label={t("pattern")}
-                    value={formik.values.pattern}
-                    onChange={formik.handleChange}
-                    className={classes.flexItem}
-                    error={formik.touched.pattern && formik.errors.pattern}
-                    helperText={formik.touched.pattern && formik.errors.pattern}
-                />
-            )}
 
-            <TextField
-                id={buildID(baseID, ids.BASE, ids.MENU)}
-                value={formik.values.instantLaunch}
-                onChange={formik.handleChange}
-                name="instantLaunch"
-                label={t("instantLaunch")}
-                className={classes.flexItem}
-                select
-            >
-                {instantlaunches.map((il, index) => {
-                    return (
                         <MenuItem
-                            value={index}
-                            key={il.id}
-                            id={buildID(baseID, ids.BASE, ids.MENU, index)}
+                            value="infoType"
+                            key="infoType"
+                            id={buildID(
+                                baseID,
+                                ids.PATTERN,
+                                ids.KIND,
+                                ids.MENU,
+                                ids.INFO_TYPE
+                            )}
                         >
-                            {il.quick_launch_name}
+                            {t("infoType")}
                         </MenuItem>
-                    );
-                })}
-            </TextField>
+                    </TextField>
 
-            <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                startIcon={<AddIcon />}
-                className={`${classes.submitButton} ${classes.flexItem}`}
-                id={buildID(baseID, ids.ADD, ids.BUTTON)}
-            >
-                {t("common:add")}
-            </Button>
-        </form>
+                    {values.patternKind === "infoType" ? (
+                        <TextField
+                            id={buildID(baseID, ids.INFO_TYPE, ids.MENU)}
+                            name="pattern"
+                            label={t("infoType")}
+                            className={classes.flexItem}
+                            value={values.pattern}
+                            onChange={handleChange}
+                            select
+                        >
+                            {infoTypes.map((infoType) => (
+                                <MenuItem
+                                    value={infoType}
+                                    key={infoType}
+                                    id={buildID(
+                                        baseID,
+                                        ids.INFO_TYPE,
+                                        ids.MENU,
+                                        infoType
+                                    )}
+                                >
+                                    {infoType}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    ) : (
+                        <TextField
+                            id={buildID(baseID, ids.PATTERN)}
+                            name="pattern"
+                            label={t("pattern")}
+                            value={values.pattern}
+                            onChange={handleChange}
+                            className={classes.flexItem}
+                            error={touched.pattern && errors.pattern}
+                            helperText={touched.pattern && errors.pattern}
+                        />
+                    )}
+
+                    <TextField
+                        id={buildID(baseID, ids.BASE, ids.MENU)}
+                        value={values.instantLaunch}
+                        onChange={handleChange}
+                        name="instantLaunch"
+                        label={t("instantLaunch")}
+                        className={classes.flexItem}
+                        select
+                    >
+                        {instantlaunches.map((il, index) => {
+                            return (
+                                <MenuItem
+                                    value={index}
+                                    key={il.id}
+                                    id={buildID(
+                                        baseID,
+                                        ids.BASE,
+                                        ids.MENU,
+                                        index
+                                    )}
+                                >
+                                    {il.quick_launch_name}
+                                </MenuItem>
+                            );
+                        })}
+                    </TextField>
+
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        startIcon={<AddIcon />}
+                        className={`${classes.submitButton} ${classes.flexItem}`}
+                        id={buildID(baseID, ids.ADD, ids.BUTTON)}
+                    >
+                        {t("common:add")}
+                    </Button>
+                </form>
+            )}
+        </Formik>
     );
 };
 

@@ -14,4 +14,5 @@ export default {
     DISMISS_BTN: "dismissButton",
     TOUR_BTN: "tourButton",
     SECTION_INSTANT_LAUNCHES: "section.instant-launches",
+    LEGACY_CARD: "legacyCard",
 };

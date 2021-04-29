@@ -72,4 +72,8 @@ export default makeStyles((theme) => ({
         paddingBottom: theme.spacing(2),
         paddingLeft: theme.spacing(2),
     },
+    legacyCard: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+    },
 }));

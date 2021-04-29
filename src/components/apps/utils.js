@@ -210,7 +210,7 @@ export const formatAppDoc = (
     outputFilesDesc
 ) => {
     const compiledTemplate = Handlebars.compile(
-        "### {{name}}\n#### Description and Quick Start\n{{desc}}\n####Test Data \n{{testData}}\n#### Input File(s) \n{{inputFilesDesc}} \n#### Parameters Used in App \n{{paramsDesc}} \n#### Output File(s) \n{{outputFilesDesc}}"
+        "### {{name}}\n\n#### Description and Quick Start\n{{desc}}\n\n#### Test Data\n{{testData}}\n\n#### Input File(s)\n{{inputFilesDesc}}\n\n#### Parameters Used in App\n{{paramsDesc}}\n\n#### Output File(s)\n{{outputFilesDesc}}\n"
     );
 
     return compiledTemplate({

@@ -7,7 +7,7 @@
  *
  */
 import React from "react";
-import { useTranslation } from "i18n";
+import { useTranslation, Trans } from "i18n";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { useMutation } from "react-query";
 
@@ -16,6 +16,7 @@ import ids from "./ids";
 import constants from "../../constants";
 import appsConstants from "./constants";
 import { useConfig } from "contexts/config";
+import { intercomShow } from "common/intercom";
 
 import {
     announce,
@@ -40,6 +41,7 @@ import {
     CircularProgress,
     Grid,
     IconButton,
+    Link,
     Typography,
 } from "@material-ui/core";
 
@@ -72,8 +74,8 @@ export default function PublishAppDialog(props) {
     const handleSubmit = (values) => {
         const documentation = formatAppDoc(
             values?.name,
-            values.description,
-            values.testData,
+            values?.description,
+            values?.testData,
             values?.inputDesc,
             values?.parameterDesc,
             values?.outputDesc
@@ -107,7 +109,6 @@ export default function PublishAppDialog(props) {
             initialValues={{
                 name: app?.name,
                 description: app?.description,
-                system_id: app?.system_id,
                 testData: "",
                 inputDesc: "",
                 parameterDesc: "",
@@ -126,7 +127,7 @@ export default function PublishAppDialog(props) {
                             maxWidth="sm"
                             onClose={handleClose}
                             baseId={parentId}
-                            title={t("publicSubmissionPrompt", {
+                            title={t("publicSubmissionTitle", {
                                 appName: app.name,
                             })}
                             actions={
@@ -165,8 +166,27 @@ export default function PublishAppDialog(props) {
                                     errorObject={error}
                                 />
                             )}
+                            <Trans
+                                t={t}
+                                i18nKey="publicSubmissionPrompt"
+                                components={{
+                                    b: <b />,
+                                    br: <br />,
+                                    support: (
+                                        <Link
+                                            href="#"
+                                            component="button"
+                                            onClick={(event) => {
+                                                // prevent form submission
+                                                event.preventDefault();
+                                                intercomShow();
+                                            }}
+                                        />
+                                    ),
+                                }}
+                            />
                             <Field
-                                name={"name"}
+                                name="name"
                                 label={t("name")}
                                 id={build(parentId, ids.PUBLISH.NAME)}
                                 validate={(value) =>
@@ -181,7 +201,7 @@ export default function PublishAppDialog(props) {
                                 component={FormTextField}
                             />
                             <Field
-                                name={"description"}
+                                name="description"
                                 label={t("descriptionLabel")}
                                 id={build(parentId, ids.PUBLISH.DESCRIPTION)}
                                 required={true}
@@ -200,9 +220,10 @@ export default function PublishAppDialog(props) {
                                 validate={(value) =>
                                     validateTestDataPath(value)
                                 }
+                                helperText={t("testDataPathError")}
                             />
                             <Field
-                                name={"inputDesc"}
+                                name="inputDesc"
                                 label={t("inputDescLabel")}
                                 id={build(parentId, ids.PUBLISH.INPUT)}
                                 required={true}
@@ -210,9 +231,10 @@ export default function PublishAppDialog(props) {
                                 validate={(value) =>
                                     nonEmptyField(value, i18nUtil)
                                 }
+                                helperText={t("inputDescHelpText")}
                             />
                             <Field
-                                name={"parameterDesc"}
+                                name="parameterDesc"
                                 label={t("parameterDescLabel")}
                                 id={build(parentId, ids.PUBLISH.PARAMS)}
                                 required={true}
@@ -222,7 +244,7 @@ export default function PublishAppDialog(props) {
                                 }
                             />
                             <Field
-                                name={"outputDesc"}
+                                name="outputDesc"
                                 label={t("outputDescLabel")}
                                 id={build(parentId, ids.PUBLISH.OUTPUT)}
                                 required={true}
@@ -230,6 +252,7 @@ export default function PublishAppDialog(props) {
                                 validate={(value) =>
                                     nonEmptyField(value, i18nUtil)
                                 }
+                                helperText={t("outputDescHelpText")}
                             />
                             <Typography>{t("attributionLinks")}</Typography>
                             <FieldArray

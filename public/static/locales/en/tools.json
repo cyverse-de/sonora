@@ -125,7 +125,6 @@
     "validationErrMaxRAMLessThanMin": "Must be greater than Min Memory",
     "validationErrMinCPUsGreaterThanMax": "Must be less than Max CPU Cores",
     "validationErrMinRAMGreaterThanMax": "Must be less than Max Memory",
-    "validationErrMsgURL": "A valid URL must begin with either ftp or http or https.",
     "validationErrMustBePositive": "Must be at least 0",
     "versionLbl": "Version",
     "viewFilter": "View Filter",

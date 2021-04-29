@@ -337,7 +337,7 @@ export default function appsRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
-            pathname: "/apps/:systemId/:appId//publish",
+            pathname: "/apps/:systemId/:appId/publish",
             headers: {
                 "Content-Type": "application/json",
             },

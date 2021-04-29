@@ -20,8 +20,8 @@
     "search": "<p>Use Search to: <ul><li>Quickly find analyses, apps, and data</li><li>Filter search results by type</li><li>View detailed search results (hit the `Enter` key after the search term or select the `View All` option from the results)</li></ul></p>",
     "support": "<p>Use this in-app chat to: <ul><li>Contact CyVerse Support for issue(s) with the DE or any CyVerse services</li><li>Ask a question about CyVerse services</li><li>Get notified about CyVerse planned maintenance, unplanned downtime, and events such as webinars</li></ul></p>",
     "tourPrompt": "Welcome {{user}} to CyVerse! Would you like a quick tour of the Discovery Environment?",
-    "tourPromptTitle": "Take a Tour",
-    "startTour": "Start Tour",
+    "tourPromptTitle": "Tour the Discovery Environment",
+    "startTour": "Take a Tour",
     "dismiss": "Dismiss",
     "dismissPrompt": "You can access the Discovery Environment tour again from the help page."
 }

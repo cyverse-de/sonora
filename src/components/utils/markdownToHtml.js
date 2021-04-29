@@ -1,7 +1,6 @@
 /**
  * @author ianmcorvidae, psarando
  */
-import sanitizeHtml from "sanitize-html";
 
 /**
  * This promise will take raw markdown as a string,
@@ -14,6 +13,7 @@ import sanitizeHtml from "sanitize-html";
  */
 const markdownToHtml = async (rawMarkdown) => {
     const showdown = (await import("showdown")).default;
+    const sanitizeHtml = (await import("sanitize-html")).default;
 
     const converter = new showdown.Converter();
     converter.setFlavor("github");

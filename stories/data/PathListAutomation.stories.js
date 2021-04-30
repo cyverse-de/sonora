@@ -24,6 +24,8 @@ export const PathListAutomationTest = () => {
     });
     return (
         <PathListAutomation
+            open={true}
+            title={"Create Path List"}
             baseId="path-list-auto"
             requestedInfoType="ht-analysis-path-list"
             onCancel={() => console.log("request cancelled.")}

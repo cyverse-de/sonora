@@ -16,6 +16,7 @@
     "deleteMappingEntryError": "Error deleting mapping entry",
     "dialogWillCloseAutomatically": "This dialog will close automatically.",
     "displayMapping": "Current Pattern Mappings",
+    "disablePopupBlocker": "Note: Please disable pop-up blocker.",
     "fetchDashboardILError": "Error fetching list of instant launches in the dashboard",
     "glob": "Glob",
     "infoType": "Info Type",
@@ -33,6 +34,6 @@
     "removeFromDashboard": "Remove from Dashboard",
     "removedFromDashboard": "Instant launch removed from the dashboard.",
     "submittingInstantLaunch": "Sending Launch Request",
-    "submissionInProgress": "Please wait, this should only take a few seconds...",
+    "submissionInProgress": "Please wait, this should only take a few seconds. Your analysis will open in a new tab.",
     "updateDataMapping": "Data Mapping"
 }

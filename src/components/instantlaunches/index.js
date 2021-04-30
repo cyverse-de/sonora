@@ -15,8 +15,6 @@ import { PlayCircleOutlineOutlined } from "@material-ui/icons";
 
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
-import { useRouter } from "next/router";
-
 import constants from "../../constants";
 import { useTranslation } from "i18n";
 
@@ -24,6 +22,7 @@ import { build as buildID } from "@cyverse-de/ui-lib";
 import ids from "components/instantlaunches/ids";
 import { instantlyLaunch } from "serviceFacades/instantlaunches";
 import { useMutation } from "react-query";
+import { getHost } from "components/utils/getHost";
 
 const useStyles = makeStyles((theme) => ({
     progress: {
@@ -79,6 +78,10 @@ export const InstantLaunchSubmissionDialog = ({ open }) => {
                 <Typography variant="body2" className={classes.closeAuto}>
                     {t("dialogWillCloseAutomatically")}
                 </Typography>
+                
+                <Typography variant="caption">
+                    {t("disablePopupBlocker")}
+                </Typography>
             </DialogContent>
         </Dialog>
     );
@@ -101,24 +104,28 @@ const InstantLaunchButton = ({
     color = "primary",
 }) => {
     const baseID = buildID(ids.BASE, ids.LAUNCH, ids.BUTTON);
-    const router = useRouter();
     const [open, setOpen] = React.useState(false);
+    const [ilUrl, setIlUrl] = React.useState();
     const theme = useTheme();
+
+    React.useEffect(() => {
+        if (ilUrl) {
+            window.open(`${getHost()}${ilUrl}`);
+            setIlUrl(null);
+            setOpen(false);
+        }
+    }, [ilUrl]);
 
     const [launch] = useMutation(instantlyLaunch, {
         onSuccess: (listing) => {
             if (listing.analyses.length > 0) {
                 const analysis = listing.analyses[0];
                 if (analysis.interactive_urls.length > 0) {
-                    router
-                        .push(
-                            `${
-                                constants.VICE_LOADING_PAGE
-                            }/${encodeURIComponent(
-                                analysis.interactive_urls[0]
-                            )}`
-                        )
-                        .then(() => setOpen(false));
+                    setIlUrl(
+                        `${constants.VICE_LOADING_PAGE}/${encodeURIComponent(
+                            analysis.interactive_urls[0]
+                        )}`
+                    );
                 } else {
                     setOpen(false);
                 }

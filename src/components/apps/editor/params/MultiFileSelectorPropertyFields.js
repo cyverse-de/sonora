@@ -25,7 +25,7 @@ import { build as buildID, FormCheckbox } from "@cyverse-de/ui-lib";
 import { Grid } from "@material-ui/core";
 
 export default function MultiFileSelectorPropertyFields(props) {
-    const { baseId, fieldName } = props;
+    const { baseId, cosmeticOnly, fieldName } = props;
 
     const { t } = useTranslation(["app_editor", "app_editor_help"]);
 
@@ -34,13 +34,27 @@ export default function MultiFileSelectorPropertyFields(props) {
     return (
         <Grid container direction="column">
             <LabelField baseId={baseId} fieldName={fieldName} />
-            <ArgumentOptionField baseId={baseId} fieldName={fieldName} />
+            <ArgumentOptionField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
             <DescriptionField baseId={baseId} fieldName={fieldName} />
-            <RequiredField baseId={baseId} fieldName={fieldName} />
-            <ExcludeArgumentField baseId={baseId} fieldName={fieldName} />
+
+            <RequiredField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <ExcludeArgumentField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
 
             <FileInfoTypesSelector
                 baseId={baseId}
+                disabled={cosmeticOnly}
                 fieldName={fileParamsFieldName}
                 label={t("multiFileInfoTypeLabel")}
             />
@@ -49,6 +63,7 @@ export default function MultiFileSelectorPropertyFields(props) {
                 baseId={baseId}
                 fieldName={fileParamsFieldName}
                 helperText={t("app_editor_help:IsImplicitFileInput")}
+                disabled={cosmeticOnly}
             />
 
             <FastField
@@ -57,6 +72,7 @@ export default function MultiFileSelectorPropertyFields(props) {
                 label={t("repeatOptionFlag")}
                 helperText={t("app_editor_help:RepeatOptionFlag")}
                 component={FormCheckbox}
+                disabled={cosmeticOnly}
             />
         </Grid>
     );

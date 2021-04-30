@@ -14,7 +14,7 @@ import { build as buildID, FormIntegerField } from "@cyverse-de/ui-lib";
 import { Grid } from "@material-ui/core";
 
 export default function IntRangeField(props) {
-    const { baseId, fieldName } = props;
+    const { baseId, fieldName, ...custom } = props;
 
     return (
         <Grid container wrap="nowrap">
@@ -22,11 +22,13 @@ export default function IntRangeField(props) {
                 id={buildID(baseId, 0, ids.PARAM_FIELDS.ARGUMENT_OPTION)}
                 name={`${fieldName}.params.0`}
                 component={FormIntegerField}
+                {...custom}
             />
             <FastField
                 id={buildID(baseId, 1, ids.PARAM_FIELDS.ARGUMENT_OPTION)}
                 name={`${fieldName}.params.1`}
                 component={FormIntegerField}
+                {...custom}
             />
         </Grid>
     );

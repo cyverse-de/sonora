@@ -21,19 +21,21 @@ import { build as buildID, FormTextField } from "@cyverse-de/ui-lib";
 import { Grid } from "@material-ui/core";
 
 export default function EnvironmentVariablePropertyFields(props) {
-    const { baseId, fieldName } = props;
+    const { baseId, cosmeticOnly, fieldName } = props;
 
     const { t } = useTranslation(["app_editor", "app_editor_help"]);
 
     return (
         <Grid container direction="column">
             <LabelField baseId={baseId} fieldName={fieldName} />
+
             <FastField
                 id={buildID(baseId, ids.PARAM_FIELDS.ARGUMENT_OPTION)}
                 name={`${fieldName}.name`}
                 label={t("envVarNameLabel")}
                 helperText={t("app_editor_help:EnvironmentVariableDefaultName")}
                 component={FormTextField}
+                disabled={cosmeticOnly}
             />
             <FastField
                 id={buildID(baseId, ids.PARAM_FIELDS.DEFAULT_VALUE)}
@@ -43,10 +45,21 @@ export default function EnvironmentVariablePropertyFields(props) {
                     "app_editor_help:EnvironmentVariableDefaultValue"
                 )}
                 component={FormTextField}
+                disabled={cosmeticOnly}
             />
+
             <DescriptionField baseId={baseId} fieldName={fieldName} />
-            <RequiredField baseId={baseId} fieldName={fieldName} />
-            <VisibleField baseId={baseId} fieldName={fieldName} />
+
+            <RequiredField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <VisibleField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
         </Grid>
     );
 }

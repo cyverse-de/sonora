@@ -24,7 +24,7 @@ import {
 import { Grid } from "@material-ui/core";
 
 export default function CheckboxPropertyFields(props) {
-    const { baseId, fieldName } = props;
+    const { baseId, cosmeticOnly, fieldName } = props;
 
     const { t } = useTranslation("app_editor");
 
@@ -49,6 +49,7 @@ export default function CheckboxPropertyFields(props) {
                         margin="normal"
                         required
                         component={FormTextField}
+                        disabled={cosmeticOnly}
                     />
                 </Grid>
                 <Grid item xs={6}>
@@ -58,6 +59,7 @@ export default function CheckboxPropertyFields(props) {
                         label={t("checkboxArgValueCheckedLabel")}
                         margin="normal"
                         component={FormTextField}
+                        disabled={cosmeticOnly}
                     />
                 </Grid>
             </Grid>
@@ -77,6 +79,7 @@ export default function CheckboxPropertyFields(props) {
                         required
                         margin="normal"
                         component={FormTextField}
+                        disabled={cosmeticOnly}
                     />
                 </Grid>
                 <Grid item xs={6}>
@@ -86,6 +89,7 @@ export default function CheckboxPropertyFields(props) {
                         label={t("checkboxArgValueUncheckedLabel")}
                         margin="normal"
                         component={FormTextField}
+                        disabled={cosmeticOnly}
                     />
                 </Grid>
             </Grid>
@@ -95,9 +99,16 @@ export default function CheckboxPropertyFields(props) {
                     name={`${fieldName}.defaultValue`}
                     label={t("checkboxDefaultLabel")}
                     component={FormCheckbox}
+                    disabled={cosmeticOnly}
                 />
+
                 <DescriptionField baseId={baseId} fieldName={fieldName} />
-                <VisibleField baseId={baseId} fieldName={fieldName} />
+
+                <VisibleField
+                    baseId={baseId}
+                    fieldName={fieldName}
+                    disabled={cosmeticOnly}
+                />
             </Grid>
         </Grid>
     );

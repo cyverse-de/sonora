@@ -14,7 +14,7 @@ import ids from "../../ids";
 import { build as buildID, FormTextField } from "@cyverse-de/ui-lib";
 
 export default function ArgumentOptionField(props) {
-    const { baseId, fieldName } = props;
+    const { baseId, fieldName, ...custom } = props;
 
     const { t } = useTranslation(["app_editor", "app_editor_help"]);
 
@@ -25,6 +25,7 @@ export default function ArgumentOptionField(props) {
             label={t("argumentOption")}
             helperText={t("app_editor_help:ArgumentOption")}
             component={FormTextField}
+            {...custom}
         />
     );
 }

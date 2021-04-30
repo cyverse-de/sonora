@@ -29,14 +29,13 @@ import AppStepDisplay, { BottomNavigationSkeleton } from "../AppStepDisplay";
 import { getAppEditPath } from "../utils";
 
 import BackButton from "components/utils/BackButton";
-import ComingSoonInfo from "components/utils/ComingSoonInfo";
 import SaveButton from "components/utils/SaveButton";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 
 import useComponentHeight from "components/utils/useComponentHeight";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
-import { addApp, updateApp } from "serviceFacades/apps";
+import { addApp, updateApp, updateAppLabels } from "serviceFacades/apps";
 
 import {
     AnnouncerConstants,
@@ -160,9 +159,13 @@ const AppEditor = (props) => {
         ({ app }) => {
             const { system_id: systemId, id: appId } = app;
 
+            const request = { systemId, appId, app };
+
             return appId
-                ? updateApp({ systemId, appId, app })
-                : addApp({ systemId, app });
+                ? cosmeticOnly
+                    ? updateAppLabels(request)
+                    : updateApp(request)
+                : addApp(request);
         },
         {
             onSuccess: (resp, { onSuccess }) => {
@@ -191,7 +194,11 @@ const AppEditor = (props) => {
         contentLabel: t("commandLineOrder"),
     };
 
-    const steps = [stepAppInfo, stepParameters, stepPreview, stepCmdLineOrder];
+    const steps = [stepAppInfo, stepParameters, stepPreview];
+
+    if (!cosmeticOnly) {
+        steps.push(stepCmdLineOrder);
+    }
 
     const isLastStep = () => {
         return activeStep === steps.length - 1;
@@ -219,8 +226,6 @@ const AppEditor = (props) => {
         <AppStepperFormSkeleton baseId={baseId} header />
     ) : loadingError ? (
         <WrappedErrorHandler baseId={baseId} errorObject={loadingError} />
-    ) : cosmeticOnly ? (
-        <ComingSoonInfo>{t("publicAppEditingNotSupported")}</ComingSoonInfo>
     ) : (
         <Formik
             initialValues={initAppValues(appDescription)}
@@ -300,6 +305,17 @@ const AppEditor = (props) => {
                                 onSave={handleSubmit}
                             />
                         </Grid>
+
+                        {cosmeticOnly && (
+                            <>
+                                <Typography variant="h6" color="error">
+                                    {t("editingPublicApp")}
+                                </Typography>
+                                <Typography variant="body2">
+                                    {t("editPublicAppHelp")}
+                                </Typography>
+                            </>
+                        )}
 
                         {isSubmitting ? (
                             <StepperSkeleton baseId={baseId} ref={stepperRef} />
@@ -384,13 +400,18 @@ const AppEditor = (props) => {
                                         setEditParamField(null);
                                     }}
                                     fieldName={editParamField}
+                                    cosmeticOnly={cosmeticOnly}
                                     values={values}
                                 />
                             ) : activeStepInfo === stepAppInfo ? (
-                                <AppInfo baseId={baseId} />
+                                <AppInfo
+                                    baseId={baseId}
+                                    cosmeticOnly={cosmeticOnly}
+                                />
                             ) : activeStepInfo === stepParameters ? (
                                 <ParamGroups
                                     baseId={baseId}
+                                    cosmeticOnly={cosmeticOnly}
                                     values={values}
                                     keyCount={keyCount}
                                     setKeyCount={setKeyCount}

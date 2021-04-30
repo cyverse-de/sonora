@@ -14,7 +14,7 @@ import ids from "../../ids";
 import { build as buildID, FormCheckbox } from "@cyverse-de/ui-lib";
 
 export default function RequiredField(props) {
-    const { baseId, fieldName } = props;
+    const { baseId, fieldName, ...custom } = props;
 
     const { t } = useTranslation("app_editor");
 
@@ -24,6 +24,7 @@ export default function RequiredField(props) {
             name={`${fieldName}.required`}
             label={t("isRequired")}
             component={FormCheckbox}
+            {...custom}
         />
     );
 }

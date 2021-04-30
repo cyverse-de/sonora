@@ -23,7 +23,7 @@ import { FormTextField } from "@cyverse-de/ui-lib";
 import { Grid } from "@material-ui/core";
 
 export default function FolderOutputPropertyFields(props) {
-    const { baseId, fieldName } = props;
+    const { baseId, cosmeticOnly, fieldName } = props;
 
     const { t } = useTranslation([
         "app_editor",
@@ -36,20 +36,39 @@ export default function FolderOutputPropertyFields(props) {
     return (
         <Grid container direction="column">
             <LabelField baseId={baseId} fieldName={fieldName} />
-            <ArgumentOptionField baseId={baseId} fieldName={fieldName} />
+            <ArgumentOptionField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
             <DefaultValueField
                 baseId={baseId}
                 fieldName={fieldName}
                 label={t("folderOutputDefaultLabel")}
                 component={FormTextField}
+                disabled={cosmeticOnly}
             />
             <DescriptionField baseId={baseId} fieldName={fieldName} />
-            <RequiredField baseId={baseId} fieldName={fieldName} />
-            <VisibleField baseId={baseId} fieldName={fieldName} />
-            <ExcludeArgumentField baseId={baseId} fieldName={fieldName} />
+
+            <RequiredField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <VisibleField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <ExcludeArgumentField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
 
             <FileInfoTypesSelector
                 baseId={baseId}
+                disabled={cosmeticOnly}
                 fieldName={fileParamsFieldName}
                 label={t("folderInfoTypeLabel")}
             />
@@ -58,6 +77,7 @@ export default function FolderOutputPropertyFields(props) {
                 baseId={baseId}
                 fieldName={fileParamsFieldName}
                 helperText={t("app_editor_help:IsImplicitOutput")}
+                disabled={cosmeticOnly}
             />
         </Grid>
     );

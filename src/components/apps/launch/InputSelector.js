@@ -110,6 +110,7 @@ const InputSelector = ({
             <InputAdornment position="end">
                 <BrowseButton
                     baseId={id}
+                    disabled={props.disabled}
                     startingPath={startingPath}
                     acceptedType={acceptedType}
                     multiSelect={false}
@@ -127,7 +128,7 @@ const InputSelector = ({
         ),
     };
 
-    if (field.value && !required) {
+    if (field.value && !required && !props.disabled) {
         inputProps.endAdornment = (
             <IconButton
                 id={buildDebugId(field.name, ids.BUTTONS.DELETE)}

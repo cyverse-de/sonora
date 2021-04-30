@@ -31,6 +31,7 @@ const useStyles = makeStyles(styles);
 export default function ParamLayoutActions(props) {
     const {
         baseId,
+        cosmeticOnly,
         ButtonProps = {},
         DotMenuButtonProps = {},
         onDelete,
@@ -46,7 +47,7 @@ export default function ParamLayoutActions(props) {
 
     return (
         <ButtonGroup {...ButtonProps}>
-            {isMobile ? (
+            {isMobile && !cosmeticOnly ? (
                 <DotMenu
                     baseId={baseId}
                     ButtonProps={DotMenuButtonProps}
@@ -107,22 +108,26 @@ export default function ParamLayoutActions(props) {
                 />
             ) : (
                 [
-                    <Button
-                        key={buildID(baseId, ids.BUTTONS.MOVE_UP_BTN)}
-                        id={buildID(baseId, ids.BUTTONS.MOVE_UP_BTN)}
-                        aria-label={t("moveUp")}
-                        onClick={onMoveUp}
-                    >
-                        <ArrowUpward />
-                    </Button>,
-                    <Button
-                        key={buildID(baseId, ids.BUTTONS.MOVE_DOWN_BTN)}
-                        id={buildID(baseId, ids.BUTTONS.MOVE_DOWN_BTN)}
-                        aria-label={t("moveDown")}
-                        onClick={onMoveDown}
-                    >
-                        <ArrowDownward />
-                    </Button>,
+                    !cosmeticOnly && (
+                        <Button
+                            key={buildID(baseId, ids.BUTTONS.MOVE_UP_BTN)}
+                            id={buildID(baseId, ids.BUTTONS.MOVE_UP_BTN)}
+                            aria-label={t("moveUp")}
+                            onClick={onMoveUp}
+                        >
+                            <ArrowUpward />
+                        </Button>
+                    ),
+                    !cosmeticOnly && (
+                        <Button
+                            key={buildID(baseId, ids.BUTTONS.MOVE_DOWN_BTN)}
+                            id={buildID(baseId, ids.BUTTONS.MOVE_DOWN_BTN)}
+                            aria-label={t("moveDown")}
+                            onClick={onMoveDown}
+                        >
+                            <ArrowDownward />
+                        </Button>
+                    ),
                     <Button
                         key={buildID(baseId, ids.BUTTONS.EDIT_BTN)}
                         id={buildID(baseId, ids.BUTTONS.EDIT_BTN)}
@@ -131,15 +136,17 @@ export default function ParamLayoutActions(props) {
                     >
                         <Edit />
                     </Button>,
-                    <Button
-                        key={buildID(baseId, ids.BUTTONS.DELETE_BTN)}
-                        id={buildID(baseId, ids.BUTTONS.DELETE_BTN)}
-                        aria-label={t("delete")}
-                        className={classes.deleteIcon}
-                        onClick={onDelete}
-                    >
-                        <Delete />
-                    </Button>,
+                    !cosmeticOnly && (
+                        <Button
+                            key={buildID(baseId, ids.BUTTONS.DELETE_BTN)}
+                            id={buildID(baseId, ids.BUTTONS.DELETE_BTN)}
+                            aria-label={t("delete")}
+                            className={classes.deleteIcon}
+                            onClick={onDelete}
+                        >
+                            <Delete />
+                        </Button>
+                    ),
                 ]
             )}
         </ButtonGroup>

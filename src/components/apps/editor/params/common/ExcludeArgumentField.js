@@ -14,7 +14,7 @@ import ids from "../../ids";
 import { build as buildID, FormCheckbox } from "@cyverse-de/ui-lib";
 
 export default function ExcludeArgumentField(props) {
-    const { baseId, fieldName } = props;
+    const { baseId, fieldName, ...custom } = props;
 
     const { t } = useTranslation(["app_editor", "app_editor_help"]);
 
@@ -25,6 +25,7 @@ export default function ExcludeArgumentField(props) {
             label={t("excludeWhenEmpty")}
             helperText={t("app_editor_help:ExcludeArgument")}
             component={FormCheckbox}
+            {...custom}
         />
     );
 }

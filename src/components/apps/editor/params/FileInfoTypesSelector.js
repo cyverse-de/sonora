@@ -21,7 +21,7 @@ import {
 import { MenuItem } from "@material-ui/core";
 
 export default function FileInfoTypesSelector(props) {
-    const { baseId, fieldName, label } = props;
+    const { baseId, disabled, fieldName, label } = props;
 
     const [infoTypes, setInfoTypes] = React.useState([]);
 
@@ -33,6 +33,7 @@ export default function FileInfoTypesSelector(props) {
         id: buildID(baseId, ids.PARAM_FIELDS.FILE_INFO_TYPE),
         name: `${fieldName}.file_info_type`,
         label,
+        disabled,
     };
 
     if (isFetching) {

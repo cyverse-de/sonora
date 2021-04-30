@@ -55,6 +55,13 @@ mockAxios.onPut(/\/api\/apps\/.*/).reply((config) => {
     return [200, app];
 });
 
+mockAxios.onPatch(/\/api\/apps\/.*/).reply((config) => {
+    const app = JSON.parse(config.data);
+    console.log("Update App Labels", config.url, app);
+
+    return [200, app];
+});
+
 export const NewApp = (props) => {
     return (
         <AppEditor
@@ -77,7 +84,7 @@ export const KitchenSinkEditor = (props) => {
             appDescription={!(loading || loadingError) && AppDescriptionMock}
             loading={loading}
             loadingError={loadingError && mockErrorResponse}
-            cosmeticOnly={cosmeticOnly}
+            cosmeticOnly={!!cosmeticOnly}
         />
     );
 };

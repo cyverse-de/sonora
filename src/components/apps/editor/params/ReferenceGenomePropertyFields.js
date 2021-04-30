@@ -18,22 +18,40 @@ import ReferenceGenomeSelect from "components/apps/launch/ReferenceGenomeSelect"
 import { Grid } from "@material-ui/core";
 
 export default function ReferenceGenomePropertyFields(props) {
-    const { baseId, fieldName, param } = props;
+    const { baseId, cosmeticOnly, fieldName, param } = props;
 
     return (
         <Grid container direction="column">
             <LabelField baseId={baseId} fieldName={fieldName} />
-            <ArgumentOptionField baseId={baseId} fieldName={fieldName} />
+            <ArgumentOptionField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
             <DefaultValueField
                 baseId={baseId}
                 fieldName={fieldName}
                 component={ReferenceGenomeSelect}
                 param={param}
+                disabled={cosmeticOnly}
             />
             <DescriptionField baseId={baseId} fieldName={fieldName} />
-            <RequiredField baseId={baseId} fieldName={fieldName} />
-            <VisibleField baseId={baseId} fieldName={fieldName} />
-            <ExcludeArgumentField baseId={baseId} fieldName={fieldName} />
+
+            <RequiredField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <VisibleField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <ExcludeArgumentField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
         </Grid>
     );
 }

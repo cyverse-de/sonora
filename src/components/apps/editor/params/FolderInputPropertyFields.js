@@ -23,7 +23,7 @@ import FolderInput from "components/apps/launch/params/FolderInput";
 import { Grid } from "@material-ui/core";
 
 export default function FolderInputPropertyFields(props) {
-    const { baseId, fieldName } = props;
+    const { baseId, cosmeticOnly, fieldName } = props;
 
     const { t } = useTranslation(["app_editor", "app_editor_help"]);
 
@@ -32,19 +32,38 @@ export default function FolderInputPropertyFields(props) {
     return (
         <Grid container direction="column">
             <LabelField baseId={baseId} fieldName={fieldName} />
-            <ArgumentOptionField baseId={baseId} fieldName={fieldName} />
+            <ArgumentOptionField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
             <DefaultValueField
                 baseId={baseId}
                 fieldName={fieldName}
                 component={FolderInput}
+                disabled={cosmeticOnly}
             />
             <DescriptionField baseId={baseId} fieldName={fieldName} />
-            <RequiredField baseId={baseId} fieldName={fieldName} />
-            <VisibleField baseId={baseId} fieldName={fieldName} />
-            <ExcludeArgumentField baseId={baseId} fieldName={fieldName} />
+
+            <RequiredField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <VisibleField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <ExcludeArgumentField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
 
             <FileInfoTypesSelector
                 baseId={baseId}
+                disabled={cosmeticOnly}
                 fieldName={fileParamsFieldName}
                 label={t("folderInfoTypeLabel")}
             />
@@ -53,6 +72,7 @@ export default function FolderInputPropertyFields(props) {
                 baseId={baseId}
                 fieldName={fileParamsFieldName}
                 helperText={t("app_editor_help:IsImplicitFolderInput")}
+                disabled={cosmeticOnly}
             />
         </Grid>
     );

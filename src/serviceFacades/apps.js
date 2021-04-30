@@ -154,6 +154,14 @@ function updateApp({ systemId, appId, app }) {
     });
 }
 
+function updateAppLabels({ systemId, appId, app }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}`,
+        method: "PATCH",
+        body: app,
+    });
+}
+
 function getAppDetails(key, { systemId, appId }) {
     return callApi({
         endpoint: `/api/apps/${systemId}/${appId}/details`,
@@ -428,6 +436,7 @@ export {
     appFavorite,
     rateApp,
     updateApp,
+    updateAppLabels,
     searchApps,
     searchAppsInfiniteQuery,
     getAppDoc,

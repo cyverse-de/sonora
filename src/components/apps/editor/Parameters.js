@@ -18,6 +18,7 @@ import ParamSelectionPalette from "./ParamSelectionPalette";
 
 import { getAppParameterLaunchComponent } from "../utils";
 
+import Info from "components/apps/launch/params/Info";
 import MultiFileSelector from "components/apps/launch/params/MultiFileSelector";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
@@ -32,6 +33,7 @@ const useStyles = makeStyles(styles);
 function ParamCardForm(props) {
     const {
         baseId,
+        cosmeticOnly,
         field: { name: fieldName },
         param,
         scrollToField,
@@ -57,7 +59,10 @@ function ParamCardForm(props) {
 
     const FieldComponent = getAppParameterLaunchComponent(param.type);
     const fieldProps = {
-        disabled: !param.isVisible || FieldComponent === MultiFileSelector,
+        disabled:
+            !param.isVisible ||
+            FieldComponent === MultiFileSelector ||
+            (cosmeticOnly && FieldComponent !== Info),
     };
 
     return (
@@ -75,6 +80,7 @@ function ParamCardForm(props) {
                 action={
                     <ParamLayoutActions
                         baseId={paramBaseId}
+                        cosmeticOnly={cosmeticOnly}
                         ButtonProps={{
                             color: "primary",
                             variant: "text",
@@ -93,6 +99,7 @@ function ParamCardForm(props) {
 function Parameters(props) {
     const {
         baseId,
+        cosmeticOnly,
         groupFieldName,
         parameters,
         onEditParam,
@@ -137,17 +144,17 @@ function Parameters(props) {
                             onClose={handleAddParamMenuClose}
                             handleAddParam={handleAddParam}
                         />
-                        <Button
-                            id={buildID(baseId, ids.BUTTONS.ADD_PARAM)}
-                            color="primary"
-                            variant="contained"
-                            startIcon={<Add />}
-                            onClick={() => {
-                                setParamSelectOpen(true);
-                            }}
-                        >
-                            {t("addParameter")}
-                        </Button>
+                        {!cosmeticOnly && (
+                            <Button
+                                id={buildID(baseId, ids.BUTTONS.ADD_PARAM)}
+                                color="primary"
+                                variant="contained"
+                                startIcon={<Add />}
+                                onClick={() => setParamSelectOpen(true)}
+                            >
+                                {t("addParameter")}
+                            </Button>
+                        )}
                         {parameters?.map((param, index) => {
                             const fieldName = `${parametersFieldName}.${index}`;
                             return (
@@ -156,6 +163,7 @@ function Parameters(props) {
                                     name={fieldName}
                                     component={ParamCardForm}
                                     baseId={baseId}
+                                    cosmeticOnly={cosmeticOnly}
                                     param={param}
                                     scrollToField={scrollToField}
                                     setScrollToField={setScrollToField}

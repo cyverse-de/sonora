@@ -24,23 +24,41 @@ import { build as buildID, FormNumberField } from "@cyverse-de/ui-lib";
 import { Grid } from "@material-ui/core";
 
 export default function DoublePropertyFields(props) {
-    const { baseId, fieldName, param } = props;
+    const { baseId, cosmeticOnly, fieldName, param } = props;
 
     const validatorsFieldName = `${fieldName}.validators`;
 
     return (
         <Grid container direction="column">
             <LabelField baseId={baseId} fieldName={fieldName} />
-            <ArgumentOptionField baseId={baseId} fieldName={fieldName} />
+            <ArgumentOptionField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
             <DefaultValueField
                 baseId={baseId}
                 fieldName={fieldName}
                 component={FormNumberField}
+                disabled={cosmeticOnly}
             />
             <DescriptionField baseId={baseId} fieldName={fieldName} />
-            <RequiredField baseId={baseId} fieldName={fieldName} />
-            <VisibleField baseId={baseId} fieldName={fieldName} />
-            <ExcludeArgumentField baseId={baseId} fieldName={fieldName} />
+
+            <RequiredField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <VisibleField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
+            <ExcludeArgumentField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
 
             <FieldArray
                 name={validatorsFieldName}
@@ -62,6 +80,7 @@ export default function DoublePropertyFields(props) {
                     return (
                         <ValidationRulesEditor
                             baseId={buildID(baseId, "validators")}
+                            cosmeticOnly={cosmeticOnly}
                             fieldName={validatorsFieldName}
                             validators={param.validators}
                             ruleOptions={[

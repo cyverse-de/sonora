@@ -113,6 +113,10 @@ export const canShare = (apps) => {
     );
 };
 
+export const hasOwn = (permission) => {
+    return Permissions.OWN === permission;
+};
+
 export const isWritable = (permission) => {
     return (
         permissionHierarchy(permission) >=

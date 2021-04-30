@@ -33,6 +33,6 @@
     "removeFromDashboard": "Remove from Dashboard",
     "removedFromDashboard": "Instant launch removed from the dashboard.",
     "submittingInstantLaunch": "Sending Launch Request",
-    "submissionInProgress": "Please wait, this should only take a few seconds...",
+    "submissionInProgress": "Please wait, this should only take a few seconds. Your analysis will open in a new tab.",
     "updateDataMapping": "Data Mapping"
 }

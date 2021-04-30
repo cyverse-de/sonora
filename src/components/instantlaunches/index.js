@@ -78,6 +78,10 @@ export const InstantLaunchSubmissionDialog = ({ open }) => {
                 <Typography variant="body2" className={classes.closeAuto}>
                     {t("dialogWillCloseAutomatically")}
                 </Typography>
+                
+                <Typography variant="caption">
+                    {t("disablePopupBlocker")}
+                </Typography>
             </DialogContent>
         </Dialog>
     );
@@ -106,7 +110,7 @@ const InstantLaunchButton = ({
 
     React.useEffect(() => {
         if (ilUrl) {
-            window.open(ilUrl);
+            window.open(`${getHost()}${ilUrl}`);
             setIlUrl(null);
             setOpen(false);
         }
@@ -118,9 +122,9 @@ const InstantLaunchButton = ({
                 const analysis = listing.analyses[0];
                 if (analysis.interactive_urls.length > 0) {
                     setIlUrl(
-                        `${getHost()}${
-                            constants.VICE_LOADING_PAGE
-                        }/${encodeURIComponent(analysis.interactive_urls[0])}`
+                        `${constants.VICE_LOADING_PAGE}/${encodeURIComponent(
+                            analysis.interactive_urls[0]
+                        )}`
                     );
                 } else {
                     setOpen(false);

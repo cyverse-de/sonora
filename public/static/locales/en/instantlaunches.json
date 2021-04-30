@@ -16,6 +16,7 @@
     "deleteMappingEntryError": "Error deleting mapping entry",
     "dialogWillCloseAutomatically": "This dialog will close automatically.",
     "displayMapping": "Current Pattern Mappings",
+    "disablePopupBlocker": "Note: Please disable pop-up blocker.",
     "fetchDashboardILError": "Error fetching list of instant launches in the dashboard",
     "glob": "Glob",
     "infoType": "Info Type",

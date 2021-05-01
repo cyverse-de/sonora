@@ -68,7 +68,14 @@ function ParamPreview(props) {
 }
 
 function PropertyFormFields(props) {
-    const { baseId, cosmeticOnly, fieldName, param } = props;
+    const {
+        baseId,
+        cosmeticOnly,
+        keyCount,
+        setKeyCount,
+        fieldName,
+        param,
+    } = props;
 
     const baseParamId = buildID(baseId, fieldName);
 
@@ -132,6 +139,8 @@ function PropertyFormFields(props) {
                     cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                     paramArguments={param.arguments}
+                    keyCount={keyCount}
+                    setKeyCount={setKeyCount}
                 />
             );
 
@@ -214,7 +223,15 @@ function PropertyFormFields(props) {
 }
 
 function ParamPropertyForm(props) {
-    const { baseId, cosmeticOnly, values, fieldName, onClose } = props;
+    const {
+        baseId,
+        cosmeticOnly,
+        keyCount,
+        setKeyCount,
+        values,
+        fieldName,
+        onClose,
+    } = props;
 
     const { t } = useTranslation(["app_editor", "app_param_types", "common"]);
 
@@ -264,6 +281,8 @@ function ParamPropertyForm(props) {
                     cosmeticOnly={cosmeticOnly}
                     fieldName={fieldName}
                     param={param}
+                    keyCount={keyCount}
+                    setKeyCount={setKeyCount}
                 />
             </CardContent>
             <CardActions>{doneBtn}</CardActions>

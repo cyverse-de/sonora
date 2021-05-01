@@ -401,6 +401,8 @@ const AppEditor = (props) => {
                                     }}
                                     fieldName={editParamField}
                                     cosmeticOnly={cosmeticOnly}
+                                    keyCount={keyCount}
+                                    setKeyCount={setKeyCount}
                                     values={values}
                                 />
                             ) : activeStepInfo === stepAppInfo ? (

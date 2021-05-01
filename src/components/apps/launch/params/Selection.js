@@ -22,7 +22,13 @@ export default function Selection({ param, ...props }) {
             {...props}
         >
             {param?.arguments?.map((arg) => (
-                <MenuItem key={arg.value} value={arg}>
+                // MenuItem.key can use arg.key or arg.id,
+                // which should always be set (from the service or app editor),
+                // but `name.value` should also be a reasonable fallback.
+                <MenuItem
+                    key={arg.key || arg.id || `${arg.name}.${arg.value}`}
+                    value={arg}
+                >
                     {arg.display}
                 </MenuItem>
             ))}

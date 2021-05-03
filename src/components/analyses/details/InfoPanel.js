@@ -97,7 +97,6 @@ function Step(props) {
                 <Updates
                     updates={updates}
                     baseId={build(baseId, ids.INFO.UPDATE)}
-                    t={t}
                 />
             </AccordionDetails>
         </Accordion>

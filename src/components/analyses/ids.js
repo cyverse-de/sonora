@@ -106,6 +106,8 @@ export default {
         STATUS: "status",
         INFO: "info",
         EXPAND: "expandIcon",
+        STEP: "step",
+        UPDATE: "update",
     },
 
     VICE_LOGS_VIEWER: {

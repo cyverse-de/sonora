@@ -13,28 +13,21 @@ import ids from "../ids";
 import GridLoading from "../../utils/GridLoading";
 import ErrorTypography from "../../utils/error/ErrorTypography";
 import DEErrorDialog from "../../utils/error/DEErrorDialog";
-import DETableHead from "components/utils/DETableHead";
 
 import { build, CopyTextArea, formatDate } from "@cyverse-de/ui-lib";
 import {
-    Collapse,
     Accordion,
     AccordionDetails,
     AccordionSummary,
-    IconButton,
+    List,
+    ListItem,
+    ListItemText,
+    Divider,
     makeStyles,
     Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableRow,
     Typography,
 } from "@material-ui/core";
-import {
-    ExpandMore as ExpandMoreIcon,
-    KeyboardArrowUp,
-    KeyboardArrowDown,
-} from "@material-ui/icons";
+import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     heading: {
@@ -50,96 +43,35 @@ const useStyles = makeStyles((theme) => ({
         display: "block",
     },
     root: {
-        "& > *": {
-            borderBottom: "unset",
-        },
+        width: "100%",
     },
-    expandedCell: { paddingBottom: 0, paddingTop: 0 },
 }));
-
-const columnData = (t) => [
-    {
-        id: ids.INFO.EXPAND,
-        name: "",
-        numeric: false,
-        enableSorting: false,
-    },
-    {
-        id: ids.INFO.TIMESTAMP,
-        name: t("date"),
-        numeric: false,
-        enableSorting: false,
-    },
-    {
-        id: ids.INFO.STATUS,
-        name: t("status"),
-        numeric: false,
-        enableSorting: false,
-    },
-];
-
-function UpdateDetails(props) {
-    const { status, timestamp, message } = props;
-
-    const [open, setOpen] = useState(false);
-    const classes = useStyles();
-    return (
-        <>
-            <TableRow className={classes.root}>
-                <TableCell>
-                    <IconButton size="small" onClick={() => setOpen(!open)}>
-                        {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-                    </IconButton>
-                </TableCell>
-                <TableCell>
-                    <Typography>{formatDate(timestamp)}</Typography>
-                </TableCell>
-                <TableCell>
-                    <Typography>
-                        {status[0].toUpperCase() +
-                            status.slice(1).toLowerCase().replace(/[_]/gi, " ")}
-                    </Typography>
-                </TableCell>
-            </TableRow>
-            <TableRow>
-                <TableCell className={classes.expandedCell} colSpan={3}>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Typography>{message}</Typography>
-                    </Collapse>
-                </TableCell>
-            </TableRow>
-        </>
-    );
-}
 
 function Updates(props) {
     const { updates, baseId } = props;
-    const { t } = useTranslation("analyses");
-    let columns = columnData(t);
-
+    const classes = useStyles();
+    const sortedUpdates = [...updates].reverse();
     return (
-        <Table size="small" stickyHeader={true} style={{ marginTop: 8 }}>
-            <TableBody>
-                {updates.map((update, index) => {
-                    const status = update.status;
-                    const timestamp = update.timestamp;
-                    return (
-                        <UpdateDetails
-                            key={index}
-                            status={status}
-                            timestamp={timestamp}
-                            message={update.message}
-                        />
-                    );
-                })}
-            </TableBody>
-            <DETableHead
-                selectable={false}
-                columnData={columns}
-                rowsInPage={updates.length}
-                baseId={baseId}
-            />
-        </Table>
+        <List className={classes.root} id={baseId}>
+            {sortedUpdates.map((update, updateIndex) => {
+                const status = update.status;
+                const timestamp = update.timestamp;
+                const message = update.message;
+                return (
+                    <>
+                        <ListItem id={build(baseId, updateIndex)}>
+                            <ListItemText
+                                primary={`${formatDate(timestamp)} - ${status}`}
+                                secondary={`${formatDate(
+                                    timestamp
+                                )} - ${message}`}
+                            />
+                        </ListItem>
+                        <Divider component="li" />
+                    </>
+                );
+            })}
+        </List>
     );
 }
 
@@ -149,7 +81,7 @@ function Step(props) {
     const { t } = useTranslation("analyses");
     const classes = useStyles();
     return (
-        <Accordion>
+        <Accordion id={baseId}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography className={classes.heading}>
                     {step_number}: {step_type} - {status}
@@ -162,7 +94,10 @@ function Step(props) {
                         btnText={t("copyAnalysisId")}
                     />
                 </div>
-                <Updates updates={updates} baseId={baseId} t={t} />
+                <Updates
+                    updates={updates}
+                    baseId={build(baseId, ids.INFO.UPDATE)}
+                />
             </AccordionDetails>
         </Accordion>
     );
@@ -205,7 +140,13 @@ function InfoPanel(props) {
     return (
         <Paper>
             {info.steps.map((s, index) => {
-                return <Step key={index} step={s} baseId={debugId} />;
+                return (
+                    <Step
+                        key={index}
+                        step={s}
+                        baseId={build(debugId, ids.INFO.STEP, index)}
+                    />
+                );
             })}
         </Paper>
     );

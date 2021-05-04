@@ -53,6 +53,7 @@ const ReferenceGenomeSelect = ({ param, ...props }) => {
             margin="normal"
             {...selectProps}
         >
+            {!selectProps.required && <MenuItem value="">&nbsp;</MenuItem>}
             {referenceGenomes.map((refGenome) => (
                 <MenuItem key={refGenome.id} value={refGenome}>
                     {refGenome.name}

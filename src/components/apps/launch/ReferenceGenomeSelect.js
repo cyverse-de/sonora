@@ -6,9 +6,10 @@
  * from the backed services.
  */
 import React from "react";
+
 import { useTranslation } from "i18n";
 
-import { useReferenceGenomes } from "../queries";
+import { sortReferenceGenomes, useReferenceGenomes } from "../queries";
 
 import { FormFieldLoading, FormTextField } from "@cyverse-de/ui-lib";
 
@@ -17,12 +18,15 @@ import { MenuItem } from "@material-ui/core";
 const ReferenceGenomeSelect = ({ param, ...props }) => {
     const [referenceGenomes, setReferenceGenomes] = React.useState([]);
 
-    const { isFetching: referenceGenomesLoading } = useReferenceGenomes(
-        true,
-        setReferenceGenomes
-    );
-
     const { t } = useTranslation("launch");
+
+    const { data, isFetching } = useReferenceGenomes(true);
+
+    React.useEffect(() => {
+        if (data) {
+            setReferenceGenomes(sortReferenceGenomes(data.genomes));
+        }
+    }, [data]);
 
     const selectProps = {
         label: param?.label,
@@ -31,7 +35,7 @@ const ReferenceGenomeSelect = ({ param, ...props }) => {
         ...props,
     };
 
-    if (referenceGenomesLoading) {
+    if (isFetching) {
         return <FormFieldLoading {...selectProps} />;
     } else if (!referenceGenomes?.length) {
         selectProps.error = true;

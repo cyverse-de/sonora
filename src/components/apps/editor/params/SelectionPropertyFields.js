@@ -6,12 +6,11 @@
  */
 import React from "react";
 
-import { FastField, FieldArray } from "formik";
+import { FastField, Field, FieldArray } from "formik";
 import { Trans } from "react-i18next";
 
 import { useTranslation } from "i18n";
 
-import DefaultValueField from "./common/DefaultValueField";
 import DescriptionField from "./common/DescriptionField";
 import ExcludeArgumentField from "./common/ExcludeArgumentField";
 import LabelField from "./common/LabelField";
@@ -196,13 +195,58 @@ function SelectionItemEditor(props) {
     );
 }
 
+function SelectionDefaultValueEditor({ paramArguments, ...props }) {
+    // These props need to be spread into FormTextField below.
+    const {
+        field: { name, value },
+        form: { setFieldValue },
+    } = props;
+
+    // Not sure if this is the best place to do this default value check/reset,
+    // but it should happen somewhere in the SelectionPropertyFields editor,
+    // and this default value editor gets easy access to formik's setFieldValue.
+    React.useEffect(() => {
+        const foundDefault =
+            paramArguments?.find((paramArg) => paramArg.key === value?.key) ||
+            "";
+
+        if (foundDefault !== value) {
+            setFieldValue(name, foundDefault);
+        }
+    }, [paramArguments, name, value, setFieldValue]);
+
+    return (
+        <FormTextField
+            select
+            variant="outlined"
+            margin="normal"
+            size="small"
+            {...props}
+        >
+            <MenuItem value="">&nbsp;</MenuItem>
+            {paramArguments?.map((paramArg) => (
+                <MenuItem key={paramArg.key} value={paramArg}>
+                    {paramArg.display}
+                </MenuItem>
+            ))}
+        </FormTextField>
+    );
+}
+
 export default function SelectionPropertyFields(props) {
-    const { baseId, cosmeticOnly, fieldName, paramArguments } = props;
+    const {
+        baseId,
+        cosmeticOnly,
+        keyCount,
+        setKeyCount,
+        fieldName,
+        paramArguments,
+    } = props;
 
     const [confirmDeleteIndex, setConfirmDeleteIndex] = React.useState(-1);
     const onCloseDeleteConfirm = () => setConfirmDeleteIndex(-1);
 
-    const { t } = useTranslation(["app_editor", "common"]);
+    const { t } = useTranslation(["app_editor", "app_editor_help", "common"]);
 
     const baseParamId = buildID(baseId, fieldName);
 
@@ -210,23 +254,15 @@ export default function SelectionPropertyFields(props) {
         <Grid container direction="column">
             <LabelField baseId={baseParamId} fieldName={fieldName} />
 
-            <DefaultValueField
-                baseId={baseParamId}
-                fieldName={fieldName}
-                component={FormTextField}
-                select
-                variant="outlined"
-                margin="normal"
-                size="small"
+            <Field
+                component={SelectionDefaultValueEditor}
+                id={buildID(baseParamId, ids.PARAM_FIELDS.DEFAULT_VALUE)}
+                name={`${fieldName}.defaultValue`}
+                label={t("defaultValue")}
+                helperText={t("app_editor_help:DefaultValue")}
                 disabled={cosmeticOnly}
-            >
-                <MenuItem value="">&nbsp;</MenuItem>
-                {paramArguments?.map((paramArg) => (
-                    <MenuItem key={paramArg.value} value={paramArg}>
-                        {paramArg.display}
-                    </MenuItem>
-                ))}
-            </DefaultValueField>
+                paramArguments={paramArguments}
+            />
 
             <DescriptionField baseId={baseParamId} fieldName={fieldName} />
 
@@ -246,6 +282,7 @@ export default function SelectionPropertyFields(props) {
                 render={(arrayHelpers) => {
                     const onAdd = () => {
                         arrayHelpers.unshift({
+                            key: keyCount,
                             display: t("newParamLabel", {
                                 type: t("argumentOption"),
                             }),
@@ -253,6 +290,8 @@ export default function SelectionPropertyFields(props) {
                             value: "",
                             isDefault: false,
                         });
+
+                        setKeyCount(keyCount + 1);
                     };
 
                     const onMoveUp = (index) => () => {

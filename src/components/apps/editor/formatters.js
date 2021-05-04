@@ -45,61 +45,72 @@ const initAppValues = (app) => {
         ...group,
         key: group.id || `group${groupIndex}`,
         parameters: group.parameters?.map((param, paramIndex) => {
-            const { type: paramType, arguments: paramArgs } = param;
+            const { defaultValue, type: paramType } = param;
 
-            const key = param.id || `group${groupIndex}.param${paramIndex}`;
+            // shouldn't be necessary, except maybe in storybook
+            const paramFallbackKey = `group${groupIndex}.param${paramIndex}`;
 
-            let defaultValue = param.defaultValue;
-            let name = param.name;
+            const formattedParam = {
+                ...param,
+                key: param.id || paramFallbackKey,
+            };
 
             switch (paramType) {
                 case AppParamTypes.INTEGER:
-                    defaultValue =
+                    formattedParam.defaultValue =
                         defaultValue || defaultValue === 0
                             ? Number.parseInt(defaultValue)
                             : "";
                     break;
 
                 case AppParamTypes.DOUBLE:
-                    defaultValue =
+                    formattedParam.defaultValue =
                         defaultValue || defaultValue === 0
                             ? Number.parseFloat(defaultValue)
                             : "";
                     break;
 
                 case AppParamTypes.FLAG:
-                    name = initFlagName(name);
-                    defaultValue = defaultValue && defaultValue !== "false";
+                    formattedParam.name = initFlagName(name);
+                    formattedParam.defaultValue =
+                        defaultValue && defaultValue !== "false";
                     break;
 
                 case AppParamTypes.FILE_INPUT:
                 case AppParamTypes.FOLDER_INPUT:
-                    defaultValue = defaultValue?.path || "";
+                    formattedParam.defaultValue = defaultValue?.path || "";
                     break;
 
                 case AppParamTypes.MULTIFILE_SELECTOR:
-                    defaultValue = defaultValue?.path || [];
+                    formattedParam.defaultValue = defaultValue?.path || [];
                     break;
 
                 default:
                     let defaultArg;
-                    if (paramArgs?.length > 0) {
+                    if (formattedParam.arguments?.length > 0) {
+                        formattedParam.arguments = formattedParam.arguments.map(
+                            (arg, argIndex) => ({
+                                ...arg,
+                                key:
+                                    arg.id || `${paramFallbackKey}.${argIndex}`,
+                            })
+                        );
+
                         defaultArg =
-                            paramArgs.find(
-                                (arg) => defaultValue?.id === arg.id
-                            ) || paramArgs.find((arg) => arg.isDefault);
+                            formattedParam.arguments.find(
+                                (arg) => arg.id && arg.id === defaultValue?.id
+                            ) ||
+                            formattedParam.arguments.find(
+                                (arg) => arg.isDefault
+                            );
                     }
 
-                    defaultValue = defaultArg || defaultValue || "";
+                    formattedParam.defaultValue =
+                        defaultArg || defaultValue || "";
                     break;
             }
 
-            return {
-                ...param,
-                key,
-                name,
-                defaultValue,
-            };
+            return formattedParam;
         }),
     }));
 
@@ -222,7 +233,7 @@ const formatSubmission = (app) => {
                                 defaultValue
                             ),
                             defaultValue: defaultValue
-                                ? { ...defaultValue, isDefault: true }
+                                ? formatSelectionDefaultValue(defaultValue)
                                 : null,
                         };
 
@@ -303,14 +314,14 @@ const formatFlagName = (name) => {
 };
 
 const formatSelectionArgs = (paramArgs, defaultValue) => {
-    return paramArgs?.map((paramArg) => ({
+    return paramArgs?.map(({ key, ...paramArg }) => ({
         ...paramArg,
-        isDefault:
-            (paramArg.id && paramArg.id === defaultValue?.id) ||
-            (paramArg.display === defaultValue?.display &&
-                paramArg.name === defaultValue?.name &&
-                paramArg.value === defaultValue?.value),
+        isDefault: key === defaultValue?.key,
     }));
+};
+
+const formatSelectionDefaultValue = ({ key, ...defaultValue }) => {
+    return { ...defaultValue, isDefault: true };
 };
 
 const getNewParam = (paramType, label, key) => {

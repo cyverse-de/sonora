@@ -50,6 +50,7 @@ export function setUpAmqpForNotifications() {
  * @param {Object} ws - Websocket instance
  */
 export function getNotifications(user, ws) {
+    let consumerTag = "";
     if (!user) {
         logger.error("User not found. Unable to get notifications!");
         ws.close();
@@ -57,18 +58,29 @@ export function getNotifications(user, ws) {
     }
 
     const QUEUE = NOTIFICATION_QUEUE + user;
-    ws.on("close", function () {
+
+    const connectionCleanUp = () => {
         msgChannel.unbindQueue(
             QUEUE,
             config.amqpExchangeName,
             NOTIFICATION_ROUTING_KEY + user
         );
-        logger.info("Websocket closed. Channel unbound for user: " + user);
+        msgChannel.cancel(consumerTag);
+        logger.info(
+            "Websocket closed. Channel unbound for user: " +
+                user +
+                " consumer Tag:" +
+                consumerTag
+        );
+    };
+
+    ws.on("close", function () {
+        connectionCleanUp();
     });
 
     ws.on("error", function (error) {
         logger.info("Websocket error: " + error);
-        ws.close();
+        connectionCleanUp();
     });
 
     if (msgChannel) {
@@ -79,22 +91,32 @@ export function getNotifications(user, ws) {
             NOTIFICATION_ROUTING_KEY + user
         );
         logger.info("Channel bound for user: " + user);
-        msgChannel.consume(
-            QUEUE,
-            function (msg) {
-                logger.info("Received message:" + msg.content.toString());
-                try {
-                    ws.send(msg.content.toString());
-                    msgChannel.ack(msg);
-                } catch (e) {
-                    logger.error("Error when sending message: " + e);
-                    msgChannel.nack(msg);
+        msgChannel
+            .consume(
+                QUEUE,
+                function (msg) {
+                    logger.info("Received message:" + msg.content.toString());
+                    try {
+                        ws.send(msg.content.toString());
+                        msgChannel.ack(msg);
+                    } catch (e) {
+                        logger.error("Error when sending message: " + e);
+                        msgChannel.nack(msg);
+                    }
+                },
+                {
+                    noAck: false,
                 }
-            },
-            {
-                noAck: false,
-            }
-        );
+            )
+            .then((tag) => {
+                logger.info(
+                    "Consumer Tag is: " +
+                        tag?.consumerTag +
+                        " for user: " +
+                        user
+                );
+                consumerTag = tag?.consumerTag;
+            });
     } else {
         logger.error("No channel found");
     }

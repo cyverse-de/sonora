@@ -236,5 +236,45 @@ export default function groupsRouter() {
         })
     );
 
+    logger.info("adding the GET /communities/:name handler");
+    api.get(
+        "/communities/:name",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/communities/:name",
+        })
+    );
+
+    logger.info("adding the GET /communities/:name/admins handler");
+    api.get(
+        "/communities/:name/admins",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/communities/:name/admins",
+        })
+    );
+
+    logger.info("adding the GET /communities/:name/members handler");
+    api.get(
+        "/communities/:name/members",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/communities/:name/members",
+        })
+    );
+
+    logger.info("adding the GET /apps/communities/:name/apps handler");
+    api.get(
+        "/apps/communities/:name/apps",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/communities/:name/apps",
+        })
+    );
+
     return api;
 }

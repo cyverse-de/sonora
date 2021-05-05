@@ -22,6 +22,11 @@ const RECENT_CONTACTS_LIST_NAME = "default"; // `default` collaborator list
 
 const MY_COMMUNITIES_QUERY = "fetchMyCommunities";
 const ALL_COMMUNITIES_QUERY = "fetchAllCommunities";
+const COMMUNITY_INFO_QUERY = "fetchCommunityInfo";
+const COMMUNITY_ADMINS_QUERY = "fetchCommunityAdmins";
+const COMMUNITY_FOLLOWERS_QUERY = "fetchCommunityFollowers";
+const COMMUNITY_APPS_QUERY = "fetchCommunityApps";
+const COMMUNITY_DETAILS_QUERY = "fetchCommunityDetails";
 
 // Checks if a grouper member update response returned 200, but with `success`
 // set to false on any of the updates
@@ -364,6 +369,84 @@ function getAllCommunities(key) {
     });
 }
 
+function getCommunityInfo(key, { name }) {
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(name)}`,
+        method: "GET",
+    });
+}
+
+function getCommunityAdmins(key, { name }) {
+    /**
+     * The members endpoint only returns the user ID and source_id.  We'll take
+     * this response and ask the user-info endpoint to give us more detailed
+     * info
+     */
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(name)}/admins`,
+        method: "GET",
+    }).then((resp) => {
+        const userIds = resp?.members?.map((member) => member.id);
+        return getUserInfo(USER_INFO_QUERY_KEY, { userIds });
+    });
+}
+
+function getCommunityFollowers(key, { name }) {
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(name)}/members`,
+        method: "GET",
+    });
+}
+
+function getCommunityApps(key, { name, sortField, sortDir, appFilter }) {
+    const params = {
+        "sort-field": sortField || "name",
+        "sort-dir": sortDir?.toUpperCase() || "ASC",
+    };
+    if (appFilter) {
+        params["app-type"] = appFilter;
+    }
+
+    return callApi({
+        endpoint: `/api/apps/communities/${encodeURIComponent(name)}/apps`,
+        method: "GET",
+        params,
+    });
+}
+
+function getCommunityDetails(
+    key,
+    { name, userId, sortField, sortDir, appFilter }
+) {
+    return Promise.all([
+        getCommunityInfo(COMMUNITY_INFO_QUERY, { name }),
+        getCommunityAdmins(COMMUNITY_ADMINS_QUERY, { name }),
+        getCommunityFollowers(COMMUNITY_FOLLOWERS_QUERY, { name }),
+        getCommunityApps(COMMUNITY_APPS_QUERY, {
+            name,
+            sortField,
+            sortDir,
+            appFilter,
+        }),
+    ]).then((resp) => {
+        if (resp) {
+            const community = resp[0];
+
+            const adminObj = resp[1];
+            const admins = Object.values(adminObj);
+            const isAdmin = !!adminObj[userId];
+
+            const followers = resp[2];
+            const isFollower = !!followers?.members?.find(
+                (member) => member.id === userId
+            );
+
+            const apps = resp[3];
+            return { community, isAdmin, admins, isFollower, apps };
+        }
+    });
+}
+
 export {
     MY_TEAMS_QUERY,
     ALL_TEAMS_QUERY,
@@ -373,6 +456,7 @@ export {
     RECENT_CONTACTS_LIST_NAME,
     MY_COMMUNITIES_QUERY,
     ALL_COMMUNITIES_QUERY,
+    COMMUNITY_DETAILS_QUERY,
     getMyTeams,
     getAllTeams,
     searchTeams,
@@ -390,4 +474,5 @@ export {
     removeRecentContacts,
     getMyCommunities,
     getAllCommunities,
+    getCommunityDetails,
 };

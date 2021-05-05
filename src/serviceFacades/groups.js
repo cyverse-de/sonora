@@ -447,6 +447,34 @@ function getCommunityDetails(
     });
 }
 
+function followCommunity({ communityName }) {
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(communityName)}/join`,
+        method: "POST",
+    }).then((resp) => {
+        const hasFailures = responseHasFailures(resp);
+        if (hasFailures) {
+            throw new Error("Failed to follow community");
+        } else {
+            return resp;
+        }
+    });
+}
+
+function unfollowCommunity({ communityName }) {
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(communityName)}/leave`,
+        method: "POST",
+    }).then((resp) => {
+        const hasFailures = responseHasFailures(resp);
+        if (hasFailures) {
+            throw new Error("Failed to unfollow community");
+        } else {
+            return resp;
+        }
+    });
+}
+
 export {
     MY_TEAMS_QUERY,
     ALL_TEAMS_QUERY,
@@ -475,4 +503,6 @@ export {
     getMyCommunities,
     getAllCommunities,
     getCommunityDetails,
+    followCommunity,
+    unfollowCommunity,
 };

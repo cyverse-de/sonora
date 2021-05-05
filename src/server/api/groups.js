@@ -276,5 +276,31 @@ export default function groupsRouter() {
         })
     );
 
+    logger.info("adding the POST /api/communities/:name/join handler");
+    api.post(
+        "/communities/:name/join",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/communities/:name/join",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /api/communities/:name/leave handler");
+    api.post(
+        "/communities/:name/leave",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/communities/:name/leave",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

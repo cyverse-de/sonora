@@ -58,7 +58,8 @@ export function getNotifications(user, ws) {
     }
 
     const QUEUE = NOTIFICATION_QUEUE + user;
-    ws.on("close", function () {
+
+    const connectionCleanUp = () => {
         msgChannel.unbindQueue(
             QUEUE,
             config.amqpExchangeName,
@@ -71,17 +72,15 @@ export function getNotifications(user, ws) {
                 " consumer Tag:" +
                 consumerTag
         );
+    };
+
+    ws.on("close", function () {
+        connectionCleanUp();
     });
 
     ws.on("error", function (error) {
         logger.info("Websocket error: " + error);
-        msgChannel.unbindQueue(
-            QUEUE,
-            config.amqpExchangeName,
-            NOTIFICATION_ROUTING_KEY + user
-        );
-        msgChannel.cancel(consumerTag);
-        ws.close();
+        connectionCleanUp();
     });
 
     if (msgChannel) {

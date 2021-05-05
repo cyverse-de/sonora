@@ -21,6 +21,7 @@ export default function Selection({ param, ...props }) {
             required={param?.required}
             {...props}
         >
+            {!param?.required && <MenuItem value="">&nbsp;</MenuItem>}
             {param?.arguments?.map((arg) => (
                 // MenuItem.key can use arg.key or arg.id,
                 // which should always be set (from the service or app editor),

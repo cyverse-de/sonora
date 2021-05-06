@@ -325,3 +325,11 @@ export const move = ({ sources, dest }) => {
         },
     });
 };
+
+export const copyMetadata = ({ source_id, destination_ids }) => {
+    return callApi({
+        endpoint: `/api/filesystem/{source_id}/metadata/copy`,
+        method: "POST",
+        body: { destination_ids },
+    });
+};

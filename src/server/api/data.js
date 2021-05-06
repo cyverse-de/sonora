@@ -262,6 +262,18 @@ export default function dataRouter() {
             },
         })
     );
+    logger.info("adding the POST /api/filesystem/:id/metadata/copy");
+    api.post(
+        "/filesystem/:id/metadata/copy",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/filesystem/:id/metadata/copy",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
 
     return api;
 }

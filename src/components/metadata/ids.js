@@ -12,6 +12,7 @@ export default {
     BUTTONS: {
         ADD: "addBtn",
         CONFIRM: "confirmBtn",
+        COPY_METADATA: "copyBtn",
         DELETE: "deleteBtn",
         DONE: "doneBtn",
         DOWNLOAD: "downloadBtn",

@@ -53,7 +53,8 @@ export function useReferenceGenomes(enabled, onSuccess, onError) {
         queryFn: getReferenceGenomes,
         config: {
             enabled,
-            staleTime: 1000 * 60 * 5, // 5 minutes in milliseconds.
+            staleTime: Infinity,
+            cacheTime: Infinity,
             onSuccess: (resp) => {
                 const genomes = resp?.genomes || [];
                 onSuccess && onSuccess(sortReferenceGenomes(genomes));

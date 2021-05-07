@@ -13,7 +13,7 @@
     "confirmDiscardChangesDialogHeader": "Discard Changes?",
     "confirmDiscardChangesDialogMsg": "You have unsaved changes. Do you wish to continue and discard these changes?",
     "copyMetadata": "Copy Metadata",
-    "copyMetadataInputLabel": "Select files(s) and folder(s) to copy the metadata",
+    "copyMetadataInputLabel": "Select files(s) and folder(s) to which metadata will be copied.",
     "copyPrompt": "Copy metadata from {{resourceToCopyFrom}}",
     "copyFailure": "Unable to copy metadata. Please try again.",
     "copySuccess": "Metadata copied successfully.",

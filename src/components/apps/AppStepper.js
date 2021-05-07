@@ -74,6 +74,7 @@ const AppStepper = React.forwardRef((props, ref) => {
         handleBack,
         isLastStep,
         activeStep,
+        stepCompleted,
         stepError,
     } = props;
 
@@ -128,22 +129,25 @@ const AppStepper = React.forwardRef((props, ref) => {
 
     return (
         <Stepper ref={ref} alternativeLabel nonLinear activeStep={activeStep}>
-            {steps.map((step, index) => (
-                <Step key={step.label}>
-                    <StepButton
-                        id={buildID(
-                            baseId,
-                            ids.APP_STEPPER.STEP_BTN,
-                            index + 1
-                        )}
-                        onClick={handleStep(index)}
-                    >
-                        <StepLabel error={stepError(index)}>
-                            {step.label}
-                        </StepLabel>
-                    </StepButton>
-                </Step>
-            ))}
+            {steps.map((step, index) => {
+                const completed = stepCompleted && stepCompleted(index);
+                const hasError = stepError && stepError(index);
+
+                return (
+                    <Step key={step.label} completed={completed}>
+                        <StepButton
+                            id={buildID(
+                                baseId,
+                                ids.APP_STEPPER.STEP_BTN,
+                                index + 1
+                            )}
+                            onClick={handleStep(index)}
+                        >
+                            <StepLabel error={hasError}>{step.label}</StepLabel>
+                        </StepButton>
+                    </Step>
+                );
+            })}
         </Stepper>
     );
 });

@@ -1,0 +1,12 @@
+{
+    "createWorkflow": "Create Workflow: {{name}}",
+    "editWorkflow": "Edit Workflow: {{name}}",
+    "mapOutputsToInputs": "Match Outputs to Inputs",
+    "selectAndOrderApps": "Select & Order Apps",
+    "stepHelpInfo": "Currently, only linear workflows may be created. At least one input for each app must come from an output of a previous app.",
+    "stepHelpMapping": "At least one input for each app must come from an output of a previous app.",
+    "stepHelpSelectAndOrder": "Add and organize apps in this workflow.",
+    "workflowInfo": "Workflow Information",
+    "workflowSaved": "Workflow Saved",
+    "workflowSaveErr": "Unable to save workflow. Please try again."
+}

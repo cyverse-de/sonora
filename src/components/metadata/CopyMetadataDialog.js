@@ -8,12 +8,12 @@
 
 import React from "react";
 import { useTranslation } from "i18n";
-import { Field, FieldArray, Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 
-import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 
 import ids from "./ids";
-import constants from "../../constants";
+import { nonEmptyField } from "components/utils/validations";
 import DEDialog from "components/utils/DEDialog";
 import MultiInputSelector from "components/apps/launch/MultiInputSelector";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
@@ -24,18 +24,22 @@ export default function CopyMetadataDialog(props) {
     const {
         open,
         handleClose,
-        baseId,
         resourceToCopyFrom,
-        copyStatus,
+        copying,
         error,
-        doCopy
+        doCopy,
     } = props;
     const { t } = useTranslation("metadata");
     const { t: i18nCommon } = useTranslation("common");
+    const { t: i18nUtil } = useTranslation("util");
     const handleSubmit = (values) => {
-        console.log("values=>" + JSON.stringify(values));
-        doCopy();
+        const { selectedResources } = values;
+        const destination_ids = selectedResources?.map(
+            (resource) => resource.id
+        );
+        doCopy({ source_id: resourceToCopyFrom?.id, destination_ids });
     };
+    const baseId = ids.COPY_DIALOG;
     return (
         <Formik
             initialValues={{
@@ -56,13 +60,13 @@ export default function CopyMetadataDialog(props) {
                             actions={
                                 <>
                                     <Button
-                                        id={build(baseId, ids.CANCEL_BTN)}
+                                        id={build(baseId, ids.CANCEL_BUTTON)}
                                         onClick={handleClose}
                                     >
                                         {i18nCommon("cancel")}
                                     </Button>
                                     <Button
-                                        id={build(baseId, ids.SUBMIT_BTN)}
+                                        id={build(baseId, ids.COPY_BUTTON)}
                                         type="submit"
                                         color="primary"
                                         onClick={handleSubmit}
@@ -74,10 +78,11 @@ export default function CopyMetadataDialog(props) {
                         >
                             <Typography>
                                 {t("copyPrompt", {
-                                    resourceToCopyFrom,
+                                    resourceToCopyFrom:
+                                        resourceToCopyFrom?.path,
                                 })}
                             </Typography>
-                            {copyStatus === constants.LOADING && (
+                            {copying && (
                                 <CircularProgress
                                     size={30}
                                     thickness={5}
@@ -90,7 +95,7 @@ export default function CopyMetadataDialog(props) {
                             )}
                             {error && (
                                 <ErrorTypographyWithDialog
-                                    errorMessage={t("publicationRequestFailed")}
+                                    errorMessage={t("copyFailure")}
                                     errorObject={error}
                                 />
                             )}
@@ -98,10 +103,13 @@ export default function CopyMetadataDialog(props) {
                             <Field
                                 name="selectedResources"
                                 label={t("copyMetadataInputLabel")}
-                                id={build(baseId, "")}
+                                id={build(baseId, ids.SELECTED_RESOURCES)}
                                 required={true}
                                 height="25vh"
                                 component={MultiInputSelector}
+                                validate={(value) =>
+                                    nonEmptyField(value, i18nUtil)
+                                }
                             />
                         </DEDialog>
                     </Form>

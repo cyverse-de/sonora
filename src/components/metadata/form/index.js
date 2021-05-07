@@ -393,10 +393,15 @@ const MetadataForm = ({
         copyMetadata,
         {
             onSuccess: () => {
-                console.log("copy complete!");
+                announce({
+                    text: t("copySuccess"),
+                    variant: AnnouncerConstants.SUCCESS,
+                });
+                setCopyDialogOpen(false);
+                setCopyMetadataError(null);
             },
             onError: (err) => {
-                console.log("Copy Error=>" + JSON.stringify(err));
+                setCopyMetadataError(err);
             },
         }
     );
@@ -565,12 +570,14 @@ const MetadataForm = ({
 
             <CopyMetadataDialog
                 open={copyDialogOpen}
-                baseId={baseId}
-                resourceToCopyFrom={targetResource?.path}
-                handleClose={() => setCopyDialogOpen(false)}
+                resourceToCopyFrom={targetResource}
                 doCopy={doCopyMetadata}
-                copyStatus={copyLoading}
+                copying={copyLoading}
                 error={copyMetadataError}
+                handleClose={() => {
+                    setCopyMetadataError(null);
+                    setCopyDialogOpen(false);
+                }}
             />
 
             <SignInDialog

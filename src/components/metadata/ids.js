@@ -31,4 +31,9 @@ export default {
     COL_HEADER: "colHeader",
     DIALOG: "dialog",
     TITLE: "title",
+    CANCEL_BUTTON: "cancelButton",
+    COPY_DIALOG: "copyDialog",
+    COPY_BUTTON: "copyButton",
+    COPY_DESTINATIONS: "copyDestinations",
+    SELECTED_RESOURCES: "selectedResources",
 };

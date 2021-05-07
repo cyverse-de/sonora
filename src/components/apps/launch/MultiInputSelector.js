@@ -57,7 +57,7 @@ const multiInputColumnData = (t) => [
     },
 ];
 
-const getPathBaseName = (path) => path.replace(/.*\//, "");
+const getPathBaseName = (path) => path?.replace(/.*\//, "");
 
 const comparePathNames = (a, b) =>
     getPathBaseName(a?.path).localeCompare(getPathBaseName(b?.path));

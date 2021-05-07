@@ -108,7 +108,10 @@ const initGroupValues = (groups) =>
             }
 
             if (paramType === AppParamTypes.MULTIFILE_SELECTOR) {
-                value = defaultValue?.path || [];
+                value =
+                    defaultValue?.path.map((val) => {
+                        return { path: val };
+                    }) || [];
             }
 
             if (paramType === AppParamTypes.FLAG) {

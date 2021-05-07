@@ -194,7 +194,6 @@ const ParamsReviewValue = ({ param }) => {
             );
 
         case AppParamTypes.MULTILINE_TEXT:
-        case AppParamTypes.MULTIFILE_SELECTOR:
             return (
                 <TextField
                     className={classes.paramsReview}
@@ -207,6 +206,25 @@ const ParamsReviewValue = ({ param }) => {
                         readOnly: true,
                     }}
                     value={Array.isArray(value) ? value.join("\n") : value}
+                />
+            );
+        case AppParamTypes.MULTIFILE_SELECTOR:
+            return (
+                <TextField
+                    className={classes.paramsReview}
+                    multiline
+                    rows={3}
+                    variant="outlined"
+                    margin="dense"
+                    fullWidth
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    value={
+                        Array.isArray(value)
+                            ? value.map((resource) => resource.path)?.join("\n")
+                            : value
+                    }
                 />
             );
 

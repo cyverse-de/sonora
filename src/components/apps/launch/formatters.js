@@ -212,7 +212,11 @@ const paramConfigsReducer = (configs, group) => {
                         value = value.trim();
                     }
                     break;
-
+                case AppParamTypes.MULTIFILE_SELECTOR:
+                    if (value) {
+                        value = value?.map((resource) => resource?.path);
+                    }
+                    break;
                 default:
                     break;
             }

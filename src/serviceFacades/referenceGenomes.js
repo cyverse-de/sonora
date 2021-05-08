@@ -1,6 +1,9 @@
 import callApi from "../common/callApi";
 
-export const REFERENCE_GENOMES_QUERY_KEY = "referenceGenomesKey";
+export const REFERENCE_GENOMES_QUERY_KEY = [
+    "referenceGenomesKey",
+    { deleted: false },
+];
 export const ADMIN_REFERENCE_GENOMES_QUERY_KEY = "adminReferenceGenomesKey";
 
 /**

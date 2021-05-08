@@ -43,17 +43,21 @@ export function useAppElementInfoTypes(enabled, onSuccess, onError) {
     });
 }
 
+export function sortReferenceGenomes(genomes) {
+    return stableSort(genomes, (a, b) => a.name.localeCompare(b.name));
+}
+
 export function useReferenceGenomes(enabled, onSuccess, onError) {
     return useQuery({
-        queryKey: [REFERENCE_GENOMES_QUERY_KEY, { deleted: false }],
+        queryKey: REFERENCE_GENOMES_QUERY_KEY,
         queryFn: getReferenceGenomes,
         config: {
             enabled,
+            staleTime: Infinity,
+            cacheTime: Infinity,
             onSuccess: (resp) => {
                 const genomes = resp?.genomes || [];
-                onSuccess(
-                    stableSort(genomes, (a, b) => a.name.localeCompare(b.name))
-                );
+                onSuccess && onSuccess(sortReferenceGenomes(genomes));
             },
             onError: (e) => {
                 if (onError) {

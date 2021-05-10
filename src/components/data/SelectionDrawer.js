@@ -82,7 +82,6 @@ function SelectionToolbar(props) {
         } else {
             onConfirm(selectedResources[0].path);
         }
-        onConfirm();
     };
 
     const handleCurrentFolderConfirm = () => {

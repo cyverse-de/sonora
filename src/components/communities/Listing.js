@@ -59,6 +59,7 @@ function Listing(props) {
         error: myCommunitiesError,
     } = useQuery({
         queryKey: [MY_COMMUNITIES_QUERY, { userId: userProfile?.id }],
+        enabled: userProfile?.id,
         queryFn: getMyCommunities,
         config: {
             enabled: COMMUNITY_FILTER.MY_COMMUNITIES === filter,
@@ -72,7 +73,7 @@ function Listing(props) {
         isFetching: fetchAllCommunities,
         error: allCommunitiesError,
     } = useQuery({
-        queryKey: [ALL_COMMUNITIES_QUERY, userProfile?.id],
+        queryKey: [ALL_COMMUNITIES_QUERY],
         queryFn: getAllCommunities,
         config: {
             enabled: COMMUNITY_FILTER.ALL_COMMUNITIES === filter,

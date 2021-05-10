@@ -7,14 +7,12 @@
 
 import React, { useMemo, useState } from "react";
 
-import { build, EmptyTable } from "@cyverse-de/ui-lib";
-import { Table, TableBody } from "@material-ui/core";
+import { build } from "@cyverse-de/ui-lib";
 import { useQuery } from "react-query";
 
 import BasicTable from "components/utils/BasicTable";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import isQueryLoading from "components/utils/isQueryLoading";
-import TableLoading from "components/utils/TableLoading";
 import { useUserProfile } from "contexts/userProfile";
 import { useTranslation } from "i18n";
 import ids from "./ids";
@@ -88,36 +86,20 @@ function Listing(props) {
 
     const error = allCommunitiesError || myCommunitiesError;
 
-    if (loading) {
-        return (
-            <Table>
-                <TableLoading
-                    baseId={tableId}
-                    numColumns={Object.keys(COMMUNITY_COLUMNS).length}
-                    numRows={5}
-                />
-            </Table>
-        );
-    }
-
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={parentId} />;
     }
 
-    if (!data || data.length === 0) {
-        return (
-            <Table>
-                <TableBody>
-                    <EmptyTable
-                        message={t("noCommunities")}
-                        numColumns={Object.keys(COMMUNITY_COLUMNS).length}
-                    />
-                </TableBody>
-            </Table>
-        );
-    }
-
-    return <BasicTable columns={columns} data={data} sortable />;
+    return (
+        <BasicTable
+            baseId={tableId}
+            columns={columns}
+            data={data}
+            loading={loading}
+            emptyDataMessage={t("noCommunities")}
+            sortable
+        />
+    );
 }
 
 export default Listing;

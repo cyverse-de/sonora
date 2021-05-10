@@ -88,7 +88,9 @@ function DataDotMenu(props) {
         onMoveSelected,
     } = props;
 
-    const { t } = useTranslation(["data", "common"]);
+    const { t } = useTranslation("data");
+    const { t: i18nMetadata } = useTranslation("metadata");
+    const { t: i81nCommon } = useTranslation("common");
 
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
     const [pathListDlgOpen, setPathListDlgOpen] = useState(false);
@@ -140,7 +142,7 @@ function DataDotMenu(props) {
             <DotMenu
                 baseId={baseId}
                 ButtonProps={ButtonProps}
-                buttonText={t("common:dotMenuText")}
+                buttonText={i81nCommon("dotMenuText")}
                 iconOnlyBreakpoint="sm"
                 render={(onClose) => [
                     isSmall
@@ -291,7 +293,11 @@ function DataDotMenu(props) {
                                       <ListItemIcon>
                                           <Description fontSize="small" />
                                       </ListItemIcon>
-                                      <ListItemText primary="Apply Bulk Metadata" />
+                                      <ListItemText
+                                          primary={i18nMetadata(
+                                              "applyBulkTitle"
+                                          )}
+                                      />
                                   </MenuItem>
                               ),
                               <Divider key={ids.METADATA_MENU_ITEM_DIVIDER} />,

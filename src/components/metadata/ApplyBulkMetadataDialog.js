@@ -17,10 +17,11 @@ import ids from "./ids";
 import constants from "../../constants";
 import { nonEmptyField } from "components/utils/validations";
 import DEDialog from "components/utils/DEDialog";
+import FileInput from "components/apps/launch/params/FileInput";
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import { applyBulkMetadataFromFile } from "serviceFacades/metadata";
 
-import { Button, CircularProgress } from "@material-ui/core";
-import FileInput from "components/apps/launch/params/FileInput";
+import { Button, CircularProgress, Typography } from "@material-ui/core";
 
 export default function ApplyBulkMetadataDialog(props) {
     const { open, handleClose, destFolder } = props;
@@ -28,7 +29,9 @@ export default function ApplyBulkMetadataDialog(props) {
     const { t: i18nCommon } = useTranslation("common");
     const { t: i18nUtil } = useTranslation("util");
 
-    const baseId = "BULK";
+    const [error, setError] = React.useState();
+
+    const baseId = ids.BULK_METADATA_DIALOG;
     const [applyMetadata, { status: bulkStatus }] = useMutation(
         applyBulkMetadataFromFile,
         {
@@ -39,7 +42,7 @@ export default function ApplyBulkMetadataDialog(props) {
                 });
                 handleClose();
             },
-            onError: (error) => console.log("error=>" + error),
+            onError: setError,
         }
     );
 
@@ -64,7 +67,7 @@ export default function ApplyBulkMetadataDialog(props) {
                             maxWidth="sm"
                             onClose={handleClose}
                             baseId={baseId}
-                            title="Apply Bulk Metadata"
+                            title={t("applyBulkTitle")}
                             actions={
                                 <>
                                     <Button
@@ -84,6 +87,11 @@ export default function ApplyBulkMetadataDialog(props) {
                                 </>
                             }
                         >
+                            <Typography>
+                                {t("applyBulkPrompt", {
+                                    destFolder,
+                                })}
+                            </Typography>
                             {bulkStatus === constants.LOADING && (
                                 <CircularProgress
                                     size={30}
@@ -95,10 +103,16 @@ export default function ApplyBulkMetadataDialog(props) {
                                     }}
                                 />
                             )}
+                            {error && (
+                                <ErrorTypographyWithDialog
+                                    errorMessage={t("bulkMetadataFailure")}
+                                    errorObject={error}
+                                />
+                            )}
                             <Field
                                 name="metadataFile"
-                                label="Select the file containing metadata"
-                                id={build(baseId, ids.SELECTED_RESOURCES)}
+                                label={t("metadataFile")}
+                                id={build(baseId, ids.METADATA_FILE)}
                                 required={true}
                                 component={FileInput}
                                 validate={(value) =>

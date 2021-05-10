@@ -56,7 +56,7 @@ export default function CopyMetadataDialog(props) {
                             maxWidth="sm"
                             onClose={handleClose}
                             baseId={baseId}
-                            title="Copy Metadata"
+                            title={t("copyMetadata")}
                             actions={
                                 <>
                                     <Button

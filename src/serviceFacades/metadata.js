@@ -50,6 +50,14 @@ function saveFilesystemMetadata({ dataId, dest, recursive }) {
     });
 }
 
+function applyBulkMetadataFromFile({ sourceFile, destFolder }) {
+    return callApi({
+        endpoint: `/api/filesystem/metadata/csv-parser?dest=${destFolder}&src=${sourceFile}`,
+        method: "POST",
+        body: {},
+    });
+}
+
 /**
  * The Ontology Lookup Service `select` endpoint:
  * http://www.ebi.ac.uk/ols/docs/api#_select_terms
@@ -140,6 +148,7 @@ export {
     getFilesystemMetadataTemplateListing,
     saveFilesystemMetadata,
     setFilesystemMetadata,
+    applyBulkMetadataFromFile,
     searchOntologyLookupService,
     searchUnifiedAstronomyThesaurus,
 };

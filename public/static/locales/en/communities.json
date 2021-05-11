@@ -1,7 +1,7 @@
 {
     "allCommunities": "All Communities",
     "description": "Description",
-    "helpText": "Communities are public groups of apps. Creating a community allows you to create a custom collection of apps, and other CyVerse members can follow that community. When following a community, that community's app listing becomes available in the Apps view.",
+    "helpText": "Communities are a selected collection of public resources that you can create. You can also follow a community to see and easily access that community's custom list of resources, like in the Apps view.",
     "myCommunities": "My Communities",
     "name": "Name",
     "noCommunities": "No communities",

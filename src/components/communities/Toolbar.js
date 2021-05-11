@@ -23,7 +23,7 @@ import { Help } from "@material-ui/icons";
 import ids from "./ids";
 import styles from "./styles";
 import { COMMUNITY_FILTER } from "./index";
-import { Trans, useTranslation } from "i18n";
+import { useTranslation } from "i18n";
 
 import DEDialog from "../utils/DEDialog";
 
@@ -109,15 +109,7 @@ function CommunityToolbar(props) {
                     setHelpDlgOpen(false);
                 }}
             >
-                <Typography component="div">
-                    <Trans
-                        t={t}
-                        i18nKey="helpText"
-                        components={{
-                            p: <p />,
-                        }}
-                    />
-                </Typography>
+                <Typography component="div">{t("helpText")}</Typography>
             </DEDialog>
         </Toolbar>
     );

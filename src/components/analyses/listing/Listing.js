@@ -311,6 +311,7 @@ function Listing(props) {
         {
             onSuccess: (resp) => {
                 setConfirmExtendTimeLimitDlgOpen(false);
+                setTimeLimit(null);
                 announce({
                     text: t("timeLimitExtended", {
                         newTimeLimit: formatDate(resp?.time_limit * 1000),

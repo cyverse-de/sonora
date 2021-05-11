@@ -185,7 +185,6 @@ function useRunningViceJobs({ enabled, onSuccess, onError, ...rest }) {
 }
 
 function getTimeLimitForVICEAnalysis(key, id) {
-    console.log("Getting time limit for => " + id);
     return callApi({
         endpoint: `/api/analyses/${id}/time-limit`,
         method: "GET",

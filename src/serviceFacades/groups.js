@@ -475,6 +475,13 @@ function unfollowCommunity({ communityName }) {
     });
 }
 
+function deleteCommunity({ communityName }) {
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(communityName)}`,
+        method: "DELETE",
+    });
+}
+
 export {
     MY_TEAMS_QUERY,
     ALL_TEAMS_QUERY,
@@ -505,4 +512,5 @@ export {
     getCommunityDetails,
     followCommunity,
     unfollowCommunity,
+    deleteCommunity,
 };

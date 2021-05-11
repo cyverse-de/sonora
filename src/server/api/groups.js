@@ -302,5 +302,18 @@ export default function groupsRouter() {
         })
     );
 
+    logger.info("adding the DELETE /api/communities/:name handler");
+    api.delete(
+        "/communities/:name",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/communities/:name",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

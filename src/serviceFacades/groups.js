@@ -20,6 +20,9 @@ const LIST_SINGLE_TEAM_QUERY = "fetchSingleTeam";
 const RECENT_CONTACTS_QUERY = "fetchRecentContactsList";
 const RECENT_CONTACTS_LIST_NAME = "default"; // `default` collaborator list
 
+const MY_COMMUNITIES_QUERY = "fetchMyCommunities";
+const ALL_COMMUNITIES_QUERY = "fetchAllCommunities";
+
 // Checks if a grouper member update response returned 200, but with `success`
 // set to false on any of the updates
 function responseHasFailures(response) {
@@ -344,6 +347,23 @@ function removeRecentContacts({ members }) {
     });
 }
 
+function getMyCommunities(key, { userId }) {
+    return callApi({
+        endpoint: "/api/communities",
+        method: "GET",
+        params: {
+            member: userId,
+        },
+    });
+}
+
+function getAllCommunities(key) {
+    return callApi({
+        endpoint: "/api/communities",
+        method: "GET",
+    });
+}
+
 export {
     MY_TEAMS_QUERY,
     ALL_TEAMS_QUERY,
@@ -351,6 +371,8 @@ export {
     TEAM_DETAILS_QUERY,
     RECENT_CONTACTS_QUERY,
     RECENT_CONTACTS_LIST_NAME,
+    MY_COMMUNITIES_QUERY,
+    ALL_COMMUNITIES_QUERY,
     getMyTeams,
     getAllTeams,
     searchTeams,
@@ -366,4 +388,6 @@ export {
     fetchRecentContactsList,
     addRecentContacts,
     removeRecentContacts,
+    getMyCommunities,
+    getAllCommunities,
 };

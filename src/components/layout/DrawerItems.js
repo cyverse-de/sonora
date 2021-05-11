@@ -13,6 +13,7 @@ import NavigationConstants from "common/NavigationConstants";
 import AnalysesIcon from "components/icons/AnalysesIcon";
 import DataIcon from "components/icons/DataIcon";
 import { TeamIcon } from "components/teams/Icons";
+import { CommunityIcon } from "components/communities/Icons";
 import AdminDrawerItems from "./AdminDrawerItems";
 import { Divider, Hidden, List } from "@material-ui/core";
 import { useUserProfile } from "contexts/userProfile";
@@ -112,6 +113,15 @@ function DrawerItems(props) {
                 id={ids.TEAMS_MI}
                 icon={TeamIcon}
                 thisView={NavigationConstants.TEAMS}
+                activeView={activeView}
+                toggleDrawer={toggleDrawer}
+                open={open}
+            />
+            <DrawerItem
+                title={t("communities")}
+                id={ids.COMMUNITIES_MI}
+                icon={CommunityIcon}
+                thisView={NavigationConstants.COMMUNITIES}
                 activeView={activeView}
                 toggleDrawer={toggleDrawer}
                 open={open}

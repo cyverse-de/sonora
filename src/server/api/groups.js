@@ -226,5 +226,15 @@ export default function groupsRouter() {
         })
     );
 
+    logger.info("adding the GET /communities handler");
+    api.get(
+        "/communities",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/communities",
+        })
+    );
+
     return api;
 }

@@ -19,12 +19,11 @@ import {
     Typography,
 } from "@material-ui/core";
 import { Help } from "@material-ui/icons";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import ids from "./ids";
 import styles from "./styles";
 import { COMMUNITY_FILTER } from "./index";
-import { useTranslation, Trans } from "i18n";
+import { Trans, useTranslation } from "i18n";
 
 import DEDialog from "../utils/DEDialog";
 
@@ -37,8 +36,8 @@ function CommunityToolbar(props) {
 
     const [helpDlgOpen, setHelpDlgOpen] = useState(false);
 
-    const onFilterChange = (newValue) => {
-        setFilter(newValue);
+    const onFilterChange = (event) => {
+        setFilter(event.target.value);
     };
 
     const toolbarId = build(parentId, ids.TOOLBAR);
@@ -46,29 +45,30 @@ function CommunityToolbar(props) {
 
     return (
         <Toolbar id={toolbarId} variant="dense">
-            <Autocomplete
+            <TextField
                 id={build(toolbarId, ids.COMMUNITY_FILTER)}
-                disableClearable
-                className={classes.filter}
+                label={t("view")}
                 value={filter}
-                options={Object.values(COMMUNITY_FILTER)}
-                size="small"
-                onChange={(event, newValue) => {
-                    onFilterChange(newValue);
-                }}
-                getOptionLabel={(option) =>
-                    option === COMMUNITY_FILTER.ALL_COMMUNITIES
-                        ? t("allCommunities")
-                        : t("myCommunities")
-                }
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        label={t("view")}
-                        variant="outlined"
-                    />
-                )}
-            />
+                onChange={onFilterChange}
+                variant="outlined"
+                select
+                margin="dense"
+            >
+                <MenuItem
+                    value={COMMUNITY_FILTER.ALL_COMMUNITIES}
+                    key={COMMUNITY_FILTER.ALL_COMMUNITIES}
+                    id={build()}
+                >
+                    {t("allCommunities")}
+                </MenuItem>
+                <MenuItem
+                    value={COMMUNITY_FILTER.MY_COMMUNITIES}
+                    key={COMMUNITY_FILTER.MY_COMMUNITIES}
+                    id={build()}
+                >
+                    {t("myCommunities")}
+                </MenuItem>
+            </TextField>
             <div className={classes.divider} />
             <Hidden xsDown>
                 <Button

@@ -10,20 +10,28 @@ import { queryCache, useMutation, useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
-import { AnnouncerConstants, announce, build } from "@cyverse-de/ui-lib";
+import {
+    AnnouncerConstants,
+    announce,
+    build,
+    formatDate,
+} from "@cyverse-de/ui-lib";
 
 import {
     ANALYSES_LISTING_QUERY_KEY,
+    VICE_TIME_LIMIT_QUERY_KEY,
     cancelAnalyses,
     deleteAnalyses,
     getAnalyses,
     relaunchAnalyses,
     renameAnalysis,
     updateAnalysisComment,
+    extendVICEAnalysisTimeLimit,
+    getTimeLimitForVICEAnalysis,
 } from "serviceFacades/analyses";
 
 import { useBagAddItems } from "serviceFacades/bags";
-
+import isQueryLoading from "components/utils/isQueryLoading";
 import { getAnalysisShareWithSupportRequest } from "serviceFacades/sharing";
 
 import {
@@ -113,6 +121,10 @@ function Listing(props) {
     const [relaunchDialogOpen, setRelaunchDialogOpen] = useState(false);
     const [renameDialogOpen, setRenameDialogOpen] = useState(false);
     const [commentDialogOpen, setCommentDialogOpen] = useState(false);
+    const [
+        confirmExtendTimeLimitDlgOpen,
+        setConfirmExtendTimeLimitDlgOpen,
+    ] = useState(false);
 
     const [analysesKey, setAnalysesKey] = useState(ANALYSES_LISTING_QUERY_KEY);
     const [
@@ -122,6 +134,14 @@ function Listing(props) {
     const [pendingTerminationDlgOpen, setPendingTerminationDlgOpen] = useState(
         false
     );
+    const [timeLimitQueryEnabled, setTimeLimitQueryEnabled] = useState(false);
+    const [timeLimit, setTimeLimit] = useState();
+
+    useEffect(() => {
+        if (timeLimit && selected?.length > 0 && timeLimit[selected[0]]) {
+            setConfirmExtendTimeLimitDlgOpen(true);
+        }
+    }, [timeLimit, selected]);
 
     const { isFetching, error } = useQuery({
         queryKey: analysesKey,
@@ -266,6 +286,41 @@ function Listing(props) {
             },
             onError: (error) => {
                 showErrorAnnouncer(t("statusHelpShareError"), error);
+            },
+        }
+    );
+
+    const { isFetching: isFetchingTimeLimit } = useQuery({
+        queryKey: [VICE_TIME_LIMIT_QUERY_KEY, selected[0]],
+        queryFn: getTimeLimitForVICEAnalysis,
+        config: {
+            enabled: timeLimitQueryEnabled,
+            onSuccess: (resp) => {
+                setTimeLimit({
+                    [selected[0]]: formatDate(resp?.time_limit * 1000),
+                });
+            },
+            onError: (error) => {
+                showErrorAnnouncer(t("timeLimitError"), error);
+            },
+        },
+    });
+
+    const [doTimeLimitExtension, { isLoading: extensionStatus }] = useMutation(
+        extendVICEAnalysisTimeLimit,
+        {
+            onSuccess: (resp) => {
+                setConfirmExtendTimeLimitDlgOpen(false);
+                announce({
+                    text: t("timeLimitExtended", {
+                        newTimeLimit: formatDate(resp?.time_limit * 1000),
+                        analysisName: getSelectedAnalyses()[0]?.name,
+                    }),
+                    variant: AnnouncerConstants.SUCCESS,
+                });
+            },
+            onError: (error) => {
+                showErrorAnnouncer(t("analysesRelaunchError"), error);
             },
         }
     );
@@ -660,6 +715,15 @@ function Listing(props) {
 
     const sharingEnabled = canShare(getSelectedAnalyses());
 
+    const isLoading = isQueryLoading([
+        isFetching,
+        cancelLoading,
+        deleteLoading,
+        relaunchLoading,
+        isFetchingTimeLimit,
+        extensionStatus,
+    ]);
+
     return (
         <>
             <AnalysesToolbar
@@ -688,14 +752,10 @@ function Listing(props) {
                 handleBatchIconClick={handleBatchIconClick}
                 canShare={sharingEnabled}
                 setPendingTerminationDlgOpen={setPendingTerminationDlgOpen}
+                handleTimeLimitExtnClick={() => setTimeLimitQueryEnabled(true)}
             />
             <TableView
-                loading={
-                    isFetching ||
-                    cancelLoading ||
-                    deleteLoading ||
-                    relaunchLoading
-                }
+                loading={isLoading}
                 error={error}
                 listing={data}
                 baseId={baseId}
@@ -713,6 +773,9 @@ function Listing(props) {
                 handleDetailsClick={onDetailsSelected}
                 handleStatusClick={handleStatusClick}
                 setPendingTerminationDlgOpen={setPendingTerminationDlgOpen}
+                handleTimeLimitExtnClick={() => {
+                    setTimeLimitQueryEnabled(true);
+                }}
             />
 
             <ConfirmationDialog
@@ -791,6 +854,17 @@ function Listing(props) {
                     baseId={baseId}
                 />
             )}
+
+            <ConfirmationDialog
+                open={confirmExtendTimeLimitDlgOpen}
+                onClose={() => setConfirmExtendTimeLimitDlgOpen(false)}
+                onConfirm={() => doTimeLimitExtension({ id: selected[0] })}
+                confirmButtonText={t("extend")}
+                title={t("extendTime")}
+                contentText={t("extendTimeLimitMessage", {
+                    timeLimit: timeLimit ? timeLimit[selected[0]] : "",
+                })}
+            />
         </>
     );
 }

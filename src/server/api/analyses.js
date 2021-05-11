@@ -134,5 +134,28 @@ export default function analysesRouter() {
         })
     );
 
+    logger.info("adding the POST /analyses/:id/time-limit handler");
+    api.post(
+        "/analyses/:id/time-limit",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/analyses/:id/time-limit",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the GET /analyses/:id/time-limit handler");
+    api.get(
+        "/analyses/:id/time-limit",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/analyses/:id/time-limit",
+        })
+    );
+
     return api;
 }

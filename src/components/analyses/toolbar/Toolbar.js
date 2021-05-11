@@ -156,6 +156,7 @@ function AnalysesToolbar(props) {
         handleBatchIconClick,
         canShare,
         setPendingTerminationDlgOpen,
+        handleTimeLimitExtnClick,
     } = props;
     const classes = useStyles();
     const theme = useTheme();
@@ -261,6 +262,7 @@ function AnalysesToolbar(props) {
                         setPendingTerminationDlgOpen={
                             setPendingTerminationDlgOpen
                         }
+                        handleTimeLimitExtnClick={handleTimeLimitExtnClick}
                     />
                 )}
             </Toolbar>

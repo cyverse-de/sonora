@@ -17,8 +17,8 @@ import {
     TextField,
     Toolbar,
     Typography,
-    useTheme,
     useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
 import { Directions } from "@material-ui/icons";
 import PropTypes from "prop-types";
@@ -30,8 +30,6 @@ import ResourceTypes from "../models/ResourceTypes";
 
 import styles from "./styles";
 import constants from "../../constants";
-
-import PageWrapper from "../../components/layout/PageWrapper";
 import useComponentHeight from "../utils/useComponentHeight";
 import { DEFAULT_PAGE_SETTINGS } from "components/data/utils";
 import { getLocalStorage } from "components/utils/localStorage";
@@ -239,6 +237,7 @@ function SelectionDrawer(props) {
         onClose,
     } = props;
     const classes = useStyles();
+    const theme = useTheme();
 
     const [currentPath, setCurrentPath] = useState(startingPath);
     const id = ids.SELECTION_DRAWER;
@@ -286,7 +285,15 @@ function SelectionDrawer(props) {
                 classes: { root: classes.selectionDrawer },
             }}
         >
-            <PageWrapper appBarHeight={toolbarHeight + PAGINATION_BAR_HEIGHT}>
+            <div
+                style={{
+                    maxHeight: `calc(100vh - ${
+                        toolbarHeight + PAGINATION_BAR_HEIGHT + theme.spacing(1)
+                    }px)`,
+                    display: "flex",
+                    flexDirection: "column",
+                }}
+            >
                 <Listing
                     path={currentPath}
                     handlePathChange={handlePathChange}
@@ -315,7 +322,7 @@ function SelectionDrawer(props) {
                     toolbarVisibility={false}
                     rowDotMenuVisibility={false}
                 />
-            </PageWrapper>
+            </div>
         </Drawer>
     );
 }

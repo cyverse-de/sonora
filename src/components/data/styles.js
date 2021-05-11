@@ -96,8 +96,6 @@ const dataStyles = (theme) => ({
         [theme.breakpoints.down("md")]: {
             width: "90%",
         },
-        overflow: "hidden",
-        height: "100vh",
     },
 
     tabIndicator: {

@@ -118,7 +118,7 @@ function TableView(props) {
         enableSelection = true,
         enableDelete = false,
         isAdminView,
-        searchTerm
+        searchTerm,
     } = props;
     const { t } = useTranslation("apps");
     const apps = listing?.apps;
@@ -140,7 +140,7 @@ function TableView(props) {
                 >
                     <DETableHead
                         selectable={enableSelection}
-                        numSelected={selected.length}
+                        numSelected={selected?.length}
                         rowsInPage={listing?.apps ? listing.apps.length : 0}
                         order={order}
                         orderBy={orderBy}
@@ -179,7 +179,7 @@ function TableView(props) {
                                     const appId = app.id;
                                     const appName = app.name;
                                     const isSelected =
-                                        selected.indexOf(appId) !== -1;
+                                        selected?.indexOf(appId) !== -1;
                                     const rowId = buildID(
                                         baseId,
                                         tableId,
@@ -305,9 +305,9 @@ function TableView(props) {
                                                         component="IconButton"
                                                         onClick={() => {
                                                             onDeleteSelected &&
-                                                            onDeleteSelected(
-                                                                app
-                                                            );
+                                                                onDeleteSelected(
+                                                                    app
+                                                                );
                                                         }}
                                                     />
                                                 </TableCell>

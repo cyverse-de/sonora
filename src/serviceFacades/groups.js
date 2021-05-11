@@ -482,6 +482,66 @@ function deleteCommunity({ communityName }) {
     });
 }
 
+function createCommunity({ name, description }) {
+    return callApi({
+        endpoint: "/api/communities",
+        method: "POST",
+        body: {
+            name,
+            description,
+        },
+    });
+}
+
+function updateCommunity({ originalName, name, description, retagApps }) {
+    const params = {
+        "retag-apps": retagApps,
+    };
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(originalName)}`,
+        method: "PATCH",
+        params,
+        body: {
+            name,
+            description,
+        },
+    });
+}
+
+function addCommunityAdmins({ name, adminIds }) {
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(name)}/admins`,
+        method: "POST",
+        body: {
+            members: adminIds,
+        },
+    }).then((resp) => {
+        const hasFailures = responseHasFailures(resp);
+        if (hasFailures) {
+            throw new Error("Failed to add a community admin");
+        } else {
+            return resp;
+        }
+    });
+}
+
+function removeCommunityAdmins({ name, adminIds }) {
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(name)}/admins/deleter`,
+        method: "POST",
+        body: {
+            members: adminIds,
+        },
+    }).then((resp) => {
+        const hasFailures = responseHasFailures(resp);
+        if (hasFailures) {
+            throw new Error("Failed to remove a community admin");
+        } else {
+            return resp;
+        }
+    });
+}
+
 export {
     MY_TEAMS_QUERY,
     ALL_TEAMS_QUERY,
@@ -513,4 +573,8 @@ export {
     followCommunity,
     unfollowCommunity,
     deleteCommunity,
+    createCommunity,
+    updateCommunity,
+    addCommunityAdmins,
+    removeCommunityAdmins,
 };

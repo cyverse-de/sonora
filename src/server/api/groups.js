@@ -315,5 +315,57 @@ export default function groupsRouter() {
         })
     );
 
+    logger.info("adding the POST /communities handler");
+    api.post(
+        "/communities",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/communities",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the PATCH /communities handler");
+    api.patch(
+        "/communities",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/communities",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /communities/:name/admins handler");
+    api.post(
+        "/communities/:name/admins",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/communities/:name/admins",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /communities/:name/admins/deleter handler");
+    api.post(
+        "/communities/:name/admins/deleter",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/communities/:name/admins/deleter",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

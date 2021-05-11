@@ -25,6 +25,7 @@ import {
 
 import DeleteIcon from "@material-ui/icons/Delete";
 import CheckIcon from "@material-ui/icons/Check";
+import { Refresh } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
@@ -37,6 +38,7 @@ const NotificationToolbar = (props) => {
         onMarkSeenClicked,
         deleteEnabled,
         onDeleteClicked,
+        onRefreshClicked,
     } = props;
 
     const classes = useStyles();
@@ -69,6 +71,17 @@ const NotificationToolbar = (props) => {
             </TextField>
 
             <div className={classes.divider} />
+
+            <Button
+                id={build(baseId, ids.REFRESH_BTN)}
+                variant="outlined"
+                size="small"
+                onClick={onRefreshClicked}
+                className={classes.toolbarButton}
+            >
+                <Refresh color="primary" />
+                <Hidden xsDown>{t("refresh")}</Hidden>
+            </Button>
 
             {markAsSeenEnabled && (
                 <Button

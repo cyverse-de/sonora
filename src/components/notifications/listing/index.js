@@ -156,6 +156,10 @@ const NotificationView = (props) => {
         setFilter(event.target.value);
     };
 
+    const onRefreshClicked = () => {
+        queryCache.invalidateQueries(notificationsKey);
+    };
+
     const baseId = buildId(baseDebugId, ids.NOTIFICATION_VIEW);
 
     const hasSelection = selected.length > 0;
@@ -170,6 +174,7 @@ const NotificationView = (props) => {
                 deleteEnabled={hasSelection}
                 onMarkSeenClicked={handleMarkSeenClick}
                 onDeleteClicked={handleDeleteClick}
+                onRefreshClicked={onRefreshClicked}
             />
             <TableView
                 baseId={baseId}

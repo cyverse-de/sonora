@@ -655,6 +655,7 @@ function Listing(props) {
                     baseId={baseId}
                     infoTypes={infoTypes}
                     onClose={() => setDetailsOpen(false)}
+                    onPublicLinksSelected={() => setPublicLinksDlgOpen(true)}
                 />
             )}
             <FileBrowser

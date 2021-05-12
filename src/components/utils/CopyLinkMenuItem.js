@@ -26,7 +26,7 @@ export default function CopyLinkMenuItem(props) {
             <ListItemIcon>
                 <FileCopy fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary={t("copyLink")} />
+            <ListItemText primary={t("copyDELink")} />
         </MenuItem>
     );
 }

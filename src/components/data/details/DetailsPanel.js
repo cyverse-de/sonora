@@ -8,13 +8,15 @@ import React, { useState } from "react";
 
 import { build, CopyTextArea, formatDate } from "@cyverse-de/ui-lib";
 import {
+    Button,
     Divider,
     Grid,
-    InputLabel,
     makeStyles,
     MenuItem,
     Select,
 } from "@material-ui/core";
+import { Link } from "@material-ui/icons";
+
 import { useTranslation } from "i18n";
 import { queryCache, useMutation, useQuery } from "react-query";
 
@@ -27,6 +29,9 @@ import {
     updateInfoType,
     DATA_DETAILS_QUERY_KEY,
 } from "../../../serviceFacades/filesystem";
+import { getHost } from "components/utils/getHost";
+import { useDataNavigationLink } from "components/data/utils";
+
 import GridLabelValue from "../../utils/GridLabelValue";
 import GridLoading from "../../utils/GridLoading";
 import isQueryLoading from "../../utils/isQueryLoading";
@@ -37,13 +42,23 @@ const useStyles = makeStyles(styles);
 
 function DetailsTabPanel(props) {
     const classes = useStyles();
-    const { baseId, resource, infoTypes, setSelfPermission } = props;
+    const {
+        baseId,
+        resource,
+        infoTypes,
+        setSelfPermission,
+        onPublicLinksSelected,
+    } = props;
     const { t } = useTranslation("data");
-
     const [details, setDetails] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
     const [errorObject, setErrorObject] = useState(null);
+    const partialLink = useDataNavigationLink(
+        resource?.path,
+        resource?.id,
+        resource?.type
+    )[1];
 
     const resourcePath = resource.path;
 
@@ -116,14 +131,8 @@ function DetailsTabPanel(props) {
                 )}
                 {isFile && (
                     <GridLabelValue
-                        label={
-                            <InputLabel
-                                classes={{ root: classes.inputLabel }}
-                                id={build(baseId, ids.INFO_TYPES, ids.LABEL)}
-                            >
-                                {t("infoType")}
-                            </InputLabel>
-                        }
+                        label={t("infoType")}
+                        id={build(baseId, ids.INFO_TYPES, ids.LABEL)}
                     >
                         {infoTypes && infoTypes.length > 0 ? (
                             <Select
@@ -147,22 +156,6 @@ function DetailsTabPanel(props) {
                         )}
                     </GridLabelValue>
                 )}
-                <GridLabelValue
-                    label={
-                        <InputLabel
-                            classes={{ root: classes.inputLabel }}
-                            id={build(baseId, ids.PATH, ids.LABEL)}
-                        >
-                            {t("path")}
-                        </InputLabel>
-                    }
-                >
-                    <CopyTextArea
-                        text={details.path}
-                        multiline
-                        debugIdPrefix={build(baseId, ids.PATH)}
-                    />
-                </GridLabelValue>
                 {isFile && (
                     <GridLabelValue label={t("fileSize")}>
                         {getFileSize(details["file-size"])}
@@ -178,10 +171,37 @@ function DetailsTabPanel(props) {
                     <GridLabelValue label={t("md5")}>
                         <CopyTextArea
                             text={details.md5}
-                            margin={"small"}
                             debugIdPrefix={build(baseId, ids.md5)}
                         />
                     </GridLabelValue>
+                )}
+                <GridLabelValue
+                    id={build(baseId, ids.PATH, ids.LABEL)}
+                    label={t("path")}
+                >
+                    <CopyTextArea
+                        text={details.path}
+                        multiline
+                        debugIdPrefix={build(baseId, ids.PATH)}
+                    />
+                </GridLabelValue>
+                <GridLabelValue label={t("deLink")}>
+                    <CopyTextArea
+                        text={`${getHost()}${partialLink}`}
+                        debugIdPrefix={build(baseId, ids.md5)}
+                    />
+                </GridLabelValue>
+                {isFile && (
+                    <Grid item xs={6}>
+                        <Button
+                            color="primary"
+                            variant="outlined"
+                            startIcon={<Link />}
+                            onClick={onPublicLinksSelected}
+                        >
+                            {t("publicLink")}
+                        </Button>
+                    </Grid>
                 )}
             </Grid>
             <Divider className={classes.dividerMargins} />

@@ -7,7 +7,12 @@
 import React, { useState } from "react";
 
 import { build } from "@cyverse-de/ui-lib";
-import { Drawer, makeStyles, Typography } from "@material-ui/core";
+import {
+    Drawer,
+    makeStyles,
+    Typography,
+} from "@material-ui/core";
+
 import { useTranslation } from "react-i18next";
 
 import DetailsTabPanel from "./DetailsPanel";
@@ -25,7 +30,14 @@ const TABS = {
 const useStyles = makeStyles(styles);
 
 function DetailsDrawer(props) {
-    const { resource, open, onClose, baseId, infoTypes } = props;
+    const {
+        resource,
+        open,
+        onClose,
+        baseId,
+        infoTypes,
+        onPublicLinksSelected,
+    } = props;
     const classes = useStyles();
 
     const [selectedTab, setSelectedTab] = useState(TABS.details);
@@ -82,6 +94,7 @@ function DetailsDrawer(props) {
                     resource={resource}
                     infoTypes={infoTypes}
                     setSelfPermission={setSelfPermission}
+                    onPublicLinksSelected={onPublicLinksSelected}
                 />
             </DETabPanel>
             <DETabPanel

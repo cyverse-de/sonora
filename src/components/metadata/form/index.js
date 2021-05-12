@@ -521,7 +521,7 @@ const MetadataForm = ({
                             if (userProfile) {
                                 setCopyDialogOpen(true);
                             } else {
-                                setCopyDialogOpen(true);
+                                setSignInDialogOpen(true);
                             }
                         }}
                         {...props}

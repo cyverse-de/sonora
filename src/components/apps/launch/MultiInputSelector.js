@@ -62,8 +62,7 @@ const getPathBaseName = (path) => path?.replace(/.*\//, "");
 const comparePathNames = (a, b) =>
     getPathBaseName(a?.path).localeCompare(getPathBaseName(b?.path));
 
-const getSortedPaths = (order, resources) => {
-    // const paths = resources?.map((resource) => resource?.path);
+const getSortedResources = (order, resources) => {
     if (order === globalConstants.SORT_ASCENDING) {
         return stableSort(resources, (a, b) => comparePathNames(a, b));
     }
@@ -108,7 +107,7 @@ const MultiInputSelector = (props) => {
                 ? globalConstants.SORT_ASCENDING
                 : globalConstants.SORT_DESCENDING;
         setOrder(newOrder);
-        setFieldValue(name, getSortedPaths(newOrder, resources));
+        setFieldValue(name, getSortedResources(newOrder, resources));
     };
 
     const onConfirm = React.useCallback(
@@ -117,10 +116,10 @@ const MultiInputSelector = (props) => {
                 setFieldValue(
                     name,
                     resources
-                        ? getSortedPaths(order, [
+                        ? getSortedResources(order, [
                               ...new Set([...selections, ...resources]),
                           ])
-                        : getSortedPaths(order, selections)
+                        : getSortedResources(order, selections)
                 );
             }
         },

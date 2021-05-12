@@ -205,7 +205,7 @@ const ParamsReviewValue = ({ param }) => {
                     InputProps={{
                         readOnly: true,
                     }}
-                    value={Array.isArray(value) ? value.join("\n") : value}
+                    value={value}
                 />
             );
         case AppParamTypes.MULTIFILE_SELECTOR:
@@ -220,11 +220,7 @@ const ParamsReviewValue = ({ param }) => {
                     InputProps={{
                         readOnly: true,
                     }}
-                    value={
-                        Array.isArray(value)
-                            ? value.map((resource) => resource.path)?.join("\n")
-                            : value
-                    }
+                    value={value?.map((resource) => resource.path)?.join("\n")}
                 />
             );
 

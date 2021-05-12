@@ -320,14 +320,14 @@ function PathListViewer(props) {
                 <DataSelectionDrawer
                     open={open}
                     onClose={() => setOpen(false)}
-                    onConfirm={(selections) => {
+                    onConfirm={(resources) => {
                         setOpen(false);
-                        if (selections?.length > 0) {
+                        if (resources?.length > 0) {
                             const selPaths = [];
-                            selections.forEach((path) => {
+                            resources.forEach((resource) => {
                                 const key = pathAccessor;
                                 const pathObj = {};
-                                pathObj[key] = path;
+                                pathObj[key] = resource?.path;
                                 selPaths.push(pathObj);
                             });
                             const dataWithLineNumbers = setLineNumbers([

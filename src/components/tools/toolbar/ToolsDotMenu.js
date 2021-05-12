@@ -163,6 +163,7 @@ export default function ToolsDotMenu({
     ...props
 }) {
     const { baseId, isSingleSelection, isAdmin } = props;
+    const { t } = useTranslation("common");
     const selectedTools = getSelectedTools ? getSelectedTools() : null;
     const allowEditing =
         canEdit &&
@@ -179,6 +180,7 @@ export default function ToolsDotMenu({
         <DotMenu
             baseId={baseId}
             ButtonProps={ButtonProps}
+            buttonText={t("dotMenuText")}
             render={(onClose) => (
                 <DotMenuItems
                     {...props}

@@ -345,6 +345,7 @@ function AnalysesDotMenu({
 }) {
     // These props need to be spread down into DotMenuItems below.
     const { baseId, isSingleSelection } = props;
+    const { t } = useTranslation("common");
 
     const selectedAnalyses = getSelectedAnalyses ? getSelectedAnalyses() : null;
 
@@ -375,6 +376,7 @@ function AnalysesDotMenu({
         <DotMenu
             baseId={baseId}
             ButtonProps={ButtonProps}
+            buttonText={t("common:dotMenuText")}
             render={(onClose) => (
                 <DotMenuItems
                     {...props}

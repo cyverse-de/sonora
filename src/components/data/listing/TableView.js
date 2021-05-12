@@ -100,7 +100,12 @@ const invalidRowStyles = makeStyles((theme) => ({
 }));
 
 function getDefaultCols(rowDotMenuVisibility, dataRecordFields) {
-    const defCols = [dataRecordFields.CHECKBOX.key, dataRecordFields.NAME.key];
+    const defCols = [
+        dataRecordFields.CHECKBOX.key,
+        dataRecordFields.NAME.key,
+        dataRecordFields.LAST_MODIFIED.key,
+        dataRecordFields.SIZE.key,
+    ];
     if (rowDotMenuVisibility) {
         defCols.push(dataRecordFields.DOT_MENU.key);
     }

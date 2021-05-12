@@ -37,8 +37,8 @@ export default function ApplyBulkMetadataDialog(props) {
         {
             onSuccess: () => {
                 announce({
-                    text: "Metadata successfully applied.",
-                    variant: AnnouncerConstants.INFO,
+                    text: t("metadataApplied"),
+                    variant: AnnouncerConstants.SUCCESS,
                 });
                 handleClose();
             },
@@ -47,7 +47,6 @@ export default function ApplyBulkMetadataDialog(props) {
     );
 
     const handleSubmit = (values) => {
-        console.log(JSON.stringify(values));
         applyMetadata({ sourceFile: values.metadataFile, destFolder });
     };
 

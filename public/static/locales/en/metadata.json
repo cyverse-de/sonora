@@ -47,6 +47,7 @@
     "importIRODSMetadataMsg": "This will import your existing metadata to the CyVerse metadata database. This cannot be undone. For more information, please see <irodsMetadataLink>Using Metadata with the CyVerse Data Store</irodsMetadataLink>. Continue?",
     "importIRODSMetadataTooltip": "Imports your existing metadata to the CyVerse metadata database. This action cannot be undone.",
     "markAsDeleted": "Mark as Deleted?",
+    "metadataApplied": "Metadata successfully applied.",
     "metadataChildrenLabel": "Child Metadata",
     "metadataFile": "Select the file containing metadata",
     "metadataSaved": "Metadata saved!",

@@ -92,6 +92,7 @@ export default function Actions(props) {
         setPendingTerminationDlgOpen,
         baseId,
         username,
+        handleTimeLimitExtnClick,
     } = props;
 
     const interactiveUrls = analysis.interactive_urls;
@@ -148,6 +149,7 @@ export default function Actions(props) {
             )}
             {allowTimeExtn && (
                 <IconButton
+                    onClick={handleTimeLimitExtnClick}
                     id={build(baseId, ids.ICONS.TIME_LIMIT)}
                     size="small"
                     color="primary"

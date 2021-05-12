@@ -78,7 +78,7 @@ export const InstantLaunchSubmissionDialog = ({ open }) => {
                 <Typography variant="body2" className={classes.closeAuto}>
                     {t("dialogWillCloseAutomatically")}
                 </Typography>
-                
+
                 <Typography variant="caption">
                     {t("disablePopupBlocker")}
                 </Typography>

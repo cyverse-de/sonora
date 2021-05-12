@@ -9,6 +9,7 @@ const ANALYSIS_HISTORY_QUERY_KEY = "fetchAnalysisHistoryKey";
 const ANALYSIS_PARAMS_QUERY_KEY = "fetchAnalysisParamsKey";
 const ANALYSIS_RELAUNCH_QUERY_KEY = "fetchAnalysisRelaunchKey";
 const ANALYSES_SEARCH_QUERY_KEY = "searchAnalysesKey";
+const VICE_TIME_LIMIT_QUERY_KEY = "fetchVICETimeLimit";
 
 function getAnalyses(key, { rowsPerPage, orderBy, order, page, filter }) {
     const params = {};
@@ -183,6 +184,21 @@ function useRunningViceJobs({ enabled, onSuccess, onError, ...rest }) {
     });
 }
 
+function getTimeLimitForVICEAnalysis(key, id) {
+    return callApi({
+        endpoint: `/api/analyses/${id}/time-limit`,
+        method: "GET",
+    });
+}
+
+function extendVICEAnalysisTimeLimit({ id }) {
+    return callApi({
+        endpoint: `/api/analyses/${id}/time-limit`,
+        method: "POST",
+        body: {},
+    });
+}
+
 export {
     cancelAnalyses,
     cancelAnalysis,
@@ -199,10 +215,13 @@ export {
     updateAnalysisComment,
     searchAnalysesInfinite,
     useRunningViceJobs,
+    extendVICEAnalysisTimeLimit,
+    getTimeLimitForVICEAnalysis,
     ANALYSES_LISTING_QUERY_KEY,
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSIS_PARAMS_QUERY_KEY,
     ANALYSIS_RELAUNCH_QUERY_KEY,
     ANALYSES_SEARCH_QUERY_KEY,
     RUNNING_VICE_JOBS_QUERY_KEY,
+    VICE_TIME_LIMIT_QUERY_KEY,
 };

@@ -131,6 +131,7 @@ function DotMenuItems(props) {
         isSingleSelection,
         onFilterSelected,
         setPendingTerminationDlgOpen,
+        handleTimeLimitExtnClick,
     } = props;
     const { t } = useTranslation("analyses");
     const theme = useTheme();
@@ -262,6 +263,7 @@ function DotMenuItems(props) {
                 id={build(baseId, ids.MENUITEM_EXTEND_TIME_LIMIT)}
                 onClick={() => {
                     onClose();
+                    handleTimeLimitExtnClick();
                 }}
             >
                 <ListItemIcon>

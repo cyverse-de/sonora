@@ -78,10 +78,7 @@ function SelectionToolbar(props) {
     // The path key includes the file name if it's a file
     const handleConfirm = () => {
         if (multiSelect) {
-            const resourceNames = selectedResources.map(
-                (resource) => resource.path
-            );
-            onConfirm(resourceNames);
+            onConfirm(selectedResources);
         } else {
             onConfirm(selectedResources[0].path);
         }

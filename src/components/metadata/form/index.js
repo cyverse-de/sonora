@@ -27,6 +27,7 @@ import { getParentPath, isWritable } from "components/data/utils";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import SignInDialog from "components/utils/SignInDialog";
 import ExternalLink from "components/utils/ExternalLink";
+import CopyMetadataDialog from "components/metadata/CopyMetadataDialog";
 
 import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
@@ -43,6 +44,8 @@ import {
     setFilesystemMetadata,
 } from "serviceFacades/metadata";
 
+import { copyMetadata } from "serviceFacades/filesystem";
+
 import { AnnouncerConstants, announce, build } from "@cyverse-de/ui-lib";
 
 import { AppBar, Tab, Tabs } from "@material-ui/core";
@@ -56,6 +59,7 @@ const MetadataFormListing = (props) => {
         targetResource,
         onSelectTemplateBtnSelected,
         onSaveMetadataToFileBtnSelected,
+        onCopyMetadataSelected,
         // from formik
         handleSubmit,
         resetForm,
@@ -160,7 +164,9 @@ const MetadataFormListing = (props) => {
 
     const saveDisabled = loadingOrSubmitting || !dirty || errors.error;
 
-    const showSaveToFile = !loadingOrSubmitting && !(dirty && editable);
+    const showSaveToFile = !loadingOrSubmitting && !dirty;
+
+    const showCopy = !loadingOrSubmitting && !dirty;
 
     const showViewInTemplate =
         tabIndex === 0 && !loadingOrSubmitting && !(errors.error && editable);
@@ -185,13 +191,16 @@ const MetadataFormListing = (props) => {
                 saveDisabled={saveDisabled}
                 onSave={handleSubmit}
                 showSaveToFile={showSaveToFile}
+                showCopy={showCopy}
                 onSaveToFile={onSaveMetadataToFileBtnSelected}
+                onCopyMetadata={onCopyMetadataSelected}
                 showViewInTemplate={showViewInTemplate}
                 onViewInTemplate={() => onSelectTemplateBtnSelected(values)}
                 showImportIRODSMetadata={showImportIRODSMetadata}
                 onImportIRODSMetadata={() =>
                     setShowImportConfirmationDialog(true)
                 }
+                targetResource={targetResource}
             />
 
             {irodsAVUs?.length > 0 && (
@@ -335,7 +344,9 @@ const MetadataForm = ({
     const [templateViewOpen, setTemplateViewOpen] = React.useState(false);
     const [saveAsDialogOpen, setSaveAsDialogOpen] = React.useState(false);
     const [signInDialogOpen, setSignInDialogOpen] = React.useState(false);
+    const [copyDialogOpen, setCopyDialogOpen] = React.useState(false);
     const [saveFileError, setSaveFileError] = React.useState(null);
+    const [copyMetadataError, setCopyMetadataError] = React.useState(null);
 
     const [setDiskResourceMetadata] = useMutation(
         ({ metadata }) =>
@@ -374,6 +385,23 @@ const MetadataForm = ({
                         : t("data:fileSaveError");
 
                 setSaveFileError(errMsg);
+            },
+        }
+    );
+
+    const [doCopyMetadata, { isLoading: copyLoading }] = useMutation(
+        copyMetadata,
+        {
+            onSuccess: () => {
+                announce({
+                    text: t("copySuccess"),
+                    variant: AnnouncerConstants.SUCCESS,
+                });
+                setCopyDialogOpen(false);
+                setCopyMetadataError(null);
+            },
+            onError: (err) => {
+                setCopyMetadataError(err);
             },
         }
     );
@@ -489,6 +517,13 @@ const MetadataForm = ({
                             setTemplateMetadata(metadata);
                             setTemplateListingDialogOpen(true);
                         }}
+                        onCopyMetadataSelected={() => {
+                            if (userProfile) {
+                                setCopyDialogOpen(true);
+                            } else {
+                                setSignInDialogOpen(true);
+                            }
+                        }}
                         {...props}
                         {...formikProps}
                     />
@@ -530,6 +565,18 @@ const MetadataForm = ({
                         dest,
                         recursive: true,
                     });
+                }}
+            />
+
+            <CopyMetadataDialog
+                open={copyDialogOpen}
+                resourceToCopyFrom={targetResource}
+                doCopy={doCopyMetadata}
+                copying={copyLoading}
+                error={copyMetadataError}
+                handleClose={() => {
+                    setCopyMetadataError(null);
+                    setCopyDialogOpen(false);
                 }}
             />
 

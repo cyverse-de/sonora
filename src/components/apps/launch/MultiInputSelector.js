@@ -57,17 +57,17 @@ const multiInputColumnData = (t) => [
     },
 ];
 
-const getPathBaseName = (path) => path.replace(/.*\//, "");
+const getPathBaseName = (path) => path?.replace(/.*\//, "");
 
 const comparePathNames = (a, b) =>
-    getPathBaseName(a).localeCompare(getPathBaseName(b));
+    getPathBaseName(a?.path).localeCompare(getPathBaseName(b?.path));
 
-const getSortedPaths = (order, paths) => {
+const getSortedResources = (order, resources) => {
     if (order === globalConstants.SORT_ASCENDING) {
-        return stableSort(paths, (a, b) => comparePathNames(a, b));
+        return stableSort(resources, (a, b) => comparePathNames(a, b));
     }
 
-    return stableSort(paths, (a, b) => comparePathNames(b, a));
+    return stableSort(resources, (a, b) => comparePathNames(b, a));
 };
 
 /**
@@ -93,7 +93,7 @@ const MultiInputSelector = (props) => {
 
     const [order, setOrder] = React.useState(globalConstants.SORT_ASCENDING);
 
-    const paths = getIn(values, name);
+    const resources = getIn(values, name);
     const errorMsg = getFormError(name, touched, errors);
 
     const tableId = buildDebugId(id, "table");
@@ -107,8 +107,24 @@ const MultiInputSelector = (props) => {
                 ? globalConstants.SORT_ASCENDING
                 : globalConstants.SORT_DESCENDING;
         setOrder(newOrder);
-        setFieldValue(name, getSortedPaths(newOrder, paths));
+        setFieldValue(name, getSortedResources(newOrder, resources));
     };
+
+    const onConfirm = React.useCallback(
+        (selections) => {
+            if (selections) {
+                setFieldValue(
+                    name,
+                    resources
+                        ? getSortedResources(order, [
+                              ...new Set([...selections, ...resources]),
+                          ])
+                        : getSortedResources(order, selections)
+                );
+            }
+        },
+        [name, order, resources, setFieldValue]
+    );
 
     return (
         <FieldArray name={name}>
@@ -137,19 +153,7 @@ const MultiInputSelector = (props) => {
                                 startingPath={startingPath}
                                 acceptedType={acceptedType}
                                 multiSelect={true}
-                                onConfirm={(selections) => {
-                                    setFieldValue(
-                                        name,
-                                        paths
-                                            ? getSortedPaths(order, [
-                                                  ...new Set([
-                                                      ...selections,
-                                                      ...paths,
-                                                  ]),
-                                              ])
-                                            : getSortedPaths(order, selections)
-                                    );
-                                }}
+                                onConfirm={onConfirm}
                             />
                         </Toolbar>
                         <TableContainer
@@ -167,7 +171,7 @@ const MultiInputSelector = (props) => {
                             >
                                 <DETableHead
                                     selectable={false}
-                                    rowsInPage={paths?.length || 0}
+                                    rowsInPage={resources?.length || 0}
                                     order={order}
                                     orderBy={nameColumn.key}
                                     baseId={tableId}
@@ -175,7 +179,7 @@ const MultiInputSelector = (props) => {
                                     onRequestSort={onRequestSort}
                                 />
                                 <TableBody>
-                                    {!paths?.length ? (
+                                    {!resources?.length ? (
                                         <EmptyTable
                                             message={
                                                 <Typography
@@ -193,7 +197,7 @@ const MultiInputSelector = (props) => {
                                             numColumns={3}
                                         />
                                     ) : (
-                                        paths?.map((path, index) => {
+                                        resources?.map((resource, index) => {
                                             const rowID = buildDebugId(
                                                 id,
                                                 index
@@ -203,7 +207,7 @@ const MultiInputSelector = (props) => {
                                                 <MultiInputRow
                                                     key={rowID}
                                                     id={rowID}
-                                                    path={path}
+                                                    path={resource?.path}
                                                     onRowDeleted={(event) => {
                                                         event.preventDefault();
                                                         event.stopPropagation();

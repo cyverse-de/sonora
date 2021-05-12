@@ -108,7 +108,10 @@ const initGroupValues = (groups) =>
             }
 
             if (paramType === AppParamTypes.MULTIFILE_SELECTOR) {
-                value = defaultValue?.path || [];
+                value =
+                    defaultValue?.path.map((val) => {
+                        return { path: val };
+                    }) || [];
             }
 
             if (paramType === AppParamTypes.FLAG) {
@@ -212,7 +215,11 @@ const paramConfigsReducer = (configs, group) => {
                         value = value.trim();
                     }
                     break;
-
+                case AppParamTypes.MULTIFILE_SELECTOR:
+                    if (value) {
+                        value = value?.map((resource) => resource?.path);
+                    }
+                    break;
                 default:
                     break;
             }

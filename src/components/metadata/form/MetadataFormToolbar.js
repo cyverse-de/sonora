@@ -29,6 +29,7 @@ import {
 import ContentView from "@material-ui/icons/List";
 import HelpIcon from "@material-ui/icons/Help";
 import SaveIcon from "@material-ui/icons/Save";
+import CopyIcon from "@material-ui/icons/FileCopy";
 import SaveAltIcon from "@material-ui/icons/SaveAlt";
 
 const useStyles = makeStyles(styles);
@@ -42,6 +43,8 @@ const MetadataFormToolbar = (props) => {
         onSave,
         showSaveToFile,
         onSaveToFile,
+        showCopy,
+        onCopyMetadata,
         showViewInTemplate,
         onViewInTemplate,
         showImportIRODSMetadata,
@@ -126,6 +129,21 @@ const MetadataFormToolbar = (props) => {
                                 <SaveIcon />
                             </ListItemIcon>
                             <ListItemText primary={t("saveToFile")} />
+                        </MenuItem>
+                    ),
+                    showCopy && (
+                        <MenuItem
+                            key={ids.BUTTONS.COPY_METADATA}
+                            id={build(baseId, ids.BUTTONS.COPY_METADATA)}
+                            onClick={() => {
+                                onCopyMetadata();
+                                onClose();
+                            }}
+                        >
+                            <ListItemIcon>
+                                <CopyIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={t("copyMetadata")} />
                         </MenuItem>
                     ),
                     <Divider key="divider" />,

@@ -4,7 +4,7 @@ import Drawer from "../../src/components/data/SelectionDrawer";
 import { initMockAxiosFileFolderSelector } from "./DataMocks";
 import ResourceTypes from "../../src/components/models/ResourceTypes";
 import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
-
+import MultiInputSelector from "components/apps/launch/MultiInputSelector";
 import { Button, TextField } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
 
@@ -18,6 +18,7 @@ export const SelectionDrawer = () => {
             multiSelect,
             name,
             setFieldValue,
+            values,
         } = props;
         const [open, setOpen] = useState(false);
         return (
@@ -32,8 +33,23 @@ export const SelectionDrawer = () => {
                         startingPath={startingPath}
                         acceptedType={acceptedType}
                         onConfirm={(selections) => {
+                            if (multiSelect) {
+                                const currValue = values[name];
+                                const updatedSelections = new Set([
+                                    ...currValue,
+                                    ...selections,
+                                ]);
+                                const paths = updatedSelections
+                                    ?.map((sel) => sel.path)
+                                    .join(",");
+                                setFieldValue(
+                                    name,
+                                    currValue?.concat(",", paths)
+                                );
+                            } else {
+                                setFieldValue(name, selections);
+                            }
                             setOpen(false);
-                            setFieldValue(name, selections);
                         }}
                         baseId="dataSelection"
                         multiSelect={multiSelect}
@@ -46,7 +62,7 @@ export const SelectionDrawer = () => {
     function FormResourceSelector(props) {
         const {
             field,
-            form: { setFieldValue },
+            form: { values, setFieldValue },
             startingPath,
             acceptedType,
             multiSelect,
@@ -60,7 +76,6 @@ export const SelectionDrawer = () => {
                     margin="dense"
                     readOnly={true}
                     multiline={multiSelect}
-                    onChange={(value) => setFieldValue(field.name, value)}
                     {...field}
                     {...custom}
                 />
@@ -70,6 +85,7 @@ export const SelectionDrawer = () => {
                     multiSelect={multiSelect}
                     name={field.name}
                     setFieldValue={setFieldValue}
+                    values={values}
                 />
             </div>
         );
@@ -82,8 +98,8 @@ export const SelectionDrawer = () => {
                 anySingleResource: "/iplant/home/shared/stuff",
                 singleFileOnly: "/iplant/home/shared/file.txt",
                 singleFolderOnly: "/iplant/home/shared",
-                filesOnly: ["iplant/home/shared/txt.txt"],
-                foldersOnly: ["iplant/home/shared"],
+                filesOnly: [{ path: "iplant/home/shared/txt.txt" }],
+                foldersOnly: [{ path: "iplant/home/shared" }],
             }}
             render={() => (
                 <Form>
@@ -117,7 +133,7 @@ export const SelectionDrawer = () => {
                         acceptedType={ResourceTypes.FILE}
                         multiSelect={true}
                         startingPath="/iplant/home/ipcdev"
-                        component={FormResourceSelector}
+                        component={MultiInputSelector}
                     />
                     <Field
                         name="foldersOnly"
@@ -125,7 +141,7 @@ export const SelectionDrawer = () => {
                         acceptedType={ResourceTypes.FOLDER}
                         multiSelect={true}
                         startingPath="/iplant/home/ipcdev"
-                        component={FormResourceSelector}
+                        component={MultiInputSelector}
                     />
                     <Button color="primary" type="submit">
                         SAVE

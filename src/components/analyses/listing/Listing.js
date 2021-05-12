@@ -137,6 +137,15 @@ function Listing(props) {
     const [timeLimitQueryEnabled, setTimeLimitQueryEnabled] = useState(false);
     const [timeLimit, setTimeLimit] = useState();
 
+    /**
+     * There is a small gap between when the user click on the Extend button / menu item
+     * and the time loading mask appears because the getTimeLimitForVICEAnalysis query is
+     * controlled by timeLimitQueryEnabled state. So the user has a chance to click
+     * on the same button again or choose to extend time limit on another analysis or
+     * even do something else. To avoid potential race condition,
+     * I am storing / checking the selected analysis id for which the timestamp is fetched.
+     * This should also help in debugging if the race condition still happens.
+     */
     useEffect(() => {
         if (timeLimit && selected?.length > 0 && timeLimit[selected[0]]) {
             setConfirmExtendTimeLimitDlgOpen(true);
@@ -296,6 +305,7 @@ function Listing(props) {
         config: {
             enabled: timeLimitQueryEnabled,
             onSuccess: (resp) => {
+                //convert the response from seconds to milliseconds
                 setTimeLimit({
                     [selected[0]]: formatDate(resp?.time_limit * 1000),
                 });
@@ -306,12 +316,13 @@ function Listing(props) {
         },
     });
 
-    const [doTimeLimitExtension, { isLoading: extensionStatus }] = useMutation(
+    const [doTimeLimitExtension, { isLoading: extensionLoading }] = useMutation(
         extendVICEAnalysisTimeLimit,
         {
             onSuccess: (resp) => {
                 setConfirmExtendTimeLimitDlgOpen(false);
                 setTimeLimit(null);
+                //convert the response from seconds to milliseconds
                 announce({
                     text: t("timeLimitExtended", {
                         newTimeLimit: formatDate(resp?.time_limit * 1000),
@@ -722,7 +733,7 @@ function Listing(props) {
         deleteLoading,
         relaunchLoading,
         isFetchingTimeLimit,
-        extensionStatus,
+        extensionLoading,
     ]);
 
     return (

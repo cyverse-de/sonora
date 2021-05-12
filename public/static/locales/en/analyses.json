@@ -41,7 +41,7 @@
     "emptyValue": "-",
     "endDate": "End date",
     "extend": "Extend",
-    "extendTime": "Extend time limit",
+    "extendTime": "Extend Time Limit",
     "extendTimeLimitMessage": "This analysis is scheduled to be terminated at {{timeLimit}}. Do you wish to extend the time limit?",
     "filterLbl": "Filter",
     "followLogs": "Follow Logs",

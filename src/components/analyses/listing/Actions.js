@@ -149,7 +149,7 @@ export default function Actions(props) {
             )}
             {allowTimeExtn && (
                 <IconButton
-                    onClick={() => handleTimeLimitExtnClick()}
+                    onClick={handleTimeLimitExtnClick}
                     id={build(baseId, ids.ICONS.TIME_LIMIT)}
                     size="small"
                     color="primary"

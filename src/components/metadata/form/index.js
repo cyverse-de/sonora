@@ -393,7 +393,6 @@ const MetadataForm = ({
         copyMetadata,
         {
             onSuccess: () => {
-<<<<<<< HEAD
                 announce({
                     text: t("copySuccess"),
                     variant: AnnouncerConstants.SUCCESS,
@@ -403,12 +402,6 @@ const MetadataForm = ({
             },
             onError: (err) => {
                 setCopyMetadataError(err);
-=======
-                console.log("copy complete!");
-            },
-            onError: (err) => {
-                console.log("Copy Error=>" + JSON.stringify(err));
->>>>>>> d89b452... core-1166 Add Copy metadata dialog and menu item.
             },
         }
     );

@@ -21,6 +21,7 @@ import PublishMenuItem from "../menuItems/PublishMenuItem";
 import CopyLinkMenuItem from "components/utils/CopyLinkMenuItem";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
 import shareIds from "components/sharing/ids";
+import utilIds from "components/utils/ids";
 import { getAppListingLinkRefs } from "components/apps/utils";
 import { useUserProfile } from "contexts/userProfile";
 import PublishAppDialog from "../PublishAppDialog";
@@ -78,7 +79,7 @@ function RowDotMenu(props) {
                         ),
                         canPublish && (
                             <PublishMenuItem
-                                key={build(baseId, shareIds.PUBLISH_MENU_ITEM)}
+                                key={build(baseId, ids.PUBLISH_MENU_ITEM)}
                                 baseId={baseId}
                                 onClose={onClose}
                                 onPublishSelected={() =>
@@ -99,7 +100,7 @@ function RowDotMenu(props) {
                             onQLSelected={onQLSelected}
                         />,
                         <CopyLinkMenuItem
-                            key={build(baseId, ids.COPY_LINK_MENU_ITEM)}
+                            key={build(baseId, utilIds.COPY_LINK_MENU_ITEM)}
                             baseId={baseId}
                             onClose={onClose}
                             onCopyLinkSelected={() => {

@@ -1,14 +1,19 @@
 import React from "react";
+
 import { useTranslation } from "i18n";
+
 import { AXIOS_DELAY, mockAxios } from "../axiosMock";
+import userProfileMock from "../userProfileMock";
+
 import { appListing, categories } from "./AppMocks";
 
 import constants from "../../src/constants";
-import appFields from "../../src/components/apps/appFields";
+import appFields from "components/apps/appFields";
 import { getFilters } from "components/apps/AppsTypeFilter";
-import Listing from "../../src/components/apps/listing/Listing";
-import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
-import { UserProfileProvider } from "../../src/contexts/userProfile";
+import Listing from "components/apps/listing/Listing";
+
+import { UploadTrackingProvider } from "contexts/uploadTracking";
+import { UserProfileProvider, useUserProfile } from "contexts/userProfile";
 
 export default {
     title: "Apps / Listing",
@@ -32,43 +37,51 @@ function ListingTest(props) {
         id: constants.BROWSE_ALL_APPS_ID,
     };
 
+    const [userProfile, setUserProfile] = useUserProfile();
+
+    React.useEffect(() => {
+        setUserProfile(userProfileMock);
+    }, [userProfile, setUserProfile]);
+
     return (
-        <UploadTrackingProvider>
-            <UserProfileProvider>
-                <Listing
-                    baseId="tableView"
-                    onRouteToListing={(
-                        order,
-                        orderBy,
-                        page,
-                        rowsPerPage,
-                        filter,
-                        category
-                    ) => {
-                        console.log(
-                            "onRouteToListing",
-                            order,
-                            orderBy,
-                            page,
-                            rowsPerPage,
-                            filter,
-                            category
-                        );
-                    }}
-                    page={selectedPage}
-                    rowsPerPage={selectedRowsPerPage}
-                    order={selectedOrder}
-                    orderBy={selectedOrderBy}
-                    filter={selectedFilter}
-                    category={selectedCategory}
-                />
-            </UserProfileProvider>
-        </UploadTrackingProvider>
+        <Listing
+            baseId="tableView"
+            onRouteToListing={(
+                order,
+                orderBy,
+                page,
+                rowsPerPage,
+                filter,
+                category
+            ) => {
+                console.log(
+                    "onRouteToListing",
+                    order,
+                    orderBy,
+                    page,
+                    rowsPerPage,
+                    filter,
+                    category
+                );
+            }}
+            page={selectedPage}
+            rowsPerPage={selectedRowsPerPage}
+            order={selectedOrder}
+            orderBy={selectedOrderBy}
+            filter={selectedFilter}
+            category={selectedCategory}
+        />
     );
 }
 
 export const AppsListingTest = () => {
-    return <ListingTest />;
+    return (
+        <UploadTrackingProvider>
+            <UserProfileProvider>
+                <ListingTest />
+            </UserProfileProvider>
+        </UploadTrackingProvider>
+    );
 };
 
 AppsListingTest.story = {

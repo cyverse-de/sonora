@@ -46,7 +46,8 @@ function RowDotMenu(props) {
     const canPublish = hasOwn(app?.permission);
     const canEdit =
         isWritable(app?.permission) ||
-        app?.integrator_email === userProfile?.attributes?.email;
+        (app?.step_count === 1 &&
+            app?.integrator_email === userProfile?.attributes?.email);
 
     return (
         <>

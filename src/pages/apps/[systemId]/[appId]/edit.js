@@ -11,7 +11,9 @@ import { useQuery } from "react-query";
 import AppEditor from "components/apps/editor";
 import ids from "components/apps/editor/ids";
 
+import ComingSoonInfo from "components/utils/ComingSoonInfo";
 import { signInErrorResponse } from "components/utils/error/errorCode";
+
 import { useUserProfile } from "contexts/userProfile";
 
 import {
@@ -63,6 +65,11 @@ export default function AppEdit() {
 
     const loading = appInfoLoading || isFetching;
     const isPublic = appListingInfo?.is_public;
+    const isWorkflow = appListingInfo?.step_count > 1;
+
+    if (isWorkflow) {
+        return <ComingSoonInfo />;
+    }
 
     return (
         <AppEditor

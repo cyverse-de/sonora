@@ -17,8 +17,8 @@ import {
     TextField,
     Toolbar,
     Typography,
-    useTheme,
     useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
 import { Directions } from "@material-ui/icons";
 import PropTypes from "prop-types";
@@ -30,8 +30,6 @@ import ResourceTypes from "../models/ResourceTypes";
 
 import styles from "./styles";
 import constants from "../../constants";
-
-import PageWrapper from "../../components/layout/PageWrapper";
 import useComponentHeight from "../utils/useComponentHeight";
 import { DEFAULT_PAGE_SETTINGS } from "components/data/utils";
 import { getLocalStorage } from "components/utils/localStorage";
@@ -239,9 +237,18 @@ function SelectionDrawer(props) {
         onClose,
     } = props;
     const classes = useStyles();
+    const theme = useTheme();
 
     const [currentPath, setCurrentPath] = useState(startingPath);
     const id = ids.SELECTION_DRAWER;
+    const [viewSettings, setViewSettings] = useState({
+        page: DEFAULT_PAGE_SETTINGS.page,
+        rowsPerPage:
+            parseInt(getLocalStorage(constants.LOCAL_STORAGE.DATA.PAGE_SIZE)) ||
+            DEFAULT_PAGE_SETTINGS.rowsPerPage,
+        order: DEFAULT_PAGE_SETTINGS.order,
+        orderBy: DEFAULT_PAGE_SETTINGS.orderBy,
+    });
 
     const isInvalidSelection = (resource) => {
         return ResourceTypes.ANY !== acceptedType
@@ -258,6 +265,15 @@ function SelectionDrawer(props) {
         }
     };
 
+    const onRouteToListing = (path, order, orderBy, page, rowsPerPage) => {
+        setViewSettings({
+            order,
+            orderBy,
+            page,
+            rowsPerPage,
+        });
+    };
+
     return (
         <Drawer
             id={id}
@@ -269,23 +285,26 @@ function SelectionDrawer(props) {
                 classes: { root: classes.selectionDrawer },
             }}
         >
-            <PageWrapper appBarHeight={toolbarHeight + PAGINATION_BAR_HEIGHT}>
+            <div
+                style={{
+                    maxHeight: `calc(100vh - ${
+                        toolbarHeight + PAGINATION_BAR_HEIGHT + theme.spacing(1)
+                    }px)`,
+                    display: "flex",
+                    flexDirection: "column",
+                }}
+            >
                 <Listing
                     path={currentPath}
                     handlePathChange={handlePathChange}
                     baseId={build(id, ids.DATA_VIEW)}
                     multiSelect={multiSelect}
                     isInvalidSelection={isInvalidSelection}
-                    page={DEFAULT_PAGE_SETTINGS.page}
-                    rowsPerPage={
-                        parseInt(
-                            getLocalStorage(
-                                constants.LOCAL_STORAGE.DATA.PAGE_SIZE
-                            )
-                        ) || DEFAULT_PAGE_SETTINGS.rowsPerPage
-                    }
-                    order={DEFAULT_PAGE_SETTINGS.order}
-                    orderBy={DEFAULT_PAGE_SETTINGS.orderBy}
+                    onRouteToListing={onRouteToListing}
+                    page={viewSettings.page}
+                    rowsPerPage={viewSettings.rowsPerPage}
+                    order={viewSettings.order}
+                    orderBy={viewSettings.orderBy}
                     render={(selectedTotal, getSelectedResources) => (
                         <SelectionToolbar
                             baseId={id}
@@ -303,7 +322,7 @@ function SelectionDrawer(props) {
                     toolbarVisibility={false}
                     rowDotMenuVisibility={false}
                 />
-            </PageWrapper>
+            </div>
         </Drawer>
     );
 }

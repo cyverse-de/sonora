@@ -17,6 +17,8 @@ import {
     ACCESS_REQUEST_COMPLETED,
 } from "serviceFacades/vice/accessRequest";
 import BasicTable from "components/utils/BasicTable";
+import ExternalLink from "components/utils/ExternalLink";
+import { useConfig } from "contexts/config";
 
 import { IconButton, Typography } from "@material-ui/core";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
@@ -25,6 +27,7 @@ import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 export default function TableView(props) {
     const { baseId, loading, data, onUpdateRequest, emptyDataMessage } = props;
     const { t } = useTranslation("vice-admin");
+    const [config] = useConfig();
     const columns = useMemo(
         () => [
             {
@@ -42,6 +45,13 @@ export default function TableView(props) {
                             </Typography>
                             <Typography>
                                 {t("email")}: {original.details.email}
+                            </Typography>
+                            <Typography>
+                                <ExternalLink
+                                    href={`${config?.intercom?.userProfileUrl}${value}`}
+                                >
+                                    {t("intercomProfile")}
+                                </ExternalLink>
                             </Typography>
                         </>
                     );
@@ -131,7 +141,7 @@ export default function TableView(props) {
                 },
             },
         ],
-        [baseId, onUpdateRequest, t]
+        [baseId, config, onUpdateRequest, t]
     );
     return (
         <BasicTable

@@ -135,6 +135,7 @@ function MyApp({ Component, pageProps }) {
             enabled: publicRuntimeConfig.INTERCOM_ENABLED,
             companyId: publicRuntimeConfig.INTERCOM_COMPANY_ID,
             companyName: publicRuntimeConfig.INTERCOM_COMPANY_NAME,
+            userProfileUrl: publicRuntimeConfig.INTERCOM_USER_PROFILE_URL,
         };
         const admin = {
             groups: publicRuntimeConfig.ADMIN_GROUPS,

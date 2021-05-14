@@ -12,7 +12,6 @@ import { Field, Form, Formik } from "formik";
 import { useTranslation } from "i18n";
 import { Trans } from "react-i18next";
 import { useMutation } from "react-query";
-
 import {
     build as buildId,
     FormTextField,
@@ -51,6 +50,10 @@ import {
 } from "@material-ui/core";
 
 import Skeleton from "@material-ui/lab/Skeleton";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 export default function PathListAutomation(props) {
     const {
@@ -59,6 +62,9 @@ export default function PathListAutomation(props) {
         onCreatePathList,
         onCancel,
         startingPath,
+        open,
+        onClose,
+        title,
     } = props;
 
     const theme = useTheme();
@@ -213,229 +219,262 @@ export default function PathListAutomation(props) {
             {({ handleSubmit }) => {
                 return (
                     <Form>
-                        {status === constants.LOADING && (
-                            <CircularProgress
-                                size={30}
-                                thickness={5}
-                                style={{
-                                    position: "absolute",
-                                    top: "50%",
-                                    left: "50%",
-                                }}
-                            />
-                        )}
-
-                        <Grid
-                            container
-                            direction="column"
-                            justify="center"
-                            alignItems="stretch"
-                            spacing={1}
+                        <Dialog
+                            open={open}
+                            baseId={baseId}
+                            onClose={onClose}
+                            maxWidth="sm"
+                            fullWidth
                         >
-                            {createPathListError && (
-                                <Grid item xs>
-                                    <ErrorTypographyWithDialog
-                                        baseId={baseId}
-                                        errorMessage={errorMsg}
-                                        errorObject={createPathListError}
-                                    />
-                                </Grid>
+                            <DialogTitle>{title}</DialogTitle>
+                            {status === constants.LOADING && (
+                                <CircularProgress
+                                    size={30}
+                                    thickness={5}
+                                    style={{
+                                        position: "absolute",
+                                        top: "50%",
+                                        left: "50%",
+                                    }}
+                                />
                             )}
-                            <Grid item xs>
-                                <Typography variant="body2">
-                                    {t("pathListInputLbl")}
-                                </Typography>
-                                {infoTypeError && (
-                                    <ErrorTypographyWithDialog
-                                        baseId={baseId}
-                                        errorMessage={t("infoTypeFetchError")}
-                                        errorObject={infoTypeError}
-                                    />
-                                )}
-                                <Field
-                                    id={buildId(
-                                        baseId,
-                                        ids.PATH_LIST_AUTO_INPUTS
-                                    )}
-                                    name="selectedResources"
-                                    required={true}
-                                    component={MultiInputSelector}
-                                    height="25vh"
-                                    label={t("suggestionSelection_any_plural")}
-                                />
-                            </Grid>
-                            <Grid item xs>
-                                <Field
-                                    id={buildId(
-                                        baseId,
-                                        ids.PATH_LIST_AUTO_FOLDERS_ONLY_SWITCH
-                                    )}
-                                    component={FormSwitch}
-                                    name="foldersOnly"
-                                    color="primary"
-                                    label={
-                                        <Typography variant="body2">
-                                            {t("pathListFoldersOnlyLbl")}
-                                        </Typography>
-                                    }
-                                />
-                            </Grid>
-                            <Grid item xs>
-                                <Typography variant="body2">
-                                    <Trans
-                                        t={t}
-                                        i18nKey="pathListPatternMatchLbl"
-                                        components={{
-                                            pattern: (
-                                                <ExternalLink
-                                                    href={
-                                                        constants.JAVA_PATTERN_DOC
-                                                    }
-                                                />
-                                            ),
-                                        }}
-                                    />
-                                </Typography>
 
-                                <Field
-                                    id={buildId(
-                                        baseId,
-                                        ids.PATH_LIST_AUTO_MATCH_PATTERN
+                            <DialogContent>
+                                <Grid
+                                    container
+                                    direction="column"
+                                    justify="center"
+                                    alignItems="stretch"
+                                    spacing={1}
+                                >
+                                    {createPathListError && (
+                                        <Grid item xs>
+                                            <ErrorTypographyWithDialog
+                                                baseId={baseId}
+                                                errorMessage={errorMsg}
+                                                errorObject={
+                                                    createPathListError
+                                                }
+                                            />
+                                        </Grid>
                                     )}
-                                    name="pattern"
-                                    component={FormTextField}
-                                    placeholder="e.g: \.csv$"
-                                    variant="outlined"
-                                    dense
-                                />
-                            </Grid>
-                            <Grid item xs>
-                                <Typography variant="body2">
-                                    {t("pathListInfoTypeLbl")}
-                                </Typography>
-                                <Paper>
-                                    <List
-                                        style={{
-                                            maxHeight: 150,
-                                            overflow: "auto",
-                                        }}
-                                        id={buildId(
-                                            baseId,
-                                            ids.PATH_LIST_AUTO_MATCH_INFO_TYPES
-                                        )}
-                                    >
-                                        {isFetching && (
-                                            <Skeleton
-                                                variant="rect"
-                                                height={150}
+                                    <Grid item xs>
+                                        <Typography variant="body2">
+                                            {t("pathListInputLbl")}
+                                        </Typography>
+                                        {infoTypeError && (
+                                            <ErrorTypographyWithDialog
+                                                baseId={baseId}
+                                                errorMessage={t(
+                                                    "infoTypeFetchError"
+                                                )}
+                                                errorObject={infoTypeError}
                                             />
                                         )}
-                                        {!isFetching &&
-                                            infoTypes &&
-                                            infoTypes.length > 0 &&
-                                            infoTypes.map((type) => {
-                                                const labelId = `checkbox-list-label-${type}`;
-                                                return (
-                                                    <ListItem
-                                                        key={type}
-                                                        dense
-                                                        button
-                                                        onClick={handleToggle(
-                                                            type
-                                                        )}
-                                                    >
-                                                        <ListItemIcon>
-                                                            <Checkbox
-                                                                edge="start"
-                                                                checked={
-                                                                    selectedInfoTypes.indexOf(
-                                                                        type
-                                                                    ) !== -1
-                                                                }
-                                                                disableRipple
-                                                                inputProps={{
-                                                                    "aria-labelledby": labelId,
-                                                                }}
-                                                            />
-                                                        </ListItemIcon>
-                                                        <ListItemText
-                                                            id={labelId}
-                                                            primary={type}
+                                        <Field
+                                            id={buildId(
+                                                baseId,
+                                                ids.PATH_LIST_AUTO_INPUTS
+                                            )}
+                                            name="selectedResources"
+                                            required={true}
+                                            component={MultiInputSelector}
+                                            height="25vh"
+                                            label={t(
+                                                "suggestionSelection_any_plural"
+                                            )}
+                                        />
+                                    </Grid>
+                                    <Grid item xs>
+                                        <Field
+                                            id={buildId(
+                                                baseId,
+                                                ids.PATH_LIST_AUTO_FOLDERS_ONLY_SWITCH
+                                            )}
+                                            component={FormSwitch}
+                                            name="foldersOnly"
+                                            color="primary"
+                                            label={
+                                                <Typography variant="body2">
+                                                    {t(
+                                                        "pathListFoldersOnlyLbl"
+                                                    )}
+                                                </Typography>
+                                            }
+                                        />
+                                    </Grid>
+                                    <Grid item xs>
+                                        <Typography variant="body2">
+                                            <Trans
+                                                t={t}
+                                                i18nKey="pathListPatternMatchLbl"
+                                                components={{
+                                                    pattern: (
+                                                        <ExternalLink
+                                                            href={
+                                                                constants.JAVA_PATTERN_DOC
+                                                            }
                                                         />
-                                                    </ListItem>
-                                                );
-                                            })}
-                                    </List>
-                                </Paper>
-                            </Grid>
-                            <Grid item xs>
-                                <Paper style={{ padding: theme.spacing(1) }}>
-                                    <Field
-                                        startingPath={startingPath}
-                                        name="dest"
-                                        id={buildId(
-                                            baseId,
-                                            ids.PATH_LIST_AUTO_DEST_FIELD
-                                        )}
-                                        acceptedType={ResourceTypes.FOLDER}
-                                        label={t("pathListDestLbl")}
-                                        component={InputSelector}
-                                        required={true}
-                                    />
-                                    <Field
-                                        id={buildId(
-                                            baseId,
+                                                    ),
+                                                }}
+                                            />
+                                        </Typography>
 
-                                            ids.PATH_LIST_AUTO_FILE_NAME_FIELD
-                                        )}
-                                        name="fileName"
-                                        required={true}
-                                        label={t("fileName")}
-                                        component={SaveAsField}
-                                    />
-                                </Paper>
-                            </Grid>
-                        </Grid>
-                        <Grid
-                            container
-                            direction="row"
-                            justify="flex-end"
-                            alignItems="flex-end"
-                            spacing={1}
-                        >
-                            {createPathListError && (
-                                <Grid item xs>
-                                    <ErrorTypographyWithDialog
-                                        baseId={baseId}
-                                        errorMessage={errorMsg}
-                                        errorObject={createPathListError}
-                                    />
+                                        <Field
+                                            id={buildId(
+                                                baseId,
+                                                ids.PATH_LIST_AUTO_MATCH_PATTERN
+                                            )}
+                                            name="pattern"
+                                            component={FormTextField}
+                                            placeholder="e.g: \.csv$"
+                                            variant="outlined"
+                                            dense
+                                        />
+                                    </Grid>
+                                    <Grid item xs>
+                                        <Typography variant="body2">
+                                            {t("pathListInfoTypeLbl")}
+                                        </Typography>
+                                        <Paper>
+                                            <List
+                                                style={{
+                                                    maxHeight: 150,
+                                                    overflow: "auto",
+                                                }}
+                                                id={buildId(
+                                                    baseId,
+                                                    ids.PATH_LIST_AUTO_MATCH_INFO_TYPES
+                                                )}
+                                            >
+                                                {isFetching && (
+                                                    <Skeleton
+                                                        variant="rect"
+                                                        height={150}
+                                                    />
+                                                )}
+                                                {!isFetching &&
+                                                    infoTypes &&
+                                                    infoTypes.length > 0 &&
+                                                    infoTypes.map((type) => {
+                                                        const labelId = `checkbox-list-label-${type}`;
+                                                        return (
+                                                            <ListItem
+                                                                key={type}
+                                                                dense
+                                                                button
+                                                                onClick={handleToggle(
+                                                                    type
+                                                                )}
+                                                            >
+                                                                <ListItemIcon>
+                                                                    <Checkbox
+                                                                        edge="start"
+                                                                        checked={
+                                                                            selectedInfoTypes.indexOf(
+                                                                                type
+                                                                            ) !==
+                                                                            -1
+                                                                        }
+                                                                        disableRipple
+                                                                        inputProps={{
+                                                                            "aria-labelledby": labelId,
+                                                                        }}
+                                                                    />
+                                                                </ListItemIcon>
+                                                                <ListItemText
+                                                                    id={labelId}
+                                                                    primary={
+                                                                        type
+                                                                    }
+                                                                />
+                                                            </ListItem>
+                                                        );
+                                                    })}
+                                            </List>
+                                        </Paper>
+                                    </Grid>
+                                    <Grid item xs>
+                                        <Paper
+                                            style={{
+                                                padding: theme.spacing(1),
+                                            }}
+                                        >
+                                            <Field
+                                                startingPath={startingPath}
+                                                name="dest"
+                                                id={buildId(
+                                                    baseId,
+                                                    ids.PATH_LIST_AUTO_DEST_FIELD
+                                                )}
+                                                acceptedType={
+                                                    ResourceTypes.FOLDER
+                                                }
+                                                label={t("pathListDestLbl")}
+                                                component={InputSelector}
+                                                required={true}
+                                            />
+                                            <Field
+                                                id={buildId(
+                                                    baseId,
+
+                                                    ids.PATH_LIST_AUTO_FILE_NAME_FIELD
+                                                )}
+                                                name="fileName"
+                                                required={true}
+                                                label={t("fileName")}
+                                                component={SaveAsField}
+                                            />
+                                        </Paper>
+                                    </Grid>
                                 </Grid>
-                            )}
-                            <Grid item>
-                                <Button
-                                    id={buildId(
-                                        baseId,
-                                        ids.PATH_LIST_AUTO_CANCEL_BTN
-                                    )}
-                                    onClick={onCancel}
+                            </DialogContent>
+                            <DialogActions>
+                                <Grid
+                                    container
+                                    direction="row"
+                                    justify="flex-end"
+                                    alignItems="flex-end"
+                                    spacing={1}
                                 >
-                                    {i18nCommon("cancel")}
-                                </Button>
-                            </Grid>
-                            <Grid item>
-                                <Button
-                                    id={buildId(
-                                        baseId,
-                                        ids.PATH_LIST_AUTO_DONE_BTN
+                                    {createPathListError && (
+                                        <Grid item xs>
+                                            <ErrorTypographyWithDialog
+                                                baseId={baseId}
+                                                errorMessage={errorMsg}
+                                                errorObject={
+                                                    createPathListError
+                                                }
+                                            />
+                                        </Grid>
                                     )}
-                                    color="primary"
-                                    type="submit"
-                                >
-                                    {i18nCommon("done")}
-                                </Button>
-                            </Grid>
-                        </Grid>
+                                    <Grid item>
+                                        <Button
+                                            id={buildId(
+                                                baseId,
+                                                ids.PATH_LIST_AUTO_CANCEL_BTN
+                                            )}
+                                            onClick={onCancel}
+                                        >
+                                            {i18nCommon("cancel")}
+                                        </Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <Button
+                                            id={buildId(
+                                                baseId,
+                                                ids.PATH_LIST_AUTO_DONE_BTN
+                                            )}
+                                            color="primary"
+                                            type="submit"
+                                            onClick={handleSubmit}
+                                        >
+                                            {i18nCommon("done")}
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </DialogActions>
+                        </Dialog>
                     </Form>
                 );
             }}

@@ -430,38 +430,48 @@ export default function PathListAutomation(props) {
                                 </Grid>
                             </DialogContent>
                             <DialogActions>
-                                {createPathListError && (
-                                    <Grid item xs>
-                                        <ErrorTypographyWithDialog
-                                            baseId={baseId}
-                                            errorMessage={errorMsg}
-                                            errorObject={createPathListError}
-                                        />
+                                <Grid
+                                    container
+                                    direction="row"
+                                    justify="flex-end"
+                                    alignItems="flex-end"
+                                    spacing={1}
+                                >
+                                    {createPathListError && (
+                                        <Grid item xs>
+                                            <ErrorTypographyWithDialog
+                                                baseId={baseId}
+                                                errorMessage={errorMsg}
+                                                errorObject={
+                                                    createPathListError
+                                                }
+                                            />
+                                        </Grid>
+                                    )}
+                                    <Grid item>
+                                        <Button
+                                            id={buildId(
+                                                baseId,
+                                                ids.PATH_LIST_AUTO_CANCEL_BTN
+                                            )}
+                                            onClick={onCancel}
+                                        >
+                                            {i18nCommon("cancel")}
+                                        </Button>
                                     </Grid>
-                                )}
-                                <Grid>
-                                    <Button
-                                        id={buildId(
-                                            baseId,
-                                            ids.PATH_LIST_AUTO_CANCEL_BTN
-                                        )}
-                                        onClick={onCancel}
-                                    >
-                                        {i18nCommon("cancel")}
-                                    </Button>
-                                </Grid>
-                                <Grid>
-                                    <Button
-                                        id={buildId(
-                                            baseId,
-                                            ids.PATH_LIST_AUTO_DONE_BTN
-                                        )}
-                                        color="primary"
-                                        type="submit"
-                                        onClick={handleSubmit}
-                                    >
-                                        {i18nCommon("done")}
-                                    </Button>
+                                    <Grid item>
+                                        <Button
+                                            id={buildId(
+                                                baseId,
+                                                ids.PATH_LIST_AUTO_DONE_BTN
+                                            )}
+                                            color="primary"
+                                            type="submit"
+                                            onClick={handleSubmit}
+                                        >
+                                            {i18nCommon("done")}
+                                        </Button>
+                                    </Grid>
                                 </Grid>
                             </DialogActions>
                         </Dialog>

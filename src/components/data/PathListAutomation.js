@@ -151,10 +151,16 @@ export default function PathListAutomation(props) {
     };
 
     const handlePathListCreation = (values, actions) => {
-        const { selectedPaths, pattern, dest, fileName, foldersOnly } = values;
+        const {
+            selectedResources,
+            pattern,
+            dest,
+            fileName,
+            foldersOnly,
+        } = values;
 
         const submission = {
-            paths: selectedPaths,
+            paths: selectedResources?.map((resource) => resource?.path),
             dest: `${dest}/${fileName}`,
             pattern,
             foldersOnly: foldersOnly || false,
@@ -177,10 +183,10 @@ export default function PathListAutomation(props) {
     };
 
     const validate = (values) => {
-        const { selectedPaths, dest, fileName } = values;
+        const { selectedResources, dest, fileName } = values;
         const errors = {};
-        if (!selectedPaths || selectedPaths.length === 0) {
-            errors.selectedPaths = i18nCommon("required");
+        if (!selectedResources || selectedResources.length === 0) {
+            errors.selectedResources = i18nCommon("required");
         }
 
         if (!fileName) {
@@ -203,7 +209,7 @@ export default function PathListAutomation(props) {
             onSubmit={handlePathListCreation}
             validate={validate}
             initialValues={{
-                selectedPaths: [],
+                selectedResources: [],
                 dest: startingPath,
                 fileName: "",
                 pattern: "",
@@ -270,7 +276,7 @@ export default function PathListAutomation(props) {
                                                 baseId,
                                                 ids.PATH_LIST_AUTO_INPUTS
                                             )}
-                                            name="selectedPaths"
+                                            name="selectedResources"
                                             required={true}
                                             component={MultiInputSelector}
                                             height="25vh"

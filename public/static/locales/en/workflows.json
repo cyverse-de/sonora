@@ -1,4 +1,6 @@
 {
+    "confirmDeleteStepText": "This action cannot be undone.",
+    "confirmDeleteStepTitle": "Delete Step?",
     "createWorkflow": "Create Workflow: {{name}}",
     "editWorkflow": "Edit Workflow: {{name}}",
     "mapOutputsToInputs": "Match Outputs to Inputs",

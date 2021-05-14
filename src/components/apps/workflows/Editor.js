@@ -9,6 +9,7 @@ import { Formik } from "formik";
 
 import { useTranslation } from "i18n";
 
+import AppOrder from "./AppOrder";
 import WorkflowInfo from "./WorkflowInfo";
 
 import ids from "./ids";
@@ -337,9 +338,10 @@ const WorkflowEditor = (props) => {
                             {activeStepInfo === stepAppInfo ? (
                                 <WorkflowInfo baseId={baseId} />
                             ) : activeStepInfo === stepOrderApps ? (
-                                <Typography>
-                                    {t("common:comingSoon")}
-                                </Typography>
+                                <AppOrder
+                                    baseId={baseId}
+                                    steps={values.steps}
+                                />
                             ) : activeStepInfo === stepIOMapping ? (
                                 <Typography>
                                     {t("common:comingSoon")}

@@ -41,6 +41,7 @@ const styles = (theme) => ({
         paddingLeft: theme.typography.pxToRem(4),
         paddingRight: theme.typography.pxToRem(4),
     },
+    dotMenu: { marginLeft: theme.spacing(2) },
 });
 
 export default styles;

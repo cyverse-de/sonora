@@ -46,7 +46,7 @@ function AppsDotMenu(props) {
         onDocSelected,
         onQLSelected,
     } = props;
-    const { t } = useTranslation("apps");
+    const { t } = useTranslation(["apps", "common"]);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     if (!detailsEnabled && !canShare && !isMobile) {
@@ -56,6 +56,7 @@ function AppsDotMenu(props) {
         <DotMenu
             baseId={baseId}
             ButtonProps={ButtonProps}
+            buttonText={t("common:dotMenuText")}
             render={(onClose) => [
                 detailsEnabled && (
                     <MenuItem

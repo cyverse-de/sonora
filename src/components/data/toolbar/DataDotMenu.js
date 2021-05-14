@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 
 import ids from "../ids";
 import shareIds from "components/sharing/ids";
-import { isOwner, isWritable, containsFolders } from "../utils";
+import { containsFolders, isOwner, isWritable } from "../utils";
 import CreateFolderDialog from "../CreateFolderDialog";
 import UploadMenuItems from "./UploadMenuItems";
 
@@ -30,8 +30,8 @@ import ResourceTypes from "components/models/ResourceTypes";
 import constants from "../../../constants";
 
 import {
-    MULTI_INPUT_PATH_LIST,
     HT_ANALYSIS_PATH_LIST,
+    MULTI_INPUT_PATH_LIST,
 } from "serviceFacades/filesystem";
 
 import { build, DotMenu } from "@cyverse-de/ui-lib";
@@ -45,8 +45,8 @@ import {
     CreateNewFolder,
     ListAlt,
     Queue as AddToBagIcon,
-    Send as RequestIcon,
     Refresh,
+    Send as RequestIcon,
 } from "@material-ui/icons";
 import NavigationConstants from "common/NavigationConstants";
 import TrashMenuItems from "./TrashMenuItems";
@@ -87,7 +87,7 @@ function DataDotMenu(props) {
         onMoveSelected,
     } = props;
 
-    const { t } = useTranslation("data");
+    const { t } = useTranslation(["data", "common"]);
 
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
     const [pathListDlgOpen, setPathListDlgOpen] = useState(false);
@@ -132,6 +132,8 @@ function DataDotMenu(props) {
             <DotMenu
                 baseId={baseId}
                 ButtonProps={ButtonProps}
+                buttonText={t("common:dotMenuText")}
+                iconOnlyBreakpoint="sm"
                 render={(onClose) => [
                     isSmall
                         ? [

@@ -79,6 +79,9 @@ const MetadataFormToolbar = (props) => {
 
             <DotMenu
                 baseId={baseId}
+                buttonText={t("common:dotMenuText")}
+                ButtonProps={{ classes: { root: classes.dotMenu } }}
+                iconOnlyBreakpoint="sm"
                 render={(onClose) => [
                     showViewInTemplate && (
                         <MenuItem

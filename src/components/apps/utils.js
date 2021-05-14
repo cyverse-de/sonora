@@ -35,6 +35,19 @@ export const getAppLaunchPath = (systemId, appId) =>
     `/${NavigationConstants.APPS}/${systemId}/${appId}/launch`;
 
 /**
+ * Builds a path to the App Launch Wizard for the Quick Launch with
+ * the given IDs.
+ *
+ * @param {string} systemId The app's system ID.
+ * @param {string} appId The app's ID.
+ * @param {string} quickLaunchId The Quick Launch ID.
+ * @returns The path to the App Launch Wizard for the Quick Launch with
+ * the given IDs.
+ */
+export const getQuickLaunchPath = (systemId, appId, quickLaunchId) =>
+    `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?quick-launch-id=${quickLaunchId}`;
+
+/**
  * Builds a path to the App Editor for the app with the given IDs.
  *
  * @param {string} systemId The app's system ID.

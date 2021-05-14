@@ -14,6 +14,8 @@ import Link from "next/link";
 import ids from "../ids";
 import constants from "../constants";
 import QuickLaunch from "./QuickLaunch";
+
+import { getQuickLaunchPath } from "components/apps/utils";
 import { getHost } from "components/utils/getHost";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import GridLoading from "components/utils/GridLoading";
@@ -216,7 +218,11 @@ function ListQuickLaunches(props) {
 
     const getShareUrl = () => {
         const host = getHost();
-        const url = `${host}/${NavigationConstants.APPS}/${systemId}/${appId}/launch?quick-launch-id=${selected?.id}`;
+        const url = `${host}${getQuickLaunchPath(
+            systemId,
+            appId,
+            selected?.id
+        )}`;
         return url;
     };
 

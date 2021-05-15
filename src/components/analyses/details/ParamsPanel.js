@@ -1,5 +1,5 @@
 /**
- * @author sriram
+ * @author sriram, psarando
  *
  * A panel that displays analysis params.
  *
@@ -7,18 +7,38 @@
  */
 
 import React, { useState } from "react";
+
+import Link from "next/link";
+import { useQuery } from "react-query";
+
 import { useTranslation } from "i18n";
 
-import { parseNameFromPath } from "../../data/utils";
-import DEErrorDialog from "../../utils/error/DEErrorDialog";
-import ErrorTypography from "../../utils/error/ErrorTypography";
-import TableLoading from "../../utils/TableLoading";
 import ids from "../ids";
 import { isInputType, isReferenceGenomeType } from "./ArgumentTypeUtils";
 
+import {
+    getFolderPage,
+    getParentPath,
+    parseNameFromPath,
+} from "components/data/utils";
+import AppParamTypes from "components/models/AppParamTypes";
+
+import DELink from "components/utils/DELink";
 import DETableHead from "components/utils/DETableHead";
+import DEErrorDialog from "components/utils/error/DEErrorDialog";
+import ErrorTypography from "components/utils/error/ErrorTypography";
+import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
+import TableLoading from "components/utils/TableLoading";
 
 import {
+    getResourceDetails,
+    DATA_DETAILS_QUERY_KEY,
+} from "serviceFacades/filesystem";
+
+import { build as buildId } from "@cyverse-de/ui-lib";
+
+import {
+    CircularProgress,
     Table,
     TableBody,
     TableCell,
@@ -27,9 +47,72 @@ import {
     Typography,
 } from "@material-ui/core";
 
+function InputParameterValue(props) {
+    const { id, param_type, path } = props;
+
+    const [statError, setStatError] = React.useState();
+
+    React.useEffect(() => {
+        if (!path) {
+            setStatError(null);
+        }
+    }, [path]);
+
+    const displayValue = parseNameFromPath(path);
+    const linkTarget = getFolderPage(
+        AppParamTypes.FOLDER_INPUT === param_type ? path : getParentPath(path)
+    );
+
+    const { t } = useTranslation("analyses");
+
+    const { isFetching: isFetchingStat } = useQuery({
+        queryKey: [DATA_DETAILS_QUERY_KEY, { paths: [path] }],
+        queryFn: getResourceDetails,
+        config: {
+            enabled: path,
+            onSuccess: () => {
+                setStatError(null);
+            },
+            onError: (error) => {
+                if (ERROR_CODES.ERR_DOES_NOT_EXIST === getErrorCode(error)) {
+                    setStatError(
+                        t("errorInputDoesNotExist", { path: linkTarget })
+                    );
+                } else {
+                    setStatError(null);
+                }
+            },
+        },
+    });
+
+    return (
+        <>
+            <Typography component="div">
+                {isFetchingStat && <CircularProgress size={16} />}
+                {isFetchingStat || statError ? (
+                    displayValue
+                ) : (
+                    <Link passHref href={linkTarget}>
+                        <DELink
+                            id={id}
+                            text={displayValue}
+                            title={linkTarget}
+                        />
+                    </Link>
+                )}
+            </Typography>
+            <Typography variant="caption" color="error">
+                {statError}
+            </Typography>
+        </>
+    );
+}
+
 function ParameterValue(props) {
     const {
+        baseId,
         parameter: {
+            param_id,
             param_type,
             param_value: { value },
         },
@@ -39,7 +122,13 @@ function ParameterValue(props) {
     let displayValue = value ? (value.display ? value.display : value) : "";
 
     if (isInputType(param_type) && valid_info_type) {
-        return <Typography>{parseNameFromPath(displayValue)}</Typography>;
+        return (
+            <InputParameterValue
+                id={buildId(baseId, param_id)}
+                param_type={param_type}
+                path={displayValue}
+            />
+        );
     } else {
         return <Typography>{displayValue}</Typography>;
     }
@@ -114,7 +203,10 @@ function AnalysisParams(props) {
                                     <Typography>{param.param_type}</Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <ParameterValue parameter={param} />
+                                    <ParameterValue
+                                        baseId={baseId}
+                                        parameter={param}
+                                    />
                                 </TableCell>
                             </TableRow>
                         );

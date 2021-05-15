@@ -40,6 +40,7 @@
     "email": "Email",
     "emptyValue": "-",
     "endDate": "End date",
+    "errorInputDoesNotExist": "The input file/folder no longer exists at that location: {{path}}",
     "extend": "Extend",
     "extendTime": "Extend Time Limit",
     "extendTimeLimitMessage": "This analysis is scheduled to be terminated at {{timeLimit}}. Do you wish to extend the time limit?",

@@ -21,10 +21,16 @@ import FileInput from "components/apps/launch/params/FileInput";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import { applyBulkMetadataFromFile } from "serviceFacades/metadata";
 
-import { Button, CircularProgress, Typography } from "@material-ui/core";
+import {
+    Button,
+    CircularProgress,
+    Typography,
+    useTheme,
+} from "@material-ui/core";
 
 export default function ApplyBulkMetadataDialog(props) {
     const { open, handleClose, destFolder } = props;
+    const theme = useTheme();
     const { t } = useTranslation("metadata");
     const { t: i18nCommon } = useTranslation("common");
     const { t: i18nUtil } = useTranslation("util");
@@ -47,7 +53,9 @@ export default function ApplyBulkMetadataDialog(props) {
     );
 
     const handleSubmit = (values) => {
-        applyMetadata({ sourceFile: values.metadataFile, destFolder });
+        if (bulkStatus !== constants.LOADING) {
+            applyMetadata({ sourceFile: values.metadataFile, destFolder });
+        }
     };
 
     return (
@@ -114,6 +122,7 @@ export default function ApplyBulkMetadataDialog(props) {
                                 id={build(baseId, ids.METADATA_FILE)}
                                 required={true}
                                 component={FileInput}
+                                style={{ marginBottom: theme.spacing(4) }}
                                 validate={(value) =>
                                     nonEmptyField(value, i18nUtil)
                                 }

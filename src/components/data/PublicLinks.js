@@ -161,7 +161,7 @@ function PublicLinks(props) {
             <Paper className={classes.paper} elevation={0}>
                 <TextField
                     multiline
-                    rows={paths?.length || 3}
+                    rows={paths?.length + 1 || 3}
                     value={links}
                     fullWidth
                     variant="outlined"

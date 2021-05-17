@@ -25,8 +25,7 @@ import AppParamTypes from "components/models/AppParamTypes";
 
 import DELink from "components/utils/DELink";
 import DETableHead from "components/utils/DETableHead";
-import DEErrorDialog from "components/utils/error/DEErrorDialog";
-import ErrorTypography from "components/utils/error/ErrorTypography";
+import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
 import TableLoading from "components/utils/TableLoading";
 
@@ -51,10 +50,12 @@ function InputParameterValue(props) {
     const { id, param_type, path } = props;
 
     const [statError, setStatError] = React.useState();
+    const [otherError, setOtherError] = React.useState();
 
     React.useEffect(() => {
         if (!path) {
             setStatError(null);
+            setOtherError(null);
         }
     }, [path]);
 
@@ -72,14 +73,17 @@ function InputParameterValue(props) {
             enabled: path,
             onSuccess: () => {
                 setStatError(null);
+                setOtherError(null);
             },
             onError: (error) => {
                 if (ERROR_CODES.ERR_DOES_NOT_EXIST === getErrorCode(error)) {
                     setStatError(
                         t("errorInputDoesNotExist", { path: linkTarget })
                     );
+                    setOtherError(null);
                 } else {
                     setStatError(null);
+                    setOtherError(error);
                 }
             },
         },
@@ -104,6 +108,13 @@ function InputParameterValue(props) {
             <Typography variant="caption" color="error">
                 {statError}
             </Typography>
+            {otherError && (
+                <ErrorTypographyWithDialog
+                    baseId={id}
+                    errorMessage={t("errorCheckingInputStat")}
+                    errorObject={otherError}
+                />
+            )}
         </>
     );
 }
@@ -160,7 +171,7 @@ function AnalysisParams(props) {
     const { t } = useTranslation("analyses");
     const [order] = useState("desc");
     const [orderBy] = useState("Name");
-    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+
     let columns = columnData(t);
 
     if (isParamsFetching) {
@@ -173,20 +184,11 @@ function AnalysisParams(props) {
 
     if (paramsFetchError) {
         return (
-            <>
-                <ErrorTypography
-                    errorMessage={t("analysisParamFetchError")}
-                    onDetailsClick={() => setErrorDialogOpen(true)}
-                />
-                <DEErrorDialog
-                    open={errorDialogOpen}
-                    baseId={baseId}
-                    errorObject={paramsFetchError}
-                    handleClose={() => {
-                        setErrorDialogOpen(false);
-                    }}
-                />
-            </>
+            <ErrorTypographyWithDialog
+                baseId={baseId}
+                errorMessage={t("analysisParamFetchError")}
+                errorObject={paramsFetchError}
+            />
         );
     }
     return (

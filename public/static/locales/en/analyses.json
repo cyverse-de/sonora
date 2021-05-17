@@ -40,6 +40,7 @@
     "email": "Email",
     "emptyValue": "-",
     "endDate": "End date",
+    "errorCheckingInputStat": "Error checking the status of this input.",
     "errorInputDoesNotExist": "The input file/folder no longer exists at that location: {{path}}",
     "extend": "Extend",
     "extendTime": "Extend Time Limit",

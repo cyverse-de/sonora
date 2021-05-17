@@ -88,6 +88,19 @@ export default function metadataRouter() {
         })
     );
 
+    logger.info("adding the POST /api/filesystem/metadata/csv-parser handler");
+    api.post(
+        "/filesystem/metadata/csv-parser",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/secured/filesystem/metadata/csv-parser",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the GET /api/ontology-lookup-service handler");
     api.get(
         "/ontology-lookup-service",

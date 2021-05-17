@@ -46,9 +46,11 @@ import {
     Queue as AddToBagIcon,
     Refresh,
     Send as RequestIcon,
+    Description,
 } from "@material-ui/icons";
 import NavigationConstants from "common/NavigationConstants";
 import TrashMenuItems from "./TrashMenuItems";
+import ApplyBulkMetadataDialog from "components/metadata/ApplyBulkMetadataDialog";
 
 function DataDotMenu(props) {
     const {
@@ -86,15 +88,21 @@ function DataDotMenu(props) {
         onMoveSelected,
     } = props;
 
-    const { t } = useTranslation(["data", "common"]);
+    const { t } = useTranslation("data");
+    const { t: i18nMetadata } = useTranslation("metadata");
+    const { t: i81nCommon } = useTranslation("common");
 
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
     const [pathListDlgOpen, setPathListDlgOpen] = useState(false);
 
     const [requestedInfoType, setRequestedInfoType] = useState();
+    const [bulkMdDialogOpen, setBulkMdDialogOpen] = useState(false);
 
     const onCreateFolderDlgClose = () => setCreateFolderDlgOpen(false);
     const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
+
+    const onBulkMdDialogClose = () => setBulkMdDialogOpen(false);
+    const onApplyBulkMdClicked = () => setBulkMdDialogOpen(true);
 
     const isSelectionEmpty = selected?.length === 0;
     const selectedResources = getSelectedResources
@@ -126,12 +134,15 @@ function DataDotMenu(props) {
         );
     };
 
+    const applyBulkMetadataEnabled =
+        metadataMiEnabled && selectedResources[0].type === ResourceTypes.FOLDER;
+
     return (
         <>
             <DotMenu
                 baseId={baseId}
                 ButtonProps={ButtonProps}
-                buttonText={t("common:dotMenuText")}
+                buttonText={i81nCommon("dotMenuText")}
                 iconOnlyBreakpoint="sm"
                 render={(onClose) => [
                     isSmall
@@ -228,6 +239,7 @@ function DataDotMenu(props) {
                                       </MenuItem>
                                   ),
                               ],
+
                               <Divider key={ids.UPLOAD_MENU_ITEM_DIVIDER} />,
                               uploadEnabled && (
                                   <UploadMenuItems
@@ -267,6 +279,25 @@ function DataDotMenu(props) {
                                           <RequestIcon fontSize="small" />
                                       </ListItemIcon>
                                       <ListItemText primary={t("requestDOI")} />
+                                  </MenuItem>
+                              ),
+                              applyBulkMetadataEnabled && (
+                                  <MenuItem
+                                      key={build(baseId, "BULK")}
+                                      id={build(baseId, ids.BULK)}
+                                      onClick={() => {
+                                          onClose();
+                                          onApplyBulkMdClicked();
+                                      }}
+                                  >
+                                      <ListItemIcon>
+                                          <Description fontSize="small" />
+                                      </ListItemIcon>
+                                      <ListItemText
+                                          primary={i18nMetadata(
+                                              "applyBulkTitle"
+                                          )}
+                                      />
                                   </MenuItem>
                               ),
                               <Divider key={ids.METADATA_MENU_ITEM_DIVIDER} />,
@@ -396,6 +427,12 @@ function DataDotMenu(props) {
                     onCreateFolderDlgClose();
                     refreshListing();
                 }}
+            />
+
+            <ApplyBulkMetadataDialog
+                open={bulkMdDialogOpen}
+                handleClose={onBulkMdDialogClose}
+                destFolder={selectedResources[0]?.path || ""}
             />
 
             <PathListAutomation

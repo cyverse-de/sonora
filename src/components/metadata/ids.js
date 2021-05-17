@@ -36,4 +36,6 @@ export default {
     COPY_BUTTON: "copyButton",
     COPY_DESTINATIONS: "copyDestinations",
     SELECTED_RESOURCES: "selectedResources",
+    METADATA_FILE: "metadataFile",
+    BULK_METADATA_DIALOG: "bulkMetadataDialog",
 };

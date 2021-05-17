@@ -81,6 +81,7 @@ export default {
     PERMISSION_MENU_BTN: "permissionMenuBtn",
     PERMISSIONS_TAB: "permissionsTab",
     PUBLIC_LINKS: "publicLinks",
+    PATH_LINK_BTN: "publicLinkButton",
     PUBLIC_LINKS_TEXT_FIELD: "publicLinksTextField",
     PUBLIC_LINKS_MENU_ITEM: "publicLinksMenuItem",
     COPY_LINKS_BTN: "copyLinksButton",

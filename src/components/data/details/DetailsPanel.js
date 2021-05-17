@@ -194,6 +194,7 @@ function DetailsTabPanel(props) {
                 {isFile && (
                     <Grid item xs={6}>
                         <Button
+                              id={build(baseId, ids.PATH_LINK_BTN)}
                             color="primary"
                             variant="outlined"
                             startIcon={<Link />}

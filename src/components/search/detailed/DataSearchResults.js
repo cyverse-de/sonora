@@ -39,6 +39,7 @@ import { getHost } from "components/utils/getHost";
 import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
 import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
 import CopyLinkButton from "components/utils/CopyLinkButton";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import { IconButton, Tooltip, Typography, Grid } from "@material-ui/core";
 import { Info, Label } from "@material-ui/icons";
@@ -160,10 +161,14 @@ function DataSearchResults(props) {
     }, [searchTerm, sortField, sortOrder, userHomeDir]);
 
     useEffect(() => {
+        trackIntercomEvent(IntercomEvents.SEARCHED_DATA, {
+            search: searchTerm,
+            total: data?.length ? data[0].total : 0,
+        });
         if (data && data.length > 0) {
             updateResultCount(data[0].total);
         }
-    }, [data, updateResultCount]);
+    }, [data, searchTerm, updateResultCount]);
 
     const columns = React.useMemo(
         () => [

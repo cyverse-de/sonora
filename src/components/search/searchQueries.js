@@ -10,7 +10,6 @@ import { searchData, searchDataInfinite } from "serviceFacades/filesystem";
 import { searchApps, searchAppsInfiniteQuery } from "serviceFacades/apps";
 import { getAnalyses, searchAnalysesInfinite } from "serviceFacades/analyses";
 import { searchTeams } from "../../serviceFacades/groups";
-import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 /**
  *
@@ -23,11 +22,6 @@ import { trackIntercomEvent, IntercomEvents } from "common/intercom";
  * @returns {function}
  */
 function useDataSearch(dataSearchKey, enabled, onSuccess) {
-    if (enabled) {
-        trackIntercomEvent(IntercomEvents.SEARCHING_DATA, {
-            search: dataSearchKey[1]?.query,
-        });
-    }
     return useQuery({
         queryKey: dataSearchKey,
         queryFn: searchData,
@@ -48,11 +42,6 @@ function useDataSearch(dataSearchKey, enabled, onSuccess) {
  * @returns {function}
  */
 function useAppsSearch(appsSearchKey, enabled, onSuccess) {
-    if (enabled) {
-        trackIntercomEvent(IntercomEvents.SEARCHING_APPS, {
-            search: appsSearchKey[1]?.search,
-        });
-    }
     return useQuery({
         queryKey: appsSearchKey,
         queryFn: searchApps,
@@ -73,11 +62,6 @@ function useAppsSearch(appsSearchKey, enabled, onSuccess) {
  * @returns {function}
  */
 function useAnalysesSearch(analysesSearchKey, enabled, onSuccess) {
-    if (enabled) {
-        trackIntercomEvent(IntercomEvents.SEARCHING_ANALYSES, {
-            search: analysesSearchKey[1]?.filter,
-        });
-    }
     return useQuery({
         queryKey: analysesSearchKey,
         queryFn: getAnalyses,
@@ -89,11 +73,6 @@ function useAnalysesSearch(analysesSearchKey, enabled, onSuccess) {
 }
 
 function useTeamsSearch(key, enabled, onSuccess) {
-    if (enabled) {
-        trackIntercomEvent(IntercomEvents.SEARCHING_TEAMS, {
-            search: key[1]?.searchTerm,
-        });
-    }
     return useQuery({
         queryKey: key,
         queryFn: searchTeams,
@@ -113,11 +92,6 @@ function useTeamsSearch(key, enabled, onSuccess) {
  * @returns {function}
  */
 function useAnalysesSearchInfinite(analysesSearchKey, enabled, getFetchMore) {
-    if (enabled) {
-        trackIntercomEvent(IntercomEvents.SEARCHING_ANALYSES, {
-            search: analysesSearchKey[1]?.filter,
-        });
-    }
     return useInfiniteQuery(analysesSearchKey, searchAnalysesInfinite, {
         enabled,
         getFetchMore,
@@ -133,11 +107,6 @@ function useAnalysesSearchInfinite(analysesSearchKey, enabled, getFetchMore) {
  * @param {function} getFetchMore - Function to be used when more data needs to be loaded.
  */
 function useDataSearchInfinite(dataSearchKey, enabled, getFetchMore) {
-    if (enabled) {
-        trackIntercomEvent(IntercomEvents.SEARCHED_DATA, {
-            search: dataSearchKey[1]?.query,
-        });
-    }
     return useInfiniteQuery(dataSearchKey, searchDataInfinite, {
         enabled,
         getFetchMore,
@@ -152,11 +121,6 @@ function useDataSearchInfinite(dataSearchKey, enabled, getFetchMore) {
  * @param {*} getFetchMore - Function to be used when more data needs to be loaded.
  */
 function useAppsSearchInfinite(appsSearchKey, enabled, getFetchMore) {
-    if (enabled) {
-        trackIntercomEvent(IntercomEvents.SEARCHING_APPS, {
-            search: appsSearchKey[1]?.search,
-        });
-    }
     return useInfiniteQuery(appsSearchKey, searchAppsInfiniteQuery, {
         enabled,
         getFetchMore,

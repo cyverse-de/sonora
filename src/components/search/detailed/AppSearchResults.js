@@ -27,6 +27,7 @@ import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboard
 import CopyLinkButton from "components/utils/CopyLinkButton";
 import { getHost } from "components/utils/getHost";
 import { getAppListingLinkRefs } from "components/apps/utils";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import { IconButton, Typography, Grid } from "@material-ui/core";
 import { Info } from "@material-ui/icons";
@@ -95,10 +96,14 @@ export default function AppSearchResults(props) {
     }, [order, orderBy, searchTerm, setAppsSearchQueryEnabled]);
 
     useEffect(() => {
+        trackIntercomEvent(IntercomEvents.SEARCHED_APPS, {
+            search: searchTerm,
+            total: data?.length ? data[0].total : 0,
+        });
         if (data && data.length > 0) {
             updateResultCount(data[0].total);
         }
-    }, [data, updateResultCount]);
+    }, [data, searchTerm, updateResultCount]);
 
     const columns = React.useMemo(
         () => [

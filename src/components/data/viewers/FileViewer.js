@@ -122,9 +122,7 @@ export default function FileViewer(props) {
             infoTypes.GFF === infoType ||
             infoTypes.BED === infoType ||
             infoTypes.GTF === infoType ||
-            infoTypes.BOWTIE === infoType ||
-            infoTypes.HT_ANALYSIS_PATH_LIST === infoType ||
-            infoTypes.MULTI_INPUT_PATH_LIST === infoType
+            infoTypes.BOWTIE === infoType
         ) {
             return viewerConstants.TAB_DELIMITER;
         } else {
@@ -380,7 +378,6 @@ export default function FileViewer(props) {
                     resourceId={resourceId}
                     data={dataToView}
                     loading={isFetchingMore}
-                    separator={separator}
                     handlePathChange={handlePathChange}
                     onRefresh={() => refreshViewer(manifestKey)}
                     onNewFileSaved={onNewFileSaved}

@@ -27,6 +27,7 @@ export default {
     DELETE: "delete",
     DELETE_BTN: "deleteButton",
     DELETE_CONFIRM_DIALOG: "deleteConfirmDialog",
+    DE_LINK: "deLink",
     DELETE_MENU_ITEM: "delete",
     DELETE_MENU_ITEM_DIVIDER: "deleteMenuItemDivider",
     DETAILS_MENU_ITEM: "details",

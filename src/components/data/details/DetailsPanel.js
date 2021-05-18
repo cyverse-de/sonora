@@ -188,7 +188,7 @@ function DetailsTabPanel(props) {
                 <GridLabelValue label={t("deLink")}>
                     <CopyTextArea
                         text={`${getHost()}${partialLink}`}
-                        debugIdPrefix={build(baseId, ids.md5)}
+                        debugIdPrefix={build(baseId, ids.DE_LINK)}
                     />
                 </GridLabelValue>
                 {isFile && (

@@ -164,7 +164,8 @@ export const params = {
             is_default_value: true,
             param_name: "Provide a reference annotation file (GTF/GFF)",
             param_value: {
-                value: "",
+                value:
+                    "/iplant/home/shared/iplantcollaborative/example_data/wordcount/SampleText.txt",
             },
             is_visible: true,
             full_param_id:
@@ -365,7 +366,8 @@ export const params = {
             is_default_value: true,
             param_name: "Masking file containing transcripts to ignore (.GTF)",
             param_value: {
-                value: "",
+                value:
+                    "/iplant/home/shared/cyverse_training/example/coffee_cake.txt",
             },
             is_visible: true,
             full_param_id:

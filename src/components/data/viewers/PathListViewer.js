@@ -66,7 +66,6 @@ function PathListViewer(props) {
         baseId,
         path,
         resourceId,
-        separator,
         loading,
         showErrorAnnouncer,
         createFile,
@@ -169,7 +168,6 @@ function PathListViewer(props) {
         editorData.forEach((row, index) => {
             content = content
                 .concat(row[pathAccessor])
-                .concat(separator)
                 .concat("\n");
         });
         return content;

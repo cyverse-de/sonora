@@ -26,7 +26,6 @@ import {
     INFO_TYPES_QUERY_KEY,
     getInfoTypes,
 } from "serviceFacades/filesystem";
-import { BOOTSTRAP_KEY } from "serviceFacades/users";
 
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import dataFields from "components/data/dataFields";
@@ -90,12 +89,6 @@ function DataSearchResults(props) {
     const { t: dataI18n } = useTranslation("data");
     const dataRecordFields = dataFields(dataI18n);
 
-    const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);
-    let userHomeDir = bootstrapCache?.data_info.user_home_path;
-    if (userHomeDir) {
-        userHomeDir = userHomeDir + "/";
-    }
-
     let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
 
     useEffect(() => {
@@ -150,7 +143,7 @@ function DataSearchResults(props) {
                 DATA_SEARCH_QUERY_KEY,
                 {
                     searchTerm,
-                    userHomeDir,
+                    userHomeDir: "",
                     rowsPerPage: searchConstants.DETAILED_SEARCH_PAGE_SIZE,
                     sortField: sortField,
                     sortDir: sortOrder,
@@ -158,7 +151,7 @@ function DataSearchResults(props) {
             ]);
             setDataSearchQueryEnabled(true);
         }
-    }, [searchTerm, sortField, sortOrder, userHomeDir]);
+    }, [searchTerm, sortField, sortOrder]);
 
     useEffect(() => {
         trackIntercomEvent(IntercomEvents.SEARCHED_DATA, {

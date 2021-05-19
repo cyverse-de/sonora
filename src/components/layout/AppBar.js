@@ -34,6 +34,8 @@ import Notifications from "./Notifications";
 import styles from "./styles";
 import UserMenu from "./UserMenu";
 
+import SvgDEAppBarLogo from "components/icons/DEAppBarLogo";
+
 import { build, CyVerseAnnouncer } from "@cyverse-de/ui-lib";
 import {
     AppBar,
@@ -321,12 +323,7 @@ function DEAppBar(props) {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <img
-                                width={190}
-                                height={39}
-                                src="/de_white.png"
-                                alt={t("cyverse")}
-                            ></img>
+                            <SvgDEAppBarLogo className={classes.icon} />
                         </a>
                         <GlobalSearchField
                             search={searchTerm}

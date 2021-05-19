@@ -65,32 +65,48 @@ function EditToolDialog(props) {
     const [addToolError, setAddToolError] = useState();
     const [updateToolError, setUpdateToolError] = useState();
     const [selectedTool, setSelectedTool] = useState();
+    const [toolTypeQueryEnabled, setToolTypesQueryEnabled] = useState();
 
     const [config] = useConfig();
     const maxCPUCore = config?.tools?.private.max_cpu_limit;
     const maxMemory = config?.tools?.private.max_memory_limit;
     const maxDiskSpace = config?.tools?.private.max_disk_limit;
 
+    const toolTypesCache = queryCache.getQueryData(TOOL_TYPES_QUERY_KEY);
+
+    const preProcessToolTypes = React.useCallback(
+        (data) => {
+            if (data?.tool_types?.length > 0) {
+                setToolTypes(
+                    data["tool_types"]
+                        .filter(
+                            (type) =>
+                                type.name !== TOOL_TYPES.INTERNAL &&
+                                type.name !== TOOL_TYPES.FAPI
+                        )
+                        .map((type) => type.name)
+                );
+            }
+        },
+        [setToolTypes]
+    );
+
+    React.useEffect(() => {
+        if (toolTypesCache) {
+            preProcessToolTypes(toolTypesCache);
+        } else {
+            setToolTypesQueryEnabled(true);
+        }
+    }, [preProcessToolTypes, toolTypesCache]);
+
     const { isFetching: isToolTypeFetching, error: toolTypeError } = useQuery({
         queryKey: TOOL_TYPES_QUERY_KEY,
         queryFn: getToolTypes,
         config: {
-            enabled: true,
+            enabled: toolTypeQueryEnabled,
             staleTime: Infinity,
             cacheTime: Infinity,
-            onSuccess: (data) => {
-                if (data?.tool_types?.length > 0) {
-                    setToolTypes(
-                        data["tool_types"]
-                            .filter(
-                                (type) =>
-                                    type.name !== TOOL_TYPES.INTERNAL &&
-                                    type.name !== TOOL_TYPES.FAPI
-                            )
-                            .map((type) => type.name)
-                    );
-                }
-            },
+            onSuccess: preProcessToolTypes,
         },
     });
     const { isFetching: isToolFetching, error: toolFetchError } = useQuery({

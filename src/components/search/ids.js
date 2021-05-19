@@ -6,7 +6,7 @@ export default {
     DATA_SEARCH_RESULTS_TAB: "dataSearchResultsTab",
     DATA_SEARCH_OPTION: "dataSearchOption",
     DETAILS_BUTTON: "detailsButton",
-    TEAM_SEARCH_OPTION: "teamSearchOption",
+    TEAMS_SEARCH_OPTION: "teamSearchOption",
     TEAM_SEARCH_RESULTS_TAB: "teamSearchResultsTab",
     GLOBAL_SEARCH_FIELD: "globalSearchField",
     SEARCH: "search",

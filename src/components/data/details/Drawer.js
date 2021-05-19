@@ -7,11 +7,7 @@
 import React, { useState } from "react";
 
 import { build } from "@cyverse-de/ui-lib";
-import {
-    Drawer,
-    makeStyles,
-    Typography,
-} from "@material-ui/core";
+import { Drawer, makeStyles, Typography } from "@material-ui/core";
 
 import { useTranslation } from "react-i18next";
 

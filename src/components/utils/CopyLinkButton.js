@@ -16,7 +16,7 @@ export default function CopyLinkButton(props) {
     const { t } = useTranslation("util");
 
     return (
-        <Tooltip title={t("copyLink")} aria-label={t("copyLink")}>
+        <Tooltip title={t("copyDELink")} aria-label={t("copyDELink")}>
             <IconButton
                 id={build(baseId, ids.COPY_LINK_BUTTON)}
                 onClick={() => {

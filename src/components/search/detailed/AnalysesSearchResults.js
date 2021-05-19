@@ -28,6 +28,7 @@ import Drawer from "components/analyses/details/Drawer";
 import Actions from "components/analyses/listing/Actions";
 import { openInteractiveUrl } from "components/analyses/utils";
 import { useUserProfile } from "contexts/userProfile";
+import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import { Typography } from "@material-ui/core";
 
@@ -102,10 +103,14 @@ export default function AnalysesSearchResults(props) {
     }, [setAnalysesSearchQueryEnabled, order, orderBy, searchTerm, t]);
 
     useEffect(() => {
+        trackIntercomEvent(IntercomEvents.SEARCHED_ANALYSES, {
+            search: searchTerm,
+            total: data?.length ? data[0].total : 0,
+        });
         if (data && data.length > 0) {
             updateResultCount(data[0].total);
         }
-    }, [data, updateResultCount]);
+    }, [data, searchTerm, updateResultCount]);
 
     const columns = React.useMemo(
         () => [

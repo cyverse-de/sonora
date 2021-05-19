@@ -541,6 +541,8 @@ function GlobalSearchField(props) {
                 } else {
                     setOptions([...options, ...data, viewAllDataOptions]);
                 }
+            } else {
+                setOptions([...options, viewAllDataOptions]);
             }
         }
     );

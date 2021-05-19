@@ -108,8 +108,11 @@ const initGroupValues = (groups) =>
             }
 
             if (paramType === AppParamTypes.MULTIFILE_SELECTOR) {
+                // A relaunch defaultValue is a {path: [...paths]} object,
+                // but the App Editor uses this function for the preview step,
+                // and it sets this param's defaultValue to an empty array.
                 value =
-                    defaultValue?.path.map((val) => {
+                    defaultValue?.path?.map((val) => {
                         return { path: val };
                     }) || [];
             }

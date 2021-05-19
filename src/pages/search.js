@@ -14,7 +14,10 @@ export default function Search() {
     return (
         <>
             <Hidden only={["sm", "md", "lg", "xl"]}>
-                <GlobalSearchField search={searchTerm} filter={filter} />
+                <GlobalSearchField
+                    search={searchTerm}
+                    selectedFilter={filter}
+                />
             </Hidden>
             <DetailedSearchResults
                 baseId="search"

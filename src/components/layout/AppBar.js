@@ -267,6 +267,13 @@ function DEAppBar(props) {
         setOpen(open);
     };
 
+    const onShowDetailedSearch = (query) => {
+        router.push({
+            pathname: `/${NavigationConstants.SEARCH}`,
+            query,
+        });
+    };
+
     const accountAvatar = (
         <Avatar
             className={userProfile ? classes.userIcon : classes.accountIcon}
@@ -328,6 +335,7 @@ function DEAppBar(props) {
                         <GlobalSearchField
                             search={searchTerm}
                             selectedFilter={filter}
+                            onShowDetailedSearch={onShowDetailedSearch}
                         />
                     </Hidden>
                     <div className={classes.root} />

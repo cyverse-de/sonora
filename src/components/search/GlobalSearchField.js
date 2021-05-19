@@ -8,12 +8,11 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 import { queryCache } from "react-query";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 import {
-    useDataSearch,
-    useAppsSearch,
     useAnalysesSearch,
+    useAppsSearch,
+    useDataSearch,
     useTeamsSearch,
 } from "./searchQueries";
 import ResourceTypes from "../models/ResourceTypes";
@@ -44,20 +43,20 @@ import { build, Highlighter } from "@cyverse-de/ui-lib";
 import SearchIcon from "@material-ui/icons/Search";
 import {
     CircularProgress,
+    Link as MuiLink,
     MenuItem,
     TextField,
+    Typography,
     useMediaQuery,
     useTheme,
-    Typography,
-    Link as MuiLink,
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-    Description as DescriptionIcon,
-    Pageview as PageviewIcon,
-    Folder as FolderIcon,
     Apps as AppsIcon,
+    Description as DescriptionIcon,
+    Folder as FolderIcon,
+    Pageview as PageviewIcon,
 } from "@material-ui/icons";
 import { TeamIcon } from "../teams/Icons";
 import { useUserProfile } from "../../contexts/userProfile";
@@ -282,9 +281,14 @@ function TeamSearchOption(props) {
 
 function GlobalSearchField(props) {
     const classes = useStyles();
-    const router = useRouter();
     const [userProfile] = useUserProfile();
-    const { search, selectedFilter, showErrorAnnouncer } = props;
+    const {
+        search,
+        selectedFilter,
+        showErrorAnnouncer,
+        singleSearchOption = false,
+        onShowDetailedSearch,
+    } = props;
 
     const { t } = useTranslation("common");
     const { t: appsI18n } = useTranslation("apps");
@@ -370,7 +374,10 @@ function GlobalSearchField(props) {
                     };
                 });
 
-                if (filter === searchConstants.ANALYSES) {
+                if (
+                    filter === searchConstants.ANALYSES &&
+                    !singleSearchOption
+                ) {
                     setOptions([
                         ...options,
                         ...analyses,
@@ -402,7 +409,7 @@ function GlobalSearchField(props) {
                         id: searchConstants.APPS,
                     };
                 });
-                if (filter === searchConstants.APPS) {
+                if (filter === searchConstants.APPS && !singleSearchOption) {
                     setOptions([
                         ...options,
                         ...apps,
@@ -431,7 +438,7 @@ function GlobalSearchField(props) {
                         id: searchConstants.DATA,
                     };
                 });
-                if (filter === searchConstants.DATA) {
+                if (filter === searchConstants.DATA && !singleSearchOption) {
                     setOptions([
                         ...options,
                         ...data,
@@ -461,7 +468,7 @@ function GlobalSearchField(props) {
                     id: searchConstants.TEAMS,
                 };
             });
-            if (filter === searchConstants.TEAMS) {
+            if (filter === searchConstants.TEAMS && !singleSearchOption) {
                 setOptions([
                     ...options,
                     ...teams,
@@ -713,16 +720,13 @@ function GlobalSearchField(props) {
             onKeyDown={(e) => {
                 if (e.key === "Enter") {
                     setOpen(false);
-                    router.push({
-                        pathname: `/${NavigationConstants.SEARCH}`,
-                        query: {
-                            searchTerm,
-                            filter,
-                            selectedTab:
-                                filter && filter !== searchConstants.ALL
-                                    ? filter.toUpperCase()
-                                    : SEARCH_RESULTS_TABS.data,
-                        },
+                    onShowDetailedSearch({
+                        searchTerm,
+                        filter,
+                        selectedTab:
+                            filter && filter !== searchConstants.ALL
+                                ? filter.toUpperCase()
+                                : SEARCH_RESULTS_TABS.data,
                     });
                 }
             }}
@@ -730,6 +734,14 @@ function GlobalSearchField(props) {
     );
 
     const searchFilterId = build(ids.SEARCH, ids.SEARCH_FILTER_MENU);
+    const filterOptions = singleSearchOption
+        ? [selectedFilter]
+        : [
+              searchConstants.ALL,
+              searchConstants.DATA,
+              searchConstants.APPS,
+              searchConstants.ANALYSES,
+          ];
 
     return (
         <>
@@ -779,30 +791,15 @@ function GlobalSearchField(props) {
                     disableUnderline: true,
                 }}
             >
-                <MenuItem
-                    id={build(searchFilterId, ids.SEARCH_FILTER_MI.ALL)}
-                    value={searchConstants.ALL}
-                >
-                    {t("all")}
-                </MenuItem>
-                <MenuItem
-                    id={build(searchFilterId, ids.SEARCH_FILTER_MI.DATA)}
-                    value={searchConstants.DATA}
-                >
-                    {t("data")}
-                </MenuItem>
-                <MenuItem
-                    id={build(searchFilterId, ids.SEARCH_FILTER_MI.APPS)}
-                    value={searchConstants.APPS}
-                >
-                    {t("apps")}
-                </MenuItem>
-                <MenuItem
-                    id={build(searchFilterId, ids.SEARCH_FILTER_MI.ANALYSES)}
-                    value={searchConstants.ANALYSES}
-                >
-                    {t("analyses")}
-                </MenuItem>
+                {filterOptions.map((option) => (
+                    <MenuItem
+                        id={build(searchFilterId, ids.SEARCH_FILTER_MI[option])}
+                        value={option}
+                        key={option}
+                    >
+                        {t(option.toLowerCase())}
+                    </MenuItem>
+                ))}
             </TextField>
         </>
     );

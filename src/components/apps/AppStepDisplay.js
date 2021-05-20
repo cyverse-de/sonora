@@ -45,6 +45,7 @@ const AppStepDisplay = (props) => {
         step,
         label,
         helpText,
+        errorText,
         children,
         actions,
         bottomNavigation,
@@ -62,7 +63,10 @@ const AppStepDisplay = (props) => {
                     variant: "subtitle1",
                     color: "primary",
                 }}
-                subheader={helpText}
+                subheader={errorText || helpText}
+                subheaderTypographyProps={{
+                    color: errorText ? "error" : "textSecondary",
+                }}
                 action={actions}
             />
             <CardContent className={classes.cardContent}>

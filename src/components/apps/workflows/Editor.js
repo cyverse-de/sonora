@@ -107,16 +107,19 @@ const WorkflowEditor = (props) => {
         label: t("workflowInfo"),
         contentLabel: t("workflowInfo"),
         helpText: t("stepHelpInfo"),
+        errorText: t("stepErrorInfo"),
     };
     const stepOrderApps = {
         label: t("selectAndOrderApps"),
         contentLabel: t("selectAndOrderApps"),
         helpText: t("stepHelpSelectAndOrder"),
+        errorText: t("stepErrorSelectAndOrder"),
     };
     const stepIOMapping = {
         label: t("mapOutputsToInputs"),
         contentLabel: t("mapOutputsToInputs"),
         helpText: t("stepHelpMapping"),
+        errorText: t("stepErrorMapping"),
     };
 
     const workflowSteps = [stepAppInfo, stepOrderApps, stepIOMapping];
@@ -152,6 +155,11 @@ const WorkflowEditor = (props) => {
                     errors.description = t("common:required");
                 }
 
+                if (values.steps.length < 2) {
+                    workflowSteps[1] = stepOrderApps.errorText;
+                    errors.error = true;
+                }
+
                 if (workflowSteps.length > 0) {
                     errors.workflowSteps = workflowSteps;
                 }
@@ -164,7 +172,10 @@ const WorkflowEditor = (props) => {
                 const onSuccess = (workflow) => {
                     // Note that enableReinitialize should not be used when
                     // using resetForm with new values.
-                    actions.resetForm({ values: workflow });
+                    actions.resetForm({
+                        values: workflow,
+                        touched: { workflowSteps: [true, true, true] },
+                    });
 
                     announce({
                         text: t("workflowSaved"),
@@ -217,9 +228,8 @@ const WorkflowEditor = (props) => {
                     );
                 };
 
-                const handleStepVisited = (step) => {
+                const handleStepVisited = () => {
                     const workflowStepsTouched = [...touched.workflowSteps];
-                    workflowStepsTouched[step] = true;
                     workflowStepsTouched[activeStep] = true;
 
                     setTouched(
@@ -235,7 +245,7 @@ const WorkflowEditor = (props) => {
                 const handleNext = () => {
                     const newActiveStep = isLastStep() ? 0 : activeStep + 1;
                     setActiveStep(newActiveStep);
-                    handleStepVisited(newActiveStep);
+                    handleStepVisited();
                 };
 
                 const handleBack = () => {
@@ -243,11 +253,11 @@ const WorkflowEditor = (props) => {
                         ? activeStep - 1
                         : workflowSteps.length - 1;
                     setActiveStep(newActiveStep);
-                    handleStepVisited(newActiveStep);
+                    handleStepVisited();
                 };
 
                 const handleStep = (step) => () => {
-                    handleStepVisited(step);
+                    handleStepVisited();
                     setActiveStep(step);
                 };
 
@@ -301,6 +311,10 @@ const WorkflowEditor = (props) => {
                             step={activeStep + 1}
                             label={activeStepInfo.contentLabel}
                             helpText={activeStepInfo.helpText}
+                            errorText={
+                                displayStepError(activeStep) &&
+                                activeStepInfo.errorText
+                            }
                             bottomOffset={isMobile && stepperHeight}
                             actions={
                                 !isMobile && (

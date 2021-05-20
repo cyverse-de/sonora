@@ -13,7 +13,7 @@ import AppOrder from "./AppOrder";
 import WorkflowInfo from "./WorkflowInfo";
 
 import ids from "./ids";
-import styles from "../editor/styles";
+import styles from "../commonStyles";
 
 import AppStepper, { StepperSkeleton } from "../AppStepper";
 import AppStepperFormSkeleton from "../AppStepperFormSkeleton";

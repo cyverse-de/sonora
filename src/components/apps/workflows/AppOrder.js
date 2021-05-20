@@ -10,7 +10,7 @@ import { FieldArray } from "formik";
 import { useTranslation } from "i18n";
 
 import ids from "./ids";
-import styles from "../editor/styles";
+import styles from "../commonStyles";
 
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import DeleteButton from "components/utils/DeleteButton";

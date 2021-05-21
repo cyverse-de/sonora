@@ -47,6 +47,7 @@ import {
     Refresh,
     Send as RequestIcon,
     Description,
+    Create,
 } from "@material-ui/icons";
 import NavigationConstants from "common/NavigationConstants";
 import TrashMenuItems from "./TrashMenuItems";
@@ -68,6 +69,7 @@ function DataDotMenu(props) {
         setImportDialogOpen,
         selected,
         getSelectedResources,
+        onCreateFileSelected,
         onCreateHTFileSelected,
         onCreateMultiInputFileSelected,
         setSharingDlgOpen,
@@ -304,6 +306,19 @@ function DataDotMenu(props) {
                           ],
 
                     uploadEnabled && [
+                        <MenuItem
+                            key={build(baseId, ids.CREATE_FILE_MI)}
+                            id={build(baseId, ids.CREATE_FILE_MI)}
+                            onClick={() => {
+                                onClose();
+                                onCreateFileSelected();
+                            }}
+                        >
+                            <ListItemIcon>
+                                <Create fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText primary={t("newFile")} />
+                        </MenuItem>,
                         <MenuItem
                             key={build(baseId, ids.CREATE_HT_FILE_MI)}
                             id={build(baseId, ids.CREATE_HT_FILE_MI)}

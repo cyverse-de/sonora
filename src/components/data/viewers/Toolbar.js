@@ -7,7 +7,7 @@
  */
 import React, { useEffect, useState } from "react";
 
-import { queryCache, useQuery } from "react-query";
+import { useMutation, queryCache, useQuery } from "react-query";
 import { useTranslation } from "i18n";
 import { NavigationParams } from "common/NavigationConstants";
 
@@ -20,8 +20,20 @@ import ResourceTypes from "components/models/ResourceTypes";
 import BackButton from "components/utils/BackButton";
 import { getHost } from "components/utils/getHost";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
 
-import { build, DotMenu } from "@cyverse-de/ui-lib";
+import SaveAsDialog from "../SaveAsDialog";
+import { getParentPath } from "../utils";
+import constants from "../../../constants";
+
+import { uploadTextAsFile } from "serviceFacades/fileio";
+
+import {
+    announce,
+    AnnouncerConstants,
+    build,
+    DotMenu,
+} from "@cyverse-de/ui-lib";
 import {
     Button,
     Divider,
@@ -34,9 +46,6 @@ import {
     ListItemIcon,
     ListItemText,
     MenuItem,
-    Dialog,
-    DialogActions,
-    DialogContent,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -47,7 +56,6 @@ import {
     List as MetadataIcon,
     Refresh,
     Save,
-    Code,
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -72,6 +80,7 @@ function ViewerToolbar(props) {
         baseId,
         path,
         resourceId,
+        isPathListViewer,
         showLineNumbers,
         onShowLineNumbers,
         showErrorAnnouncer,
@@ -86,8 +95,11 @@ function ViewerToolbar(props) {
         onRefresh,
         handlePathChange,
         fileName,
-        createFile,
-        modeSelect,
+        createFileType,
+        onNewFileSaved,
+        getFileContent,
+        onSaving,
+        onSaveComplete,
     } = props;
 
     const { t } = useTranslation("data");
@@ -97,7 +109,10 @@ function ViewerToolbar(props) {
     const [infoTypes, setInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
     const [download, setDownload] = useState(false);
-    const [openModeSelectDialog, setOpenModeSelectDialog] = useState(false);
+    const [saveAsDialogOpen, setSaveAsDialogOpen] = useState(false);
+    const [saveNewFileError, setSaveNewFileError] = useState(null);
+    const [fileSavePath, setFileSavePath] = useState();
+
     const classes = useStyles();
 
     let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
@@ -132,6 +147,52 @@ function ViewerToolbar(props) {
             },
         },
     });
+
+    const [saveTextAsFile, { status: fileSaveStatus }] = useMutation(
+        uploadTextAsFile,
+        {
+            onSuccess: (resp) => {
+                onSaveComplete();
+                announce({
+                    text: t("fileSaveSuccess", {
+                        fileName: resp?.file.label,
+                    }),
+                    variant: AnnouncerConstants.SUCCESS,
+                });
+
+                if (createFileType && onNewFileSaved) {
+                    //reload the viewer
+                    onNewFileSaved(resp?.file.path, resp?.file.id);
+                }
+            },
+            onError: (error) => {
+                if (createFileType) {
+                    const text =
+                        getErrorCode(error) === ERROR_CODES.ERR_EXISTS
+                            ? t("fileExists", {
+                                  path: getParentPath(fileSavePath),
+                              })
+                            : t("fileSaveError");
+                    setSaveNewFileError(text);
+                } else {
+                    showErrorAnnouncer(t("fileSaveError", { fileName }), error);
+                }
+            },
+        }
+    );
+
+    const saveFile = () => {
+        if (createFileType) {
+            setSaveAsDialogOpen(true);
+        } else {
+            onSaving();
+            saveTextAsFile({
+                dest: path,
+                content: getFileContent(),
+                newFile: false,
+            });
+        }
+    };
 
     const onViewDetails = () =>
         setDetailsResource({
@@ -236,22 +297,26 @@ function ViewerToolbar(props) {
                     <div className={classes.divider} />
                     {editing && (
                         <>
-                            <ToolbarButton
-                                idExtension={ids.ADD_BTN}
-                                onClick={onAddRow}
-                                startIcon={<Add fontSize="small" />}
-                                text={t("add")}
-                            />
-                            <ToolbarButton
-                                idExtension={ids.DELETE_BTN}
-                                onClick={onDeleteRow}
-                                startIcon={<Delete fontSize="small" />}
-                                text={t("delete")}
-                                disabled={selectionCount === 0}
-                            />
+                            {isPathListViewer && (
+                                <>
+                                    <ToolbarButton
+                                        idExtension={ids.ADD_BTN}
+                                        onClick={onAddRow}
+                                        startIcon={<Add fontSize="small" />}
+                                        text={t("add")}
+                                    />
+                                    <ToolbarButton
+                                        idExtension={ids.DELETE_BTN}
+                                        onClick={onDeleteRow}
+                                        startIcon={<Delete fontSize="small" />}
+                                        text={t("delete")}
+                                        disabled={selectionCount === 0}
+                                    />
+                                </>
+                            )}
                             <ToolbarButton
                                 idExtension={ids.SAVE_BTN}
-                                onClick={onSave}
+                                onClick={saveFile}
                                 startIcon={<Save fontSize="small" />}
                                 text={i18nCommon("save")}
                                 disabled={!dirty}
@@ -263,9 +328,8 @@ function ViewerToolbar(props) {
                             />
                         </>
                     )}
-                    {!createFile && (
+                    {!createFileType && (
                         <>
-                            {modeSelect}
                             <ToolbarButton
                                 idExtension={ids.DETAILS_BTN}
                                 onClick={onViewDetails}
@@ -424,32 +488,7 @@ function ViewerToolbar(props) {
                                         <ListItemText primary={t("delete")} />
                                     </MenuItem>,
                                 ],
-                                !createFile &&
-                                    modeSelect && [
-                                        <MenuItem
-                                            key={
-                                                ids.SELECT_MODE_INPUT_MENU_ITEM
-                                            }
-                                            id={build(
-                                                baseId,
-                                                ids.SELECT_MODE_INPUT_MENU_ITEM
-                                            )}
-                                            onClick={() => {
-                                                onClose();
-                                                setOpenModeSelectDialog(true);
-                                            }}
-                                        >
-                                            <ListItemIcon>
-                                                <Code fontSize="small" />
-                                            </ListItemIcon>
-                                            <ListItemText
-                                                primary={t(
-                                                    "syntaxHighlighterMode"
-                                                )}
-                                            />
-                                        </MenuItem>,
-                                    ],
-                                !createFile && [
+                                !createFileType && [
                                     <MenuItem
                                         key={ids.DETAILS_MENU_ITEM}
                                         id={build(
@@ -519,16 +558,6 @@ function ViewerToolbar(props) {
                     </>
                 </Hidden>
             </Toolbar>
-            {modeSelect && (
-                <Dialog open={openModeSelectDialog}>
-                    <DialogContent>{modeSelect}</DialogContent>
-                    <DialogActions>
-                        <Button onClick={() => setOpenModeSelectDialog(false)}>
-                            {i18nCommon("done")}
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            )}
             {detailsResource && (
                 <DetailsDrawer
                     baseId={baseId}
@@ -538,6 +567,23 @@ function ViewerToolbar(props) {
                     infoTypes={infoTypes}
                 />
             )}
+            <SaveAsDialog
+                path={getParentPath(path)}
+                open={saveAsDialogOpen}
+                onClose={() => setSaveAsDialogOpen(false)}
+                saveFileError={saveNewFileError}
+                onSaveAs={(newPath) => {
+                    setFileSavePath(newPath);
+                    setSaveNewFileError(null);
+                    onSaving();
+                    saveTextAsFile({
+                        dest: newPath,
+                        content: getFileContent(),
+                        newFile: createFileType ? true : false,
+                    });
+                }}
+                loading={fileSaveStatus === constants.LOADING}
+            />
         </>
     );
 }

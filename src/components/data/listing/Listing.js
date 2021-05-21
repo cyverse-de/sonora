@@ -80,6 +80,7 @@ function Listing(props) {
         isInvalidSelection = () => false,
         render,
         showErrorAnnouncer,
+        onCreateFileSelected,
         onCreateHTFileSelected,
         onCreateMultiInputFileSelected,
         page,
@@ -104,15 +105,11 @@ function Listing(props) {
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
-    const [
-        confirmDOIRequestDialogOpen,
-        setConfirmDOIRequestDialogOpen,
-    ] = useState(false);
+    const [confirmDOIRequestDialogOpen, setConfirmDOIRequestDialogOpen] =
+        useState(false);
 
-    const [
-        instantLaunchDefaultsMapping,
-        setInstantLaunchDefaultsMapping,
-    ] = useState({});
+    const [instantLaunchDefaultsMapping, setInstantLaunchDefaultsMapping] =
+        useState({});
 
     const [navError, setNavError] = useState(null);
 
@@ -589,6 +586,7 @@ function Listing(props) {
                     setImportDialogOpen={setImportDialogOpen}
                     localUploadId={localUploadId}
                     uploadMenuId={build(baseId, ids.TOOLBAR, ids.UPLOAD_MENU)}
+                    onCreateFileSelected={() => onCreateFileSelected(path)}
                     onCreateHTFileSelected={() => onCreateHTFileSelected(path)}
                     onCreateMultiInputFileSelected={() =>
                         onCreateMultiInputFileSelected(path)

@@ -12,29 +12,28 @@ import React, {
     useState,
 } from "react";
 
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { useRowSelect, useTable } from "react-table";
 import { useTranslation } from "i18n";
 
-import { uploadTextAsFile } from "serviceFacades/fileio";
 import {
     DATA_DETAILS_QUERY_KEY,
     getResourceDetails,
 } from "serviceFacades/filesystem";
 import constants from "../../../constants";
 import { UploadTrackingProvider } from "contexts/uploadTracking";
-import SaveAsDialog from "../SaveAsDialog";
-import { getParentPath, isWritable } from "../utils";
+
+import { isWritable } from "../utils";
 import ids from "./ids";
 import Toolbar from "./Toolbar";
 import { getColumns, LINE_NUMBER_ACCESSOR } from "./utils";
 
 import DataSelectionDrawer from "components/data/SelectionDrawer";
 import PageWrapper from "components/layout/PageWrapper";
-import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
+
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 
-import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
+import { build } from "@cyverse-de/ui-lib";
 
 import {
     Checkbox,
@@ -68,7 +67,7 @@ function PathListViewer(props) {
         resourceId,
         loading,
         showErrorAnnouncer,
-        createFile,
+        createFileType,
         handlePathChange,
         onRefresh,
         onNewFileSaved,
@@ -78,17 +77,16 @@ function PathListViewer(props) {
 
     const { t } = useTranslation("data");
     const [open, setOpen] = useState(false);
-    const [saveAsDialogOpen, setSaveAsDialogOpen] = useState(false);
+
     const [dirty, setDirty] = useState(false);
     const [permission, setPermission] = useState(null);
-    const [saveNewFileError, setSaveNewFileError] = useState(null);
-    const [fileSavePath, setFileSavePath] = useState();
     const [editorData, setEditorData] = useState([]);
+    const [fileSaveStatus, setFileSaveStatus] = useState();
 
-    const columns = useMemo(() => getColumns(data, false, t("path")), [
-        data,
-        t,
-    ]);
+    const columns = useMemo(
+        () => getColumns(data, false, t("path")),
+        [data, t]
+    );
 
     const pathAccessor = columns[1].accessor;
 
@@ -114,44 +112,11 @@ function PathListViewer(props) {
         setEditorData(setLineNumbers(dataToDisplay));
     }, [data, setLineNumbers]);
 
-    const [saveTextAsFile, { status: fileSaveStatus }] = useMutation(
-        uploadTextAsFile,
-        {
-            onSuccess: (resp) => {
-                setDirty(false);
-                announce({
-                    text: t("fileSaveSuccess", {
-                        fileName: resp?.file.label,
-                    }),
-                    variant: AnnouncerConstants.SUCCESS,
-                });
-
-                if (createFile && onNewFileSaved) {
-                    //reload the viewer
-                    onNewFileSaved(resp?.file.path, resp?.file.id);
-                }
-            },
-            onError: (error) => {
-                if (createFile) {
-                    const text =
-                        getErrorCode(error) === ERROR_CODES.ERR_EXISTS
-                            ? t("fileExists", {
-                                  path: getParentPath(fileSavePath),
-                              })
-                            : t("fileSaveError");
-                    setSaveNewFileError(text);
-                } else {
-                    showErrorAnnouncer(t("fileSaveError", { fileName }), error);
-                }
-            },
-        }
-    );
-
     const { isFetching: fetchingDetails } = useQuery({
         queryKey: [DATA_DETAILS_QUERY_KEY, { paths: [path] }],
         queryFn: getResourceDetails,
         config: {
-            enabled: !createFile,
+            enabled: !createFileType,
             onSuccess: (resp) => {
                 const details = resp?.paths[path];
                 setPermission(details?.permission);
@@ -166,19 +131,9 @@ function PathListViewer(props) {
         //add back the shebang line
         let content = data[0][pathAccessor].concat("\n");
         editorData.forEach((row, index) => {
-            content = content
-                .concat(row[pathAccessor])
-                .concat("\n");
+            content = content.concat(row[pathAccessor]).concat("\n");
         });
         return content;
-    };
-
-    const saveFile = () => {
-        saveTextAsFile({
-            dest: path,
-            content: getContent(),
-            newFile: false,
-        });
     };
 
     const {
@@ -239,7 +194,8 @@ function PathListViewer(props) {
                     }
                 }}
                 editing={
-                    (!fetchingDetails && isWritable(permission)) || createFile
+                    (!fetchingDetails && isWritable(permission)) ||
+                    createFileType
                 }
                 onAddRow={() => {
                     setOpen(true);
@@ -253,19 +209,17 @@ function PathListViewer(props) {
                         setDirty(true);
                     });
                 }}
-                onSave={() => {
-                    if (createFile) {
-                        setSaveAsDialogOpen(true);
-                    } else {
-                        saveFile();
-                    }
-                }}
                 dirty={dirty}
                 selectionCount={Object.keys(selectedRowIds).length}
                 handlePathChange={handlePathChange}
                 onRefresh={onRefresh}
                 fileName={fileName}
-                createFile={createFile}
+                createFileType={createFileType}
+                onNewFileSaved={onNewFileSaved}
+                getFileContent={getContent}
+                onSaving={setFileSaveStatus}
+                onSaveComplete={() => setDirty(false)}
+                isPathListViewer={true}
             />
             {(loading || fileSaveStatus === constants.LOADING) && (
                 <CircularProgress
@@ -339,22 +293,6 @@ function PathListViewer(props) {
                     multiSelect={true}
                 />
             </UploadTrackingProvider>
-            <SaveAsDialog
-                path={getParentPath(path)}
-                open={saveAsDialogOpen}
-                onClose={() => setSaveAsDialogOpen(false)}
-                saveFileError={saveNewFileError}
-                onSaveAs={(newPath) => {
-                    setFileSavePath(newPath);
-                    setSaveNewFileError(null);
-                    saveTextAsFile({
-                        dest: newPath,
-                        content: getContent(),
-                        newFile: createFile ? true : false,
-                    });
-                }}
-                loading={fileSaveStatus === constants.LOADING}
-            />
         </PageWrapper>
     );
 }

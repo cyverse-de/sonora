@@ -63,6 +63,7 @@ function DataToolbar(props) {
         setUploadDialogOpen,
         localUploadId,
         uploadMenuId,
+        onCreateFileSelected,
         onCreateHTFileSelected,
         onCreateMultiInputFileSelected,
         setSharingDlgOpen,
@@ -211,6 +212,7 @@ function DataToolbar(props) {
                             setImportDialogOpen={setImportDialogOpen}
                             getSelectedResources={getSelectedResources}
                             selected={selected}
+                            onCreateFileSelected={onCreateFileSelected}
                             onCreateHTFileSelected={onCreateHTFileSelected}
                             onCreateMultiInputFileSelected={
                                 onCreateMultiInputFileSelected

@@ -57,7 +57,7 @@ export default function DataStore() {
 
     const isFile = query.type === ResourceTypes.FILE;
     const resourceId = query.resourceId;
-    const createFile = query.createFile;
+    const createFileType = query.createFileType;
     const viewMetadata = query.view === NavigationParams.VIEW.METADATA;
 
     const routerPathname = router.pathname;
@@ -80,6 +80,23 @@ export default function DataStore() {
         [baseRoutingPath, router]
     );
 
+    const onCreateFileSelected = useCallback(
+        (path) => {
+            const encodedPath = getEncodedPath(
+                path.concat(`/${viewerConstants.NEW_FILE_NAME}`)
+            );
+
+            router.push({
+                pathname: `${baseRoutingPath}${encodedPath}`,
+                query: {
+                    type: ResourceTypes.FILE,
+                    createFileType: infoTypes.RAW,
+                },
+            });
+        },
+        [baseRoutingPath, router]
+    );
+
     const onCreateHTFileSelected = useCallback(
         (path) => {
             const encodedPath = getEncodedPath(
@@ -90,7 +107,7 @@ export default function DataStore() {
                 pathname: `${baseRoutingPath}${encodedPath}`,
                 query: {
                     type: ResourceTypes.FILE,
-                    createFile: infoTypes.HT_ANALYSIS_PATH_LIST,
+                    createFileType: infoTypes.HT_ANALYSIS_PATH_LIST,
                 },
             });
         },
@@ -107,7 +124,7 @@ export default function DataStore() {
                 pathname: `${baseRoutingPath}${encodedPath}`,
                 query: {
                     type: ResourceTypes.FILE,
-                    createFile: infoTypes.MULTI_INPUT_PATH_LIST,
+                    createFileType: infoTypes.MULTI_INPUT_PATH_LIST,
                 },
             });
         },
@@ -180,7 +197,7 @@ export default function DataStore() {
             <FileViewer
                 resourceId={resourceId}
                 path={resourcePath}
-                createFile={createFile}
+                createFileType={createFileType}
                 baseId="data.viewer"
                 handlePathChange={handlePathChange}
                 onNewFileSaved={onNewFileSaved}
@@ -193,6 +210,7 @@ export default function DataStore() {
             path={resourcePath}
             handlePathChange={handlePathChange}
             baseId="data"
+            onCreateFileSelected={onCreateFileSelected}
             onCreateHTFileSelected={onCreateHTFileSelected}
             onCreateMultiInputFileSelected={onCreateMultiInputFileSelected}
             page={selectedPage}

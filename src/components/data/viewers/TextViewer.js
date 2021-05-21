@@ -4,46 +4,27 @@
  * @author sriram
  *
  */
-import React, { useState } from "react";
-
-import { LightAsync as SyntaxHighlighter } from "react-syntax-highlighter";
-import highlightStyle from "react-syntax-highlighter/dist/cjs/styles/hljs/default-style";
+import React, { useEffect, useState } from "react";
 
 import ids from "./ids";
 import Toolbar from "./Toolbar";
 
 import PageWrapper from "components/layout/PageWrapper";
+import constants from "../../../constants";
 
-import { useTranslation } from "i18n";
 import { build } from "@cyverse-de/ui-lib";
 
-import { CircularProgress, TextField } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import { Controlled as CodeMirror } from "react-codemirror2";
 
-function ModeSelect(props) {
-    const { baseId, mode, handleModeSelect, style } = props;
-    const languages = SyntaxHighlighter.supportedLanguages;
-    const { t } = useTranslation("data");
-
-    return (
-        <Autocomplete
-            id={baseId}
-            value={mode}
-            options={languages}
-            size="small"
-            style={style}
-            onChange={handleModeSelect}
-            renderInput={(params) => (
-                <TextField
-                    {...params}
-                    label={t("syntaxHighlighterMode")}
-                    variant="outlined"
-                />
-            )}
-        />
-    );
-}
+import "codemirror/lib/codemirror.css";
+import "codemirror/mode/javascript/javascript.js";
+import "codemirror/mode/htmlmixed/htmlmixed.js";
+import "codemirror/mode/r/r.js";
+import "codemirror/mode/python/python.js";
+import "codemirror/mode/gfm/gfm.js";
+import "codemirror/mode/yaml/yaml.js";
 
 export default function TextViewer(props) {
     const {
@@ -52,13 +33,33 @@ export default function TextViewer(props) {
         resourceId,
         data,
         loading,
-        mode,
         handlePathChange,
-        handleModeSelect,
         onRefresh,
         fileName,
+        editable,
+        mode,
+        onNewFileSaved,
+        createFileType,
     } = props;
     const [showLineNumbers, setShowLineNumbers] = useState(true);
+    const [editorValue, setEditorValue] = useState();
+    const [editorInstance, setEditorInstance] = useState(null);
+    const [dirty, setDirty] = useState(false);
+    const [fileSaveStatus, setFileSaveStatus] = useState();
+
+    useEffect(() => {
+        if (editorInstance) {
+            editorInstance.setSize("100%", "75vh");
+        }
+    }, [editorInstance]);
+
+    useEffect(() => {
+        setEditorValue(data);
+    }, [data]);
+
+    const getContent = () => {
+        return editorValue;
+    };
 
     return (
         <PageWrapper
@@ -75,20 +76,15 @@ export default function TextViewer(props) {
                 handlePathChange={handlePathChange}
                 onRefresh={onRefresh}
                 fileName={fileName}
-                modeSelect={
-                    <ModeSelect
-                        baseId={build(
-                            baseId,
-                            ids.VIEWER_PLAIN,
-                            ids.SELECT_MODE_INPUT
-                        )}
-                        style={{ width: 200 }}
-                        mode={mode}
-                        handleModeSelect={handleModeSelect}
-                    />
-                }
+                editing={editable}
+                dirty={dirty}
+                createFileType={createFileType}
+                onNewFileSaved={onNewFileSaved}
+                getFileContent={getContent}
+                onSaving={setFileSaveStatus}
+                onSaveComplete={() => setDirty(false)}
             />
-            {loading && (
+            {(loading || fileSaveStatus === constants.LOADING) && (
                 <CircularProgress
                     thickness={7}
                     color="primary"
@@ -99,19 +95,25 @@ export default function TextViewer(props) {
                     }}
                 />
             )}
-            <SyntaxHighlighter
-                customStyle={{
-                    overflow: "auto",
-                    width: "auto",
+            <CodeMirror
+                editorDidMount={(editor) => {
+                    setEditorInstance(editor);
                 }}
-                language={mode}
-                style={highlightStyle}
-                showLineNumbers={showLineNumbers}
-                showInlineLineNumbers={true}
-                wrapLines={true}
-            >
-                {data}
-            </SyntaxHighlighter>
+                value={editorValue}
+                options={{
+                    mode,
+                    lineNumbers: showLineNumbers,
+                    readOnly: !editable,
+                }}
+                onBeforeChange={(editor, data, value) => {
+                    setEditorValue(value);
+                }}
+                onChange={(editor, value) => {
+                    setDirty(
+                        editorInstance ? !editorInstance.isClean() : false
+                    );
+                }}
+            />
         </PageWrapper>
     );
 }

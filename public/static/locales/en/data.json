@@ -87,6 +87,7 @@
     "moveToTrash": "Move to Trash",
     "name": "Name",
     "needDoi": "I need a DOI",
+    "newFile": "New File",
     "newFileLocation": "New file will be saved in:",
     "newFolderLocation": "New folder will be created in: {{- path}}",
     "newHTAnalysisPathListFile": "New HT analysis path list file",

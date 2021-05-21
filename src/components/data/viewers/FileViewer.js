@@ -45,7 +45,6 @@ import {
     Toolbar,
     Typography,
 } from "@material-ui/core";
-
 // at the bottom so eslint doesn't complain
 const VideoViewer = dynamic(() => import("./VideoViewer"));
 
@@ -62,7 +61,7 @@ export default function FileViewer(props) {
     const {
         path,
         resourceId,
-        createFile,
+        createFileType,
         handlePathChange,
         onNewFileSaved,
         baseId,
@@ -70,13 +69,13 @@ export default function FileViewer(props) {
 
     const { t } = useTranslation("data");
     const router = useRouter();
-    const [mode, setMode] = useState(null);
-    const [autoMode, setAutoMode] = useState(true);
     const [readChunkKey, setReadChunkKey] = useState(READ_CHUNK_QUERY_KEY);
     const [readChunkQueryEnabled, setReadChunkQueryEnabled] = useState(false);
     const [viewerType, setViewerType] = useState(null);
     const [manifest, setManifest] = useState(null);
     const [separator, setSeparator] = useState("");
+    const [mode, setMode] = useState();
+    const [editable, setEditable] = useState(false);
     const [config] = useConfig();
 
     const fileName = parseNameFromPath(path);
@@ -84,7 +83,7 @@ export default function FileViewer(props) {
 
     const { isFetching, error: manifestError } = useFileManifest(
         manifestKey,
-        path !== null && path !== undefined && !createFile,
+        path !== null && path !== undefined && !createFileType,
         (resp) => {
             trackIntercomEvent(IntercomEvents.VIEWED_FILE, { ...resp, path });
             setManifest(resp);
@@ -105,6 +104,7 @@ export default function FileViewer(props) {
             const totalPages = Math.ceil(
                 lastGroup["file-size"] / viewerConstants.DEFAULT_PAGE_SIZE
             );
+            setEditable(totalPages === 1);
             if (allGroups.length < totalPages) {
                 return allGroups.length;
             } else {
@@ -132,16 +132,17 @@ export default function FileViewer(props) {
 
     useEffect(() => {
         if (
-            createFile === infoTypes.HT_ANALYSIS_PATH_LIST ||
-            createFile === infoTypes.MULTI_INPUT_PATH_LIST
+            createFileType === infoTypes.HT_ANALYSIS_PATH_LIST ||
+            createFileType === infoTypes.MULTI_INPUT_PATH_LIST ||
+            createFileType === infoTypes.RAW
         ) {
             setManifest({
                 "content-type": "text/plain",
-                infoType: createFile,
+                infoType: createFileType,
                 urls: [],
             });
         }
-    }, [createFile]);
+    }, [createFileType]);
 
     useEffect(() => {
         if (manifest) {
@@ -149,9 +150,7 @@ export default function FileViewer(props) {
             const infoType = manifest?.infoType;
             const separator = getColumnDelimiter(infoType);
 
-            if (autoMode) {
-                setMode(getViewerMode(mimeType));
-            }
+            setMode(getViewerMode(mimeType));
             setSeparator(separator);
 
             switch (mimeType) {
@@ -203,7 +202,7 @@ export default function FileViewer(props) {
                         infoTypes.HT_ANALYSIS_PATH_LIST === infoType ||
                         infoTypes.MULTI_INPUT_PATH_LIST === infoType
                     ) {
-                        if (!createFile) {
+                        if (!createFileType) {
                             setReadChunkKey([
                                 READ_CHUNK_QUERY_KEY,
                                 {
@@ -218,20 +217,23 @@ export default function FileViewer(props) {
                         setViewerType(VIEWER_TYPE.PATH_LIST);
                         break;
                     } else {
-                        setReadChunkKey([
-                            READ_CHUNK_QUERY_KEY,
-                            {
-                                path,
-                                chunkSize: viewerConstants.DEFAULT_PAGE_SIZE,
-                            },
-                        ]);
-                        setReadChunkQueryEnabled(true);
+                        if (!createFileType) {
+                            setReadChunkKey([
+                                READ_CHUNK_QUERY_KEY,
+                                {
+                                    path,
+                                    chunkSize:
+                                        viewerConstants.DEFAULT_PAGE_SIZE,
+                                },
+                            ]);
+                            setReadChunkQueryEnabled(true);
+                        }
                         setViewerType(VIEWER_TYPE.PLAIN);
                         break;
                     }
             }
         }
-    }, [autoMode, createFile, manifest, path, separator]);
+    }, [createFileType, manifest, path, separator]);
 
     const memoizedData = useMemo(() => data, [data]);
     const busy = isFetching || status === constants.LOADING;
@@ -264,7 +266,7 @@ export default function FileViewer(props) {
         viewerType !== VIEWER_TYPE.IMAGE &&
         viewerType !== VIEWER_TYPE.DOCUMENT &&
         viewerType !== VIEWER_TYPE.VIDEO &&
-        !createFile &&
+        !createFileType &&
         (!memoizedData || memoizedData.length === 0)
     ) {
         return <Typography>{t("noContent")}</Typography>;
@@ -287,13 +289,14 @@ export default function FileViewer(props) {
 
     if (viewerType === VIEWER_TYPE.PLAIN) {
         let flatData = "";
-        memoizedData.forEach((page) => {
-            flatData = flatData.concat(page.chunk);
-        });
-        const handleModeSelect = (event, newValue) => {
-            setAutoMode(false);
-            setMode(newValue);
-        };
+        if (createFileType === infoTypes.RAW) {
+            flatData = [{}];
+        } else {
+            memoizedData.forEach((page) => {
+                flatData = flatData.concat(page.chunk);
+            });
+        }
+
         return (
             <>
                 <TextViewer
@@ -302,11 +305,13 @@ export default function FileViewer(props) {
                     fileName={fileName}
                     resourceId={resourceId}
                     data={flatData}
-                    mode={mode}
                     loading={isFetchingMore}
                     handlePathChange={handlePathChange}
-                    handleModeSelect={handleModeSelect}
                     onRefresh={() => refreshViewer(manifestKey)}
+                    editable={editable}
+                    mode={mode}
+                    onNewFileSaved={onNewFileSaved}
+                    createFileType={createFileType}
                 />
                 <LoadMoreButton />
             </>
@@ -359,10 +364,10 @@ export default function FileViewer(props) {
         );
     } else if (viewerType === VIEWER_TYPE.PATH_LIST) {
         let dataToView = "";
-        if (createFile) {
-            if (createFile === infoTypes.HT_ANALYSIS_PATH_LIST) {
+        if (createFileType) {
+            if (createFileType === infoTypes.HT_ANALYSIS_PATH_LIST) {
                 dataToView = [{ 1: config.fileIdentifiers.htPathList }];
-            } else if (createFile === infoTypes.MULTI_INPUT_PATH_LIST) {
+            } else if (createFileType === infoTypes.MULTI_INPUT_PATH_LIST) {
                 dataToView = [{ 1: config.fileIdentifiers.multiInputPathList }];
             }
         } else {
@@ -371,7 +376,7 @@ export default function FileViewer(props) {
         return (
             <>
                 <PathListViewer
-                    createFile={createFile}
+                    createFileType={createFileType}
                     baseId={baseId}
                     path={path}
                     fileName={fileName}

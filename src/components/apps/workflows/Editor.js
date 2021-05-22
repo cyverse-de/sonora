@@ -10,10 +10,13 @@ import { Formik } from "formik";
 import { useTranslation } from "i18n";
 
 import AppOrder from "./AppOrder";
+import InputOutputMapping from "./InputOutputMapping";
 import WorkflowInfo from "./WorkflowInfo";
 
 import ids from "./ids";
 import styles from "../commonStyles";
+
+import { formatWorkflowSubmission, initWorkflowValues } from "./formatters";
 
 import AppStepper, { StepperSkeleton } from "../AppStepper";
 import AppStepperFormSkeleton from "../AppStepperFormSkeleton";
@@ -99,8 +102,8 @@ const WorkflowEditor = (props) => {
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
     const saveApp = ({ workflow, onSuccess }) => {
-        console.log(workflow);
-        onSuccess(workflow);
+        console.log("saveApp", formatWorkflowSubmission(workflow));
+        setTimeout(() => onSuccess(appDescription), 1000);
     };
 
     const stepAppInfo = {
@@ -138,7 +141,7 @@ const WorkflowEditor = (props) => {
 
     return (
         <Formik
-            initialValues={appDescription}
+            initialValues={initWorkflowValues(appDescription)}
             initialTouched={{ workflowSteps: [false, false, false] }}
             validate={(values) => {
                 const errors = {};
@@ -155,8 +158,25 @@ const WorkflowEditor = (props) => {
                     errors.description = t("common:required");
                 }
 
-                if (values.steps.length < 2) {
+                const tooFewSteps = values.steps.length < 2;
+                if (tooFewSteps) {
                     workflowSteps[1] = stepOrderApps.errorText;
+                    errors.error = true;
+                }
+
+                const stepWithoutIOMapping = values.steps.find(
+                    (step, target_step) => {
+                        if (!target_step) {
+                            // The first step will never have an output mapping.
+                            return false;
+                        }
+
+                        return !step.task?.inputs?.find(({ output }) => output);
+                    }
+                );
+
+                if (stepWithoutIOMapping || tooFewSteps) {
+                    workflowSteps[2] = stepIOMapping.errorText;
                     errors.error = true;
                 }
 
@@ -173,7 +193,7 @@ const WorkflowEditor = (props) => {
                     // Note that enableReinitialize should not be used when
                     // using resetForm with new values.
                     actions.resetForm({
-                        values: workflow,
+                        values: initWorkflowValues(workflow),
                         touched: { workflowSteps: [true, true, true] },
                     });
 
@@ -181,7 +201,6 @@ const WorkflowEditor = (props) => {
                         text: t("workflowSaved"),
                         variant: AnnouncerConstants.SUCCESS,
                     });
-                    console.log("onSuccess", workflow);
                 };
 
                 const onError = (errorMessage) => {
@@ -357,9 +376,10 @@ const WorkflowEditor = (props) => {
                                     steps={values.steps}
                                 />
                             ) : activeStepInfo === stepIOMapping ? (
-                                <Typography>
-                                    {t("common:comingSoon")}
-                                </Typography>
+                                <InputOutputMapping
+                                    baseId={baseId}
+                                    steps={values.steps}
+                                />
                             ) : null}
                         </AppStepDisplay>
                     </Paper>

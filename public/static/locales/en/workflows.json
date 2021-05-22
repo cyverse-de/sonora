@@ -4,6 +4,8 @@
     "createWorkflow": "Create Workflow: {{name}}",
     "editWorkflow": "Edit Workflow: {{name}}",
     "mapOutputsToInputs": "Match Outputs to Inputs",
+    "outputMappingLabel": "Step {{step}}: {{label}}",
+    "outputsLabel": "Output(s)",
     "selectAndOrderApps": "Select & Order Apps",
     "stepErrorInfo": "Workflows require a name and a description.",
     "stepErrorMapping": "At least one input for each app must come from an output of a previous app.",

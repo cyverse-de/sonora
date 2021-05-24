@@ -18,14 +18,6 @@ import { CircularProgress } from "@material-ui/core";
 
 import { Controlled as CodeMirror } from "react-codemirror2";
 
-import "codemirror/lib/codemirror.css";
-import "codemirror/mode/javascript/javascript.js";
-import "codemirror/mode/htmlmixed/htmlmixed.js";
-import "codemirror/mode/r/r.js";
-import "codemirror/mode/python/python.js";
-import "codemirror/mode/gfm/gfm.js";
-import "codemirror/mode/yaml/yaml.js";
-
 export default function TextViewer(props) {
     const {
         baseId,
@@ -48,8 +40,18 @@ export default function TextViewer(props) {
     const [fileSaveStatus, setFileSaveStatus] = useState();
 
     useEffect(() => {
+        require("codemirror/lib/codemirror.css");
+        require("codemirror/mode/javascript/javascript.js");
+        require("codemirror/mode/htmlmixed/htmlmixed.js");
+        require("codemirror/mode/r/r.js");
+        require("codemirror/mode/python/python.js");
+        require("codemirror/mode/gfm/gfm.js");
+        require("codemirror/mode/yaml/yaml.js");
+    }, []);
+
+    useEffect(() => {
         if (editorInstance) {
-            editorInstance.setSize("100%", "75vh");
+            editorInstance.setSize("100%", "78vh");
         }
     }, [editorInstance]);
 
@@ -62,10 +64,7 @@ export default function TextViewer(props) {
     };
 
     return (
-        <PageWrapper
-            appBarHeight={120}
-            id={build(baseId, ids.VIEWER_PLAIN, fileName)}
-        >
+        <>
             <Toolbar
                 baseId={build(baseId, ids.VIEWER_DOC, ids.TOOLBAR)}
                 path={path}
@@ -114,6 +113,6 @@ export default function TextViewer(props) {
                     );
                 }}
             />
-        </PageWrapper>
+        </>
     );
 }

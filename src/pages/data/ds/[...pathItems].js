@@ -174,7 +174,7 @@ export default function DataStore() {
         queryKey: [DATA_DETAILS_QUERY_KEY, { paths: [resourcePath] }],
         queryFn: getResourceDetails,
         config: {
-            enabled: viewMetadata,
+            enabled: (viewMetadata || isFile) && !createFileType,
             onSuccess: (resp) => {
                 setDetails(resp?.paths[resourcePath]);
             },
@@ -201,6 +201,9 @@ export default function DataStore() {
                 baseId="data.viewer"
                 handlePathChange={handlePathChange}
                 onNewFileSaved={onNewFileSaved}
+                details={details}
+                detailsLoading={detailsLoading}
+                detailsError={errorObject}
             />
         );
     }

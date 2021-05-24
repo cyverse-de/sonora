@@ -25,7 +25,6 @@ import {
     FETCH_FILE_MANIFEST_QUERY_KEY,
     READ_CHUNK_QUERY_KEY,
 } from "serviceFacades/filesystem";
-import constants from "../../../constants";
 import viewerConstants from "./constants";
 import DocumentViewer from "./DocumentViewer";
 import ids from "./ids";
@@ -34,8 +33,9 @@ import PathListViewer from "./PathListViewer";
 import { refreshViewer, useFileManifest, useReadChunk } from "./queries";
 import StructuredTextViewer from "./StructuredTextViewer";
 import { flattenStructureData } from "./utils";
-import { parseNameFromPath } from "../utils";
+import { parseNameFromPath, isWritable } from "../utils";
 import TextViewer from "./TextViewer";
+import isQueryLoading from "components/utils/isQueryLoading";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import { build } from "@cyverse-de/ui-lib";
@@ -65,6 +65,9 @@ export default function FileViewer(props) {
         handlePathChange,
         onNewFileSaved,
         baseId,
+        details,
+        detailsLoading,
+        detailsError,
     } = props;
 
     const { t } = useTranslation("data");
@@ -104,7 +107,7 @@ export default function FileViewer(props) {
             const totalPages = Math.ceil(
                 lastGroup["file-size"] / viewerConstants.DEFAULT_PAGE_SIZE
             );
-            setEditable(totalPages === 1);
+            setEditable(totalPages === 1 && isWritable(details?.permission));
             if (allGroups.length < totalPages) {
                 return allGroups.length;
             } else {
@@ -236,7 +239,7 @@ export default function FileViewer(props) {
     }, [createFileType, manifest, path, separator]);
 
     const memoizedData = useMemo(() => data, [data]);
-    const busy = isFetching || status === constants.LOADING;
+    const busy = isQueryLoading([isFetching, status, detailsLoading]);
 
     if (busy) {
         return (
@@ -252,9 +255,11 @@ export default function FileViewer(props) {
         );
     }
 
-    if (manifestError || chunkError) {
+    if (manifestError || chunkError || detailsError) {
         if (router) {
-            const errorString = JSON.stringify(manifestError || chunkError);
+            const errorString = JSON.stringify(
+                manifestError || chunkError || detailsError
+            );
             router.push(
                 `/${NavigationConstants.ERROR}?errorInfo=` + errorString
             );
@@ -290,7 +295,7 @@ export default function FileViewer(props) {
     if (viewerType === VIEWER_TYPE.PLAIN) {
         let flatData = "";
         if (createFileType === infoTypes.RAW) {
-            flatData = [{}];
+            flatData = "";
         } else {
             memoizedData.forEach((page) => {
                 flatData = flatData.concat(page.chunk);
@@ -308,7 +313,7 @@ export default function FileViewer(props) {
                     loading={isFetchingMore}
                     handlePathChange={handlePathChange}
                     onRefresh={() => refreshViewer(manifestKey)}
-                    editable={editable}
+                    editable={editable || createFileType}
                     mode={mode}
                     onNewFileSaved={onNewFileSaved}
                     createFileType={createFileType}

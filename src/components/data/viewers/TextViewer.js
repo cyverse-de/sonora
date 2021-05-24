@@ -34,6 +34,7 @@ export default function TextViewer(props) {
         createFileType,
     } = props;
     const [showLineNumbers, setShowLineNumbers] = useState(true);
+    const [wrapText, setWrapText] = useState(false);
     const [editorValue, setEditorValue] = useState();
     const [editorInstance, setEditorInstance] = useState(null);
     const [dirty, setDirty] = useState(false);
@@ -71,7 +72,9 @@ export default function TextViewer(props) {
                 resourceId={resourceId}
                 allowLineNumbers={true}
                 showLineNumbers={showLineNumbers}
-                onShowLineNumbers={(show) => setShowLineNumbers(show)}
+                onShowLineNumbers={setShowLineNumbers}
+                wrapText={wrapText}
+                onWrapText={setWrapText}
                 handlePathChange={handlePathChange}
                 onRefresh={onRefresh}
                 fileName={fileName}
@@ -103,6 +106,7 @@ export default function TextViewer(props) {
                     mode,
                     lineNumbers: showLineNumbers,
                     readOnly: !editable,
+                    lineWrapping: wrapText,
                 }}
                 onBeforeChange={(editor, data, value) => {
                     setEditorValue(value);

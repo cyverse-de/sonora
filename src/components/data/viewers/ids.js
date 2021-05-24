@@ -13,7 +13,6 @@ export default {
     LABEL: "label",
     LOAD_MORE_BTN: "loadMoreButton",
     LINE_NUMBERS_SWITCH: "lineNumberSwitch",
-    LINE_NUMBER_MENU_ITEM: "lineNumberSwitchMenuItem",
     METADATA_BTN: "metadataButton",
     METADATA_MENU_ITEM: "metadataMenuItem",
     REFRESH_BTN: "refreshButton",
@@ -28,4 +27,5 @@ export default {
     VIEWER_PLAIN: "plain",
     VIEWER_STRUCTURED: "structured",
     VIEWER_VIDEO: "video",
+    WRAP_TEXT_SWITCH: "wrapTextSwitch",
 };

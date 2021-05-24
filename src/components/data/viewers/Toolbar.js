@@ -46,6 +46,8 @@ import {
     ListItemIcon,
     ListItemText,
     MenuItem,
+    useTheme,
+    useMediaQuery,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -83,6 +85,8 @@ function ViewerToolbar(props) {
         isPathListViewer,
         showLineNumbers,
         onShowLineNumbers,
+        wrapText,
+        onWrapText,
         showErrorAnnouncer,
         firstRowHeader,
         onFirstRowHeader,
@@ -102,6 +106,8 @@ function ViewerToolbar(props) {
         onSaveComplete,
     } = props;
 
+    const theme = useTheme();
+
     const { t } = useTranslation("data");
     const { t: i18nCommon } = useTranslation("common");
 
@@ -114,6 +120,7 @@ function ViewerToolbar(props) {
     const [fileSavePath, setFileSavePath] = useState();
 
     const classes = useStyles();
+    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
     let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
 
@@ -220,6 +227,28 @@ function ViewerToolbar(props) {
             </Button>
         );
     };
+    const LineNumberSwitch = ({ id }) => (
+        <Switch
+            id={id}
+            size="small"
+            checked={showLineNumbers}
+            onChange={(event) => onShowLineNumbers(event.target.checked)}
+            name={t("showLineNumbers")}
+            color="primary"
+        />
+    );
+
+    const WrapSwitch = ({ id }) => (
+        <Switch
+            id={id}
+            size="small"
+            checked={wrapText}
+            onChange={(event) => onWrapText(event.target.checked)}
+            name={t("wrapText")}
+            color="primary"
+        />
+    );
+
     return (
         <>
             <Toolbar variant="dense" id={baseId}>
@@ -229,34 +258,50 @@ function ViewerToolbar(props) {
                     flexItem
                     className={classes.separator}
                 />
-                <Typography variant="body2" color="primary">
+                <Typography
+                    variant="body2"
+                    color="primary"
+                    style={{ marginLeft: theme.spacing(1) }}
+                >
                     {fileName}
                 </Typography>
-                <Hidden smDown>
-                    {onShowLineNumbers && (
-                        <>
-                            <Divider
-                                orientation="vertical"
-                                flexItem
-                                className={classes.separator}
-                            />
-                            <FormGroup row>
+                <div className={classes.divider} />
+                {!isSmall && (
+                    <>
+                        {onWrapText && (
+                            <FormGroup
+                                row
+                                style={{ marginLeft: theme.spacing(1) }}
+                            >
                                 <FormControlLabel
                                     control={
-                                        <Switch
+                                        <WrapSwitch
+                                            id={build(
+                                                baseId,
+                                                ids.WRAP_TEXT_SWITCH
+                                            )}
+                                        />
+                                    }
+                                    label={
+                                        <Typography variant="body2">
+                                            {t("wrapText")}
+                                        </Typography>
+                                    }
+                                />
+                            </FormGroup>
+                        )}
+                        {onShowLineNumbers && (
+                            <FormGroup
+                                row
+                                style={{ marginLeft: theme.spacing(1) }}
+                            >
+                                <FormControlLabel
+                                    control={
+                                        <LineNumberSwitch
                                             id={build(
                                                 baseId,
                                                 ids.LINE_NUMBERS_SWITCH
                                             )}
-                                            size="small"
-                                            checked={showLineNumbers}
-                                            onChange={(event) =>
-                                                onShowLineNumbers(
-                                                    event.target.checked
-                                                )
-                                            }
-                                            name={t("showLineNumbers")}
-                                            color="primary"
                                         />
                                     }
                                     label={
@@ -266,181 +311,153 @@ function ViewerToolbar(props) {
                                     }
                                 />
                             </FormGroup>
-                        </>
-                    )}
-                    {onFirstRowHeader && (
-                        <FormGroup row>
-                            <FormControlLabel
-                                control={
+                        )}
+                        {onFirstRowHeader && (
+                            <FormGroup row>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            id={build(
+                                                baseId,
+                                                ids.HEADER_SWITCH
+                                            )}
+                                            size="small"
+                                            checked={firstRowHeader}
+                                            onChange={(event) =>
+                                                onFirstRowHeader(
+                                                    event.target.checked
+                                                )
+                                            }
+                                            name={t("firstRowHeader")}
+                                            color="primary"
+                                        />
+                                    }
+                                    label={
+                                        <Typography variant="body2">
+                                            {t("firstRowHeader")}
+                                        </Typography>
+                                    }
+                                />
+                            </FormGroup>
+                        )}
+
+                        {editing && (
+                            <>
+                                {isPathListViewer && (
+                                    <>
+                                        <ToolbarButton
+                                            idExtension={ids.ADD_BTN}
+                                            onClick={onAddRow}
+                                            startIcon={<Add fontSize="small" />}
+                                            text={t("add")}
+                                        />
+                                        <ToolbarButton
+                                            idExtension={ids.DELETE_BTN}
+                                            onClick={onDeleteRow}
+                                            startIcon={
+                                                <Delete fontSize="small" />
+                                            }
+                                            text={t("delete")}
+                                            disabled={selectionCount === 0}
+                                        />
+                                    </>
+                                )}
+                                <ToolbarButton
+                                    idExtension={ids.SAVE_BTN}
+                                    onClick={saveFile}
+                                    startIcon={<Save fontSize="small" />}
+                                    text={i18nCommon("save")}
+                                    disabled={!dirty}
+                                />
+                            </>
+                        )}
+                    </>
+                )}
+
+                <DotMenu
+                    baseId={baseId}
+                    buttonText={i18nCommon("dotMenuText")}
+                    iconOnlyBreakpoint="sm"
+                    render={(onClose) => [
+                        isSmall && onShowLineNumbers && (
+                            <MenuItem
+                                key={build(baseId, ids.LINE_NUMBER_SWITCH)}
+                            >
+                                <ListItemIcon>
+                                    <LineNumberSwitch
+                                        id={build(
+                                            baseId,
+                                            ids.LINE_NUMBER_SWITCH
+                                        )}
+                                    />
+                                </ListItemIcon>
+                                <ListItemText primary={t("showLineNumbers")} />
+                            </MenuItem>
+                        ),
+                        isSmall && onWrapText && (
+                            <MenuItem key={build(baseId, ids.WRAP_TEXT_SWITCH)}>
+                                <ListItemIcon>
+                                    <WrapSwitch
+                                        id={build(baseId, ids.WRAP_TEXT_SWITCH)}
+                                    />
+                                </ListItemIcon>
+                                <ListItemText primary={t("wrapText")} />
+                            </MenuItem>
+                        ),
+                        isSmall && onFirstRowHeader && (
+                            <MenuItem
+                                key={build(
+                                    baseId,
+                                    ids.FIRST_ROW_HEADER_MENU_ITEM
+                                )}
+                            >
+                                <ListItemIcon>
                                     <Switch
                                         id={build(baseId, ids.HEADER_SWITCH)}
                                         size="small"
                                         checked={firstRowHeader}
-                                        onChange={(event) =>
+                                        onChange={(event) => {
                                             onFirstRowHeader(
                                                 event.target.checked
-                                            )
-                                        }
-                                        name={t("firstRowHeader")}
+                                            );
+                                        }}
                                         color="primary"
-                                    />
-                                }
-                                label={
-                                    <Typography variant="body2">
-                                        {t("firstRowHeader")}
-                                    </Typography>
-                                }
-                            />
-                        </FormGroup>
-                    )}
-
-                    <div className={classes.divider} />
-                    {editing && (
-                        <>
-                            {isPathListViewer && (
-                                <>
-                                    <ToolbarButton
-                                        idExtension={ids.ADD_BTN}
-                                        onClick={onAddRow}
-                                        startIcon={<Add fontSize="small" />}
-                                        text={t("add")}
-                                    />
-                                    <ToolbarButton
-                                        idExtension={ids.DELETE_BTN}
-                                        onClick={onDeleteRow}
-                                        startIcon={<Delete fontSize="small" />}
-                                        text={t("delete")}
-                                        disabled={selectionCount === 0}
-                                    />
-                                </>
-                            )}
-                            <ToolbarButton
-                                idExtension={ids.SAVE_BTN}
-                                onClick={saveFile}
-                                startIcon={<Save fontSize="small" />}
-                                text={i18nCommon("save")}
-                                disabled={!dirty}
-                            />
-                            <Divider
-                                orientation="vertical"
-                                flexItem
-                                className={classes.separator}
-                            />
-                        </>
-                    )}
-                    {!createFileType && (
-                        <>
-                            <ToolbarButton
-                                idExtension={ids.DETAILS_BTN}
-                                onClick={onViewDetails}
-                                startIcon={<Info />}
-                                text={t("details")}
-                            />
-                            <ToolbarButton
-                                idExtension={ids.METADATA_BTN}
-                                onClick={onViewMetadata}
-                                startIcon={<MetadataIcon />}
-                                text={t("metadata")}
-                            />
-                            <ToolbarButton
-                                idExtension={ids.DOWNLOAD_BTN}
-                                onClick={() => setDownload(true)}
-                                startIcon={<CloudDownload fontSize="small" />}
-                                text={t("download")}
-                            />
-                            <ToolbarButton
-                                idExtension={ids.REFRESH_BTN}
-                                onClick={onRefresh}
-                                startIcon={<Refresh fontSize="small" />}
-                                text={i18nCommon("refresh")}
-                            />
-                        </>
-                    )}
-                </Hidden>
-                <Hidden mdUp>
-                    <>
-                        <div className={classes.divider} />
-                        <DotMenu
-                            baseId={baseId}
-                            render={(onClose) => [
-                                onShowLineNumbers && (
-                                    <MenuItem
-                                        key={build(
-                                            baseId,
-                                            ids.LINE_NUMBER_MENU_ITEM
-                                        )}
-                                    >
-                                        <ListItemIcon>
-                                            <Switch
-                                                id={build(
-                                                    baseId,
-                                                    ids.LINE_NUMBERS_SWITCH
-                                                )}
-                                                size="small"
-                                                checked={showLineNumbers}
-                                                onChange={(event) => {
-                                                    onShowLineNumbers(
-                                                        event.target.checked
-                                                    );
-                                                }}
-                                                color="primary"
-                                                inputProps={{
-                                                    "aria-labelledby": build(
-                                                        baseId,
-                                                        ids.LINE_NUMBER_MENU_ITEM
-                                                    ),
-                                                }}
-                                            />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            id={build(
-                                                baseId,
-                                                ids.LINE_NUMBER_MENU_ITEM
-                                            )}
-                                            primary={t("showLineNumbers")}
-                                        />
-                                    </MenuItem>
-                                ),
-                                onFirstRowHeader && (
-                                    <MenuItem
-                                        key={build(
-                                            baseId,
-                                            ids.FIRST_ROW_HEADER_MENU_ITEM
-                                        )}
-                                    >
-                                        <ListItemIcon>
-                                            <Switch
-                                                id={build(
-                                                    baseId,
-                                                    ids.HEADER_SWITCH
-                                                )}
-                                                size="small"
-                                                checked={firstRowHeader}
-                                                onChange={(event) => {
-                                                    onFirstRowHeader(
-                                                        event.target.checked
-                                                    );
-                                                }}
-                                                color="primary"
-                                                inputProps={{
-                                                    "aria-labelledby": build(
-                                                        baseId,
-                                                        ids.FIRST_ROW_HEADER_MENU_ITEM
-                                                    ),
-                                                }}
-                                            />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            id={build(
+                                        inputProps={{
+                                            "aria-labelledby": build(
                                                 baseId,
                                                 ids.FIRST_ROW_HEADER_MENU_ITEM
-                                            )}
-                                            primary={t("firstRowHeader")}
-                                        />
-                                    </MenuItem>
-                                ),
-
-                                editing && [
+                                            ),
+                                        }}
+                                    />
+                                </ListItemIcon>
+                                <ListItemText
+                                    id={build(
+                                        baseId,
+                                        ids.FIRST_ROW_HEADER_MENU_ITEM
+                                    )}
+                                    primary={t("firstRowHeader")}
+                                />
+                            </MenuItem>
+                        ),
+                        isSmall &&
+                            editing && [
+                                <MenuItem
+                                    key={build(baseId, ids.SAVE_MENU_ITEM)}
+                                    id={build(baseId, ids.SAVE_MENU_ITEM)}
+                                    onClick={() => {
+                                        onClose();
+                                        onSave();
+                                    }}
+                                    disabled={!dirty}
+                                >
+                                    <ListItemIcon>
+                                        <Save fontSize="small" />
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={i18nCommon("save")}
+                                    />
+                                </MenuItem>,
+                                isPathListViewer && [
                                     <MenuItem
                                         key={build(baseId, ids.ADD_MENU_ITEM)}
                                         id={build(baseId, ids.ADD_MENU_ITEM)}
@@ -462,22 +479,6 @@ function ViewerToolbar(props) {
                                         id={build(baseId, ids.DELETE_MENU_ITEM)}
                                         onClick={() => {
                                             onClose();
-                                            onSave();
-                                        }}
-                                        disabled={!dirty}
-                                    >
-                                        <ListItemIcon>
-                                            <Save fontSize="small" />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={i18nCommon("save")}
-                                        />
-                                    </MenuItem>,
-                                    <MenuItem
-                                        key={build(baseId, ids.SAVE_MENU_ITEM)}
-                                        id={build(baseId, ids.SAVE_MENU_ITEM)}
-                                        onClick={() => {
-                                            onClose();
                                             onDeleteRow();
                                         }}
                                         disabled={selectionCount === 0}
@@ -488,75 +489,60 @@ function ViewerToolbar(props) {
                                         <ListItemText primary={t("delete")} />
                                     </MenuItem>,
                                 ],
-                                !createFileType && [
-                                    <MenuItem
-                                        key={ids.DETAILS_MENU_ITEM}
-                                        id={build(
-                                            baseId,
-                                            ids.DETAILS_MENU_ITEM
-                                        )}
-                                        onClick={() => {
-                                            onClose();
-                                            onViewDetails();
-                                        }}
-                                    >
-                                        <ListItemIcon>
-                                            <Info fontSize="small" />
-                                        </ListItemIcon>
-                                        <ListItemText primary={t("details")} />
-                                    </MenuItem>,
-                                    <MenuItem
-                                        key={ids.METADATA_MENU_ITEM}
-                                        id={build(
-                                            baseId,
-                                            ids.METADATA_MENU_ITEM
-                                        )}
-                                        onClick={() => {
-                                            onClose();
-                                            onViewMetadata();
-                                        }}
-                                    >
-                                        <ListItemIcon>
-                                            <MetadataIcon fontSize="small" />
-                                        </ListItemIcon>
-                                        <ListItemText primary={t("metadata")} />
-                                    </MenuItem>,
-                                    <MenuItem
-                                        key={ids.DOWNLOAD_MENU_ITEM}
-                                        id={build(
-                                            baseId,
-                                            ids.DOWNLOAD_MENU_ITEM
-                                        )}
-                                        onClick={() => {
-                                            onClose();
-                                            setDownload(true);
-                                        }}
-                                    >
-                                        <ListItemIcon>
-                                            <CloudDownload fontSize="small" />
-                                        </ListItemIcon>
-                                        <ListItemText primary={t("download")} />
-                                    </MenuItem>,
-                                    <MenuItem
-                                        key={ids.REFRESH_MENU_ITEM}
-                                        id={build(
-                                            baseId,
-                                            ids.REFRESH_MENU_ITEM
-                                        )}
-                                        onClick={onRefresh}
-                                    >
-                                        <ListItemIcon>
-                                            <Refresh fontSize="small" />
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={i18nCommon("refresh")}
-                                        />
-                                    </MenuItem>,
-                                ],
-                            ]}
-                        />
-                    </>
-                </Hidden>
+                            ],
+                        !createFileType && [
+                            <MenuItem
+                                key={ids.DETAILS_MENU_ITEM}
+                                id={build(baseId, ids.DETAILS_MENU_ITEM)}
+                                onClick={() => {
+                                    onClose();
+                                    onViewDetails();
+                                }}
+                            >
+                                <ListItemIcon>
+                                    <Info fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText primary={t("details")} />
+                            </MenuItem>,
+                            <MenuItem
+                                key={ids.METADATA_MENU_ITEM}
+                                id={build(baseId, ids.METADATA_MENU_ITEM)}
+                                onClick={() => {
+                                    onClose();
+                                    onViewMetadata();
+                                }}
+                            >
+                                <ListItemIcon>
+                                    <MetadataIcon fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText primary={t("metadata")} />
+                            </MenuItem>,
+                            <MenuItem
+                                key={ids.DOWNLOAD_MENU_ITEM}
+                                id={build(baseId, ids.DOWNLOAD_MENU_ITEM)}
+                                onClick={() => {
+                                    onClose();
+                                    setDownload(true);
+                                }}
+                            >
+                                <ListItemIcon>
+                                    <CloudDownload fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText primary={t("download")} />
+                            </MenuItem>,
+                            <MenuItem
+                                key={ids.REFRESH_MENU_ITEM}
+                                id={build(baseId, ids.REFRESH_MENU_ITEM)}
+                                onClick={onRefresh}
+                            >
+                                <ListItemIcon>
+                                    <Refresh fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText primary={i18nCommon("refresh")} />
+                            </MenuItem>,
+                        ],
+                    ]}
+                />
             </Toolbar>
             {detailsResource && (
                 <DetailsDrawer

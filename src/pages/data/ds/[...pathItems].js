@@ -81,7 +81,7 @@ export default function DataStore() {
     );
 
     const onCreateFileSelected = useCallback(
-        (path) => {
+        (path, type) => {
             const encodedPath = getEncodedPath(
                 path.concat(`/${viewerConstants.NEW_FILE_NAME}`)
             );
@@ -90,41 +90,7 @@ export default function DataStore() {
                 pathname: `${baseRoutingPath}${encodedPath}`,
                 query: {
                     type: ResourceTypes.FILE,
-                    createFileType: infoTypes.RAW,
-                },
-            });
-        },
-        [baseRoutingPath, router]
-    );
-
-    const onCreateHTFileSelected = useCallback(
-        (path) => {
-            const encodedPath = getEncodedPath(
-                path.concat(`/${viewerConstants.NEW_FILE_NAME}`)
-            );
-
-            router.push({
-                pathname: `${baseRoutingPath}${encodedPath}`,
-                query: {
-                    type: ResourceTypes.FILE,
-                    createFileType: infoTypes.HT_ANALYSIS_PATH_LIST,
-                },
-            });
-        },
-        [baseRoutingPath, router]
-    );
-
-    const onCreateMultiInputFileSelected = useCallback(
-        (path) => {
-            const encodedPath = getEncodedPath(
-                path.concat(`/${viewerConstants.NEW_FILE_NAME}`)
-            );
-
-            router.push({
-                pathname: `${baseRoutingPath}${encodedPath}`,
-                query: {
-                    type: ResourceTypes.FILE,
-                    createFileType: infoTypes.MULTI_INPUT_PATH_LIST,
+                    createFileType: type,
                 },
             });
         },
@@ -214,8 +180,6 @@ export default function DataStore() {
             handlePathChange={handlePathChange}
             baseId="data"
             onCreateFileSelected={onCreateFileSelected}
-            onCreateHTFileSelected={onCreateHTFileSelected}
-            onCreateMultiInputFileSelected={onCreateMultiInputFileSelected}
             page={selectedPage}
             rowsPerPage={selectedRowsPerPage}
             order={selectedOrder}

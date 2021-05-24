@@ -81,8 +81,6 @@ function Listing(props) {
         render,
         showErrorAnnouncer,
         onCreateFileSelected,
-        onCreateHTFileSelected,
-        onCreateMultiInputFileSelected,
         page,
         rowsPerPage,
         order,
@@ -586,11 +584,7 @@ function Listing(props) {
                     setImportDialogOpen={setImportDialogOpen}
                     localUploadId={localUploadId}
                     uploadMenuId={build(baseId, ids.TOOLBAR, ids.UPLOAD_MENU)}
-                    onCreateFileSelected={() => onCreateFileSelected(path)}
-                    onCreateHTFileSelected={() => onCreateHTFileSelected(path)}
-                    onCreateMultiInputFileSelected={() =>
-                        onCreateMultiInputFileSelected(path)
-                    }
+                    onCreateFileSelected={(fileType) => onCreateFileSelected(path, fileType)}
                     setSharingDlgOpen={setSharingDlgOpen}
                     onPublicLinksSelected={() => setPublicLinksDlgOpen(true)}
                     toolbarVisibility={toolbarVisibility}

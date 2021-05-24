@@ -9,7 +9,6 @@ import React, { useEffect, useState } from "react";
 import ids from "./ids";
 import Toolbar from "./Toolbar";
 
-import PageWrapper from "components/layout/PageWrapper";
 import constants from "../../../constants";
 
 import { build } from "@cyverse-de/ui-lib";
@@ -48,6 +47,7 @@ export default function TextViewer(props) {
         require("codemirror/mode/python/python.js");
         require("codemirror/mode/gfm/gfm.js");
         require("codemirror/mode/yaml/yaml.js");
+        require("codemirror/mode/dockerfile/dockerfile.js");
     }, []);
 
     useEffect(() => {

@@ -4,7 +4,7 @@
  * A dot menu intended for the Data view.
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useRouter } from "next/router";
 
@@ -13,6 +13,8 @@ import shareIds from "components/sharing/ids";
 import { containsFolders, isOwner, isWritable } from "../utils";
 import CreateFolderDialog from "../CreateFolderDialog";
 import UploadMenuItems from "./UploadMenuItems";
+
+import FileTypeSelectionDialog from "../viewers/FileTypeSelectionDialog";
 
 import { useTranslation } from "i18n";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
@@ -70,8 +72,6 @@ function DataDotMenu(props) {
         selected,
         getSelectedResources,
         onCreateFileSelected,
-        onCreateHTFileSelected,
-        onCreateMultiInputFileSelected,
         setSharingDlgOpen,
         isSmall,
         onMetadataSelected,
@@ -106,6 +106,9 @@ function DataDotMenu(props) {
     const onBulkMdDialogClose = () => setBulkMdDialogOpen(false);
     const onApplyBulkMdClicked = () => setBulkMdDialogOpen(true);
 
+    const [fileTypeSelectionDlgOpen, setFileTypeSelectionDlgOpen] = useState();
+    const [selectedFileType, setSelectedFileType] = useState();
+
     const isSelectionEmpty = selected?.length === 0;
     const selectedResources = getSelectedResources
         ? getSelectedResources()
@@ -129,6 +132,13 @@ function DataDotMenu(props) {
         isWritable(selectedResources[0]?.permission);
     const moveMiEnabled =
         !inTrash && !isSelectionEmpty && isOwner(selectedResources);
+
+    useEffect(() => {
+        if (selectedFileType) {
+            onCreateFileSelected(selectedFileType);
+        }
+    }, [selectedFileType, onCreateFileSelected, path]);
+
     const router = useRouter();
     const routeToFile = (id, path) => {
         router.push(
@@ -311,7 +321,7 @@ function DataDotMenu(props) {
                             id={build(baseId, ids.CREATE_FILE_MI)}
                             onClick={() => {
                                 onClose();
-                                onCreateFileSelected();
+                                setFileTypeSelectionDlgOpen(true);
                             }}
                         >
                             <ListItemIcon>
@@ -324,7 +334,7 @@ function DataDotMenu(props) {
                             id={build(baseId, ids.CREATE_HT_FILE_MI)}
                             onClick={() => {
                                 onClose();
-                                onCreateHTFileSelected();
+                                setFileTypeSelectionDlgOpen(true);
                             }}
                         >
                             <ListItemIcon>
@@ -339,7 +349,7 @@ function DataDotMenu(props) {
                             id={build(baseId, ids.CREATE_MULTI_INPUT_MI)}
                             onClick={() => {
                                 onClose();
-                                onCreateMultiInputFileSelected();
+                                setFileTypeSelectionDlgOpen(true);
                             }}
                         >
                             <ListItemIcon>
@@ -462,6 +472,14 @@ function DataDotMenu(props) {
                 }}
                 onCancel={() => setPathListDlgOpen(false)}
                 startingPath={path}
+            />
+            <FileTypeSelectionDialog
+                open={fileTypeSelectionDlgOpen}
+                onClose={() => setFileTypeSelectionDlgOpen(false)}
+                onFileTypeSelected={(type) => {
+                    setFileTypeSelectionDlgOpen(false);
+                    setSelectedFileType(type);
+                }}
             />
         </>
     );

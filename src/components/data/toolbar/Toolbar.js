@@ -64,8 +64,6 @@ function DataToolbar(props) {
         localUploadId,
         uploadMenuId,
         onCreateFileSelected,
-        onCreateHTFileSelected,
-        onCreateMultiInputFileSelected,
         setSharingDlgOpen,
         onMetadataSelected,
         onPublicLinksSelected,
@@ -213,10 +211,6 @@ function DataToolbar(props) {
                             getSelectedResources={getSelectedResources}
                             selected={selected}
                             onCreateFileSelected={onCreateFileSelected}
-                            onCreateHTFileSelected={onCreateHTFileSelected}
-                            onCreateMultiInputFileSelected={
-                                onCreateMultiInputFileSelected
-                            }
                             canShare={canShare}
                             setSharingDlgOpen={setSharingDlgOpen}
                             isSmall={isSmall}

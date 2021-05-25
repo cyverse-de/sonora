@@ -125,6 +125,7 @@
     "saveas": "Save as",
     "saveAsLbl": "Select \"Browse\" button to pick a destination.",
     "saveToFile": "Save to file",
+    "selectFileType": "Select file type",
     "selectedFilesFolders": "Selected File(s) and Folder(s)",
     "selectFileFolderPrompt": "Select a file or a folder to move.",
     "searchTags": "Search tags...",

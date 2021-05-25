@@ -15,7 +15,6 @@ import { getLocalStorage } from "components/utils/localStorage";
 import viewerConstants from "components/data/viewers/constants";
 import Listing from "components/data/listing/Listing";
 import { getEncodedPath, DEFAULT_PAGE_SETTINGS } from "components/data/utils";
-import infoTypes from "components/models/InfoTypes";
 import ResourceTypes from "components/models/ResourceTypes";
 
 import {
@@ -67,6 +66,9 @@ export default function DataStore() {
     const baseRoutingPath = routerPathname.replace(dynamicPathName, "");
     const path = fullPath.replace(baseRoutingPath, "").split("?")[0];
     const resourcePath = decodeURIComponent(path);
+
+    const [details, setDetails] = useState(null);
+    const [errorObject, setErrorObject] = useState(null);
 
     const handlePathChange = useCallback(
         (path, query) => {
@@ -132,9 +134,6 @@ export default function DataStore() {
         },
         [baseRoutingPath, router]
     );
-
-    const [details, setDetails] = useState(null);
-    const [errorObject, setErrorObject] = useState(null);
 
     const { isFetching: detailsLoading } = useQuery({
         queryKey: [DATA_DETAILS_QUERY_KEY, { paths: [resourcePath] }],

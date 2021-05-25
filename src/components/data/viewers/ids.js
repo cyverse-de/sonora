@@ -8,6 +8,8 @@ export default {
     DELETE_MENU_ITEM: "deleteRowMenuItem",
     DOWNLOAD_BTN: "downloadButton",
     DOWNLOAD_MENU_ITEM: "downloadMenuItem",
+    FILE_TYPE_DIALOG:"fileTypeDlg",
+    FILE_TYPE_SELECT:"fileTypeSelect",
     FIRST_ROW_HEADER_MENU_ITEM: "headerSwitchMenuItem",
     HEADER_SWITCH: "headerSwitch",
     LABEL: "label",

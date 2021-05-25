@@ -134,16 +134,27 @@ export default function FileViewer(props) {
     };
 
     useEffect(() => {
-        if (
-            createFileType === infoTypes.HT_ANALYSIS_PATH_LIST ||
-            createFileType === infoTypes.MULTI_INPUT_PATH_LIST ||
-            createFileType === infoTypes.RAW
-        ) {
-            setManifest({
-                "content-type": "text/plain",
-                infoType: createFileType,
-                urls: [],
-            });
+        if (createFileType) {
+            switch (createFileType) {
+                case mimeTypes.X_RSRC:
+                    setMode("r");
+                    setViewerType(VIEWER_TYPE.PLAIN);
+                    break;
+                case mimeTypes.X_PYTHON:
+                    setMode("python");
+                    setViewerType(VIEWER_TYPE.PLAIN);
+                    break;
+                case infoTypes.HT_ANALYSIS_PATH_LIST:
+                case infoTypes.MULTI_INPUT_PATH_LIST:
+                    setViewerType(VIEWER_TYPE.PATH_LIST);
+                    break;
+                case viewerConstants.GITHUB_FLAVOR_MARKDOWN:
+                    setMode(viewerConstants.GITHUB_FLAVOR_MARKDOWN);
+                    setViewerType(VIEWER_TYPE.PLAIN);
+                    break;
+                default:
+                    setViewerType(VIEWER_TYPE.PLAIN);
+            }
         }
     }, [createFileType]);
 
@@ -294,7 +305,7 @@ export default function FileViewer(props) {
 
     if (viewerType === VIEWER_TYPE.PLAIN) {
         let flatData = "";
-        if (createFileType === infoTypes.RAW) {
+        if (createFileType) {
             flatData = "";
         } else {
             memoizedData.forEach((page) => {

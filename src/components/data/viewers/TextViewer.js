@@ -6,16 +6,17 @@
  */
 import React, { useEffect, useState } from "react";
 
+import { Controlled as CodeMirror } from "react-codemirror2";
+
 import ids from "./ids";
 import Toolbar from "./Toolbar";
-
+import markdownToHtml from "components/utils/markdownToHtml";
+import viewerConstants from "./constants";
 import constants from "../../../constants";
 
 import { build } from "@cyverse-de/ui-lib";
 
 import { CircularProgress } from "@material-ui/core";
-
-import { Controlled as CodeMirror } from "react-codemirror2";
 
 export default function TextViewer(props) {
     const {
@@ -38,6 +39,7 @@ export default function TextViewer(props) {
     const [editorInstance, setEditorInstance] = useState(null);
     const [dirty, setDirty] = useState(false);
     const [fileSaveStatus, setFileSaveStatus] = useState();
+    const [markDownPreview, setMarkdownPreview] = useState("");
 
     useEffect(() => {
         require("codemirror/lib/codemirror.css");
@@ -58,7 +60,15 @@ export default function TextViewer(props) {
 
     useEffect(() => {
         setEditorValue(data);
-    }, [data]);
+    }, [data, mode]);
+
+    useEffect(() => {
+        if (mode === viewerConstants.GITHUB_FLAVOR_MARKDOWN) {
+            markdownToHtml(editorValue).then((html) => {
+                setMarkdownPreview(html);
+            });
+        }
+    }, [editorValue, mode]);
 
     const getContent = () => {
         return editorValue;
@@ -97,26 +107,48 @@ export default function TextViewer(props) {
                     }}
                 />
             )}
-            <CodeMirror
-                editorDidMount={(editor) => {
-                    setEditorInstance(editor);
-                }}
-                value={editorValue}
-                options={{
-                    mode,
-                    lineNumbers: showLineNumbers,
-                    readOnly: !editable,
-                    lineWrapping: wrapText,
-                }}
-                onBeforeChange={(editor, data, value) => {
-                    setEditorValue(value);
-                }}
-                onChange={(editor, value) => {
-                    setDirty(
-                        editorInstance ? !editorInstance.isClean() : false
-                    );
-                }}
-            />
+            <div style={{ width: "100%" }}>
+                <div
+                    style={{
+                        float: "left",
+                        width:
+                            mode === viewerConstants.GITHUB_FLAVOR_MARKDOWN
+                                ? "50%"
+                                : "100%",
+                    }}
+                >
+                    <CodeMirror
+                        editorDidMount={(editor) => {
+                            setEditorInstance(editor);
+                        }}
+                        value={editorValue}
+                        options={{
+                            mode,
+                            lineNumbers: showLineNumbers,
+                            readOnly: !editable,
+                            lineWrapping: wrapText,
+                        }}
+                        onBeforeChange={(editor, data, value) => {
+                            setEditorValue(value);
+                        }}
+                        onChange={(editor, value) => {
+                            setDirty(
+                                editorInstance
+                                    ? !editorInstance.isClean()
+                                    : false
+                            );
+                        }}
+                    />
+                </div>
+                {mode === viewerConstants.GITHUB_FLAVOR_MARKDOWN && (
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: markDownPreview,
+                        }}
+                        style={{ float: "right", width: "50%" }}
+                    ></div>
+                )}
+            </div>
         </>
     );
 }

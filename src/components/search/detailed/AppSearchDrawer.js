@@ -22,6 +22,7 @@ import {
     useTheme,
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import PropTypes from "prop-types";
 
 import AppSearchResults from "./AppSearchResults";
 import { useTranslation } from "i18n";
@@ -31,7 +32,7 @@ import styles from "./styles";
 const useStyles = makeStyles(styles);
 
 function ToolbarButtons(props) {
-    const { baseId, hasSelection, onClose, onConfirm } = props;
+    const { baseId, hasSelection, hasError, onClose, onConfirm } = props;
     const { t } = useTranslation("common");
     const classes = useStyles();
     return (
@@ -45,7 +46,7 @@ function ToolbarButtons(props) {
                 {t("cancel")}
             </Button>
 
-            {hasSelection && (
+            {hasSelection && !hasError && (
                 <Button
                     id={build(baseId, ids.OK_BTN)}
                     color={"primary"}
@@ -62,7 +63,13 @@ function ToolbarButtons(props) {
 }
 
 function SelectionToolbar(props) {
-    const { baseId, selectedApps, onClose, onConfirm } = props;
+    const {
+        baseId,
+        selectedApps,
+        onClose,
+        onConfirm,
+        validateSelection,
+    } = props;
     const { t } = useTranslation("apps");
     const classes = useStyles();
     const hasSelection = selectedApps?.length > 0;
@@ -72,10 +79,15 @@ function SelectionToolbar(props) {
 
     const toolbarId = build(baseId, ids.SELECTION_TOOLBAR);
 
+    const errorMsg = validateSelection
+        ? validateSelection(selectedApps)
+        : false;
+
     const Buttons = () => (
         <ToolbarButtons
             baseId={toolbarId}
             hasSelection={hasSelection}
+            hasError={!!errorMsg}
             onClose={onClose}
             onConfirm={onConfirm}
         />
@@ -84,12 +96,19 @@ function SelectionToolbar(props) {
     return (
         <>
             <Toolbar id={toolbarId}>
-                {hasSelection ? (
+                {!hasSelection ? (
+                    <Typography variant="h6">{t("selectApps")}</Typography>
+                ) : errorMsg ? (
+                    <Typography
+                        style={{ color: theme.palette.error.main }}
+                        variant="h6"
+                    >
+                        {errorMsg}
+                    </Typography>
+                ) : (
                     <Typography color="primary" variant="h6">
                         {t("selectedItems", { count: selectedApps?.length })}
                     </Typography>
-                ) : (
-                    <Typography variant="h6">{t("selectApps")}</Typography>
                 )}
                 <div className={classes.divider} />
                 {!isMobile && <Buttons />}
@@ -139,7 +158,7 @@ function SearchToolbar(props) {
 }
 
 function AppSearchDrawer(props) {
-    const { open, onConfirm, onClose, searchTerm } = props;
+    const { open, onConfirm, onClose, searchTerm, validateSelection } = props;
     const classes = useStyles();
     const [currentSearch, setCurrentSearch] = useState(searchTerm);
     const [selectedApps, setSelectedApps] = useState([]);
@@ -173,6 +192,7 @@ function AppSearchDrawer(props) {
                 baseId={baseId}
                 onClose={onClose}
                 onConfirm={handleConfirm}
+                validateSelection={validateSelection}
                 selectedApps={selectedApps}
             />
 
@@ -187,3 +207,16 @@ function AppSearchDrawer(props) {
 }
 
 export default AppSearchDrawer;
+
+AppSearchDrawer.propTypes = {
+    /**
+     * validateSelection is an optional function prop to check if the
+     * current selected apps meet a condition.  If the selection is invalid,
+     * it should return a string with an error message, otherwise return falsy
+     */
+    validateSelection: PropTypes.func,
+    open: PropTypes.bool.isRequired, // whether the drawer is open or not
+    onConfirm: PropTypes.func.isRequired, // when apps are selected
+    onClose: PropTypes.func.isRequired, // when the drawer is closed
+    searchTerm: PropTypes.string.isRequired, // the app search term
+};

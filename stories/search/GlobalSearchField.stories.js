@@ -36,6 +36,11 @@ function GlobalSearchFieldTest() {
     const appOnShowDetailedSearch = (query) => {
         setAppSearchDrawerQuery(query);
     };
+    const validateAppSelection = (apps) => {
+        return apps.length === 1 && apps[0].name === "DE Word Count"
+            ? false
+            : "Only DE Word Count is acceptable";
+    };
 
     return (
         <AppBar color="primary">
@@ -63,6 +68,7 @@ function GlobalSearchFieldTest() {
                 onConfirm={onConfirmSelectedApps}
                 onClose={() => setAppSearchDrawerQuery(null)}
                 searchTerm={appSearchDrawerQuery?.searchTerm}
+                validateSelection={validateAppSelection}
             />
 
             <Typography>Data Only Search</Typography>

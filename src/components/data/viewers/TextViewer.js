@@ -5,7 +5,7 @@
  *
  */
 import React, { useEffect, useState } from "react";
-
+import { useTranslation } from "i18n";
 import { Controlled as CodeMirror } from "react-codemirror2";
 
 import ids from "./ids";
@@ -16,7 +16,7 @@ import constants from "../../../constants";
 
 import { build } from "@cyverse-de/ui-lib";
 
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, Typography } from "@material-ui/core";
 
 export default function TextViewer(props) {
     const {
@@ -33,6 +33,9 @@ export default function TextViewer(props) {
         onNewFileSaved,
         createFileType,
     } = props;
+
+    const { t } = useTranslation("data");
+
     const [showLineNumbers, setShowLineNumbers] = useState(true);
     const [wrapText, setWrapText] = useState(false);
     const [editorValue, setEditorValue] = useState();
@@ -141,12 +144,18 @@ export default function TextViewer(props) {
                     />
                 </div>
                 {mode === viewerConstants.GITHUB_FLAVOR_MARKDOWN && (
-                    <div
-                        dangerouslySetInnerHTML={{
-                            __html: markDownPreview,
-                        }}
-                        style={{ float: "right", width: "50%" }}
-                    ></div>
+                    <>
+                        <Typography variant="subtitle2">{t("preview")}</Typography>
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: markDownPreview,
+                            }}
+                            style={{
+                                float: "right",
+                                width: "50%",
+                            }}
+                        ></div>
+                    </>
                 )}
             </div>
         </>

@@ -5,7 +5,7 @@
  *
  */
 
-import React from "react";
+import React, { useState } from "react";
 import { mockAxios } from "../axiosMock";
 import GlobalSearchField from "components/search/GlobalSearchField";
 import {
@@ -16,6 +16,7 @@ import {
 import { teamList } from "../teams/TeamMocks";
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import SearchConstants from "components/search/constants";
+import AppSearchDrawer from "../../src/components/search/detailed/AppSearchDrawer";
 
 function GlobalSearchFieldTest() {
     mockAxios.onPost(/\/api\/filesystem\/search.*/).reply(200, dataSearchResp);
@@ -23,11 +24,18 @@ function GlobalSearchFieldTest() {
     mockAxios.onGet(/\/api\/analyses.*/).reply(200, analysesSearchResp);
     mockAxios.onGet(/\/api\/teams*/).reply(200, teamList);
 
+    const [appSearchDrawerQuery, setAppSearchDrawerQuery] = useState(false);
+
     const globalOnShowDetailedSearch = (query) => {
         console.log("Go to Search page with settings", query);
     };
-
-    const appOnShowDetailedSearch = (query) => {};
+    const onConfirmSelectedApps = (apps) => {
+        setAppSearchDrawerQuery(null);
+        console.log("Selected apps:", apps);
+    };
+    const appOnShowDetailedSearch = (query) => {
+        setAppSearchDrawerQuery(query);
+    };
 
     return (
         <AppBar color="primary">
@@ -45,15 +53,24 @@ function GlobalSearchFieldTest() {
                     singleSearchOption={true}
                     selectedFilter={SearchConstants.APPS}
                     onShowDetailedSearch={appOnShowDetailedSearch}
+                    onOptionSelected={(resource) =>
+                        console.log("Selected app", resource)
+                    }
                 />
             </Toolbar>
+            <AppSearchDrawer
+                open={!!appSearchDrawerQuery}
+                onConfirm={onConfirmSelectedApps}
+                onClose={() => setAppSearchDrawerQuery(null)}
+                searchTerm={appSearchDrawerQuery?.searchTerm}
+            />
 
             <Typography>Data Only Search</Typography>
             <Toolbar>
                 <GlobalSearchField
                     singleSearchOption={true}
                     selectedFilter={SearchConstants.DATA}
-                    onShowDetailedSearch={appOnShowDetailedSearch}
+                    onShowDetailedSearch={globalOnShowDetailedSearch}
                 />
             </Toolbar>
         </AppBar>

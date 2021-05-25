@@ -47,7 +47,13 @@ function Name(props) {
 }
 
 export default function AppSearchResults(props) {
-    const { searchTerm, updateResultCount, baseId } = props;
+    const {
+        searchTerm,
+        updateResultCount,
+        baseId,
+        setSelectedApps,
+        selectable,
+    } = props;
     const [appsSearchKey, setAppsSearchKey] = useState(APPS_SEARCH_QUERY_KEY);
     const [appsSearchQueryEnabled, setAppsSearchQueryEnabled] = useState(false);
     const [detailsApp, setDetailsApp] = useState(null);
@@ -203,6 +209,8 @@ export default function AppSearchResults(props) {
     return (
         <>
             <SearchResultsTable
+                selectable={selectable}
+                setSelectedResources={setSelectedApps}
                 columns={columns}
                 data={flatData}
                 baseId={baseId}

@@ -392,6 +392,7 @@ export default function FileViewer(props) {
         return (
             <>
                 <PathListViewer
+                    editable={editable || createFileType}
                     createFileType={createFileType}
                     baseId={baseId}
                     path={path}

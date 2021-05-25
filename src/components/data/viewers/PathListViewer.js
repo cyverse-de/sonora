@@ -12,18 +12,13 @@ import React, {
     useState,
 } from "react";
 
-import { useQuery } from "react-query";
 import { useRowSelect, useTable } from "react-table";
 import { useTranslation } from "i18n";
 
-import {
-    DATA_DETAILS_QUERY_KEY,
-    getResourceDetails,
-} from "serviceFacades/filesystem";
+
 import constants from "../../../constants";
 import { UploadTrackingProvider } from "contexts/uploadTracking";
 
-import { isWritable } from "../utils";
 import ids from "./ids";
 import Toolbar from "./Toolbar";
 import { getColumns, LINE_NUMBER_ACCESSOR } from "./utils";
@@ -66,20 +61,19 @@ function PathListViewer(props) {
         path,
         resourceId,
         loading,
-        showErrorAnnouncer,
         createFileType,
         handlePathChange,
         onRefresh,
         onNewFileSaved,
         fileName,
         data,
+        editable,
     } = props;
 
     const { t } = useTranslation("data");
     const [open, setOpen] = useState(false);
 
     const [dirty, setDirty] = useState(false);
-    const [permission, setPermission] = useState(null);
     const [editorData, setEditorData] = useState([]);
     const [fileSaveStatus, setFileSaveStatus] = useState();
 
@@ -111,21 +105,6 @@ function PathListViewer(props) {
         const dataToDisplay = data.slice(1);
         setEditorData(setLineNumbers(dataToDisplay));
     }, [data, setLineNumbers]);
-
-    const { isFetching: fetchingDetails } = useQuery({
-        queryKey: [DATA_DETAILS_QUERY_KEY, { paths: [path] }],
-        queryFn: getResourceDetails,
-        config: {
-            enabled: !createFileType,
-            onSuccess: (resp) => {
-                const details = resp?.paths[path];
-                setPermission(details?.permission);
-            },
-            onError: (e) => {
-                showErrorAnnouncer(t("detailsError"), e);
-            },
-        },
-    });
 
     const getContent = () => {
         //add back the shebang line
@@ -193,10 +172,7 @@ function PathListViewer(props) {
                         setHiddenColumns([LINE_NUMBER_ACCESSOR]);
                     }
                 }}
-                editing={
-                    (!fetchingDetails && isWritable(permission)) ||
-                    createFileType
-                }
+                editing={editable}
                 onAddRow={() => {
                     setOpen(true);
                 }}

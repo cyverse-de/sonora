@@ -6,30 +6,30 @@
  *
  */
 
-import React from "react";
-import { useTable, useSortBy } from "react-table";
+import React, { useEffect } from "react";
+import { useRowSelect, useSortBy, useTable } from "react-table";
 import { useTranslation } from "i18n";
 
 import PageWrapper from "components/layout/PageWrapper";
 import TableLoading from "../../utils/TableLoading";
 import ids from "../ids";
 
-import { build } from "@cyverse-de/ui-lib";
+import { build, DECheckbox } from "@cyverse-de/ui-lib";
 
 import {
     Button,
     CircularProgress,
     Paper,
-    useMediaQuery,
-    useTheme,
     Table,
     TableBody,
     TableCell,
     TableContainer,
-    TableSortLabel,
     TableHead,
     TableRow,
+    TableSortLabel,
     Toolbar,
+    useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
 
 const SearchResultsTable = ({
@@ -42,6 +42,8 @@ const SearchResultsTable = ({
     isFetchingMore,
     initialSortBy,
     onSort,
+    selectable,
+    setSelectedResources,
 }) => {
     const {
         toggleSortBy,
@@ -49,6 +51,7 @@ const SearchResultsTable = ({
         headerGroups,
         rows,
         prepareRow,
+        selectedFlatRows,
     } = useTable(
         {
             columns,
@@ -59,12 +62,40 @@ const SearchResultsTable = ({
                 sortBy: initialSortBy,
             },
         },
-        useSortBy
+        useSortBy,
+        useRowSelect,
+        (hooks) =>
+            hooks.visibleColumns.push((columns) => {
+                return selectable
+                    ? [
+                          {
+                              id: "selection",
+                              Header: ({ getToggleAllRowsSelectedProps }) => (
+                                  <DECheckbox
+                                      {...getToggleAllRowsSelectedProps()}
+                                  />
+                              ),
+                              Cell: ({ row }) => (
+                                  <DECheckbox
+                                      {...row.getToggleRowSelectedProps()}
+                                  />
+                              ),
+                          },
+                          ...columns,
+                      ]
+                    : columns;
+            })
     );
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const tableId = build(baseId, ids.TABLE_VIEW);
     const { t } = useTranslation("search");
+
+    useEffect(() => {
+        setSelectedResources &&
+            setSelectedResources(selectedFlatRows.map((row) => row.original));
+    }, [selectedFlatRows, setSelectedResources]);
+
     return (
         <PageWrapper appBarHeight={isMobile ? 210 : 225}>
             {isFetchingMore && (
@@ -89,32 +120,37 @@ const SearchResultsTable = ({
                             <TableRow {...headerGroup.getHeaderGroupProps()}>
                                 {headerGroup.headers.map((column) => (
                                     <TableCell
-                                        {...column.getHeaderProps(
-                                            column.getSortByToggleProps()
-                                        )}
+                                        {...(column.id === "selection"
+                                            ? column.getHeaderProps()
+                                            : column.getHeaderProps(
+                                                  column.getSortByToggleProps()
+                                              ))}
                                         onClick={() => {
-                                            if (onSort) {
-                                                onSort(
+                                            if (column.id !== "selection") {
+                                                onSort &&
+                                                    onSort(
+                                                        column.id,
+                                                        !column.isSortedDesc
+                                                    );
+                                                toggleSortBy(
                                                     column.id,
-                                                    !column.isSortedDesc
+                                                    !column.isSortedDesc,
+                                                    false
                                                 );
                                             }
-                                            toggleSortBy(
-                                                column.id,
-                                                !column.isSortedDesc,
-                                                false
-                                            );
                                         }}
                                     >
                                         {column.render("Header")}
-                                        <TableSortLabel
-                                            active={column.isSorted}
-                                            direction={
-                                                column.isSortedDesc
-                                                    ? "desc"
-                                                    : "asc"
-                                            }
-                                        />
+                                        {column.id !== "selection" ? (
+                                            <TableSortLabel
+                                                active={column.isSorted}
+                                                direction={
+                                                    column.isSortedDesc
+                                                        ? "desc"
+                                                        : "asc"
+                                                }
+                                            />
+                                        ) : null}
                                     </TableCell>
                                 ))}
                             </TableRow>

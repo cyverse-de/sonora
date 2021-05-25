@@ -144,7 +144,15 @@ const getViewAllPrompt = (id, searchTerm, i18NSearch) => {
 };
 
 const SearchOption = React.forwardRef((props, ref) => {
-    const { id, primary, secondary, icon, searchTerm, onClick, href } = props;
+    const {
+        id,
+        primary,
+        secondary,
+        icon,
+        searchTerm,
+        onOptionSelected,
+        href,
+    } = props;
     const classes = useStyles();
     const theme = useTheme();
     return (
@@ -152,7 +160,14 @@ const SearchOption = React.forwardRef((props, ref) => {
             <span className={classes.optionIcon}>{icon}</span>
             <MuiLink
                 href={href}
-                onClick={onClick}
+                onClick={(event) => {
+                    if (onOptionSelected) {
+                        event.preventDefault();
+                        onOptionSelected();
+                        return false;
+                    }
+                    // else, do default link behavior
+                }}
                 ref={ref}
                 id={id}
                 underline="none"
@@ -167,7 +182,6 @@ const SearchOption = React.forwardRef((props, ref) => {
                     </Typography>
                     <Typography
                         variant={"caption"}
-                        wrap={true}
                         color={theme.palette.info.primary}
                     >
                         <Highlighter search={searchTerm}>
@@ -181,19 +195,29 @@ const SearchOption = React.forwardRef((props, ref) => {
 });
 
 function ViewAllOption(props) {
-    const { id, searchTerm, filter, prompt, selectedTab } = props;
-    const href = `/${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
-    const as = `/${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
+    const {
+        id,
+        searchTerm,
+        filter,
+        prompt,
+        selectedTab,
+        onShowDetailedSearch,
+    } = props;
     return (
-        <Link href={href} as={as} passHref>
-            <SearchOption
-                primary={searchTerm}
-                searchTerm={searchTerm}
-                secondary={prompt}
-                icon={<PageviewIcon color="primary" />}
-                id={id}
-            />
-        </Link>
+        <SearchOption
+            primary={searchTerm}
+            searchTerm={searchTerm}
+            secondary={prompt}
+            icon={<PageviewIcon color="primary" />}
+            id={id}
+            onOptionSelected={() =>
+                onShowDetailedSearch({
+                    searchTerm,
+                    filter,
+                    selectedTab,
+                })
+            }
+        />
     );
 }
 
@@ -224,7 +248,7 @@ function DataSearchOption(props) {
 }
 
 function AppsSearchOption(props) {
-    const { baseId, selectedOption, searchTerm } = props;
+    const { baseId, selectedOption, onOptionSelected, searchTerm } = props;
     const [href, as] = useAppLaunchLink(
         selectedOption?.system_id,
         selectedOption?.id
@@ -238,6 +262,7 @@ function AppsSearchOption(props) {
                 icon={<AppsIcon />}
                 searchTerm={searchTerm}
                 id={build(baseId, selectedOption.id)}
+                onOptionSelected={onOptionSelected}
             />
         </Link>
     );
@@ -288,6 +313,7 @@ function GlobalSearchField(props) {
         showErrorAnnouncer,
         singleSearchOption = false,
         onShowDetailedSearch,
+        onOptionSelected,
     } = props;
 
     const { t } = useTranslation("common");
@@ -652,6 +678,7 @@ function GlobalSearchField(props) {
                     filter={filter}
                     prompt={prompt}
                     selectedTab={selectedTab}
+                    onShowDetailedSearch={onShowDetailedSearch}
                     id={build(
                         ids.SEARCH,
                         ids[`${resultType?.toUpperCase()}_SEARCH_OPTION`],
@@ -674,6 +701,11 @@ function GlobalSearchField(props) {
                     <AppsSearchOption
                         selectedOption={option}
                         searchTerm={searchTerm}
+                        onOptionSelected={
+                            onOptionSelected
+                                ? () => onOptionSelected(option)
+                                : false
+                        }
                         baseId={build(ids.SEARCH, ids.APPS_SEARCH_OPTION)}
                     />
                 );

@@ -20,8 +20,8 @@ import {
     FormMultilineTextField,
 } from "@cyverse-de/ui-lib";
 
-import { IconButton, InputAdornment } from "@material-ui/core";
-import Search from "@material-ui/icons/Search";
+import { Button, InputAdornment } from "@material-ui/core";
+import { Build as SelectToolIcon } from "@material-ui/icons";
 
 /**
  * An Input Selector form field for picking data store file or folder paths.
@@ -33,7 +33,7 @@ const ToolSelector = (props) => {
 
     const [open, setOpen] = React.useState(false);
 
-    const { t } = useTranslation("app_editor");
+    const { t } = useTranslation(["app_editor", "common"]);
 
     return (
         <FormTextField
@@ -42,15 +42,17 @@ const ToolSelector = (props) => {
                 value: field.value?.name || "",
                 endAdornment: !disabled && (
                     <InputAdornment position="end">
-                        <IconButton
+                        <Button
                             id={buildID(id, ids.BUTTONS.SELECT_TOOL)}
                             aria-label={t("selectTool")}
                             color="primary"
                             size="small"
+                            variant="outlined"
+                            startIcon={<SelectToolIcon />}
                             onClick={() => setOpen(true)}
                         >
-                            <Search />
-                        </IconButton>
+                            {t("common:select")}
+                        </Button>
                         <ToolSelectionDialog
                             open={open}
                             onClose={() => setOpen(false)}

@@ -34,7 +34,7 @@ import { refreshViewer, useFileManifest, useReadChunk } from "./queries";
 import StructuredTextViewer from "./StructuredTextViewer";
 import { flattenStructureData } from "./utils";
 import { parseNameFromPath, isWritable } from "../utils";
-import TextViewer from "./TextViewer";
+
 import isQueryLoading from "components/utils/isQueryLoading";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
@@ -47,6 +47,7 @@ import {
 } from "@material-ui/core";
 // at the bottom so eslint doesn't complain
 const VideoViewer = dynamic(() => import("./VideoViewer"));
+const TextViewer = dynamic(() => import("./TextViewer"));
 
 const VIEWER_TYPE = {
     PLAIN: "plain",

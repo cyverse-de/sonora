@@ -19,7 +19,7 @@ import ResourceTypes from "components/models/ResourceTypes";
 
 import {
     getResourceDetails,
-    DATA_DETAILS_QUERY_KEY,
+    DATA_DETAILS_FROM_PAGE_QUERY_KEY,
 } from "serviceFacades/filesystem";
 
 const FileViewer = dynamic(() => import("components/data/viewers/FileViewer"));
@@ -136,7 +136,7 @@ export default function DataStore() {
     );
 
     const { isFetching: detailsLoading } = useQuery({
-        queryKey: [DATA_DETAILS_QUERY_KEY, { paths: [resourcePath] }],
+        queryKey: [DATA_DETAILS_FROM_PAGE_QUERY_KEY, { paths: [resourcePath] }],
         queryFn: getResourceDetails,
         config: {
             enabled: (viewMetadata || isFile) && !createFileType,

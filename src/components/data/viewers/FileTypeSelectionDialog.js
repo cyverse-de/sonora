@@ -1,7 +1,7 @@
 /**
  * @author sriram
  *
- * A dialog that allows users to select the type of file they would to create
+ * A dialog that allows users to select the type of file they would like to create
  *
  */
 import React, { useState } from "react";

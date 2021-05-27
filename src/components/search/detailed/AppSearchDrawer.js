@@ -11,7 +11,6 @@ import React, { useEffect, useState } from "react";
 
 import { build } from "@cyverse-de/ui-lib";
 import {
-    AppBar,
     Button,
     Drawer,
     makeStyles,
@@ -135,22 +134,20 @@ function SearchToolbar(props) {
     }, [searchText, setCurrentSearch]);
 
     return (
-        <AppBar position="relative">
-            <Toolbar>
-                <TextField
-                    fullWidth
-                    variant="standard"
-                    id={build(baseId, ids.SEARCH)}
-                    value={searchText}
-                    onChange={handleInputChange}
-                    className={classes.searchField}
-                    InputProps={{
-                        startAdornment: <SearchIcon color="primary" />,
-                        disableUnderline: true,
-                    }}
-                />
-            </Toolbar>
-        </AppBar>
+        <Toolbar>
+            <TextField
+                fullWidth
+                variant="outlined"
+                id={build(baseId, ids.SEARCH)}
+                value={searchText}
+                onChange={handleInputChange}
+                className={classes.searchField}
+                InputProps={{
+                    startAdornment: <SearchIcon color="primary" />,
+                    disableUnderline: true,
+                }}
+            />
+        </Toolbar>
     );
 }
 

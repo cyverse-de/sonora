@@ -109,9 +109,7 @@ export default function AppSearchResults(props) {
         });
         if (data && data.length > 0) {
             updateResultCount && updateResultCount(data[0].total);
-            const flat = data.reduce((acc, page) => {
-                return [...acc, ...page.apps];
-            }, []);
+            const flat = data.map((page) => page.apps).flat();
             setFlatData(flat);
         }
     }, [data, searchTerm, updateResultCount]);

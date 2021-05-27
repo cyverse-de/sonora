@@ -99,10 +99,7 @@ function SelectionToolbar(props) {
                 {!hasSelection ? (
                     <Typography variant="h6">{t("selectApps")}</Typography>
                 ) : errorMsg ? (
-                    <Typography
-                        style={{ color: theme.palette.error.main }}
-                        variant="h6"
-                    >
+                    <Typography color="error" variant="h6">
                         {errorMsg}
                     </Typography>
                 ) : (

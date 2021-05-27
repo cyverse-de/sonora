@@ -13,6 +13,7 @@ export default {
     BASE_DEBUG_ID: "notifications",
     CANCEL_BTN: "cancelBtn",
     CATEGORY: "categoryColumn",
+    CHECKBOX: "checkbox",
     COMMENT: "commentColumn",
     CREATED_DATE: "dateColumn",
     DELETE_BTN: "deleteBtn",

@@ -225,6 +225,11 @@ const TableView = (props) => {
                                                 padding="checkbox"
                                             >
                                                 <DECheckbox
+                                                    id={buildId(
+                                                        baseId,
+                                                        ids.CHECKBOX,
+                                                        n?.message.id
+                                                    )}
                                                     checked={checked}
                                                     onClick={(event) =>
                                                         handleCheckboxClick(

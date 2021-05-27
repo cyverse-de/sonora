@@ -97,7 +97,7 @@
         "react-query-devtools": "^2.1.1",
         "react-select": "^2.4.4",
         "react-syntax-highlighter": "^15.4.3",
-        "react-table": "^7.5.0",
+        "react-table": "^7.7.0",
         "request": "^2.88.0",
         "request-promise": "^4.2.5",
         "sanitize-html": "^2.3.2",

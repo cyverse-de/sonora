@@ -12,6 +12,7 @@ export const DATA_SEARCH_QUERY_KEY = "searchData";
 export const INFO_TYPES_QUERY_KEY = "fetchInfoTypes";
 export const FETCH_FILE_MANIFEST_QUERY_KEY = "fetchFileManifest";
 export const READ_CHUNK_QUERY_KEY = "readChunk";
+export const READ_RAW_CHUNK_QUERY_KEY = "readRawChunk";
 export const PUBLIC_LINKS_QUERY_KEY = "fetchPublicLinks";
 export const MULTI_INPUT_PATH_LIST = "multi-input-path-list";
 export const HT_ANALYSIS_PATH_LIST = "ht-analysis-path-list";

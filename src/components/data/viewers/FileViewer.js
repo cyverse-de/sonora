@@ -13,6 +13,8 @@ import { useConfig } from "contexts/config";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
 
+import { queryCache, useQuery } from "react-query";
+
 import NavigationConstants from "common/NavigationConstants";
 import infoTypes from "components/models/InfoTypes";
 import {
@@ -22,8 +24,10 @@ import {
 } from "components/models/MimeTypes";
 
 import {
-    FETCH_FILE_MANIFEST_QUERY_KEY,
+    READ_RAW_CHUNK_QUERY_KEY,
     READ_CHUNK_QUERY_KEY,
+    FETCH_FILE_MANIFEST_QUERY_KEY,
+    readFileChunk,
 } from "serviceFacades/filesystem";
 import viewerConstants from "./constants";
 import DocumentViewer from "./DocumentViewer";
@@ -39,12 +43,9 @@ import isQueryLoading from "components/utils/isQueryLoading";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import { build } from "@cyverse-de/ui-lib";
-import {
-    Button,
-    CircularProgress,
-    Toolbar,
-    Typography,
-} from "@material-ui/core";
+import { Button, Toolbar, Typography } from "@material-ui/core";
+import Skeleton from "@material-ui/lab/Skeleton";
+
 // at the bottom so eslint doesn't complain
 const VideoViewer = dynamic(() => import("./VideoViewer"));
 const TextViewer = dynamic(() => import("./TextViewer"));
@@ -75,6 +76,8 @@ export default function FileViewer(props) {
     const router = useRouter();
     const [readChunkKey, setReadChunkKey] = useState(READ_CHUNK_QUERY_KEY);
     const [readChunkQueryEnabled, setReadChunkQueryEnabled] = useState(false);
+    const [readChunkRawQueryEnabled, setReadChunkRawQueryEnabled] =
+        useState(false);
     const [viewerType, setViewerType] = useState(null);
     const [manifest, setManifest] = useState(null);
     const [separator, setSeparator] = useState("");
@@ -108,7 +111,6 @@ export default function FileViewer(props) {
             const totalPages = Math.ceil(
                 lastGroup["file-size"] / viewerConstants.DEFAULT_PAGE_SIZE
             );
-            setEditable(totalPages === 1 && isWritable(details?.permission));
             if (allGroups.length < totalPages) {
                 return allGroups.length;
             } else {
@@ -116,6 +118,21 @@ export default function FileViewer(props) {
             }
         }
     );
+
+    const {
+        data: rawData,
+        error: rawChunkError,
+        isFetching: isFetchingRaw,
+    } = useQuery({
+        queryKey: [
+            READ_RAW_CHUNK_QUERY_KEY,
+            { path, chunkSize: viewerConstants.DEFAULT_PAGE_SIZE },
+        ],
+        queryFn: readFileChunk,
+        config: {
+            enabled: readChunkRawQueryEnabled,
+        },
+    });
 
     const getColumnDelimiter = (infoType) => {
         if (infoTypes.CSV === infoType) {
@@ -152,6 +169,10 @@ export default function FileViewer(props) {
                 case viewerConstants.GITHUB_FLAVOR_MARKDOWN:
                     setMode(viewerConstants.GITHUB_FLAVOR_MARKDOWN);
                     setViewerType(VIEWER_TYPE.PLAIN);
+                    break;
+                case infoTypes.CSV:
+                case infoTypes.TSV:
+                    setViewerType(VIEWER_TYPE.STRUCTURED);
                     break;
                 default:
                     setViewerType(VIEWER_TYPE.PLAIN);
@@ -250,27 +271,41 @@ export default function FileViewer(props) {
         }
     }, [createFileType, manifest, path, separator]);
 
+    useEffect(() => {
+        setEditable(
+            isWritable(details?.permission) &&
+                details["file-size"] <= viewerConstants.DEFAULT_PAGE_SIZE
+        );
+    }, [details]);
+
+    useEffect(() => {
+        setReadChunkRawQueryEnabled(
+            editable && viewerType === VIEWER_TYPE.STRUCTURED && !createFileType
+        );
+    }, [createFileType, editable, viewerType]);
+
     const memoizedData = useMemo(() => data, [data]);
-    const busy = isQueryLoading([isFetching, status, detailsLoading]);
+    const busy = isQueryLoading([
+        isFetching,
+        isFetchingRaw,
+        status,
+        detailsLoading,
+    ]);
 
     if (busy) {
         return (
-            <CircularProgress
-                thickness={7}
-                color="primary"
-                style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                }}
+            <Skeleton
+                animation="wave"
+                width="100%"
+                height={viewerConstants.DEFAULT_VIEWER_HEIGHT}
             />
         );
     }
 
-    if (manifestError || chunkError || detailsError) {
+    if (manifestError || chunkError || detailsError || rawChunkError) {
         if (router) {
             const errorString = JSON.stringify(
-                manifestError || chunkError || detailsError
+                manifestError || chunkError || detailsError || rawChunkError
             );
             router.push(
                 `/${NavigationConstants.ERROR}?errorInfo=` + errorString
@@ -341,10 +376,19 @@ export default function FileViewer(props) {
                     path={path}
                     fileName={fileName}
                     resourceId={resourceId}
-                    data={flattenStructureData(memoizedData)}
+                    structuredData={
+                        createFileType ? [] : flattenStructureData(memoizedData)
+                    }
+                    rawData={rawData?.chunk || ""}
                     loading={isFetchingMore}
                     handlePathChange={handlePathChange}
                     onRefresh={() => refreshViewer(manifestKey)}
+                    editable={editable || createFileType}
+                    onNewFileSaved={onNewFileSaved}
+                    createFileType={createFileType}
+                    onSaveComplete={() => {
+                        queryCache.invalidateQueries(readChunkKey);
+                    }}
                 />
                 <LoadMoreButton />
             </>

@@ -62,6 +62,7 @@ export default function FileTypeSelectionDialog(props) {
                     value={type}
                     onChange={handleChange}
                     id={build(baseId, ids.FILE_TYPE_SELECT)}
+                    variant="outlined"
                 >
                     <MenuItem value="raw">
                         {ViewerConstants.PLAIN_TEXT}

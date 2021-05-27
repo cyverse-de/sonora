@@ -1,5 +1,6 @@
 export default {
     DEFAULT_PAGE_SIZE: 8388608,
+    DEFAULT_VIEWER_HEIGHT: "78vh",
     COMMA_DELIMITER: ",",
     TAB_DELIMITER: "\t",
     SPACE_DELIMITER: " ",
@@ -13,5 +14,5 @@ export default {
     DOCKERFILE: "Dockerfile",
     HT_ANALYSIS_PATH_LIST: "HT analysis path list",
     MULTI_INPUT_PATH_LIST: "Multi-Input path list",
-    GITHUB_FLAVOR_MARKDOWN: "gfm"
+    GITHUB_FLAVOR_MARKDOWN: "gfm",
 };

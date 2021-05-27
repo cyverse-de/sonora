@@ -24,7 +24,6 @@ import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
 
 import SaveAsDialog from "../SaveAsDialog";
 import { getParentPath } from "../utils";
-import constants from "../../../constants";
 
 import { uploadTextAsFile } from "serviceFacades/fileio";
 
@@ -155,11 +154,10 @@ function ViewerToolbar(props) {
         },
     });
 
-    const [saveTextAsFile, { status: fileSaveStatus }] = useMutation(
+    const [saveTextAsFile, { isLoading: fileSaveLoading }] = useMutation(
         uploadTextAsFile,
         {
             onSuccess: (resp) => {
-                onSaveComplete();
                 announce({
                     text: t("fileSaveSuccess", {
                         fileName: resp?.file.label,
@@ -170,6 +168,8 @@ function ViewerToolbar(props) {
                 if (createFileType && onNewFileSaved) {
                     //reload the viewer
                     onNewFileSaved(resp?.file.path, resp?.file.id);
+                } else {
+                    onSaveComplete();
                 }
             },
             onError: (error) => {
@@ -192,7 +192,7 @@ function ViewerToolbar(props) {
         if (createFileType) {
             setSaveAsDialogOpen(true);
         } else {
-            onSaving();
+            onSaving(fileSaveLoading);
             saveTextAsFile({
                 dest: path,
                 content: getFileContent(),
@@ -568,7 +568,7 @@ function ViewerToolbar(props) {
                         newFile: createFileType ? true : false,
                     });
                 }}
-                loading={fileSaveStatus === constants.LOADING}
+                loading={fileSaveLoading}
             />
         </>
     );

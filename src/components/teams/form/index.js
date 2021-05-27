@@ -315,7 +315,11 @@ function TeamForm(props) {
                                 <Skeleton variant="text" height={40} />
                                 <Skeleton variant="rect" height={100} />
                                 <Table>
-                                    <TableLoading numColumns={2} numRows={3} />
+                                    <TableLoading
+                                        baseId={parentId}
+                                        numColumns={2}
+                                        numRows={3}
+                                    />
                                 </Table>
                             </>
                         )}

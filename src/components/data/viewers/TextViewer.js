@@ -15,8 +15,8 @@ import viewerConstants from "./constants";
 
 import { build } from "@cyverse-de/ui-lib";
 
-import { Typography } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
+import SplitView from "./SplitView";
 
 export default function TextViewer(props) {
     const {
@@ -76,6 +76,33 @@ export default function TextViewer(props) {
     const getContent = () => {
         return editorValue;
     };
+    const Editor = () => (
+        <CodeMirror
+            editorDidMount={(editor) => {
+                setEditorInstance(editor);
+            }}
+            value={editorValue}
+            options={{
+                mode,
+                lineNumbers: showLineNumbers,
+                readOnly: !editable,
+                lineWrapping: wrapText,
+            }}
+            onBeforeChange={(editor, data, value) => {
+                setEditorValue(value);
+            }}
+            onChange={(editor, value) => {
+                setDirty(editorInstance ? !editorInstance.isClean() : false);
+            }}
+        />
+    );
+    const Preview = () => (
+        <div
+            dangerouslySetInnerHTML={{
+                __html: markDownPreview,
+            }}
+        ></div>
+    );
     const busy = loading || isFileSaving;
     return (
         <>
@@ -102,58 +129,23 @@ export default function TextViewer(props) {
                     setDirty(false);
                 }}
             />
-            {busy && <Skeleton animation="wave" width="100%" height={viewerConstants.DEFAULT_VIEWER_HEIGHT}/>}
-            {!busy && (
-                <div style={{ width: "100%" }}>
-                    <div
-                        style={{
-                            float: "left",
-                            width:
-                                mode === viewerConstants.GITHUB_FLAVOR_MARKDOWN
-                                    ? "50%"
-                                    : "100%",
-                        }}
-                    >
-                        <CodeMirror
-                            editorDidMount={(editor) => {
-                                setEditorInstance(editor);
-                            }}
-                            value={editorValue}
-                            options={{
-                                mode,
-                                lineNumbers: showLineNumbers,
-                                readOnly: !editable,
-                                lineWrapping: wrapText,
-                            }}
-                            onBeforeChange={(editor, data, value) => {
-                                setEditorValue(value);
-                            }}
-                            onChange={(editor, value) => {
-                                setDirty(
-                                    editorInstance
-                                        ? !editorInstance.isClean()
-                                        : false
-                                );
-                            }}
-                        />
-                    </div>
-                    {mode === viewerConstants.GITHUB_FLAVOR_MARKDOWN && (
-                        <>
-                            <Typography variant="subtitle2">
-                                {t("preview")}
-                            </Typography>
-                            <div
-                                dangerouslySetInnerHTML={{
-                                    __html: markDownPreview,
-                                }}
-                                style={{
-                                    float: "right",
-                                    width: "50%",
-                                }}
-                            ></div>
-                        </>
-                    )}
-                </div>
+            {busy && (
+                <Skeleton
+                    animation="wave"
+                    width="100%"
+                    height={viewerConstants.DEFAULT_VIEWER_HEIGHT}
+                />
+            )}
+            {!busy && mode === viewerConstants.GITHUB_FLAVOR_MARKDOWN && (
+                <SplitView
+                    leftPanel={Editor()}
+                    rightPanel={Preview()}
+                    leftPanelTitle={t("editor")}
+                    rightPanelTitle={t("preview")}
+                />
+            )}
+            {!busy && mode !== viewerConstants.GITHUB_FLAVOR_MARKDOWN && (
+                <Editor />
             )}
         </>
     );

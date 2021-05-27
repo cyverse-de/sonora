@@ -7,13 +7,12 @@
 import React, { useEffect, useMemo } from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
 import { useTable } from "react-table";
+import { useTranslation } from "i18n";
 
 import ids from "./ids";
 import Toolbar from "./Toolbar";
 import { getColumns, LINE_NUMBER_ACCESSOR } from "./utils";
 import viewerConstants from "./constants";
-
-import PageWrapper from "components/layout/PageWrapper";
 
 import { build } from "@cyverse-de/ui-lib";
 import {
@@ -27,6 +26,7 @@ import {
 } from "@material-ui/core";
 
 import Skeleton from "@material-ui/lab/Skeleton";
+import SplitView from "./SplitView";
 
 export default function StructuredTextViewer(props) {
     const {
@@ -42,8 +42,10 @@ export default function StructuredTextViewer(props) {
         editable,
         onNewFileSaved,
         createFileType,
-        onSaveComplete
+        onSaveComplete,
     } = props;
+
+    const { t } = useTranslation("data");
 
     const [firstRowHeader, setFirstRowHeader] = React.useState(false);
     const [dirty, setDirty] = React.useState(false);
@@ -61,7 +63,10 @@ export default function StructuredTextViewer(props) {
 
     useEffect(() => {
         if (editorInstance) {
-            editorInstance.setSize("100%", "78vh");
+            editorInstance.setSize(
+                "100%",
+                viewerConstants.DEFAULT_VIEWER_HEIGHT
+            );
         }
     }, [editorInstance]);
 
@@ -99,6 +104,68 @@ export default function StructuredTextViewer(props) {
         },
     });
     const busy = loading || isFileSaving;
+    const Editor = () => (
+        <CodeMirror
+            editorDidMount={(editor) => {
+                setEditorInstance(editor);
+            }}
+            value={editorValue}
+            options={{
+                lineNumbers:
+                    !state?.hiddenColumns?.includes(LINE_NUMBER_ACCESSOR),
+                readOnly: !editable,
+            }}
+            onBeforeChange={(editor, data, value) => {
+                setEditorValue(value);
+            }}
+            onChange={(editor, value) => {
+                setDirty(editorInstance ? !editorInstance.isClean() : false);
+            }}
+        />
+    );
+    const TableView = () => (
+        <TableContainer
+            component={Paper}
+            style={{
+                height: viewerConstants.DEFAULT_VIEWER_HEIGHT,
+            }}
+        >
+            <Table
+                id={build(baseId, ids.VIEWER_STRUCTURED, fileName)}
+                size="small"
+                stickyHeader
+                {...getTableProps()}
+            >
+                <TableHead>
+                    {headerGroups.map((headerGroup) => (
+                        <TableRow {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map((column) => (
+                                <TableCell {...column.getHeaderProps()}>
+                                    {column.render("Header")}
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    ))}
+                </TableHead>
+                <TableBody {...getTableBodyProps()}>
+                    {rows.map((row, index) => {
+                        prepareRow(row);
+                        return (
+                            <TableRow {...row.getRowProps()}>
+                                {row.cells.map((cell) => {
+                                    return (
+                                        <TableCell {...cell.getCellProps()}>
+                                            {cell.render("Cell")}
+                                        </TableCell>
+                                    );
+                                })}
+                            </TableRow>
+                        );
+                    })}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    );
     return (
         <>
             <Toolbar
@@ -140,106 +207,15 @@ export default function StructuredTextViewer(props) {
                     height={viewerConstants.DEFAULT_VIEWER_HEIGHT}
                 />
             )}
-            {!busy && (
-                <PageWrapper appBarHeight={120}>
-                    <div style={{ width: "100%" }}>
-                        <div
-                            style={{
-                                float: "left",
-                                width: editable ? "50%" : "0%",
-                            }}
-                        >
-                            <CodeMirror
-                                editorDidMount={(editor) => {
-                                    setEditorInstance(editor);
-                                }}
-                                value={editorValue}
-                                options={{
-                                    lineNumbers:
-                                        !state?.hiddenColumns?.includes(
-                                            LINE_NUMBER_ACCESSOR
-                                        ),
-                                    readOnly: !editable,
-                                }}
-                                onBeforeChange={(editor, data, value) => {
-                                    setEditorValue(value);
-                                }}
-                                onChange={(editor, value) => {
-                                    setDirty(
-                                        editorInstance
-                                            ? !editorInstance.isClean()
-                                            : false
-                                    );
-                                }}
-                            />
-                        </div>
-                        <div
-                            style={{
-                                float: "right",
-                                width: "50%",
-                            }}
-                        >
-                            <TableContainer
-                                component={Paper}
-                                style={{ overflow: "auto" }}
-                            >
-                                <Table
-                                    id={build(
-                                        baseId,
-                                        ids.VIEWER_STRUCTURED,
-                                        fileName
-                                    )}
-                                    size="small"
-                                    stickyHeader
-                                    {...getTableProps()}
-                                >
-                                    <TableHead>
-                                        {headerGroups.map((headerGroup) => (
-                                            <TableRow
-                                                {...headerGroup.getHeaderGroupProps()}
-                                            >
-                                                {headerGroup.headers.map(
-                                                    (column) => (
-                                                        <TableCell
-                                                            {...column.getHeaderProps()}
-                                                        >
-                                                            {column.render(
-                                                                "Header"
-                                                            )}
-                                                        </TableCell>
-                                                    )
-                                                )}
-                                            </TableRow>
-                                        ))}
-                                    </TableHead>
-                                    <TableBody {...getTableBodyProps()}>
-                                        {rows.map((row, index) => {
-                                            prepareRow(row);
-                                            return (
-                                                <TableRow
-                                                    {...row.getRowProps()}
-                                                >
-                                                    {row.cells.map((cell) => {
-                                                        return (
-                                                            <TableCell
-                                                                {...cell.getCellProps()}
-                                                            >
-                                                                {cell.render(
-                                                                    "Cell"
-                                                                )}
-                                                            </TableCell>
-                                                        );
-                                                    })}
-                                                </TableRow>
-                                            );
-                                        })}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </div>
-                    </div>
-                </PageWrapper>
+            {!busy && editable && (
+                <SplitView
+                    leftPanel={Editor()}
+                    rightPanel={TableView()}
+                    leftPanelTitle={t("editor")}
+                    rightPanelTitle={t("preview")}
+                />
             )}
+            {!busy && !editable && <TableView />}
         </>
     );
 }

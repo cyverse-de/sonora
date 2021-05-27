@@ -387,7 +387,13 @@ export default function FileViewer(props) {
                     onNewFileSaved={onNewFileSaved}
                     createFileType={createFileType}
                     onSaveComplete={() => {
-                        queryCache.invalidateQueries(readChunkKey);
+                        queryCache.invalidateQueries(readChunkKey, [
+                            READ_RAW_CHUNK_QUERY_KEY,
+                            {
+                                path,
+                                chunkSize: viewerConstants.DEFAULT_PAGE_SIZE,
+                            },
+                        ]);
                     }}
                 />
                 <LoadMoreButton />

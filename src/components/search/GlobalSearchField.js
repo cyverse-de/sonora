@@ -152,14 +152,19 @@ const SearchOption = React.forwardRef((props, ref) => {
         searchTerm,
         onOptionSelected,
         href,
+        as,
     } = props;
     const classes = useStyles();
     const theme = useTheme();
+
+    const LinkType = onOptionSelected ? MuiLink : Link;
+
     return (
         <>
             <span className={classes.optionIcon}>{icon}</span>
-            <MuiLink
+            <LinkType
                 href={href}
+                as={as}
                 onClick={(event) => {
                     if (onOptionSelected) {
                         event.preventDefault();
@@ -189,7 +194,7 @@ const SearchOption = React.forwardRef((props, ref) => {
                         </Highlighter>
                     </Typography>
                 </div>
-            </MuiLink>
+            </LinkType>
         </>
     );
 });
@@ -235,15 +240,15 @@ function DataSearchOption(props) {
     }
 
     return (
-        <Link href={href} as={as} passHref>
-            <SearchOption
-                primary={name}
-                secondary={path}
-                icon={icon}
-                searchTerm={searchTerm}
-                id={build(baseId, resourceId)}
-            />
-        </Link>
+        <SearchOption
+            href={href}
+            as={as}
+            primary={name}
+            secondary={path}
+            icon={icon}
+            searchTerm={searchTerm}
+            id={build(baseId, resourceId)}
+        />
     );
 }
 
@@ -255,16 +260,16 @@ function AppsSearchOption(props) {
     );
 
     return (
-        <Link href={href} as={as} passHref>
-            <SearchOption
-                primary={selectedOption.name}
-                secondary={selectedOption.description}
-                icon={<AppsIcon />}
-                searchTerm={searchTerm}
-                id={build(baseId, selectedOption.id)}
-                onOptionSelected={onOptionSelected}
-            />
-        </Link>
+        <SearchOption
+            href={href}
+            as={as}
+            primary={selectedOption.name}
+            secondary={selectedOption.description}
+            icon={<AppsIcon />}
+            searchTerm={searchTerm}
+            id={build(baseId, selectedOption.id)}
+            onOptionSelected={onOptionSelected}
+        />
     );
 }
 
@@ -274,15 +279,15 @@ function AnalysesSearchOption(props) {
     const href = `/${NavigationConstants.ANALYSES}/[analysisId]`;
     const as = `/${NavigationConstants.ANALYSES}/${selectedOption?.id}`;
     return (
-        <Link href={href} as={as} passHref>
-            <SearchOption
-                primary={selectedOption.name}
-                secondary={selectedOption.status}
-                icon={<AnalysesIcon />}
-                searchTerm={searchTerm}
-                id={build(baseId, selectedOption.id)}
-            />
-        </Link>
+        <SearchOption
+            href={href}
+            as={as}
+            primary={selectedOption.name}
+            secondary={selectedOption.status}
+            icon={<AnalysesIcon />}
+            searchTerm={searchTerm}
+            id={build(baseId, selectedOption.id)}
+        />
     );
 }
 
@@ -292,15 +297,15 @@ function TeamSearchOption(props) {
 
     const [href, as] = getTeamLinkRefs(selectedOption.name);
     return (
-        <Link href={href} as={as} passHref>
-            <SearchOption
-                primary={selectedOption.display_extension}
-                secondary={selectedOption.description}
-                icon={<TeamIcon style={{ color: theme.palette.info.main }} />}
-                searchTerm={searchTerm}
-                id={build(baseId, selectedOption.id)}
-            />
-        </Link>
+        <SearchOption
+            href={href}
+            as={as}
+            primary={selectedOption.display_extension}
+            secondary={selectedOption.description}
+            icon={<TeamIcon style={{ color: theme.palette.info.main }} />}
+            searchTerm={searchTerm}
+            id={build(baseId, selectedOption.id)}
+        />
     );
 }
 

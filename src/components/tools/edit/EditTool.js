@@ -1,5 +1,5 @@
 /**
- * @author aramsey, sriram
+ * @author aramsey, sriram, psarando
  */
 import React, { useState } from "react";
 
@@ -44,7 +44,7 @@ import {
     FormTextField,
 } from "@cyverse-de/ui-lib";
 
-import { Field, FieldArray, Form, getIn, Formik } from "formik";
+import { Field, FieldArray, Form, Formik } from "formik";
 import {
     Button,
     CircularProgress,
@@ -150,20 +150,8 @@ function EditToolDialog(props) {
         }
     );
 
-    const handleSubmit = (values, { props }) => {
-        const submission = { ...values };
-
-        //these keys needs to added to submission for interactive tools
-        if (submission.interactive) {
-            const interactive_apps = {
-                cas_url: config.vice.defaultCasUrl,
-                name: config.vice.defaultName,
-                image: config.vice.defaultImage,
-                cas_validate: config.vice.defaultCasValidate,
-            };
-            submission.container.interactive_apps = interactive_apps;
-            submission.container.skip_tmp_mount = true;
-        }
+    const handleSubmit = (values) => {
+        const submission = formatSubmission(values, config, isAdmin);
 
         //avoid dupe submission
         if (
@@ -350,7 +338,7 @@ function EditToolForm(props) {
     const { t } = useTranslation("tools");
     const { t: i18nUtil } = useTranslation("util");
 
-    const selectedToolType = getIn(values, "type");
+    const selectedToolType = values.type;
     const isOSGTool = selectedToolType === TOOL_TYPES.OSG;
     const isInteractiveTool = selectedToolType === TOOL_TYPES.INTERACTIVE;
 
@@ -549,46 +537,287 @@ function EditToolForm(props) {
     );
 }
 
-const DEFAULT_TOOL = {
-    name: "",
-    version: "",
-    container: {
-        image: {
-            name: "",
-            tag: "",
-            osg_image_path: "",
+function mapPropsToValues(tool, isAdmin) {
+    // Init the default values for form fields a normal user can view or edit.
+    let values = {
+        name: "",
+        description: "",
+        version: "",
+        type: "",
+        time_limit_seconds: "",
+        container: {
+            image: {
+                name: "",
+                url: "",
+                tag: "",
+                osg_image_path: "",
+            },
+            entrypoint: "",
+            working_directory: "",
+            uid: "",
+            max_cpu_cores: "",
+            memory_limit: "",
+            min_disk_space: "",
+            pids_limit: "",
+            network_mode: "",
+            container_ports: [],
         },
-    },
-    type: "",
-};
+    };
 
-const DEFAULT_ADMIN_TOOL = {
-    ...DEFAULT_TOOL,
-    implementation: {
-        implementor: "",
-        implementor_email: "",
-        test: {
-            input_files: [],
-            output_files: [],
-        },
-    },
-};
+    if (isAdmin) {
+        // Add default values for the form fields an admin can edit.
+        values = {
+            ...values,
+            attribution: "",
+            location: "",
+            restricted: false,
+            container: {
+                ...values.container,
+                name: "",
+                min_cpu_cores: "",
+                min_memory_limit: "",
+                cpu_shares: "",
+                container_devices: [],
+                container_volumes: [],
+                container_volumes_from: [],
+            },
+            implementation: {
+                implementor: "",
+                implementor_email: "",
+                test: {
+                    input_files: [],
+                    output_files: [],
+                },
+            },
+        };
+    }
 
-function mapPropsToValues(selTool, isAdmin) {
-    if (!selTool) {
-        return isAdmin ? { ...DEFAULT_ADMIN_TOOL } : { ...DEFAULT_TOOL };
-    } else {
-        const values = { ...selTool };
-        //these keys needs to excluded from submission to avoid service errors
-        delete values.permission;
-        delete values.is_public;
-        delete values.container.image.id;
-        if (!isAdmin) {
-            delete values.implementation;
+    if (tool) {
+        // Copy existing tool fields over default values.
+        const {
+            id,
+            name,
+            description,
+            version,
+            type,
+            time_limit_seconds,
+            attribution,
+            location,
+            restricted,
+            container,
+            implementation,
+        } = tool;
+
+        values = {
+            ...values,
+            id,
+            name,
+            description,
+            version,
+            type,
+            time_limit_seconds,
+            container: {
+                ...values.container,
+                ...container,
+            },
+        };
+
+        const {
+            image,
+            container_ports,
+            container_devices,
+            container_volumes,
+            container_volumes_from,
+        } = container;
+
+        const { tag, url, osg_image_path } = image;
+
+        // Ensure optional tool fields are set with an empty string, if missing.
+        values.container.image = {
+            name: image.name,
+            tag: tag || "",
+            url: url || "",
+            osg_image_path: osg_image_path || "",
+        };
+
+        if (container_ports) {
+            values.container.container_ports = container_ports.map(
+                ({ container_port }) => ({ container_port })
+            );
         }
 
-        return values;
+        if (isAdmin) {
+            values = {
+                ...values,
+                attribution: attribution || "",
+                location: location || "",
+                restricted,
+            };
+
+            values.implementation = {
+                ...implementation,
+                test: {
+                    input_files: [...implementation.test.input_files],
+                    output_files: [...implementation.test.output_files],
+                },
+            };
+
+            if (container_ports) {
+                values.container.container_ports = container_ports.map(
+                    ({ container_port, host_port, bind_to_host }) => ({
+                        container_port,
+                        host_port: host_port || "",
+                        bind_to_host,
+                    })
+                );
+            }
+
+            if (container_devices) {
+                values.container.container_devices = container_devices.map(
+                    ({ container_path, host_path }) => ({
+                        container_path,
+                        host_path,
+                    })
+                );
+            }
+
+            if (container_volumes) {
+                values.container.container_volumes = container_volumes.map(
+                    ({ container_path, host_path }) => ({
+                        container_path,
+                        host_path,
+                    })
+                );
+            }
+
+            if (container_volumes_from) {
+                values.container.container_volumes_from = container_volumes_from.map(
+                    ({ name, name_prefix, tag, url, read_only }) => ({
+                        name,
+                        name_prefix,
+                        tag: tag || "",
+                        url: url || "",
+                        read_only,
+                    })
+                );
+            }
+        }
     }
+
+    return values;
+}
+
+function formatSubmission(values, config, isAdmin) {
+    const {
+        id,
+        name,
+        version,
+        attribution,
+        description,
+        type,
+        location,
+        restricted,
+        time_limit_seconds,
+        container,
+        implementation,
+    } = values;
+
+    const submission = {
+        id,
+        name,
+        description,
+        version,
+        type,
+        interactive: type === TOOL_TYPES.INTERACTIVE,
+    };
+
+    const {
+        name: containerName,
+        entrypoint,
+        working_directory,
+        uid,
+        min_cpu_cores,
+        min_memory_limit,
+        cpu_shares,
+        max_cpu_cores,
+        memory_limit,
+        min_disk_space,
+        pids_limit,
+        container_ports,
+        container_devices,
+        container_volumes,
+        container_volumes_from,
+    } = container;
+
+    // An undefined value means that key won't be submitted in the request,
+    // and container settings will be removed if its key is not included in the
+    // tool update request.
+    submission.container = {
+        ...container,
+        entrypoint: entrypoint || undefined,
+        working_directory: working_directory || undefined,
+        uid: uid || undefined,
+        max_cpu_cores: max_cpu_cores || undefined,
+        memory_limit: memory_limit || undefined,
+        min_disk_space: min_disk_space || undefined,
+        pids_limit: pids_limit || undefined,
+        skip_tmp_mount: false,
+        interactive_apps: undefined,
+        container_ports: undefined,
+        container_devices: undefined,
+        container_volumes: undefined,
+        container_volumes_from: undefined,
+    };
+
+    if (isAdmin) {
+        submission.restricted = restricted;
+        submission.time_limit_seconds = time_limit_seconds || 0;
+        submission.location = location;
+        submission.attribution = attribution;
+        submission.implementation = implementation;
+
+        submission.container = {
+            ...submission.container,
+            name: containerName || undefined,
+            min_cpu_cores: min_cpu_cores || undefined,
+            min_memory_limit: min_memory_limit || undefined,
+            cpu_shares: cpu_shares || undefined,
+            container_devices: container_devices,
+            container_volumes: container_volumes,
+            container_volumes_from: container_volumes_from,
+        };
+    }
+
+    // These keys need to be added for interactive tools.
+    if (submission.interactive) {
+        const interactive_apps = {
+            cas_url: config.vice.defaultCasUrl,
+            name: config.vice.defaultName,
+            image: config.vice.defaultImage,
+            cas_validate: config.vice.defaultCasValidate,
+        };
+
+        submission.container.interactive_apps = interactive_apps;
+        submission.container.skip_tmp_mount = true;
+
+        submission.container.container_ports = container_ports.map(
+            ({ container_port, host_port, bind_to_host }) => {
+                const portConfig = {
+                    container_port,
+                    bind_to_host,
+                };
+
+                // Don't include empty host ports.
+                if (host_port) {
+                    portConfig.host_port = host_port;
+                }
+
+                return portConfig;
+            }
+        );
+    }
+
+    return submission;
 }
 
 /**
@@ -607,7 +836,7 @@ function resetOnTypeChange(currentType, form) {
         form.setFieldValue("container.image.osg_image_path", null);
     }
     if (currentType !== TOOL_TYPES.INTERACTIVE) {
-        form.setFieldValue("container.container_ports", null);
+        form.setFieldValue("container.container_ports", []);
         form.setFieldValue("container.network_mode", "none");
     } else {
         form.setFieldValue("container.network_mode", "bridge");

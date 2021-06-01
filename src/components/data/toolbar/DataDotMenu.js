@@ -330,36 +330,6 @@ function DataDotMenu(props) {
                             <ListItemText primary={t("newFile")} />
                         </MenuItem>,
                         <MenuItem
-                            key={build(baseId, ids.CREATE_HT_FILE_MI)}
-                            id={build(baseId, ids.CREATE_HT_FILE_MI)}
-                            onClick={() => {
-                                onClose();
-                                setFileTypeSelectionDlgOpen(true);
-                            }}
-                        >
-                            <ListItemIcon>
-                                <ListAlt fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={t("newHTAnalysisPathListFile")}
-                            />
-                        </MenuItem>,
-                        <MenuItem
-                            key={build(baseId, ids.CREATE_MULTI_INPUT_MI)}
-                            id={build(baseId, ids.CREATE_MULTI_INPUT_MI)}
-                            onClick={() => {
-                                onClose();
-                                setFileTypeSelectionDlgOpen(true);
-                            }}
-                        >
-                            <ListItemIcon>
-                                <ListAlt fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={t("newMultiInputPathListFile")}
-                            />
-                        </MenuItem>,
-                        <MenuItem
                             key={build(baseId, ids.AUTO_CREATE_HT_FILE_MI)}
                             id={build(baseId, ids.AUTO_CREATE_HT_FILE_MI)}
                             onClick={() => {

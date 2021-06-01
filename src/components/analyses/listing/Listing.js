@@ -277,21 +277,11 @@ function Listing(props) {
         submitAnalysisSupportRequest,
         {
             onSuccess: (responses) => {
-                const shareError =
-                    responses?.length > 1 &&
-                    responses[0].sharing.find((share) =>
-                        share.analyses.find((analysis) => !analysis.success)
-                    );
-
-                if (shareError) {
-                    showErrorAnnouncer(t("statusHelpShareError"));
-                } else {
-                    setShareWithSupportAnalysis(null);
-                    announce({
-                        text: t("statusHelpShareSuccess"),
-                        variant: AnnouncerConstants.SUCCESS,
-                    });
-                }
+                setShareWithSupportAnalysis(null);
+                announce({
+                    text: t("statusHelpShareSuccess"),
+                    variant: AnnouncerConstants.SUCCESS,
+                });
             },
             onError: (error) => {
                 showErrorAnnouncer(t("statusHelpShareError"), error);

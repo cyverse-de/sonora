@@ -209,7 +209,7 @@ function Sharing(props) {
                     sharing.forEach((shares) => {
                         const updates = getShareResponseValues(shares);
                         const successFalse = updates.filter(
-                            (update) => update.success === false
+                            (update) => update?.success === false
                         );
                         if (successFalse && successFalse.length > 0) {
                             failures.push(...successFalse);

@@ -11,8 +11,10 @@ export default {
     R: "R",
     PYTHON: "Python",
     MARKDOWN: "Markdown",
+    YAML: "YAML",
     DOCKERFILE: "Dockerfile",
     HT_ANALYSIS_PATH_LIST: "HT analysis path list",
     MULTI_INPUT_PATH_LIST: "Multi-Input path list",
     GITHUB_FLAVOR_MARKDOWN: "gfm",
+    IPC_VIEWER_TYPE: "ipc_viewer_type",
 };

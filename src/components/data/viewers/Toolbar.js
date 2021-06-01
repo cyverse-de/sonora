@@ -158,6 +158,7 @@ function ViewerToolbar(props) {
         uploadTextAsFile,
         {
             onSuccess: (resp) => {
+                onSaveComplete(resp);
                 announce({
                     text: t("fileSaveSuccess", {
                         fileName: resp?.file.label,
@@ -168,8 +169,6 @@ function ViewerToolbar(props) {
                 if (createFileType && onNewFileSaved) {
                     //reload the viewer
                     onNewFileSaved(resp?.file.path, resp?.file.id);
-                } else {
-                    onSaveComplete();
                 }
             },
             onError: (error) => {

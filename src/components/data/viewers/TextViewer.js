@@ -1,22 +1,28 @@
 /**
- * View text files
+ * View text based files (plain text, markdown etc..)
  *
  * @author sriram
  *
  */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { useTranslation } from "i18n";
-import { Controlled as CodeMirror } from "react-codemirror2";
+import { useMutation, useQuery } from "react-query";
 
 import ids from "./ids";
 import Toolbar from "./Toolbar";
 import markdownToHtml from "components/utils/markdownToHtml";
 import viewerConstants from "./constants";
+import {
+    FILESYSTEM_METADATA_QUERY_KEY,
+    getFilesystemMetadata,
+    setFilesystemMetadata,
+} from "serviceFacades/metadata";
 
 import { build } from "@cyverse-de/ui-lib";
 
 import Skeleton from "@material-ui/lab/Skeleton";
 import SplitView from "./SplitView";
+import Editor from "./Editor";
 
 export default function TextViewer(props) {
     const {
@@ -43,21 +49,23 @@ export default function TextViewer(props) {
     const [dirty, setDirty] = useState(false);
     const [isFileSaving, setFileSaving] = React.useState();
     const [markDownPreview, setMarkdownPreview] = useState("");
+    const [detectedMode, setDetectedMode] = useState("");
 
+    const isMarkdown =
+        mode === viewerConstants.GITHUB_FLAVOR_MARKDOWN ||
+        detectedMode === viewerConstants.GITHUB_FLAVOR_MARKDOWN;
+
+    //not sure why but codemirror wants the css loaded here unlike the modes
     useEffect(() => {
         require("codemirror/lib/codemirror.css");
-        require("codemirror/mode/javascript/javascript.js");
-        require("codemirror/mode/htmlmixed/htmlmixed.js");
-        require("codemirror/mode/r/r.js");
-        require("codemirror/mode/python/python.js");
-        require("codemirror/mode/gfm/gfm.js");
-        require("codemirror/mode/yaml/yaml.js");
-        require("codemirror/mode/dockerfile/dockerfile.js");
     }, []);
 
     useEffect(() => {
         if (editorInstance) {
-            editorInstance.setSize("100%", "78vh");
+            editorInstance.setSize(
+                "100%",
+                viewerConstants.DEFAULT_VIEWER_HEIGHT
+            );
         }
     }, [editorInstance]);
 
@@ -66,44 +74,56 @@ export default function TextViewer(props) {
     }, [data, mode]);
 
     useEffect(() => {
-        if (mode === viewerConstants.GITHUB_FLAVOR_MARKDOWN) {
+        if (isMarkdown) {
             markdownToHtml(editorValue).then((html) => {
                 setMarkdownPreview(html);
             });
         }
-    }, [editorValue, mode]);
+    }, [editorValue, isMarkdown, mode]);
+
+    const { isFetching: isFetchingMetadata, error: metadataError } = useQuery({
+        queryKey: [FILESYSTEM_METADATA_QUERY_KEY, { dataId: resourceId }],
+        queryFn: getFilesystemMetadata,
+        config: {
+            enabled: !!resourceId,
+            onSuccess: (metadata) => {
+                const { avus } = metadata;
+                const fileTypeAvu = avus?.filter(
+                    (avu) => avu.attr === viewerConstants.IPC_VIEWER_TYPE
+                );
+                if (fileTypeAvu && fileTypeAvu.length > 0) {
+                    setDetectedMode(fileTypeAvu[0].value);
+                }
+            },
+        },
+    });
+
+    const [setDiskResourceMetadata] = useMutation(setFilesystemMetadata, {
+        onSuccess: (resp) => {
+            console.log(resp);
+        },
+        onError: (error) => {
+            console.log(error);
+        },
+    });
 
     const getContent = () => {
         return editorValue;
     };
-    const Editor = () => (
-        <CodeMirror
-            editorDidMount={(editor) => {
-                setEditorInstance(editor);
-            }}
-            value={editorValue}
-            options={{
-                mode,
-                lineNumbers: showLineNumbers,
-                readOnly: !editable,
-                lineWrapping: wrapText,
-            }}
-            onBeforeChange={(editor, data, value) => {
-                setEditorValue(value);
-            }}
-            onChange={(editor, value) => {
-                setDirty(editorInstance ? !editorInstance.isClean() : false);
-            }}
-        />
+
+    const busy = loading || isFileSaving || isFetchingMetadata;
+
+    const Preview = useCallback(
+        () => (
+            <div
+                dangerouslySetInnerHTML={{
+                    __html: markDownPreview,
+                }}
+            ></div>
+        ),
+        [markDownPreview]
     );
-    const Preview = () => (
-        <div
-            dangerouslySetInnerHTML={{
-                __html: markDownPreview,
-            }}
-        ></div>
-    );
-    const busy = loading || isFileSaving;
+
     return (
         <>
             <Toolbar
@@ -124,9 +144,26 @@ export default function TextViewer(props) {
                 onNewFileSaved={onNewFileSaved}
                 getFileContent={getContent}
                 onSaving={() => setFileSaving(true)}
-                onSaveComplete={() => {
+                onSaveComplete={(details) => {
                     setFileSaving(false);
                     setDirty(false);
+                    if (createFileType) {
+                        const metadata = {
+                            avus: [
+                                {
+                                    attr: viewerConstants.IPC_VIEWER_TYPE,
+                                    value: createFileType,
+                                    unit: "",
+                                },
+                            ],
+                            "irods-avus": [],
+                        };
+
+                        setDiskResourceMetadata({
+                            dataId: details?.file.id,
+                            metadata,
+                        });
+                    }
                 }}
             />
             {busy && (
@@ -136,16 +173,38 @@ export default function TextViewer(props) {
                     height={viewerConstants.DEFAULT_VIEWER_HEIGHT}
                 />
             )}
-            {!busy && mode === viewerConstants.GITHUB_FLAVOR_MARKDOWN && (
+            {!busy && isMarkdown && (
                 <SplitView
-                    leftPanel={Editor()}
+                    leftPanel={
+                        <Editor
+                            mode={mode || detectedMode}
+                            showLineNumbers={showLineNumbers}
+                            editable={editable}
+                            wrapText={wrapText}
+                            editorInstance={editorInstance}
+                            setEditorInstance={setEditorInstance}
+                            setEditorValue={setEditorValue}
+                            setDirty={setDirty}
+                            editorValue={editorValue}
+                        />
+                    }
                     rightPanel={Preview()}
                     leftPanelTitle={t("editor")}
                     rightPanelTitle={t("preview")}
                 />
             )}
-            {!busy && mode !== viewerConstants.GITHUB_FLAVOR_MARKDOWN && (
-                <Editor />
+            {!busy && !isMarkdown && (
+                <Editor
+                    mode={mode || detectedMode}
+                    showLineNumbers={showLineNumbers}
+                    editable={editable}
+                    wrapText={wrapText}
+                    editorInstance={editorInstance}
+                    setEditorInstance={setEditorInstance}
+                    setEditorValue={setEditorValue}
+                    setDirty={setDirty}
+                    editorValue={editorValue}
+                />
             )}
         </>
     );

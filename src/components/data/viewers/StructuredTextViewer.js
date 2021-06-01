@@ -5,7 +5,6 @@
  *
  */
 import React, { useEffect, useMemo } from "react";
-import { Controlled as CodeMirror } from "react-codemirror2";
 import { useTable } from "react-table";
 import { useTranslation } from "i18n";
 
@@ -27,6 +26,7 @@ import {
 
 import Skeleton from "@material-ui/lab/Skeleton";
 import SplitView from "./SplitView";
+import Editor from "./Editor";
 
 export default function StructuredTextViewer(props) {
     const {
@@ -104,25 +104,7 @@ export default function StructuredTextViewer(props) {
         },
     });
     const busy = loading || isFileSaving;
-    const Editor = () => (
-        <CodeMirror
-            editorDidMount={(editor) => {
-                setEditorInstance(editor);
-            }}
-            value={editorValue}
-            options={{
-                lineNumbers:
-                    !state?.hiddenColumns?.includes(LINE_NUMBER_ACCESSOR),
-                readOnly: !editable,
-            }}
-            onBeforeChange={(editor, data, value) => {
-                setEditorValue(value);
-            }}
-            onChange={(editor, value) => {
-                setDirty(editorInstance ? !editorInstance.isClean() : false);
-            }}
-        />
-    );
+
     const TableView = () => (
         <TableContainer
             component={Paper}
@@ -209,7 +191,21 @@ export default function StructuredTextViewer(props) {
             )}
             {!busy && editable && (
                 <SplitView
-                    leftPanel={Editor()}
+                    leftPanel={
+                        <Editor
+                            showLineNumbers={
+                                !state?.hiddenColumns?.includes(
+                                    LINE_NUMBER_ACCESSOR
+                                )
+                            }
+                            editable={editable}
+                            editorInstance={editorInstance}
+                            setEditorInstance={setEditorInstance}
+                            setEditorValue={setEditorValue}
+                            setDirty={setDirty}
+                            editorValue={editorValue}
+                        />
+                    }
                     rightPanel={TableView()}
                     leftPanelTitle={t("editor")}
                     rightPanelTitle={t("preview")}

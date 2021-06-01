@@ -1,5 +1,5 @@
 /**
- * View editor and preview on split view side-by-side
+ * A component that allows a side-by-side view.
  *
  * @sriram
  *
@@ -14,7 +14,7 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import FirstPageIcon from "@material-ui/icons/FirstPage";
 import LastPageIcon from "@material-ui/icons/LastPage";
-import FormatAlignCenterIcon from "@material-ui/icons/FormatAlignCenter";
+import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
 
 const useStyles = makeStyles((theme) => ({
     panelHeader: {
@@ -76,15 +76,21 @@ export default function SplitView(props) {
                 <ToggleButton
                     value={LEFT_PANEL}
                     aria-label={t("hideLeftPanel")}
+                    title={t("hideLeftPanel")}
                 >
                     <FirstPageIcon fontSize="small" />
                 </ToggleButton>
-                <ToggleButton value={NONE} aria-label={t("showAll")}>
-                    <FormatAlignCenterIcon fontSize="small" />
+                <ToggleButton
+                    value={NONE}
+                    aria-label={t("showSplitView")}
+                    title={t("showSplitView")}
+                >
+                    <CompareArrowsIcon fontSize="small" />
                 </ToggleButton>
                 <ToggleButton
                     value={RIGHT_PANEL}
                     aria-label={t("hideRightPanel")}
+                    title={t("hideRightPanel")}
                 >
                     <LastPageIcon fontSize="small" />
                 </ToggleButton>

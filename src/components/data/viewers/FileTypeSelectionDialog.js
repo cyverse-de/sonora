@@ -82,8 +82,14 @@ export default function FileTypeSelectionDialog(props) {
                     <MenuItem value={ViewerConstants.GITHUB_FLAVOR_MARKDOWN}>
                         {ViewerConstants.MARKDOWN}
                     </MenuItem>
-                    <MenuItem value="dockerfile">
+                    <MenuItem value={ViewerConstants.GITHUB_FLAVOR_MARKDOWN}>
+                        {ViewerConstants.MARKDOWN}
+                    </MenuItem>
+                    <MenuItem value={ViewerConstants.DOCKERFILE}>
                         {ViewerConstants.DOCKERFILE}
+                    </MenuItem>
+                    <MenuItem value={mimeTypes.X_YAML}>
+                        {ViewerConstants.YAML}
                     </MenuItem>
                     <MenuItem value={InfoTypes.HT_ANALYSIS_PATH_LIST}>
                         {ViewerConstants.HT_ANALYSIS_PATH_LIST}

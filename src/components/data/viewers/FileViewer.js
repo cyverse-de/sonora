@@ -152,8 +152,9 @@ export default function FileViewer(props) {
     };
 
     useEffect(() => {
-        if (createFileType) {
-            switch (createFileType) {
+        const mimeType = getMimeTypeFromString(manifest["content-type"]);
+        if (createFileType || mimeType) {
+            switch (createFileType || mimeType) {
                 case mimeTypes.X_RSRC:
                     setMode("r");
                     setViewerType(VIEWER_TYPE.PLAIN);
@@ -170,6 +171,14 @@ export default function FileViewer(props) {
                     setMode(viewerConstants.GITHUB_FLAVOR_MARKDOWN);
                     setViewerType(VIEWER_TYPE.PLAIN);
                     break;
+                case mimeTypes.X_YAML: 
+                     setMode("yaml");   
+                     setViewerType(VIEWER_TYPE.PLAIN);
+                     break; 
+                case viewerConstants.DOCKERFILE:
+                    setMode("dockerfile");   
+                    setViewerType(VIEWER_TYPE.PLAIN);
+                    break; 
                 case infoTypes.CSV:
                 case infoTypes.TSV:
                     setViewerType(VIEWER_TYPE.STRUCTURED);
@@ -178,7 +187,7 @@ export default function FileViewer(props) {
                     setViewerType(VIEWER_TYPE.PLAIN);
             }
         }
-    }, [createFileType]);
+    }, [createFileType, manifest]);
 
     useEffect(() => {
         if (manifest) {
@@ -360,7 +369,7 @@ export default function FileViewer(props) {
                     loading={isFetchingMore}
                     handlePathChange={handlePathChange}
                     onRefresh={() => refreshViewer(manifestKey)}
-                    editable={editable || createFileType}
+                    editable={editable || !!createFileType}
                     mode={mode}
                     onNewFileSaved={onNewFileSaved}
                     createFileType={createFileType}
@@ -383,17 +392,20 @@ export default function FileViewer(props) {
                     loading={isFetchingMore}
                     handlePathChange={handlePathChange}
                     onRefresh={() => refreshViewer(manifestKey)}
-                    editable={editable || createFileType}
+                    editable={editable || !!createFileType}
                     onNewFileSaved={onNewFileSaved}
                     createFileType={createFileType}
                     onSaveComplete={() => {
-                        queryCache.invalidateQueries(readChunkKey, [
-                            READ_RAW_CHUNK_QUERY_KEY,
-                            {
-                                path,
-                                chunkSize: viewerConstants.DEFAULT_PAGE_SIZE,
-                            },
-                        ]);
+                        if (editable) {
+                            queryCache.invalidateQueries(readChunkKey, [
+                                READ_RAW_CHUNK_QUERY_KEY,
+                                {
+                                    path,
+                                    chunkSize:
+                                        viewerConstants.DEFAULT_PAGE_SIZE,
+                                },
+                            ]);
+                        }
                     }}
                 />
                 <LoadMoreButton />

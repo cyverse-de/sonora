@@ -12,6 +12,9 @@ import ids from "./ids";
 import Toolbar from "./Toolbar";
 import markdownToHtml from "components/utils/markdownToHtml";
 import viewerConstants from "./constants";
+import SplitView from "./SplitView";
+import Editor from "./Editor";
+
 import {
     FILESYSTEM_METADATA_QUERY_KEY,
     getFilesystemMetadata,
@@ -21,8 +24,7 @@ import {
 import { build } from "@cyverse-de/ui-lib";
 
 import Skeleton from "@material-ui/lab/Skeleton";
-import SplitView from "./SplitView";
-import Editor from "./Editor";
+
 
 export default function TextViewer(props) {
     const {
@@ -55,11 +57,7 @@ export default function TextViewer(props) {
         mode === viewerConstants.GITHUB_FLAVOR_MARKDOWN ||
         detectedMode === viewerConstants.GITHUB_FLAVOR_MARKDOWN;
 
-    //not sure why but codemirror wants the css loaded here unlike the modes
-    useEffect(() => {
-        require("codemirror/lib/codemirror.css");
-    }, []);
-
+    
     useEffect(() => {
         if (editorInstance) {
             editorInstance.setSize(

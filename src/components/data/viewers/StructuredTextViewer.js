@@ -12,6 +12,8 @@ import ids from "./ids";
 import Toolbar from "./Toolbar";
 import { getColumns, LINE_NUMBER_ACCESSOR } from "./utils";
 import viewerConstants from "./constants";
+import SplitView from "./SplitView";
+import Editor from "./Editor";
 
 import { build } from "@cyverse-de/ui-lib";
 import {
@@ -25,8 +27,7 @@ import {
 } from "@material-ui/core";
 
 import Skeleton from "@material-ui/lab/Skeleton";
-import SplitView from "./SplitView";
-import Editor from "./Editor";
+
 
 export default function StructuredTextViewer(props) {
     const {
@@ -52,10 +53,6 @@ export default function StructuredTextViewer(props) {
     const [isFileSaving, setFileSaving] = React.useState();
     const [editorInstance, setEditorInstance] = React.useState(null);
     const [editorValue, setEditorValue] = React.useState();
-
-    useEffect(() => {
-        require("codemirror/lib/codemirror.css");
-    }, []);
 
     useEffect(() => {
         setEditorValue(rawData);

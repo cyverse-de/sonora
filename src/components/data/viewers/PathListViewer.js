@@ -172,7 +172,7 @@ function PathListViewer(props) {
                         setHiddenColumns([LINE_NUMBER_ACCESSOR]);
                     }
                 }}
-                editing={editable}
+                editable={editable}
                 onAddRow={() => {
                     setOpen(true);
                 }}

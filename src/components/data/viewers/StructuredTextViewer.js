@@ -167,7 +167,7 @@ export default function StructuredTextViewer(props) {
                 handlePathChange={handlePathChange}
                 onRefresh={onRefresh}
                 fileName={fileName}
-                editing={editable}
+                editable={editable}
                 dirty={dirty}
                 createFileType={createFileType}
                 onNewFileSaved={onNewFileSaved}

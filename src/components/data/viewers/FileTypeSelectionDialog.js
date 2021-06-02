@@ -39,6 +39,7 @@ export default function FileTypeSelectionDialog(props) {
         <DEDialog
             id={baseId}
             open={open}
+            onClose={onClose}
             actions={
                 <>
                     <Button

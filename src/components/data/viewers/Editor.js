@@ -5,8 +5,14 @@
  * @author sriram
  *
  */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
+
+import viewerConstants from "./constants";
+
+import Skeleton from "@material-ui/lab/Skeleton";
+
+
 
 export const CODE_MIRROR_MODES = {
     R: "r",
@@ -31,34 +37,47 @@ export default function Editor(props) {
         editorValue,
     } = props;
 
-    useEffect(() => {
-        require("codemirror/mode/r/r.js");
-        require("codemirror/mode/python/python.js");
-        require("codemirror/mode/gfm/gfm.js");
-        require("codemirror/mode/yaml/yaml.js");
-        require("codemirror/mode/dockerfile/dockerfile.js");
-        require("codemirror/mode/shell/shell.js");
-        require("codemirror/mode/perl/perl.js");
-    }, []);
+    const [ready, setReady] = useState(false);
 
-    return (
-        <CodeMirror
-            editorDidMount={(editor) => {
-                setEditorInstance(editor);
-            }}
-            value={editorValue}
-            options={{
-                mode,
-                lineNumbers: showLineNumbers,
-                readOnly: !editable,
-                lineWrapping: wrapText,
-            }}
-            onBeforeChange={(editor, data, value) => {
-                setEditorValue(value);
-            }}
-            onChange={(editor, value) => {
-                setDirty(editorInstance ? !editorInstance.isClean() : false);
-            }}
-        />
-    );
+    useEffect(() => {
+        if (mode) {
+            require(`codemirror/mode/${mode}/${mode}.js`);
+            setReady(true);
+        } else {
+            setReady(true);
+        }
+    }, [mode]);
+
+    if (ready) {
+        return (
+            <CodeMirror
+                editorDidMount={(editor) => {
+                    setEditorInstance(editor);
+                }}
+                value={editorValue}
+                options={{
+                    mode,
+                    lineNumbers: showLineNumbers,
+                    readOnly: !editable,
+                    lineWrapping: wrapText,
+                }}
+                onBeforeChange={(editor, data, value) => {
+                    setEditorValue(value);
+                }}
+                onChange={(editor, value) => {
+                    setDirty(
+                        editorInstance ? !editorInstance.isClean() : false
+                    );
+                }}
+            />
+        );
+    } else {
+        return (
+            <Skeleton
+                animation="wave"
+                width="100%"
+                height={viewerConstants.DEFAULT_VIEWER_HEIGHT}
+            />
+        );
+    }
 }

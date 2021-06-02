@@ -12,6 +12,7 @@ import { useTranslation } from "i18n";
 import { NavigationParams } from "common/NavigationConstants";
 
 import ids from "./ids";
+import viewerConstants from "./constants";
 
 import { getInfoTypes, INFO_TYPES_QUERY_KEY } from "serviceFacades/filesystem";
 import DetailsDrawer from "components/data/details/Drawer";
@@ -47,6 +48,7 @@ import {
     MenuItem,
     useTheme,
     useMediaQuery,
+    Tooltip,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -57,6 +59,8 @@ import {
     List as MetadataIcon,
     Refresh,
     Save,
+    Visibility as ReadOnlyIcon,
+    Edit as EditableIcon,
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -64,15 +68,15 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     toolbarItems: {
-        [theme.breakpoints.down("xs")]: {
-            margin: theme.spacing(0.5),
-        },
-        [theme.breakpoints.up("sm")]: {
-            margin: theme.spacing(1),
-        },
+        margin: theme.spacing(0.5),
     },
     separator: {
         margin: theme.spacing(0.5),
+    },
+    editIcon: {
+        color: theme.palette.info.main,
+        marginLeft: theme.spacing(0.5),
+        cursor: "pointer",
     },
 }));
 
@@ -91,7 +95,7 @@ function ViewerToolbar(props) {
         onFirstRowHeader,
         onAddRow,
         onDeleteRow,
-        editing,
+        editable,
         onSave,
         selectionCount,
         dirty,
@@ -264,6 +268,26 @@ function ViewerToolbar(props) {
                 >
                     {fileName}
                 </Typography>
+                {editable && (
+                    <Tooltip title={t("editableTooltip")}>
+                        <EditableIcon
+                            fontSize="small"
+                            className={classes.editIcon}
+                        />
+                    </Tooltip>
+                )}
+                {!editable && (
+                    <Tooltip
+                        title={t("readOnlyFileTooltip", {
+                            maxEditSize: viewerConstants.DEFAULT_PAGE_SIZE,
+                        })}
+                    >
+                        <ReadOnlyIcon
+                            fontSize="small"
+                            className={classes.editIcon}
+                        />
+                    </Tooltip>
+                )}
                 <div className={classes.divider} />
                 {!isSmall && (
                     <>
@@ -340,7 +364,7 @@ function ViewerToolbar(props) {
                             </FormGroup>
                         )}
 
-                        {editing && (
+                        {editable && (
                             <>
                                 {isPathListViewer && (
                                     <>
@@ -439,7 +463,7 @@ function ViewerToolbar(props) {
                             </MenuItem>
                         ),
                         isSmall &&
-                            editing && [
+                            editable && [
                                 <MenuItem
                                     key={build(baseId, ids.SAVE_MENU_ITEM)}
                                     id={build(baseId, ids.SAVE_MENU_ITEM)}

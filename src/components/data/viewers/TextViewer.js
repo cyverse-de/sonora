@@ -4,7 +4,7 @@
  * @author sriram
  *
  */
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 import { useMutation, useQuery } from "react-query";
 
@@ -14,6 +14,7 @@ import markdownToHtml from "components/utils/markdownToHtml";
 import viewerConstants from "./constants";
 import SplitView from "./SplitView";
 import Editor from "./Editor";
+import MarkdownPreview from "./MarkdownPreview";
 
 import {
     FILESYSTEM_METADATA_QUERY_KEY,
@@ -24,7 +25,6 @@ import {
 import { build } from "@cyverse-de/ui-lib";
 
 import Skeleton from "@material-ui/lab/Skeleton";
-
 
 export default function TextViewer(props) {
     const {
@@ -57,7 +57,6 @@ export default function TextViewer(props) {
         mode === viewerConstants.GITHUB_FLAVOR_MARKDOWN ||
         detectedMode === viewerConstants.GITHUB_FLAVOR_MARKDOWN;
 
-    
     useEffect(() => {
         if (editorInstance) {
             editorInstance.setSize(
@@ -79,7 +78,7 @@ export default function TextViewer(props) {
         }
     }, [editorValue, isMarkdown, mode]);
 
-    const { isFetching: isFetchingMetadata, error: metadataError } = useQuery({
+    const { isFetching: isFetchingMetadata } = useQuery({
         queryKey: [FILESYSTEM_METADATA_QUERY_KEY, { dataId: resourceId }],
         queryFn: getFilesystemMetadata,
         config: {
@@ -93,15 +92,17 @@ export default function TextViewer(props) {
                     setDetectedMode(fileTypeAvu[0].value);
                 }
             },
+            onError: (error) =>
+                console.log("Unable to fetch metadata for viewer. " + error), // fail silently.
         },
     });
 
     const [setDiskResourceMetadata] = useMutation(setFilesystemMetadata, {
         onSuccess: (resp) => {
-            console.log(resp);
+            console.log(resp); // background optional call. No need to notify user.
         },
         onError: (error) => {
-            console.log(error);
+            console.log(error); // fail silently.
         },
     });
 
@@ -110,17 +111,6 @@ export default function TextViewer(props) {
     };
 
     const busy = loading || isFileSaving || isFetchingMetadata;
-
-    const Preview = useCallback(
-        () => (
-            <div
-                dangerouslySetInnerHTML={{
-                    __html: markDownPreview,
-                }}
-            ></div>
-        ),
-        [markDownPreview]
-    );
 
     return (
         <>
@@ -136,7 +126,7 @@ export default function TextViewer(props) {
                 handlePathChange={handlePathChange}
                 onRefresh={onRefresh}
                 fileName={fileName}
-                editing={editable}
+                editable={editable}
                 dirty={dirty}
                 createFileType={createFileType}
                 onNewFileSaved={onNewFileSaved}
@@ -186,7 +176,7 @@ export default function TextViewer(props) {
                             editorValue={editorValue}
                         />
                     }
-                    rightPanel={Preview()}
+                    rightPanel={<MarkdownPreview html={markDownPreview} />}
                     leftPanelTitle={t("editor")}
                     rightPanelTitle={t("preview")}
                 />

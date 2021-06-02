@@ -8,12 +8,11 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 import { queryCache } from "react-query";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 import {
-    useDataSearch,
-    useAppsSearch,
     useAnalysesSearch,
+    useAppsSearch,
+    useDataSearch,
     useTeamsSearch,
 } from "./searchQueries";
 import ResourceTypes from "../models/ResourceTypes";
@@ -44,20 +43,20 @@ import { build, Highlighter } from "@cyverse-de/ui-lib";
 import SearchIcon from "@material-ui/icons/Search";
 import {
     CircularProgress,
+    Link as MuiLink,
     MenuItem,
     TextField,
+    Typography,
     useMediaQuery,
     useTheme,
-    Typography,
-    Link as MuiLink,
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-    Description as DescriptionIcon,
-    Pageview as PageviewIcon,
-    Folder as FolderIcon,
     Apps as AppsIcon,
+    Description as DescriptionIcon,
+    Folder as FolderIcon,
+    Pageview as PageviewIcon,
 } from "@material-ui/icons";
 import { TeamIcon } from "../teams/Icons";
 import { useUserProfile } from "../../contexts/userProfile";
@@ -145,15 +144,35 @@ const getViewAllPrompt = (id, searchTerm, i18NSearch) => {
 };
 
 const SearchOption = React.forwardRef((props, ref) => {
-    const { id, primary, secondary, icon, searchTerm, onClick, href } = props;
+    const {
+        id,
+        primary,
+        secondary,
+        icon,
+        searchTerm,
+        onOptionSelected,
+        href,
+        as,
+    } = props;
     const classes = useStyles();
     const theme = useTheme();
+
+    const LinkType = onOptionSelected ? MuiLink : Link;
+
     return (
         <>
             <span className={classes.optionIcon}>{icon}</span>
-            <MuiLink
+            <LinkType
                 href={href}
-                onClick={onClick}
+                as={as}
+                onClick={(event) => {
+                    if (onOptionSelected) {
+                        event.preventDefault();
+                        onOptionSelected();
+                        return false;
+                    }
+                    // else, do default link behavior
+                }}
                 ref={ref}
                 id={id}
                 underline="none"
@@ -168,7 +187,6 @@ const SearchOption = React.forwardRef((props, ref) => {
                     </Typography>
                     <Typography
                         variant={"caption"}
-                        wrap={true}
                         color={theme.palette.info.primary}
                     >
                         <Highlighter search={searchTerm}>
@@ -176,60 +194,45 @@ const SearchOption = React.forwardRef((props, ref) => {
                         </Highlighter>
                     </Typography>
                 </div>
-            </MuiLink>
+            </LinkType>
         </>
     );
 });
 
 function ViewAllOption(props) {
-    const { id, searchTerm, filter, prompt, selectedTab } = props;
-    const href = `/${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
-    const as = `/${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selectedTab}`;
+    const {
+        id,
+        searchTerm,
+        filter,
+        prompt,
+        selectedTab,
+        onShowDetailedSearch,
+    } = props;
     return (
-        <Link href={href} as={as} passHref>
-            <SearchOption
-                primary={searchTerm}
-                searchTerm={searchTerm}
-                secondary={prompt}
-                icon={<PageviewIcon color="primary" />}
-                id={id}
-            />
-        </Link>
+        <SearchOption
+            primary={searchTerm}
+            searchTerm={searchTerm}
+            secondary={prompt}
+            icon={<PageviewIcon color="primary" />}
+            id={id}
+            onOptionSelected={() =>
+                onShowDetailedSearch({
+                    searchTerm,
+                    filter,
+                    selectedTab,
+                })
+            }
+        />
     );
 }
 
 function DataSearchOption(props) {
-    const { baseId, filter, selectedOption, searchTerm } = props;
-    const { t: i18NSearch } = useTranslation("search");
+    const { baseId, selectedOption, searchTerm } = props;
     const type = selectedOption._type;
     const path = selectedOption._source?.path;
     const resourceId = selectedOption._source?.id;
     const name = selectedOption.name;
     const [href, as] = useDataNavigationLink(path, resourceId, type);
-
-    const id = selectedOption?.id;
-
-    if (
-        id === searchConstants.VIEW_ALL_ANALYSES_ID ||
-        id === searchConstants.VIEW_ALL_APPS_ID ||
-        id === searchConstants.VIEW_ALL_DATA_ID ||
-        id === searchConstants.VIEW_ALL_TEAMS_ID
-    ) {
-        const [prompt, selectedTab] = getViewAllPrompt(
-            id,
-            searchTerm,
-            i18NSearch
-        );
-        return (
-            <ViewAllOption
-                searchTerm={searchTerm}
-                filter={filter}
-                prompt={prompt}
-                selectedTab={selectedTab}
-                id={build(baseId, ids.VIEW_ALL)}
-            />
-        );
-    }
 
     let icon = <FolderIcon />;
     if (type === ResourceTypes.FILE) {
@@ -237,157 +240,91 @@ function DataSearchOption(props) {
     }
 
     return (
-        <Link href={href} as={as} passHref>
-            <SearchOption
-                primary={name}
-                secondary={path}
-                icon={icon}
-                searchTerm={searchTerm}
-                id={build(baseId, resourceId)}
-            />
-        </Link>
+        <SearchOption
+            href={href}
+            as={as}
+            primary={name}
+            secondary={path}
+            icon={icon}
+            searchTerm={searchTerm}
+            id={build(baseId, resourceId)}
+        />
     );
 }
 
 function AppsSearchOption(props) {
-    const { t: i18NSearch } = useTranslation("search");
-    const { baseId, filter, selectedOption, searchTerm } = props;
+    const { baseId, selectedOption, onOptionSelected, searchTerm } = props;
     const [href, as] = useAppLaunchLink(
         selectedOption?.system_id,
         selectedOption?.id
     );
 
-    const id = selectedOption?.id;
-
-    if (
-        id === searchConstants.VIEW_ALL_ANALYSES_ID ||
-        id === searchConstants.VIEW_ALL_APPS_ID ||
-        id === searchConstants.VIEW_ALL_DATA_ID ||
-        id === searchConstants.VIEW_ALL_TEAMS_ID
-    ) {
-        const [prompt, selectedTab] = getViewAllPrompt(
-            id,
-            searchTerm,
-            i18NSearch
-        );
-        return (
-            <ViewAllOption
-                searchTerm={searchTerm}
-                filter={filter}
-                prompt={prompt}
-                selectedTab={selectedTab}
-                id={build(baseId, ids.VIEW_ALL)}
-            />
-        );
-    }
-
     return (
-        <Link href={href} as={as} passHref>
-            <SearchOption
-                primary={selectedOption.name}
-                secondary={selectedOption.description}
-                icon={<AppsIcon />}
-                searchTerm={searchTerm}
-                id={build(baseId, selectedOption.id)}
-            />
-        </Link>
+        <SearchOption
+            href={href}
+            as={as}
+            primary={selectedOption.name}
+            secondary={selectedOption.description}
+            icon={<AppsIcon />}
+            searchTerm={searchTerm}
+            id={build(baseId, selectedOption.id)}
+            onOptionSelected={onOptionSelected}
+        />
     );
 }
 
 function AnalysesSearchOption(props) {
-    const { t: i18NSearch } = useTranslation("search");
-    const { baseId, filter, selectedOption, searchTerm } = props;
-    const id = selectedOption?.id;
-
-    if (
-        id === searchConstants.VIEW_ALL_ANALYSES_ID ||
-        id === searchConstants.VIEW_ALL_APPS_ID ||
-        id === searchConstants.VIEW_ALL_DATA_ID ||
-        id === searchConstants.VIEW_ALL_TEAMS_ID
-    ) {
-        const [prompt, selectedTab] = getViewAllPrompt(
-            id,
-            searchTerm,
-            i18NSearch
-        );
-        return (
-            <ViewAllOption
-                searchTerm={searchTerm}
-                filter={filter}
-                prompt={prompt}
-                selectedTab={selectedTab}
-                id={build(baseId, ids.VIEW_ALL)}
-            />
-        );
-    }
+    const { baseId, selectedOption, searchTerm } = props;
 
     const href = `/${NavigationConstants.ANALYSES}/[analysisId]`;
     const as = `/${NavigationConstants.ANALYSES}/${selectedOption?.id}`;
     return (
-        <Link href={href} as={as} passHref>
-            <SearchOption
-                primary={selectedOption.name}
-                secondary={selectedOption.status}
-                icon={<AnalysesIcon />}
-                searchTerm={searchTerm}
-                id={build(baseId, selectedOption.id)}
-            />
-        </Link>
+        <SearchOption
+            href={href}
+            as={as}
+            primary={selectedOption.name}
+            secondary={selectedOption.status}
+            icon={<AnalysesIcon />}
+            searchTerm={searchTerm}
+            id={build(baseId, selectedOption.id)}
+        />
     );
 }
 
 function TeamSearchOption(props) {
     const theme = useTheme();
-    const { t: i18NSearch } = useTranslation("search");
-    const { baseId, filter, selectedOption, searchTerm } = props;
-
-    const id = selectedOption?.id;
-
-    if (
-        id === searchConstants.VIEW_ALL_ANALYSES_ID ||
-        id === searchConstants.VIEW_ALL_APPS_ID ||
-        id === searchConstants.VIEW_ALL_DATA_ID ||
-        id === searchConstants.VIEW_ALL_TEAMS_ID
-    ) {
-        const [prompt, selectedTab] = getViewAllPrompt(
-            id,
-            searchTerm,
-            i18NSearch
-        );
-        return (
-            <ViewAllOption
-                searchTerm={searchTerm}
-                filter={filter}
-                prompt={prompt}
-                selectedTab={selectedTab}
-                id={build(baseId, ids.VIEW_ALL)}
-            />
-        );
-    }
+    const { baseId, selectedOption, searchTerm } = props;
 
     const [href, as] = getTeamLinkRefs(selectedOption.name);
     return (
-        <Link href={href} as={as} passHref>
-            <SearchOption
-                primary={selectedOption.display_extension}
-                secondary={selectedOption.description}
-                icon={<TeamIcon style={{ color: theme.palette.info.main }} />}
-                searchTerm={searchTerm}
-                id={build(baseId, selectedOption.id)}
-            />
-        </Link>
+        <SearchOption
+            href={href}
+            as={as}
+            primary={selectedOption.display_extension}
+            secondary={selectedOption.description}
+            icon={<TeamIcon style={{ color: theme.palette.info.main }} />}
+            searchTerm={searchTerm}
+            id={build(baseId, selectedOption.id)}
+        />
     );
 }
 
 function GlobalSearchField(props) {
     const classes = useStyles();
-    const router = useRouter();
     const [userProfile] = useUserProfile();
-    const { search, selectedFilter, showErrorAnnouncer } = props;
+    const {
+        search,
+        selectedFilter,
+        showErrorAnnouncer,
+        singleSearchOption = false,
+        onShowDetailedSearch,
+        onOptionSelected,
+    } = props;
 
     const { t } = useTranslation("common");
     const { t: appsI18n } = useTranslation("apps");
     const { t: analysesI18n } = useTranslation("analyses");
+    const { t: i18NSearch } = useTranslation("search");
     const appRecordFields = appFields(appsI18n);
 
     const [searchTerm, setSearchTerm] = useState(search);
@@ -468,7 +405,10 @@ function GlobalSearchField(props) {
                     };
                 });
 
-                if (filter === searchConstants.ANALYSES) {
+                if (
+                    filter === searchConstants.ANALYSES &&
+                    !singleSearchOption
+                ) {
                     setOptions([
                         ...options,
                         ...analyses,
@@ -500,7 +440,7 @@ function GlobalSearchField(props) {
                         id: searchConstants.APPS,
                     };
                 });
-                if (filter === searchConstants.APPS) {
+                if (filter === searchConstants.APPS && !singleSearchOption) {
                     setOptions([
                         ...options,
                         ...apps,
@@ -529,7 +469,7 @@ function GlobalSearchField(props) {
                         id: searchConstants.DATA,
                     };
                 });
-                if (filter === searchConstants.DATA) {
+                if (filter === searchConstants.DATA && !singleSearchOption) {
                     setOptions([
                         ...options,
                         ...data,
@@ -559,7 +499,7 @@ function GlobalSearchField(props) {
                     id: searchConstants.TEAMS,
                 };
             });
-            if (filter === searchConstants.TEAMS) {
+            if (filter === searchConstants.TEAMS && !singleSearchOption) {
                 setOptions([
                     ...options,
                     ...teams,
@@ -723,13 +663,41 @@ function GlobalSearchField(props) {
         searchingAnalyses || searchingApps || searchingData || searchingTeams;
 
     const renderCustomOption = (option) => {
-        switch (option?.resultType?.id) {
+        const id = option?.id;
+        const resultType = option?.resultType?.id;
+
+        if (
+            id === searchConstants.VIEW_ALL_ANALYSES_ID ||
+            id === searchConstants.VIEW_ALL_APPS_ID ||
+            id === searchConstants.VIEW_ALL_DATA_ID ||
+            id === searchConstants.VIEW_ALL_TEAMS_ID
+        ) {
+            const [prompt, selectedTab] = getViewAllPrompt(
+                id,
+                searchTerm,
+                i18NSearch
+            );
+            return (
+                <ViewAllOption
+                    searchTerm={searchTerm}
+                    filter={filter}
+                    prompt={prompt}
+                    selectedTab={selectedTab}
+                    onShowDetailedSearch={onShowDetailedSearch}
+                    id={build(
+                        ids.SEARCH,
+                        ids[`${resultType?.toUpperCase()}_SEARCH_OPTION`],
+                        ids.VIEW_ALL
+                    )}
+                />
+            );
+        }
+        switch (resultType) {
             case searchConstants.DATA:
                 return (
                     <DataSearchOption
                         selectedOption={option}
                         searchTerm={searchTerm}
-                        filter={filter}
                         baseId={build(ids.SEARCH, ids.DATA_SEARCH_OPTION)}
                     />
                 );
@@ -738,7 +706,11 @@ function GlobalSearchField(props) {
                     <AppsSearchOption
                         selectedOption={option}
                         searchTerm={searchTerm}
-                        filter={filter}
+                        onOptionSelected={
+                            onOptionSelected
+                                ? () => onOptionSelected(option)
+                                : false
+                        }
                         baseId={build(ids.SEARCH, ids.APPS_SEARCH_OPTION)}
                     />
                 );
@@ -747,7 +719,6 @@ function GlobalSearchField(props) {
                     <AnalysesSearchOption
                         selectedOption={option}
                         searchTerm={searchTerm}
-                        filter={filter}
                         baseId={build(ids.SEARCH, ids.ANALYSES_SEARCH_OPTION)}
                     />
                 );
@@ -756,8 +727,7 @@ function GlobalSearchField(props) {
                     <TeamSearchOption
                         selectedOption={option}
                         searchTerm={searchTerm}
-                        filter={filter}
-                        baseId={build(ids.SEARCH, ids.TEAM_SEARCH_OPTION)}
+                        baseId={build(ids.SEARCH, ids.TEAMS_SEARCH_OPTION)}
                     />
                 );
             default:
@@ -787,16 +757,13 @@ function GlobalSearchField(props) {
             onKeyDown={(e) => {
                 if (e.key === "Enter") {
                     setOpen(false);
-                    router.push({
-                        pathname: `/${NavigationConstants.SEARCH}`,
-                        query: {
-                            searchTerm,
-                            filter,
-                            selectedTab:
-                                filter && filter !== searchConstants.ALL
-                                    ? filter.toUpperCase()
-                                    : SEARCH_RESULTS_TABS.data,
-                        },
+                    onShowDetailedSearch({
+                        searchTerm,
+                        filter,
+                        selectedTab:
+                            filter && filter !== searchConstants.ALL
+                                ? filter.toUpperCase()
+                                : SEARCH_RESULTS_TABS.data,
                     });
                 }
             }}
@@ -804,6 +771,14 @@ function GlobalSearchField(props) {
     );
 
     const searchFilterId = build(ids.SEARCH, ids.SEARCH_FILTER_MENU);
+    const filterOptions = singleSearchOption
+        ? [selectedFilter]
+        : [
+              searchConstants.ALL,
+              searchConstants.DATA,
+              searchConstants.APPS,
+              searchConstants.ANALYSES,
+          ];
 
     return (
         <>
@@ -853,30 +828,15 @@ function GlobalSearchField(props) {
                     disableUnderline: true,
                 }}
             >
-                <MenuItem
-                    id={build(searchFilterId, ids.SEARCH_FILTER_MI.ALL)}
-                    value={searchConstants.ALL}
-                >
-                    {t("all")}
-                </MenuItem>
-                <MenuItem
-                    id={build(searchFilterId, ids.SEARCH_FILTER_MI.DATA)}
-                    value={searchConstants.DATA}
-                >
-                    {t("data")}
-                </MenuItem>
-                <MenuItem
-                    id={build(searchFilterId, ids.SEARCH_FILTER_MI.APPS)}
-                    value={searchConstants.APPS}
-                >
-                    {t("apps")}
-                </MenuItem>
-                <MenuItem
-                    id={build(searchFilterId, ids.SEARCH_FILTER_MI.ANALYSES)}
-                    value={searchConstants.ANALYSES}
-                >
-                    {t("analyses")}
-                </MenuItem>
+                {filterOptions.map((option) => (
+                    <MenuItem
+                        id={build(searchFilterId, ids.SEARCH_FILTER_MI[option])}
+                        value={option}
+                        key={option}
+                    >
+                        {t(option.toLowerCase())}
+                    </MenuItem>
+                ))}
             </TextField>
         </>
     );

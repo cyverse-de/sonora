@@ -10,11 +10,21 @@ export default function Search() {
     const router = useRouter();
     const { searchTerm, filter, selectedTab } = router?.query;
     let tab = selectedTab || SEARCH_RESULTS_TABS.data;
+    const onShowDetailedSearch = (query) => {
+        router.push({
+            pathname: `/${NavigationConstants.SEARCH}`,
+            query,
+        });
+    };
 
     return (
         <>
             <Hidden only={["sm", "md", "lg", "xl"]}>
-                <GlobalSearchField search={searchTerm} filter={filter} />
+                <GlobalSearchField
+                    search={searchTerm}
+                    selectedFilter={filter}
+                    onShowDetailedSearch={onShowDetailedSearch}
+                />
             </Hidden>
             <DetailedSearchResults
                 baseId="search"

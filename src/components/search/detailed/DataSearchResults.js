@@ -309,7 +309,7 @@ function DataSearchResults(props) {
                     },
                 ]}
                 onSort={(colId, descending) => {
-                    setSortField(colId.split(".")[1]);
+                    setSortField(colId?.split(".")[1]);
                     descending
                         ? setSortOrder("descending")
                         : setSortOrder("ascending");

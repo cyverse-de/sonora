@@ -47,10 +47,17 @@ function Name(props) {
 }
 
 export default function AppSearchResults(props) {
-    const { searchTerm, updateResultCount, baseId } = props;
+    const {
+        searchTerm,
+        updateResultCount,
+        baseId,
+        setSelectedApps,
+        selectable,
+    } = props;
     const [appsSearchKey, setAppsSearchKey] = useState(APPS_SEARCH_QUERY_KEY);
     const [appsSearchQueryEnabled, setAppsSearchQueryEnabled] = useState(false);
     const [detailsApp, setDetailsApp] = useState(null);
+    const [flatData, setFlatData] = useState([]);
     const { t } = useTranslation("search");
     const { t: appsI18n } = useTranslation("apps");
     const appRecordFields = appFields(appsI18n);
@@ -101,7 +108,9 @@ export default function AppSearchResults(props) {
             total: data?.length ? data[0].total : 0,
         });
         if (data && data.length > 0) {
-            updateResultCount(data[0].total);
+            updateResultCount && updateResultCount(data[0].total);
+            const flat = data.map((page) => page.apps).flat();
+            setFlatData(flat);
         }
     }, [data, searchTerm, updateResultCount]);
 
@@ -195,16 +204,11 @@ export default function AppSearchResults(props) {
         return <Typography>{t("noResults")}</Typography>;
     }
 
-    let flatData = [];
-    if (data && data.length > 0) {
-        data.forEach((page) => {
-            flatData = [...flatData, ...page.apps];
-        });
-    }
-
     return (
         <>
             <SearchResultsTable
+                selectable={selectable}
+                setSelectedResources={setSelectedApps}
                 columns={columns}
                 data={flatData}
                 baseId={baseId}

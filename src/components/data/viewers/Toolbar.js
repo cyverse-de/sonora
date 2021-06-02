@@ -255,7 +255,7 @@ function ViewerToolbar(props) {
     return (
         <>
             <Toolbar variant="dense" id={baseId}>
-                <BackButton />
+                <BackButton dirty={dirty} />
                 <Divider
                     orientation="vertical"
                     flexItem

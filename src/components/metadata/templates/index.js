@@ -542,8 +542,8 @@ const MetadataTemplateForm = (props) => {
             <ConfirmationDialog
                 open={showConfirmationDialog}
                 baseId={ids.METADATA_TEMPLATE_VIEW}
-                title={t("confirmDiscardChangesDialogHeader")}
-                contentText={t("confirmDiscardChangesDialogMsg")}
+                title={t("common:confirmDiscardChangesDialogHeader")}
+                contentText={t("common:confirmDiscardChangesDialogMsg")}
                 confirmButtonText={t("common:discard")}
                 onConfirm={confirmCloseMetadataTemplateDialog}
                 onClose={closeConfirmationDialog}

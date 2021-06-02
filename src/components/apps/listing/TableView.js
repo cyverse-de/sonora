@@ -31,6 +31,7 @@ import DETableHead from "components/table/DETableHead";
 import TableLoading from "components/table/TableLoading";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 import { DERow } from "components/table/DERow";
+import DeleteButton from "components/utils/DeleteButton";
 import appFields from "../appFields";
 
 function getTableColumns(enableDelete, enableMenu, t) {
@@ -111,6 +112,7 @@ function TableView(props) {
         setSharingDlgOpen,
         onDocSelected,
         onQLSelected,
+        onDeleteSelected,
         enableMenu = true,
         enableSorting = true,
         enableSelection = true,
@@ -290,6 +292,26 @@ function TableView(props) {
                                             >
                                                 {app.system_id}
                                             </TableCell>
+                                            {enableDelete && (
+                                                <TableCell
+                                                    align="right"
+                                                    padding="none"
+                                                >
+                                                    <DeleteButton
+                                                        baseId={buildID(
+                                                            tableId,
+                                                            appName
+                                                        )}
+                                                        component="IconButton"
+                                                        onClick={() => {
+                                                            onDeleteSelected &&
+                                                            onDeleteSelected(
+                                                                app
+                                                            );
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                            )}
                                             {enableMenu && (
                                                 <TableCell align="right">
                                                     <RowDotMenu

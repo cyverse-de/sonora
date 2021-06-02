@@ -10,6 +10,8 @@ export default {
     TSV: "TSV",
     R: "R",
     PYTHON: "Python",
+    PERL: "Perl",
+    SHELL: "Shell",
     MARKDOWN: "Markdown",
     YAML: "YAML",
     DOCKERFILE: "Dockerfile",

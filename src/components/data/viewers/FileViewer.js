@@ -36,6 +36,7 @@ import ImageViewer from "./ImageViewer";
 import PathListViewer from "./PathListViewer";
 import { refreshViewer, useFileManifest, useReadChunk } from "./queries";
 import StructuredTextViewer from "./StructuredTextViewer";
+import { CODE_MIRROR_MODES } from "./Editor";
 import { flattenStructureData } from "./utils";
 import { parseNameFromPath, isWritable } from "../utils";
 
@@ -152,37 +153,29 @@ export default function FileViewer(props) {
     };
 
     useEffect(() => {
-        const mimeType = getMimeTypeFromString(manifest["content-type"]);
-        if (createFileType || mimeType) {
-            switch (createFileType || mimeType) {
-                case mimeTypes.X_RSRC:
-                    setMode("r");
+        if (createFileType) {
+            switch (createFileType) {
+                case CODE_MIRROR_MODES.R:
+                case CODE_MIRROR_MODES.YAML:
+                case CODE_MIRROR_MODES.DOCKERFILE:
+                case CODE_MIRROR_MODES.PYTHON:
+                case CODE_MIRROR_MODES.GITHUB_FLAVORED_MARKDOWN:
+                case CODE_MIRROR_MODES.PERL:
+                case CODE_MIRROR_MODES.SHELL:
+                    setMode(createFileType);
                     setViewerType(VIEWER_TYPE.PLAIN);
                     break;
-                case mimeTypes.X_PYTHON:
-                    setMode("python");
-                    setViewerType(VIEWER_TYPE.PLAIN);
-                    break;
+
                 case infoTypes.HT_ANALYSIS_PATH_LIST:
                 case infoTypes.MULTI_INPUT_PATH_LIST:
                     setViewerType(VIEWER_TYPE.PATH_LIST);
                     break;
-                case viewerConstants.GITHUB_FLAVOR_MARKDOWN:
-                    setMode(viewerConstants.GITHUB_FLAVOR_MARKDOWN);
-                    setViewerType(VIEWER_TYPE.PLAIN);
-                    break;
-                case mimeTypes.X_YAML: 
-                     setMode("yaml");   
-                     setViewerType(VIEWER_TYPE.PLAIN);
-                     break; 
-                case viewerConstants.DOCKERFILE:
-                    setMode("dockerfile");   
-                    setViewerType(VIEWER_TYPE.PLAIN);
-                    break; 
+
                 case infoTypes.CSV:
                 case infoTypes.TSV:
                     setViewerType(VIEWER_TYPE.STRUCTURED);
                     break;
+
                 default:
                     setViewerType(VIEWER_TYPE.PLAIN);
             }

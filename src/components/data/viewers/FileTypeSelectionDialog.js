@@ -18,7 +18,8 @@ import {
     FormControl,
     MenuItem,
 } from "@material-ui/core";
-import { mimeTypes } from "components/models/MimeTypes";
+
+import { CODE_MIRROR_MODES } from "./Editor";
 
 export default function FileTypeSelectionDialog(props) {
     const { open, onFileTypeSelected, onClose } = props;
@@ -73,22 +74,27 @@ export default function FileTypeSelectionDialog(props) {
                     <MenuItem value={InfoTypes.TSV}>
                         {ViewerConstants.TSV}
                     </MenuItem>
-                    <MenuItem value={mimeTypes.X_RSRC}>
-                        {ViewerConstants.R}
+                    <MenuItem value={CODE_MIRROR_MODES.PERL}>
+                        {ViewerConstants.PERL}
                     </MenuItem>
-                    <MenuItem value={mimeTypes.X_PYTHON}>
+                    <MenuItem value={CODE_MIRROR_MODES.PYTHON}>
                         {ViewerConstants.PYTHON}
                     </MenuItem>
-                    <MenuItem value={ViewerConstants.GITHUB_FLAVOR_MARKDOWN}>
+                    <MenuItem value={CODE_MIRROR_MODES.R}>
+                        {ViewerConstants.R}
+                    </MenuItem>
+                    <MenuItem value={CODE_MIRROR_MODES.SHELL}>
+                        {ViewerConstants.SHELL}
+                    </MenuItem>
+                    <MenuItem
+                        value={CODE_MIRROR_MODES.GITHUB_FLAVORED_MARKDOWN}
+                    >
                         {ViewerConstants.MARKDOWN}
                     </MenuItem>
-                    <MenuItem value={ViewerConstants.GITHUB_FLAVOR_MARKDOWN}>
-                        {ViewerConstants.MARKDOWN}
-                    </MenuItem>
-                    <MenuItem value={ViewerConstants.DOCKERFILE}>
+                    <MenuItem value={CODE_MIRROR_MODES.DOCKERFILE}>
                         {ViewerConstants.DOCKERFILE}
                     </MenuItem>
-                    <MenuItem value={mimeTypes.X_YAML}>
+                    <MenuItem value={CODE_MIRROR_MODES.YAML}>
                         {ViewerConstants.YAML}
                     </MenuItem>
                     <MenuItem value={InfoTypes.HT_ANALYSIS_PATH_LIST}>

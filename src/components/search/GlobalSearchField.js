@@ -157,12 +157,10 @@ const SearchOption = React.forwardRef((props, ref) => {
     const classes = useStyles();
     const theme = useTheme();
 
-    const LinkType = onOptionSelected ? MuiLink : Link;
-
-    return (
+    const OptionLink = () => (
         <>
             <span className={classes.optionIcon}>{icon}</span>
-            <LinkType
+            <MuiLink
                 href={href}
                 as={as}
                 onClick={(event) => {
@@ -194,8 +192,16 @@ const SearchOption = React.forwardRef((props, ref) => {
                         </Highlighter>
                     </Typography>
                 </div>
-            </LinkType>
+            </MuiLink>
         </>
+    );
+
+    return onOptionSelected ? (
+        <OptionLink />
+    ) : (
+        <Link href={href} as={as} passHref>
+            <OptionLink />
+        </Link>
     );
 });
 

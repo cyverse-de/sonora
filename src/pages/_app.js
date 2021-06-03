@@ -118,11 +118,6 @@ function MyApp({ Component, pageProps }) {
         queries: { refetchOnWindowFocus: false, retry: false },
     };
 
-    //not sure why but codemirror wants the css loaded here unlike the modes
-    useEffect(() => {
-        require("codemirror/lib/codemirror.css");
-    }, []);
-
     useEffect(() => {
         const analytics_id = publicRuntimeConfig.ANALYTICS_ID;
         const handleRouteChange = (url) => {

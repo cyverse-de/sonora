@@ -78,6 +78,9 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(0.5),
         cursor: "pointer",
     },
+    toolbar: {
+        padding: theme.spacing(0.5),
+    },
 }));
 
 function ViewerToolbar(props) {
@@ -254,7 +257,7 @@ function ViewerToolbar(props) {
 
     return (
         <>
-            <Toolbar variant="dense" id={baseId}>
+            <Toolbar variant="dense" id={baseId} className={classes.toolbar}>
                 <BackButton dirty={dirty} />
                 <Divider
                     orientation="vertical"

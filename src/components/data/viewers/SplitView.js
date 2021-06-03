@@ -9,7 +9,7 @@ import { useTranslation } from "i18n";
 
 import ids from "./ids";
 
-import { Typography, makeStyles } from "@material-ui/core";
+import { Grid, Typography, makeStyles } from "@material-ui/core";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import FirstPageIcon from "@material-ui/icons/FirstPage";
@@ -18,16 +18,9 @@ import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
 
 const useStyles = makeStyles((theme) => ({
     panelHeader: {
-        marginLeft: theme.spacing(1),
         color: theme.palette.info.main,
-    },
-    panelLeft: {
-        float: "left",
-        width: "50%",
-    },
-    panelRight: {
-        float: "right",
-        width: "50%",
+        padding: 0,
+        margin: 0,
     },
 }));
 
@@ -40,6 +33,8 @@ export default function SplitView(props) {
     const { t } = useTranslation("data");
     const classes = useStyles();
     const [hidden, setHidden] = React.useState(NONE);
+    const [leftWidth, setLeftWidth] = React.useState(5);
+    const [rightWidth, setRightWidth] = React.useState(5);
     const handleHidden = (event, hiddenPanel) => {
         setHidden(hiddenPanel);
         let leftP = document.getElementById(ids.LEFT_PANEL);
@@ -48,77 +43,90 @@ export default function SplitView(props) {
         switch (hiddenPanel) {
             case LEFT_PANEL:
                 leftP.style.display = "none";
-                rightP.style.width = "100%";
                 rightP.style.display = "block";
+                setLeftWidth(0);
+                setRightWidth(11);
                 break;
             case RIGHT_PANEL:
                 leftP.style.display = "block";
-                leftP.style.width = "100%";
                 rightP.style.display = "none";
+                setLeftWidth(11);
+                setRightWidth(0);
                 break;
             default:
                 leftP.style.display = "block";
                 rightP.style.display = "block";
-                rightP.style.width = "50%";
-                leftP.style.width = "50%";
+                setLeftWidth(5);
+                setRightWidth(5);
         }
     };
     return (
-        <>
-            <ToggleButtonGroup
-                value={hidden}
-                exclusive
-                onChange={handleHidden}
-                aria-label="panelVisibility"
-                size="small"
-                style={{ margin: "auto" }}
-            >
-                <ToggleButton
-                    value={LEFT_PANEL}
-                    aria-label={t("hideLeftPanel")}
-                    title={t("hideLeftPanel")}
-                >
-                    <FirstPageIcon fontSize="small" />
-                </ToggleButton>
-                <ToggleButton
-                    value={NONE}
-                    aria-label={t("showSplitView")}
-                    title={t("showSplitView")}
-                >
-                    <CompareArrowsIcon fontSize="small" />
-                </ToggleButton>
-                <ToggleButton
-                    value={RIGHT_PANEL}
-                    aria-label={t("hideRightPanel")}
-                    title={t("hideRightPanel")}
-                >
-                    <LastPageIcon fontSize="small" />
-                </ToggleButton>
-            </ToggleButtonGroup>
-            <div style={{ width: "100%" }}>
-                <div id={ids.LEFT_PANEL} className={classes.panelLeft}>
-                    <>
-                        <Typography
-                            className={classes.panelHeader}
-                            variant="subtitle2"
-                        >
-                            {leftPanelTitle}
-                        </Typography>
-                        {leftPanel}
-                    </>
+        <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="stretch"
+            style={{ flexGrow: 1 }}
+            spacing={0}
+        >
+            <Grid item xs={leftWidth}>
+                <div id={ids.LEFT_PANEL}>
+                    <Typography
+                        className={classes.panelHeader}
+                        variant="subtitle2"
+                    >
+                        {leftPanelTitle}
+                    </Typography>
+                    {leftPanel}
                 </div>
-                <div id={ids.RIGHT_PANEL} className={classes.panelRight}>
-                    <>
-                        <Typography
-                            className={classes.panelHeader}
-                            variant="subtitle2"
-                        >
-                            {rightPanelTitle}
-                        </Typography>
-                        {rightPanel}
-                    </>
+            </Grid>
+            <Grid item>
+                <ToggleButtonGroup
+                    value={hidden}
+                    exclusive
+                    onChange={handleHidden}
+                    aria-label="panelVisibility"
+                    size="small"
+                    orientation="vertical"
+                    style={{
+                        position: "relative",
+                        top: "35vh",
+                    }}
+                >
+                    <ToggleButton
+                        value={LEFT_PANEL}
+                        aria-label={t("hideLeftPanel")}
+                        title={t("hideLeftPanel")}
+                    >
+                        <FirstPageIcon fontSize="small" />
+                    </ToggleButton>
+                    <ToggleButton
+                        value={NONE}
+                        aria-label={t("showSplitView")}
+                        title={t("showSplitView")}
+                    >
+                        <CompareArrowsIcon fontSize="small" />
+                    </ToggleButton>
+                    <ToggleButton
+                        value={RIGHT_PANEL}
+                        aria-label={t("hideRightPanel")}
+                        title={t("hideRightPanel")}
+                    >
+                        <LastPageIcon fontSize="small" />
+                    </ToggleButton>
+                </ToggleButtonGroup>
+            </Grid>
+            <Grid xs={rightWidth}>
+                <div id={ids.RIGHT_PANEL}>
+                    <Typography
+                        className={classes.panelHeader}
+                        variant="subtitle2"
+                    >
+                        {rightPanelTitle}
+                    </Typography>
+                    {rightPanel}
                 </div>
-            </div>
-        </>
+            </Grid>
+        </Grid>
     );
 }

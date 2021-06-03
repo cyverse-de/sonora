@@ -6,14 +6,19 @@
  *
  */
 import React from "react";
-
+import viewerConstants from "./constants";
+import { Paper } from "@material-ui/core";
 export default function MarkdownPreview(props) {
     const { html } = props;
     return (
-        <div
+        <Paper
+            style={{
+                background: "#fff",
+                height: viewerConstants.DEFAULT_VIEWER_HEIGHT,
+            }}
             dangerouslySetInnerHTML={{
                 __html: html,
             }}
-        ></div>
+        ></Paper>
     );
 }

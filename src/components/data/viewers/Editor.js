@@ -41,6 +41,7 @@ export default function Editor(props) {
 
     useEffect(() => {
         if (mode) {
+            require("codemirror/lib/codemirror.css");
             require(`codemirror/mode/${mode}/${mode}.js`);
             setReady(true);
         } else {

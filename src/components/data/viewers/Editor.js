@@ -43,10 +43,9 @@ export default function Editor(props) {
         if (mode) {
             require("codemirror/lib/codemirror.css");
             require(`codemirror/mode/${mode}/${mode}.js`);
-            setReady(true);
-        } else {
-            setReady(true);
-        }
+        } 
+        setReady(true);
+        
     }, [mode]);
 
     if (ready) {

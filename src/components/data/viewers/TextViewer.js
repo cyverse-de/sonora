@@ -110,6 +110,24 @@ export default function TextViewer(props) {
         return editorValue;
     };
 
+    const updateNewFileMetadata = (details) => {
+        const metadata = {
+            avus: [
+                {
+                    attr: viewerConstants.IPC_VIEWER_TYPE,
+                    value: createFileType,
+                    unit: "",
+                },
+            ],
+            "irods-avus": [],
+        };
+
+        setDiskResourceMetadata({
+            dataId: details?.file.id,
+            metadata,
+        });
+    };
+
     const busy = loading || isFileSaving || isFetchingMetadata;
 
     return (
@@ -136,21 +154,7 @@ export default function TextViewer(props) {
                     setFileSaving(false);
                     setDirty(false);
                     if (createFileType) {
-                        const metadata = {
-                            avus: [
-                                {
-                                    attr: viewerConstants.IPC_VIEWER_TYPE,
-                                    value: createFileType,
-                                    unit: "",
-                                },
-                            ],
-                            "irods-avus": [],
-                        };
-
-                        setDiskResourceMetadata({
-                            dataId: details?.file.id,
-                            metadata,
-                        });
+                        updateNewFileMetadata(details);
                     }
                 }}
             />

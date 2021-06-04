@@ -837,7 +837,10 @@ function GlobalSearchField(props) {
             >
                 {filterOptions.map((option) => (
                     <MenuItem
-                        id={build(searchFilterId, ids.SEARCH_FILTER_MI[option])}
+                        id={build(
+                            searchFilterId,
+                            ids.SEARCH_FILTER_MI[option.toUpperCase()]
+                        )}
                         value={option}
                         key={option}
                     >

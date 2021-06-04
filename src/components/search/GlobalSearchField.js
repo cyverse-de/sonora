@@ -143,7 +143,7 @@ const getViewAllPrompt = (id, searchTerm, i18NSearch) => {
     return [prompt, selectedTab];
 };
 
-const SearchOption = React.forwardRef((props, ref) => {
+const SearchOption = (props) => {
     const {
         id,
         primary,
@@ -157,7 +157,7 @@ const SearchOption = React.forwardRef((props, ref) => {
     const classes = useStyles();
     const theme = useTheme();
 
-    const OptionLink = () => (
+    const OptionLink = React.forwardRef(({ onClick, href }, ref) => (
         <>
             <span className={classes.optionIcon}>{icon}</span>
             <MuiLink
@@ -168,8 +168,9 @@ const SearchOption = React.forwardRef((props, ref) => {
                         event.preventDefault();
                         onOptionSelected();
                         return false;
+                    } else {
+                        onClick(event);
                     }
-                    // else, do default link behavior
                 }}
                 ref={ref}
                 id={id}
@@ -194,7 +195,7 @@ const SearchOption = React.forwardRef((props, ref) => {
                 </div>
             </MuiLink>
         </>
-    );
+    ));
 
     return onOptionSelected ? (
         <OptionLink />
@@ -203,7 +204,7 @@ const SearchOption = React.forwardRef((props, ref) => {
             <OptionLink />
         </Link>
     );
-});
+};
 
 function ViewAllOption(props) {
     const {

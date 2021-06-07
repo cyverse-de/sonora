@@ -45,7 +45,7 @@ const initAppValues = (app) => {
         ...group,
         key: group.id || `group${groupIndex}`,
         parameters: group.parameters?.map((param, paramIndex) => {
-            const { defaultValue, type: paramType } = param;
+            const { defaultValue, name: paramName, type: paramType } = param;
 
             // shouldn't be necessary, except maybe in storybook
             const paramFallbackKey = `group${groupIndex}.param${paramIndex}`;
@@ -71,7 +71,7 @@ const initAppValues = (app) => {
                     break;
 
                 case AppParamTypes.FLAG:
-                    formattedParam.name = initFlagName(name);
+                    formattedParam.name = initFlagName(paramName);
                     formattedParam.defaultValue =
                         defaultValue && defaultValue !== "false";
                     break;

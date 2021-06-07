@@ -362,8 +362,7 @@ function TableView(props) {
                                                     "aria-label": t(
                                                         "ariaCheckbox",
                                                         {
-                                                            label:
-                                                                resource.label,
+                                                            label: resource.label,
                                                         }
                                                     ),
                                                 }}

@@ -49,10 +49,8 @@ export default function AnalysesSearchResults(props) {
     const [analysesSearchKey, setAnalysesSearchKey] = useState(
         ANALYSES_SEARCH_QUERY_KEY
     );
-    const [
-        analysesSearchQueryEnabled,
-        setAnalysesSearchQueryEnabled,
-    ] = useState(false);
+    const [analysesSearchQueryEnabled, setAnalysesSearchQueryEnabled] =
+        useState(false);
 
     const { t } = useTranslation("search");
     const { t: analysisI18n } = useTranslation("analyses");
@@ -63,27 +61,21 @@ export default function AnalysesSearchResults(props) {
     const [orderBy, setOrderBy] = useState(analysisRecordFields.START_DATE.key);
     const [selectedAnalysis, setSelectedAnalysis] = useState();
 
-    const {
-        status,
-        data,
-        isFetchingMore,
-        fetchMore,
-        canFetchMore,
-        error,
-    } = useAnalysesSearchInfinite(
-        analysesSearchKey,
-        analysesSearchQueryEnabled,
-        (lastGroup, allGroups) => {
-            const totalPages = Math.ceil(
-                lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
-            );
-            if (allGroups.length < totalPages) {
-                return allGroups.length;
-            } else {
-                return false;
+    const { status, data, isFetchingMore, fetchMore, canFetchMore, error } =
+        useAnalysesSearchInfinite(
+            analysesSearchKey,
+            analysesSearchQueryEnabled,
+            (lastGroup, allGroups) => {
+                const totalPages = Math.ceil(
+                    lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
+                );
+                if (allGroups.length < totalPages) {
+                    return allGroups.length;
+                } else {
+                    return false;
+                }
             }
-        }
-    );
+        );
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {

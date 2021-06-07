@@ -179,7 +179,11 @@ function ListQuickLaunches(props) {
 
     const userName = userProfile?.id;
 
-    const { data: quickLaunches, error, isFetching } = useQuery({
+    const {
+        data: quickLaunches,
+        error,
+        isFetching,
+    } = useQuery({
         queryKey: [QUICK_LAUNCH_LISTING, { appId }],
         queryFn: listQuickLaunches,
     });

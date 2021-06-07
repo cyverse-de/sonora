@@ -110,14 +110,10 @@ function ViceLoading(props) {
             hasError: fileTransferError,
             restartCount: fileTransferRestartCount,
         } = getContainerDetails(pods, config?.vice?.initContainerName);
-        const {
-            done: inputFilesPodDone,
-            hasError: inputFilesPodError,
-        } = getContainerDetails(pods, config?.vice?.inputFilesContainerName);
-        const {
-            done: viceProxyPodDone,
-            hasError: viceProxyPodError,
-        } = getContainerDetails(pods, config?.vice?.viceProxyContainerName);
+        const { done: inputFilesPodDone, hasError: inputFilesPodError } =
+            getContainerDetails(pods, config?.vice?.inputFilesContainerName);
+        const { done: viceProxyPodDone, hasError: viceProxyPodError } =
+            getContainerDetails(pods, config?.vice?.viceProxyContainerName);
         const {
             done: analysisPodDone,
             hasError: analysisPodError,

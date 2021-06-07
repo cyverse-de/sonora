@@ -43,8 +43,7 @@ export const DOIRequestsUpdateTest = () => {
                 },
             ],
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/staging/2.6TopHat2SE-Test-2016-05-18-16-18-43.2",
+                path: "/iplant/home/shared/commons_repo/staging/2.6TopHat2SE-Test-2016-05-18-16-18-43.2",
                 "share-count": 0,
                 "date-created": 1606779063000,
                 permission: "own",

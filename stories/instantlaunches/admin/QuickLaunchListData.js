@@ -8,11 +8,12 @@ export const testData = [
         is_public: true,
         submission: {
             config: {
-                "34f34466-9a8a-11e8-9c8e-008cfa5ae621_34f89a92-9a8a-11e8-9c8e-008cfa5ae621": [
-                    "/iplant/home/shared/iplant_training/read_cleanup/sampledata/frag_1.fastq",
-                    "/iplant/home/shared/iplant_training/read_cleanup/sampledata/frag_2.fastq",
-                    "/iplant/home/shared/iplant_training/read_cleanup/sampledata/illumina_adapters.fa",
-                ],
+                "34f34466-9a8a-11e8-9c8e-008cfa5ae621_34f89a92-9a8a-11e8-9c8e-008cfa5ae621":
+                    [
+                        "/iplant/home/shared/iplant_training/read_cleanup/sampledata/frag_1.fastq",
+                        "/iplant/home/shared/iplant_training/read_cleanup/sampledata/frag_2.fastq",
+                        "/iplant/home/shared/iplant_training/read_cleanup/sampledata/illumina_adapters.fa",
+                    ],
             },
             name: "JupyterLab-0.0.3_analysis1",
             app_id: "34f2c392-9a8a-11e8-9c8e-008cfa5ae621",
@@ -31,7 +32,8 @@ export const testData = [
         is_public: true,
         submission: {
             config: {
-                "e54cc5c8-f811-11e8-8a14-008cfa5ae621_e5559568-f811-11e8-8a14-008cfa5ae621": [],
+                "e54cc5c8-f811-11e8-8a14-008cfa5ae621_e5559568-f811-11e8-8a14-008cfa5ae621":
+                    [],
             },
             name: "JupJup_analysis1",
             app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
@@ -50,7 +52,8 @@ export const testData = [
         is_public: true,
         submission: {
             config: {
-                "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621": [],
+                "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621":
+                    [],
             },
             name: "jupyter-lab-instant-launch",
             app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
@@ -69,7 +72,8 @@ export const testData = [
         is_public: true,
         submission: {
             config: {
-                "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621": [],
+                "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621":
+                    [],
             },
             name: "jupyter-lab-instant-launch-1",
             app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
@@ -88,7 +92,8 @@ export const testData = [
         is_public: true,
         submission: {
             config: {
-                "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621": [],
+                "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621":
+                    [],
             },
             name: "jupyter-lab-instant-launch-2",
             app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
@@ -144,11 +149,12 @@ export const testFullInstantLaunchList = {
             is_public: true,
             submission: {
                 config: {
-                    "34f34466-9a8a-11e8-9c8e-008cfa5ae621_34f89a92-9a8a-11e8-9c8e-008cfa5ae621": [
-                        "/iplant/home/shared/iplant_training/read_cleanup/sampledata/frag_1.fastq",
-                        "/iplant/home/shared/iplant_training/read_cleanup/sampledata/frag_2.fastq",
-                        "/iplant/home/shared/iplant_training/read_cleanup/sampledata/illumina_adapters.fa",
-                    ],
+                    "34f34466-9a8a-11e8-9c8e-008cfa5ae621_34f89a92-9a8a-11e8-9c8e-008cfa5ae621":
+                        [
+                            "/iplant/home/shared/iplant_training/read_cleanup/sampledata/frag_1.fastq",
+                            "/iplant/home/shared/iplant_training/read_cleanup/sampledata/frag_2.fastq",
+                            "/iplant/home/shared/iplant_training/read_cleanup/sampledata/illumina_adapters.fa",
+                        ],
                 },
                 name: "JupyterLab-0.0.3_analysis1",
                 app_id: "34f2c392-9a8a-11e8-9c8e-008cfa5ae621",
@@ -171,7 +177,8 @@ export const testFullInstantLaunchList = {
             is_public: true,
             submission: {
                 config: {
-                    "e54cc5c8-f811-11e8-8a14-008cfa5ae621_e5559568-f811-11e8-8a14-008cfa5ae621": [],
+                    "e54cc5c8-f811-11e8-8a14-008cfa5ae621_e5559568-f811-11e8-8a14-008cfa5ae621":
+                        [],
                 },
                 name: "JupJup_analysis1",
                 app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
@@ -194,7 +201,8 @@ export const testFullInstantLaunchList = {
             is_public: true,
             submission: {
                 config: {
-                    "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621": [],
+                    "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621":
+                        [],
                 },
                 name: "jupyter-lab-instant-launch",
                 app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
@@ -217,7 +225,8 @@ export const testFullInstantLaunchList = {
             is_public: true,
             submission: {
                 config: {
-                    "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621": [],
+                    "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621":
+                        [],
                 },
                 name: "jupyter-lab-instant-launch-1",
                 app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
@@ -240,7 +249,8 @@ export const testFullInstantLaunchList = {
             is_public: true,
             submission: {
                 config: {
-                    "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621": [],
+                    "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621":
+                        [],
                 },
                 name: "jupyter-lab-instant-launch-2",
                 app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
@@ -265,7 +275,8 @@ export const testInstantLaunchesDashboard = {
             is_public: true,
             submission: {
                 config: {
-                    "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621": [],
+                    "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621":
+                        [],
                 },
                 name: "jupyter-lab-instant-launch-1",
                 app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
@@ -285,7 +296,8 @@ export const testInstantLaunchesDashboard = {
             is_public: true,
             submission: {
                 config: {
-                    "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621": [],
+                    "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621":
+                        [],
                 },
                 name: "jupyter-lab-instant-launch-2",
                 app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",

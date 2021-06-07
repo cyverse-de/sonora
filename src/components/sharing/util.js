@@ -397,9 +397,8 @@ export const getUnsharingUpdates = (originalUsers, userMap) => {
                 const resources = user[type];
 
                 if (resources && resources.length > 0) {
-                    const { formatSubject, formatUnsharing } = getSharingFns(
-                        type
-                    );
+                    const { formatSubject, formatUnsharing } =
+                        getSharingFns(type);
                     const subject = formatSubject(user);
                     const unshareReq = {
                         ...subject,

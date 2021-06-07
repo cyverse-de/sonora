@@ -65,13 +65,11 @@ export const appDetails = {
                                     label: "Molecular genetics",
                                     subclasses: [
                                         {
-                                            iri:
-                                                "http://edamontology.org/topic_0203",
+                                            iri: "http://edamontology.org/topic_0203",
                                             label: "Gene expression",
                                             subclasses: [
                                                 {
-                                                    iri:
-                                                        "http://edamontology.org/topic_3308",
+                                                    iri: "http://edamontology.org/topic_3308",
                                                     label: "Transcriptomics",
                                                 },
                                             ],
@@ -95,8 +93,7 @@ export const appDetails = {
                                     label: "Gene expression",
                                     subclasses: [
                                         {
-                                            iri:
-                                                "http://edamontology.org/topic_3308",
+                                            iri: "http://edamontology.org/topic_3308",
                                             label: "Transcriptomics",
                                         },
                                     ],
@@ -136,8 +133,7 @@ export const appDetails = {
                             label: "Sequence annotation",
                             subclasses: [
                                 {
-                                    iri:
-                                        "http://edamontology.org/operation_3672",
+                                    iri: "http://edamontology.org/operation_3672",
                                     label: "Gene functional annotation",
                                 },
                             ],
@@ -163,15 +159,12 @@ export const appDetails = {
                             label: "Sequence analysis",
                             subclasses: [
                                 {
-                                    iri:
-                                        "http://edamontology.org/operation_2478",
+                                    iri: "http://edamontology.org/operation_2478",
                                     label: "Nucleic acid sequence analysis",
                                     subclasses: [
                                         {
-                                            iri:
-                                                "http://edamontology.org/operation_3180",
-                                            label:
-                                                "Sequence assembly validation",
+                                            iri: "http://edamontology.org/operation_3180",
+                                            label: "Sequence assembly validation",
                                         },
                                     ],
                                 },
@@ -182,15 +175,12 @@ export const appDetails = {
                             label: "Nucleic acid analysis",
                             subclasses: [
                                 {
-                                    iri:
-                                        "http://edamontology.org/operation_2478",
+                                    iri: "http://edamontology.org/operation_2478",
                                     label: "Nucleic acid sequence analysis",
                                     subclasses: [
                                         {
-                                            iri:
-                                                "http://edamontology.org/operation_3180",
-                                            label:
-                                                "Sequence assembly validation",
+                                            iri: "http://edamontology.org/operation_3180",
+                                            label: "Sequence assembly validation",
                                         },
                                     ],
                                 },
@@ -214,8 +204,7 @@ export const appDetails = {
                 image: {
                     name: "docker.cyverse.org/backwards-compat",
                     tag: "latest",
-                    url:
-                        "https://registry.hub.docker.com/u/discoenv/backwards-compat",
+                    url: "https://registry.hub.docker.com/u/discoenv/backwards-compat",
                     deprecated: true,
                 },
             },

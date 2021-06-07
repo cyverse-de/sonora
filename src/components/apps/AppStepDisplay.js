@@ -41,14 +41,8 @@ export const BottomNavigationSkeleton = React.forwardRef((props, ref) => (
 ));
 
 const AppStepDisplay = (props) => {
-    const {
-        step,
-        label,
-        children,
-        actions,
-        bottomNavigation,
-        bottomOffset,
-    } = props;
+    const { step, label, children, actions, bottomNavigation, bottomOffset } =
+        props;
 
     const { t } = useTranslation("launch");
     const classes = useStyles();

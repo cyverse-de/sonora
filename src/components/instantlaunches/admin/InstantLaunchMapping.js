@@ -254,10 +254,8 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
     const infoTypes = useQuery(INFO_TYPES_QUERY_KEY, getInfoTypes);
 
     const handleDelete = async (mappingName) => {
-        const {
-            [mappingName]: _,
-            ...newMapping
-        } = defaultsMapping.data.mapping;
+        const { [mappingName]: _, ...newMapping } =
+            defaultsMapping.data.mapping;
         return await updateDefaultsMapping(newMapping);
     };
 

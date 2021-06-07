@@ -107,8 +107,7 @@ export const statusMock = (
                                   analysisPodStatus === POD_STATUS.RUNNING ||
                                   analysisPodStatus === POD_STATUS.DONE, // it's possible for this to be false while running
                               restartCount: 3,
-                              image:
-                                  "gims.cyverse.org:5000/fastqe-cyverse-vice:1.0",
+                              image: "gims.cyverse.org:5000/fastqe-cyverse-vice:1.0",
                               imageID: "",
                               started: false,
                           },
@@ -215,8 +214,7 @@ export const statusMock = (
         configMaps: configMapsComplete
             ? [
                   {
-                      name:
-                          "excludes-file-a37abcf1-2cc9-4004-a9c5-7179d5d3ee57",
+                      name: "excludes-file-a37abcf1-2cc9-4004-a9c5-7179d5d3ee57",
                       namespace: "vice-apps",
                       analysisName: "jupyter-fastqe-analysis",
                       appName: "jupyter-fastqe",
@@ -228,8 +226,7 @@ export const statusMock = (
                       data: { "excludes-file": "notebooks/\ndata/\nlogs\n" },
                   },
                   {
-                      name:
-                          "input-path-list-a37abcf1-2cc9-4004-a9c5-7179d5d3ee57",
+                      name: "input-path-list-a37abcf1-2cc9-4004-a9c5-7179d5d3ee57",
                       namespace: "vice-apps",
                       analysisName: "jupyter-fastqe-analysis",
                       appName: "jupyter-fastqe",

@@ -63,27 +63,21 @@ export default function AppSearchResults(props) {
     const appRecordFields = appFields(appsI18n);
     const [order, setOrder] = useState(constants.SORT_ASCENDING);
     const [orderBy, setOrderBy] = useState(appRecordFields.NAME.key);
-    const {
-        status,
-        data,
-        isFetchingMore,
-        fetchMore,
-        canFetchMore,
-        error,
-    } = useAppsSearchInfinite(
-        appsSearchKey,
-        appsSearchQueryEnabled,
-        (lastGroup, allGroups) => {
-            const totalPages = Math.ceil(
-                lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
-            );
-            if (allGroups.length < totalPages) {
-                return allGroups.length;
-            } else {
-                return false;
+    const { status, data, isFetchingMore, fetchMore, canFetchMore, error } =
+        useAppsSearchInfinite(
+            appsSearchKey,
+            appsSearchQueryEnabled,
+            (lastGroup, allGroups) => {
+                const totalPages = Math.ceil(
+                    lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
+                );
+                if (allGroups.length < totalPages) {
+                    return allGroups.length;
+                } else {
+                    return false;
+                }
             }
-        }
-    );
+        );
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
@@ -161,9 +155,8 @@ export default function AppSearchResults(props) {
                                     baseId={baseId}
                                     onCopyLinkSelected={() => {
                                         const link = `${getHost()}${partialLink}`;
-                                        const copyPromise = copyStringToClipboard(
-                                            link
-                                        );
+                                        const copyPromise =
+                                            copyStringToClipboard(link);
                                         copyLinkToClipboardHandler(
                                             t,
                                             copyPromise

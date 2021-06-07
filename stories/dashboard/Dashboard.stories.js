@@ -35,8 +35,7 @@ export const DashboardTest = () => {
             status: 200,
             body: {
                 version: "1.0",
-                html:
-                    '\n<iframe width=" 480" height="270" src="https://www.youtube.com/embed/2GNs2cbhI9Q?feature=oembed" frameborder="0" allowfullscreen="allowfullscreen"></iframe>\n',
+                html: '\n<iframe width=" 480" height="270" src="https://www.youtube.com/embed/2GNs2cbhI9Q?feature=oembed" frameborder="0" allowfullscreen="allowfullscreen"></iframe>\n',
                 author_url:
                     "https://www.youtube.com/channel/UC-gvdjTz9rq6RovZ57LoDDA",
                 type: "video",
@@ -46,8 +45,7 @@ export const DashboardTest = () => {
                 width: 480,
                 url: "https://youtu.be/2GNs2cbhI9Q",
                 author_name: "CyVerse.org",
-                title:
-                    "Webinar: Using VICE DESeq2 for RNA Differential Expression Analysis",
+                title: "Webinar: Using VICE DESeq2 for RNA Differential Expression Analysis",
                 thumbnail_width: 480,
                 height: 270,
                 thumbnail_url:
@@ -64,15 +62,13 @@ export const DashboardTest = () => {
             status: 200,
             body: {
                 version: "1.0",
-                html:
-                    '\n<iframe width=" 480" height="270" src="https://www.youtube.com/embed/YytjDtergF4?feature=oembed" frameborder="0" allowfullscreen="allowfullscreen"></iframe>\n',
+                html: '\n<iframe width=" 480" height="270" src="https://www.youtube.com/embed/YytjDtergF4?feature=oembed" frameborder="0" allowfullscreen="allowfullscreen"></iframe>\n',
                 author_url:
                     "https://www.youtube.com/channel/UC-gvdjTz9rq6RovZ57LoDDA",
                 thumbnail_height: 360,
                 provider_url: "https://www.youtube.com/",
                 type: "video",
-                title:
-                    "Webinar: Building Your Favorite Software and Environments in the VICE Workbench",
+                title: "Webinar: Building Your Favorite Software and Environments in the VICE Workbench",
                 url: "https://youtu.be/YytjDtergF4",
                 author_name: "CyVerse.org",
                 width: 480,
@@ -93,8 +89,7 @@ export const DashboardTest = () => {
             status: 200,
             body: {
                 version: "1.0",
-                html:
-                    '\n<iframe width=" 480" height="270" src="https://www.youtube.com/embed/K070WD73ocQ?feature=oembed" frameborder="0" allowfullscreen="allowfullscreen"></iframe>\n',
+                html: '\n<iframe width=" 480" height="270" src="https://www.youtube.com/embed/K070WD73ocQ?feature=oembed" frameborder="0" allowfullscreen="allowfullscreen"></iframe>\n',
                 author_url:
                     "https://www.youtube.com/channel/UC-gvdjTz9rq6RovZ57LoDDA",
                 thumbnail_height: 360,
@@ -125,8 +120,7 @@ export const DashboardTest = () => {
                 height: 270,
                 thumbnail_width: 480,
                 author_name: "CyVerse.org",
-                title:
-                    "Webinar: Fall in Love with High Performance Computing at CyVerse",
+                title: "Webinar: Fall in Love with High Performance Computing at CyVerse",
                 url: "https://youtu.be/6_Oj66jHzgc",
                 width: 480,
                 provider_name: "YouTube",
@@ -135,8 +129,7 @@ export const DashboardTest = () => {
                 type: "video",
                 author_url:
                     "https://www.youtube.com/channel/UC-gvdjTz9rq6RovZ57LoDDA",
-                html:
-                    '\n<iframe width=" 480" height="270" src="https://www.youtube.com/embed/6_Oj66jHzgc?feature=oembed" frameborder="0" allowfullscreen="allowfullscreen"></iframe>\n',
+                html: '\n<iframe width=" 480" height="270" src="https://www.youtube.com/embed/6_Oj66jHzgc?feature=oembed" frameborder="0" allowfullscreen="allowfullscreen"></iframe>\n',
                 version: "1.0",
             },
         }
@@ -149,8 +142,7 @@ export const DashboardTest = () => {
         {
             status: 200,
             body: {
-                html:
-                    '\n<iframe width=" 480" height="270" src="https://www.youtube.com/embed/BCxZvwv4bBE?feature=oembed" frameborder="0" allowfullscreen="allowfullscreen"></iframe>\n',
+                html: '\n<iframe width=" 480" height="270" src="https://www.youtube.com/embed/BCxZvwv4bBE?feature=oembed" frameborder="0" allowfullscreen="allowfullscreen"></iframe>\n',
                 version: "1.0",
                 thumbnail_height: 360,
                 provider_url: "https://www.youtube.com/",
@@ -163,8 +155,7 @@ export const DashboardTest = () => {
                 thumbnail_width: 480,
                 url: "https://youtu.be/BCxZvwv4bBE",
                 author_name: "CyVerse.org",
-                title:
-                    "Webinar: Metabarcoding and Microbiomes in the ClassroomQIIME2 with DNA Subway",
+                title: "Webinar: Metabarcoding and Microbiomes in the ClassroomQIIME2 with DNA Subway",
                 provider_name: "YouTube",
                 width: 480,
             },
@@ -179,8 +170,7 @@ export const DashboardTest = () => {
             status: 200,
             body: {
                 version: "1.0",
-                html:
-                    '\n<iframe width=" 480" height="270" src="https://www.youtube.com/embed/piDrI0GK_yA?feature=oembed" frameborder="0" allowfullscreen="allowfullscreen"></iframe>\n',
+                html: '\n<iframe width=" 480" height="270" src="https://www.youtube.com/embed/piDrI0GK_yA?feature=oembed" frameborder="0" allowfullscreen="allowfullscreen"></iframe>\n',
                 author_url:
                     "https://www.youtube.com/channel/UC-gvdjTz9rq6RovZ57LoDDA",
                 type: "video",
@@ -190,8 +180,7 @@ export const DashboardTest = () => {
                 width: 480,
                 author_name: "CyVerse.org",
                 url: "https://youtu.be/piDrI0GK_yA",
-                title:
-                    "Webinar: VIBRANT: Automated Recovery and Annotation of Microbial Viruses from Genomic Sequences",
+                title: "Webinar: VIBRANT: Automated Recovery and Annotation of Microbial Viruses from Genomic Sequences",
                 thumbnail_width: 480,
                 thumbnail_url:
                     "https://i.ytimg.com/vi/piDrI0GK_yA/hqdefault.jpg",
@@ -207,15 +196,13 @@ export const DashboardTest = () => {
         {
             status: 200,
             body: {
-                html:
-                    '\n<iframe width=" 480" height="270" src="https://www.youtube.com/embed/epq-XaEYNmE?feature=oembed" frameborder="0" allowfullscreen="allowfullscreen"></iframe>\n',
+                html: '\n<iframe width=" 480" height="270" src="https://www.youtube.com/embed/epq-XaEYNmE?feature=oembed" frameborder="0" allowfullscreen="allowfullscreen"></iframe>\n',
                 version: "1.0",
                 thumbnail_url:
                     "https://i.ytimg.com/vi/epq-XaEYNmE/hqdefault.jpg",
                 height: 270,
                 thumbnail_width: 480,
-                title:
-                    "Webinar: Get Grounded in TERRA-REF: Publicly-accessible, Hi-res Sensor Data for Crop Phenomics",
+                title: "Webinar: Get Grounded in TERRA-REF: Publicly-accessible, Hi-res Sensor Data for Crop Phenomics",
                 author_name: "CyVerse.org",
                 url: "https://youtu.be/epq-XaEYNmE",
                 provider_name: "YouTube",

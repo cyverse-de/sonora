@@ -25,8 +25,7 @@ export default {
                     type: "Info",
                     validators: [],
                     label: "Enter some numbers below...",
-                    id:
-                        "ddf03cb0-5751-11ea-b2f6-008cfa5ae621_ddf1a172-5751-11ea-b2f6-008cfa5ae621",
+                    id: "ddf03cb0-5751-11ea-b2f6-008cfa5ae621_ddf1a172-5751-11ea-b2f6-008cfa5ae621",
                     isVisible: true,
                     required: false,
                 },
@@ -50,8 +49,7 @@ export default {
                         },
                     ],
                     label: "Integer with validations",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_58d5fa32-5a86-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_58d5fa32-5a86-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     required: true,
                 },
@@ -75,8 +73,7 @@ export default {
                         },
                     ],
                     label: "Decimal with validation",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_a54462d2-5a86-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_a54462d2-5a86-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "1.23",
                     required: true,

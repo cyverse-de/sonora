@@ -115,23 +115,21 @@ const NotificationView = (props) => {
         },
     });
 
-    const [
-        deleteNotificationsMutation,
-        { isLoading: deleteLoading },
-    ] = useMutation(deleteNotifications, {
-        onSuccess: () => {
-            queryCache.invalidateQueries(NOTIFICATIONS_MESSAGES_QUERY_KEY);
-            setSelected([]);
-        },
-        onError: (error) => {
-            showErrorAnnouncer(
-                t("errorNotificationDelete", {
-                    count: selected.length,
-                }),
-                error
-            );
-        },
-    });
+    const [deleteNotificationsMutation, { isLoading: deleteLoading }] =
+        useMutation(deleteNotifications, {
+            onSuccess: () => {
+                queryCache.invalidateQueries(NOTIFICATIONS_MESSAGES_QUERY_KEY);
+                setSelected([]);
+            },
+            onError: (error) => {
+                showErrorAnnouncer(
+                    t("errorNotificationDelete", {
+                        count: selected.length,
+                    }),
+                    error
+                );
+            },
+        });
 
     const handleMarkSeenClick = () => {
         markSeenMutation(selected);

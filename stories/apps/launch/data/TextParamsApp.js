@@ -24,10 +24,8 @@ export default {
                     name: "",
                     type: "Info",
                     validators: [],
-                    label:
-                        "<h4>Info Text!</h4><p>Can display <b>HTML</b>:</p><p>The <b>Dark Arts</b> better be worried,<br/><em>oh boy</em>!</p>",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_177d78f6-5a83-11ea-9e38-008cfa5ae621",
+                    label: "<h4>Info Text!</h4><p>Can display <b>HTML</b>:</p><p>The <b>Dark Arts</b> better be worried,<br/><em>oh boy</em>!</p>",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_177d78f6-5a83-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     required: false,
                 },
@@ -43,8 +41,7 @@ export default {
                         },
                     ],
                     label: "Single-line Text",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_8a4cf0fa-5a83-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_8a4cf0fa-5a83-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "defaultext",
                     required: true,
@@ -62,8 +59,7 @@ export default {
                         },
                     ],
                     label: "Single-line Text",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_8a4cf0fa-5a83-11ea-9e38-008cfa5ae622",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_8a4cf0fa-5a83-11ea-9e38-008cfa5ae622",
                     isVisible: true,
                     defaultValue: "No Numbers",
                     required: false,
@@ -75,8 +71,7 @@ export default {
                     type: "MultiLineText",
                     validators: [],
                     label: "Multi-line Text",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_81301b9e-5a85-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_81301b9e-5a85-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     required: false,
                 },
@@ -87,8 +82,7 @@ export default {
                     type: "EnvironmentVariable",
                     validators: [],
                     label: "Environment Variable",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_58d5a140-5a86-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_58d5a140-5a86-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "new env var val",
                     required: true,

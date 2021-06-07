@@ -71,37 +71,27 @@ function Preferences(props) {
 
     const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
 
-    const [showRestoreConfirmation, setShowRestoreConfirmation] = useState(
-        false
-    );
+    const [showRestoreConfirmation, setShowRestoreConfirmation] =
+        useState(false);
     const [fetchDetailsKey, setFetchDetailsKey] = useState(
         DATA_DETAILS_QUERY_KEY
     );
-    const [fetchDetailsQueryEnabled, setFetchDetailsQueryEnabled] = useState(
-        false
-    );
+    const [fetchDetailsQueryEnabled, setFetchDetailsQueryEnabled] =
+        useState(false);
     const [defaultOutputFolder, setDefaultOutputFolder] = useState(null);
-    const [
-        defaultOutputFolderDetails,
-        setDefaultOutputFolderDetails,
-    ] = useState(null);
+    const [defaultOutputFolderDetails, setDefaultOutputFolderDetails] =
+        useState(null);
     const [requireAgaveAuth, setRequireAgaveAuth] = useState(true);
-    const [
-        outputFolderValidationError,
-        setOutputFolderValidationError,
-    ] = useState(null);
+    const [outputFolderValidationError, setOutputFolderValidationError] =
+        useState(null);
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
-    const [webhookTopicsQueryEnabled, setWebHookTopicsQueryEnabled] = useState(
-        false
-    );
-    const [webhookTypesQueryEnabled, setWebHookTypesQueryEnabled] = useState(
-        false
-    );
+    const [webhookTopicsQueryEnabled, setWebHookTopicsQueryEnabled] =
+        useState(false);
+    const [webhookTypesQueryEnabled, setWebHookTypesQueryEnabled] =
+        useState(false);
     const [bootstrapError, setBootstrapError] = useState(null);
-    const [
-        fetchRedirectURIsQueryEnabled,
-        setFetchRedirectURIsQueryEnabled,
-    ] = useState(false);
+    const [fetchRedirectURIsQueryEnabled, setFetchRedirectURIsQueryEnabled] =
+        useState(false);
     const [hpcAuthUrl, setHPCAuthUrl] = useState("");
     const [webhookTopics, setWebhookTopics] = useState();
     const [webhookTypes, setWebhookTypes] = useState();
@@ -199,21 +189,19 @@ function Preferences(props) {
         setBootstrapError
     );
 
-    const [
-        mutatePreferences,
-        { status: prefMutationStatus },
-    ] = useSavePreferences(
-        (updatedPref) => {
-            announce({
-                text: t("prefSaveSuccess"),
-                variant: AnnouncerConstants.SUCCESS,
-            });
-            queryCache.invalidateQueries(BOOTSTRAP_KEY);
-        },
-        (e) => {
-            showErrorAnnouncer(t("savePrefError"), e);
-        }
-    );
+    const [mutatePreferences, { status: prefMutationStatus }] =
+        useSavePreferences(
+            (updatedPref) => {
+                announce({
+                    text: t("prefSaveSuccess"),
+                    variant: AnnouncerConstants.SUCCESS,
+                });
+                queryCache.invalidateQueries(BOOTSTRAP_KEY);
+            },
+            (e) => {
+                showErrorAnnouncer(t("savePrefError"), e);
+            }
+        );
 
     const [resetHPCToken, { status: resetTokenStatus }] = useMutation(
         resetToken,

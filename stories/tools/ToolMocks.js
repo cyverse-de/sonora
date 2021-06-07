@@ -342,8 +342,7 @@ export const listing = {
                 image: {
                     name: "docker.cyverse.org/iclimate-nco-tool",
                     tag: "v1.0",
-                    url:
-                        "https://gims.iplantcollaborative.org:5000/iclimate-nco-tool",
+                    url: "https://gims.iplantcollaborative.org:5000/iclimate-nco-tool",
                     deprecated: false,
                 },
             },
@@ -468,8 +467,7 @@ export const listing = {
                 image: {
                     name: "cyversewarwick/gradienttool_filter",
                     tag: "latest",
-                    url:
-                        "https://hub.docker.com/r/cyversewarwick/gradienttool_filter/",
+                    url: "https://hub.docker.com/r/cyversewarwick/gradienttool_filter/",
                     deprecated: false,
                 },
             },
@@ -647,8 +645,7 @@ export const listing = {
                 image: {
                     name: "docker.cyverse.org/starpipeline",
                     tag: "v0.2",
-                    url:
-                        "https://gims.iplantcollaborative.org:5000/starpipeline",
+                    url: "https://gims.iplantcollaborative.org:5000/starpipeline",
                     deprecated: false,
                 },
             },
@@ -700,8 +697,7 @@ export const listing = {
                 image: {
                     name: "discoenv/ncbi-sra-submit",
                     tag: "dev",
-                    url:
-                        "https://registry.hub.docker.com/u/discoenv/ncbi-sra-submit",
+                    url: "https://registry.hub.docker.com/u/discoenv/ncbi-sra-submit",
                     deprecated: false,
                 },
             },
@@ -807,8 +803,7 @@ export const listing = {
                 image: {
                     name: "docker.cyverse.org/mapping-by-seq-hexaploid-wheat",
                     tag: "v1.0",
-                    url:
-                        "https://gims.iplantcollaborative.org:5000/mapping-by-seq-hexaploid-wheat",
+                    url: "https://gims.iplantcollaborative.org:5000/mapping-by-seq-hexaploid-wheat",
                     deprecated: false,
                 },
             },
@@ -937,8 +932,7 @@ export const listing = {
                 image: {
                     name: "cyversevice/jupyterlab-scipy",
                     tag: "planet-latest",
-                    url:
-                        "https://hub.docker.com/r/cyversevice/jupyterlab-scipy",
+                    url: "https://hub.docker.com/r/cyversevice/jupyterlab-scipy",
                     deprecated: false,
                 },
             },
@@ -1223,8 +1217,7 @@ export const listing = {
                 image: {
                     name: "cyversevice/rstudio-geospatial",
                     tag: "3.6.0",
-                    url:
-                        "https://hub.docker.com/r/cyversevice/rstudio-geospatial",
+                    url: "https://hub.docker.com/r/cyversevice/rstudio-geospatial",
                     deprecated: false,
                 },
             },
@@ -1253,8 +1246,7 @@ export const listing = {
                 image: {
                     name: "docker.cyverse.org/samtools_sam_to_sorted_bam",
                     tag: "v1.0.9",
-                    url:
-                        "https://gims.iplantcollaborative.org:5000/samtools_sam_to_sorted_bam",
+                    url: "https://gims.iplantcollaborative.org:5000/samtools_sam_to_sorted_bam",
                     deprecated: false,
                 },
             },
@@ -1307,11 +1299,9 @@ export const listing = {
             id: "15f03f1c-86b4-11e9-b4c2-008cfa5ae621",
             container: {
                 image: {
-                    name:
-                        "gims.cyverse.org:5000/genomicseducationalliance-jupyterlab-rnaseq-qc",
+                    name: "gims.cyverse.org:5000/genomicseducationalliance-jupyterlab-rnaseq-qc",
                     tag: "dev_2.1",
-                    url:
-                        "https://hub.docker.com/r/genomicseducationalliance/cyverse-jupyterlab-rnaseq-qc",
+                    url: "https://hub.docker.com/r/genomicseducationalliance/cyverse-jupyterlab-rnaseq-qc",
                     deprecated: false,
                 },
             },

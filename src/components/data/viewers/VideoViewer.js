@@ -19,14 +19,8 @@ import { build } from "@cyverse-de/ui-lib";
 import { Typography } from "@material-ui/core";
 
 export default function VideoViewer(props) {
-    const {
-        baseId,
-        path,
-        resourceId,
-        handlePathChange,
-        onRefresh,
-        fileName,
-    } = props;
+    const { baseId, path, resourceId, handlePathChange, onRefresh, fileName } =
+        props;
     const { t } = useTranslation("data");
     const [url, setUrl] = useState("");
 

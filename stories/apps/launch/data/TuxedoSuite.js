@@ -25,10 +25,8 @@ export default {
                     name: "",
                     type: "Info",
                     validators: [],
-                    label:
-                        "This workflow carries out differential expression analysis using the Tuxedo suite of tools. In this workflow: TopHat v2.0.9,  Cufflinks package (including Cuffmerge and Cuffdiff) v2.2.1 and CummeRbund 2.4.1-1.\n",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_76472228-6e66-11e5-8c9a-f741cee619e9",
+                    label: "This workflow carries out differential expression analysis using the Tuxedo suite of tools. In this workflow: TopHat v2.0.9,  Cufflinks package (including Cuffmerge and Cuffdiff) v2.2.1 and CummeRbund 2.4.1-1.\n",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_76472228-6e66-11e5-8c9a-f741cee619e9",
                     isVisible: true,
                     required: false,
                 },
@@ -38,10 +36,8 @@ export default {
                     name: "",
                     type: "Info",
                     validators: [],
-                    label:
-                        "Input files required: \n1) Paired end sequencing RNA-seq reads for each condition/replicate\n2) A reference genome in Fasta format OR select reference genome hosted on iPlant  from drop down menu\n3) A genome annotation file in GFF3 or GTF2 format (http://cole-trapnell-lab.github.io/cufflinks/file_formats/) OR select annotation hosted on iPlant from drop down menu\n4) OPTIONAL- GTF masking file (containing transcripts to be ignored)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_4b8c29c4-9815-11e5-b7db-23974484005d",
+                    label: "Input files required: \n1) Paired end sequencing RNA-seq reads for each condition/replicate\n2) A reference genome in Fasta format OR select reference genome hosted on iPlant  from drop down menu\n3) A genome annotation file in GFF3 or GTF2 format (http://cole-trapnell-lab.github.io/cufflinks/file_formats/) OR select annotation hosted on iPlant from drop down menu\n4) OPTIONAL- GTF masking file (containing transcripts to be ignored)",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_4b8c29c4-9815-11e5-b7db-23974484005d",
                     isVisible: true,
                     required: false,
                 },
@@ -51,10 +47,8 @@ export default {
                     name: "",
                     type: "Info",
                     validators: [],
-                    label:
-                        "General settings: \nThe tool settings in the app below can be changed but are set as the default values (as dictated by each program in the workflow). If you are using the Tuxedo suite of tools for the first time we recommend using the default values in the first instance. ",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_4b8c8b80-9815-11e5-921a-a39c033c7167",
+                    label: "General settings: \nThe tool settings in the app below can be changed but are set as the default values (as dictated by each program in the workflow). If you are using the Tuxedo suite of tools for the first time we recommend using the default values in the first instance. ",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_4b8c8b80-9815-11e5-921a-a39c033c7167",
                     isVisible: true,
                     required: false,
                 },
@@ -64,10 +58,8 @@ export default {
                     name: "",
                     type: "Info",
                     validators: [],
-                    label:
-                        "Program manuals:\nTophat https://ccb.jhu.edu/software/tophat/manual.shtml\n Cufflinks-Cuffdiff http://cole-trapnell-lab.github.io/cufflinks/manual/\nCummeRbund http://compbio.mit.edu/cummeRbund/manual_2_0.html\n",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_4b8ce3d2-9815-11e5-a41d-73c5c0c70ce5",
+                    label: "Program manuals:\nTophat https://ccb.jhu.edu/software/tophat/manual.shtml\n Cufflinks-Cuffdiff http://cole-trapnell-lab.github.io/cufflinks/manual/\nCummeRbund http://compbio.mit.edu/cummeRbund/manual_2_0.html\n",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_4b8ce3d2-9815-11e5-a41d-73c5c0c70ce5",
                     isVisible: true,
                     required: false,
                 },
@@ -78,8 +70,7 @@ export default {
                     type: "Info",
                     validators: [],
                     label: "",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7647e24e-6e66-11e5-9e01-7bbe156261e2",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7647e24e-6e66-11e5-9e01-7bbe156261e2",
                     isVisible: true,
                     required: false,
                 },
@@ -97,10 +88,8 @@ export default {
                     name: "",
                     type: "Info",
                     validators: [],
-                    label:
-                        "Enter each replicate for each condition in the boxed below:\nThere should be two FASTQ files for each set of paired-end reads.\nLeft and right reads have separate input boxes. Scroll down to input read files.\n",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7651a888-6e66-11e5-9340-33a25c1142a0",
+                    label: "Enter each replicate for each condition in the boxed below:\nThere should be two FASTQ files for each set of paired-end reads.\nLeft and right reads have separate input boxes. Scroll down to input read files.\n",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7651a888-6e66-11e5-9340-33a25c1142a0",
                     isVisible: true,
                     required: false,
                 },
@@ -110,10 +99,8 @@ export default {
                     name: "",
                     type: "Info",
                     validators: [],
-                    label:
-                        'IMPORTANT: If you are entering multiple replicates for each condition, enter each replicates left reads file for condition 1 into "Left Read File(s):", then enter each replicates right reads file into "Right Read File(s):" in the SAME order. Repeat this for each condition. ',
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_5b16a58e-9817-11e5-9587-23209c362d32",
+                    label: 'IMPORTANT: If you are entering multiple replicates for each condition, enter each replicates left reads file for condition 1 into "Left Read File(s):", then enter each replicates right reads file into "Right Read File(s):" in the SAME order. Repeat this for each condition. ',
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_5b16a58e-9817-11e5-9587-23209c362d32",
                     isVisible: true,
                     required: false,
                 },
@@ -124,10 +111,8 @@ export default {
                     name: "-lab1",
                     type: "Text",
                     validators: [],
-                    label:
-                        "Condition 1 label (for R plots, use underscore instead of spaces between words)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_765252ba-6e66-11e5-b83b-430da6c5c53c",
+                    label: "Condition 1 label (for R plots, use underscore instead of spaces between words)",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_765252ba-6e66-11e5-b83b-430da6c5c53c",
                     isVisible: true,
                     defaultValue: "condition_1",
                     required: true,
@@ -140,8 +125,7 @@ export default {
                     type: "MultiFileSelector",
                     validators: [],
                     label: "Condition 1- Left Read File(s)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_76530c6e-6e66-11e5-8935-378986ecf6a3",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_76530c6e-6e66-11e5-8935-378986ecf6a3",
                     isVisible: true,
                     required: true,
                 },
@@ -153,8 +137,7 @@ export default {
                     type: "MultiFileSelector",
                     validators: [],
                     label: "Condition 1- Right Read File(s)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7657eb12-6e66-11e5-9b6d-eb978ab30f18",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7657eb12-6e66-11e5-9b6d-eb978ab30f18",
                     isVisible: true,
                     required: true,
                 },
@@ -165,10 +148,8 @@ export default {
                     name: "-lab2",
                     type: "Text",
                     validators: [],
-                    label:
-                        "Condition 2 label (for R plots, use underscore instead of spaces between words)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7659bb9a-6e66-11e5-9396-dfe61ae1095c",
+                    label: "Condition 2 label (for R plots, use underscore instead of spaces between words)",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7659bb9a-6e66-11e5-9396-dfe61ae1095c",
                     isVisible: true,
                     defaultValue: "condition_2",
                     required: false,
@@ -181,8 +162,7 @@ export default {
                     type: "MultiFileSelector",
                     validators: [],
                     label: "Condition 2- Left Read File(s)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_765a74c2-6e66-11e5-817b-2f9efe114e44",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_765a74c2-6e66-11e5-817b-2f9efe114e44",
                     isVisible: true,
                     required: true,
                 },
@@ -194,8 +174,7 @@ export default {
                     type: "MultiFileSelector",
                     validators: [],
                     label: "Condition 2- Right Read File(s)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_765c8eb0-6e66-11e5-82b8-dbb9529dd002",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_765c8eb0-6e66-11e5-82b8-dbb9529dd002",
                     isVisible: true,
                     required: true,
                 },
@@ -206,10 +185,8 @@ export default {
                     name: "-lab3",
                     type: "Text",
                     validators: [],
-                    label:
-                        "Condition 3 label (for R plots, use underscore instead of spaces between words)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_765e9034-6e66-11e5-8c16-fbe584a86f83",
+                    label: "Condition 3 label (for R plots, use underscore instead of spaces between words)",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_765e9034-6e66-11e5-8c16-fbe584a86f83",
                     isVisible: true,
                     defaultValue: "condition_3",
                     required: false,
@@ -222,8 +199,7 @@ export default {
                     type: "MultiFileSelector",
                     validators: [],
                     label: "Condition 3- Left Read File(s)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_765f3fd4-6e66-11e5-b681-2b1be581e4b0",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_765f3fd4-6e66-11e5-b681-2b1be581e4b0",
                     isVisible: true,
                     required: false,
                 },
@@ -235,8 +211,7 @@ export default {
                     type: "MultiFileSelector",
                     validators: [],
                     label: "Condition 3- Right Read File(s)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7661184a-6e66-11e5-81e0-7be174626983",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7661184a-6e66-11e5-81e0-7be174626983",
                     isVisible: true,
                     required: false,
                 },
@@ -247,10 +222,8 @@ export default {
                     name: "-lab4",
                     type: "Text",
                     validators: [],
-                    label:
-                        "Condition 4 label (for R plots, use underscore instead of spaces between words)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7662ea80-6e66-11e5-9982-733997f7132c",
+                    label: "Condition 4 label (for R plots, use underscore instead of spaces between words)",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7662ea80-6e66-11e5-9982-733997f7132c",
                     isVisible: true,
                     defaultValue: "condition_4",
                     required: false,
@@ -263,8 +236,7 @@ export default {
                     type: "MultiFileSelector",
                     validators: [],
                     label: "Condition 4- Left Read File(s)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_766389a4-6e66-11e5-aa40-0fc7420590ff",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_766389a4-6e66-11e5-aa40-0fc7420590ff",
                     isVisible: true,
                     required: false,
                 },
@@ -276,8 +248,7 @@ export default {
                     type: "MultiFileSelector",
                     validators: [],
                     label: "Condition 4- Right Read File(s)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_76656882-6e66-11e5-83f1-0b0e5bcbd82a",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_76656882-6e66-11e5-83f1-0b0e5bcbd82a",
                     isVisible: true,
                     required: false,
                 },
@@ -295,10 +266,8 @@ export default {
                     name: "",
                     type: "Info",
                     validators: [],
-                    label:
-                        "Select a reference genome from the list or select your own reference genome file.  Note one of these two options MUST be selected.  ",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_766b19d0-6e66-11e5-969e-337d7bbf07d4",
+                    label: "Select a reference genome from the list or select your own reference genome file.  Note one of these two options MUST be selected.  ",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_766b19d0-6e66-11e5-969e-337d7bbf07d4",
                     isVisible: true,
                     required: false,
                 },
@@ -310,8 +279,7 @@ export default {
                     type: "ReferenceSequence",
                     validators: [],
                     label: "Select a reference genome from the list",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_766bcb46-6e66-11e5-9f78-63d0c98b225f",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_766bcb46-6e66-11e5-9f78-63d0c98b225f",
                     isVisible: true,
                     required: false,
                 },
@@ -321,10 +289,8 @@ export default {
                     name: "",
                     type: "Info",
                     validators: [],
-                    label:
-                        "If your species is not in the pull-down menu, try 'Community Data'->iplant_training->reference_genomes.  It contains a larger collection.  You may also provide your own reference genome in FASTA format.",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7670a314-6e66-11e5-81ed-2be7e72c8eb4",
+                    label: "If your species is not in the pull-down menu, try 'Community Data'->iplant_training->reference_genomes.  It contains a larger collection.  You may also provide your own reference genome in FASTA format.",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7670a314-6e66-11e5-81ed-2be7e72c8eb4",
                     isVisible: true,
                     required: false,
                 },
@@ -336,8 +302,7 @@ export default {
                     type: "FileInput",
                     validators: [],
                     label: "Provide a reference genome file in FASTA format",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_767150fc-6e66-11e5-8fb3-874070944eba",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_767150fc-6e66-11e5-8fb3-874070944eba",
                     isVisible: true,
                     required: false,
                 },
@@ -349,8 +314,7 @@ export default {
                     type: "Text",
                     validators: [],
                     label: "Index file prefix (use underscore between words)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_76733dcc-6e66-11e5-a5fc-5721897a1b5d",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_76733dcc-6e66-11e5-a5fc-5721897a1b5d",
                     isVisible: true,
                     defaultValue: "index_name",
                     required: true,
@@ -369,10 +333,8 @@ export default {
                     name: "",
                     type: "Info",
                     validators: [],
-                    label:
-                        "Select reference genome annotations from the list or select your own reference genome file (GTF/GFF).  This will help Tophat find known splice junctions.",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7679c58e-6e66-11e5-91d7-a3f3e691a0ad",
+                    label: "Select reference genome annotations from the list or select your own reference genome file (GTF/GFF).  This will help Tophat find known splice junctions.",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_7679c58e-6e66-11e5-91d7-a3f3e691a0ad",
                     isVisible: true,
                     required: false,
                 },
@@ -383,8 +345,7 @@ export default {
                     type: "ReferenceAnnotation",
                     validators: [],
                     label: "Select Reference Annotations",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_767a6eda-6e66-11e5-b70f-e76ed5e6137d",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_767a6eda-6e66-11e5-b70f-e76ed5e6137d",
                     isVisible: true,
                     required: false,
                 },
@@ -395,8 +356,7 @@ export default {
                     type: "Info",
                     validators: [],
                     label: "       --OR--",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_767c5f2e-6e66-11e5-bb49-cfafed9c900a",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_767c5f2e-6e66-11e5-bb49-cfafed9c900a",
                     isVisible: true,
                     required: false,
                 },
@@ -408,8 +368,7 @@ export default {
                     type: "FileInput",
                     validators: [],
                     label: "Provide a reference annotation file (GTF/GFF)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_767d056e-6e66-11e5-86be-9f40f3e940cd",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_767d056e-6e66-11e5-86be-9f40f3e940cd",
                     isVisible: true,
                     required: false,
                 },
@@ -458,8 +417,7 @@ export default {
                     type: "TextSelection",
                     validators: [],
                     label: "FASTQ Quality Scale",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_768854b4-6e66-11e5-b48a-43734dbc3d4f",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_768854b4-6e66-11e5-b48a-43734dbc3d4f",
                     isVisible: true,
                     defaultValue: {
                         id: "76895fda-6e66-11e5-a420-cf01eac7bc69",
@@ -500,8 +458,7 @@ export default {
                     type: "TextSelection",
                     validators: [],
                     label: "Library Type",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_768a67ae-6e66-11e5-90e8-478610c63094",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_768a67ae-6e66-11e5-90e8-478610c63094",
                     isVisible: true,
                     defaultValue: {
                         id: "768abbdc-6e66-11e5-a502-13343db5ecfd",
@@ -549,8 +506,7 @@ export default {
                     type: "TextSelection",
                     validators: [],
                     label: "Bowtie 2 speed and sensitivity",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_768c0cee-6e66-11e5-b65b-9fef25f3af80",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_768c0cee-6e66-11e5-b65b-9fef25f3af80",
                     isVisible: true,
                     defaultValue: {
                         id: "768ca9c4-6e66-11e5-aa17-c71e614c5f38",
@@ -569,8 +525,7 @@ export default {
                     type: "Integer",
                     validators: [],
                     label: "Mate-Pair Inner Distance",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_768de1f4-6e66-11e5-b7eb-73b490296e34",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_768de1f4-6e66-11e5-b7eb-73b490296e34",
                     isVisible: true,
                     defaultValue: "50",
                     required: true,
@@ -583,8 +538,7 @@ export default {
                     type: "Text",
                     validators: [],
                     label: "Mate inner distance standard deviation",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_768ec506-6e66-11e5-afd5-d746129481e3",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_768ec506-6e66-11e5-afd5-d746129481e3",
                     isVisible: true,
                     required: false,
                 },
@@ -601,8 +555,7 @@ export default {
                         },
                     ],
                     label: "Minimum anchor length",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_768f6524-6e66-11e5-827f-6f0b4ee6e0b3",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_768f6524-6e66-11e5-827f-6f0b4ee6e0b3",
                     isVisible: true,
                     defaultValue: "8",
                     required: true,
@@ -620,8 +573,7 @@ export default {
                         },
                     ],
                     label: "The minimum intron length",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_779b859c-6e66-11e5-a072-372b4c9c3afe",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_779b859c-6e66-11e5-a072-372b4c9c3afe",
                     isVisible: true,
                     defaultValue: "70",
                     required: true,
@@ -639,8 +591,7 @@ export default {
                         },
                     ],
                     label: "The maximum intron length",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_779da944-6e66-11e5-8d38-d3d36214f172",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_779da944-6e66-11e5-8d38-d3d36214f172",
                     isVisible: true,
                     defaultValue: "50000",
                     required: true,
@@ -652,8 +603,7 @@ export default {
                     type: "Integer",
                     validators: [],
                     label: "Maximum number of alignments to be allowed",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_779fcecc-6e66-11e5-86cb-1b816e328279",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_779fcecc-6e66-11e5-86cb-1b816e328279",
                     isVisible: true,
                     defaultValue: "20",
                     required: true,
@@ -665,8 +615,7 @@ export default {
                     type: "Integer",
                     validators: [],
                     label: "Minimum length of read segments",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77a0dc9a-6e66-11e5-b49e-9b9c4f5bf5e6",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77a0dc9a-6e66-11e5-b49e-9b9c4f5bf5e6",
                     isVisible: true,
                     defaultValue: "20",
                     required: false,
@@ -678,8 +627,7 @@ export default {
                     type: "Flag",
                     validators: [],
                     label: "No discordant alignments",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77a2ef26-6e66-11e5-b20b-e3f7d3a741a7",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77a2ef26-6e66-11e5-b20b-e3f7d3a741a7",
                     isVisible: true,
                     defaultValue: "false",
                     required: false,
@@ -691,8 +639,7 @@ export default {
                     type: "Flag",
                     validators: [],
                     label: "No mixed alignments ",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77a3fe48-6e66-11e5-ab33-e35ffc8c3dfb",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77a3fe48-6e66-11e5-ab33-e35ffc8c3dfb",
                     isVisible: true,
                     defaultValue: "false",
                     required: false,
@@ -713,8 +660,7 @@ export default {
                     type: "Flag",
                     validators: [],
                     label: "Use GTF to guide assembly ",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77b3ba86-6e66-11e5-94e8-cf29adc8c732",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77b3ba86-6e66-11e5-94e8-cf29adc8c732",
                     isVisible: true,
                     defaultValue: "true",
                     required: false,
@@ -725,10 +671,8 @@ export default {
                     name: "-o",
                     type: "FileInput",
                     validators: [],
-                    label:
-                        "Optional- Masking file containing transcripts to be ignored (GTF)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77b4c426-6e66-11e5-ae2d-835e0a30b860",
+                    label: "Optional- Masking file containing transcripts to be ignored (GTF)",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77b4c426-6e66-11e5-ae2d-835e0a30b860",
                     isVisible: true,
                     required: false,
                 },
@@ -739,8 +683,7 @@ export default {
                     type: "Flag",
                     validators: [],
                     label: "Use rescue method for multi-reads",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77b6bfce-6e66-11e5-9ef3-eb5d6fba4d1a",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77b6bfce-6e66-11e5-9ef3-eb5d6fba4d1a",
                     isVisible: true,
                     defaultValue: "false",
                     required: false,
@@ -752,8 +695,7 @@ export default {
                     type: "Integer",
                     validators: [],
                     label: "Maximum iterations allowed for MLE calculation",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77b7bfd2-6e66-11e5-836e-4776a3a5e591",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77b7bfd2-6e66-11e5-836e-4776a3a5e591",
                     isVisible: true,
                     required: false,
                 },
@@ -764,8 +706,7 @@ export default {
                     type: "Text",
                     validators: [],
                     label: "Transcript prefix id",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77b86e6e-6e66-11e5-8fba-0bb777f9cf94",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77b86e6e-6e66-11e5-8fba-0bb777f9cf94",
                     isVisible: true,
                     defaultValue: "CUFF",
                     required: true,
@@ -777,8 +718,7 @@ export default {
                     type: "Double",
                     validators: [],
                     label: "Minimum isoform fraction",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77b96dd2-6e66-11e5-8511-37f72c490739",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77b96dd2-6e66-11e5-8511-37f72c490739",
                     isVisible: true,
                     defaultValue: "0.100000000000000006",
                     required: true,
@@ -789,10 +729,8 @@ export default {
                     name: "-t",
                     type: "Double",
                     validators: [],
-                    label:
-                        "Suppress intra-intronic transcripts below this level",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77ba71aa-6e66-11e5-a5a9-0bc48d10cc9f",
+                    label: "Suppress intra-intronic transcripts below this level",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77ba71aa-6e66-11e5-a5a9-0bc48d10cc9f",
                     isVisible: true,
                     defaultValue: "0.149999999999999994",
                     required: true,
@@ -804,8 +742,7 @@ export default {
                     type: "Integer",
                     validators: [],
                     label: "Maximum intron length",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77bb715e-6e66-11e5-9cf8-8f1f49e6a943",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77bb715e-6e66-11e5-9cf8-8f1f49e6a943",
                     isVisible: true,
                     defaultValue: "300000",
                     required: true,
@@ -817,8 +754,7 @@ export default {
                     type: "Integer",
                     validators: [],
                     label: "Minimum intron length",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77bc6ae6-6e66-11e5-82d5-5b2b4070af97",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77bc6ae6-6e66-11e5-82d5-5b2b4070af97",
                     isVisible: true,
                     defaultValue: "50",
                     required: true,
@@ -830,8 +766,7 @@ export default {
                     type: "Double",
                     validators: [],
                     label: "Alpha for junction binomial test filter",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77bd6b12-6e66-11e5-8e86-5fe540333786",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77bd6b12-6e66-11e5-8e86-5fe540333786",
                     isVisible: true,
                     defaultValue: "0.00100000000000000002",
                     required: true,
@@ -843,8 +778,7 @@ export default {
                     type: "Double",
                     validators: [],
                     label: "Small anchor fraction",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77be586a-6e66-11e5-88c0-efb67eefe484",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77be586a-6e66-11e5-88c0-efb67eefe484",
                     isVisible: true,
                     defaultValue: "0.0899999999999999967",
                     required: true,
@@ -855,10 +789,8 @@ export default {
                     name: "-x",
                     type: "Integer",
                     validators: [],
-                    label:
-                        "Minimum number of fragments needed for new transfrags",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77bf4b76-6e66-11e5-9d20-070d6bd24c77",
+                    label: "Minimum number of fragments needed for new transfrags",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77bf4b76-6e66-11e5-9d20-070d6bd24c77",
                     isVisible: true,
                     defaultValue: "10",
                     required: true,
@@ -870,8 +802,7 @@ export default {
                     type: "Integer",
                     validators: [],
                     label: "Number of terminal exon bp to tolerate in introns",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77c04724-6e66-11e5-9187-bfb7ecf4b591",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77c04724-6e66-11e5-9187-bfb7ecf4b591",
                     isVisible: true,
                     defaultValue: "8",
                     required: true,
@@ -882,10 +813,8 @@ export default {
                     name: "-A",
                     type: "Integer",
                     validators: [],
-                    label:
-                        "Minimum average coverage required to attempt 3' trimming",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77c14dea-6e66-11e5-8919-374b147ed8cb",
+                    label: "Minimum average coverage required to attempt 3' trimming",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77c14dea-6e66-11e5-8919-374b147ed8cb",
                     isVisible: true,
                     defaultValue: "10",
                     required: true,
@@ -896,10 +825,8 @@ export default {
                     name: "-B",
                     type: "Double",
                     validators: [],
-                    label:
-                        "Fraction of average coverage below which to trim 3' end",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77c25a28-6e66-11e5-8ba6-5bd5fef6843b",
+                    label: "Fraction of average coverage below which to trim 3' end",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77c25a28-6e66-11e5-8ba6-5bd5fef6843b",
                     isVisible: true,
                     defaultValue: "0.100000000000000006",
                     required: true,
@@ -911,8 +838,7 @@ export default {
                     type: "Integer",
                     validators: [],
                     label: "Maximum gap size to fill between transfrags",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77c36828-6e66-11e5-8579-67629479c0c8",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77c36828-6e66-11e5-8579-67629479c0c8",
                     isVisible: true,
                     defaultValue: "50",
                     required: true,
@@ -932,8 +858,7 @@ export default {
                     type: "Flag",
                     validators: [],
                     label: "Fragment bias correction using reference sequence",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77c97394-6e66-11e5-8dcd-bbd7db139032",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77c97394-6e66-11e5-8dcd-bbd7db139032",
                     isVisible: true,
                     defaultValue: "true",
                     required: false,
@@ -944,10 +869,8 @@ export default {
                     name: "-E",
                     type: "FileInput",
                     validators: [],
-                    label:
-                        "Masking file containing transcripts to ignore (.GTF)",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77ca75aa-6e66-11e5-a67e-0766d453e512",
+                    label: "Masking file containing transcripts to ignore (.GTF)",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77ca75aa-6e66-11e5-a67e-0766d453e512",
                     isVisible: true,
                     required: false,
                 },
@@ -958,8 +881,7 @@ export default {
                     type: "Flag",
                     validators: [],
                     label: "Use multi read hit rescue method",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77cc85ac-6e66-11e5-a9ac-033a09d59dc6",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77cc85ac-6e66-11e5-a9ac-033a09d59dc6",
                     isVisible: true,
                     defaultValue: "false",
                     required: false,
@@ -970,10 +892,8 @@ export default {
                     name: "-G",
                     type: "Integer",
                     validators: [],
-                    label:
-                        "Minimum number of alignments in a locus for testing",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77cd8be6-6e66-11e5-a3b9-1ff6389fa59c",
+                    label: "Minimum number of alignments in a locus for testing",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77cd8be6-6e66-11e5-a3b9-1ff6389fa59c",
                     isVisible: true,
                     defaultValue: "10",
                     required: false,
@@ -985,8 +905,7 @@ export default {
                     type: "Double",
                     validators: [],
                     label: "False discovery rate used in testing",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77ce955e-6e66-11e5-b771-0716b8ce1ed0",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77ce955e-6e66-11e5-b771-0716b8ce1ed0",
                     isVisible: true,
                     defaultValue: "0.0500000000000000028",
                     required: false,
@@ -1014,8 +933,7 @@ export default {
                     type: "TextSelection",
                     validators: [],
                     label: "Select hits to use for normalization",
-                    id:
-                        "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77cf8d6a-6e66-11e5-bb58-0b51f85fb2e9",
+                    id: "76009b5a-6e66-11e5-be5d-3b326b43e3dd_77cf8d6a-6e66-11e5-bb58-0b51f85fb2e9",
                     isVisible: true,
                     defaultValue: {
                         id: "77cfed32-6e66-11e5-a7be-ff65b605993d",

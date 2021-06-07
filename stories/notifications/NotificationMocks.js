@@ -82,8 +82,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "B17C5598-FDEC-45B9-B8C2-AD5BA0927545",
                 timestamp: "1603848073751",
-                text:
-                    "Finished deleting /iplant/trash/home/de-irods/ipcdev/test-trash.5jHQXyi",
+                text: "Finished deleting /iplant/trash/home/de-irods/ipcdev/test-trash.5jHQXyi",
             },
         },
         {
@@ -103,8 +102,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "FD29FA13-B1A1-40CA-9E49-030E44AF8697",
                 timestamp: "1603847948660",
-                text:
-                    "Finished moving /iplant/home/ipcdev/test-trash to trash at /iplant/trash/home/de-irods/ipcdev/test-trash.5jHQXyi",
+                text: "Finished moving /iplant/home/ipcdev/test-trash to trash at /iplant/trash/home/de-irods/ipcdev/test-trash.5jHQXyi",
             },
         },
         {
@@ -897,8 +895,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "2AF6D5DB-21C0-4ED8-926F-96A8FF1AD4C0",
                 timestamp: "1602633263489",
-                text:
-                    " The following file(s)/folder(s) have been unshared with psarando: hello-shiny",
+                text: " The following file(s)/folder(s) have been unshared with psarando: hello-shiny",
             },
         },
         {
@@ -938,8 +935,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "DEB0DB55-6AE9-49E3-9F7C-6EB77543D6A5",
                 timestamp: "1602633002667",
-                text:
-                    "Finished renaming /iplant/home/ipcdev/CORE-5257/subCORE-5257/test1/folderwithalongername/XXfolderwithanevenlongernameXX to /iplant/home/ipcdev/CORE-5257/subCORE-5257/test1/folderwithalongername/folderwithanevenlongername",
+                text: "Finished renaming /iplant/home/ipcdev/CORE-5257/subCORE-5257/test1/folderwithalongername/XXfolderwithanevenlongernameXX to /iplant/home/ipcdev/CORE-5257/subCORE-5257/test1/folderwithalongername/folderwithanevenlongername",
             },
         },
         {
@@ -960,8 +956,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "2DFB8007-1DC6-468F-9B86-3BBE0AD7CEC4",
                 timestamp: "1602632967970",
-                text:
-                    "Finished renaming /iplant/home/ipcdev/CORE-5257/subCORE-5257/test1/folderwithalongername/folderwithanevenlongername to /iplant/home/ipcdev/CORE-5257/subCORE-5257/test1/folderwithalongername/XXfolderwithanevenlongernameXX",
+                text: "Finished renaming /iplant/home/ipcdev/CORE-5257/subCORE-5257/test1/folderwithalongername/folderwithanevenlongername to /iplant/home/ipcdev/CORE-5257/subCORE-5257/test1/folderwithalongername/XXfolderwithanevenlongernameXX",
             },
         },
         {
@@ -981,8 +976,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "99CBAC33-AC0D-4747-BAA4-D7A7FAB6E9BE",
                 timestamp: "1602632946037",
-                text:
-                    "The following file(s)/folder(s) have been shared with psarando: folderwithanevenlongername",
+                text: "The following file(s)/folder(s) have been shared with psarando: folderwithanevenlongername",
             },
         },
         {
@@ -1000,8 +994,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "41F0F8EE-64F4-4064-AC5E-3DB04098BF71",
                 timestamp: "1602632918654",
-                text:
-                    "The following file(s)/folder(s) have been shared with psarando: hello-shiny",
+                text: "The following file(s)/folder(s) have been shared with psarando: hello-shiny",
             },
         },
         {
@@ -1020,8 +1013,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "A01667DC-1A9C-4D17-976C-0158B9D12945",
                 timestamp: "1602632844519",
-                text:
-                    'Finished restoring ["/iplant/trash/home/de-irods/ipcdev/lol.X1pKu1B"] to /iplant/home/ipcdev/lol',
+                text: 'Finished restoring ["/iplant/trash/home/de-irods/ipcdev/lol.X1pKu1B"] to /iplant/home/ipcdev/lol',
             },
         },
         {
@@ -1040,8 +1032,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "AE62C0DF-2FC6-4EC7-9136-83823DBEE1C1",
                 timestamp: "1602632806479",
-                text:
-                    "Finished moving /iplant/home/ipcdev/test/logs to /iplant/home/ipcdev/logs",
+                text: "Finished moving /iplant/home/ipcdev/test/logs to /iplant/home/ipcdev/logs",
             },
         },
         {
@@ -1060,8 +1051,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "454B48E5-0E3B-49D1-9E2F-D004A0DB4300",
                 timestamp: "1602632792551",
-                text:
-                    "Finished moving /iplant/home/ipcdev/logs to /iplant/home/ipcdev/test/logs",
+                text: "Finished moving /iplant/home/ipcdev/logs to /iplant/home/ipcdev/test/logs",
             },
         },
         {
@@ -1079,8 +1069,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "87B01765-9B2B-4EC5-88F8-72911A280528",
                 timestamp: "1602632774501",
-                text:
-                    "Finished moving /iplant/home/ipcdev/lol to trash at /iplant/trash/home/de-irods/ipcdev/lol.X1pKu1B",
+                text: "Finished moving /iplant/home/ipcdev/lol to trash at /iplant/trash/home/de-irods/ipcdev/lol.X1pKu1B",
             },
         },
         {
@@ -1099,8 +1088,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "34D7EFA1-BB61-4B45-96F9-B08EED32978A",
                 timestamp: "1602632738739",
-                text:
-                    "Finished renaming /iplant/home/ipcdev/upload.txt to /iplant/home/ipcdev/upload",
+                text: "Finished renaming /iplant/home/ipcdev/upload.txt to /iplant/home/ipcdev/upload",
             },
         },
         {
@@ -1119,8 +1107,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "C0F33DF3-5715-4701-B722-FFA001966E21",
                 timestamp: "1602632724716",
-                text:
-                    "Finished renaming /iplant/home/ipcdev/upload to /iplant/home/ipcdev/upload.txt",
+                text: "Finished renaming /iplant/home/ipcdev/upload to /iplant/home/ipcdev/upload.txt",
             },
         },
         {
@@ -1143,8 +1130,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "D985EF47-2F4A-41F5-8D85-B8BF8CD7F46F",
                 timestamp: "1602603884529",
-                text:
-                    "wregglej has shared the following file(s)/folder(s) with you: gitignore_global.txt, recurisive_avu_queries.txt, script-error.log, script-output.log",
+                text: "wregglej has shared the following file(s)/folder(s) with you: gitignore_global.txt, recurisive_avu_queries.txt, script-error.log, script-output.log",
             },
         },
         {
@@ -1168,8 +1154,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "A7235308-971C-4650-88E3-9CC650FE1D2F",
                 timestamp: "1602603882538",
-                text:
-                    "wregglej has shared the following analysis with you: DE_Word_Count_analysis1",
+                text: "wregglej has shared the following analysis with you: DE_Word_Count_analysis1",
             },
         },
         {
@@ -1198,8 +1183,7 @@ export const mockNotificationsListing = {
             message: {
                 id: "B6051696-56D4-4D94-9ED6-BF55CC272EA7",
                 timestamp: "1602603881415",
-                text:
-                    "wregglej has shared the following apps with you: test-vbisque, testingcrap",
+                text: "wregglej has shared the following apps with you: test-vbisque, testingcrap",
             },
         },
         {

@@ -160,14 +160,8 @@ function ItemsPerPage(props) {
 function DEPagination(props) {
     const classes = useStyles();
     const theme = useTheme();
-    const {
-        onChange,
-        page,
-        totalPages,
-        onPageSizeChange,
-        pageSize,
-        baseId,
-    } = props;
+    const { onChange, page, totalPages, onPageSizeChange, pageSize, baseId } =
+        props;
     const matches = useMediaQuery(theme.breakpoints.down("sm"));
     return (
         <Paper className={classes.paper}>

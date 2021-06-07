@@ -111,9 +111,8 @@ function Listing(props) {
 
     const [selectedAnalysis, setSelectedAnalysis] = useState(null);
     const [isSingleSelection, setSingleSelection] = useState(false);
-    const [shareWithSupportAnalysis, setShareWithSupportAnalysis] = useState(
-        null
-    );
+    const [shareWithSupportAnalysis, setShareWithSupportAnalysis] =
+        useState(null);
 
     const [detailsOpen, setDetailsOpen] = useState(false);
 
@@ -121,19 +120,14 @@ function Listing(props) {
     const [relaunchDialogOpen, setRelaunchDialogOpen] = useState(false);
     const [renameDialogOpen, setRenameDialogOpen] = useState(false);
     const [commentDialogOpen, setCommentDialogOpen] = useState(false);
-    const [
-        confirmExtendTimeLimitDlgOpen,
-        setConfirmExtendTimeLimitDlgOpen,
-    ] = useState(false);
+    const [confirmExtendTimeLimitDlgOpen, setConfirmExtendTimeLimitDlgOpen] =
+        useState(false);
 
     const [analysesKey, setAnalysesKey] = useState(ANALYSES_LISTING_QUERY_KEY);
-    const [
-        analysesListingQueryEnabled,
-        setAnalysesListingQueryEnabled,
-    ] = useState(false);
-    const [pendingTerminationDlgOpen, setPendingTerminationDlgOpen] = useState(
-        false
-    );
+    const [analysesListingQueryEnabled, setAnalysesListingQueryEnabled] =
+        useState(false);
+    const [pendingTerminationDlgOpen, setPendingTerminationDlgOpen] =
+        useState(false);
     const [timeLimitQueryEnabled, setTimeLimitQueryEnabled] = useState(false);
     const [timeLimit, setTimeLimit] = useState();
 
@@ -180,16 +174,14 @@ function Listing(props) {
         }
     );
 
-    const [
-        relaunchAnalysesMutation,
-        { isLoading: relaunchLoading },
-    ] = useMutation(relaunchAnalyses, {
-        onSuccess: () =>
-            queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY),
-        onError: (error) => {
-            showErrorAnnouncer(t("analysesRelaunchError"), error);
-        },
-    });
+    const [relaunchAnalysesMutation, { isLoading: relaunchLoading }] =
+        useMutation(relaunchAnalyses, {
+            onSuccess: () =>
+                queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY),
+            onError: (error) => {
+                showErrorAnnouncer(t("analysesRelaunchError"), error);
+            },
+        });
 
     const [
         renameAnalysisMutation,

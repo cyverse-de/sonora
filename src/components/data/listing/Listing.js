@@ -584,7 +584,9 @@ function Listing(props) {
                     setImportDialogOpen={setImportDialogOpen}
                     localUploadId={localUploadId}
                     uploadMenuId={build(baseId, ids.TOOLBAR, ids.UPLOAD_MENU)}
-                    onCreateFileSelected={(fileType) => onCreateFileSelected(path, fileType)}
+                    onCreateFileSelected={(fileType) =>
+                        onCreateFileSelected(path, fileType)
+                    }
                     setSharingDlgOpen={setSharingDlgOpen}
                     onPublicLinksSelected={() => setPublicLinksDlgOpen(true)}
                     toolbarVisibility={toolbarVisibility}

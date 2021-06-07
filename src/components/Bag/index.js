@@ -311,7 +311,12 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         [sharingReducer]
     );
 
-    const { isError: hasErrored, data, isLoading, error } = facade.useBag({
+    const {
+        isError: hasErrored,
+        data,
+        isLoading,
+        error,
+    } = facade.useBag({
         enabled: userProfile,
         onSuccess: convertItems,
     });

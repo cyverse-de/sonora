@@ -32,8 +32,7 @@ export default {
                     type: "FileInput",
                     validators: [],
                     label: "Select an input file",
-                    id:
-                        "6790a642-854a-11e4-b4c9-27b8156a741a_2f58fce9-8183-4ab5-97c4-970592d1c35a",
+                    id: "6790a642-854a-11e4-b4c9-27b8156a741a_2f58fce9-8183-4ab5-97c4-970592d1c35a",
                     isVisible: true,
                     required: true,
                 },
@@ -52,8 +51,7 @@ export default {
                     type: "FileInput",
                     validators: [],
                     label: "First File",
-                    id:
-                        "6790a76e-854a-11e4-bf11-6f99489b3e09_f744f05b-e8d4-4428-84e9-934431c304af",
+                    id: "6790a76e-854a-11e4-bf11-6f99489b3e09_f744f05b-e8d4-4428-84e9-934431c304af",
                     isVisible: true,
                     required: true,
                 },
@@ -72,8 +70,7 @@ export default {
                     type: "FileOutput",
                     validators: [],
                     label: "concatenate_out.txt",
-                    id:
-                        "6790a76e-854a-11e4-bf11-6f99489b3e09_14a78d0a-21f1-428c-9279-d803043ae99d",
+                    id: "6790a76e-854a-11e4-bf11-6f99489b3e09_14a78d0a-21f1-428c-9279-d803043ae99d",
                     isVisible: true,
                     defaultValue: "concatentate_out.txt",
                     required: true,

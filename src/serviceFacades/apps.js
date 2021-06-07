@@ -353,15 +353,8 @@ function adminUpdateApp({ app, details, avus, values }) {
     const documentation = details?.documentation;
     const promises = [];
     if (app !== values) {
-        const {
-            deleted,
-            disabled,
-            description,
-            name,
-            id,
-            system_id,
-            extra,
-        } = values;
+        const { deleted, disabled, description, name, id, system_id, extra } =
+            values;
         promises.push(
             adminPatchApp({
                 deleted,

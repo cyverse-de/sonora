@@ -20,8 +20,7 @@ export const dataSearchResp = {
                     { user: "rodsadmin#iplant", permission: "own" },
                     { user: "sriram#iplant", permission: "own" },
                 ],
-                path:
-                    "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-12-15-18-45.2",
+                path: "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-12-15-18-45.2",
                 fileSize: 0,
                 creator: "sriram#iplant",
                 fileType: "",
@@ -63,8 +62,7 @@ export const dataSearchResp = {
                     { user: "rodsadmin#iplant", permission: "own" },
                     { user: "sriram#iplant", permission: "own" },
                 ],
-                path:
-                    "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-12-15-25-42.2",
+                path: "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-12-15-25-42.2",
                 fileSize: 0,
                 creator: "sriram#iplant",
                 fileType: "",
@@ -106,8 +104,7 @@ export const dataSearchResp = {
                     { user: "rodsadmin#iplant", permission: "own" },
                     { user: "sriram#iplant", permission: "own" },
                 ],
-                path:
-                    "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-07-02-21.4",
+                path: "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-07-02-21.4",
                 fileSize: 0,
                 creator: "sriram#iplant",
                 fileType: "",
@@ -149,8 +146,7 @@ export const dataSearchResp = {
                     { user: "rodsadmin#iplant", permission: "own" },
                     { user: "sriram#iplant", permission: "own" },
                 ],
-                path:
-                    "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-07-18-10.2",
+                path: "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-07-18-10.2",
                 fileSize: 0,
                 creator: "sriram#iplant",
                 fileType: "",
@@ -192,8 +188,7 @@ export const dataSearchResp = {
                     { user: "rodsadmin#iplant", permission: "own" },
                     { user: "sriram#iplant", permission: "own" },
                 ],
-                path:
-                    "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-07-24-33.8",
+                path: "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-07-24-33.8",
                 fileSize: 0,
                 creator: "sriram#iplant",
                 fileType: "",
@@ -235,8 +230,7 @@ export const dataSearchResp = {
                     { user: "rodsadmin#iplant", permission: "own" },
                     { user: "sriram#iplant", permission: "own" },
                 ],
-                path:
-                    "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-07-29-23.5",
+                path: "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-07-29-23.5",
                 fileSize: 0,
                 creator: "sriram#iplant",
                 fileType: "",
@@ -278,8 +272,7 @@ export const dataSearchResp = {
                     { user: "rodsadmin#iplant", permission: "own" },
                     { user: "sriram#iplant", permission: "own" },
                 ],
-                path:
-                    "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-08-26-24.8",
+                path: "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-08-26-24.8",
                 fileSize: 0,
                 creator: "sriram#iplant",
                 fileType: "",
@@ -321,8 +314,7 @@ export const dataSearchResp = {
                     { user: "rodsadmin#iplant", permission: "own" },
                     { user: "sriram#iplant", permission: "own" },
                 ],
-                path:
-                    "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-11-47-37.2",
+                path: "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-11-47-37.2",
                 fileSize: 0,
                 creator: "sriram#iplant",
                 fileType: "",
@@ -364,8 +356,7 @@ export const dataSearchResp = {
                     { user: "rodsadmin#iplant", permission: "own" },
                     { user: "sriram#iplant", permission: "own" },
                 ],
-                path:
-                    "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-13-40-49.2",
+                path: "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-13-40-49.2",
                 fileSize: 0,
                 creator: "sriram#iplant",
                 fileType: "",
@@ -407,8 +398,7 @@ export const dataSearchResp = {
                     { user: "rodsadmin#iplant", permission: "own" },
                     { user: "sriram#iplant", permission: "own" },
                 ],
-                path:
-                    "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-13-55-34.2",
+                path: "/iplant/home/sriram/analyses_qa/DE_Word_Count_analysis1-2020-04-13-13-55-34.2",
                 fileSize: 0,
                 creator: "sriram#iplant",
                 fileType: "",
@@ -471,8 +461,7 @@ export const appsSearchResp = {
             deleted: false,
             pipeline_eligibility: {
                 is_valid: false,
-                reason:
-                    "Job type, osg, can't currently be included in a pipeline.",
+                reason: "Job type, osg, can't currently be included in a pipeline.",
             },
             is_favorite: false,
             integrator_name: "Sarah Roberts",
@@ -497,8 +486,7 @@ export const appsSearchResp = {
             deleted: false,
             pipeline_eligibility: {
                 is_valid: false,
-                reason:
-                    "Job type, osg, can't currently be included in a pipeline.",
+                reason: "Job type, osg, can't currently be included in a pipeline.",
             },
             is_favorite: false,
             integrator_name: "Sarah Roberts",
@@ -524,8 +512,7 @@ export const appsSearchResp = {
             deleted: false,
             pipeline_eligibility: {
                 is_valid: false,
-                reason:
-                    "Job type, interactive, can't currently be included in a pipeline.",
+                reason: "Job type, interactive, can't currently be included in a pipeline.",
             },
             is_favorite: false,
             integrator_name: "Edwin Skidmore",

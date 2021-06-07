@@ -83,16 +83,14 @@ export default function AdminAppDetailsDialog(props) {
         },
     });
 
-    const [
-        adminMutateAppMetadata,
-        { status: metadataUpdateStatus },
-    ] = useMutation(adminUpdateAppMetadata, {
-        onSuccess: (data) => {
-            queryCache.invalidateQueries(ADMIN_APPS_QUERY_KEY);
-            handleClose();
-        },
-        onError: setUpdateAppError,
-    });
+    const [adminMutateAppMetadata, { status: metadataUpdateStatus }] =
+        useMutation(adminUpdateAppMetadata, {
+            onSuccess: (data) => {
+                queryCache.invalidateQueries(ADMIN_APPS_QUERY_KEY);
+                handleClose();
+            },
+            onError: setUpdateAppError,
+        });
 
     const [adminMutateApp, { status: allUpdatesStatus }] = useMutation(
         adminUpdateApp,

@@ -14,8 +14,7 @@ export const ReferenceGenomeParamsRelaunch = () => {
         id: "b7d3e1b7-e1f8-42cb-86b2-4f85e329e42a",
         last_modified_by: "vaughn@iplantcollaborative.org",
         name: "Theobroma cacao [Cocoa bean] (Phytozome 9.0)",
-        path:
-            "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Theobroma_cacao.Matina_1-6/de_support/",
+        path: "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Theobroma_cacao.Matina_1-6/de_support/",
         created_on: "1382790214000",
         last_modified_on: "1382790214000",
     };
@@ -25,8 +24,7 @@ export const ReferenceGenomeParamsRelaunch = () => {
         id: "e38b6fae-2e4b-4217-8c1f-6badea3ff7fc",
         last_modified_by: "vaughn@iplantcollaborative.org",
         name: "Canis lupus familiaris [Dog] (Ensembl 14_67)",
-        path:
-            "/data2/collections/genomeservices/1.0.0/14_67/Canis_lupus_familiaris.CanFam_2.0/de_support/",
+        path: "/data2/collections/genomeservices/1.0.0/14_67/Canis_lupus_familiaris.CanFam_2.0/de_support/",
         created_on: "1346948048000",
         last_modified_on: "1378823110000",
     };
@@ -36,8 +34,7 @@ export const ReferenceGenomeParamsRelaunch = () => {
         id: "41149e71-4328-4391-b1d2-25fdbdca5a54",
         last_modified_by: "vaughn@iplantcollaborative.org",
         name: "Felis catus [Domestic cat] (Ensembl 14_67)",
-        path:
-            "/data2/collections/genomeservices/1.0.0/14_67/Felis_catus.CAT/de_support/",
+        path: "/data2/collections/genomeservices/1.0.0/14_67/Felis_catus.CAT/de_support/",
         created_on: "1346948048000",
         last_modified_on: "1378823157000",
     };

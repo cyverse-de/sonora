@@ -19,13 +19,8 @@ import {
 } from "@material-ui/icons";
 
 export default function TrashMenuItems(props) {
-    const {
-        baseId,
-        selected,
-        handleDelete,
-        handleRestore,
-        handleEmptyTrash,
-    } = props;
+    const { baseId, selected, handleDelete, handleRestore, handleEmptyTrash } =
+        props;
     const { t } = useTranslation("data");
     return [
         selected?.length > 0 && (

@@ -93,37 +93,11 @@ function Listing(props) {
 
     const sharingApps = formatSharedApps(getSelectedApps());
 
-    const {
-        isFetching: appInCategoryStatus,
-        error: appsInCategoryError,
-    } = useQuery({
-        queryKey: [
-            APPS_IN_CATEGORY_QUERY_KEY,
-            {
-                systemId: category?.system_id,
-                rowsPerPage,
-                orderBy,
-                order,
-                appTypeFilter: filter?.value,
-                page,
-                categoryId: category?.id,
-                userId: userProfile?.id,
-            },
-        ],
-        queryFn: getAppsInCategory,
-        config: {
-            enabled:
-                // Disable the query if the category ID is fake and the user is
-                // logged in.  The Navigation component should update the ID to
-                // the real ID.
-                category?.system_id &&
-                category?.id &&
-                (!userProfile?.id ||
-                    ![constants.APPS_UNDER_DEV, constants.FAV_APPS].includes(
-                        category?.id
-                    )),
-            onSuccess: (resp) => {
-                trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
+    const { isFetching: appInCategoryStatus, error: appsInCategoryError } =
+        useQuery({
+            queryKey: [
+                APPS_IN_CATEGORY_QUERY_KEY,
+                {
                     systemId: category?.system_id,
                     rowsPerPage,
                     orderBy,
@@ -132,11 +106,36 @@ function Listing(props) {
                     page,
                     categoryId: category?.id,
                     userId: userProfile?.id,
-                });
-                setData(resp);
+                },
+            ],
+            queryFn: getAppsInCategory,
+            config: {
+                enabled:
+                    // Disable the query if the category ID is fake and the user is
+                    // logged in.  The Navigation component should update the ID to
+                    // the real ID.
+                    category?.system_id &&
+                    category?.id &&
+                    (!userProfile?.id ||
+                        ![
+                            constants.APPS_UNDER_DEV,
+                            constants.FAV_APPS,
+                        ].includes(category?.id)),
+                onSuccess: (resp) => {
+                    trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
+                        systemId: category?.system_id,
+                        rowsPerPage,
+                        orderBy,
+                        order,
+                        appTypeFilter: filter?.value,
+                        page,
+                        categoryId: category?.id,
+                        userId: userProfile?.id,
+                    });
+                    setData(resp);
+                },
             },
-        },
-    });
+        });
 
     const { isFetching: allAppsStatus, error: listingError } = useQuery({
         queryKey: [

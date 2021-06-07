@@ -62,13 +62,8 @@ function ToolbarButtons(props) {
 }
 
 function SelectionToolbar(props) {
-    const {
-        baseId,
-        selectedApps,
-        onClose,
-        onConfirm,
-        validateSelection,
-    } = props;
+    const { baseId, selectedApps, onClose, onConfirm, validateSelection } =
+        props;
     const { t } = useTranslation("apps");
     const classes = useStyles();
     const hasSelection = selectedApps?.length > 0;

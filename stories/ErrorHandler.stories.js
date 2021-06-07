@@ -19,8 +19,7 @@ const errorResponse = {
         "x-powered-by": "Express",
     },
     config: {
-        url:
-            '/api/analyses?limit=25&sortfield=startdate&sort-dir=DESC&offset=0&filter=[{"field":"parent_id","value":""},{"field":"ownership","value":"all"}]',
+        url: '/api/analyses?limit=25&sortfield=startdate&sort-dir=DESC&offset=0&filter=[{"field":"parent_id","value":""},{"field":"ownership","value":"all"}]',
         method: "get",
         headers: {
             Accept: "application/json, text/plain, *!/!*",
@@ -39,11 +38,9 @@ const errorResponse = {
 const errorObject = {
     message: "Request failed with status code 400",
     name: "Error",
-    stack:
-        "Error: Request failed with status code 400\n    at createError (http://localhost:3000/_next/static/development/pages/analyses.js?ts=1587458580850:203736:15)\n    at settle (http://localhost:3000/_next/static/development/pages/analyses.js?ts=1587458580850:203997:12)\n    at XMLHttpRequest.handleLoad (http://localhost:3000/_next/static/development/pages/analyses.js?ts=1587458580850:203205:7)",
+    stack: "Error: Request failed with status code 400\n    at createError (http://localhost:3000/_next/static/development/pages/analyses.js?ts=1587458580850:203736:15)\n    at settle (http://localhost:3000/_next/static/development/pages/analyses.js?ts=1587458580850:203997:12)\n    at XMLHttpRequest.handleLoad (http://localhost:3000/_next/static/development/pages/analyses.js?ts=1587458580850:203205:7)",
     config: {
-        url:
-            '/api/analyses?limit=25&sortfield=startdate&sort-dir=DESC&offset=0&filter=[{"field":"parent_id","value":""},{"field":"ownership","value":"all"}]',
+        url: '/api/analyses?limit=25&sortfield=startdate&sort-dir=DESC&offset=0&filter=[{"field":"parent_id","value":""},{"field":"ownership","value":"all"}]',
         method: "get",
         headers: {
             Accept: "application/json, text/plain, *!/!*",
@@ -92,8 +89,7 @@ const loginErrorResponse = {
 const loginErrorObject = {
     message: "Request failed with status code 401",
     name: "Error",
-    stack:
-        "Error: Request failed with status code 401\n    at createError (http://localhost:3000/_next/static/development/pages/_app.js?ts=1587477886272:196870:15)\n    at settle (http://localhost:3000/_next/static/development/pages/_app.js?ts=1587477886272:197131:12)\n    at XMLHttpRequest.handleLoad (http://localhost:3000/_next/static/development/pages/_app.js?ts=1587477886272:196339:7)",
+    stack: "Error: Request failed with status code 401\n    at createError (http://localhost:3000/_next/static/development/pages/_app.js?ts=1587477886272:196870:15)\n    at settle (http://localhost:3000/_next/static/development/pages/_app.js?ts=1587477886272:197131:12)\n    at XMLHttpRequest.handleLoad (http://localhost:3000/_next/static/development/pages/_app.js?ts=1587477886272:196339:7)",
     config: {
         url: "/api/apps/categories?public=false",
         method: "get",

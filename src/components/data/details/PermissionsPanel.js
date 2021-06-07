@@ -67,17 +67,13 @@ function PermissionsTabPanel(props) {
     const classes = useStyles();
     const { baseId, resource, selfPermission } = props;
     const { t } = useTranslation("data");
-    const [fetchUserInfoKey, setFetchUserInfoKey] = useState(
-        USER_INFO_QUERY_KEY
-    );
-    const [fetchUserInfoQueryEnabled, setFetchUserInfoQueryEnabled] = useState(
-        false
-    );
+    const [fetchUserInfoKey, setFetchUserInfoKey] =
+        useState(USER_INFO_QUERY_KEY);
+    const [fetchUserInfoQueryEnabled, setFetchUserInfoQueryEnabled] =
+        useState(false);
 
-    const [
-        fetchResourcePermissionsKey,
-        setFetchResourcePermissionsKey,
-    ] = useState(RESOURCE_PERMISSIONS_KEY);
+    const [fetchResourcePermissionsKey, setFetchResourcePermissionsKey] =
+        useState(RESOURCE_PERMISSIONS_KEY);
     const [
         fetchResourcePermissionsQueryEnabled,
         setFetchResourcePermissionsQueryEnabled,
@@ -282,66 +278,66 @@ function PermissionsTabPanel(props) {
                                     )
                                 </ListSubheader>
                                 {groupedPermissions &&
-                                    groupedPermissions[
-                                        permissionValue
-                                    ]?.map((permission, index) => (
-                                        <Identity
-                                            id={build(
-                                                baseId,
-                                                ids.PERMISSION_LIST,
-                                                permission.user
-                                            )}
-                                            key={index}
-                                            primaryText={getUserPrimaryText(
-                                                permission
-                                            )}
-                                            secondaryText={getUserSecondaryText(
-                                                permission
-                                            )}
-                                            secondaryAction={
-                                                <>
-                                                    {permissionLoadingIds.includes(
-                                                        permission.user
-                                                    ) ? (
-                                                        <CircularProgress
-                                                            color="inherit"
-                                                            size={20}
-                                                        />
-                                                    ) : (
-                                                        <PermissionSelector
-                                                            baseId={build(
-                                                                baseId,
-                                                                ids.PERMISSION_LIST,
-                                                                permission.user
-                                                            )}
-                                                            currentPermission={
-                                                                permission.permission
-                                                            }
-                                                            onPermissionChange={(
-                                                                updatedPermissionValue
-                                                            ) =>
-                                                                onPermissionChange(
-                                                                    permission,
+                                    groupedPermissions[permissionValue]?.map(
+                                        (permission, index) => (
+                                            <Identity
+                                                id={build(
+                                                    baseId,
+                                                    ids.PERMISSION_LIST,
+                                                    permission.user
+                                                )}
+                                                key={index}
+                                                primaryText={getUserPrimaryText(
+                                                    permission
+                                                )}
+                                                secondaryText={getUserSecondaryText(
+                                                    permission
+                                                )}
+                                                secondaryAction={
+                                                    <>
+                                                        {permissionLoadingIds.includes(
+                                                            permission.user
+                                                        ) ? (
+                                                            <CircularProgress
+                                                                color="inherit"
+                                                                size={20}
+                                                            />
+                                                        ) : (
+                                                            <PermissionSelector
+                                                                baseId={build(
+                                                                    baseId,
+                                                                    ids.PERMISSION_LIST,
+                                                                    permission.user
+                                                                )}
+                                                                currentPermission={
+                                                                    permission.permission
+                                                                }
+                                                                onPermissionChange={(
                                                                     updatedPermissionValue
-                                                                )
-                                                            }
-                                                        />
-                                                    )}
-                                                </>
-                                            }
-                                            avatar={
-                                                <Avatar
-                                                    className={getAvatarClass(
-                                                        permissionValue
-                                                    )}
-                                                >
-                                                    {getAvatarLetters(
-                                                        permission
-                                                    )}
-                                                </Avatar>
-                                            }
-                                        />
-                                    ))}
+                                                                ) =>
+                                                                    onPermissionChange(
+                                                                        permission,
+                                                                        updatedPermissionValue
+                                                                    )
+                                                                }
+                                                            />
+                                                        )}
+                                                    </>
+                                                }
+                                                avatar={
+                                                    <Avatar
+                                                        className={getAvatarClass(
+                                                            permissionValue
+                                                        )}
+                                                    >
+                                                        {getAvatarLetters(
+                                                            permission
+                                                        )}
+                                                    </Avatar>
+                                                }
+                                            />
+                                        )
+                                    )}
                             </Fragment>
                         )
                     )}

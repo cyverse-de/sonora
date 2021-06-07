@@ -37,13 +37,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CreateQuickLaunchDialog(props) {
-    const {
-        baseDebugId,
-        appName,
-        dialogOpen,
-        createQuickLaunch,
-        onHide,
-    } = props;
+    const { baseDebugId, appName, dialogOpen, createQuickLaunch, onHide } =
+        props;
     const { t } = useTranslation("apps");
     const [saveError, setSaveError] = React.useState(null);
 

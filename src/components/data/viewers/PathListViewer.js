@@ -15,7 +15,6 @@ import React, {
 import { useRowSelect, useTable } from "react-table";
 import { useTranslation } from "i18n";
 
-
 import constants from "../../../constants";
 import { UploadTrackingProvider } from "contexts/uploadTracking";
 

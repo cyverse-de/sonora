@@ -23,9 +23,8 @@ const Relaunch = () => {
     const [relaunchKey, setRelaunchKey] = React.useState(
         ANALYSIS_RELAUNCH_QUERY_KEY
     );
-    const [relaunchQueryEnabled, setRelaunchQueryEnabled] = React.useState(
-        false
-    );
+    const [relaunchQueryEnabled, setRelaunchQueryEnabled] =
+        React.useState(false);
 
     const [app, setApp] = React.useState(null);
     const [relaunchError, setRelaunchError] = React.useState(null);

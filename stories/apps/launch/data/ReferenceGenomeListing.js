@@ -5,8 +5,7 @@ const ReferenceGenomeListing = {
         {
             id: "756adb31-72f4-487f-ba95-c5bcca7b13b5",
             name: "Caenorhabditis elegans [C. elegans] (Ensembl 67)",
-            path:
-                "/data2/collections/genomeservices/0.2.1/Caenorhabditis_elegans.WBcel215/de_support/",
+            path: "/data2/collections/genomeservices/0.2.1/Caenorhabditis_elegans.WBcel215/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -16,8 +15,7 @@ const ReferenceGenomeListing = {
         {
             id: "ea2e3413-924e-4de3-b012-05d906dd5d4a",
             name: "Caenorhabditis elegans [C. elegans] (Ensembl 66)",
-            path:
-                "/data2/collections/genomeservices/0.2.1/Caenorhabditis_elegans.WS220/de_support/",
+            path: "/data2/collections/genomeservices/0.2.1/Caenorhabditis_elegans.WS220/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -27,8 +25,7 @@ const ReferenceGenomeListing = {
         {
             id: "7f66a989-9bb6-42c4-9db3-0e316304c93e",
             name: "Arabidopsis thaliana [Mouse-ear cress] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Arabidopsis_thaliana.TAIR10/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Arabidopsis_thaliana.TAIR10/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -38,8 +35,7 @@ const ReferenceGenomeListing = {
         {
             id: "e38b6fae-2e4b-4217-8c1f-6badea3ff7fc",
             name: "Canis lupus familiaris [Dog] (Ensembl 14_67)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Canis_lupus_familiaris.CanFam_2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Canis_lupus_familiaris.CanFam_2.0/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -49,8 +45,7 @@ const ReferenceGenomeListing = {
         {
             id: "8af62f2b-15fc-4f36-ae04-c6b801d98c1b",
             name: "Vitis vinifera [Wine grape] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Vitis_vinifera.IGGP_12x/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Vitis_vinifera.IGGP_12x/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -60,8 +55,7 @@ const ReferenceGenomeListing = {
         {
             id: "2b1154f3-6c10-4707-a5ea-50d6eb890582",
             name: "Zea mays [Maize] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Zea_mays.AGPv2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Zea_mays.AGPv2/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -71,8 +65,7 @@ const ReferenceGenomeListing = {
         {
             id: "8683bbe8-c577-42f8-8d9b-1bdd861122ae",
             name: "Brachypodium distachyon [Purple false brome] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Brachypodium_distachyon.v1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Brachypodium_distachyon.v1.0/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -82,8 +75,7 @@ const ReferenceGenomeListing = {
         {
             id: "e21e71f2-219f-4704-a8a6-9ab487a759a6",
             name: "Oryza brachyantha (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Oryza_brachyantha.Oryza_brachyantha.v1.4b/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Oryza_brachyantha.Oryza_brachyantha.v1.4b/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -93,8 +85,7 @@ const ReferenceGenomeListing = {
         {
             id: "ef269f1a-e561-4f0c-92b7-3d9d8e7362f3",
             name: "Drosophila melanogaster [Fruit fly] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Drosophila_melanogaster.BDGP_5/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Drosophila_melanogaster.BDGP_5/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -104,8 +95,7 @@ const ReferenceGenomeListing = {
         {
             id: "70a34bd3-a7a4-4c7e-8ff5-36335b3f9b57",
             name: "Saccharomyces cerevisiae [Baker's yeast] (Ensembl 14_67)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Saccharomyces_cerevisiae.EF_4/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Saccharomyces_cerevisiae.EF_4/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -115,8 +105,7 @@ const ReferenceGenomeListing = {
         {
             id: "9875f6cc-0503-418b-b5cc-8cb8dd44d56d",
             name: "Setaria italica [Foxtail millet] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Setaria_italica.JGIv2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Setaria_italica.JGIv2.0/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -126,8 +115,7 @@ const ReferenceGenomeListing = {
         {
             id: "f3197615-747d-44c6-bd5f-293cbde95bab",
             name: "Gadus morhua [Atlantic cod] (Ensembl 14_67)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Gadus_morhua.gadMor1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Gadus_morhua.gadMor1/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -137,8 +125,7 @@ const ReferenceGenomeListing = {
         {
             id: "6149be1b-7aaa-43b4-84df-de2567ab9489",
             name: "Mus musculus [House mouse] (Ensembl 14_67)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Mus_musculus.NCBIM37/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Mus_musculus.NCBIM37/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -148,8 +135,7 @@ const ReferenceGenomeListing = {
         {
             id: "1e1c62e5-bd56-4cfa-b3ab-aa6a1496d3e5",
             name: "Solanum lycopersicum [Tomato] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Solanum_lycopersicum.SL2.40/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Solanum_lycopersicum.SL2.40/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -159,8 +145,7 @@ const ReferenceGenomeListing = {
         {
             id: "826f0934-69a5-401d-8b5f-36da33fc520e",
             name: "Glycine max [Soybean] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Glycine_max.V1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Glycine_max.V1.0/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -170,8 +155,7 @@ const ReferenceGenomeListing = {
         {
             id: "46f9d53d-36b6-4bd9-b4f2-ff952833103f",
             name: "Oryza sativa Indica Group [Indica rice] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Oryza_sativa_Indica_Group.ASM465v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Oryza_sativa_Indica_Group.ASM465v1/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -181,8 +165,7 @@ const ReferenceGenomeListing = {
         {
             id: "a55701bc-44e6-4661-bc3a-888ca1febaed",
             name: "Pan troglodytes [Chimpanzee] (Ensembl 14_67)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Pan_troglodytes.CHIMP2.1.4/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Pan_troglodytes.CHIMP2.1.4/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -192,8 +175,7 @@ const ReferenceGenomeListing = {
         {
             id: "f772929d-0ba3-4432-8623-7a74bf2720aa",
             name: "Meleagris gallopavo [Domestic turkey] (Ensembl 14_67)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Meleagris_gallopavo.Turkey_2.01/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Meleagris_gallopavo.Turkey_2.01/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -203,8 +185,7 @@ const ReferenceGenomeListing = {
         {
             id: "41149e71-4328-4391-b1d2-25fdbdca5a54",
             name: "Felis catus [Domestic cat] (Ensembl 14_67)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Felis_catus.CAT/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Felis_catus.CAT/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -214,8 +195,7 @@ const ReferenceGenomeListing = {
         {
             id: "eb059ac7-ee82-421a-bbc1-12f117366c4a",
             name: "Danio rerio [Zebrafish] (Ensembl 14_67)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Danio_rerio.Zv9/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Danio_rerio.Zv9/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -225,8 +205,7 @@ const ReferenceGenomeListing = {
         {
             id: "7e5eff7b-35fa-4635-806c-06ef5ef50db4",
             name: "Oryza glaberrima [African rice] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Oryza_glaberrima.AGI1.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Oryza_glaberrima.AGI1.1/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -236,8 +215,7 @@ const ReferenceGenomeListing = {
         {
             id: "443befdd-c7ed-4b33-ac67-56a6748d7a48",
             name: "Tursiops truncatus [Bottlenosed dolphin] (Ensembl 14_67)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Tursiops_truncatus.turTru1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Tursiops_truncatus.turTru1/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -247,8 +225,7 @@ const ReferenceGenomeListing = {
         {
             id: "2d748e14-47f5-4a91-bc67-214787ad0843",
             name: "Caenorhabditis elegans [C.elegans] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Caenorhabditis_elegans.WBcel215/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Caenorhabditis_elegans.WBcel215/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -258,8 +235,7 @@ const ReferenceGenomeListing = {
         {
             id: "2c967e76-9b8a-4a3b-aa30-2e7de3a0a952",
             name: "Sorghum bicolor [Sorghum] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Sorghum_bicolor.Sorbi1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Sorghum_bicolor.Sorbi1/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -269,8 +245,7 @@ const ReferenceGenomeListing = {
         {
             id: "bb5317ce-ad00-466b-8109-432c117c0781",
             name: "Sus scrofa [Pig] (Ensembl 14_67)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Sus_scrofa.Sscrofa10.2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Sus_scrofa.Sscrofa10.2/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -280,8 +255,7 @@ const ReferenceGenomeListing = {
         {
             id: "ba3d662f-0f71-45fa-83a3-7a80b9bb2b3f",
             name: "Xenopus tropicalis [Western clawed frog] (Ensembl 14_67)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Xenopus_tropicalis.JGI_4.2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Xenopus_tropicalis.JGI_4.2/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -291,8 +265,7 @@ const ReferenceGenomeListing = {
         {
             id: "72de2532-bdf6-46b3-bffa-6c4860d63813",
             name: "Bos taurus [Cattle] (Ensembl 14_67)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Bos_taurus.UMD3.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Bos_taurus.UMD3.1/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -301,10 +274,8 @@ const ReferenceGenomeListing = {
         },
         {
             id: "999a1d22-d2d8-4845-b685-da6403e9016e",
-            name:
-                "Cyanidioschyzon merolae strain 10D [Cyanidioschyzon merolae] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Cyanidioschyzon_merolae_strain_10D.ASM9120v1/de_support/",
+            name: "Cyanidioschyzon merolae strain 10D [Cyanidioschyzon merolae] (Ensembl 14)",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Cyanidioschyzon_merolae_strain_10D.ASM9120v1/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -314,8 +285,7 @@ const ReferenceGenomeListing = {
         {
             id: "80aa0d1a-f32c-439a-940d-c9a6d629ed43",
             name: "Populus trichocarpa [Western balsam poplar] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Populus_trichocarpa.JGI2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Populus_trichocarpa.JGI2.0/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -325,8 +295,7 @@ const ReferenceGenomeListing = {
         {
             id: "72facaa7-ba29-49ee-b184-42ba3c015ca4",
             name: "Equus caballus [Horse] (Ensembl 14_67)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Equus_caballus.Equ_Cab_2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Equus_caballus.Equ_Cab_2/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -335,10 +304,8 @@ const ReferenceGenomeListing = {
         },
         {
             id: "58a84f5e-3922-43dc-8414-e42b1513be78",
-            name:
-                "Physcomitrella patens subsp. patens [Physcomitrella] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Physcomitrella_patens_subsp._patens.ASM242v1/de_support/",
+            name: "Physcomitrella patens subsp. patens [Physcomitrella] (Ensembl 14)",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Physcomitrella_patens_subsp._patens.ASM242v1/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -348,8 +315,7 @@ const ReferenceGenomeListing = {
         {
             id: "0876c503-9634-488b-9584-ac6c0d565b8d",
             name: "Oryza sativa [Japonica rice] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Oryza_sativa.MSU6/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Oryza_sativa.MSU6/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -359,8 +325,7 @@ const ReferenceGenomeListing = {
         {
             id: "bdc96014-9b89-4dbc-9376-bc4805d9c1dd",
             name: "Selaginella moellendorffii (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Selaginella_moellendorffii.v1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Selaginella_moellendorffii.v1.0/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -370,8 +335,7 @@ const ReferenceGenomeListing = {
         {
             id: "fb44f582-cfa1-455b-a126-3dc13dc30491",
             name: "Saccharomyces cerevisiae [Baker's yeast] (Ensembl 19_72)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Saccharomyces_cerevisiae.EF_4/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Saccharomyces_cerevisiae.EF_4/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-10T14:40:48.000Z",
@@ -381,8 +345,7 @@ const ReferenceGenomeListing = {
         {
             id: "554b3e87-4e09-45dc-8b8c-da9e020f4bf7",
             name: "Brachypodium distachyon [Purple false brome] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Brachypodium_distachyon.v1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Brachypodium_distachyon.v1.0/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:13:07.000Z",
@@ -391,10 +354,8 @@ const ReferenceGenomeListing = {
         },
         {
             id: "728047d4-3754-4ddf-9827-2594a3d5a5be",
-            name:
-                "Arabidopsis lyrata subsp. lyrata [Lyre-leaved rock-cress] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Arabidopsis_lyrata_subsp._lyrata.v.1.0/de_support/",
+            name: "Arabidopsis lyrata subsp. lyrata [Lyre-leaved rock-cress] (Ensembl 19)",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Arabidopsis_lyrata_subsp._lyrata.v.1.0/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:11:39.000Z",
@@ -404,8 +365,7 @@ const ReferenceGenomeListing = {
         {
             id: "6afd5a93-db69-4015-92ca-ed8a7856806c",
             name: "Arabidopsis thaliana [Mouse-ear cress] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Arabidopsis_thaliana.TAIR10/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Arabidopsis_thaliana.TAIR10/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:12:17.000Z",
@@ -415,8 +375,7 @@ const ReferenceGenomeListing = {
         {
             id: "5a07b999-9237-4325-8dfa-46e84479c1be",
             name: "Aegilops tauschii (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Aegilops_tauschii.ASM34733v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Aegilops_tauschii.ASM34733v1/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-10T14:14:03.000Z",
@@ -425,10 +384,8 @@ const ReferenceGenomeListing = {
         },
         {
             id: "965445f2-7b1e-42b4-88db-306b2132e603",
-            name:
-                "Cyanidioschyzon merolae strain 10D [Cyanidioschyzon merolae] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Cyanidioschyzon_merolae_strain_10D.ASM9120v1/de_support/",
+            name: "Cyanidioschyzon merolae strain 10D [Cyanidioschyzon merolae] (Ensembl 19)",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Cyanidioschyzon_merolae_strain_10D.ASM9120v1/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:15:18.000Z",
@@ -438,8 +395,7 @@ const ReferenceGenomeListing = {
         {
             id: "8a038251-e1f8-4987-ba2b-35fab963efc7",
             name: "Musa acuminata (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Musa_acuminata.MA1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Musa_acuminata.MA1/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:16:52.000Z",
@@ -449,8 +405,7 @@ const ReferenceGenomeListing = {
         {
             id: "7af885a9-7c8e-4d4a-99f3-f0ca938f22d2",
             name: "Oryza brachyantha (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Oryza_brachyantha.Oryza_brachyantha.v1.4b/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Oryza_brachyantha.Oryza_brachyantha.v1.4b/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:17:48.000Z",
@@ -460,8 +415,7 @@ const ReferenceGenomeListing = {
         {
             id: "c311b613-6cc9-4b88-8423-784e65cf2f3a",
             name: "Selaginella moellendorffii (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Selaginella_moellendorffii.v1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Selaginella_moellendorffii.v1.0/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:20:52.000Z",
@@ -471,8 +425,7 @@ const ReferenceGenomeListing = {
         {
             id: "67d53e94-8120-40e8-b2cc-be161b3a4c07",
             name: "Schizosaccharomyces pombe 972h- (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Schizosaccharomyces_pombe_972h-.ASM294v2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Schizosaccharomyces_pombe_972h-.ASM294v2/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-10T14:41:01.000Z",
@@ -482,8 +435,7 @@ const ReferenceGenomeListing = {
         {
             id: "ee70d7e4-ff62-4ca4-8fe9-90809118f91d",
             name: "Medicago truncatula (JCVI 4.0v1)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/jcvi-medicago/Medicago_truncatula.4.0v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/jcvi-medicago/Medicago_truncatula.4.0v1/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-25T00:34:07.000Z",
@@ -493,8 +445,7 @@ const ReferenceGenomeListing = {
         {
             id: "03993a49-6377-4301-971e-797991190d6b",
             name: "Manihot esculenta [Cassava] (Phytozome 9.0)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Manihot_esculenta./de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Manihot_esculenta./de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-10-26T12:12:43.000Z",
@@ -504,8 +455,7 @@ const ReferenceGenomeListing = {
         {
             id: "b03aa9c3-8f20-434b-8988-72f4eb295514",
             name: "Ricinus communis [Castor bean] (Phytozome 9.0)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Ricinus_communis./de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Ricinus_communis./de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-10-26T12:15:28.000Z",
@@ -515,8 +465,7 @@ const ReferenceGenomeListing = {
         {
             id: "ee6b885f-98c1-4a42-b8f5-c1fc01c8ddd8",
             name: "Citrus sinensis [Sweet orange] (Phytozome 9.0)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Citrus_sinensis./de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Citrus_sinensis./de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-10-26T12:16:20.000Z",
@@ -526,8 +475,7 @@ const ReferenceGenomeListing = {
         {
             id: "d393749b-66ac-403f-9435-c3254d1e964a",
             name: "Thellungiella halophila [Salt cress] (Phytozome 9.0)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Thellungiella_halophila./de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Thellungiella_halophila./de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-10-26T12:17:12.000Z",
@@ -537,8 +485,7 @@ const ReferenceGenomeListing = {
         {
             id: "c51b393f-4088-4e11-bccd-a6546e33dcdc",
             name: "Eucalyptus grandis [Eucalyptus] (Phytozome 9.0)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Eucalyptus_grandis.BRASUZ1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Eucalyptus_grandis.BRASUZ1/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-10-26T12:18:07.000Z",
@@ -548,8 +495,7 @@ const ReferenceGenomeListing = {
         {
             id: "a4f476bd-47f7-45a3-9f98-be953c305822",
             name: "Fragaria vesca [Woodland strawberry] (Phytozome 9.0)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Fragaria_vesca./de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Fragaria_vesca./de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-10-26T12:19:04.000Z",
@@ -559,8 +505,7 @@ const ReferenceGenomeListing = {
         {
             id: "da70e97a-1090-47e7-8c70-1fe5df3794d4",
             name: "Citrus clementina [Clementine mandarin] (Phytozome 9.0)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Citrus_clementina./de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Citrus_clementina./de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-10-26T12:20:11.000Z",
@@ -570,8 +515,7 @@ const ReferenceGenomeListing = {
         {
             id: "31a05ba0-38e1-4701-bf23-0595937e9034",
             name: "Carica papaya [Papaya] (Phytozome 9.0)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Carica_papaya./de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Carica_papaya./de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-10-26T12:20:57.000Z",
@@ -581,8 +525,7 @@ const ReferenceGenomeListing = {
         {
             id: "3d464e16-0c49-4b3f-a0d4-5c85542aad8a",
             name: "Capsella rubella (Phytozome 9.0)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Capsella_rubella./de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Capsella_rubella./de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-10-26T12:21:40.000Z",
@@ -592,8 +535,7 @@ const ReferenceGenomeListing = {
         {
             id: "9bedc5ea-7af8-4508-a6e0-b597e153a4ac",
             name: "Gossypium raimondii [Cotton] (Phytozome 9.0)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Gossypium_raimondii.Cotton_D/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Gossypium_raimondii.Cotton_D/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-10-26T12:22:49.000Z",
@@ -603,8 +545,7 @@ const ReferenceGenomeListing = {
         {
             id: "b7d3e1b7-e1f8-42cb-86b2-4f85e329e42a",
             name: "Theobroma cacao [Cocoa bean] (Phytozome 9.0)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Theobroma_cacao.Matina_1-6/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Theobroma_cacao.Matina_1-6/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-10-26T12:23:34.000Z",
@@ -613,10 +554,8 @@ const ReferenceGenomeListing = {
         },
         {
             id: "89605eb5-39e4-490b-9f34-9e0d0b8b1b10",
-            name:
-                "Aquilegia coerulea [Colorado blue columbine] (Phytozome 9.0)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Aquilegia_coerulea.Goldsmith/de_support/",
+            name: "Aquilegia coerulea [Colorado blue columbine] (Phytozome 9.0)",
+            path: "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Aquilegia_coerulea.Goldsmith/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-10-26T12:24:32.000Z",
@@ -626,8 +565,7 @@ const ReferenceGenomeListing = {
         {
             id: "971ca172-b912-4d5c-a2f1-6ba157cdf951",
             name: "Zea mays [Maize] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Zea_mays.AGPv3/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Zea_mays.AGPv3/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:24:00.000Z",
@@ -637,8 +575,7 @@ const ReferenceGenomeListing = {
         {
             id: "ea151979-7ead-4fcf-af4d-6a15e0de0bc2",
             name: "Populus trichocarpa [Western balsam poplar] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Populus_trichocarpa.JGI2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Populus_trichocarpa.JGI2.0/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:20:30.000Z",
@@ -647,10 +584,8 @@ const ReferenceGenomeListing = {
         },
         {
             id: "4fc556a6-1c32-4bab-b686-60214d205df3",
-            name:
-                "Physcomitrella patens subsp. patens [Physcomitrella] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Physcomitrella_patens_subsp._patens.ASM242v1/de_support/",
+            name: "Physcomitrella patens subsp. patens [Physcomitrella] (Ensembl 19)",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Physcomitrella_patens_subsp._patens.ASM242v1/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:19:58.000Z",
@@ -660,8 +595,7 @@ const ReferenceGenomeListing = {
         {
             id: "993c3f95-32e2-48d5-b6af-6b13a3146e65",
             name: "Oryza sativa Indica Group [Indica rice] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Oryza_sativa_Indica_Group.ASM465v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Oryza_sativa_Indica_Group.ASM465v1/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:19:05.000Z",
@@ -671,8 +605,7 @@ const ReferenceGenomeListing = {
         {
             id: "42440f8f-824e-484b-a878-2fe62c847692",
             name: "Triticum urartu (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Triticum_urartu.ASM34745v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Triticum_urartu.ASM34745v1/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:23:03.000Z",
@@ -682,8 +615,7 @@ const ReferenceGenomeListing = {
         {
             id: "f2bf5093-4cfb-43a5-920c-71a7add3bfe2",
             name: "Solanum lycopersicum [Tomato] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Solanum_lycopersicum.SL2.40/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Solanum_lycopersicum.SL2.40/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:21:35.000Z",
@@ -693,8 +625,7 @@ const ReferenceGenomeListing = {
         {
             id: "05f60663-9def-4657-8900-ee889f8c437f",
             name: "Brassica rapa [Field mustard] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Brassica_rapa.IVFCAASv1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Brassica_rapa.IVFCAASv1/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:13:33.000Z",
@@ -704,8 +635,7 @@ const ReferenceGenomeListing = {
         {
             id: "2ef6ff21-71a4-4837-b13e-d6a2f14b9ba2",
             name: "Sorghum bicolor [Sorghum] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Sorghum_bicolor.Sorbi1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Sorghum_bicolor.Sorbi1/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:22:21.000Z",
@@ -715,8 +645,7 @@ const ReferenceGenomeListing = {
         {
             id: "ce5550ab-bd96-4659-900a-04a9b9c011dd",
             name: "Solanum tuberosum [Potato] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Solanum_tuberosum.SolTub_3.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Solanum_tuberosum.SolTub_3.0/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:21:59.000Z",
@@ -726,8 +655,7 @@ const ReferenceGenomeListing = {
         {
             id: "39ee6f3d-03dd-4c87-a863-2d598b9784d8",
             name: "Setaria italica [Foxtail millet] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Setaria_italica.JGIv2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Setaria_italica.JGIv2.0/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:21:13.000Z",
@@ -737,8 +665,7 @@ const ReferenceGenomeListing = {
         {
             id: "dc61df16-7b68-4b26-a81b-aad42c684389",
             name: "Oryza sativa [Japonica rice] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Oryza_sativa.MSU6/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Oryza_sativa.MSU6/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:18:32.000Z",
@@ -748,8 +675,7 @@ const ReferenceGenomeListing = {
         {
             id: "ef8e2771-adb7-4786-819c-30044d802111",
             name: "Neurospora crassa OR74A [Neurospora crassa] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Neurospora_crassa_OR74A.ASM18292v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Neurospora_crassa_OR74A.ASM18292v1/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-10T14:33:53.000Z",
@@ -759,8 +685,7 @@ const ReferenceGenomeListing = {
         {
             id: "eb801d09-5dd9-4791-9bb3-7f8b45365d9a",
             name: "Medicago truncatula (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Medicago_truncatula.MedtrA17_3.5/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Medicago_truncatula.MedtrA17_3.5/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:16:30.000Z",
@@ -770,8 +695,7 @@ const ReferenceGenomeListing = {
         {
             id: "c0f3ba30-8fbb-48b1-9e7e-71021377cede",
             name: "Glycine max [Soybean] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Glycine_max.V1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Glycine_max.V1.0/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:16:05.000Z",
@@ -781,8 +705,7 @@ const ReferenceGenomeListing = {
         {
             id: "5c8a37bc-71a8-4598-8d71-72b77aadc447",
             name: "Hordeum vulgare [Barley] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Hordeum_vulgare.IBSC_1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Hordeum_vulgare.IBSC_1.0/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-10T14:27:18.000Z",
@@ -792,8 +715,7 @@ const ReferenceGenomeListing = {
         {
             id: "1dce1df8-a5a6-4322-bae2-472711d53346",
             name: "Chlamydomonas reinhardtii (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Chlamydomonas_reinhardtii.v3.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Chlamydomonas_reinhardtii.v3.0/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:13:54.000Z",
@@ -803,8 +725,7 @@ const ReferenceGenomeListing = {
         {
             id: "56374b6b-923b-4526-8619-68629cbcca19",
             name: "Aspergillus niger (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Aspergillus_niger.DSM/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Aspergillus_niger.DSM/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-10T14:15:37.000Z",
@@ -814,8 +735,7 @@ const ReferenceGenomeListing = {
         {
             id: "842dc1d9-bb47-4b0b-b899-02386295c174",
             name: "Bombyx mori [Domestic silkworm] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Bombyx_mori.Bmor1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Bombyx_mori.Bmor1/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-10T14:15:52.000Z",
@@ -825,8 +745,7 @@ const ReferenceGenomeListing = {
         {
             id: "95b61dc7-76cc-4d55-8f03-ef6828d718b0",
             name: "Vitis vinifera [Wine grape] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Vitis_vinifera.IGGP_12x/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Vitis_vinifera.IGGP_12x/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:23:30.000Z",
@@ -836,8 +755,7 @@ const ReferenceGenomeListing = {
         {
             id: "c5574643-a050-4666-a45b-a020a02d6f17",
             name: "Oryza glaberrima [African rice] (Ensembl 19)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/19_72/Oryza_glaberrima.AGI1.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/19_72/Oryza_glaberrima.AGI1.1/de_support/",
             deleted: false,
             created_by: "vaughn@iplantcollaborative.org",
             created_on: "2013-09-08T17:18:10.000Z",
@@ -847,8 +765,7 @@ const ReferenceGenomeListing = {
         {
             id: "e4785abc-f1e7-4d71-9ae6-bff4f2b4613b",
             name: "Oreochromis niloticus [Nile tilapia] (Ensembl 14_67)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Oreochromis_niloticus.Orenil1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Oreochromis_niloticus.Orenil1.0/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -858,8 +775,7 @@ const ReferenceGenomeListing = {
         {
             id: "18027404-d09f-41bf-99a4-74197ce0e7bf",
             name: "Rattus norvegicus [Norway rat] (Ensembl 14_67)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Rattus_norvegicus.RGSC_3.4/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Rattus_norvegicus.RGSC_3.4/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -868,10 +784,8 @@ const ReferenceGenomeListing = {
         },
         {
             id: "4bb9856a-43da-4f67-bdf9-f90916b4c11f",
-            name:
-                "Arabidopsis lyrata subsp. lyrata [Lyre-leaved rock-cress] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Arabidopsis_lyrata_subsp._lyrata.v.1.0/de_support/",
+            name: "Arabidopsis lyrata subsp. lyrata [Lyre-leaved rock-cress] (Ensembl 14)",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Arabidopsis_lyrata_subsp._lyrata.v.1.0/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -891,8 +805,7 @@ const ReferenceGenomeListing = {
         {
             id: "96dd0374-cc57-11e4-a540-436c8ea9b0a2",
             name: "Paramecium.ASM16542v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Paramecium.ASM16542v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Paramecium.ASM16542v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:42:09.000Z",
@@ -902,8 +815,7 @@ const ReferenceGenomeListing = {
         {
             id: "737e7a1c-cc4c-11e4-ba39-57d325af09c0",
             name: "Fusarium.EF",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Fusarium.EF/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Fusarium.EF/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:22:25.000Z",
@@ -913,8 +825,7 @@ const ReferenceGenomeListing = {
         {
             id: "4d42d58c-cc4c-11e4-ad2c-93602d1d0dcf",
             name: "Ficedula.FicAlb_1.4",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Ficedula.FicAlb_1.4/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Ficedula.FicAlb_1.4/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:21:21.000Z",
@@ -924,8 +835,7 @@ const ReferenceGenomeListing = {
         {
             id: "361d1ade-cc4c-11e4-8901-cfbdb68b77b6",
             name: "Felis.Felis_catus_6.2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Felis.Felis_catus_6.2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Felis.Felis_catus_6.2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:20:42.000Z",
@@ -935,8 +845,7 @@ const ReferenceGenomeListing = {
         {
             id: "26c4082c-cc4c-11e4-a699-27e49ca0bc0d",
             name: "Erinaceus.eriEur1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Erinaceus.eriEur1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Erinaceus.eriEur1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:20:16.000Z",
@@ -946,8 +855,7 @@ const ReferenceGenomeListing = {
         {
             id: "0b1abe86-cc4c-11e4-a4e3-b7d3e99e0dc5",
             name: "Equus.Equ",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Equus.Equ/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Equus.Equ/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:19:30.000Z",
@@ -957,8 +865,7 @@ const ReferenceGenomeListing = {
         {
             id: "f87f494a-cc4b-11e4-8654-13bcc11fd2f3",
             name: "Entamoeba.JCVI-ESG2-1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Entamoeba.JCVI-ESG2-1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Entamoeba.JCVI-ESG2-1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:18:59.000Z",
@@ -968,8 +875,7 @@ const ReferenceGenomeListing = {
         {
             id: "e8e92118-cc4b-11e4-9476-f335ccc9ed47",
             name: "Emiliania.Emiliana",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Emiliania.Emiliana/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Emiliania.Emiliana/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:18:33.000Z",
@@ -979,8 +885,7 @@ const ReferenceGenomeListing = {
         {
             id: "cfd0638a-cc4b-11e4-8ee4-3726b6ce5216",
             name: "Echinops.TENREC",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Echinops.TENREC/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Echinops.TENREC/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:17:50.000Z",
@@ -990,8 +895,7 @@ const ReferenceGenomeListing = {
         {
             id: "bb71e486-cc4b-11e4-9cb8-03170df8ce21",
             name: "Drosophila.WUGSC",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.WUGSC/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.WUGSC/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:17:16.000Z",
@@ -1001,8 +905,7 @@ const ReferenceGenomeListing = {
         {
             id: "a5a525a0-cc4b-11e4-8afb-833c8e58666b",
             name: "Drosophila.dyak_r1.3_FB2008_07",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dyak_r1.3_FB2008_07/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dyak_r1.3_FB2008_07/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:16:40.000Z",
@@ -1012,8 +915,7 @@ const ReferenceGenomeListing = {
         {
             id: "929cb87e-cc4b-11e4-bdf4-bfca2dbe7569",
             name: "Drosophila.dwil_caf1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dwil_caf1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dwil_caf1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:16:08.000Z",
@@ -1023,8 +925,7 @@ const ReferenceGenomeListing = {
         {
             id: "7cf2bd8e-cc4b-11e4-a5eb-9f8130a95358",
             name: "Drosophila.dvir_caf1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dvir_caf1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dvir_caf1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:15:31.000Z",
@@ -1034,8 +935,7 @@ const ReferenceGenomeListing = {
         {
             id: "44f60cec-cc4b-11e4-aa27-a3638fb9544d",
             name: "Drosophila.dsec_caf1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dsec_caf1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dsec_caf1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:13:57.000Z",
@@ -1045,8 +945,7 @@ const ReferenceGenomeListing = {
         {
             id: "315fe892-cc4b-11e4-ac5a-579a8689e518",
             name: "Drosophila.dper_caf1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dper_caf1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dper_caf1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:13:25.000Z",
@@ -1056,8 +955,7 @@ const ReferenceGenomeListing = {
         {
             id: "09725004-cc4b-11e4-86e4-77fb509d2c80",
             name: "Drosophila.dmoj_caf1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dmoj_caf1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dmoj_caf1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:12:18.000Z",
@@ -1067,8 +965,7 @@ const ReferenceGenomeListing = {
         {
             id: "ef7b7e3c-cc4a-11e4-9d59-1744c5caf634",
             name: "Drosophila.dgri_caf1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dgri_caf1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dgri_caf1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:11:34.000Z",
@@ -1078,8 +975,7 @@ const ReferenceGenomeListing = {
         {
             id: "dcd2e572-cc4a-11e4-9223-eb59ceb64494",
             name: "Drosophila.dere_caf1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dere_caf1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dere_caf1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:11:03.000Z",
@@ -1089,8 +985,7 @@ const ReferenceGenomeListing = {
         {
             id: "ca59fc96-cc4a-11e4-8589-cf734c8de174",
             name: "Drosophila.dana_caf1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dana_caf1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.dana_caf1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:10:32.000Z",
@@ -1100,8 +995,7 @@ const ReferenceGenomeListing = {
         {
             id: "86cfd5c2-cc4a-11e4-a334-27da1eba0044",
             name: "Drosophila.BDGP",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.BDGP/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.BDGP/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:08:38.000Z",
@@ -1111,8 +1005,7 @@ const ReferenceGenomeListing = {
         {
             id: "63562858-cc4a-11e4-ac04-e343df38018f",
             name: "Drosophila.BCM-HGSC",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.BCM-HGSC/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Drosophila.BCM-HGSC/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:07:39.000Z",
@@ -1122,8 +1015,7 @@ const ReferenceGenomeListing = {
         {
             id: "4ecac48e-cc4a-11e4-a1c7-73e9fa80bf6c",
             name: "Dothistroma.Dothistroma",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Dothistroma.Dothistroma/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Dothistroma.Dothistroma/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:07:04.000Z",
@@ -1133,8 +1025,7 @@ const ReferenceGenomeListing = {
         {
             id: "38ef9b94-cc4a-11e4-a311-932aba27ca99",
             name: "Dipodomys.dipOrd1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Dipodomys.dipOrd1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Dipodomys.dipOrd1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:06:28.000Z",
@@ -1144,8 +1035,7 @@ const ReferenceGenomeListing = {
         {
             id: "20c44f38-cc4a-11e4-8f2d-4bbaf53b88b8",
             name: "Dictyostelium.dictybase.01",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Dictyostelium.dictybase.01/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Dictyostelium.dictybase.01/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:05:47.000Z",
@@ -1155,8 +1045,7 @@ const ReferenceGenomeListing = {
         {
             id: "005e4938-cc4a-11e4-bc7f-eb7373cda9e8",
             name: "Dendroctonus.DendPond_male_1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Dendroctonus.DendPond_male_1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Dendroctonus.DendPond_male_1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:04:53.000Z",
@@ -1166,8 +1055,7 @@ const ReferenceGenomeListing = {
         {
             id: "eb0cbef2-cc49-11e4-a158-1f733cf82faa",
             name: "Dasypus.Dasnov3.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Dasypus.Dasnov3.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Dasypus.Dasnov3.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:04:17.000Z",
@@ -1177,8 +1065,7 @@ const ReferenceGenomeListing = {
         {
             id: "de9bc010-cc52-11e4-a3a8-73efb03edc3f",
             name: "Monodelphis.monDom5",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Monodelphis.monDom5/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Monodelphis.monDom5/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:08:22.000Z",
@@ -1188,8 +1075,7 @@ const ReferenceGenomeListing = {
         {
             id: "b66ded3e-cc52-11e4-bdfa-d3c6835e73e1",
             name: "Mnemiopsis.MneLei_Aug2011",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Mnemiopsis.MneLei_Aug2011/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Mnemiopsis.MneLei_Aug2011/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:07:14.000Z",
@@ -1199,8 +1085,7 @@ const ReferenceGenomeListing = {
         {
             id: "8982360e-cc52-11e4-b8e7-87f7319a51c2",
             name: "Microcebus.micMur1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Microcebus.micMur1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Microcebus.micMur1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:05:59.000Z",
@@ -1210,8 +1095,7 @@ const ReferenceGenomeListing = {
         {
             id: "719489f2-cc52-11e4-af87-833cd4de958b",
             name: "Microbotryum.M_violaceum_V1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Microbotryum.M_violaceum_V1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Microbotryum.M_violaceum_V1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:05:19.000Z",
@@ -1221,8 +1105,7 @@ const ReferenceGenomeListing = {
         {
             id: "5f64f564-cc52-11e4-8d06-5fa83b3b7281",
             name: "Melitaea.MelCinx1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Melitaea.MelCinx1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Melitaea.MelCinx1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:04:48.000Z",
@@ -1232,8 +1115,7 @@ const ReferenceGenomeListing = {
         {
             id: "456d3450-cc52-11e4-a886-b38a1b7f889c",
             name: "Meleagris.Turkey_2.01",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Meleagris.Turkey_2.01/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Meleagris.Turkey_2.01/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:04:05.000Z",
@@ -1243,8 +1125,7 @@ const ReferenceGenomeListing = {
         {
             id: "348ff7a8-cc52-11e4-8da9-4fffad925e87",
             name: "Melampsora.v1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Melampsora.v1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Melampsora.v1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:03:36.000Z",
@@ -1254,8 +1135,7 @@ const ReferenceGenomeListing = {
         {
             id: "247d590a-cc52-11e4-a57a-4ff0f5890843",
             name: "Megaselia.Msca1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Megaselia.Msca1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Megaselia.Msca1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:03:09.000Z",
@@ -1265,8 +1145,7 @@ const ReferenceGenomeListing = {
         {
             id: "0c553064-cc52-11e4-885f-475b4d9d0f16",
             name: "Medicago.MedtrA17_3.5",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Medicago.MedtrA17_3.5/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Medicago.MedtrA17_3.5/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:02:29.000Z",
@@ -1276,8 +1155,7 @@ const ReferenceGenomeListing = {
         {
             id: "e42915b0-cc51-11e4-86b9-77a2410dfdc9",
             name: "Magnaporthe.MG8",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Magnaporthe.MG8/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Magnaporthe.MG8/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:01:22.000Z",
@@ -1287,8 +1165,7 @@ const ReferenceGenomeListing = {
         {
             id: "d556d126-cc51-11e4-9d1e-a3af43b6836f",
             name: "Magnaporthe.Mag_poae_ATCC_64411_V1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Magnaporthe.Mag_poae_ATCC_64411_V1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Magnaporthe.Mag_poae_ATCC_64411_V1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:00:57.000Z",
@@ -1298,8 +1175,7 @@ const ReferenceGenomeListing = {
         {
             id: "bf252736-cc51-11e4-ab9d-6342905c107d",
             name: "Macropus.Meug_1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Macropus.Meug_1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Macropus.Meug_1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:00:19.000Z",
@@ -1309,8 +1185,7 @@ const ReferenceGenomeListing = {
         {
             id: "a9ac27b0-cc51-11e4-af21-bb0cc851153d",
             name: "Macaca.MMUL",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Macaca.MMUL/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Macaca.MMUL/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:59:43.000Z",
@@ -1320,8 +1195,7 @@ const ReferenceGenomeListing = {
         {
             id: "9aeb4a94-cc51-11e4-ab8a-1750d84c6f8b",
             name: "Loxodonta.Loxafr3.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Loxodonta.Loxafr3.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Loxodonta.Loxafr3.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:59:19.000Z",
@@ -1331,8 +1205,7 @@ const ReferenceGenomeListing = {
         {
             id: "5140bb68-cc51-11e4-ab9c-b7b4697d972b",
             name: "Lottia.Lotgi1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Lottia.Lotgi1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Lottia.Lotgi1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:57:15.000Z",
@@ -1342,8 +1215,7 @@ const ReferenceGenomeListing = {
         {
             id: "2acc0e88-cc51-11e4-a8ce-b334e3b6396a",
             name: "Loa.Loa_loa_V3",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Loa.Loa_loa_V3/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Loa.Loa_loa_V3/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:56:11.000Z",
@@ -1353,8 +1225,7 @@ const ReferenceGenomeListing = {
         {
             id: "0e548a32-cc51-11e4-bd22-23393d2d5e55",
             name: "Linepithema_humile",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Linepithema_humile/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Linepithema_humile/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:55:23.000Z",
@@ -1364,8 +1235,7 @@ const ReferenceGenomeListing = {
         {
             id: "e0f30136-cc50-11e4-a87c-936d10b10464",
             name: "Leptosphaeria.ASM23037v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Leptosphaeria.ASM23037v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Leptosphaeria.ASM23037v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:54:07.000Z",
@@ -1375,8 +1245,7 @@ const ReferenceGenomeListing = {
         {
             id: "6930ba4e-cc50-11e4-aeb4-a3045ec27ed8",
             name: "Lepisosteus.LepOcu1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Lepisosteus.LepOcu1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Lepisosteus.LepOcu1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:50:46.000Z",
@@ -1386,8 +1255,7 @@ const ReferenceGenomeListing = {
         {
             id: "56f4a570-cc50-11e4-8169-4fdd1fa820cc",
             name: "Leishmania.ASM272v2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Leishmania.ASM272v2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Leishmania.ASM272v2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:50:15.000Z",
@@ -1397,8 +1265,7 @@ const ReferenceGenomeListing = {
         {
             id: "325771fc-cc50-11e4-8b75-8bab8f75e029",
             name: "Leersia.Lperr_V1.4",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Leersia.Lperr_V1.4/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Leersia.Lperr_V1.4/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:49:14.000Z",
@@ -1408,8 +1275,7 @@ const ReferenceGenomeListing = {
         {
             id: "13a65bce-cc50-11e4-b00e-0b1047d714ee",
             name: "Latimeria.LatCha1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Latimeria.LatCha1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Latimeria.LatCha1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:48:22.000Z",
@@ -1419,8 +1285,7 @@ const ReferenceGenomeListing = {
         {
             id: "d1b9449c-cc4f-11e4-964a-db816162aee1",
             name: "Komagataella.ASM2700v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Komagataella.ASM2700v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Komagataella.ASM2700v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:46:32.000Z",
@@ -1430,8 +1295,7 @@ const ReferenceGenomeListing = {
         {
             id: "4cb86886-cc4f-11e4-ad03-dbacbfccde8f",
             name: "Ictidomys.spetri2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Ictidomys.spetri2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Ictidomys.spetri2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:42:48.000Z",
@@ -1441,8 +1305,7 @@ const ReferenceGenomeListing = {
         {
             id: "27141878-cc4f-11e4-9963-9f5a4cee45ae",
             name: "Hyaloperonospora.HyaAraEmoy2_2.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Hyaloperonospora.HyaAraEmoy2_2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Hyaloperonospora.HyaAraEmoy2_2.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:41:45.000Z",
@@ -1452,8 +1315,7 @@ const ReferenceGenomeListing = {
         {
             id: "f8d35e38-cc4e-11e4-875b-67f305e23b91",
             name: "Hordeum.IBSC_1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Hordeum.IBSC_1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Hordeum.IBSC_1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:40:28.000Z",
@@ -1463,8 +1325,7 @@ const ReferenceGenomeListing = {
         {
             id: "de56ee12-cc4e-11e4-b8ed-cb70595e8961",
             name: "Homo.GRCh38",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Homo.GRCh38/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Homo.GRCh38/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:39:43.000Z",
@@ -1474,8 +1335,7 @@ const ReferenceGenomeListing = {
         {
             id: "be65f526-cc4e-11e4-ba69-5329937d0762",
             name: "Helobdella.Helro1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Helobdella.Helro1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Helobdella.Helro1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:38:50.000Z",
@@ -1485,8 +1345,7 @@ const ReferenceGenomeListing = {
         {
             id: "97f287f6-cc4e-11e4-828e-2f5f3aa76383",
             name: "Heliconius.Hmel1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Heliconius.Hmel1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Heliconius.Hmel1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:37:45.000Z",
@@ -1496,8 +1355,7 @@ const ReferenceGenomeListing = {
         {
             id: "861df542-cc4e-11e4-a475-bb1e59be46a8",
             name: "Harpegnathos_saltator",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Harpegnathos_saltator/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Harpegnathos_saltator/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:37:15.000Z",
@@ -1507,8 +1365,7 @@ const ReferenceGenomeListing = {
         {
             id: "611e7028-cc4e-11e4-bc81-037747d6c52b",
             name: "Guillardia.Guith1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Guillardia.Guith1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Guillardia.Guith1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:36:13.000Z",
@@ -1518,8 +1375,7 @@ const ReferenceGenomeListing = {
         {
             id: "4675eb48-cc4e-11e4-aa8c-13e05d97f140",
             name: "Gorilla.gorGor3.1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Gorilla.gorGor3.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Gorilla.gorGor3.1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:35:28.000Z",
@@ -1529,8 +1385,7 @@ const ReferenceGenomeListing = {
         {
             id: "25c348c8-cc4e-11e4-9b34-3bf7c05d3f43",
             name: "Glycine.V1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Glycine.V1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Glycine.V1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:34:34.000Z",
@@ -1540,8 +1395,7 @@ const ReferenceGenomeListing = {
         {
             id: "f4ce9f10-cc57-11e4-b5e6-cb50d473bce4",
             name: "Phaeodactylum.ASM15095v2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Phaeodactylum.ASM15095v2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Phaeodactylum.ASM15095v2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:44:46.000Z",
@@ -1551,8 +1405,7 @@ const ReferenceGenomeListing = {
         {
             id: "d50802de-cc57-11e4-b0d9-7b4a7038a727",
             name: "Petromyzon.Pmarinus_7.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Petromyzon.Pmarinus_7.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Petromyzon.Pmarinus_7.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:43:53.000Z",
@@ -1562,8 +1415,7 @@ const ReferenceGenomeListing = {
         {
             id: "c14e2bf6-cc57-11e4-a800-53621ceba65b",
             name: "Pelodiscus.PelSin_1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Pelodiscus.PelSin_1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Pelodiscus.PelSin_1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:43:20.000Z",
@@ -1573,8 +1425,7 @@ const ReferenceGenomeListing = {
         {
             id: "b07d31b4-cc57-11e4-9adc-0b1b6036d5ca",
             name: "Pediculus.PhumU2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Pediculus.PhumU2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Pediculus.PhumU2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:42:52.000Z",
@@ -1584,8 +1435,7 @@ const ReferenceGenomeListing = {
         {
             id: "87934176-cc57-11e4-b46d-abb5309e7e79",
             name: "Papio.PapAnu2.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Papio.PapAnu2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Papio.PapAnu2.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:41:43.000Z",
@@ -1595,8 +1445,7 @@ const ReferenceGenomeListing = {
         {
             id: "6d09e5e4-cc57-11e4-a305-cf97bff6c951",
             name: "Pan.CHIMP2.1.4",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Pan.CHIMP2.1.4/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Pan.CHIMP2.1.4/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:40:59.000Z",
@@ -1606,8 +1455,7 @@ const ReferenceGenomeListing = {
         {
             id: "4e79227a-cc57-11e4-ab32-a791b2ffadb2",
             name: "Ovis.Oar_v3.1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Ovis.Oar_v3.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Ovis.Oar_v3.1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:40:07.000Z",
@@ -1617,8 +1465,7 @@ const ReferenceGenomeListing = {
         {
             id: "37685d3a-cc57-11e4-8979-433a317a2aeb",
             name: "Otolemur.OtoGar3",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Otolemur.OtoGar3/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Otolemur.OtoGar3/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:39:29.000Z",
@@ -1628,8 +1475,7 @@ const ReferenceGenomeListing = {
         {
             id: "2794aeb8-cc57-11e4-b8ea-8fa29420d490",
             name: "Ostreococcus.ASM9206v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Ostreococcus.ASM9206v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Ostreococcus.ASM9206v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:39:02.000Z",
@@ -1639,8 +1485,7 @@ const ReferenceGenomeListing = {
         {
             id: "07314c80-cc57-11e4-88a8-2762431c11ec",
             name: "Oryzias.HdrR",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Oryzias.HdrR/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Oryzias.HdrR/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:38:08.000Z",
@@ -1650,8 +1495,7 @@ const ReferenceGenomeListing = {
         {
             id: "fa25e56e-cc56-11e4-bd23-97587aa900a3",
             name: "Oryza.PRJEB4137",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Oryza.PRJEB4137/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Oryza.PRJEB4137/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:37:46.000Z",
@@ -1661,8 +1505,7 @@ const ReferenceGenomeListing = {
         {
             id: "ebfb2ee0-cc56-11e4-b95b-77dcf7f277a3",
             name: "Oryza.Oryza_brachyantha.v1.4b",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Oryza.Oryza_brachyantha.v1.4b/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Oryza.Oryza_brachyantha.v1.4b/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:37:22.000Z",
@@ -1672,8 +1515,7 @@ const ReferenceGenomeListing = {
         {
             id: "db2f25e4-cc56-11e4-9453-f38326dd17d8",
             name: "Oryza.Obart_v1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Oryza.Obart_v1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Oryza.Obart_v1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:36:54.000Z",
@@ -1683,8 +1525,7 @@ const ReferenceGenomeListing = {
         {
             id: "c7c7b534-cc56-11e4-b2a8-1f492cfb87be",
             name: "Oryza.IRGSP-1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Oryza.IRGSP-1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Oryza.IRGSP-1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:36:21.000Z",
@@ -1694,8 +1535,7 @@ const ReferenceGenomeListing = {
         {
             id: "b765c212-cc56-11e4-9c52-db4a79640c6e",
             name: "Oryza.AWHD00000000",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Oryza.AWHD00000000/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Oryza.AWHD00000000/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:35:54.000Z",
@@ -1705,8 +1545,7 @@ const ReferenceGenomeListing = {
         {
             id: "a6201a84-cc56-11e4-b3bd-9fe61167cba4",
             name: "Oryza.AVCL00000000",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Oryza.AVCL00000000/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Oryza.AVCL00000000/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:35:25.000Z",
@@ -1716,8 +1555,7 @@ const ReferenceGenomeListing = {
         {
             id: "973cc3dc-cc56-11e4-b440-7f2eedac0bee",
             name: "Oryza.ASM465v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Oryza.ASM465v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Oryza.ASM465v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:35:00.000Z",
@@ -1727,8 +1565,7 @@ const ReferenceGenomeListing = {
         {
             id: "7183382e-cc56-11e4-a514-6fdea4d7f7df",
             name: "Oryza.ALNW00000000",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Oryza.ALNW00000000/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Oryza.ALNW00000000/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:33:57.000Z",
@@ -1738,8 +1575,7 @@ const ReferenceGenomeListing = {
         {
             id: "f44f6706-cc55-11e4-b63e-dfa1fa5439b6",
             name: "Oryza.ALNU02000000",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Oryza.ALNU02000000/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Oryza.ALNU02000000/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:30:27.000Z",
@@ -1749,8 +1585,7 @@ const ReferenceGenomeListing = {
         {
             id: "e302b2d2-cc55-11e4-a99a-3bc24872cdd7",
             name: "Oryza.AGI1.1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Oryza.AGI1.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Oryza.AGI1.1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:29:58.000Z",
@@ -1760,8 +1595,7 @@ const ReferenceGenomeListing = {
         {
             id: "c5bbad5a-cc55-11e4-a067-275f619723d0",
             name: "Oryctolagus.OryCun2.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Oryctolagus.OryCun2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Oryctolagus.OryCun2.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:29:08.000Z",
@@ -1771,8 +1605,7 @@ const ReferenceGenomeListing = {
         {
             id: "5b838f94-cc54-11e4-a12a-2fa422c6ebac",
             name: "Ornithorhynchus.OANA5",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Ornithorhynchus.OANA5/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Ornithorhynchus.OANA5/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:19:01.000Z",
@@ -1782,8 +1615,7 @@ const ReferenceGenomeListing = {
         {
             id: "4886e99a-cc54-11e4-82f6-dfd96e3c6d02",
             name: "Oreochromis.Orenil1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Oreochromis.Orenil1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Oreochromis.Orenil1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:18:29.000Z",
@@ -1793,8 +1625,7 @@ const ReferenceGenomeListing = {
         {
             id: "2b93c592-cc54-11e4-9f6f-1bb803b94b32",
             name: "Onchocerca.Cameroon_v3",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Onchocerca.Cameroon_v3/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Onchocerca.Cameroon_v3/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:17:40.000Z",
@@ -1804,8 +1635,7 @@ const ReferenceGenomeListing = {
         {
             id: "1c4eae30-cc54-11e4-8cab-dbddf91052d8",
             name: "Ochotona.OchPri2.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Ochotona.OchPri2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Ochotona.OchPri2.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:17:15.000Z",
@@ -1815,8 +1645,7 @@ const ReferenceGenomeListing = {
         {
             id: "06304c6c-cc54-11e4-aeb5-43bdf294047a",
             name: "Nomascus.Nleu1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Nomascus.Nleu1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Nomascus.Nleu1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:16:38.000Z",
@@ -1826,8 +1655,7 @@ const ReferenceGenomeListing = {
         {
             id: "7e18437e-cc4f-11e4-8baa-5bb1c5dbed8b",
             name: "Ixodes.IscaW1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Ixodes.IscaW1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Ixodes.IscaW1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:44:11.000Z",
@@ -1837,8 +1665,7 @@ const ReferenceGenomeListing = {
         {
             id: "0895d02c-cc62-11e4-92f1-83bd271ddaeb",
             name: "Verticillium.ASM15067v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Verticillium.ASM15067v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Verticillium.ASM15067v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:56:55.000Z",
@@ -1848,8 +1675,7 @@ const ReferenceGenomeListing = {
         {
             id: "f2d7d85c-cc61-11e4-b88f-4f5d8318f335",
             name: "Ustilago.UM1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Ustilago.UM1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Ustilago.UM1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:56:18.000Z",
@@ -1859,8 +1685,7 @@ const ReferenceGenomeListing = {
         {
             id: "db7617c8-cc61-11e4-83ab-6fed3821c274",
             name: "Tursiops.turTru1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Tursiops.turTru1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Tursiops.turTru1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:55:39.000Z",
@@ -1870,8 +1695,7 @@ const ReferenceGenomeListing = {
         {
             id: "21051b80-cc63-11e4-ae48-67b38d3b8f4d",
             name: "Zymoseptoria.MG2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Zymoseptoria.MG2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Zymoseptoria.MG2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T05:04:45.000Z",
@@ -1881,8 +1705,7 @@ const ReferenceGenomeListing = {
         {
             id: "ed71e76c-cc62-11e4-afd8-1302c2734e26",
             name: "Zootermopsis.ZooNev1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Zootermopsis.ZooNev1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Zootermopsis.ZooNev1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T05:03:19.000Z",
@@ -1892,8 +1715,7 @@ const ReferenceGenomeListing = {
         {
             id: "da49b21e-cc62-11e4-932d-a77a8000b051",
             name: "Zea.AGPv3",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Zea.AGPv3/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Zea.AGPv3/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T05:02:46.000Z",
@@ -1903,8 +1725,7 @@ const ReferenceGenomeListing = {
         {
             id: "afa81906-cc62-11e4-a379-cf021356d152",
             name: "Yarrowia.ASM252v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Yarrowia.ASM252v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Yarrowia.ASM252v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T05:01:35.000Z",
@@ -1914,8 +1735,7 @@ const ReferenceGenomeListing = {
         {
             id: "786720e0-cc62-11e4-91d4-4b66e132bc63",
             name: "Xiphophorus.Xipmac4.4.2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Xiphophorus.Xipmac4.4.2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Xiphophorus.Xipmac4.4.2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T05:00:02.000Z",
@@ -1925,8 +1745,7 @@ const ReferenceGenomeListing = {
         {
             id: "5a5feeba-cc62-11e4-85cd-fbc6658b3683",
             name: "Xenopus.JGI",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Xenopus.JGI/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Xenopus.JGI/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:59:12.000Z",
@@ -1936,8 +1755,7 @@ const ReferenceGenomeListing = {
         {
             id: "b6303c14-cc61-11e4-8d84-1ff205d0a405",
             name: "Tupaia.tupBel1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Tupaia.tupBel1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Tupaia.tupBel1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:54:36.000Z",
@@ -1947,8 +1765,7 @@ const ReferenceGenomeListing = {
         {
             id: "8ed4d3a0-cc61-11e4-bff8-ffb77e7a9629",
             name: "Tuber.ASM15164v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Tuber.ASM15164v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Tuber.ASM15164v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:53:30.000Z",
@@ -1958,8 +1775,7 @@ const ReferenceGenomeListing = {
         {
             id: "786fcad4-cc61-11e4-b6bf-d3292deff847",
             name: "Trypanosoma.TryBru_Apr2005_chr11",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Trypanosoma.TryBru_Apr2005_chr11/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Trypanosoma.TryBru_Apr2005_chr11/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:52:53.000Z",
@@ -1969,8 +1785,7 @@ const ReferenceGenomeListing = {
         {
             id: "42ec4530-cc5d-11e4-9bb9-b7de360f1f7c",
             name: "Sarcophilus.Devil_ref",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Sarcophilus.Devil_ref/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Sarcophilus.Devil_ref/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:22:45.000Z",
@@ -1980,8 +1795,7 @@ const ReferenceGenomeListing = {
         {
             id: "ff67d676-cc52-11e4-bc3e-9352dcd39809",
             name: "Musa.MA1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Musa.MA1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Musa.MA1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:09:17.000Z",
@@ -1991,8 +1805,7 @@ const ReferenceGenomeListing = {
         {
             id: "0a2b17ee-cc4e-11e4-a72d-8fa645019135",
             name: "Glomerella.C_graminicola_M1_001_V1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Glomerella.C_graminicola_M1_001_V1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Glomerella.C_graminicola_M1_001_V1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:33:47.000Z",
@@ -2002,8 +1815,7 @@ const ReferenceGenomeListing = {
         {
             id: "d4576ce8-cc49-11e4-911e-5b0bb8978a1a",
             name: "Daphnia.V1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Daphnia.V1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Daphnia.V1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:03:39.000Z",
@@ -2013,8 +1825,7 @@ const ReferenceGenomeListing = {
         {
             id: "ef5edede-c818-11e4-a784-9bc40b25ad4f",
             name: "Astyanax.AstMex102",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Astyanax.AstMex102/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Astyanax.AstMex102/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:03:34.000Z",
@@ -2024,8 +1835,7 @@ const ReferenceGenomeListing = {
         {
             id: "ca1c79a6-c818-11e4-a05a-4f45bde494a9",
             name: "Aspergillus.TIGR",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Aspergillus.TIGR/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Aspergillus.TIGR/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:02:32.000Z",
@@ -2035,8 +1845,7 @@ const ReferenceGenomeListing = {
         {
             id: "b846fb3e-c818-11e4-8b1b-27491fc1ae6d",
             name: "Aspergillus.NITE",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Aspergillus.NITE/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Aspergillus.NITE/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:02:02.000Z",
@@ -2046,8 +1855,7 @@ const ReferenceGenomeListing = {
         {
             id: "a46aa796-c818-11e4-b227-177fb097dabb",
             name: "Aspergillus.JCVI-afl1-v2.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Aspergillus.JCVI-afl1-v2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Aspergillus.JCVI-afl1-v2.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:01:29.000Z",
@@ -2057,8 +1865,7 @@ const ReferenceGenomeListing = {
         {
             id: "8d882f62-c818-11e4-8971-1b22c868aea5",
             name: "Aspergillus.JCVI",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Aspergillus.JCVI/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Aspergillus.JCVI/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:00:50.000Z",
@@ -2068,8 +1875,7 @@ const ReferenceGenomeListing = {
         {
             id: "77e6d3ca-c818-11e4-a7af-63e1179e5f16",
             name: "Aspergillus.DSM",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Aspergillus.DSM/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Aspergillus.DSM/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:00:14.000Z",
@@ -2079,8 +1885,7 @@ const ReferenceGenomeListing = {
         {
             id: "58a25bec-c818-11e4-8082-23dc61a80a52",
             name: "Aspergillus.Broad",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Aspergillus.Broad/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Aspergillus.Broad/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:59:21.000Z",
@@ -2090,8 +1895,7 @@ const ReferenceGenomeListing = {
         {
             id: "4887349e-c818-11e4-9a74-1b1b4106b74e",
             name: "Aspergillus.ASM1142v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Aspergillus.ASM1142v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Aspergillus.ASM1142v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:58:54.000Z",
@@ -2101,8 +1905,7 @@ const ReferenceGenomeListing = {
         {
             id: "2ba64ce8-c818-11e4-b59a-872e8fe166a2",
             name: "Ashbya.ASM9102v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Ashbya.ASM9102v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Ashbya.ASM9102v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:58:06.000Z",
@@ -2112,8 +1915,7 @@ const ReferenceGenomeListing = {
         {
             id: "1818d36c-c818-11e4-af66-872ef9e8da1f",
             name: "Arabidopsis.v.1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Arabidopsis.v.1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Arabidopsis.v.1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:57:33.000Z",
@@ -2123,8 +1925,7 @@ const ReferenceGenomeListing = {
         {
             id: "06c1556c-c818-11e4-b56e-e7eb0c4d3dd6",
             name: "Arabidopsis.TAIR10",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Arabidopsis.TAIR10/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Arabidopsis.TAIR10/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:57:04.000Z",
@@ -2134,8 +1935,7 @@ const ReferenceGenomeListing = {
         {
             id: "f732fe16-c817-11e4-bddd-c7002047c97b",
             name: "Apis.Amel_4.5",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Apis.Amel_4.5/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Apis.Amel_4.5/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:56:38.000Z",
@@ -2145,8 +1945,7 @@ const ReferenceGenomeListing = {
         {
             id: "e6952b56-c817-11e4-ba53-2721d9f40e09",
             name: "Anopheles.AgamP4",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Anopheles.AgamP4/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Anopheles.AgamP4/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:56:10.000Z",
@@ -2156,8 +1955,7 @@ const ReferenceGenomeListing = {
         {
             id: "cc6b3356-c817-11e4-bb6c-fffb81e90b9b",
             name: "Anopheles.AdarC3",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Anopheles.AdarC3/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Anopheles.AdarC3/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:55:26.000Z",
@@ -2167,8 +1965,7 @@ const ReferenceGenomeListing = {
         {
             id: "abb5a042-c817-11e4-a0de-53b27c48f3eb",
             name: "Anolis.AnoCar2.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Anolis.AnoCar2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Anolis.AnoCar2.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:54:31.000Z",
@@ -2178,8 +1975,7 @@ const ReferenceGenomeListing = {
         {
             id: "9af156c0-c817-11e4-a7fb-dbd3ec2e8443",
             name: "Anas.BGI_duck_1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Anas.BGI_duck_1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Anas.BGI_duck_1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:54:03.000Z",
@@ -2189,8 +1985,7 @@ const ReferenceGenomeListing = {
         {
             id: "865fc7be-c817-11e4-9ea8-df58b0f37490",
             name: "Amphimedon.Aqu1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Amphimedon.Aqu1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Amphimedon.Aqu1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:53:29.000Z",
@@ -2200,8 +1995,7 @@ const ReferenceGenomeListing = {
         {
             id: "58a53cbe-c817-11e4-99d8-570144baeb68",
             name: "Amborella.AMTR1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Amborella.AMTR1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Amborella.AMTR1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:52:12.000Z",
@@ -2211,8 +2005,7 @@ const ReferenceGenomeListing = {
         {
             id: "04b1357c-c817-11e4-a8ab-130dda966e93",
             name: "Ailuropoda.ailMel1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Ailuropoda.ailMel1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Ailuropoda.ailMel1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:49:51.000Z",
@@ -2222,8 +2015,7 @@ const ReferenceGenomeListing = {
         {
             id: "e35df7fc-c816-11e4-9b78-8305be622e67",
             name: "Aegilops.ASM34733v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Aegilops.ASM34733v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Aegilops.ASM34733v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:48:55.000Z",
@@ -2233,8 +2025,7 @@ const ReferenceGenomeListing = {
         {
             id: "73a95050-c816-11e4-bd29-0fd43fa21865",
             name: "Aedes.AaegL3",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Aedes.AaegL3/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Aedes.AaegL3/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:45:48.000Z",
@@ -2244,8 +2035,7 @@ const ReferenceGenomeListing = {
         {
             id: "63469880-c816-11e4-9ba2-a7061827eb24",
             name: "Acyrthosiphon.Acyr_2.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Acyrthosiphon.Acyr_2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Acyrthosiphon.Acyr_2.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:45:20.000Z",
@@ -2255,8 +2045,7 @@ const ReferenceGenomeListing = {
         {
             id: "da5de3ba-c82a-11e4-b36f-fbe310d3c6cd",
             name: "Ciona.KH",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Ciona.KH/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Ciona.KH/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T20:11:50.000Z",
@@ -2266,8 +2055,7 @@ const ReferenceGenomeListing = {
         {
             id: "e0c757bc-c82b-11e4-bf41-b7c6492140e4",
             name: "Danaus.DanPle_1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Danaus.DanPle_1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Danaus.DanPle_1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T20:19:10.000Z",
@@ -2277,8 +2065,7 @@ const ReferenceGenomeListing = {
         {
             id: "a2e58b4a-cc49-11e4-bda1-9f15cfff0703",
             name: "Danio.Zv9",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Danio.Zv9/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Danio.Zv9/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:02:16.000Z",
@@ -2288,8 +2075,7 @@ const ReferenceGenomeListing = {
         {
             id: "8b25e6e4-cc49-11e4-b40c-df94357769e0",
             name: "Acromyrmex_echinatior",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Acromyrmex_echinatior/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Acromyrmex_echinatior/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:01:36.000Z",
@@ -2299,8 +2085,7 @@ const ReferenceGenomeListing = {
         {
             id: "cf0b1cac-c82b-11e4-969c-033631a25754",
             name: "Cyanidioschyzon.ASM9120v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Cyanidioschyzon.ASM9120v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Cyanidioschyzon.ASM9120v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T20:18:41.000Z",
@@ -2310,8 +2095,7 @@ const ReferenceGenomeListing = {
         {
             id: "bc2af418-c82b-11e4-900a-47240477ae5c",
             name: "Culex.CpipJ2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Culex.CpipJ2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Culex.CpipJ2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T20:18:09.000Z",
@@ -2321,8 +2105,7 @@ const ReferenceGenomeListing = {
         {
             id: "aec012c2-c82b-11e4-b30d-83057fb33f52",
             name: "Cryptococcus.ASM9104v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Cryptococcus.ASM9104v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Cryptococcus.ASM9104v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T20:17:46.000Z",
@@ -2332,8 +2115,7 @@ const ReferenceGenomeListing = {
         {
             id: "99dc2274-c82b-11e4-beff-e70a4eb6381c",
             name: "Crassostrea.oyster_v9",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Crassostrea.oyster_v9/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Crassostrea.oyster_v9/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T20:17:11.000Z",
@@ -2343,8 +2125,7 @@ const ReferenceGenomeListing = {
         {
             id: "2feb17bc-c82b-11e4-b08a-63e25f23f6b4",
             name: "Colletotrichum.Corbiculare240422v01",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Colletotrichum.Corbiculare240422v01/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Colletotrichum.Corbiculare240422v01/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T20:14:14.000Z",
@@ -2354,8 +2135,7 @@ const ReferenceGenomeListing = {
         {
             id: "1fc686dc-c82b-11e4-b4ad-1fcc5624249d",
             name: "Colletotrichum.Colletotrichum",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Colletotrichum.Colletotrichum/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Colletotrichum.Colletotrichum/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T20:13:47.000Z",
@@ -2365,8 +2145,7 @@ const ReferenceGenomeListing = {
         {
             id: "ec776bb6-c82a-11e4-91a1-d7b9fbc4b39b",
             name: "Colletotrichum.ASM31379v2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Colletotrichum.ASM31379v2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Colletotrichum.ASM31379v2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T20:12:20.000Z",
@@ -2376,8 +2155,7 @@ const ReferenceGenomeListing = {
         {
             id: "cc23567c-c82a-11e4-9046-db777d7ac100",
             name: "Ciona.CSAV",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Ciona.CSAV/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Ciona.CSAV/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T20:11:26.000Z",
@@ -2387,8 +2165,7 @@ const ReferenceGenomeListing = {
         {
             id: "bddfa76e-c82a-11e4-9114-a309125106c9",
             name: "Choloepus.choHof1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Choloepus.choHof1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Choloepus.choHof1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T20:11:02.000Z",
@@ -2398,8 +2175,7 @@ const ReferenceGenomeListing = {
         {
             id: "3d26a714-c823-11e4-ba45-b335348dc952",
             name: "Chlorocebus.ChlSab1.1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Chlorocebus.ChlSab1.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Chlorocebus.ChlSab1.1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T19:17:20.000Z",
@@ -2409,8 +2185,7 @@ const ReferenceGenomeListing = {
         {
             id: "199cae6a-c823-11e4-aef1-2fe10ca84cca",
             name: "Chlamydomonas.v3.1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Chlamydomonas.v3.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Chlamydomonas.v3.1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T19:16:20.000Z",
@@ -2420,8 +2195,7 @@ const ReferenceGenomeListing = {
         {
             id: "08699db0-c823-11e4-9694-cb7edee8d47a",
             name: "Cavia.cavPor3",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Cavia.cavPor3/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Cavia.cavPor3/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T19:15:51.000Z",
@@ -2431,8 +2205,7 @@ const ReferenceGenomeListing = {
         {
             id: "685b2bcc-c822-11e4-b163-17290e8fda4f",
             name: "Capitella.Capitella",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Capitella.Capitella/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Capitella.Capitella/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T19:11:23.000Z",
@@ -2442,8 +2215,7 @@ const ReferenceGenomeListing = {
         {
             id: "f1d71ccc-c821-11e4-bcae-3bad720e2969",
             name: "Canis.CanFam3.1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Canis.CanFam3.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Canis.CanFam3.1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T19:08:04.000Z",
@@ -2453,8 +2225,7 @@ const ReferenceGenomeListing = {
         {
             id: "c0588ffa-c821-11e4-912a-1f81ade8a161",
             name: "Callithrix.C_jacchus3.2.1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Callithrix.C_jacchus3.2.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Callithrix.C_jacchus3.2.1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T19:06:41.000Z",
@@ -2464,8 +2235,7 @@ const ReferenceGenomeListing = {
         {
             id: "965c1780-c821-11e4-96d0-e3566a1222a0",
             name: "Caenorhabditis.WBcel235",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Caenorhabditis.WBcel235/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Caenorhabditis.WBcel235/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T19:05:31.000Z",
@@ -2475,8 +2245,7 @@ const ReferenceGenomeListing = {
         {
             id: "77b01d9a-c821-11e4-956a-ef5e28b32982",
             name: "Caenorhabditis.C_remanei-15.0.1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Caenorhabditis.C_remanei-15.0.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Caenorhabditis.C_remanei-15.0.1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T19:04:39.000Z",
@@ -2486,8 +2255,7 @@ const ReferenceGenomeListing = {
         {
             id: "651650b4-c821-11e4-ad00-ff4525245dc0",
             name: "Caenorhabditis.C_japonica-7.0.1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Caenorhabditis.C_japonica-7.0.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Caenorhabditis.C_japonica-7.0.1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T19:04:08.000Z",
@@ -2497,8 +2265,7 @@ const ReferenceGenomeListing = {
         {
             id: "e28661d4-c820-11e4-8b82-1b87c68dce8d",
             name: "Caenorhabditis.C_brenneri-6.0.1b",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Caenorhabditis.C_brenneri-6.0.1b/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Caenorhabditis.C_brenneri-6.0.1b/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T19:00:29.000Z",
@@ -2508,8 +2275,7 @@ const ReferenceGenomeListing = {
         {
             id: "ad7b774a-c820-11e4-acef-7fdf6f8edb74",
             name: "Caenorhabditis.CB4",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Caenorhabditis.CB4/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Caenorhabditis.CB4/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:59:00.000Z",
@@ -2519,8 +2285,7 @@ const ReferenceGenomeListing = {
         {
             id: "806d28d4-c820-11e4-a3ef-476974082bc5",
             name: "Brugia.B_malayi-3.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Brugia.B_malayi-3.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Brugia.B_malayi-3.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:57:44.000Z",
@@ -2530,8 +2295,7 @@ const ReferenceGenomeListing = {
         {
             id: "4b159f7c-c820-11e4-a3ed-fb89aa792c89",
             name: "Brassica.v2.1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Brassica.v2.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Brassica.v2.1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:56:15.000Z",
@@ -2541,8 +2305,7 @@ const ReferenceGenomeListing = {
         {
             id: "0bd666de-c820-11e4-8119-7f124c759863",
             name: "Brachypodium.v1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Brachypodium.v1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Brachypodium.v1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:54:29.000Z",
@@ -2552,8 +2315,7 @@ const ReferenceGenomeListing = {
         {
             id: "f2f9ead2-c81f-11e4-a6ff-b314318dcc4e",
             name: "Botryotinia.B05.10_v2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Botryotinia.B05.10_v2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Botryotinia.B05.10_v2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:53:47.000Z",
@@ -2563,8 +2325,7 @@ const ReferenceGenomeListing = {
         {
             id: "81b670b2-c819-11e4-a520-c7e63bfd9eef",
             name: "Bos.UMD3.1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Bos.UMD3.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Bos.UMD3.1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:07:40.000Z",
@@ -2574,8 +2335,7 @@ const ReferenceGenomeListing = {
         {
             id: "739abf56-c819-11e4-a8d3-33061c3f6aa0",
             name: "Bombyx.ASM15162v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Bombyx.ASM15162v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Bombyx.ASM15162v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:07:16.000Z",
@@ -2585,8 +2345,7 @@ const ReferenceGenomeListing = {
         {
             id: "358edb02-c819-11e4-8496-0361c9410706",
             name: "Blumeria.EF",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Blumeria.EF/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Blumeria.EF/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:05:32.000Z",
@@ -2596,8 +2355,7 @@ const ReferenceGenomeListing = {
         {
             id: "1729c258-c819-11e4-ab34-e3e006cc20f7",
             name: "Bigelowiella.Bigna1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Bigelowiella.Bigna1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Bigelowiella.Bigna1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:04:41.000Z",
@@ -2607,8 +2365,7 @@ const ReferenceGenomeListing = {
         {
             id: "06c39b1e-c819-11e4-8641-fb5323e5aa31",
             name: "Atta.Attacep1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Atta.Attacep1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Atta.Attacep1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:04:14.000Z",
@@ -2618,8 +2375,7 @@ const ReferenceGenomeListing = {
         {
             id: "ec580ed4-cc4d-11e4-a14b-73a3e8af8c0b",
             name: "Gibberella.ASM24013v2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Gibberella.ASM24013v2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Gibberella.ASM24013v2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:32:57.000Z",
@@ -2629,8 +2385,7 @@ const ReferenceGenomeListing = {
         {
             id: "91f2e252-cc4d-11e4-b6db-378960a4b251",
             name: "Gibberella.ASM14955v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Gibberella.ASM14955v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Gibberella.ASM14955v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:30:26.000Z",
@@ -2640,8 +2395,7 @@ const ReferenceGenomeListing = {
         {
             id: "804e842a-cc4d-11e4-b5a6-673f68aad5a5",
             name: "Giardia.GCA_000002435.1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Giardia.GCA_000002435.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Giardia.GCA_000002435.1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:29:56.000Z",
@@ -2651,8 +2405,7 @@ const ReferenceGenomeListing = {
         {
             id: "66addbba-cc4d-11e4-826c-37cff5482d71",
             name: "Gasterosteus.BROAD",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Gasterosteus.BROAD/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Gasterosteus.BROAD/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:29:13.000Z",
@@ -2662,8 +2415,7 @@ const ReferenceGenomeListing = {
         {
             id: "34944a24-cc4d-11e4-8433-1b60d3aa4142",
             name: "Gallus.Galgal4",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Gallus.Galgal4/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Gallus.Galgal4/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:27:49.000Z",
@@ -2673,8 +2425,7 @@ const ReferenceGenomeListing = {
         {
             id: "2124fbbe-cc4d-11e4-9cc9-cb0d70b6e488",
             name: "Gaeumannomyces.Gae_graminis_V2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Gaeumannomyces.Gae_graminis_V2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Gaeumannomyces.Gae_graminis_V2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:27:16.000Z",
@@ -2684,8 +2435,7 @@ const ReferenceGenomeListing = {
         {
             id: "ea1cc7e6-cc4c-11e4-a699-f3746b738349",
             name: "Gadus.gadMor1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Gadus.gadMor1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Gadus.gadMor1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:25:44.000Z",
@@ -2695,8 +2445,7 @@ const ReferenceGenomeListing = {
         {
             id: "9ae243b8-cc4c-11e4-a5b4-a3da3092fdce",
             name: "Fusarium.FP7",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Fusarium.FP7/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Fusarium.FP7/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:23:31.000Z",
@@ -2706,8 +2455,7 @@ const ReferenceGenomeListing = {
         {
             id: "8952692a-cc4c-11e4-a0c0-630b8816a67f",
             name: "Fusarium.FO2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Fusarium.FO2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Fusarium.FO2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T02:23:02.000Z",
@@ -2717,8 +2465,7 @@ const ReferenceGenomeListing = {
         {
             id: "677a2788-cc61-11e4-b1f2-dbd0b25e9e17",
             name: "Triticum.IWGSP1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Triticum.IWGSP1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Triticum.IWGSP1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:52:24.000Z",
@@ -2728,8 +2475,7 @@ const ReferenceGenomeListing = {
         {
             id: "fceca02e-cc5d-11e4-8f54-6f63709b7157",
             name: "Schizosaccharomyces.SJ5",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Schizosaccharomyces.SJ5/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Schizosaccharomyces.SJ5/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:27:57.000Z",
@@ -2739,8 +2485,7 @@ const ReferenceGenomeListing = {
         {
             id: "45920f0e-cc62-11e4-983c-47763cc4e89e",
             name: "Vitis.IGGP_12x",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Vitis.IGGP_12x/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Vitis.IGGP_12x/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:58:37.000Z",
@@ -2750,8 +2495,7 @@ const ReferenceGenomeListing = {
         {
             id: "1825ab5c-cc62-11e4-ba9f-37b0a9727bd6",
             name: "Vicugna.vicPac1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Vicugna.vicPac1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Vicugna.vicPac1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:57:21.000Z",
@@ -2761,8 +2505,7 @@ const ReferenceGenomeListing = {
         {
             id: "ec64206a-cc53-11e4-9fdd-bbab157d9dda",
             name: "Neurospora.ASM18292v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Neurospora.ASM18292v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Neurospora.ASM18292v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:15:54.000Z",
@@ -2772,8 +2515,7 @@ const ReferenceGenomeListing = {
         {
             id: "c60b4e5c-cc53-11e4-886e-37533c371488",
             name: "Neosartorya.TIGR",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Neosartorya.TIGR/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Neosartorya.TIGR/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:14:50.000Z",
@@ -2783,8 +2525,7 @@ const ReferenceGenomeListing = {
         {
             id: "ae8403d2-cc53-11e4-8f1a-a33171c3a642",
             name: "Nematostella.ASM20922v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Nematostella.ASM20922v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Nematostella.ASM20922v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:14:11.000Z",
@@ -2794,8 +2535,7 @@ const ReferenceGenomeListing = {
         {
             id: "82fd47be-cc53-11e4-8094-2bfe3d488c57",
             name: "Nectria.v2.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Nectria.v2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Nectria.v2.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:12:57.000Z",
@@ -2805,8 +2545,7 @@ const ReferenceGenomeListing = {
         {
             id: "5786e040-cc53-11e4-a177-cbe49054093e",
             name: "Nasonia.Nvit_2.1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Nasonia.Nvit_2.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Nasonia.Nvit_2.1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:11:45.000Z",
@@ -2816,8 +2555,7 @@ const ReferenceGenomeListing = {
         {
             id: "450bb3aa-cc53-11e4-8a24-d36f37f34d2f",
             name: "Myotis.Myoluc2.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Myotis.Myoluc2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Myotis.Myoluc2.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:11:14.000Z",
@@ -2827,8 +2565,7 @@ const ReferenceGenomeListing = {
         {
             id: "34b866d8-cc53-11e4-ace1-a767257d091f",
             name: "Mustela.MusPutFur1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Mustela.MusPutFur1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Mustela.MusPutFur1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:10:46.000Z",
@@ -2838,8 +2575,7 @@ const ReferenceGenomeListing = {
         {
             id: "1b4955d6-cc53-11e4-b103-87aecca96d58",
             name: "Mus.GRCm38.p2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Mus.GRCm38.p2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Mus.GRCm38.p2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:10:04.000Z",
@@ -2849,8 +2585,7 @@ const ReferenceGenomeListing = {
         {
             id: "1a74921a-cc5d-11e4-8bbf-f380b3822bec",
             name: "Rhodnius.RproC1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Rhodnius.RproC1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Rhodnius.RproC1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:21:37.000Z",
@@ -2860,8 +2595,7 @@ const ReferenceGenomeListing = {
         {
             id: "2f06362a-cc5d-11e4-9eac-575b6922b774",
             name: "Saccharomyces.R64-1-1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Saccharomyces.R64-1-1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Saccharomyces.R64-1-1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:22:12.000Z",
@@ -2871,8 +2605,7 @@ const ReferenceGenomeListing = {
         {
             id: "076e8d7e-cc5d-11e4-a7d4-c3890eddaee6",
             name: "Rattus.Rnor_5.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Rattus.Rnor_5.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Rattus.Rnor_5.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:21:05.000Z",
@@ -2882,8 +2615,7 @@ const ReferenceGenomeListing = {
         {
             id: "e7dfc108-cc5c-11e4-8dc9-8bc04fa6bd2e",
             name: "Pythium.pve_scaffolds_v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Pythium.pve_scaffolds_v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Pythium.pve_scaffolds_v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:20:12.000Z",
@@ -2893,8 +2625,7 @@ const ReferenceGenomeListing = {
         {
             id: "bc95fc9c-cc5c-11e4-b79b-7f87374929cb",
             name: "Pythium.pug",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Pythium.pug/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Pythium.pug/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:19:00.000Z",
@@ -2904,8 +2635,7 @@ const ReferenceGenomeListing = {
         {
             id: "ab98007a-cc5c-11e4-b550-23b4138653a8",
             name: "Pythium.piw_scaffolds_v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Pythium.piw_scaffolds_v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Pythium.piw_scaffolds_v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:18:31.000Z",
@@ -2915,8 +2645,7 @@ const ReferenceGenomeListing = {
         {
             id: "8812aa9c-cc5c-11e4-8f12-73274504ed0c",
             name: "Pythium.pir_scaffolds_v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Pythium.pir_scaffolds_v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Pythium.pir_scaffolds_v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:17:31.000Z",
@@ -2926,8 +2655,7 @@ const ReferenceGenomeListing = {
         {
             id: "67cba3ba-cc5c-11e4-9358-e7838f75e53f",
             name: "Pythium.par_scaffolds_v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Pythium.par_scaffolds_v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Pythium.par_scaffolds_v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:16:37.000Z",
@@ -2937,8 +2665,7 @@ const ReferenceGenomeListing = {
         {
             id: "33ec19ee-cc5c-11e4-83b4-1b202dce64d4",
             name: "Pythium.pag1_scaffolds_v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Pythium.pag1_scaffolds_v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Pythium.pag1_scaffolds_v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:15:10.000Z",
@@ -2948,8 +2675,7 @@ const ReferenceGenomeListing = {
         {
             id: "1246f390-cc5c-11e4-bcdb-eb522b75f918",
             name: "Pyrenophora.PyrTer_1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Pyrenophora.PyrTer_1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Pyrenophora.PyrTer_1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:14:14.000Z",
@@ -2959,8 +2685,7 @@ const ReferenceGenomeListing = {
         {
             id: "03bf6c1c-cc5c-11e4-a9a1-97d31c8fbdd7",
             name: "Pyrenophora.ASM14998v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Pyrenophora.ASM14998v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Pyrenophora.ASM14998v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:13:49.000Z",
@@ -2970,8 +2695,7 @@ const ReferenceGenomeListing = {
         {
             id: "f274b156-cc5b-11e4-b082-4be420d0ad81",
             name: "Puccinia.v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Puccinia.v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Puccinia.v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:13:20.000Z",
@@ -2981,8 +2705,7 @@ const ReferenceGenomeListing = {
         {
             id: "cb0ed52e-cc5b-11e4-9349-d772c7d747b9",
             name: "Puccinia.ASM15152v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Puccinia.ASM15152v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Puccinia.ASM15152v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:12:14.000Z",
@@ -2992,8 +2715,7 @@ const ReferenceGenomeListing = {
         {
             id: "abc8bc70-cc5b-11e4-a867-3703254fd8d7",
             name: "Puccinia.ASM14992v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Puccinia.ASM14992v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Puccinia.ASM14992v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:11:22.000Z",
@@ -3003,8 +2725,7 @@ const ReferenceGenomeListing = {
         {
             id: "8e9af528-cc5b-11e4-b68e-bf09e5c31d8e",
             name: "Pteropus.pteVam1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Pteropus.pteVam1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Pteropus.pteVam1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:10:33.000Z",
@@ -3014,8 +2735,7 @@ const ReferenceGenomeListing = {
         {
             id: "7d11ed02-cc5b-11e4-b29d-cf9fc90cc276",
             name: "Prunus.Prupe1_0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Prunus.Prupe1_0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Prunus.Prupe1_0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:10:04.000Z",
@@ -3025,8 +2745,7 @@ const ReferenceGenomeListing = {
         {
             id: "6f212cf8-cc5b-11e4-892c-0731448233ed",
             name: "Procavia.proCap1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Procavia.proCap1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Procavia.proCap1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:09:40.000Z",
@@ -3036,8 +2755,7 @@ const ReferenceGenomeListing = {
         {
             id: "26959cf8-cc5b-11e4-96bb-33d22395bff6",
             name: "Pristionchus.P_pacificus-5.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Pristionchus.P_pacificus-5.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Pristionchus.P_pacificus-5.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:07:38.000Z",
@@ -3047,8 +2765,7 @@ const ReferenceGenomeListing = {
         {
             id: "0e76895c-cc5b-11e4-973b-e31ea299629f",
             name: "Populus.JGI2.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Populus.JGI2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Populus.JGI2.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:06:58.000Z",
@@ -3058,8 +2775,7 @@ const ReferenceGenomeListing = {
         {
             id: "e5a3fe2e-cc5a-11e4-8a22-0326765fdf60",
             name: "Pongo.PPYG2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Pongo.PPYG2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Pongo.PPYG2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:05:49.000Z",
@@ -3069,8 +2785,7 @@ const ReferenceGenomeListing = {
         {
             id: "a7246e54-cc5a-11e4-8c41-cbd9c7bc81d7",
             name: "Pogonomyrmex_barbatus",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Pogonomyrmex_barbatus/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Pogonomyrmex_barbatus/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:04:05.000Z",
@@ -3080,8 +2795,7 @@ const ReferenceGenomeListing = {
         {
             id: "9131374e-cc5a-11e4-9f84-23a690d77218",
             name: "Poecilia.Poecilia_formosa-5.1.2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Poecilia.Poecilia_formosa-5.1.2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Poecilia.Poecilia_formosa-5.1.2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:03:28.000Z",
@@ -3091,8 +2805,7 @@ const ReferenceGenomeListing = {
         {
             id: "73940fd6-cc5a-11e4-8e47-bb13c183ad24",
             name: "Plasmodium.May_2010",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Plasmodium.May_2010/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Plasmodium.May_2010/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:02:38.000Z",
@@ -3102,8 +2815,7 @@ const ReferenceGenomeListing = {
         {
             id: "63bb335a-cc5a-11e4-a5b9-77e14a502a84",
             name: "Plasmodium.EPr",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Plasmodium.EPr/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Plasmodium.EPr/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:02:12.000Z",
@@ -3113,8 +2825,7 @@ const ReferenceGenomeListing = {
         {
             id: "6d47819a-cc59-11e4-99c9-6fd1c8937fc2",
             name: "Plasmodium.ASM276v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Plasmodium.ASM276v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Plasmodium.ASM276v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:55:18.000Z",
@@ -3124,8 +2835,7 @@ const ReferenceGenomeListing = {
         {
             id: "d397f8c2-cc58-11e4-88e5-b381d5476a35",
             name: "Plasmodium.ASM241v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Plasmodium.ASM241v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Plasmodium.ASM241v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:51:00.000Z",
@@ -3135,8 +2845,7 @@ const ReferenceGenomeListing = {
         {
             id: "aae10a04-cc58-11e4-93b8-8b6bb5a91e96",
             name: "Phytophthora.Phyt_para_P1569_V1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Phytophthora.Phyt_para_P1569_V1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Phytophthora.Phyt_para_P1569_V1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:49:52.000Z",
@@ -3146,8 +2855,7 @@ const ReferenceGenomeListing = {
         {
             id: "9633f3fa-cc58-11e4-b24b-9bd8e7dd88c7",
             name: "Phytophthora.PhyKer238",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Phytophthora.PhyKer238/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Phytophthora.PhyKer238/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:49:17.000Z",
@@ -3157,8 +2865,7 @@ const ReferenceGenomeListing = {
         {
             id: "722f3622-cc58-11e4-8518-879f36ba7b0a",
             name: "Phytophthora.MPF4_v1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Phytophthora.MPF4_v1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Phytophthora.MPF4_v1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:48:17.000Z",
@@ -3168,8 +2875,7 @@ const ReferenceGenomeListing = {
         {
             id: "60fc6992-cc58-11e4-a7b4-a752b2375cef",
             name: "Phytophthora.ASM14975v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Phytophthora.ASM14975v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Phytophthora.ASM14975v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:47:48.000Z",
@@ -3179,8 +2885,7 @@ const ReferenceGenomeListing = {
         {
             id: "510a4fea-cc58-11e4-8b2b-2b16dc315fc0",
             name: "Phytophthora.ASM14973v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Phytophthora.ASM14973v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Phytophthora.ASM14973v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:47:21.000Z",
@@ -3190,8 +2895,7 @@ const ReferenceGenomeListing = {
         {
             id: "3f9bface-cc58-11e4-b49b-c3fafa9b581d",
             name: "Phytophthora.ASM14294v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Phytophthora.ASM14294v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Phytophthora.ASM14294v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:46:52.000Z",
@@ -3201,8 +2905,7 @@ const ReferenceGenomeListing = {
         {
             id: "31bceeae-cc58-11e4-84c8-23c041570e91",
             name: "Physcomitrella.ASM242v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Physcomitrella.ASM242v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Physcomitrella.ASM242v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:46:29.000Z",
@@ -3212,8 +2915,7 @@ const ReferenceGenomeListing = {
         {
             id: "0511737a-cc58-11e4-b2b3-bfd2cfbe5bda",
             name: "Phaeosphaeria.ASM14691v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Phaeosphaeria.ASM14691v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Phaeosphaeria.ASM14691v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T03:45:14.000Z",
@@ -3223,8 +2925,7 @@ const ReferenceGenomeListing = {
         {
             id: "53c5364c-cc61-11e4-b8d8-ff1a2aeb36b1",
             name: "Triticum.ASM34745v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Triticum.ASM34745v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Triticum.ASM34745v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:51:51.000Z",
@@ -3234,8 +2935,7 @@ const ReferenceGenomeListing = {
         {
             id: "218b8dd4-cc61-11e4-a879-db263222076f",
             name: "Trichoplax.ASM15027v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Trichoplax.ASM15027v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Trichoplax.ASM15027v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:50:27.000Z",
@@ -3245,8 +2945,7 @@ const ReferenceGenomeListing = {
         {
             id: "fd116e9c-cc60-11e4-934b-9fa648a5e5f9",
             name: "Trichoderma.v2.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Trichoderma.v2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Trichoderma.v2.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:49:26.000Z",
@@ -3256,8 +2955,7 @@ const ReferenceGenomeListing = {
         {
             id: "e9ef4ece-cc60-11e4-9088-5f702babdd7c",
             name: "Trichoderma.ASM17099v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Trichoderma.ASM17099v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Trichoderma.ASM17099v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:48:54.000Z",
@@ -3267,8 +2965,7 @@ const ReferenceGenomeListing = {
         {
             id: "b1341204-cc60-11e4-9c1c-7f161e4c8053",
             name: "Trichinella.Tspiralis1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Trichinella.Tspiralis1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Trichinella.Tspiralis1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:47:18.000Z",
@@ -3278,8 +2975,7 @@ const ReferenceGenomeListing = {
         {
             id: "956bd750-cc60-11e4-b20b-9f4bcc90052a",
             name: "Tribolium.Tcas3",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Tribolium.Tcas3/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Tribolium.Tcas3/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:46:32.000Z",
@@ -3289,8 +2985,7 @@ const ReferenceGenomeListing = {
         {
             id: "86510678-cc60-11e4-bca1-9ba50830da82",
             name: "Toxoplasma.ToxoDB-7.1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Toxoplasma.ToxoDB-7.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Toxoplasma.ToxoDB-7.1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:46:07.000Z",
@@ -3300,8 +2995,7 @@ const ReferenceGenomeListing = {
         {
             id: "6ce88594-cc60-11e4-b59b-4ffad52ac88e",
             name: "Theobroma.Theobroma_cacao_20110822",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Theobroma.Theobroma_cacao_20110822/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Theobroma.Theobroma_cacao_20110822/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:45:24.000Z",
@@ -3311,8 +3005,7 @@ const ReferenceGenomeListing = {
         {
             id: "4f7d271c-cc60-11e4-b78e-5b415db7bdf7",
             name: "Thalassiosira.ASM14940v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Thalassiosira.ASM14940v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Thalassiosira.ASM14940v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:44:35.000Z",
@@ -3322,8 +3015,7 @@ const ReferenceGenomeListing = {
         {
             id: "3c942ef2-cc60-11e4-997b-2fd3015aa53a",
             name: "Tetraodon.TETRAODON",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Tetraodon.TETRAODON/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Tetraodon.TETRAODON/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:44:03.000Z",
@@ -3333,8 +3025,7 @@ const ReferenceGenomeListing = {
         {
             id: "25dba8b6-cc60-11e4-ba45-87cdf9442b12",
             name: "Tetranychus.ASM23943v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Tetranychus.ASM23943v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Tetranychus.ASM23943v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:43:25.000Z",
@@ -3344,8 +3035,7 @@ const ReferenceGenomeListing = {
         {
             id: "15f866f0-cc60-11e4-a0da-0f630f37f7a3",
             name: "Tetrahymena.JCVI-TTA1-2.2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Tetrahymena.JCVI-TTA1-2.2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Tetrahymena.JCVI-TTA1-2.2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:42:58.000Z",
@@ -3355,8 +3045,7 @@ const ReferenceGenomeListing = {
         {
             id: "f1ccbe52-cc5f-11e4-8f78-4fb5513e4a32",
             name: "Tarsius.tarSyr1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Tarsius.tarSyr1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Tarsius.tarSyr1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:41:57.000Z",
@@ -3366,8 +3055,7 @@ const ReferenceGenomeListing = {
         {
             id: "bbcc4318-cc5f-11e4-940b-3f7194dcf6ac",
             name: "Takifugu.FUGU",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Takifugu.FUGU/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Takifugu.FUGU/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:40:27.000Z",
@@ -3377,8 +3065,7 @@ const ReferenceGenomeListing = {
         {
             id: "a900cc4a-cc5f-11e4-8f66-a356895b5323",
             name: "Taeniopygia.taeGut3.2.4",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Taeniopygia.taeGut3.2.4/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Taeniopygia.taeGut3.2.4/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:39:55.000Z",
@@ -3388,8 +3075,7 @@ const ReferenceGenomeListing = {
         {
             id: "8cf4cc5e-cc5f-11e4-962b-8be5f45d836b",
             name: "Sus.Sscrofa10.2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Sus.Sscrofa10.2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Sus.Sscrofa10.2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:39:08.000Z",
@@ -3399,8 +3085,7 @@ const ReferenceGenomeListing = {
         {
             id: "5f2a8c8c-cc5f-11e4-a3ff-03c1fa34c238",
             name: "Strongylocentrotus.Spur_3.1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Strongylocentrotus.Spur_3.1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Strongylocentrotus.Spur_3.1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:37:51.000Z",
@@ -3410,8 +3095,7 @@ const ReferenceGenomeListing = {
         {
             id: "506279bc-cc5f-11e4-a083-3f69066b1e5a",
             name: "Strigamia.Smar1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Strigamia.Smar1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Strigamia.Smar1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:37:27.000Z",
@@ -3421,8 +3105,7 @@ const ReferenceGenomeListing = {
         {
             id: "410b15b4-cc5f-11e4-b0cf-936730d77ff8",
             name: "Sporisorium.ASM23024v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Sporisorium.ASM23024v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Sporisorium.ASM23024v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:37:01.000Z",
@@ -3432,8 +3115,7 @@ const ReferenceGenomeListing = {
         {
             id: "2fc18e64-cc5f-11e4-8ec2-17d3a03af1fc",
             name: "Sorghum.Sorbi1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Sorghum.Sorbi1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Sorghum.Sorbi1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:36:32.000Z",
@@ -3443,8 +3125,7 @@ const ReferenceGenomeListing = {
         {
             id: "15a31d2c-cc5f-11e4-b053-03967097b3f3",
             name: "Sorex.sorAra1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Sorex.sorAra1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Sorex.sorAra1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:35:48.000Z",
@@ -3454,8 +3135,7 @@ const ReferenceGenomeListing = {
         {
             id: "02c5a8b4-cc5f-11e4-a9fd-47e89485bc42",
             name: "Solenopsis.Si_gnG",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Solenopsis.Si_gnG/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Solenopsis.Si_gnG/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:35:16.000Z",
@@ -3465,8 +3145,7 @@ const ReferenceGenomeListing = {
         {
             id: "ddb8e720-cc5e-11e4-a204-036000e92d10",
             name: "Solenopsis_invicta",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Solenopsis_invicta/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Solenopsis_invicta/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:34:14.000Z",
@@ -3476,8 +3155,7 @@ const ReferenceGenomeListing = {
         {
             id: "c976db14-cc5e-11e4-bd4d-3fc611dd8ccb",
             name: "Solanum.SolTub_3.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Solanum.SolTub_3.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Solanum.SolTub_3.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:33:40.000Z",
@@ -3487,8 +3165,7 @@ const ReferenceGenomeListing = {
         {
             id: "9b18b670-cc5e-11e4-a04a-d7ec343d537e",
             name: "Solanum.SL2.40",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Solanum.SL2.40/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Solanum.SL2.40/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:32:22.000Z",
@@ -3498,8 +3175,7 @@ const ReferenceGenomeListing = {
         {
             id: "6ff29f6a-cc5e-11e4-b357-a34775497b25",
             name: "Setaria.JGIv2.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Setaria.JGIv2.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Setaria.JGIv2.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:31:10.000Z",
@@ -3509,8 +3185,7 @@ const ReferenceGenomeListing = {
         {
             id: "48288ada-cc5e-11e4-97b1-6f310293909a",
             name: "Selaginella.v1.0",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Selaginella.v1.0/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Selaginella.v1.0/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:30:03.000Z",
@@ -3520,8 +3195,7 @@ const ReferenceGenomeListing = {
         {
             id: "37b01970-cc5e-11e4-9557-4f94f06710d3",
             name: "Sclerotinia.ASM14694v1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Sclerotinia.ASM14694v1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Sclerotinia.ASM14694v1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:29:36.000Z",
@@ -3531,8 +3205,7 @@ const ReferenceGenomeListing = {
         {
             id: "24c5501e-cc5e-11e4-99e5-f3fc0afa0525",
             name: "Schizosaccharomyces.SO6",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Schizosaccharomyces.SO6/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Schizosaccharomyces.SO6/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:29:04.000Z",
@@ -3542,8 +3215,7 @@ const ReferenceGenomeListing = {
         {
             id: "c88ff042-cc5d-11e4-9cf7-77032918812b",
             name: "Schizosaccharomyces.SCY4",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Schizosaccharomyces.SCY4/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Schizosaccharomyces.SCY4/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:26:29.000Z",
@@ -3553,8 +3225,7 @@ const ReferenceGenomeListing = {
         {
             id: "1d1112d6-c817-11e4-a09b-77fb6c7fc3ed",
             name: "Albugo.ENA",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Albugo.ENA/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Albugo.ENA/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T17:50:32.000Z",
@@ -3564,8 +3235,7 @@ const ReferenceGenomeListing = {
         {
             id: "6ff0e9c8-cc5d-11e4-81b9-f33e6935fedd",
             name: "Schizosaccharomyces.ASM294v2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Schizosaccharomyces.ASM294v2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Schizosaccharomyces.ASM294v2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:24:01.000Z",
@@ -3575,8 +3245,7 @@ const ReferenceGenomeListing = {
         {
             id: "52f60fec-cc5d-11e4-8d62-d71510f8401f",
             name: "Schistosoma.ASM23792v2",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Schistosoma.ASM23792v2/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Schistosoma.ASM23792v2/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-17T04:23:12.000Z",
@@ -3586,8 +3255,7 @@ const ReferenceGenomeListing = {
         {
             id: "ca94864b-b5a3-49a7-9638-0d57715a301d",
             name: "Brassica rapa [Field mustard] (Ensembl 14)",
-            path:
-                "/data2/collections/genomeservices/1.0.0/14_67/Brassica_rapa.IVFCAASv1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/14_67/Brassica_rapa.IVFCAASv1/de_support/",
             deleted: false,
             created_by: "<public>",
             created_on: "2012-09-06T16:14:08.000Z",
@@ -3597,8 +3265,7 @@ const ReferenceGenomeListing = {
         {
             id: "363918ae-c820-11e4-a131-873070ea3d63",
             name: "Brassica.IVFCAASv1",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Brassica.IVFCAASv1/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Brassica.IVFCAASv1/de_support/",
             deleted: false,
             created_by: "shabari@iplantcollaborative.org",
             created_on: "2015-03-11T18:55:40.000Z",
@@ -3608,8 +3275,7 @@ const ReferenceGenomeListing = {
         {
             id: "f5e02a0e-2b9b-11e7-a8f1-008cfa5ae621",
             name: "Daucus_carota_subsp_sativus.LNRQ01000000",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Daucus_carota_subsp_sativus_LNRQ01000000/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Daucus_carota_subsp_sativus_LNRQ01000000/de_support/",
             deleted: false,
             created_by: "upendra_35@iplantcollaborative.org",
             created_on: "2017-04-27T22:50:50.000Z",
@@ -3619,8 +3285,7 @@ const ReferenceGenomeListing = {
         {
             id: "6df912ba-470f-11e7-a227-008cfa5ae621",
             name: "Zea.AGPv4",
-            path:
-                "/data2/collections/genomeservices/1.0.0/24_77/Zea.AGPv4/de_support/",
+            path: "/data2/collections/genomeservices/1.0.0/24_77/Zea.AGPv4/de_support/",
             deleted: false,
             created_by: "upendra_35@iplantcollaborative.org",
             created_on: "2017-06-01T21:15:25.000Z",

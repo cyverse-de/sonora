@@ -11,25 +11,32 @@ export function EditToolTest({ admin, adminPub, newTool }) {
         id: "5db4e2c7-7a0a-492a-bf79-09cba3801e0d",
     };
 
-    mockAxios
-        .onGet(`/api/tools/5db4e2c7-7a0a-492a-bf79-09cba3801e0d`)
-        .reply(200, details);
+    // This story needs to reset mockAxios since a mock in another story
+    // is causing all requests for /api/tools to return a listing
+    // instead of the following details mock.
+    mockAxios.reset();
+    mockAxios.onGet(`/api/tools/${tool.id}`).reply(200, details);
+    mockAxios.onGet(`/api/admin/tools/${tool.id}`).reply(200, details);
 
-    mockAxios
-        .onGet(`/api/admin/tools/5db4e2c7-7a0a-492a-bf79-09cba3801e0d`)
-        .reply(200, details);
+    mockAxios.onPatch(/api\/(admin\/)?tools\/*/).reply((config) => {
+        const tool = JSON.parse(config.data);
+        console.log("Update Tool", config.url, tool);
 
-    mockAxios.onGet(`api/apps/elements/tool-types`).reply(200, toolTypes);
-    mockAxios.onGet(`api/apps/elements/tool-types`).reply(200, toolTypes);
+        return [200, tool];
+    });
+
+    mockAxios.onGet("api/apps/elements/tool-types").reply(200, toolTypes);
 
     const parentId = "editToolDlg";
+    const onClose = () => console.log("Dialog closed.");
 
     if (newTool) {
         return (
             <EditToolDialog
                 open={true}
-                isAdmin={admin}
-                isAdminPublishing={adminPub}
+                onClose={onClose}
+                isAdmin={!!admin}
+                isAdminPublishing={!!adminPub}
                 loading={false}
                 parentId={parentId}
             />
@@ -38,8 +45,9 @@ export function EditToolTest({ admin, adminPub, newTool }) {
         return (
             <EditToolDialog
                 open={true}
-                isAdmin={admin}
-                isAdminPublishing={adminPub}
+                onClose={onClose}
+                isAdmin={!!admin}
+                isAdminPublishing={!!adminPub}
                 loading={false}
                 parentId={parentId}
                 tool={tool}

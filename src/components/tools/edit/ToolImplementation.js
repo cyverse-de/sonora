@@ -76,7 +76,7 @@ function TestFiles(props) {
                                         label={t("fileName")}
                                         required
                                         validate={(value) =>
-                                            nonEmptyField(values, i18nUtil)
+                                            nonEmptyField(value, i18nUtil)
                                         }
                                         component={FormTextField}
                                     />

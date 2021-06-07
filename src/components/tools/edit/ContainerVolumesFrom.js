@@ -63,6 +63,9 @@ function ContainerVolumesFrom(props) {
                         push({
                             name: "",
                             name_prefix: "",
+                            tag: "",
+                            url: "",
+                            read_only: true,
                         })
                     }
                     parentId={parentId}

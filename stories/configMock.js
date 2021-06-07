@@ -1,3 +1,5 @@
+import constants from "../src/constants";
+
 export default {
     intercom: {
         appId: "appId",
@@ -17,11 +19,22 @@ export default {
         home_path: "/iplant/home",
         trash_path: "/iplant/trash/home/de-irods",
     },
+    tools: {
+        private: {
+            max_cpu_limit: 8,
+            max_memory_limit: 16 * constants.ONE_GiB,
+            max_disk_limit: 512 * constants.ONE_GiB,
+        },
+    },
     vice: {
         initContainerName: "input-files-init",
         inputFilesContainerName: "input-files",
         viceProxyContainerName: "vice-proxy",
         analysisContainerName: "analysis",
         deploymentTimeoutMs: 15000,
+        defaultImage: "discoenv/cas-proxy",
+        defaultName: "cas-proxy",
+        defaultCasUrl: "https://olson.cyverse.org/cas",
+        defaultCasValidate: "validate",
     },
 };

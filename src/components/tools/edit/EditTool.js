@@ -1,10 +1,12 @@
 /**
- * @author aramsey, sriram
+ * @author aramsey, sriram, psarando
  */
 import React, { useState } from "react";
 
 import { useTranslation } from "i18n";
 import { useQuery, useMutation, queryCache } from "react-query";
+
+import { formatSubmission, mapPropsToValues } from "./formatters";
 
 import TOOL_TYPES from "components/models/ToolTypes";
 import { useConfig } from "contexts/config";
@@ -44,7 +46,7 @@ import {
     FormTextField,
 } from "@cyverse-de/ui-lib";
 
-import { Field, FieldArray, Form, getIn, Formik } from "formik";
+import { Field, FieldArray, Form, Formik } from "formik";
 import {
     Button,
     CircularProgress,
@@ -150,20 +152,8 @@ function EditToolDialog(props) {
         }
     );
 
-    const handleSubmit = (values, { props }) => {
-        const submission = { ...values };
-
-        //these keys needs to added to submission for interactive tools
-        if (submission.interactive) {
-            const interactive_apps = {
-                cas_url: config.vice.defaultCasUrl,
-                name: config.vice.defaultName,
-                image: config.vice.defaultImage,
-                cas_validate: config.vice.defaultCasValidate,
-            };
-            submission.container.interactive_apps = interactive_apps;
-            submission.container.skip_tmp_mount = true;
-        }
+    const handleSubmit = (values) => {
+        const submission = formatSubmission(values, config, isAdmin);
 
         //avoid dupe submission
         if (
@@ -350,7 +340,7 @@ function EditToolForm(props) {
     const { t } = useTranslation("tools");
     const { t: i18nUtil } = useTranslation("util");
 
-    const selectedToolType = getIn(values, "type");
+    const selectedToolType = values.type;
     const isOSGTool = selectedToolType === TOOL_TYPES.OSG;
     const isInteractiveTool = selectedToolType === TOOL_TYPES.INTERACTIVE;
 
@@ -549,48 +539,6 @@ function EditToolForm(props) {
     );
 }
 
-const DEFAULT_TOOL = {
-    name: "",
-    version: "",
-    container: {
-        image: {
-            name: "",
-            tag: "",
-            osg_image_path: "",
-        },
-    },
-    type: "",
-};
-
-const DEFAULT_ADMIN_TOOL = {
-    ...DEFAULT_TOOL,
-    implementation: {
-        implementor: "",
-        implementor_email: "",
-        test: {
-            input_files: [],
-            output_files: [],
-        },
-    },
-};
-
-function mapPropsToValues(selTool, isAdmin) {
-    if (!selTool) {
-        return isAdmin ? { ...DEFAULT_ADMIN_TOOL } : { ...DEFAULT_TOOL };
-    } else {
-        const values = { ...selTool };
-        //these keys needs to excluded from submission to avoid service errors
-        delete values.permission;
-        delete values.is_public;
-        delete values.container.image.id;
-        if (!isAdmin) {
-            delete values.implementation;
-        }
-
-        return values;
-    }
-}
-
 /**
  * Ensures that if the user previously filled out information for an OSG
  * or interactive/VICE tool, and then selects a different type,
@@ -607,7 +555,7 @@ function resetOnTypeChange(currentType, form) {
         form.setFieldValue("container.image.osg_image_path", null);
     }
     if (currentType !== TOOL_TYPES.INTERACTIVE) {
-        form.setFieldValue("container.container_ports", null);
+        form.setFieldValue("container.container_ports", []);
         form.setFieldValue("container.network_mode", "none");
     } else {
         form.setFieldValue("container.network_mode", "bridge");

@@ -79,7 +79,13 @@ function ContainerPorts(props) {
         >
             <Toolbar>
                 <AddBtn
-                    onClick={() => push({ container_port: "" })}
+                    onClick={() =>
+                        push({
+                            container_port: "",
+                            host_port: "",
+                            bind_to_host: false,
+                        })
+                    }
                     parentId={parentId}
                 />
                 <Typography variant="subtitle1">{t("port")}</Typography>

@@ -115,7 +115,7 @@ function adminAddTool(tool) {
     return callApi({
         endpoint: `/api/admin/tools`,
         method: "POST",
-        body: tool,
+        body: { tools: [tool] },
     });
 }
 

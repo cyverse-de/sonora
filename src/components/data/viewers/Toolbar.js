@@ -24,7 +24,7 @@ import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
 
 import SaveAsDialog from "../SaveAsDialog";
-import { getParentPath } from "../utils";
+import { getParentPath, formatFileSize } from "../utils";
 
 import { uploadTextAsFile } from "serviceFacades/fileio";
 
@@ -282,7 +282,9 @@ function ViewerToolbar(props) {
                 {!editable && (
                     <Tooltip
                         title={t("readOnlyFileTooltip", {
-                            maxEditSize: viewerConstants.DEFAULT_PAGE_SIZE,
+                            maxEditSize: formatFileSize(
+                                viewerConstants.DEFAULT_PAGE_SIZE
+                            ),
                         })}
                     >
                         <ReadOnlyIcon

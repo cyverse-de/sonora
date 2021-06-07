@@ -2,6 +2,7 @@
  * @author sriram, psarando
  *
  */
+ import numeral from "numeral";
 
 import constants from "../../constants";
 import NavigationConstants from "../../common/NavigationConstants";
@@ -177,6 +178,18 @@ const useSelectorDefaultFolderPath = () => {
 const isPathInTrash = (path, trash_path) =>
     path && trash_path && path.startsWith(trash_path);
 
+
+const formatFileSize = (size) => {
+    if (!size) {
+        return "-";
+    }
+    if (size < 1024) {
+        return numeral(size).format("0 ib");
+    }
+
+    return numeral(size).format("0.0 ib");
+}    
+
 export {
     DEFAULT_PAGE_SETTINGS,
     getEncodedPath,
@@ -194,4 +207,5 @@ export {
     useSelectorDefaultFolderPath,
     containsFolders,
     isPathInTrash,
+    formatFileSize
 };

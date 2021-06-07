@@ -10,7 +10,6 @@ import CustomizeColumns from "./CustomizeColumns";
 import dataFields from "../dataFields";
 import ResourceIcon from "./ResourceIcon";
 import SpanLink from "./SpanLink";
-import { getFileSize } from "./FileSize";
 
 import ids from "../ids";
 
@@ -20,7 +19,7 @@ import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
 import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
 import { DERow } from "components/utils/DERow";
 import DETableHead from "components/utils/DETableHead";
-import { isPathInTrash } from "../utils";
+import { isPathInTrash, formatFileSize } from "../utils";
 import { useConfig } from "contexts/config";
 
 import { build, DECheckbox, EmptyTable, formatDate } from "@cyverse-de/ui-lib";
@@ -41,7 +40,7 @@ import {
 import RowDotMenu from "./RowDotMenu";
 
 function SizeCell({ resource }) {
-    return <TableCell>{getFileSize(resource.fileSize)}</TableCell>;
+    return <TableCell>{formatFileSize(resource.fileSize)}</TableCell>;
 }
 
 function ModifiedCell({ resource }) {

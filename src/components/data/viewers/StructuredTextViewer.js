@@ -28,7 +28,6 @@ import {
 
 import Skeleton from "@material-ui/lab/Skeleton";
 
-
 export default function StructuredTextViewer(props) {
     const {
         baseId,
@@ -190,6 +189,7 @@ export default function StructuredTextViewer(props) {
                 <SplitView
                     leftPanel={
                         <Editor
+                            baseId={baseId}
                             showLineNumbers={
                                 !state?.hiddenColumns?.includes(
                                     LINE_NUMBER_ACCESSOR
@@ -203,9 +203,10 @@ export default function StructuredTextViewer(props) {
                             editorValue={editorValue}
                         />
                     }
-                    rightPanel={TableView()}
+                    rightPanel={<TableView />}
                     leftPanelTitle={t("editor")}
                     rightPanelTitle={t("preview")}
+                    baseId={build(baseId, ids.SPLIT_VIEW)}
                 />
             )}
             {!busy && !editable && <TableView />}

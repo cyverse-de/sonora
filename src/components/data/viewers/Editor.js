@@ -8,11 +8,12 @@
 import React, { useEffect, useState } from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
 
+import { build } from "@cyverse-de/ui-lib";
+
+import ids from "./ids";
 import viewerConstants from "./constants";
 
 import Skeleton from "@material-ui/lab/Skeleton";
-
-
 
 export const CODE_MIRROR_MODES = {
     R: "r",
@@ -26,6 +27,7 @@ export const CODE_MIRROR_MODES = {
 
 export default function Editor(props) {
     const {
+        baseId,
         mode = "",
         showLineNumbers,
         editable,
@@ -41,11 +43,11 @@ export default function Editor(props) {
 
     useEffect(() => {
         if (mode) {
-            require("codemirror/lib/codemirror.css");
             require(`codemirror/mode/${mode}/${mode}.js`);
-        } 
+        }
+        require("codemirror/lib/codemirror.css");
+
         setReady(true);
-        
     }, [mode]);
 
     if (ready) {
@@ -74,6 +76,7 @@ export default function Editor(props) {
     } else {
         return (
             <Skeleton
+                id={build(baseId, ids.EDITOR_SKELETON)}
                 animation="wave"
                 width="100%"
                 height={viewerConstants.DEFAULT_VIEWER_HEIGHT}

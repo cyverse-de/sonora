@@ -10,7 +10,6 @@ import { useMutation, useQuery } from "react-query";
 
 import ids from "./ids";
 import Toolbar from "./Toolbar";
-import markdownToHtml from "components/utils/markdownToHtml";
 import viewerConstants from "./constants";
 import SplitView from "./SplitView";
 import Editor from "./Editor";
@@ -50,7 +49,6 @@ export default function TextViewer(props) {
     const [editorInstance, setEditorInstance] = useState(null);
     const [dirty, setDirty] = useState(false);
     const [isFileSaving, setFileSaving] = React.useState();
-    const [markDownPreview, setMarkdownPreview] = useState("");
     const [detectedMode, setDetectedMode] = useState("");
 
     const isMarkdown =
@@ -68,15 +66,11 @@ export default function TextViewer(props) {
 
     useEffect(() => {
         setEditorValue(data);
-    }, [data, mode]);
+    }, [data]);
 
-    useEffect(() => {
-        if (isMarkdown) {
-            markdownToHtml(editorValue).then((html) => {
-                setMarkdownPreview(html);
-            });
-        }
-    }, [editorValue, isMarkdown, mode]);
+    const getContent = () => {
+        return editorValue;
+    };
 
     const { isFetching: isFetchingMetadata } = useQuery({
         queryKey: [FILESYSTEM_METADATA_QUERY_KEY, { dataId: resourceId }],
@@ -85,11 +79,11 @@ export default function TextViewer(props) {
             enabled: !!resourceId,
             onSuccess: (metadata) => {
                 const { avus } = metadata;
-                const fileTypeAvu = avus?.filter(
+                const fileTypeAvu = avus?.find(
                     (avu) => avu.attr === viewerConstants.IPC_VIEWER_TYPE
                 );
-                if (fileTypeAvu && fileTypeAvu.length > 0) {
-                    setDetectedMode(fileTypeAvu[0].value);
+                if (fileTypeAvu) {
+                    setDetectedMode(fileTypeAvu.value);
                 }
             },
             onError: (error) =>
@@ -105,10 +99,6 @@ export default function TextViewer(props) {
             console.log(error); // fail silently.
         },
     });
-
-    const getContent = () => {
-        return editorValue;
-    };
 
     const updateNewFileMetadata = (details) => {
         const metadata = {
@@ -167,8 +157,10 @@ export default function TextViewer(props) {
             )}
             {!busy && isMarkdown && (
                 <SplitView
+                    baseId={build(baseId, ids.SPLIT_VIEW)}
                     leftPanel={
                         <Editor
+                            baseId={baseId}
                             mode={mode || detectedMode}
                             showLineNumbers={showLineNumbers}
                             editable={editable}
@@ -180,13 +172,14 @@ export default function TextViewer(props) {
                             editorValue={editorValue}
                         />
                     }
-                    rightPanel={<MarkdownPreview html={markDownPreview} />}
+                    rightPanel={<MarkdownPreview markdown={editorValue} />}
                     leftPanelTitle={t("editor")}
                     rightPanelTitle={t("preview")}
                 />
             )}
             {!busy && !isMarkdown && (
                 <Editor
+                    baseId={baseId}
                     mode={mode || detectedMode}
                     showLineNumbers={showLineNumbers}
                     editable={editable}

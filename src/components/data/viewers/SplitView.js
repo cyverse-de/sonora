@@ -6,6 +6,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
+import { build } from "@cyverse-de/ui-lib";
 
 import ids from "./ids";
 
@@ -29,7 +30,8 @@ const RIGHT_PANEL = "rightPanel";
 const NONE = "none";
 
 export default function SplitView(props) {
-    const { leftPanel, rightPanel, leftPanelTitle, rightPanelTitle } = props;
+    const { baseId, leftPanel, rightPanel, leftPanelTitle, rightPanelTitle } =
+        props;
     const { t } = useTranslation("data");
     const classes = useStyles();
     const [hidden, setHidden] = React.useState(NONE);
@@ -44,14 +46,12 @@ export default function SplitView(props) {
             case LEFT_PANEL:
                 leftP.style.display = "none";
                 rightP.style.display = "block";
-                setLeftWidth(0);
                 setRightWidth(11);
                 break;
             case RIGHT_PANEL:
                 leftP.style.display = "block";
                 rightP.style.display = "none";
                 setLeftWidth(11);
-                setRightWidth(0);
                 break;
             default:
                 leftP.style.display = "block";
@@ -69,23 +69,18 @@ export default function SplitView(props) {
             style={{ flexGrow: 1 }}
             spacing={0}
         >
-            <Grid item xs={leftWidth}>
-                <div id={ids.LEFT_PANEL}>
-                    <Typography
-                        className={classes.panelHeader}
-                        variant="subtitle2"
-                    >
-                        {leftPanelTitle}
-                    </Typography>
-                    {leftPanel}
-                </div>
+            <Grid item xs={leftWidth} id={ids.LEFT_PANEL}>
+                <Typography className={classes.panelHeader} variant="subtitle2">
+                    {leftPanelTitle}
+                </Typography>
+                {leftPanel}
             </Grid>
             <Grid item>
                 <ToggleButtonGroup
                     value={hidden}
                     exclusive
                     onChange={handleHidden}
-                    aria-label="panelVisibility"
+                    aria-label={t("splitVisibility")}
                     size="small"
                     orientation="vertical"
                     style={{
@@ -94,6 +89,7 @@ export default function SplitView(props) {
                     }}
                 >
                     <ToggleButton
+                        id={build(baseId, ids.HIDE_LEFT_PANEL_BTN)}
                         value={LEFT_PANEL}
                         aria-label={t("hideLeftPanel")}
                         title={t("hideLeftPanel")}
@@ -101,6 +97,7 @@ export default function SplitView(props) {
                         <FirstPageIcon fontSize="small" />
                     </ToggleButton>
                     <ToggleButton
+                        id={build(baseId, ids.SHOW_ALL_PANELS_BTN)}
                         value={NONE}
                         aria-label={t("showSplitView")}
                         title={t("showSplitView")}
@@ -108,6 +105,7 @@ export default function SplitView(props) {
                         <CompareArrowsIcon fontSize="small" />
                     </ToggleButton>
                     <ToggleButton
+                        id={build(baseId, ids.HIDE_RIGHT_PANEL_BTN)}
                         value={RIGHT_PANEL}
                         aria-label={t("hideRightPanel")}
                         title={t("hideRightPanel")}
@@ -116,16 +114,11 @@ export default function SplitView(props) {
                     </ToggleButton>
                 </ToggleButtonGroup>
             </Grid>
-            <Grid xs={rightWidth}>
-                <div id={ids.RIGHT_PANEL}>
-                    <Typography
-                        className={classes.panelHeader}
-                        variant="subtitle2"
-                    >
-                        {rightPanelTitle}
-                    </Typography>
-                    {rightPanel}
-                </div>
+            <Grid xs={rightWidth} id={ids.RIGHT_PANEL}>
+                <Typography className={classes.panelHeader} variant="subtitle2">
+                    {rightPanelTitle}
+                </Typography>
+                {rightPanel}
             </Grid>
         </Grid>
     );

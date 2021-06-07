@@ -4,7 +4,7 @@
  * A dot menu intended for the Data view.
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { useRouter } from "next/router";
 
@@ -107,7 +107,6 @@ function DataDotMenu(props) {
     const onApplyBulkMdClicked = () => setBulkMdDialogOpen(true);
 
     const [fileTypeSelectionDlgOpen, setFileTypeSelectionDlgOpen] = useState();
-    const [selectedFileType, setSelectedFileType] = useState();
 
     const isSelectionEmpty = selected?.length === 0;
     const selectedResources = getSelectedResources
@@ -132,12 +131,6 @@ function DataDotMenu(props) {
         isWritable(selectedResources[0]?.permission);
     const moveMiEnabled =
         !inTrash && !isSelectionEmpty && isOwner(selectedResources);
-
-    useEffect(() => {
-        if (selectedFileType) {
-            onCreateFileSelected(selectedFileType);
-        }
-    }, [selectedFileType, onCreateFileSelected, path]);
 
     const router = useRouter();
     const routeToFile = (id, path) => {
@@ -448,7 +441,7 @@ function DataDotMenu(props) {
                 onClose={() => setFileTypeSelectionDlgOpen(false)}
                 onFileTypeSelected={(type) => {
                     setFileTypeSelectionDlgOpen(false);
-                    setSelectedFileType(type);
+                    onCreateFileSelected(type);
                 }}
             />
         </>

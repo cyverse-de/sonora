@@ -5,11 +5,24 @@
  * @author sriram
  *
  */
-import React from "react";
+import React, { useEffect, useState } from "react";
+import markdownToHtml from "components/utils/markdownToHtml";
+
 import viewerConstants from "./constants";
 import { Paper } from "@material-ui/core";
+
 export default function MarkdownPreview(props) {
-    const { html } = props;
+    const { markdown } = props;
+    const [markDownPreview, setMarkdownPreview] = useState("");
+
+    useEffect(() => {
+        if (markdown) {
+            markdownToHtml(markdown).then((html) => {
+                setMarkdownPreview(html);
+            });
+        }
+    }, [markdown]);
+
     return (
         <Paper
             style={{
@@ -17,8 +30,8 @@ export default function MarkdownPreview(props) {
                 height: viewerConstants.DEFAULT_VIEWER_HEIGHT,
             }}
             dangerouslySetInnerHTML={{
-                __html: html,
+                __html: markDownPreview,
             }}
-        ></Paper>
+        />
     );
 }

@@ -15,7 +15,9 @@ export default function EditMenuItem(props) {
     const { baseId, app, onClose } = props;
 
     const router = useRouter();
-    const { t } = useTranslation("common");
+    const { t } = useTranslation("apps");
+
+    const isWorkflow = app?.step_count > 1;
 
     return (
         <MenuItem
@@ -28,7 +30,9 @@ export default function EditMenuItem(props) {
             <ListItemIcon>
                 <Edit fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary={t("edit")} />
+            <ListItemText
+                primary={t(isWorkflow ? "editWorkflow" : "editApp")}
+            />
         </MenuItem>
     );
 }

@@ -16,53 +16,61 @@ import AppEditor from "components/apps/editor";
 import ids from "components/apps/editor/ids";
 import NewAppDefaults from "components/apps/editor/NewAppDefaults";
 
-initMockAxiosFileFolderSelector();
-initMockAxiosReferenceGenomeListing();
+const initMockAxiosForAppEditor = () => {
+    mockAxios.reset();
 
-mockAxios.onGet("/api/apps/elements/info-types").reply(200, FileInfoTypesMock);
+    initMockAxiosFileFolderSelector();
+    initMockAxiosReferenceGenomeListing();
 
-mockAxios.onPost("/api/filesystem/stat").replyOnce(404, {
-    error_code: "ERR_DOES_NOT_EXIST",
-    reason: "Not Found!",
-});
-mockAxios.onPost("/api/filesystem/stat").replyOnce(500, errorResponseJSON);
-mockAxios.onPost("/api/filesystem/stat").reply((config) => {
-    const req = JSON.parse(config.data);
-    const { paths } = fileStatResp;
+    mockAxios
+        .onGet("/api/apps/elements/info-types")
+        .reply(200, FileInfoTypesMock);
 
-    return [
-        200,
-        {
-            ...fileStatResp,
-            paths: { ...paths, [req.paths[0]]: Object.values(paths)[0] },
-        },
-    ];
-});
+    mockAxios.onPost("/api/filesystem/stat").replyOnce(404, {
+        error_code: "ERR_DOES_NOT_EXIST",
+        reason: "Not Found!",
+    });
+    mockAxios.onPost("/api/filesystem/stat").replyOnce(500, errorResponseJSON);
+    mockAxios.onPost("/api/filesystem/stat").reply((config) => {
+        const req = JSON.parse(config.data);
+        const { paths } = fileStatResp;
 
-mockAxios.onGet(/\/api\/tools.*/).reply(200, ToolListing);
+        return [
+            200,
+            {
+                ...fileStatResp,
+                paths: { ...paths, [req.paths[0]]: Object.values(paths)[0] },
+            },
+        ];
+    });
 
-mockAxios.onPost(/\/api\/apps\/.*/).reply((config) => {
-    const app = JSON.parse(config.data);
-    console.log("Save New App", config.url, app);
+    mockAxios.onGet(/\/api\/tools.*/).reply(200, ToolListing);
 
-    return [200, { ...app, id: "new-uuid" }];
-});
+    mockAxios.onPost(/\/api\/apps\/.*/).reply((config) => {
+        const app = JSON.parse(config.data);
+        console.log("Save New App", config.url, app);
 
-mockAxios.onPut(/\/api\/apps\/.*/).reply((config) => {
-    const app = JSON.parse(config.data);
-    console.log("Update App", config.url, app);
+        return [200, { ...app, id: "new-uuid" }];
+    });
 
-    return [200, app];
-});
+    mockAxios.onPut(/\/api\/apps\/.*/).reply((config) => {
+        const app = JSON.parse(config.data);
+        console.log("Update App", config.url, app);
 
-mockAxios.onPatch(/\/api\/apps\/.*/).reply((config) => {
-    const app = JSON.parse(config.data);
-    console.log("Update App Labels", config.url, app);
+        return [200, app];
+    });
 
-    return [200, app];
-});
+    mockAxios.onPatch(/\/api\/apps\/.*/).reply((config) => {
+        const app = JSON.parse(config.data);
+        console.log("Update App Labels", config.url, app);
+
+        return [200, app];
+    });
+};
 
 export const NewApp = (props) => {
+    initMockAxiosForAppEditor();
+
     return (
         <AppEditor
             baseId={ids.APP_EDITOR_VIEW}
@@ -77,6 +85,8 @@ export const KitchenSinkEditor = (props) => {
         "Loading Error": loadingError,
         "Public App View": cosmeticOnly,
     } = props;
+
+    initMockAxiosForAppEditor();
 
     return (
         <AppEditor

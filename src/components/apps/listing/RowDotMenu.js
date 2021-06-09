@@ -9,10 +9,11 @@ import { useTranslation } from "i18n";
 import { build, DotMenu } from "@cyverse-de/ui-lib";
 
 import ids from "../ids";
-import { hasOwn, isWritable } from "../utils";
+import { hasOwn, isReadable, isWritable } from "../utils";
 import { getHost } from "components/utils/getHost";
 import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
 import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
+import CopyMenuItem from "../menuItems/CopyMenuItem";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DocMenuItem from "../menuItems/DocMenuItem";
 import EditMenuItem from "../menuItems/EditMenuItem";
@@ -43,6 +44,7 @@ function RowDotMenu(props) {
     const [userProfile] = useUserProfile();
     const { t } = useTranslation("common");
 
+    const canCopy = isReadable(app?.permission);
     const canPublish = hasOwn(app?.permission);
     const canEdit =
         isWritable(app?.permission) ||
@@ -86,6 +88,14 @@ function RowDotMenu(props) {
                                 onPublishSelected={() =>
                                     setPublishDialogOpen(true)
                                 }
+                            />
+                        ),
+                        canCopy && (
+                            <CopyMenuItem
+                                key={build(baseId, ids.COPY_MENU_ITEM)}
+                                baseId={baseId}
+                                onClose={onClose}
+                                app={app}
                             />
                         ),
                         <DocMenuItem

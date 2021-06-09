@@ -2,7 +2,7 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 
-import { AXIOS_DELAY, mockAxios } from "../axiosMock";
+import { AXIOS_DELAY, errorResponseJSON, mockAxios } from "../axiosMock";
 import userProfileMock from "../userProfileMock";
 
 import { appListing, categories } from "./AppMocks";
@@ -21,8 +21,15 @@ export default {
 
 function ListingTest(props) {
     //Note: the params must exactly with original call made by react-query
+    mockAxios.reset();
     mockAxios.onGet("/api/apps/categories?public=false").reply(200, categories);
     mockAxios.onGet(/\/api\/apps*/).reply(200, appListing);
+    mockAxios.onPost(/\/api\/apps\/.*\/copy/).replyOnce(500, errorResponseJSON);
+    mockAxios.onPost(/\/api\/apps\/.*\/copy/).reply((config) => {
+        const url = config.url.split("/");
+        return [200, { system_id: url[3], id: url[4] }];
+    });
+
     const { t } = useTranslation("apps");
     const fields = appFields(t);
     const selectedPage = 0;

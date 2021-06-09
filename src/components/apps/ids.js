@@ -10,6 +10,7 @@ export default {
     APP_COMMENTS: "appComments",
     CARD: "card",
     CLOSE_BTN: "closeButton",
+    COPY_MENU_ITEM: "copy",
     CREATE_APP_BTN: "createAppButton",
     CREATE_MENU_ITEM: "createAppMenuItem",
     DIALOG: "dialog",

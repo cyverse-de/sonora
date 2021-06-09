@@ -137,6 +137,12 @@ export const isWritable = (permission) => {
     );
 };
 
+export const isReadable = (permission) => {
+    return (
+        permissionHierarchy(permission) >= permissionHierarchy(Permissions.READ)
+    );
+};
+
 export const getAppParameterLaunchComponent = (paramType) => {
     switch (paramType) {
         case AppParamTypes.INFO:

@@ -24,10 +24,18 @@ function ListingTest(props) {
     mockAxios.reset();
     mockAxios.onGet("/api/apps/categories?public=false").reply(200, categories);
     mockAxios.onGet(/\/api\/apps*/).reply(200, appListing);
+
     mockAxios.onPost(/\/api\/apps\/.*\/copy/).replyOnce(500, errorResponseJSON);
     mockAxios.onPost(/\/api\/apps\/.*\/copy/).reply((config) => {
+        console.log("Copy App", config.url);
         const url = config.url.split("/");
         return [200, { system_id: url[3], id: url[4] }];
+    });
+
+    mockAxios.onDelete(/\/api\/apps\/.*/).replyOnce(500, errorResponseJSON);
+    mockAxios.onDelete(/\/api\/apps\/.*/).reply((config) => {
+        console.log("Delete App", config.url);
+        return [200];
     });
 
     const { t } = useTranslation("apps");

@@ -139,6 +139,13 @@ function addApp({ systemId, app }) {
     });
 }
 
+function deleteApp({ systemId, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}`,
+        method: "DELETE",
+    });
+}
+
 function getAppDescription(_, { systemId, appId }) {
     return callApi({
         endpoint: `/api/apps/${systemId}/${appId}`,
@@ -423,6 +430,7 @@ function adminPublishApp({ appId, systemId }) {
 export {
     addApp,
     copyApp,
+    deleteApp,
     getApps,
     getAppsForAdmin,
     getAppDetailsForAdmin,

@@ -117,6 +117,19 @@ export default function appsRouter() {
         })
     );
 
+    logger.info("adding the POST /apps/:systemId/:appId/copy handler");
+    api.post(
+        "/apps/:systemId/:appId/copy",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/apps/:systemId/:appId/copy",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the GET /apps/:systemId/:appId/details handler");
     api.get(
         "/apps/:systemId/:appId/details",

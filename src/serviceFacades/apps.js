@@ -162,6 +162,13 @@ function updateAppLabels({ systemId, appId, app }) {
     });
 }
 
+function copyApp({ systemId, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}/copy`,
+        method: "POST",
+    });
+}
+
 function getAppDetails(key, { systemId, appId }) {
     return callApi({
         endpoint: `/api/apps/${systemId}/${appId}/details`,
@@ -422,6 +429,7 @@ function adminPublishApp({ appId, systemId }) {
 
 export {
     addApp,
+    copyApp,
     getApps,
     getAppsForAdmin,
     getAppDetailsForAdmin,

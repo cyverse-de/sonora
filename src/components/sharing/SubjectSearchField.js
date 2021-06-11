@@ -127,25 +127,23 @@ function SubjectSearchField(props) {
         setOptions([...(recentContacts || []), ...(searchResults || [])]);
     }, [recentContacts, searchResults]);
 
-    const [
-        addRecentContactMutation,
-        { status: addRecentContactStatus },
-    ] = useMutation(addRecentContacts, {
-        onSuccess: () => queryCache.invalidateQueries([RECENT_CONTACTS_QUERY]),
-        onError: (error) => {
-            showErrorAnnouncer(t("addRecentContactError"), error);
-        },
-    });
+    const [addRecentContactMutation, { status: addRecentContactStatus }] =
+        useMutation(addRecentContacts, {
+            onSuccess: () =>
+                queryCache.invalidateQueries([RECENT_CONTACTS_QUERY]),
+            onError: (error) => {
+                showErrorAnnouncer(t("addRecentContactError"), error);
+            },
+        });
 
-    const [
-        removeRecentContactMutation,
-        { status: removeRecentContactStatus },
-    ] = useMutation(removeRecentContacts, {
-        onSuccess: () => queryCache.invalidateQueries([RECENT_CONTACTS_QUERY]),
-        onError: (error) => {
-            showErrorAnnouncer(t("removeRecentContactError"), error);
-        },
-    });
+    const [removeRecentContactMutation, { status: removeRecentContactStatus }] =
+        useMutation(removeRecentContacts, {
+            onSuccess: () =>
+                queryCache.invalidateQueries([RECENT_CONTACTS_QUERY]),
+            onError: (error) => {
+                showErrorAnnouncer(t("removeRecentContactError"), error);
+            },
+        });
 
     const onUserAdded = () => {
         setSearchTerm(null);

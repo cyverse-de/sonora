@@ -148,12 +148,10 @@ const AppLaunchForm = (props) => {
 
     const [reviewShowAll, setReviewShowAll] = React.useState(true);
 
-    const [quickLaunchDialogOpen, setQuickLaunchDialogOpen] = React.useState(
-        false
-    );
-    const [quickLaunchSubmission, setQuickLaunchSubmission] = React.useState(
-        null
-    );
+    const [quickLaunchDialogOpen, setQuickLaunchDialogOpen] =
+        React.useState(false);
+    const [quickLaunchSubmission, setQuickLaunchSubmission] =
+        React.useState(null);
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));

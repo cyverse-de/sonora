@@ -151,13 +151,8 @@ export default function PathListAutomation(props) {
     };
 
     const handlePathListCreation = (values, actions) => {
-        const {
-            selectedResources,
-            pattern,
-            dest,
-            fileName,
-            foldersOnly,
-        } = values;
+        const { selectedResources, pattern, dest, fileName, foldersOnly } =
+            values;
 
         const submission = {
             paths: selectedResources?.map((resource) => resource?.path),
@@ -378,7 +373,8 @@ export default function PathListAutomation(props) {
                                                                         }
                                                                         disableRipple
                                                                         inputProps={{
-                                                                            "aria-labelledby": labelId,
+                                                                            "aria-labelledby":
+                                                                                labelId,
                                                                         }}
                                                                     />
                                                                 </ListItemIcon>

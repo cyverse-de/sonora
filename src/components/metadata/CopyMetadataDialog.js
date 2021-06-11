@@ -21,14 +21,8 @@ import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWit
 import { Button, CircularProgress, Typography } from "@material-ui/core";
 
 export default function CopyMetadataDialog(props) {
-    const {
-        open,
-        handleClose,
-        resourceToCopyFrom,
-        copying,
-        error,
-        doCopy,
-    } = props;
+    const { open, handleClose, resourceToCopyFrom, copying, error, doCopy } =
+        props;
     const { t } = useTranslation("metadata");
     const { t: i18nCommon } = useTranslation("common");
     const { t: i18nUtil } = useTranslation("util");

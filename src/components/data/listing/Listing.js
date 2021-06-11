@@ -80,8 +80,7 @@ function Listing(props) {
         isInvalidSelection = () => false,
         render,
         showErrorAnnouncer,
-        onCreateHTFileSelected,
-        onCreateMultiInputFileSelected,
+        onCreateFileSelected,
         page,
         rowsPerPage,
         order,
@@ -104,15 +103,11 @@ function Listing(props) {
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
-    const [
-        confirmDOIRequestDialogOpen,
-        setConfirmDOIRequestDialogOpen,
-    ] = useState(false);
+    const [confirmDOIRequestDialogOpen, setConfirmDOIRequestDialogOpen] =
+        useState(false);
 
-    const [
-        instantLaunchDefaultsMapping,
-        setInstantLaunchDefaultsMapping,
-    ] = useState({});
+    const [instantLaunchDefaultsMapping, setInstantLaunchDefaultsMapping] =
+        useState({});
 
     const [navError, setNavError] = useState(null);
 
@@ -589,9 +584,8 @@ function Listing(props) {
                     setImportDialogOpen={setImportDialogOpen}
                     localUploadId={localUploadId}
                     uploadMenuId={build(baseId, ids.TOOLBAR, ids.UPLOAD_MENU)}
-                    onCreateHTFileSelected={() => onCreateHTFileSelected(path)}
-                    onCreateMultiInputFileSelected={() =>
-                        onCreateMultiInputFileSelected(path)
+                    onCreateFileSelected={(fileType) =>
+                        onCreateFileSelected(path, fileType)
                     }
                     setSharingDlgOpen={setSharingDlgOpen}
                     onPublicLinksSelected={() => setPublicLinksDlgOpen(true)}

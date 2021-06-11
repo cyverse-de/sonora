@@ -50,12 +50,10 @@ function NotificationsProvider(props) {
     const [userProfile] = useUserProfile();
     const [currentNotification, setCurrentNotification] = useState();
     const [selectedNotification, setSelectedNotification] = useState(null);
-    const [adminJoinRequestDlgOpen, setAdminJoinRequestDlgOpen] = useState(
-        false
-    );
-    const [joinRequestDeniedDlgOpen, setJoinRequestDeniedDlgOpen] = useState(
-        false
-    );
+    const [adminJoinRequestDlgOpen, setAdminJoinRequestDlgOpen] =
+        useState(false);
+    const [joinRequestDeniedDlgOpen, setJoinRequestDeniedDlgOpen] =
+        useState(false);
 
     const value = React.useMemo(() => {
         return {

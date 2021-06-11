@@ -93,10 +93,12 @@ export const VICEAdmin = () => {
         setSelectedTab(selectedTab);
     };
 
-    const { isError: hasErrored, isLoading, data, error } = useQuery(
-        VICE_ADMIN_QUERY_KEY,
-        getData
-    );
+    const {
+        isError: hasErrored,
+        isLoading,
+        data,
+        error,
+    } = useQuery(VICE_ADMIN_QUERY_KEY, getData);
 
     const [filters, setFilters] = useState({});
 

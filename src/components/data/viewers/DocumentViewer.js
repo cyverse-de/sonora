@@ -16,14 +16,8 @@ import { build } from "@cyverse-de/ui-lib";
 import { Typography } from "@material-ui/core";
 
 export default function DocumentViewer(props) {
-    const {
-        baseId,
-        path,
-        resourceId,
-        handlePathChange,
-        onRefresh,
-        fileName,
-    } = props;
+    const { baseId, path, resourceId, handlePathChange, onRefresh, fileName } =
+        props;
     const { t } = useTranslation("data");
     useEffect(() => {
         window.open(

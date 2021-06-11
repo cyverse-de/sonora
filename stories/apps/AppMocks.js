@@ -263,8 +263,7 @@ export const appListing = {
             deleted: false,
             pipeline_eligibility: {
                 is_valid: false,
-                reason:
-                    "Job type, interactive, can't currently be included in a pipeline.",
+                reason: "Job type, interactive, can't currently be included in a pipeline.",
             },
             is_favorite: true,
             integrator_name: "Tyson Swetnam",
@@ -306,8 +305,7 @@ export const appListing = {
             deleted: false,
             pipeline_eligibility: {
                 is_valid: false,
-                reason:
-                    "Job type, interactive, can't currently be included in a pipeline.",
+                reason: "Job type, interactive, can't currently be included in a pipeline.",
             },
             is_favorite: true,
             integrator_name: "Noah Fahlgren",
@@ -349,8 +347,7 @@ export const appListing = {
             deleted: false,
             pipeline_eligibility: {
                 is_valid: false,
-                reason:
-                    "Job type, interactive, can't currently be included in a pipeline.",
+                reason: "Job type, interactive, can't currently be included in a pipeline.",
             },
             is_favorite: true,
             integrator_name: "Peter Rose",
@@ -390,8 +387,7 @@ export const appListing = {
             deleted: false,
             pipeline_eligibility: {
                 is_valid: false,
-                reason:
-                    "Analysis, 4b8214a0-254f-45dc-ba6a-0587a7228b5c, has too many steps for a pipeline.",
+                reason: "Analysis, 4b8214a0-254f-45dc-ba6a-0587a7228b5c, has too many steps for a pipeline.",
             },
             is_favorite: false,
             integrator_name: "IPC Dev",
@@ -573,13 +569,11 @@ export const appDetails = {
                                     label: "Molecular genetics",
                                     subclasses: [
                                         {
-                                            iri:
-                                                "http://edamontology.org/topic_0203",
+                                            iri: "http://edamontology.org/topic_0203",
                                             label: "Gene expression",
                                             subclasses: [
                                                 {
-                                                    iri:
-                                                        "http://edamontology.org/topic_3308",
+                                                    iri: "http://edamontology.org/topic_3308",
                                                     label: "Transcriptomics",
                                                 },
                                             ],
@@ -603,8 +597,7 @@ export const appDetails = {
                                     label: "Gene expression",
                                     subclasses: [
                                         {
-                                            iri:
-                                                "http://edamontology.org/topic_3308",
+                                            iri: "http://edamontology.org/topic_3308",
                                             label: "Transcriptomics",
                                         },
                                     ],
@@ -644,8 +637,7 @@ export const appDetails = {
                             label: "Sequence annotation",
                             subclasses: [
                                 {
-                                    iri:
-                                        "http://edamontology.org/operation_3672",
+                                    iri: "http://edamontology.org/operation_3672",
                                     label: "Gene functional annotation",
                                 },
                             ],
@@ -671,15 +663,12 @@ export const appDetails = {
                             label: "Sequence analysis",
                             subclasses: [
                                 {
-                                    iri:
-                                        "http://edamontology.org/operation_2478",
+                                    iri: "http://edamontology.org/operation_2478",
                                     label: "Nucleic acid sequence analysis",
                                     subclasses: [
                                         {
-                                            iri:
-                                                "http://edamontology.org/operation_3180",
-                                            label:
-                                                "Sequence assembly validation",
+                                            iri: "http://edamontology.org/operation_3180",
+                                            label: "Sequence assembly validation",
                                         },
                                     ],
                                 },
@@ -690,15 +679,12 @@ export const appDetails = {
                             label: "Nucleic acid analysis",
                             subclasses: [
                                 {
-                                    iri:
-                                        "http://edamontology.org/operation_2478",
+                                    iri: "http://edamontology.org/operation_2478",
                                     label: "Nucleic acid sequence analysis",
                                     subclasses: [
                                         {
-                                            iri:
-                                                "http://edamontology.org/operation_3180",
-                                            label:
-                                                "Sequence assembly validation",
+                                            iri: "http://edamontology.org/operation_3180",
+                                            label: "Sequence assembly validation",
                                         },
                                     ],
                                 },
@@ -722,8 +708,7 @@ export const appDetails = {
                 image: {
                     name: "docker.cyverse.org/backwards-compat",
                     tag: "latest",
-                    url:
-                        "https://registry.hub.docker.com/u/discoenv/backwards-compat",
+                    url: "https://registry.hub.docker.com/u/discoenv/backwards-compat",
                     deprecated: true,
                 },
             },
@@ -902,8 +887,7 @@ export const adminApp = {
     deleted: false,
     pipeline_eligibility: {
         is_valid: false,
-        reason:
-            "Job type, interactive, canu0027t currently be included in a pipeline.",
+        reason: "Job type, interactive, canu0027t currently be included in a pipeline.",
     },
     is_favorite: false,
     integrator_name: "Upendra Kumar Devisetty",
@@ -1107,28 +1091,22 @@ export const appPublicationRequests = {
                                 label: "Analysis",
                                 subclasses: [
                                     {
-                                        iri:
-                                            "http://edamontology.org/operation_2403",
+                                        iri: "http://edamontology.org/operation_2403",
                                         label: "Sequence analysis",
                                         subclasses: [
                                             {
-                                                iri:
-                                                    "http://edamontology.org/operation_2478",
-                                                label:
-                                                    "Nucleic acid sequence analysis",
+                                                iri: "http://edamontology.org/operation_2478",
+                                                label: "Nucleic acid sequence analysis",
                                             },
                                         ],
                                     },
                                     {
-                                        iri:
-                                            "http://edamontology.org/operation_2501",
+                                        iri: "http://edamontology.org/operation_2501",
                                         label: "Nucleic acid analysis",
                                         subclasses: [
                                             {
-                                                iri:
-                                                    "http://edamontology.org/operation_2478",
-                                                label:
-                                                    "Nucleic acid sequence analysis",
+                                                iri: "http://edamontology.org/operation_2478",
+                                                label: "Nucleic acid sequence analysis",
                                             },
                                         ],
                                     },
@@ -1145,8 +1123,7 @@ export const appPublicationRequests = {
                                 label: "Omics",
                                 subclasses: [
                                     {
-                                        iri:
-                                            "http://edamontology.org/topic_0622",
+                                        iri: "http://edamontology.org/topic_0622",
                                         label: "Genomics",
                                     },
                                 ],
@@ -1204,20 +1181,16 @@ export const appPublicationRequests = {
                                 label: "Comparison",
                                 subclasses: [
                                     {
-                                        iri:
-                                            "http://edamontology.org/operation_2451",
+                                        iri: "http://edamontology.org/operation_2451",
                                         label: "Sequence comparison",
                                         subclasses: [
                                             {
-                                                iri:
-                                                    "http://edamontology.org/operation_0292",
+                                                iri: "http://edamontology.org/operation_0292",
                                                 label: "Sequence alignment",
                                                 subclasses: [
                                                     {
-                                                        iri:
-                                                            "http://edamontology.org/operation_3182",
-                                                        label:
-                                                            "Genome alignment",
+                                                        iri: "http://edamontology.org/operation_3182",
+                                                        label: "Genome alignment",
                                                     },
                                                 ],
                                             },
@@ -1230,13 +1203,11 @@ export const appPublicationRequests = {
                                 label: "Alignment",
                                 subclasses: [
                                     {
-                                        iri:
-                                            "http://edamontology.org/operation_0292",
+                                        iri: "http://edamontology.org/operation_0292",
                                         label: "Sequence alignment",
                                         subclasses: [
                                             {
-                                                iri:
-                                                    "http://edamontology.org/operation_3182",
+                                                iri: "http://edamontology.org/operation_3182",
                                                 label: "Genome alignment",
                                             },
                                         ],
@@ -1248,39 +1219,30 @@ export const appPublicationRequests = {
                                 label: "Analysis",
                                 subclasses: [
                                     {
-                                        iri:
-                                            "http://edamontology.org/operation_2403",
+                                        iri: "http://edamontology.org/operation_2403",
                                         label: "Sequence analysis",
                                         subclasses: [
                                             {
-                                                iri:
-                                                    "http://edamontology.org/operation_0292",
+                                                iri: "http://edamontology.org/operation_0292",
                                                 label: "Sequence alignment",
                                                 subclasses: [
                                                     {
-                                                        iri:
-                                                            "http://edamontology.org/operation_3182",
-                                                        label:
-                                                            "Genome alignment",
+                                                        iri: "http://edamontology.org/operation_3182",
+                                                        label: "Genome alignment",
                                                     },
                                                 ],
                                             },
                                             {
-                                                iri:
-                                                    "http://edamontology.org/operation_2451",
+                                                iri: "http://edamontology.org/operation_2451",
                                                 label: "Sequence comparison",
                                                 subclasses: [
                                                     {
-                                                        iri:
-                                                            "http://edamontology.org/operation_0292",
-                                                        label:
-                                                            "Sequence alignment",
+                                                        iri: "http://edamontology.org/operation_0292",
+                                                        label: "Sequence alignment",
                                                         subclasses: [
                                                             {
-                                                                iri:
-                                                                    "http://edamontology.org/operation_3182",
-                                                                label:
-                                                                    "Genome alignment",
+                                                                iri: "http://edamontology.org/operation_3182",
+                                                                label: "Genome alignment",
                                                             },
                                                         ],
                                                     },
@@ -1295,20 +1257,16 @@ export const appPublicationRequests = {
                                 label: "Generation",
                                 subclasses: [
                                     {
-                                        iri:
-                                            "http://edamontology.org/operation_2928",
+                                        iri: "http://edamontology.org/operation_2928",
                                         label: "Alignment",
                                         subclasses: [
                                             {
-                                                iri:
-                                                    "http://edamontology.org/operation_0292",
+                                                iri: "http://edamontology.org/operation_0292",
                                                 label: "Sequence alignment",
                                                 subclasses: [
                                                     {
-                                                        iri:
-                                                            "http://edamontology.org/operation_3182",
-                                                        label:
-                                                            "Genome alignment",
+                                                        iri: "http://edamontology.org/operation_3182",
+                                                        label: "Genome alignment",
                                                     },
                                                 ],
                                             },
@@ -1327,8 +1285,7 @@ export const appPublicationRequests = {
                                 label: "Omics",
                                 subclasses: [
                                     {
-                                        iri:
-                                            "http://edamontology.org/topic_0622",
+                                        iri: "http://edamontology.org/topic_0622",
                                         label: "Genomics",
                                     },
                                 ],
@@ -1348,8 +1305,7 @@ export const appPublicationRequests = {
                             image: {
                                 name: "quay.io/biocontainers/gmap",
                                 tag: "2018.03.25--pl5.22.0_0",
-                                url:
-                                    "https://quay.io/repository/biocontainers/gmap",
+                                url: "https://quay.io/repository/biocontainers/gmap",
                                 deprecated: false,
                             },
                         },
@@ -1389,20 +1345,16 @@ export const appPublicationRequests = {
                                 label: "Comparison",
                                 subclasses: [
                                     {
-                                        iri:
-                                            "http://edamontology.org/operation_2451",
+                                        iri: "http://edamontology.org/operation_2451",
                                         label: "Sequence comparison",
                                         subclasses: [
                                             {
-                                                iri:
-                                                    "http://edamontology.org/operation_0292",
+                                                iri: "http://edamontology.org/operation_0292",
                                                 label: "Sequence alignment",
                                                 subclasses: [
                                                     {
-                                                        iri:
-                                                            "http://edamontology.org/operation_3182",
-                                                        label:
-                                                            "Genome alignment",
+                                                        iri: "http://edamontology.org/operation_3182",
+                                                        label: "Genome alignment",
                                                     },
                                                 ],
                                             },
@@ -1415,13 +1367,11 @@ export const appPublicationRequests = {
                                 label: "Alignment",
                                 subclasses: [
                                     {
-                                        iri:
-                                            "http://edamontology.org/operation_0292",
+                                        iri: "http://edamontology.org/operation_0292",
                                         label: "Sequence alignment",
                                         subclasses: [
                                             {
-                                                iri:
-                                                    "http://edamontology.org/operation_3182",
+                                                iri: "http://edamontology.org/operation_3182",
                                                 label: "Genome alignment",
                                             },
                                         ],
@@ -1433,39 +1383,30 @@ export const appPublicationRequests = {
                                 label: "Analysis",
                                 subclasses: [
                                     {
-                                        iri:
-                                            "http://edamontology.org/operation_2403",
+                                        iri: "http://edamontology.org/operation_2403",
                                         label: "Sequence analysis",
                                         subclasses: [
                                             {
-                                                iri:
-                                                    "http://edamontology.org/operation_0292",
+                                                iri: "http://edamontology.org/operation_0292",
                                                 label: "Sequence alignment",
                                                 subclasses: [
                                                     {
-                                                        iri:
-                                                            "http://edamontology.org/operation_3182",
-                                                        label:
-                                                            "Genome alignment",
+                                                        iri: "http://edamontology.org/operation_3182",
+                                                        label: "Genome alignment",
                                                     },
                                                 ],
                                             },
                                             {
-                                                iri:
-                                                    "http://edamontology.org/operation_2451",
+                                                iri: "http://edamontology.org/operation_2451",
                                                 label: "Sequence comparison",
                                                 subclasses: [
                                                     {
-                                                        iri:
-                                                            "http://edamontology.org/operation_0292",
-                                                        label:
-                                                            "Sequence alignment",
+                                                        iri: "http://edamontology.org/operation_0292",
+                                                        label: "Sequence alignment",
                                                         subclasses: [
                                                             {
-                                                                iri:
-                                                                    "http://edamontology.org/operation_3182",
-                                                                label:
-                                                                    "Genome alignment",
+                                                                iri: "http://edamontology.org/operation_3182",
+                                                                label: "Genome alignment",
                                                             },
                                                         ],
                                                     },
@@ -1480,20 +1421,16 @@ export const appPublicationRequests = {
                                 label: "Generation",
                                 subclasses: [
                                     {
-                                        iri:
-                                            "http://edamontology.org/operation_2928",
+                                        iri: "http://edamontology.org/operation_2928",
                                         label: "Alignment",
                                         subclasses: [
                                             {
-                                                iri:
-                                                    "http://edamontology.org/operation_0292",
+                                                iri: "http://edamontology.org/operation_0292",
                                                 label: "Sequence alignment",
                                                 subclasses: [
                                                     {
-                                                        iri:
-                                                            "http://edamontology.org/operation_3182",
-                                                        label:
-                                                            "Genome alignment",
+                                                        iri: "http://edamontology.org/operation_3182",
+                                                        label: "Genome alignment",
                                                     },
                                                 ],
                                             },
@@ -1512,8 +1449,7 @@ export const appPublicationRequests = {
                                 label: "Omics",
                                 subclasses: [
                                     {
-                                        iri:
-                                            "http://edamontology.org/topic_0622",
+                                        iri: "http://edamontology.org/topic_0622",
                                         label: "Genomics",
                                     },
                                 ],
@@ -1533,8 +1469,7 @@ export const appPublicationRequests = {
                             image: {
                                 name: "quay.io/biocontainers/gmap",
                                 tag: "2018.03.25--pl5.22.0_0",
-                                url:
-                                    "https://quay.io/repository/biocontainers/gmap",
+                                url: "https://quay.io/repository/biocontainers/gmap",
                                 deprecated: false,
                             },
                         },
@@ -1592,8 +1527,7 @@ export const appPublicationRequests = {
                         id: "9fb3dd20-bbbb-11ea-8884-008cfa5ae621",
                         container: {
                             image: {
-                                name:
-                                    "kbieser/jupyterlab-base-1   https://github.com/kbieser/jupyterlab-base-1.git",
+                                name: "kbieser/jupyterlab-base-1   https://github.com/kbieser/jupyterlab-base-1.git",
                                 tag: "jupyterlabkb",
                                 deprecated: false,
                             },
@@ -1692,11 +1626,9 @@ export const appPublicationRequests = {
                         id: "11a2a9d6-6fc4-11eb-82aa-008cfa5ae621",
                         container: {
                             image: {
-                                name:
-                                    "gims.cyverse.org:5000/jupyterlab-datascience",
+                                name: "gims.cyverse.org:5000/jupyterlab-datascience",
                                 tag: "2.2.9",
-                                url:
-                                    "https://hub.docker.com/r/cyversevice/jupyterlab-datascience",
+                                url: "https://hub.docker.com/r/cyversevice/jupyterlab-datascience",
                                 deprecated: false,
                             },
                         },

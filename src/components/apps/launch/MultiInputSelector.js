@@ -186,9 +186,8 @@ const MultiInputSelector = (props) => {
                                                     component="span"
                                                     variant="body2"
                                                     style={{
-                                                        padding: theme.spacing(
-                                                            0.5
-                                                        ),
+                                                        padding:
+                                                            theme.spacing(0.5),
                                                     }}
                                                 >
                                                     {t("multiInputEmptyLabel")}

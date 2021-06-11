@@ -41,8 +41,7 @@ export const MoveDialogTest = () => {
                 },
                 {
                     infoType: "unknown",
-                    path:
-                        "/iplant/home/ipcdev/Discovery Environment-CyVerse-blue.svg",
+                    path: "/iplant/home/ipcdev/Discovery Environment-CyVerse-blue.svg",
                     "date-created": 1562000527000,
                     permission: "own",
                     "date-modified": 1562000527000,

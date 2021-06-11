@@ -47,8 +47,7 @@ export default {
                     type: "TextSelection",
                     validators: [],
                     label: "Required Text List",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_abbde28e-5ce1-11ea-8af3-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_abbde28e-5ce1-11ea-8af3-008cfa5ae621",
                     isVisible: true,
                     required: true,
                 },
@@ -81,8 +80,7 @@ export default {
                     type: "TextSelection",
                     validators: [],
                     label: "Optional List",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_e16d4ad2-5ce1-11ea-8af3-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_e16d4ad2-5ce1-11ea-8af3-008cfa5ae621",
                     isVisible: true,
                     required: false,
                 },
@@ -102,8 +100,7 @@ export default {
                     type: "TextSelection",
                     validators: [],
                     label: "Forced Option List",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_072d3f52-5ce2-11ea-8af3-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_072d3f52-5ce2-11ea-8af3-008cfa5ae621",
                     isVisible: true,
                     defaultValue: {
                         id: "072d632e-5ce2-11ea-8af3-008cfa5ae621",
@@ -144,8 +141,7 @@ export default {
                     type: "IntegerSelection",
                     validators: [],
                     label: "Integer List",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_e9ddc376-5ce2-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_e9ddc376-5ce2-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     required: false,
                 },
@@ -179,8 +175,7 @@ export default {
                     type: "DoubleSelection",
                     validators: [],
                     label: "Decimal List",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_e9de4576-5ce2-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_e9de4576-5ce2-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     required: false,
                 },

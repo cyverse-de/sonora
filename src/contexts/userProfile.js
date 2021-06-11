@@ -30,9 +30,10 @@ function useUserProfile() {
  */
 function UserProfileProvider(props) {
     const [userProfile, setUserProfile] = React.useState(null);
-    const value = React.useMemo(() => [userProfile, setUserProfile], [
-        userProfile,
-    ]);
+    const value = React.useMemo(
+        () => [userProfile, setUserProfile],
+        [userProfile]
+    );
     return <UserProfileContext.Provider value={value} {...props} />;
 }
 

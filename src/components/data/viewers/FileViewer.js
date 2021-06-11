@@ -13,6 +13,8 @@ import { useConfig } from "contexts/config";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
 
+import { queryCache, useQuery } from "react-query";
+
 import NavigationConstants from "common/NavigationConstants";
 import infoTypes from "components/models/InfoTypes";
 import {
@@ -22,10 +24,11 @@ import {
 } from "components/models/MimeTypes";
 
 import {
-    FETCH_FILE_MANIFEST_QUERY_KEY,
+    READ_RAW_CHUNK_QUERY_KEY,
     READ_CHUNK_QUERY_KEY,
+    FETCH_FILE_MANIFEST_QUERY_KEY,
+    readFileChunk,
 } from "serviceFacades/filesystem";
-import constants from "../../../constants";
 import viewerConstants from "./constants";
 import DocumentViewer from "./DocumentViewer";
 import ids from "./ids";
@@ -33,21 +36,20 @@ import ImageViewer from "./ImageViewer";
 import PathListViewer from "./PathListViewer";
 import { refreshViewer, useFileManifest, useReadChunk } from "./queries";
 import StructuredTextViewer from "./StructuredTextViewer";
+import { CODE_MIRROR_MODES } from "./Editor";
 import { flattenStructureData } from "./utils";
-import { parseNameFromPath } from "../utils";
-import TextViewer from "./TextViewer";
+import { parseNameFromPath, isWritable } from "../utils";
+
+import isQueryLoading from "components/utils/isQueryLoading";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import { build } from "@cyverse-de/ui-lib";
-import {
-    Button,
-    CircularProgress,
-    Toolbar,
-    Typography,
-} from "@material-ui/core";
+import { Button, Toolbar, Typography } from "@material-ui/core";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 // at the bottom so eslint doesn't complain
 const VideoViewer = dynamic(() => import("./VideoViewer"));
+const TextViewer = dynamic(() => import("./TextViewer"));
 
 const VIEWER_TYPE = {
     PLAIN: "plain",
@@ -62,21 +64,26 @@ export default function FileViewer(props) {
     const {
         path,
         resourceId,
-        createFile,
+        createFileType,
         handlePathChange,
         onNewFileSaved,
         baseId,
+        details,
+        detailsLoading,
+        detailsError,
     } = props;
 
     const { t } = useTranslation("data");
     const router = useRouter();
-    const [mode, setMode] = useState(null);
-    const [autoMode, setAutoMode] = useState(true);
     const [readChunkKey, setReadChunkKey] = useState(READ_CHUNK_QUERY_KEY);
     const [readChunkQueryEnabled, setReadChunkQueryEnabled] = useState(false);
+    const [readChunkRawQueryEnabled, setReadChunkRawQueryEnabled] =
+        useState(false);
     const [viewerType, setViewerType] = useState(null);
     const [manifest, setManifest] = useState(null);
     const [separator, setSeparator] = useState("");
+    const [mode, setMode] = useState();
+    const [editable, setEditable] = useState(false);
     const [config] = useConfig();
 
     const fileName = parseNameFromPath(path);
@@ -84,7 +91,7 @@ export default function FileViewer(props) {
 
     const { isFetching, error: manifestError } = useFileManifest(
         manifestKey,
-        path !== null && path !== undefined && !createFile,
+        path !== null && path !== undefined && !createFileType,
         (resp) => {
             trackIntercomEvent(IntercomEvents.VIEWED_FILE, { ...resp, path });
             setManifest(resp);
@@ -113,6 +120,21 @@ export default function FileViewer(props) {
         }
     );
 
+    const {
+        data: rawData,
+        error: rawChunkError,
+        isFetching: isFetchingRaw,
+    } = useQuery({
+        queryKey: [
+            READ_RAW_CHUNK_QUERY_KEY,
+            { path, chunkSize: viewerConstants.DEFAULT_PAGE_SIZE },
+        ],
+        queryFn: readFileChunk,
+        config: {
+            enabled: readChunkRawQueryEnabled,
+        },
+    });
+
     const getColumnDelimiter = (infoType) => {
         if (infoTypes.CSV === infoType) {
             return viewerConstants.COMMA_DELIMITER;
@@ -131,17 +153,34 @@ export default function FileViewer(props) {
     };
 
     useEffect(() => {
-        if (
-            createFile === infoTypes.HT_ANALYSIS_PATH_LIST ||
-            createFile === infoTypes.MULTI_INPUT_PATH_LIST
-        ) {
-            setManifest({
-                "content-type": "text/plain",
-                infoType: createFile,
-                urls: [],
-            });
+        if (createFileType) {
+            switch (createFileType) {
+                case CODE_MIRROR_MODES.R:
+                case CODE_MIRROR_MODES.YAML:
+                case CODE_MIRROR_MODES.DOCKERFILE:
+                case CODE_MIRROR_MODES.PYTHON:
+                case CODE_MIRROR_MODES.GITHUB_FLAVORED_MARKDOWN:
+                case CODE_MIRROR_MODES.PERL:
+                case CODE_MIRROR_MODES.SHELL:
+                    setMode(createFileType);
+                    setViewerType(VIEWER_TYPE.PLAIN);
+                    break;
+
+                case infoTypes.HT_ANALYSIS_PATH_LIST:
+                case infoTypes.MULTI_INPUT_PATH_LIST:
+                    setViewerType(VIEWER_TYPE.PATH_LIST);
+                    break;
+
+                case infoTypes.CSV:
+                case infoTypes.TSV:
+                    setViewerType(VIEWER_TYPE.STRUCTURED);
+                    break;
+
+                default:
+                    setViewerType(VIEWER_TYPE.PLAIN);
+            }
         }
-    }, [createFile]);
+    }, [createFileType, manifest]);
 
     useEffect(() => {
         if (manifest) {
@@ -149,9 +188,7 @@ export default function FileViewer(props) {
             const infoType = manifest?.infoType;
             const separator = getColumnDelimiter(infoType);
 
-            if (autoMode) {
-                setMode(getViewerMode(mimeType));
-            }
+            setMode(getViewerMode(mimeType));
             setSeparator(separator);
 
             switch (mimeType) {
@@ -203,7 +240,7 @@ export default function FileViewer(props) {
                         infoTypes.HT_ANALYSIS_PATH_LIST === infoType ||
                         infoTypes.MULTI_INPUT_PATH_LIST === infoType
                     ) {
-                        if (!createFile) {
+                        if (!createFileType) {
                             setReadChunkKey([
                                 READ_CHUNK_QUERY_KEY,
                                 {
@@ -218,41 +255,60 @@ export default function FileViewer(props) {
                         setViewerType(VIEWER_TYPE.PATH_LIST);
                         break;
                     } else {
-                        setReadChunkKey([
-                            READ_CHUNK_QUERY_KEY,
-                            {
-                                path,
-                                chunkSize: viewerConstants.DEFAULT_PAGE_SIZE,
-                            },
-                        ]);
-                        setReadChunkQueryEnabled(true);
+                        if (!createFileType) {
+                            setReadChunkKey([
+                                READ_CHUNK_QUERY_KEY,
+                                {
+                                    path,
+                                    chunkSize:
+                                        viewerConstants.DEFAULT_PAGE_SIZE,
+                                },
+                            ]);
+                            setReadChunkQueryEnabled(true);
+                        }
                         setViewerType(VIEWER_TYPE.PLAIN);
                         break;
                     }
             }
         }
-    }, [autoMode, createFile, manifest, path, separator]);
+    }, [createFileType, manifest, path, separator]);
+
+    useEffect(() => {
+        setEditable(
+            isWritable(details?.permission) &&
+                details["file-size"] <= viewerConstants.DEFAULT_PAGE_SIZE
+        );
+    }, [details]);
+
+    useEffect(() => {
+        setReadChunkRawQueryEnabled(
+            editable && viewerType === VIEWER_TYPE.STRUCTURED && !createFileType
+        );
+    }, [createFileType, editable, viewerType]);
 
     const memoizedData = useMemo(() => data, [data]);
-    const busy = isFetching || status === constants.LOADING;
+    const busy = isQueryLoading([
+        isFetching,
+        isFetchingRaw,
+        status,
+        detailsLoading,
+    ]);
 
     if (busy) {
         return (
-            <CircularProgress
-                thickness={7}
-                color="primary"
-                style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                }}
+            <Skeleton
+                animation="wave"
+                width="100%"
+                height={viewerConstants.DEFAULT_VIEWER_HEIGHT}
             />
         );
     }
 
-    if (manifestError || chunkError) {
+    if (manifestError || chunkError || detailsError || rawChunkError) {
         if (router) {
-            const errorString = JSON.stringify(manifestError || chunkError);
+            const errorString = JSON.stringify(
+                manifestError || chunkError || detailsError || rawChunkError
+            );
             router.push(
                 `/${NavigationConstants.ERROR}?errorInfo=` + errorString
             );
@@ -264,7 +320,7 @@ export default function FileViewer(props) {
         viewerType !== VIEWER_TYPE.IMAGE &&
         viewerType !== VIEWER_TYPE.DOCUMENT &&
         viewerType !== VIEWER_TYPE.VIDEO &&
-        !createFile &&
+        !createFileType &&
         (!memoizedData || memoizedData.length === 0)
     ) {
         return <Typography>{t("noContent")}</Typography>;
@@ -287,13 +343,14 @@ export default function FileViewer(props) {
 
     if (viewerType === VIEWER_TYPE.PLAIN) {
         let flatData = "";
-        memoizedData.forEach((page) => {
-            flatData = flatData.concat(page.chunk);
-        });
-        const handleModeSelect = (event, newValue) => {
-            setAutoMode(false);
-            setMode(newValue);
-        };
+        if (createFileType) {
+            flatData = "";
+        } else {
+            memoizedData.forEach((page) => {
+                flatData = flatData.concat(page.chunk);
+            });
+        }
+
         return (
             <>
                 <TextViewer
@@ -302,11 +359,13 @@ export default function FileViewer(props) {
                     fileName={fileName}
                     resourceId={resourceId}
                     data={flatData}
-                    mode={mode}
                     loading={isFetchingMore}
                     handlePathChange={handlePathChange}
-                    handleModeSelect={handleModeSelect}
                     onRefresh={() => refreshViewer(manifestKey)}
+                    editable={editable || !!createFileType}
+                    mode={mode}
+                    onNewFileSaved={onNewFileSaved}
+                    createFileType={createFileType}
                 />
                 <LoadMoreButton />
             </>
@@ -319,10 +378,28 @@ export default function FileViewer(props) {
                     path={path}
                     fileName={fileName}
                     resourceId={resourceId}
-                    data={flattenStructureData(memoizedData)}
+                    structuredData={
+                        createFileType ? [] : flattenStructureData(memoizedData)
+                    }
+                    rawData={rawData?.chunk || ""}
                     loading={isFetchingMore}
                     handlePathChange={handlePathChange}
                     onRefresh={() => refreshViewer(manifestKey)}
+                    editable={editable || !!createFileType}
+                    onNewFileSaved={onNewFileSaved}
+                    createFileType={createFileType}
+                    onSaveComplete={() => {
+                        if (editable) {
+                            queryCache.invalidateQueries(readChunkKey, [
+                                READ_RAW_CHUNK_QUERY_KEY,
+                                {
+                                    path,
+                                    chunkSize:
+                                        viewerConstants.DEFAULT_PAGE_SIZE,
+                                },
+                            ]);
+                        }
+                    }}
                 />
                 <LoadMoreButton />
             </>
@@ -359,10 +436,10 @@ export default function FileViewer(props) {
         );
     } else if (viewerType === VIEWER_TYPE.PATH_LIST) {
         let dataToView = "";
-        if (createFile) {
-            if (createFile === infoTypes.HT_ANALYSIS_PATH_LIST) {
+        if (createFileType) {
+            if (createFileType === infoTypes.HT_ANALYSIS_PATH_LIST) {
                 dataToView = [{ 1: config.fileIdentifiers.htPathList }];
-            } else if (createFile === infoTypes.MULTI_INPUT_PATH_LIST) {
+            } else if (createFileType === infoTypes.MULTI_INPUT_PATH_LIST) {
                 dataToView = [{ 1: config.fileIdentifiers.multiInputPathList }];
             }
         } else {
@@ -371,7 +448,8 @@ export default function FileViewer(props) {
         return (
             <>
                 <PathListViewer
-                    createFile={createFile}
+                    editable={editable || createFileType}
+                    createFileType={createFileType}
                     baseId={baseId}
                     path={path}
                     fileName={fileName}

@@ -14,6 +14,8 @@ import { containsFolders, isOwner, isWritable } from "../utils";
 import CreateFolderDialog from "../CreateFolderDialog";
 import UploadMenuItems from "./UploadMenuItems";
 
+import FileTypeSelectionDialog from "../viewers/FileTypeSelectionDialog";
+
 import { useTranslation } from "i18n";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DeleteMenuItem from "../menuItems/DeleteMenuItem";
@@ -47,6 +49,7 @@ import {
     Refresh,
     Send as RequestIcon,
     Description,
+    Create,
 } from "@material-ui/icons";
 import NavigationConstants from "common/NavigationConstants";
 import TrashMenuItems from "./TrashMenuItems";
@@ -68,8 +71,7 @@ function DataDotMenu(props) {
         setImportDialogOpen,
         selected,
         getSelectedResources,
-        onCreateHTFileSelected,
-        onCreateMultiInputFileSelected,
+        onCreateFileSelected,
         setSharingDlgOpen,
         isSmall,
         onMetadataSelected,
@@ -104,6 +106,8 @@ function DataDotMenu(props) {
     const onBulkMdDialogClose = () => setBulkMdDialogOpen(false);
     const onApplyBulkMdClicked = () => setBulkMdDialogOpen(true);
 
+    const [fileTypeSelectionDlgOpen, setFileTypeSelectionDlgOpen] = useState();
+
     const isSelectionEmpty = selected?.length === 0;
     const selectedResources = getSelectedResources
         ? getSelectedResources()
@@ -127,6 +131,7 @@ function DataDotMenu(props) {
         isWritable(selectedResources[0]?.permission);
     const moveMiEnabled =
         !inTrash && !isSelectionEmpty && isOwner(selectedResources);
+
     const router = useRouter();
     const routeToFile = (id, path) => {
         router.push(
@@ -305,34 +310,17 @@ function DataDotMenu(props) {
 
                     uploadEnabled && [
                         <MenuItem
-                            key={build(baseId, ids.CREATE_HT_FILE_MI)}
-                            id={build(baseId, ids.CREATE_HT_FILE_MI)}
+                            key={build(baseId, ids.CREATE_FILE_MI)}
+                            id={build(baseId, ids.CREATE_FILE_MI)}
                             onClick={() => {
                                 onClose();
-                                onCreateHTFileSelected();
+                                setFileTypeSelectionDlgOpen(true);
                             }}
                         >
                             <ListItemIcon>
-                                <ListAlt fontSize="small" />
+                                <Create fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText
-                                primary={t("newHTAnalysisPathListFile")}
-                            />
-                        </MenuItem>,
-                        <MenuItem
-                            key={build(baseId, ids.CREATE_MULTI_INPUT_MI)}
-                            id={build(baseId, ids.CREATE_MULTI_INPUT_MI)}
-                            onClick={() => {
-                                onClose();
-                                onCreateMultiInputFileSelected();
-                            }}
-                        >
-                            <ListItemIcon>
-                                <ListAlt fontSize="small" />
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={t("newMultiInputPathListFile")}
-                            />
+                            <ListItemText primary={t("newFile")} />
                         </MenuItem>,
                         <MenuItem
                             key={build(baseId, ids.AUTO_CREATE_HT_FILE_MI)}
@@ -447,6 +435,14 @@ function DataDotMenu(props) {
                 }}
                 onCancel={() => setPathListDlgOpen(false)}
                 startingPath={path}
+            />
+            <FileTypeSelectionDialog
+                open={fileTypeSelectionDlgOpen}
+                onClose={() => setFileTypeSelectionDlgOpen(false)}
+                onFileTypeSelected={(type) => {
+                    setFileTypeSelectionDlgOpen(false);
+                    onCreateFileSelected(type);
+                }}
             />
         </>
     );

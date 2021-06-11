@@ -248,8 +248,7 @@ export const DataCiteMetadata = {
         },
         {
             attr: "alternateIdentifier",
-            value:
-                "http://schema.datacite.org/schema/meta/kernel-3.1/example/datacite-example-full-v3.1.xml",
+            value: "http://schema.datacite.org/schema/meta/kernel-3.1/example/datacite-example-full-v3.1.xml",
             unit: "",
             avus: [
                 {

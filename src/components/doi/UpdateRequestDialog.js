@@ -46,19 +46,17 @@ export default function UpdateRequestDialog(props) {
     const { t } = useTranslation("doi");
     const { t: i18nUtil } = useTranslation("util");
     const baseId = ids.UPDATE_REQUEST_DIALOG;
-    const {
-        isFetching: isRequestFetching,
-        error: requestFetchError,
-    } = useQuery({
-        queryKey: [REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
-        queryFn: adminGetRequestDetails,
-        config: {
-            enabled: requestId && open,
-            onSuccess: (data) => {
-                setRequestDetails(data);
+    const { isFetching: isRequestFetching, error: requestFetchError } =
+        useQuery({
+            queryKey: [REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
+            queryFn: adminGetRequestDetails,
+            config: {
+                enabled: requestId && open,
+                onSuccess: (data) => {
+                    setRequestDetails(data);
+                },
             },
-        },
-    });
+        });
     const [updateRequest, { status: updateRequestStatus }] = useMutation(
         adminUpdateRequestStatus,
         {

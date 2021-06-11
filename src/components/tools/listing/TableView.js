@@ -121,15 +121,8 @@ function NoTools(props) {
  * @param {Object} props - the component properties
  */
 function ToolListing(props) {
-    const {
-        handleClick,
-        t,
-        multiSelect,
-        selected,
-        tableId,
-        tools,
-        isAdmin,
-    } = props;
+    const { handleClick, t, multiSelect, selected, tableId, tools, isAdmin } =
+        props;
 
     return tools.map((tool, index) => {
         const id = tool.id;

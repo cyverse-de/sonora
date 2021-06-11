@@ -265,12 +265,8 @@ const StepResourceRequirementsReview = ({
     showAll,
 }) => {
     const { t } = useTranslation("launch");
-    const {
-        step_number,
-        min_cpu_cores,
-        min_memory_limit,
-        min_disk_space,
-    } = stepRequirements;
+    const { step_number, min_cpu_cores, min_memory_limit, min_disk_space } =
+        stepRequirements;
 
     const hasRequest = !!(min_cpu_cores || min_memory_limit || min_disk_space);
 

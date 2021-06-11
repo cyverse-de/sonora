@@ -68,9 +68,8 @@ function AppName(props) {
     const [userProfile] = useUserProfile();
     const [viceQuota, setViceQuota] = useState();
     const [runningJobs, setRunningJobs] = useState();
-    const [accessRequestDialogOpen, setAccessRequestDialogOpen] = useState(
-        false
-    );
+    const [accessRequestDialogOpen, setAccessRequestDialogOpen] =
+        useState(false);
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
     const [href, as] = useAppLaunchLink(systemId, appId);
     const { t } = useTranslation("apps");

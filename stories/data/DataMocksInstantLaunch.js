@@ -58,8 +58,7 @@ export const instantLaunchAppInfo = {
                     type: "FileInput",
                     validators: [],
                     label: "Input File",
-                    id:
-                        "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d625f64e-e921-11e9-8fe0-008cfa5ae621",
+                    id: "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d625f64e-e921-11e9-8fe0-008cfa5ae621",
                     isVisible: true,
                     required: true,
                 },
@@ -78,8 +77,7 @@ export const instantLaunchAppInfo = {
                     type: "MultiFileSelector",
                     validators: [],
                     label: "Input files",
-                    id:
-                        "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621",
+                    id: "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621",
                     isVisible: true,
                     defaultValue: {
                         path: [
@@ -106,12 +104,13 @@ export const instantLaunchQuickLaunch = {
     is_public: false,
     submission: {
         config: {
-            "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621": [
-                "/iplant/home/wregglej/logs/script-output.log",
-                "/iplant/home/wregglej/logs/script-error.log",
-                "/iplant/home/wregglej/logs/recurisive_avu_queries.txt",
-                "/iplant/home/wregglej/logs/gitignore_global.txt",
-            ],
+            "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621":
+                [
+                    "/iplant/home/wregglej/logs/script-output.log",
+                    "/iplant/home/wregglej/logs/script-error.log",
+                    "/iplant/home/wregglej/logs/recurisive_avu_queries.txt",
+                    "/iplant/home/wregglej/logs/gitignore_global.txt",
+                ],
         },
         name: "JupyterLab-with-sql-1.0.9_analysis1",
         app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",

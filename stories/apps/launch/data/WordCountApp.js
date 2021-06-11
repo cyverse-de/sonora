@@ -25,8 +25,7 @@ export default {
                     type: "FileInput",
                     validators: [],
                     label: "Input Filename",
-                    id:
-                        "089a61a0-23d9-4021-9354-a8498ef3ff19_13914010-89cd-406d-99c3-9c4ff8b023c3",
+                    id: "089a61a0-23d9-4021-9354-a8498ef3ff19_13914010-89cd-406d-99c3-9c4ff8b023c3",
                     isVisible: true,
                     required: true,
                 },

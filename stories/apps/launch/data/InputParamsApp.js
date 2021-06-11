@@ -25,8 +25,7 @@ export default {
                     type: "FileInput",
                     validators: [],
                     label: "Input File",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_177aaf4a-5a83-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_177aaf4a-5a83-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     required: false,
                 },
@@ -37,8 +36,7 @@ export default {
                     type: "FolderInput",
                     validators: [],
                     label: "Input Folder",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_177c4440-5a83-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_177c4440-5a83-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     required: false,
                 },
@@ -49,8 +47,7 @@ export default {
                     type: "MultiFileSelector",
                     validators: [],
                     label: "Multiple Input Files",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_177cd7b6-5a83-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_177cd7b6-5a83-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     required: false,
                 },

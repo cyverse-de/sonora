@@ -33,10 +33,8 @@ import { Button, Typography } from "@material-ui/core";
 
 const Launch = ({ app, launchError, viceQuota, runningJobs, loading }) => {
     const [submissionError, setSubmissionError] = React.useState(null);
-    const [
-        accessRequestDialogOpen,
-        setAccessRequestDialogOpen,
-    ] = React.useState(false);
+    const [accessRequestDialogOpen, setAccessRequestDialogOpen] =
+        React.useState(false);
     const [bootstrapInfo] = useBootstrapInfo();
     const [config] = useConfig();
     const homePath = useHomePath();

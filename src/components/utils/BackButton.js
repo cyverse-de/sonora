@@ -8,20 +8,30 @@ import React from "react";
 
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
-
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import { Button, IconButton, useMediaQuery, useTheme } from "@material-ui/core";
 
 import { ArrowBack } from "@material-ui/icons";
 
 export default function BackButton(props) {
+    const { dirty = false } = props;
     const router = useRouter();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const { t } = useTranslation("common");
 
-    const onClick = () => router && router.back();
+    const [showConfirmationDialog, setShowConfirmationDialog] =
+        React.useState(false);
 
-    return isMobile ? (
+    const onClick = () => {
+        if (dirty) {
+            setShowConfirmationDialog(true);
+        } else {
+            router && router.back();
+        }
+    };
+
+    const BackBtn = isMobile ? (
         <IconButton
             color="primary"
             edge="start"
@@ -42,5 +52,18 @@ export default function BackButton(props) {
         >
             {t("back")}
         </Button>
+    );
+    return (
+        <>
+            {BackBtn}
+            <ConfirmationDialog
+                open={showConfirmationDialog}
+                title={t("confirmDiscardChangesDialogHeader")}
+                contentText={t("confirmDiscardChangesDialogMsg")}
+                confirmButtonText={t("common:discard")}
+                onConfirm={onClick}
+                onClose={() => setShowConfirmationDialog(false)}
+            />
+        </>
     );
 }

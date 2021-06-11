@@ -71,13 +71,8 @@ const displayStepError = (stepIndex, errors, touched) => {
 };
 
 const StepperNavigation = (props) => {
-    const {
-        baseId,
-        backDisabled,
-        nextDisabled,
-        handleBack,
-        handleNext,
-    } = props;
+    const { baseId, backDisabled, nextDisabled, handleBack, handleNext } =
+        props;
 
     const { t } = useTranslation("common");
 

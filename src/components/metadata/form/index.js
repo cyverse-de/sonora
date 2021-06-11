@@ -76,10 +76,8 @@ const MetadataFormListing = (props) => {
 
     const { t } = useTranslation("metadata");
 
-    const [
-        showImportConfirmationDialog,
-        setShowImportConfirmationDialog,
-    ] = React.useState(false);
+    const [showImportConfirmationDialog, setShowImportConfirmationDialog] =
+        React.useState(false);
     const [editingAttrIndex, setEditingAttrIndex] = React.useState(-1);
     const [tabIndex, setTabIndex] = React.useState(0);
     const [irodsAVUsSelected, setIrodsAVUsSelected] = React.useState([]);
@@ -337,10 +335,8 @@ const MetadataForm = ({
     const [templateMetadata, setTemplateMetadata] = React.useState({});
     const [templateId, setTemplateId] = React.useState(null);
 
-    const [
-        templateListingDialogOpen,
-        setTemplateListingDialogOpen,
-    ] = React.useState(false);
+    const [templateListingDialogOpen, setTemplateListingDialogOpen] =
+        React.useState(false);
     const [templateViewOpen, setTemplateViewOpen] = React.useState(false);
     const [saveAsDialogOpen, setSaveAsDialogOpen] = React.useState(false);
     const [signInDialogOpen, setSignInDialogOpen] = React.useState(false);

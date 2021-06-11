@@ -1,3 +1,4 @@
+import { CODE_MIRROR_MODES } from "components/data/viewers/Editor";
 const mimeTypes = {
     // Images
     PNG: "png",
@@ -81,82 +82,32 @@ const mimeTypes = {
     XQUERY: "xquery",
 };
 const getViewerMode = (mimeType) => {
-    // modes whose mime types are the same string
-    const identicalModes = [
-        "css",
-        "javascript",
-        "json",
-        "mathematica",
-        "xml",
-        "xquery",
-    ];
-    // modes whose mime types are the mode name with an x- prefix
-    const xModes = [
-        "actionscript",
-        "ada",
-        "applescript",
-        "asciidoc",
-        "aspectj",
-        "awk",
-        "basic",
-        "clojure",
-        "coffeescript",
-        "csharp",
-        "d",
-        "diff",
-        "erlang",
-        "fortran",
-        "go",
-        "groovy",
-        "haml",
-        "haskell",
-        "haxe",
-        "ini",
-        "latex",
-        "lua",
-        "makefile",
-        "matlab",
-        "ocaml",
-        "perl",
-        "php",
-        "prolog",
-        "python",
-        "ruby",
-        "sas",
-        "scala",
-        "scheme",
-        "sql",
-        "tcl",
-        "vbscript",
-        "verilog",
-        "vhdl",
-        "yaml",
-    ];
-    // modes that don't fit into nice mappings like above
-    const modeMap = {
-        "x-csrc": "c",
-        "x-c++src": "cpp",
-        "x-bat": "dos",
-        "x-java-source": "java",
-        "x-java-properties": "properties",
-        "x-tex": "latex",
-        "x-common-lisp": "lisp",
-        "x-objcsrc": "objectivec",
-        "x-sh": "shell",
-        "x-stsrc": "smalltalk",
-        "x-vbdotnet": "vbnet",
-    };
     let mode = null;
-    if (identicalModes.includes(mimeType)) {
-        mode = mimeType;
-    } else if (
-        mimeType?.startsWith("x-") &&
-        xModes.includes(mimeType.slice(2))
-    ) {
-        mode = mimeType.slice(2);
-    } else if (modeMap[mimeType]) {
-        mode = modeMap[mimeType];
+    if (mimeType) {
+        switch (mimeType) {
+            case mimeTypes.X_RSRC:
+                mode = CODE_MIRROR_MODES.R;
+                break;
+            case mimeTypes.X_PYTHON:
+                mode = CODE_MIRROR_MODES.PYTHON;
+                break;
+            case mimeTypes.X_YAML:
+                mode = CODE_MIRROR_MODES.YAML;
+                break;
+            case mimeTypes.X_WEB_MARKDOWN:
+                mode = CODE_MIRROR_MODES.GITHUB_FLAVOR_MARKDOWN;
+                break;
+            case mimeType.X_SH:
+                mode = CODE_MIRROR_MODES.SHELL;
+                break;
+            case mimeType.X_PERL:
+                mode = CODE_MIRROR_MODES.PERL;
+                break;
+            default:
+                mode = "";
+        }
     }
+
     return mode;
 };
 

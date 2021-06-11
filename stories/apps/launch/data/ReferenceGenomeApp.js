@@ -26,8 +26,7 @@ export default {
                     type: "ReferenceGenome",
                     validators: [],
                     label: "Reference Genome",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_d12a1af4-5ce3-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_d12a1af4-5ce3-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     required: true,
                 },
@@ -38,8 +37,7 @@ export default {
                     type: "ReferenceSequence",
                     validators: [],
                     label: "Reference Sequence",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_d12a9a88-5ce3-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_d12a9a88-5ce3-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     required: false,
                 },
@@ -50,8 +48,7 @@ export default {
                     type: "ReferenceAnnotation",
                     validators: [],
                     label: "Reference Annotation",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_d12b1f1c-5ce3-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_d12b1f1c-5ce3-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     required: false,
                 },

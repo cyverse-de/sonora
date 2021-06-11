@@ -25,8 +25,7 @@ export default {
                     type: "Flag",
                     validators: [],
                     label: "Checkbox",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_813057d0-5a85-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_813057d0-5a85-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "true",
                     required: false,
@@ -38,8 +37,7 @@ export default {
                     type: "Flag",
                     validators: [],
                     label: "Checkbox args without values",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_931784bc-5a91-11ea-bde0-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_931784bc-5a91-11ea-bde0-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "true",
                     required: false,
@@ -52,8 +50,7 @@ export default {
                     type: "Flag",
                     validators: [],
                     label: "Checkbox checked arg only",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_d022466c-5a91-11ea-bcab-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_d022466c-5a91-11ea-bcab-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "true",
                     required: false,
@@ -66,8 +63,7 @@ export default {
                     type: "Flag",
                     validators: [],
                     label: "Checkbox unchecked arg only",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_eddfb202-5a91-11ea-bcab-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_eddfb202-5a91-11ea-bcab-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "false",
                     required: false,

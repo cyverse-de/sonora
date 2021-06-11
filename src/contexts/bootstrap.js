@@ -16,9 +16,10 @@ function useBootstrapInfo() {
 
 function BootstrapInfoProvider(props) {
     const [bootstrapInfo, setBootstrapInfo] = React.useState(null);
-    const value = React.useMemo(() => [bootstrapInfo, setBootstrapInfo], [
-        bootstrapInfo,
-    ]);
+    const value = React.useMemo(
+        () => [bootstrapInfo, setBootstrapInfo],
+        [bootstrapInfo]
+    );
 
     return <BootstrapInfoContext.Provider value={value} {...props} />;
 }

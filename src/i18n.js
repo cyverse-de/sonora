@@ -11,17 +11,12 @@ import { I18nextProvider } from "react-i18next";
  * See examples here from the next-i18next repo:
  * https://github.com/isaachinman/next-i18next/tree/master/examples/simple
  */
-const {
-    i18n,
-    useTranslation,
-    withTranslation,
-    appWithTranslation,
-    Trans,
-} = new NextI18Next({
-    defaultLanguage: "en",
-    otherLanguages: [],
-    localePath: path.resolve("./public/static/locales"),
-});
+const { i18n, useTranslation, withTranslation, appWithTranslation, Trans } =
+    new NextI18Next({
+        defaultLanguage: "en",
+        otherLanguages: [],
+        localePath: path.resolve("./public/static/locales"),
+    });
 
 /**
  * A wrapper component to provide i18n capabilities to Storybook as well as

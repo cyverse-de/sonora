@@ -43,14 +43,8 @@ import { Add, ArrowUpward, ArrowDownward, Delete } from "@material-ui/icons";
 const useStyles = makeStyles(styles);
 
 function SelectionItemEditorRow(props) {
-    const {
-        baseId,
-        cosmeticOnly,
-        fieldName,
-        onMoveUp,
-        onMoveDown,
-        onDelete,
-    } = props;
+    const { baseId, cosmeticOnly, fieldName, onMoveUp, onMoveDown, onDelete } =
+        props;
 
     const { t } = useTranslation("common");
     const classes = useStyles();

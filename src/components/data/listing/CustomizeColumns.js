@@ -24,12 +24,8 @@ import { useTranslation } from "react-i18next";
 import ids from "../ids";
 
 function CustomizeColumns(props) {
-    const {
-        baseId,
-        allTableColumns,
-        displayColumns,
-        setDisplayColumns,
-    } = props;
+    const { baseId, allTableColumns, displayColumns, setDisplayColumns } =
+        props;
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down("xs"));
     const { t } = useTranslation("data");

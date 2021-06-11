@@ -25,8 +25,7 @@ export default {
                     type: "FileOutput",
                     validators: [],
                     label: "Output File by tool",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_59f5f372-5ce3-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_59f5f372-5ce3-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "tool.out",
                     required: true,
@@ -38,8 +37,7 @@ export default {
                     type: "FolderOutput",
                     validators: [],
                     label: "Output Folder",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_d128d8a6-5ce3-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_d128d8a6-5ce3-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "outputs",
                     required: false,
@@ -52,8 +50,7 @@ export default {
                     type: "MultiFileOutput",
                     validators: [],
                     label: "Multi-file Output",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_d129746e-5ce3-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_d129746e-5ce3-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "*.txt",
                     required: false,

@@ -271,18 +271,16 @@ function AdminJoinTeamRequestDialog(props) {
         }
     );
 
-    const [
-        approveRequestMutation,
-        { status: approveRequestStatus },
-    ] = useMutation(approveRequestJoinTeam, {
-        onSuccess: handleClose,
-        onError: (error) => {
-            setMutationError({
-                message: t("approveRequestFailed"),
-                object: error,
-            });
-        },
-    });
+    const [approveRequestMutation, { status: approveRequestStatus }] =
+        useMutation(approveRequestJoinTeam, {
+            onSuccess: handleClose,
+            onError: (error) => {
+                setMutationError({
+                    message: t("approveRequestFailed"),
+                    object: error,
+                });
+            },
+        });
 
     const handleSubmit = () => {
         const { team_name, requester_id } = request;

@@ -68,14 +68,8 @@ function ParamPreview(props) {
 }
 
 function PropertyFormFields(props) {
-    const {
-        baseId,
-        cosmeticOnly,
-        keyCount,
-        setKeyCount,
-        fieldName,
-        param,
-    } = props;
+    const { baseId, cosmeticOnly, keyCount, setKeyCount, fieldName, param } =
+        props;
 
     const baseParamId = buildID(baseId, fieldName);
 

@@ -19,13 +19,8 @@ import TrashMenuItems from "./TrashMenuItems";
 const useStyles = makeStyles(styles);
 
 export function TrashMenu(props) {
-    const {
-        baseId,
-        selected,
-        handleDelete,
-        handleRestore,
-        handleEmptyTrash,
-    } = props;
+    const { baseId, selected, handleDelete, handleRestore, handleEmptyTrash } =
+        props;
     const { t } = useTranslation("data");
     const classes = useStyles();
 

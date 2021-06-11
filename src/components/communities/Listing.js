@@ -54,34 +54,30 @@ function Listing(props) {
         ];
     }, [COMMUNITY_COLUMNS]);
 
-    const {
-        isFetching: fetchMyCommunities,
-        error: myCommunitiesError,
-    } = useQuery({
-        queryKey: [MY_COMMUNITIES_QUERY, { userId: userProfile?.id }],
-        enabled: userProfile?.id,
-        queryFn: getMyCommunities,
-        config: {
-            enabled: COMMUNITY_FILTER.MY_COMMUNITIES === filter,
-            onSuccess: (results) => {
-                setData(results.groups);
+    const { isFetching: fetchMyCommunities, error: myCommunitiesError } =
+        useQuery({
+            queryKey: [MY_COMMUNITIES_QUERY, { userId: userProfile?.id }],
+            enabled: userProfile?.id,
+            queryFn: getMyCommunities,
+            config: {
+                enabled: COMMUNITY_FILTER.MY_COMMUNITIES === filter,
+                onSuccess: (results) => {
+                    setData(results.groups);
+                },
             },
-        },
-    });
+        });
 
-    const {
-        isFetching: fetchAllCommunities,
-        error: allCommunitiesError,
-    } = useQuery({
-        queryKey: [ALL_COMMUNITIES_QUERY],
-        queryFn: getAllCommunities,
-        config: {
-            enabled: COMMUNITY_FILTER.ALL_COMMUNITIES === filter,
-            onSuccess: (results) => {
-                setData(results.groups);
+    const { isFetching: fetchAllCommunities, error: allCommunitiesError } =
+        useQuery({
+            queryKey: [ALL_COMMUNITIES_QUERY],
+            queryFn: getAllCommunities,
+            config: {
+                enabled: COMMUNITY_FILTER.ALL_COMMUNITIES === filter,
+                onSuccess: (results) => {
+                    setData(results.groups);
+                },
             },
-        },
-    });
+        });
 
     const loading = isQueryLoading([fetchMyCommunities, fetchAllCommunities]);
 

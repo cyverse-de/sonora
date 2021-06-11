@@ -220,7 +220,8 @@ export default {
             is_public: true,
             submission: {
                 config: {
-                    "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621": [],
+                    "d61e56f0-e921-11e9-8fe0-008cfa5ae621_d62788d8-e921-11e9-8fe0-008cfa5ae621":
+                        [],
                 },
                 name: "jupyter-lab-instant-launch",
                 app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
@@ -242,12 +243,10 @@ export default {
         news: [
             {
                 id: "110 at https://cyverse.org",
-                name:
-                    "Researchers Go on Offense, Defense in Battle Against Hackers",
+                name: "Researchers Go on Offense, Defense in Battle Against Hackers",
                 description:
                     "Researchers Go on Offense, Defense in Battle Against Hackers\nlittin\nMon, 12/09/2019 - 14:57",
-                link:
-                    "https://cyverse.org/Researchers-Go-on-Offense-Defense-in-Battle-Against-Hackers",
+                link: "https://cyverse.org/Researchers-Go-on-Offense-Defense-in-Battle-Against-Hackers",
                 date_added: "2019-12-09T21:57:33.000Z",
             },
             {
@@ -255,8 +254,7 @@ export default {
                 name: "Researchers 'Light Up' the Plant Tree of Life",
                 description:
                     "Researchers 'Light Up' the Plant Tree of Life\nlittin\nThu, 10/24/2019 - 08:42",
-                link:
-                    "https://cyverse.org/Researchers-Light-Up-the-Plant-Tree-of-Life",
+                link: "https://cyverse.org/Researchers-Light-Up-the-Plant-Tree-of-Life",
                 date_added: "2019-10-24T15:42:11.000Z",
             },
             {
@@ -264,28 +262,23 @@ export default {
                 name: "CyVerse ‘Power User’ Joins Boyce Thompson Institute",
                 description:
                     "CyVerse ‘Power User’ Joins Boyce Thompson Institute\nlittin\nThu, 10/03/2019 - 00:27",
-                link:
-                    "https://cyverse.org/CyVerse-%E2%80%98Power-User%E2%80%99-Joins-Boyce-Thompson-Institute",
+                link: "https://cyverse.org/CyVerse-%E2%80%98Power-User%E2%80%99-Joins-Boyce-Thompson-Institute",
                 date_added: "2019-10-03T07:27:35.000Z",
             },
             {
                 id: "81 at https://cyverse.org",
-                name:
-                    "ECSS Program Accelerates XSEDE User's Career in Geoinformatics",
+                name: "ECSS Program Accelerates XSEDE User's Career in Geoinformatics",
                 description:
                     "ECSS Program Accelerates XSEDE User's Career in Geoinformatics\nmwall\nMon, 10/07/2019 - 15:36",
-                link:
-                    "https://cyverse.org/ECSS-Program-Accelerates-XSEDE-User%27s-Career-in-Geoinformatics",
+                link: "https://cyverse.org/ECSS-Program-Accelerates-XSEDE-User%27s-Career-in-Geoinformatics",
                 date_added: "2019-10-07T22:36:42.000Z",
             },
             {
                 id: "5 at https://cyverse.org",
-                name:
-                    "Introducing DataHog: A Novel New App to Analyze Stored Files",
+                name: "Introducing DataHog: A Novel New App to Analyze Stored Files",
                 description:
                     "Introducing DataHog: A Novel New App to Analyze Stored Files\nlittin\nMon, 08/05/2019 - 22:53",
-                link:
-                    "https://cyverse.org/Introducing%20DataHog%3A%20A%20Novel%20New%20App%20to%20Analyze%20Stored%20Files",
+                link: "https://cyverse.org/Introducing%20DataHog%3A%20A%20Novel%20New%20App%20to%20Analyze%20Stored%20Files",
                 date_added: "2019-08-06T05:53:13.000Z",
             },
             {
@@ -293,8 +286,7 @@ export default {
                 name: "Inaugural Open Science Course Teaches Best Practices",
                 description:
                     "Inaugural Open Science Course Teaches Best Practices\nlittin\nMon, 08/05/2019 - 23:28",
-                link:
-                    "https://cyverse.org/Inaugural-Open-Science-Course-Teaches-Best-Practices",
+                link: "https://cyverse.org/Inaugural-Open-Science-Course-Teaches-Best-Practices",
                 date_added: "2019-08-06T06:28:31.000Z",
             },
             {
@@ -302,8 +294,7 @@ export default {
                 name: "NSF 2026 Idea Machine: Reinventing Scientific Talent",
                 description:
                     "NSF 2026 Idea Machine: Reinventing Scientific Talent\nlittin\nMon, 09/02/2019 - 21:17",
-                link:
-                    "https://cyverse.org/NSF-2026-Idea-Machine%3A-Reinventing-Scientific-Talent",
+                link: "https://cyverse.org/NSF-2026-Idea-Machine%3A-Reinventing-Scientific-Talent",
                 date_added: "2019-09-03T04:17:03.000Z",
             },
             {
@@ -311,8 +302,7 @@ export default {
                 name: "UA Campus Comes Together to Celebrate Digital Literacy",
                 description:
                     "UA Campus Comes Together to Celebrate Digital Literacy\nlittin\nMon, 09/02/2019 - 21:41",
-                link:
-                    "https://cyverse.org/UA-Campus-Comes-Together-to-Celebrate-Digital-Literacy",
+                link: "https://cyverse.org/UA-Campus-Comes-Together-to-Celebrate-Digital-Literacy",
                 date_added: "2019-09-03T04:41:02.000Z",
             },
         ],
@@ -322,18 +312,15 @@ export default {
                 name: "Webinar: Workflow Management Using Snakemake",
                 description:
                     "Webinar: Workflow Management Using Snakemake\n\n              \n      tinal\nMon, 03/02/2020 - 13:46\n\n            Webinar: Workflow Management Using Snakemake\n\n      \n            March 27, 2020 | Virtual\n\n10am Pacific | 11am Mountain | 12noon Central | 1pm Eastern (DST)\n\n      \n            About this Webinar:\n\nFrom where and how to get data for your analysis, to where and how to treat the outputs, workflow managers can help you achieve better scientific reproducibility and scalability. In this webinar, University of Arizona graduate student Sateesh Peri will demonstrate Snakemake, an open source workflow management tool. Sateesh will first identify use cases where workflow managers are helpful for automation so that you can understand Snakefile componenets, such as the rules, inputs, outputs and actions. Then he will lead us through how to write and run a Snakefile in CyVerse VICE (Visual and Interactive Compute Environment). Once you learn to properly use Snakemake (or similar workflow management tools), keeping track of and sharing your work becomes second nature, not only saving you time whenever you need to re-run all or part of an analysis but helping you reduce errors that naturally get introduced whenever a non-automated activity is done (i.e., as part of the human condition of doing computational science and not being a bot!).\n\nRegister Here\n\nAbout the Presenter: \nSateesh PeriSateesh Peri is a PhD candidate in Eric Lyon’s lab at the University of Arizona and also works at CyVerse as a graduate intern. His primary research focus is on identification and characterization of long non-coding RNAs (lincRNAs); in his spare time, Sateesh likes learning and teaching computational skills to biologists (which is why we love working with him at CyVerse!). He is an open-science evangelist and an active instructor for Data Carpentry and for CyVerse's Foundational Open Source Skills (FOSS) and Container Camp.",
-                link:
-                    "https://cyverse.org/webinar-workflow-management-using-snakemake",
+                link: "https://cyverse.org/webinar-workflow-management-using-snakemake",
                 date_added: "2020-03-02T20:46:03.000Z",
             },
             {
                 id: "124 at https://cyverse.org",
-                name:
-                    "Webinar: Get Grounded in TERRA-REF: Publicly-accessible Hi-res Sensor Data for Crop Phenomics",
+                name: "Webinar: Get Grounded in TERRA-REF: Publicly-accessible Hi-res Sensor Data for Crop Phenomics",
                 description:
                     "Webinar: Get Grounded in TERRA-REF: Publicly-accessible Hi-res Sensor Data for Crop Phenomics\n\n              \n      tinal\nTue, 01/28/2020 - 13:47\n\n            Webinar: Get Grounded in TERRA-REF: Publicly-accessible, Hi-res Sensor Data for Crop Phenomics\n\n      \n            March 13, 2020 | Virtual\n\n10am Pacific | 11am Mountain | 12noon Central | 1pm Eastern (Daylight Savings Time)\n\n      \n            Presentation Slides\n\n      \n            Webinar Video-recording:\n\n\n\nAbout this Webinar: \n\n\n\n\n\n/*-->*/\n\n/*-->*/\n\n/*-->*/\n\n/*-->*/\n\nThis webinar will introduce the TERRA-REF project that produced a large, high resolution public domain dataset to advance high throughput plant phenomics. The TERRA REF dataset contains remote sensing, plant trait, environmental, agronomic and genomic data. The dataset was produced to enable researchers to evaluate and develop new computational pipelines for converting sensor data into biological and agronomic understanding and solutions. David LeBauer, who led development of TERRA-REF's data and computing pipeline will describe the project along with its computing infrastructure and datasets. He will showcase the diverse suite of data generated by thermal, hyperspectral, color, laser 3D, and active photosynthetic fluorescence cameras as well as hand measurements, environmental sensors, and deep genomic sequencing.\n\nAnyone interested in plant sciences, robotics, statistics, remote sensing, data science, and how to make such data FAIR (findable, accessible, interoperable, and reusable) will benefit from learning about TERRA-REF's publicly-funded and publicly-accessible crop phenotype datasets. David will describe how the TERRA REF data was produced and how users can learn more and get started using the data and contributing new algorithms to high throughput phenomics pipelines.\n\nAbout the Presenter:\n\n\n\nDavid LeBauer is the director of Data Science for the Agricultural Experiment Station at the University of Arizona. His research is focused on using science to engineer more sustainable and productive crops and agricultural systems. To support this effort, he develops open software and data to integrate data and knowledge across disciplines. Key projects include the Predictive Ecosystem Analyzer (PEcAn) framework for data synthesis and forecasting with crop and ecosystem models and the TERRA Reference phenotyping database and computing pipeline.",
-                link:
-                    "https://cyverse.org/webinar-get-grounded-in-terra-ref-publicly-accessible-hi-res-sensor-data-for-crop-phenomics",
+                link: "https://cyverse.org/webinar-get-grounded-in-terra-ref-publicly-accessible-hi-res-sensor-data-for-crop-phenomics",
                 date_added: "2020-01-28T20:47:52.000Z",
             },
             // fake a few more entries to stress the layout code a bit
@@ -342,18 +329,15 @@ export default {
                 name: "Webinar: Workflow Management Using Snakemake",
                 description:
                     "Webinar: Workflow Management Using Snakemake\n\n              \n      tinal\nMon, 03/02/2020 - 13:46\n\n            Webinar: Workflow Management Using Snakemake\n\n      \n            March 27, 2020 | Virtual\n\n10am Pacific | 11am Mountain | 12noon Central | 1pm Eastern (DST)\n\n      \n            About this Webinar:\n\nFrom where and how to get data for your analysis, to where and how to treat the outputs, workflow managers can help you achieve better scientific reproducibility and scalability. In this webinar, University of Arizona graduate student Sateesh Peri will demonstrate Snakemake, an open source workflow management tool. Sateesh will first identify use cases where workflow managers are helpful for automation so that you can understand Snakefile componenets, such as the rules, inputs, outputs and actions. Then he will lead us through how to write and run a Snakefile in CyVerse VICE (Visual and Interactive Compute Environment). Once you learn to properly use Snakemake (or similar workflow management tools), keeping track of and sharing your work becomes second nature, not only saving you time whenever you need to re-run all or part of an analysis but helping you reduce errors that naturally get introduced whenever a non-automated activity is done (i.e., as part of the human condition of doing computational science and not being a bot!).\n\nRegister Here\n\nAbout the Presenter: \nSateesh PeriSateesh Peri is a PhD candidate in Eric Lyon’s lab at the University of Arizona and also works at CyVerse as a graduate intern. His primary research focus is on identification and characterization of long non-coding RNAs (lincRNAs); in his spare time, Sateesh likes learning and teaching computational skills to biologists (which is why we love working with him at CyVerse!). He is an open-science evangelist and an active instructor for Data Carpentry and for CyVerse's Foundational Open Source Skills (FOSS) and Container Camp.",
-                link:
-                    "https://cyverse.org/webinar-workflow-management-using-snakemake",
+                link: "https://cyverse.org/webinar-workflow-management-using-snakemake",
                 date_added: "2020-03-02T20:46:03.000Z",
             },
             {
                 id: "130 at https://cyverse.org",
-                name:
-                    "Webinar: Get Grounded in TERRA-REF: Publicly-accessible Hi-res Sensor Data for Crop Phenomics",
+                name: "Webinar: Get Grounded in TERRA-REF: Publicly-accessible Hi-res Sensor Data for Crop Phenomics",
                 description:
                     "Webinar: Get Grounded in TERRA-REF: Publicly-accessible Hi-res Sensor Data for Crop Phenomics\n\n              \n      tinal\nTue, 01/28/2020 - 13:47\n\n            Webinar: Get Grounded in TERRA-REF: Publicly-accessible, Hi-res Sensor Data for Crop Phenomics\n\n      \n            March 13, 2020 | Virtual\n\n10am Pacific | 11am Mountain | 12noon Central | 1pm Eastern (Daylight Savings Time)\n\n      \n            Presentation Slides\n\n      \n            Webinar Video-recording:\n\n\n\nAbout this Webinar: \n\n\n\n\n\n/*-->*/\n\n/*-->*/\n\n/*-->*/\n\n/*-->*/\n\nThis webinar will introduce the TERRA-REF project that produced a large, high resolution public domain dataset to advance high throughput plant phenomics. The TERRA REF dataset contains remote sensing, plant trait, environmental, agronomic and genomic data. The dataset was produced to enable researchers to evaluate and develop new computational pipelines for converting sensor data into biological and agronomic understanding and solutions. David LeBauer, who led development of TERRA-REF's data and computing pipeline will describe the project along with its computing infrastructure and datasets. He will showcase the diverse suite of data generated by thermal, hyperspectral, color, laser 3D, and active photosynthetic fluorescence cameras as well as hand measurements, environmental sensors, and deep genomic sequencing.\n\nAnyone interested in plant sciences, robotics, statistics, remote sensing, data science, and how to make such data FAIR (findable, accessible, interoperable, and reusable) will benefit from learning about TERRA-REF's publicly-funded and publicly-accessible crop phenotype datasets. David will describe how the TERRA REF data was produced and how users can learn more and get started using the data and contributing new algorithms to high throughput phenomics pipelines.\n\nAbout the Presenter:\n\n\n\nDavid LeBauer is the director of Data Science for the Agricultural Experiment Station at the University of Arizona. His research is focused on using science to engineer more sustainable and productive crops and agricultural systems. To support this effort, he develops open software and data to integrate data and knowledge across disciplines. Key projects include the Predictive Ecosystem Analyzer (PEcAn) framework for data synthesis and forecasting with crop and ecosystem models and the TERRA Reference phenotyping database and computing pipeline.",
-                link:
-                    "https://cyverse.org/webinar-get-grounded-in-terra-ref-publicly-accessible-hi-res-sensor-data-for-crop-phenomics",
+                link: "https://cyverse.org/webinar-get-grounded-in-terra-ref-publicly-accessible-hi-res-sensor-data-for-crop-phenomics",
                 date_added: "2020-01-28T20:47:52.000Z",
             },
             {
@@ -361,26 +345,22 @@ export default {
                 name: "Webinar: Workflow Management Using Snakemake",
                 description:
                     "Webinar: Workflow Management Using Snakemake\n\n              \n      tinal\nMon, 03/02/2020 - 13:46\n\n            Webinar: Workflow Management Using Snakemake\n\n      \n            March 27, 2020 | Virtual\n\n10am Pacific | 11am Mountain | 12noon Central | 1pm Eastern (DST)\n\n      \n            About this Webinar:\n\nFrom where and how to get data for your analysis, to where and how to treat the outputs, workflow managers can help you achieve better scientific reproducibility and scalability. In this webinar, University of Arizona graduate student Sateesh Peri will demonstrate Snakemake, an open source workflow management tool. Sateesh will first identify use cases where workflow managers are helpful for automation so that you can understand Snakefile componenets, such as the rules, inputs, outputs and actions. Then he will lead us through how to write and run a Snakefile in CyVerse VICE (Visual and Interactive Compute Environment). Once you learn to properly use Snakemake (or similar workflow management tools), keeping track of and sharing your work becomes second nature, not only saving you time whenever you need to re-run all or part of an analysis but helping you reduce errors that naturally get introduced whenever a non-automated activity is done (i.e., as part of the human condition of doing computational science and not being a bot!).\n\nRegister Here\n\nAbout the Presenter: \nSateesh PeriSateesh Peri is a PhD candidate in Eric Lyon’s lab at the University of Arizona and also works at CyVerse as a graduate intern. His primary research focus is on identification and characterization of long non-coding RNAs (lincRNAs); in his spare time, Sateesh likes learning and teaching computational skills to biologists (which is why we love working with him at CyVerse!). He is an open-science evangelist and an active instructor for Data Carpentry and for CyVerse's Foundational Open Source Skills (FOSS) and Container Camp.",
-                link:
-                    "https://cyverse.org/webinar-workflow-management-using-snakemake",
+                link: "https://cyverse.org/webinar-workflow-management-using-snakemake",
                 date_added: "2020-03-02T20:46:03.000Z",
             },
             {
                 id: "132 at https://cyverse.org",
-                name:
-                    "Webinar: Get Grounded in TERRA-REF: Publicly-accessible Hi-res Sensor Data for Crop Phenomics",
+                name: "Webinar: Get Grounded in TERRA-REF: Publicly-accessible Hi-res Sensor Data for Crop Phenomics",
                 description:
                     "Webinar: Get Grounded in TERRA-REF: Publicly-accessible Hi-res Sensor Data for Crop Phenomics\n\n              \n      tinal\nTue, 01/28/2020 - 13:47\n\n            Webinar: Get Grounded in TERRA-REF: Publicly-accessible, Hi-res Sensor Data for Crop Phenomics\n\n      \n            March 13, 2020 | Virtual\n\n10am Pacific | 11am Mountain | 12noon Central | 1pm Eastern (Daylight Savings Time)\n\n      \n            Presentation Slides\n\n      \n            Webinar Video-recording:\n\n\n\nAbout this Webinar: \n\n\n\n\n\n/*-->*/\n\n/*-->*/\n\n/*-->*/\n\n/*-->*/\n\nThis webinar will introduce the TERRA-REF project that produced a large, high resolution public domain dataset to advance high throughput plant phenomics. The TERRA REF dataset contains remote sensing, plant trait, environmental, agronomic and genomic data. The dataset was produced to enable researchers to evaluate and develop new computational pipelines for converting sensor data into biological and agronomic understanding and solutions. David LeBauer, who led development of TERRA-REF's data and computing pipeline will describe the project along with its computing infrastructure and datasets. He will showcase the diverse suite of data generated by thermal, hyperspectral, color, laser 3D, and active photosynthetic fluorescence cameras as well as hand measurements, environmental sensors, and deep genomic sequencing.\n\nAnyone interested in plant sciences, robotics, statistics, remote sensing, data science, and how to make such data FAIR (findable, accessible, interoperable, and reusable) will benefit from learning about TERRA-REF's publicly-funded and publicly-accessible crop phenotype datasets. David will describe how the TERRA REF data was produced and how users can learn more and get started using the data and contributing new algorithms to high throughput phenomics pipelines.\n\nAbout the Presenter:\n\n\n\nDavid LeBauer is the director of Data Science for the Agricultural Experiment Station at the University of Arizona. His research is focused on using science to engineer more sustainable and productive crops and agricultural systems. To support this effort, he develops open software and data to integrate data and knowledge across disciplines. Key projects include the Predictive Ecosystem Analyzer (PEcAn) framework for data synthesis and forecasting with crop and ecosystem models and the TERRA Reference phenotyping database and computing pipeline.",
-                link:
-                    "https://cyverse.org/webinar-get-grounded-in-terra-ref-publicly-accessible-hi-res-sensor-data-for-crop-phenomics",
+                link: "https://cyverse.org/webinar-get-grounded-in-terra-ref-publicly-accessible-hi-res-sensor-data-for-crop-phenomics",
                 date_added: "2020-01-28T20:47:52.000Z",
             },
         ],
         videos: [
             {
                 id: "yt:video:Yf0w7UDRgpo",
-                name:
-                    "Webinar: Identifying Transcription Factor Binding Sites from ChIP-seq Data",
+                name: "Webinar: Identifying Transcription Factor Binding Sites from ChIP-seq Data",
                 description:
                     "This webinar introduces the basic principles of analyzing chromatin immunoprecipitation sequencing (ChIP-seq) data, which is a powerful and versatile technique used for probing protein-DNA interactions. Thanks to the advances in sequencing technologies, high-throughput ChIP-seq offers researchers higher resolution, less noise, and greater coverage to identify and characterize DNA binding events at a genome-wide level compared to its array-based predecessor, ChIP-chip. In this webinar, Reetu covers the basics of ChIP-seq data handling and how to use public apps in the CyVerse Discovery Environment (DE) for processing and interpreting your ChIP-seq data. Reetu runs sample data with the CyVerse apps to demonstrate basic but key steps of ChIP-seq analysis: quality control of data, mapping data to a reference genome and peak calling. This webinar helps participants efficiently manage and analyze ChIP-seq data, starting from sequence reads through peak calling.\n\nWebinar materials, including interactive slides, are available here: https://cyverse.org/webinar-identifying-transcription-factor-binding-sites-from-ChIP-seq-data\n\nCyVerse provides powerful infrastructure for computational research involving large datasets and complex analyses. Using CyVerse, teams can overcome scaling and complexity challenges to tackle questions that previously were unapproachable.\n\n**Get Started!**\nCreate your Account: http://cyver.se/account \nLearn about CyVerse: https://cyverse.org \nLearn how to use CyVerse: http://cyver.se/learn \n\n**Make CyVerse work for you!**\nUse hundreds of bioinformatics apps and manage data in a simple web interface\nLaunch the Discovery Environment: http://cyver.se/de \n\n**Create a custom cloud-based scientific analysis platform or use a ready-made one for your area of scientific interest.**\nLaunch Atmosphere: http://cyver.se/atmo \n\n**Securely store data for active analyses or sharing with your collaborators.**\nLaunch the Data Store: http://cyver.se/datastore \n\n**Access discoverable and reusable datasets with metadata features and functions.**\nLaunch the Data Commons: http://cyver.se/datacommons\n\n**Exchange, explore, and analyze biological images and their metadata.**\nLaunch BisQue: http://cyver.se/bisque \n\n**Follow us!**\nTwitter: http://cyver.se/twitter \nFacebook: http://cyver.se/Facebook \nLinkedIn: http://cyver.se/LinkedIn \nYouTube: http://cyver.se/YouTube \nGitHub: http://cyver.se/GitHub \n\nStill have questions?\nEmail info@cyverse.org\n\nThis material is based upon work supported by the National Science Foundation under Grant Nos. DBI-0735191, DBI-1265383, and DBI-1743442.",
                 date_added: "2020-04-24T19:01:32.000Z",
@@ -392,8 +372,7 @@ export default {
             },
             {
                 id: "yt:video:s9DOBPlDZ3U",
-                name:
-                    "Webinar: Get a Taste of Orange: An Intro to Data Mining and Machine Learning",
+                name: "Webinar: Get a Taste of Orange: An Intro to Data Mining and Machine Learning",
                 description:
                     "Need something a little refreshing while you're hunkered down during this challenging time? How about a taste of Orange? In this finale to our spring webinars, researchers and students interested in approaching machine learning and data mining to conduct basic data analysis get a \"fruitful and fun\" introduction to Orange, an open-source machine learning and data visualization toolbox for novice and expert alike. Presenter Dr. Francesca Vitali of the University of Arizona's Center for Innovation in Brain Science (CIBS) teaches us how to use Orange to construct basic data analysis workflows. Using the interactive toolbox, she demonstrates key features of Orange and provides instructions and ideas on how to use Orange to conduct preliminary data analysis and basic machine learning to facilitate hypothesis generation from your data.\n\nCyVerse provides powerful infrastructure for computational research involving large datasets and complex analyses. Using CyVerse, teams can overcome scaling and complexity challenges to tackle questions that previously were unapproachable.\n\n**Get Started!**\nCreate your Account: http://cyver.se/account \nLearn about CyVerse: https://cyverse.org \nLearn how to use CyVerse: http://cyver.se/learn \n\n**Make CyVerse work for you!**\nUse hundreds of bioinformatics apps and manage data in a simple web interface\nLaunch the Discovery Environment: http://cyver.se/de \n\n**Create a custom cloud-based scientific analysis platform or use a ready-made one for your area of scientific interest.**\nLaunch Atmosphere: http://cyver.se/atmo \n\n**Securely store data for active analyses or sharing with your collaborators.**\nLaunch the Data Store: http://cyver.se/datastore \n\n**Access discoverable and reusable datasets with metadata features and functions.**\nLaunch the Data Commons: http://cyver.se/datacommons\n\n**Exchange, explore, and analyze biological images and their metadata.**\nLaunch BisQue: http://cyver.se/bisque \n\n**Follow us!**\nTwitter: http://cyver.se/twitter \nFacebook: http://cyver.se/Facebook \nLinkedIn: http://cyver.se/LinkedIn \nYouTube: http://cyver.se/YouTube \nGitHub: http://cyver.se/GitHub \n\nStill have questions?\nEmail info@cyverse.org\n\nThis material is based upon work supported by the National Science Foundation under Grant Nos. DBI-0735191, DBI-1265383, and DBI-1743442.",
                 date_added: "2020-05-08T20:05:11.000Z",
@@ -429,8 +408,7 @@ export default {
             },
             {
                 id: "yt:video:GlTaC4Sag4Y",
-                name:
-                    "Webinar: Hit the Ground Running with SNP Calling for PopGen and Evolutionary Analyses",
+                name: "Webinar: Hit the Ground Running with SNP Calling for PopGen and Evolutionary Analyses",
                 description:
                     "Presenter: Jacob Landis (https://jacoblandis.com/), Cornell University \n\nThe fields of population genetics (PopGen) and species evolution have especially benefitted from myriad advances in technology and computational methods of the 4th Industrial Revolution. In this kickoff to our Fall webinars, Jacob Landis of Cornell University's School of Integrative Plant Science will help you 'hit the ground running' for analyzing single nucleotide polymorphisms (SNPs). He'll cover the basics of different SNP calling techniques, such as RADSeq, HybSeq, and genome resequencing and then lead a quick tutorial for GATK, a frequently-used software package developed at the Broad Institute to analyze next-generation sequencing data. As a user-requested topic, this webinar is aimed at scientists who want to call SNPs for either PopGen or evolutionary analyses but just don't know where to begin. Join us to learn about some of the different techniques you can use to get a jumpstart on your SNP analyses.\n\nWebinar materials, including slides and description, can be found here: https://cyverse.org/webinar_SNP_analysis\n\n**Get Started!**\nCreate your Account: http://cyver.se/account\nLearn about CyVerse: https://cyverse.org\nLearn how to use CyVerse: http://cyver.se/learn\n\n**Make CyVerse work for you!**\nUse hundreds of bioinformatics apps and manage data in a simple web interface\nLaunch the Discovery Environment: http://cyver.se/de\n\nCreate a custom cloud-based scientific analysis platform or use a ready-made one for your area of scientific interest.\nLaunch Atmosphere: http://cyver.se/atmo\n\nSecurely store data for active analyses or sharing with your collaborators.\nLaunch the Data Store: http://cyver.se/datastore\n\nAccess discoverable and reusable data with metadata features and functions.\nLaunch the Data Commons: http://cyver.se/datacommons\n\nExchange, explore, and analyze biological images and their metadata.\nLaunch BisQue: http://cyver.se/bisque\n\n**Be sure to follow us!**\nTwitter: http://cyver.se/twitter\nFacebook: http://cyver.se/Facebook\nLinkedIn: http://cyver.se/LinkedIn\nYouTube: http://cyver.se/YouTube\nGitHub: http://cyver.se/GitHub\n\nStill have questions?\nEmail info@cyverse.org\n\nThis material is based upon work supported by the National Science Foundation under Grant Nos. DBI-0735191, DBI-1265383, DBI-1743442",
                 date_added: "2020-09-11T21:47:26.000Z",
@@ -442,8 +420,7 @@ export default {
             },
             {
                 id: "yt:video:vnOmfNaW5Vw",
-                name:
-                    "Webinar: Using iCommands for Flexibility and Control in Moving Data in CyVerse",
+                name: "Webinar: Using iCommands for Flexibility and Control in Moving Data in CyVerse",
                 description:
                     "With capabilities to manage all your data throughout the research cycle and 100 GB of available data storage with your account, keeping all your data in CyVerse makes sense.\n\nHowever, moving large amounts of data can be daunting. For flexible and easy control of your data transfers in and out of CyVerse, you can use iCommands, a collection of command line tools developed by iRODS, the technology underlying the Data Store. In this webinar, CyVerse Co-PI Eric Lyons will show you some tips and tricks for the most reliable data transfers, starting with reviewing some Unix basics and how to use iCommands for tasks such as up/downloading from your local computer to the Data Store and managing directories. Attendees will need to have access to a Linux command line prompt and have installed iCommands, but even if you're not yet adept at the command line, understanding proper data management basics through this webinar is a good start.\n\n\n**Get Started!**\nCreate your Account: http://cyver.se/account \nLearn about CyVerse: https://cyverse.org \nLearn how to use CyVerse: http://cyver.se/learn \n\n**Make CyVerse work for you!**\nUse hundreds of bioinformatics apps and manage data in a simple web interface\nLaunch the Discovery Environment: http://cyver.se/de \n\n**Securely store data for active analyses or sharing with your collaborators.**\nLaunch the Data Store: http://cyver.se/datastore \n\n**Access discoverable and reusable datasets with metadata features and functions.**\nLaunch the Data Commons: http://cyver.se/datacommons\n\n**Exchange, explore, and analyze biological images and their metadata.**\nLaunch BisQue: http://cyver.se/bisque \n\n**Follow us!**\nTwitter: http://cyver.se/twitter \nFacebook: http://cyver.se/Facebook \nLinkedIn: http://cyver.se/LinkedIn \nYouTube: http://cyver.se/YouTube \nGitHub: http://cyver.se/GitHub \n\nStill have questions?\nEmail info@cyverse.org\n\nThis material is based upon work supported by the National Science Foundation under Grant Nos. DBI-0735191, DBI-1265383, and DBI-1743442.",
                 date_added: "2020-09-25T20:45:10.000Z",
@@ -455,8 +432,7 @@ export default {
             },
             {
                 id: "yt:video:jLTcKTa8RKY",
-                name:
-                    "Webinar: CyVerse's Terrain API for Programmatic Access to Backend Services",
+                name: "Webinar: CyVerse's Terrain API for Programmatic Access to Backend Services",
                 description:
                     "CyVerse Software Engineer Sarah Roberts takes you through a Jupyter Notebook to apply the CyVerse Terrain API (Application Programming Interface) to access backend services that help you integrate CyVerse resources into your web applications and analyses.\n\n**Get Started!**\nCreate your Account: http://cyver.se/account\nLearn about CyVerse: https://cyverse.org\nLearn how to use CyVerse: http://cyver.se/learn\n\n**Make CyVerse work for you!**\nUse hundreds of bioinformatics apps and manage data in a simple web interface\nLaunch the Discovery Environment: http://cyver.se/de\n\nCreate a custom cloud-based scientific analysis platform or use a ready-made one for your area of scientific interest.\nLaunch Atmosphere: http://cyver.se/atmo\n\nSecurely store data for active analyses or sharing with your collaborators.\nLaunch the Data Store: http://cyver.se/datastore\n\nAccess discoverable and reusable data with metadata features and functions.\nLaunch the Data Commons: http://cyver.se/datacommons\n\nExchange, explore, and analyze biological images and their metadata.\nLaunch BisQue: http://cyver.se/bisque\n\n**Be sure to follow us!**\nTwitter: http://cyver.se/twitter\nFacebook: http://cyver.se/Facebook\nLinkedIn: http://cyver.se/LinkedIn\nYouTube: http://cyver.se/YouTube\nGitHub: http://cyver.se/GitHub\n\nStill have questions?\nEmail info@cyverse.org\n\nThis material is based upon work supported by the National Science Foundation under Grant Nos. DBI-0735191, DBI-1265383, DBI-1743442",
                 date_added: "2020-10-11T07:00:12.000Z",
@@ -480,8 +456,7 @@ export default {
             },
             {
                 id: "yt:video:zBCB2JYkFtk",
-                name:
-                    "Webinar: A Preview of CyVerse's New User Interface for the Discovery Environment",
+                name: "Webinar: A Preview of CyVerse's New User Interface for the Discovery Environment",
                 description:
                     'After 10+ years of service, the CyVerse Discovery Environment has a new User Interface!  Software Dev Team Lead, Sriram Srinivasan, previews our new User Interface ("Sonora") including all kinds of new functionality (e.g., use "Bags" to collect resources for sharing with one click!), while maintaining a strong foundation of easy access to your Data, Apps, and Analyses.\n\n**Get Started!**\nCreate your Account: http://cyver.se/account\nLearn about CyVerse: https://cyverse.org\nLearn how to use CyVerse: http://cyver.se/learn\n\n**Make CyVerse work for you!**\nUse hundreds of bioinformatics apps and manage data in a simple web interface\nLaunch the Discovery Environment: http://cyver.se/de\n\nCreate a custom cloud-based scientific analysis platform or use a ready-made one for your area of scientific interest.\nLaunch Atmosphere: http://cyver.se/atmo\n\nSecurely store data for active analyses or sharing with your collaborators.\nLaunch the Data Store: http://cyver.se/datastore\n\nAccess discoverable and reusable data with metadata features and functions.\nLaunch the Data Commons: http://cyver.se/datacommons\n\nExchange, explore, and analyze biological images and their metadata.\nLaunch BisQue: http://cyver.se/bisque\n\n**Be sure to follow us!**\nTwitter: http://cyver.se/twitter\nFacebook: http://cyver.se/Facebook\nLinkedIn: http://cyver.se/LinkedIn\nYouTube: http://cyver.se/YouTube\nGitHub: http://cyver.se/GitHub\n\nStill have questions?\nEmail info@cyverse.org\n\nThis material is based upon work supported by the National Science Foundation under Grant Nos. DBI-0735191, DBI-1265383, DBI-1743442',
                 date_added: "2020-11-07T17:15:51.000Z",
@@ -493,8 +468,7 @@ export default {
             },
             {
                 id: "yt:video:N-p5tkGgE0U",
-                name:
-                    "Webinar: PhytoOracle - A Workflow Manager for Phenomic Data  Processing",
+                name: "Webinar: PhytoOracle - A Workflow Manager for Phenomic Data  Processing",
                 description:
                     "Using phenomic data generated by the the UA's Gantry, the world's largest outdoor phenotyping platform, four student developers present their work on creating the scalable, distributed workflow manager, PhytoOracle, for analyzing high-throughput phenotyping data. Michele Cosi, Ariyan Zarei, Emmanuel Gonzalez, and Travis Simmons discuss how they collaborated to leverage CyVerse, container technology, and open-source tools (e.g., CC-Tools) to create PhytoOracle and how you can adapt their containerized workflow manager for HT phenotyping on your image data.\n\n**Get Started!**\nCreate your Account: http://cyver.se/account\nLearn about CyVerse: https://cyverse.org\nLearn how to use CyVerse: http://cyver.se/learn\n\n**Make CyVerse work for you!**\nUse hundreds of bioinformatics apps and manage data in a simple web interface\nLaunch the Discovery Environment: http://cyver.se/de\n\nCreate a custom cloud-based scientific analysis platform or use a ready-made one for your area of scientific interest.\nLaunch Atmosphere: http://cyver.se/atmo\n\nSecurely store data for active analyses or sharing with your collaborators.\nLaunch the Data Store: http://cyver.se/datastore\n\nAccess discoverable and reusable data with metadata features and functions.\nLaunch the Data Commons: http://cyver.se/datacommons\n\nExchange, explore, and analyze biological images and their metadata.\nLaunch BisQue: http://cyver.se/bisque\n\n**Be sure to follow us!**\nTwitter: http://cyver.se/twitter\nFacebook: http://cyver.se/Facebook\nLinkedIn: http://cyver.se/LinkedIn\nYouTube: http://cyver.se/YouTube\nGitHub: http://cyver.se/GitHub\n\nStill have questions?\nEmail info@cyverse.org\n\nThis material is based upon work supported by the National Science Foundation under Grant Nos. DBI-0735191, DBI-1265383, DBI-1743442",
                 date_added: "2020-11-23T14:50:13.000Z",

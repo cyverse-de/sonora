@@ -12,6 +12,8 @@
     "copy": "Copy",
     "close": "Close",
     "closeMenu": "Close Menu",
+    "confirmDiscardChangesDialogHeader": "Discard Changes?",
+    "confirmDiscardChangesDialogMsg": "You have unsaved changes.",
     "comingSoon": "Coming Soon!",
     "communities": "Communities",
     "contactSupport": "Contact Support",

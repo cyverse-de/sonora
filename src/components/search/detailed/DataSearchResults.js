@@ -115,27 +115,21 @@ function DataSearchResults(props) {
         },
     });
 
-    const {
-        status,
-        data,
-        isFetchingMore,
-        fetchMore,
-        canFetchMore,
-        error,
-    } = useDataSearchInfinite(
-        dataSearchKey,
-        dataSearchQueryEnabled,
-        (lastGroup, allGroups) => {
-            const totalPages = Math.ceil(
-                lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
-            );
-            if (allGroups.length < totalPages) {
-                return allGroups.length;
-            } else {
-                return false;
+    const { status, data, isFetchingMore, fetchMore, canFetchMore, error } =
+        useDataSearchInfinite(
+            dataSearchKey,
+            dataSearchQueryEnabled,
+            (lastGroup, allGroups) => {
+                const totalPages = Math.ceil(
+                    lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
+                );
+                if (allGroups.length < totalPages) {
+                    return allGroups.length;
+                } else {
+                    return false;
+                }
             }
-        }
-    );
+        );
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
@@ -214,9 +208,8 @@ function DataSearchResults(props) {
                                     baseId={baseId}
                                     onCopyLinkSelected={() => {
                                         const link = `${getHost()}${partialLink}`;
-                                        const copyPromise = copyStringToClipboard(
-                                            link
-                                        );
+                                        const copyPromise =
+                                            copyStringToClipboard(link);
                                         copyLinkToClipboardHandler(
                                             i18nCommon,
                                             copyPromise
@@ -228,9 +221,10 @@ function DataSearchResults(props) {
                                 <CopyPathButton
                                     baseId={baseId}
                                     onCopyPathSelected={() => {
-                                        const copyPromise = copyStringToClipboard(
-                                            original?._source.path
-                                        );
+                                        const copyPromise =
+                                            copyStringToClipboard(
+                                                original?._source.path
+                                            );
                                         copyPromise.then(
                                             () => {
                                                 announce({

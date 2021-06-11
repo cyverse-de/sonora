@@ -20,7 +20,6 @@ import { Link } from "@material-ui/icons";
 import { useTranslation } from "i18n";
 import { queryCache, useMutation, useQuery } from "react-query";
 
-import { getFileSize } from "../listing/FileSize";
 import ids from "../ids";
 import styles from "../styles";
 import TagSearch from "../TagSearch";
@@ -30,7 +29,7 @@ import {
     DATA_DETAILS_QUERY_KEY,
 } from "../../../serviceFacades/filesystem";
 import { getHost } from "components/utils/getHost";
-import { useDataNavigationLink } from "components/data/utils";
+import { useDataNavigationLink, formatFileSize } from "components/data/utils";
 
 import GridLabelValue from "../../utils/GridLabelValue";
 import GridLoading from "../../utils/GridLoading";
@@ -158,7 +157,7 @@ function DetailsTabPanel(props) {
                 )}
                 {isFile && (
                     <GridLabelValue label={t("fileSize")}>
-                        {getFileSize(details["file-size"])}
+                        {formatFileSize(details["file-size"])}
                     </GridLabelValue>
                 )}
                 <GridLabelValue label={t("modified")}>

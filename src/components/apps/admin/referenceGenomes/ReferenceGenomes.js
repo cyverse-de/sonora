@@ -49,10 +49,8 @@ function ReferenceGenomes(props) {
     const router = useRouter();
     const [userProfile] = useUserProfile();
     const [editDialogOpen, setEditDialogOpen] = React.useState(false);
-    const [
-        selectedReferenceGenome,
-        setSelectedReferenceGenome,
-    ] = React.useState(null);
+    const [selectedReferenceGenome, setSelectedReferenceGenome] =
+        React.useState(null);
 
     const { isFetching, error, data } = useQuery({
         queryKey: [ADMIN_REFERENCE_GENOMES_QUERY_KEY, { deleted: true }],

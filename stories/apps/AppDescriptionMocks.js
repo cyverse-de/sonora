@@ -120,20 +120,20 @@ export const FileInfoTypesMock = {
 
 export const fileStatResp = {
     paths: {
-        "/iplant/home/shared/iplantcollaborative/example_data/wordcount/SampleText.txt": {
-            infoType: "unknown",
-            path:
-                "/iplant/home/shared/iplantcollaborative/example_data/wordcount/SampleText.txt",
-            "date-created": 1606848065000,
-            md5: "20bcf40f32ca8dfe7740cb4e98b69206",
-            permission: "read",
-            "date-modified": 1606848065000,
-            type: "file",
-            "file-size": 2312,
-            label: "SampleText.txt",
-            id: "c5b77bfa-3404-11eb-bcd5-fa163ea323a7",
-            "content-type": "text/plain",
-        },
+        "/iplant/home/shared/iplantcollaborative/example_data/wordcount/SampleText.txt":
+            {
+                infoType: "unknown",
+                path: "/iplant/home/shared/iplantcollaborative/example_data/wordcount/SampleText.txt",
+                "date-created": 1606848065000,
+                md5: "20bcf40f32ca8dfe7740cb4e98b69206",
+                permission: "read",
+                "date-modified": 1606848065000,
+                type: "file",
+                "file-size": 2312,
+                label: "SampleText.txt",
+                id: "c5b77bfa-3404-11eb-bcd5-fa163ea323a7",
+                "content-type": "text/plain",
+            },
     },
     ids: {},
 };
@@ -189,8 +189,7 @@ export const AppDescriptionMock = {
                     order: 0,
                     isVisible: false,
                     defaultValue: {
-                        path:
-                            "/iplant/home/shared/iplantcollaborative/example_data/treeview/leaf-tree.nwk",
+                        path: "/iplant/home/shared/iplantcollaborative/example_data/treeview/leaf-tree.nwk",
                     },
                     required: false,
                 },
@@ -249,8 +248,7 @@ export const AppDescriptionMock = {
                     type: "Info",
                     omit_if_blank: false,
                     validators: [],
-                    label:
-                        "<h4>Info Text!</h4>\nDoes <b>HTML</b> display?\n:sparkles: `Markdown` **now** _supported_ :tada:",
+                    label: "<h4>Info Text!</h4>\nDoes <b>HTML</b> display?\n:sparkles: `Markdown` **now** _supported_ :tada:",
                     id: "177d78f6-5a83-11ea-9e38-008cfa5ae621",
                     order: 0,
                     isVisible: true,

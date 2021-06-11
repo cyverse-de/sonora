@@ -318,8 +318,7 @@ const MetadataTemplateAttributeForm = (props) => {
                                                 <fieldset>
                                                     <legend
                                                         style={{
-                                                            margin:
-                                                                "0 0 0 auto",
+                                                            margin: "0 0 0 auto",
                                                         }}
                                                     >
                                                         {deleteBtn}
@@ -444,9 +443,8 @@ const MetadataTemplateForm = (props) => {
         values,
     } = props;
 
-    const [showConfirmationDialog, setShowConfirmationDialog] = React.useState(
-        false
-    );
+    const [showConfirmationDialog, setShowConfirmationDialog] =
+        React.useState(false);
     const [showErrorsDialog, setShowErrorsDialog] = React.useState(false);
 
     const handleSubmitWrapper = () => {
@@ -542,8 +540,8 @@ const MetadataTemplateForm = (props) => {
             <ConfirmationDialog
                 open={showConfirmationDialog}
                 baseId={ids.METADATA_TEMPLATE_VIEW}
-                title={t("confirmDiscardChangesDialogHeader")}
-                contentText={t("confirmDiscardChangesDialogMsg")}
+                title={t("common:confirmDiscardChangesDialogHeader")}
+                contentText={t("common:confirmDiscardChangesDialogMsg")}
                 confirmButtonText={t("common:discard")}
                 onConfirm={confirmCloseMetadataTemplateDialog}
                 onClose={closeConfirmationDialog}
@@ -553,11 +551,8 @@ const MetadataTemplateForm = (props) => {
 };
 
 const MetadataTemplateView = (props) => {
-    const {
-        templateId,
-        showErrorAnnouncer,
-        updateMetadataFromTemplateView,
-    } = props;
+    const { templateId, showErrorAnnouncer, updateMetadataFromTemplateView } =
+        props;
 
     const [template, setTemplate] = React.useState({});
     const [olsSearch, searchOLSTerms] = React.useState(null);

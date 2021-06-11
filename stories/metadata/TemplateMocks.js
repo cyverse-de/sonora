@@ -1538,14 +1538,12 @@ export const initMockAxiosTemplateEndpoints = () => {
                 format: "linked-data-api",
                 version: "0.2",
                 result: {
-                    _about:
-                        "https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json",
+                    _about: "https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json",
                     definition:
                         "https://vocabs.ands.org.au/repository/api/lda/meta/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json",
                     extendedMetadataVersion:
                         "https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json?_metadata=all",
-                    first:
-                        "https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json?_page=0",
+                    first: "https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json?_page=0",
                     hasPart:
                         "https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json",
                     isPartOf:
@@ -1565,8 +1563,7 @@ export const initMockAxiosTemplateEndpoints = () => {
                         },
                     ],
                     itemsPerPage: 10,
-                    next:
-                        "https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json?_page=1",
+                    next: "https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/4-0-0/concept.json?_page=1",
                     page: 0,
                     startIndex: 1,
                     type: [

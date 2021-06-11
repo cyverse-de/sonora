@@ -232,10 +232,8 @@ function TeamForm(props) {
                 newPrivileges,
             });
         } else {
-            const {
-                name: originalName,
-                description: originalDescription,
-            } = team;
+            const { name: originalName, description: originalDescription } =
+                team;
 
             if (
                 !isCreatingTeam &&

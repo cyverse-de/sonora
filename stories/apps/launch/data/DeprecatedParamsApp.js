@@ -30,8 +30,7 @@ export default {
                                     isDefault: false,
                                     arguments: [
                                         {
-                                            id:
-                                                "d1eba322-7eb2-11ea-be2c-008cfa5ae621",
+                                            id: "d1eba322-7eb2-11ea-be2c-008cfa5ae621",
                                             name: "arg3",
                                             value: "val3",
                                             description: "argument 3",
@@ -39,8 +38,7 @@ export default {
                                             isDefault: false,
                                         },
                                         {
-                                            id:
-                                                "d1ebbfb0-7eb2-11ea-be2c-008cfa5ae621",
+                                            id: "d1ebbfb0-7eb2-11ea-be2c-008cfa5ae621",
                                             name: "arg4",
                                             value: "val4",
                                             description: "argument 4",
@@ -50,14 +48,12 @@ export default {
                                     ],
                                     groups: [
                                         {
-                                            id:
-                                                "d1ebd8c4-7eb2-11ea-be2c-008cfa5ae621",
+                                            id: "d1ebd8c4-7eb2-11ea-be2c-008cfa5ae621",
                                             display: "Group 2",
                                             isDefault: false,
                                             arguments: [
                                                 {
-                                                    id:
-                                                        "d1ebf336-7eb2-11ea-be2c-008cfa5ae621",
+                                                    id: "d1ebf336-7eb2-11ea-be2c-008cfa5ae621",
                                                     name: "arg5",
                                                     value: "val5",
                                                     description: "argument 5",
@@ -65,8 +61,7 @@ export default {
                                                     isDefault: false,
                                                 },
                                                 {
-                                                    id:
-                                                        "d1ec0bc8-7eb2-11ea-be2c-008cfa5ae621",
+                                                    id: "d1ec0bc8-7eb2-11ea-be2c-008cfa5ae621",
                                                     name: "arg6",
                                                     value: "val6",
                                                     description: "argument 6",
@@ -84,8 +79,7 @@ export default {
                                     isDefault: false,
                                     arguments: [
                                         {
-                                            id:
-                                                "d1ec3b34-7eb2-11ea-be2c-008cfa5ae621",
+                                            id: "d1ec3b34-7eb2-11ea-be2c-008cfa5ae621",
                                             name: "arg7",
                                             value: "val7",
                                             description: "argument 7",
@@ -122,8 +116,7 @@ export default {
                     type: "TreeSelection",
                     validators: [],
                     label: "List Tree",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_d1eb0b24-7eb2-11ea-be2c-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_d1eb0b24-7eb2-11ea-be2c-008cfa5ae621",
                     isVisible: true,
                     required: false,
                 },

@@ -15,12 +15,11 @@ import { getLocalStorage } from "components/utils/localStorage";
 import viewerConstants from "components/data/viewers/constants";
 import Listing from "components/data/listing/Listing";
 import { getEncodedPath, DEFAULT_PAGE_SETTINGS } from "components/data/utils";
-import infoTypes from "components/models/InfoTypes";
 import ResourceTypes from "components/models/ResourceTypes";
 
 import {
     getResourceDetails,
-    DATA_DETAILS_QUERY_KEY,
+    DATA_DETAILS_FROM_PAGE_QUERY_KEY,
 } from "serviceFacades/filesystem";
 
 const FileViewer = dynamic(() => import("components/data/viewers/FileViewer"));
@@ -57,7 +56,7 @@ export default function DataStore() {
 
     const isFile = query.type === ResourceTypes.FILE;
     const resourceId = query.resourceId;
-    const createFile = query.createFile;
+    const createFileType = query.createFileType;
     const viewMetadata = query.view === NavigationParams.VIEW.METADATA;
 
     const routerPathname = router.pathname;
@@ -67,6 +66,9 @@ export default function DataStore() {
     const baseRoutingPath = routerPathname.replace(dynamicPathName, "");
     const path = fullPath.replace(baseRoutingPath, "").split("?")[0];
     const resourcePath = decodeURIComponent(path);
+
+    const [details, setDetails] = useState(null);
+    const [errorObject, setErrorObject] = useState(null);
 
     const handlePathChange = useCallback(
         (path, query) => {
@@ -80,8 +82,8 @@ export default function DataStore() {
         [baseRoutingPath, router]
     );
 
-    const onCreateHTFileSelected = useCallback(
-        (path) => {
+    const onCreateFileSelected = useCallback(
+        (path, type) => {
             const encodedPath = getEncodedPath(
                 path.concat(`/${viewerConstants.NEW_FILE_NAME}`)
             );
@@ -90,24 +92,7 @@ export default function DataStore() {
                 pathname: `${baseRoutingPath}${encodedPath}`,
                 query: {
                     type: ResourceTypes.FILE,
-                    createFile: infoTypes.HT_ANALYSIS_PATH_LIST,
-                },
-            });
-        },
-        [baseRoutingPath, router]
-    );
-
-    const onCreateMultiInputFileSelected = useCallback(
-        (path) => {
-            const encodedPath = getEncodedPath(
-                path.concat(`/${viewerConstants.NEW_FILE_NAME}`)
-            );
-
-            router.push({
-                pathname: `${baseRoutingPath}${encodedPath}`,
-                query: {
-                    type: ResourceTypes.FILE,
-                    createFile: infoTypes.MULTI_INPUT_PATH_LIST,
+                    createFileType: type,
                 },
             });
         },
@@ -150,14 +135,11 @@ export default function DataStore() {
         [baseRoutingPath, router]
     );
 
-    const [details, setDetails] = useState(null);
-    const [errorObject, setErrorObject] = useState(null);
-
     const { isFetching: detailsLoading } = useQuery({
-        queryKey: [DATA_DETAILS_QUERY_KEY, { paths: [resourcePath] }],
+        queryKey: [DATA_DETAILS_FROM_PAGE_QUERY_KEY, { paths: [resourcePath] }],
         queryFn: getResourceDetails,
         config: {
-            enabled: viewMetadata,
+            enabled: (viewMetadata || isFile) && !createFileType,
             onSuccess: (resp) => {
                 setDetails(resp?.paths[resourcePath]);
             },
@@ -180,10 +162,13 @@ export default function DataStore() {
             <FileViewer
                 resourceId={resourceId}
                 path={resourcePath}
-                createFile={createFile}
+                createFileType={createFileType}
                 baseId="data.viewer"
                 handlePathChange={handlePathChange}
                 onNewFileSaved={onNewFileSaved}
+                details={details}
+                detailsLoading={detailsLoading}
+                detailsError={errorObject}
             />
         );
     }
@@ -193,8 +178,7 @@ export default function DataStore() {
             path={resourcePath}
             handlePathChange={handlePathChange}
             baseId="data"
-            onCreateHTFileSelected={onCreateHTFileSelected}
-            onCreateMultiInputFileSelected={onCreateMultiInputFileSelected}
+            onCreateFileSelected={onCreateFileSelected}
             page={selectedPage}
             rowsPerPage={selectedRowsPerPage}
             order={selectedOrder}

@@ -71,9 +71,9 @@ export default {
     JAVA_PATTERN_DOC:
         "https://docs.oracle.com/javase/9/docs/api/java/util/regex/Pattern.html",
     URL_REGEX: /^(?:ftp|FTP|HTTPS?|https?):\/\/[^/]+\.[^/]+.*/i,
-    EMAIL_REGEX: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    DE_FAQ:
-        "https://learning.cyverse.org/projects/faq/en/latest/Discovery-environment-faq.html",
+    EMAIL_REGEX:
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    DE_FAQ: "https://learning.cyverse.org/projects/faq/en/latest/Discovery-environment-faq.html",
     DE_GUIDE:
         "https://learning.cyverse.org/projects/cyverse-de2-guide/en/latest/",
     CYVERSE_LC: "https://learning.cyverse.org/en/latest/",

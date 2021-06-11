@@ -62,9 +62,8 @@ const GotoOutputFolderButton = React.forwardRef((props, ref) => {
 
 function AnalysisCustomAction(props) {
     const { outputFolderPath } = props;
-    const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
-        outputFolderPath
-    );
+    const [outputFolderHref, outputFolderAs] =
+        useGotoOutputFolderLink(outputFolderPath);
     return (
         <Link href={outputFolderHref} as={outputFolderAs} passHref>
             <GotoOutputFolderButton />

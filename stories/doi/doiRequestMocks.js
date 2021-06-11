@@ -24,16 +24,14 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/staging/Carolyn_Lawrence_Dill_GOMAP_Grape_Genoscope_12x_January_2021.r1",
+                path: "/iplant/home/shared/commons_repo/staging/Carolyn_Lawrence_Dill_GOMAP_Grape_Genoscope_12x_January_2021.r1",
                 "share-count": 24,
                 "date-created": 1611178542000,
                 permission: "own",
                 "date-modified": 1611326493000,
                 type: "dir",
                 "dir-count": 4,
-                label:
-                    "Carolyn_Lawrence_Dill_GOMAP_Grape_Genoscope_12x_January_2021.r1",
+                label: "Carolyn_Lawrence_Dill_GOMAP_Grape_Genoscope_12x_January_2021.r1",
                 id: "757ad206-5b67-11eb-93a9-90e2ba675364",
                 "file-count": 1,
             },
@@ -49,8 +47,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/MartinezMeyer_et_al_DivDist_2021",
+                path: "/iplant/home/shared/commons_repo/curated/MartinezMeyer_et_al_DivDist_2021",
                 "share-count": 13,
                 "date-created": 1607728442000,
                 permission: "own",
@@ -73,8 +70,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/Tirado_HyperspecSaltStressExp_2019",
+                path: "/iplant/home/shared/commons_repo/curated/Tirado_HyperspecSaltStressExp_2019",
                 "share-count": 12,
                 "date-created": 1607377986000,
                 permission: "own",
@@ -96,8 +92,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/Copetti_Norin61_Fhb1_2020",
+                path: "/iplant/home/shared/commons_repo/curated/Copetti_Norin61_Fhb1_2020",
                 "share-count": 12,
                 "date-created": 1605696627000,
                 permission: "own",
@@ -120,8 +115,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/Varabyou_RNAseqNoise_2020",
+                path: "/iplant/home/shared/commons_repo/curated/Varabyou_RNAseqNoise_2020",
                 "share-count": 12,
                 "date-created": 1607721498000,
                 permission: "own",
@@ -144,8 +138,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/G2F_Planting_Season_2015_v2",
+                path: "/iplant/home/shared/commons_repo/curated/G2F_Planting_Season_2015_v2",
                 "share-count": 12,
                 "date-created": 1607455626000,
                 permission: "own",
@@ -168,8 +161,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/Volpato_etal_2020_DPM_Soybeans",
+                path: "/iplant/home/shared/commons_repo/curated/Volpato_etal_2020_DPM_Soybeans",
                 "share-count": 12,
                 "date-created": 1604948374000,
                 permission: "own",
@@ -192,8 +184,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/UF_resende_Sweet_corn_2020",
+                path: "/iplant/home/shared/commons_repo/curated/UF_resende_Sweet_corn_2020",
                 "share-count": 12,
                 "date-created": 1602096191000,
                 permission: "own",
@@ -238,8 +229,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/Cimen_Jensen_TrnaThermometer_Sep2020",
+                path: "/iplant/home/shared/commons_repo/curated/Cimen_Jensen_TrnaThermometer_Sep2020",
                 "share-count": 12,
                 "date-created": 1600706634000,
                 permission: "own",
@@ -262,8 +252,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/EHTC_MonitoringM87_Sep2020",
+                path: "/iplant/home/shared/commons_repo/curated/EHTC_MonitoringM87_Sep2020",
                 "share-count": 12,
                 "date-created": 1600727575000,
                 permission: "own",
@@ -285,8 +274,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/Tran_UpperCO_simulation_Sep2020",
+                path: "/iplant/home/shared/commons_repo/curated/Tran_UpperCO_simulation_Sep2020",
                 "share-count": 21,
                 "date-created": 1580255683000,
                 permission: "own",
@@ -309,8 +297,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/JZhang_LCondon_CONUS_Topography_Sep2020",
+                path: "/iplant/home/shared/commons_repo/curated/JZhang_LCondon_CONUS_Topography_Sep2020",
                 "share-count": 12,
                 "date-created": 1599942035000,
                 permission: "own",
@@ -333,8 +320,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/Reicher_PooledProteinTagging_2020",
+                path: "/iplant/home/shared/commons_repo/curated/Reicher_PooledProteinTagging_2020",
                 "share-count": 12,
                 "date-created": 1600172773000,
                 permission: "own",
@@ -357,8 +343,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/GenomesToFields_G2F_Indigo_Microbiome_Data_2017-2018 ",
+                path: "/iplant/home/shared/commons_repo/curated/GenomesToFields_G2F_Indigo_Microbiome_Data_2017-2018 ",
                 "share-count": 12,
                 "date-created": 1598446439000,
                 permission: "own",
@@ -403,8 +388,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/iVirus/Gregory_and_Zablocki_GVD_Jul2020",
+                path: "/iplant/home/shared/iVirus/Gregory_and_Zablocki_GVD_Jul2020",
                 "share-count": 19,
                 "date-created": 1595497513000,
                 permission: "own",
@@ -450,16 +434,14 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/Bucksch_Cassava-Supplemental-Material-Plants-Peope-Planet_6-9-2020",
+                path: "/iplant/home/shared/commons_repo/curated/Bucksch_Cassava-Supplemental-Material-Plants-Peope-Planet_6-9-2020",
                 "share-count": 8,
                 "date-created": 1587644657000,
                 permission: "own",
                 "date-modified": 1592262113000,
                 type: "dir",
                 "dir-count": 0,
-                label:
-                    "Bucksch_Cassava-Supplemental-Material-Plants-Peope-Planet_6-9-2020",
+                label: "Bucksch_Cassava-Supplemental-Material-Plants-Peope-Planet_6-9-2020",
                 id: "59f8cdac-855d-11ea-9117-90e2ba675364",
                 "file-count": 4,
             },
@@ -475,8 +457,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/Murray_G2F_UAV_Maize_2018",
+                path: "/iplant/home/shared/commons_repo/curated/Murray_G2F_UAV_Maize_2018",
                 "share-count": 8,
                 "date-created": 1583359431000,
                 permission: "own",
@@ -498,8 +479,7 @@ const requests = {
         },
         {
             folder: {
-                path:
-                    "/iplant/home/shared/commons_repo/curated/QiuyueChen_Teosinte_Maize_SNP_May2020",
+                path: "/iplant/home/shared/commons_repo/curated/QiuyueChen_Teosinte_Maize_SNP_May2020",
                 "share-count": 8,
                 "date-created": 1589489875000,
                 permission: "own",
@@ -544,8 +524,7 @@ const requestDetails = {
         },
     ],
     folder: {
-        path:
-            "/iplant/home/shared/commons_repo/staging/2.6TopHat2SE-Test-2016-05-18-16-18-43.2",
+        path: "/iplant/home/shared/commons_repo/staging/2.6TopHat2SE-Test-2016-05-18-16-18-43.2",
         "share-count": 0,
         "date-created": 1606779063000,
         permission: "own",

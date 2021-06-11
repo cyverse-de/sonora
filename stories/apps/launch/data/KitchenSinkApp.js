@@ -32,8 +32,7 @@ export default {
                     type: "FileInput",
                     validators: [],
                     label: "Input File Label",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_177aaf4a-5a83-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_177aaf4a-5a83-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     defaultValue: {
                         path: "/iplant/home/psarando/demo.txt",
@@ -50,8 +49,7 @@ export default {
                     type: "FolderInput",
                     validators: [],
                     label: "Input Folder",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_177c4440-5a83-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_177c4440-5a83-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     defaultValue: {
                         path: "/iplant/home/psarando/ecoli",
@@ -71,8 +69,7 @@ export default {
                     type: "MultiFileSelector",
                     validators: [],
                     label: "Multiple Input Files",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_177cd7b6-5a83-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_177cd7b6-5a83-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     defaultValue: {
                         path: [
@@ -96,10 +93,8 @@ export default {
                     name: "",
                     type: "Info",
                     validators: [],
-                    label:
-                        "<h4>Info Text!</h4>\nDoes <b>HTML</b> display?\n:sparkles: `Markdown` **now** _supported_ :tada:",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_177d78f6-5a83-11ea-9e38-008cfa5ae621",
+                    label: "<h4>Info Text!</h4>\nDoes <b>HTML</b> display?\n:sparkles: `Markdown` **now** _supported_ :tada:",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_177d78f6-5a83-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     required: false,
                 },
@@ -120,8 +115,7 @@ export default {
                         },
                     ],
                     label: "Single-line Text",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_8a4cf0fa-5a83-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_8a4cf0fa-5a83-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "defaultxt",
                     required: true,
@@ -134,8 +128,7 @@ export default {
                     type: "MultiLineText",
                     validators: [],
                     label: "Multi-line Text",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_81301b9e-5a85-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_81301b9e-5a85-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "multi\nline\ntext",
                     required: false,
@@ -148,8 +141,7 @@ export default {
                     type: "Flag",
                     validators: [],
                     label: "Checkbox",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_813057d0-5a85-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_813057d0-5a85-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     defaultValue: true,
                     required: false,
@@ -162,8 +154,7 @@ export default {
                     type: "Flag",
                     validators: [],
                     label: "Checkbox args without values",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_931784bc-5a91-11ea-bde0-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_931784bc-5a91-11ea-bde0-008cfa5ae621",
                     isVisible: true,
                     defaultValue: true,
                     required: false,
@@ -176,8 +167,7 @@ export default {
                     type: "Flag",
                     validators: [],
                     label: "Checkbox checked arg only",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_d022466c-5a91-11ea-bcab-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_d022466c-5a91-11ea-bcab-008cfa5ae621",
                     isVisible: true,
                     defaultValue: true,
                     required: false,
@@ -190,8 +180,7 @@ export default {
                     type: "Flag",
                     validators: [],
                     label: "Checkbox unchecked arg only",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_eddfb202-5a91-11ea-bcab-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_eddfb202-5a91-11ea-bcab-008cfa5ae621",
                     isVisible: true,
                     defaultValue: false,
                     required: false,
@@ -204,8 +193,7 @@ export default {
                     type: "EnvironmentVariable",
                     validators: [],
                     label: "Environment Variable",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_58d5a140-5a86-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_58d5a140-5a86-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "envvar",
                     required: true,
@@ -231,8 +219,7 @@ export default {
                         },
                     ],
                     label: "Integer with validations",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_58d5fa32-5a86-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_58d5fa32-5a86-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     defaultValue: 3,
                     required: true,
@@ -258,8 +245,7 @@ export default {
                         },
                     ],
                     label: "Decimal with validation",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_a54462d2-5a86-11ea-9e38-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_a54462d2-5a86-11ea-9e38-008cfa5ae621",
                     isVisible: true,
                     defaultValue: 1.23,
                     required: true,
@@ -308,8 +294,7 @@ export default {
                     type: "TextSelection",
                     validators: [],
                     label: "Required Text List",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_abbde28e-5ce1-11ea-8af3-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_abbde28e-5ce1-11ea-8af3-008cfa5ae621",
                     isVisible: true,
                     defaultValue: {
                         isDefault: true,
@@ -349,8 +334,7 @@ export default {
                     type: "TextSelection",
                     validators: [],
                     label: "Optional List",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_e16d4ad2-5ce1-11ea-8af3-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_e16d4ad2-5ce1-11ea-8af3-008cfa5ae621",
                     isVisible: true,
                     required: false,
                 },
@@ -376,8 +360,7 @@ export default {
                     type: "TextSelection",
                     validators: [],
                     label: "Forced Option List",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_072d3f52-5ce2-11ea-8af3-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_072d3f52-5ce2-11ea-8af3-008cfa5ae621",
                     isVisible: true,
                     defaultValue: {
                         isDefault: true,
@@ -424,8 +407,7 @@ export default {
                     type: "IntegerSelection",
                     validators: [],
                     label: "Integer List",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_e9ddc376-5ce2-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_e9ddc376-5ce2-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     defaultValue: {
                         isDefault: true,
@@ -465,8 +447,7 @@ export default {
                     type: "DoubleSelection",
                     validators: [],
                     label: "Decimal List",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_e9de4576-5ce2-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_e9de4576-5ce2-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     required: false,
                 },
@@ -486,8 +467,7 @@ export default {
                     type: "FileOutput",
                     validators: [],
                     label: "Output File by tool",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_59f5f372-5ce3-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_59f5f372-5ce3-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "tool.out",
                     required: true,
@@ -500,8 +480,7 @@ export default {
                     type: "FolderOutput",
                     validators: [],
                     label: "Output Folder",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_d128d8a6-5ce3-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_d128d8a6-5ce3-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "outputs",
                     required: false,
@@ -514,8 +493,7 @@ export default {
                     type: "MultiFileOutput",
                     validators: [],
                     label: "Multi-file Output",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_d129746e-5ce3-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_d129746e-5ce3-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     defaultValue: "*.txt",
                     required: false,
@@ -537,24 +515,21 @@ export default {
                         id: "e38b6fae-2e4b-4217-8c1f-6badea3ff7fc",
                         last_modified_by: "vaughn@iplantcollaborative.org",
                         name: "Canis lupus familiaris [Dog] (Ensembl 14_67)",
-                        path:
-                            "/data2/collections/genomeservices/1.0.0/14_67/Canis_lupus_familiaris.CanFam_2.0/de_support/",
+                        path: "/data2/collections/genomeservices/1.0.0/14_67/Canis_lupus_familiaris.CanFam_2.0/de_support/",
                         created_on: "1346948048000",
                         last_modified_on: "1378823110000",
                     },
                     type: "ReferenceGenome",
                     validators: [],
                     label: "Reference Genome",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_d12a1af4-5ce3-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_d12a1af4-5ce3-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     defaultValue: {
                         created_by: "<public>",
                         id: "e38b6fae-2e4b-4217-8c1f-6badea3ff7fc",
                         last_modified_by: "vaughn@iplantcollaborative.org",
                         name: "Canis lupus familiaris [Dog] (Ensembl 14_67)",
-                        path:
-                            "/data2/collections/genomeservices/1.0.0/14_67/Canis_lupus_familiaris.CanFam_2.0/de_support/",
+                        path: "/data2/collections/genomeservices/1.0.0/14_67/Canis_lupus_familiaris.CanFam_2.0/de_support/",
                         created_on: "1346948048000",
                         last_modified_on: "1378823110000",
                     },
@@ -569,24 +544,21 @@ export default {
                         id: "b7d3e1b7-e1f8-42cb-86b2-4f85e329e42a",
                         last_modified_by: "vaughn@iplantcollaborative.org",
                         name: "Theobroma cacao [Cocoa bean] (Phytozome 9.0)",
-                        path:
-                            "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Theobroma_cacao.Matina_1-6/de_support/",
+                        path: "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Theobroma_cacao.Matina_1-6/de_support/",
                         created_on: "1382790214000",
                         last_modified_on: "1382790214000",
                     },
                     type: "ReferenceSequence",
                     validators: [],
                     label: "Reference Sequence",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_d12a9a88-5ce3-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_d12a9a88-5ce3-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     defaultValue: {
                         created_by: "vaughn@iplantcollaborative.org",
                         id: "b7d3e1b7-e1f8-42cb-86b2-4f85e329e42a",
                         last_modified_by: "vaughn@iplantcollaborative.org",
                         name: "Theobroma cacao [Cocoa bean] (Phytozome 9.0)",
-                        path:
-                            "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Theobroma_cacao.Matina_1-6/de_support/",
+                        path: "/data2/collections/genomeservices/1.0.0/phytozome/9.0/Theobroma_cacao.Matina_1-6/de_support/",
                         created_on: "1382790214000",
                         last_modified_on: "1382790214000",
                     },
@@ -601,24 +573,21 @@ export default {
                         id: "41149e71-4328-4391-b1d2-25fdbdca5a54",
                         last_modified_by: "vaughn@iplantcollaborative.org",
                         name: "Felis catus [Domestic cat] (Ensembl 14_67)",
-                        path:
-                            "/data2/collections/genomeservices/1.0.0/14_67/Felis_catus.CAT/de_support/",
+                        path: "/data2/collections/genomeservices/1.0.0/14_67/Felis_catus.CAT/de_support/",
                         created_on: "1346948048000",
                         last_modified_on: "1378823157000",
                     },
                     type: "ReferenceAnnotation",
                     validators: [],
                     label: "Reference Annotation",
-                    id:
-                        "17794ff6-5a83-11ea-9e38-008cfa5ae621_d12b1f1c-5ce3-11ea-aa6d-008cfa5ae621",
+                    id: "17794ff6-5a83-11ea-9e38-008cfa5ae621_d12b1f1c-5ce3-11ea-aa6d-008cfa5ae621",
                     isVisible: true,
                     defaultValue: {
                         created_by: "<public>",
                         id: "41149e71-4328-4391-b1d2-25fdbdca5a54",
                         last_modified_by: "vaughn@iplantcollaborative.org",
                         name: "Felis catus [Domestic cat] (Ensembl 14_67)",
-                        path:
-                            "/data2/collections/genomeservices/1.0.0/14_67/Felis_catus.CAT/de_support/",
+                        path: "/data2/collections/genomeservices/1.0.0/14_67/Felis_catus.CAT/de_support/",
                         created_on: "1346948048000",
                         last_modified_on: "1378823157000",
                     },

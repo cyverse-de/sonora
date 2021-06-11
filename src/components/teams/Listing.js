@@ -151,22 +151,20 @@ function Listing(props) {
         },
     });
 
-    const {
-        isFetching: fetchSearchResults,
-        error: searchError,
-    } = useTeamsSearch(
-        [SEARCH_TEAMS_QUERY, { searchTerm }],
-        searchTerm && searchTerm.length > 2,
-        (results) => {
-            const teams = results.groups;
-            trackIntercomEvent(IntercomEvents.SEARCHED_TEAMS, {
-                search: searchTerm,
-                total: teams.length,
-            });
-            setData(teams);
-            updateResultCount && updateResultCount(teams.length);
-        }
-    );
+    const { isFetching: fetchSearchResults, error: searchError } =
+        useTeamsSearch(
+            [SEARCH_TEAMS_QUERY, { searchTerm }],
+            searchTerm && searchTerm.length > 2,
+            (results) => {
+                const teams = results.groups;
+                trackIntercomEvent(IntercomEvents.SEARCHED_TEAMS, {
+                    search: searchTerm,
+                    total: teams.length,
+                });
+                setData(teams);
+                updateResultCount && updateResultCount(teams.length);
+            }
+        );
 
     const loading = isQueryLoading([
         fetchMyTeams,

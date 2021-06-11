@@ -347,10 +347,8 @@ function GlobalSearchField(props) {
     const [dataSearchKey, setDataSearchKey] = useState(DATA_SEARCH_QUERY_KEY);
     const [teamSearchKey, setTeamSearchKey] = useState([SEARCH_TEAMS_QUERY]);
 
-    const [
-        analysesSearchQueryEnabled,
-        setAnalysesSearchQueryEnabled,
-    ] = useState(false);
+    const [analysesSearchQueryEnabled, setAnalysesSearchQueryEnabled] =
+        useState(false);
     const [appsSearchQueryEnabled, setAppsSearchQueryEnabled] = useState(false);
     const [dataSearchQueryEnabled, setDataSearchQueryEnabled] = useState(false);
     const [teamSearchQueryEnabled, setTeamSearchQueryEnabled] = useState(false);
@@ -396,44 +394,42 @@ function GlobalSearchField(props) {
         setFilter(selectedFilter);
     }, [selectedFilter]);
 
-    const {
-        isFetching: searchingAnalyses,
-        error: analysesSearchError,
-    } = useAnalysesSearch(
-        analysesSearchKey,
-        analysesSearchQueryEnabled,
-        (results) => {
-            if (results && results.analyses?.length > 0) {
-                const analyses = results.analyses;
-                analyses.forEach((analysis) => {
-                    analysis.resultType = {
-                        type: t("analyses"),
-                        id: searchConstants.ANALYSES,
-                    };
-                });
+    const { isFetching: searchingAnalyses, error: analysesSearchError } =
+        useAnalysesSearch(
+            analysesSearchKey,
+            analysesSearchQueryEnabled,
+            (results) => {
+                if (results && results.analyses?.length > 0) {
+                    const analyses = results.analyses;
+                    analyses.forEach((analysis) => {
+                        analysis.resultType = {
+                            type: t("analyses"),
+                            id: searchConstants.ANALYSES,
+                        };
+                    });
 
-                if (
-                    filter === searchConstants.ANALYSES &&
-                    !singleSearchOption
-                ) {
-                    setOptions([
-                        ...options,
-                        ...analyses,
-                        viewAllAnalysesOptions,
-                        viewAllAppOptions,
-                        viewAllDataOptions,
-                        viewAllTeamOptions,
-                    ]);
-                } else {
-                    setOptions([
-                        ...options,
-                        ...analyses,
-                        viewAllAnalysesOptions,
-                    ]);
+                    if (
+                        filter === searchConstants.ANALYSES &&
+                        !singleSearchOption
+                    ) {
+                        setOptions([
+                            ...options,
+                            ...analyses,
+                            viewAllAnalysesOptions,
+                            viewAllAppOptions,
+                            viewAllDataOptions,
+                            viewAllTeamOptions,
+                        ]);
+                    } else {
+                        setOptions([
+                            ...options,
+                            ...analyses,
+                            viewAllAnalysesOptions,
+                        ]);
+                    }
                 }
             }
-        }
-    );
+        );
 
     const { isFetching: searchingApps, error: appsSearchError } = useAppsSearch(
         appsSearchKey,
@@ -494,32 +490,30 @@ function GlobalSearchField(props) {
         }
     );
 
-    const {
-        isFetching: searchingTeams,
-        error: teamSearchError,
-    } = useTeamsSearch(teamSearchKey, teamSearchQueryEnabled, (results) => {
-        if (results && results.groups?.length > 0) {
-            const teams = results.groups;
-            teams.forEach((team) => {
-                team.resultType = {
-                    type: t("teams"),
-                    id: searchConstants.TEAMS,
-                };
-            });
-            if (filter === searchConstants.TEAMS && !singleSearchOption) {
-                setOptions([
-                    ...options,
-                    ...teams,
-                    viewAllTeamOptions,
-                    viewAllDataOptions,
-                    viewAllAppOptions,
-                    viewAllAnalysesOptions,
-                ]);
-            } else {
-                setOptions([...options, ...teams, viewAllTeamOptions]);
+    const { isFetching: searchingTeams, error: teamSearchError } =
+        useTeamsSearch(teamSearchKey, teamSearchQueryEnabled, (results) => {
+            if (results && results.groups?.length > 0) {
+                const teams = results.groups;
+                teams.forEach((team) => {
+                    team.resultType = {
+                        type: t("teams"),
+                        id: searchConstants.TEAMS,
+                    };
+                });
+                if (filter === searchConstants.TEAMS && !singleSearchOption) {
+                    setOptions([
+                        ...options,
+                        ...teams,
+                        viewAllTeamOptions,
+                        viewAllDataOptions,
+                        viewAllAppOptions,
+                        viewAllAnalysesOptions,
+                    ]);
+                } else {
+                    setOptions([...options, ...teams, viewAllTeamOptions]);
+                }
             }
-        }
-    });
+        });
 
     const handleChange = (event, value, reason) => {
         if (reason === "clear" || value === "") {

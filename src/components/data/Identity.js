@@ -17,13 +17,8 @@ import {
 } from "@material-ui/core";
 
 function Identity(props) {
-    const {
-        avatar,
-        primaryText,
-        secondaryText,
-        secondaryAction,
-        ...rest
-    } = props;
+    const { avatar, primaryText, secondaryText, secondaryAction, ...rest } =
+        props;
     return (
         <ListItem {...rest}>
             <ListItemAvatar>{avatar}</ListItemAvatar>

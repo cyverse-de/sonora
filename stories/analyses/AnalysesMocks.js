@@ -140,8 +140,7 @@ export const params = {
             param_name: "Select Reference Annotations",
             param_value: {
                 value: {
-                    path:
-                        "/data2/collections/genomeservices/1.0.0/24_77/Acromyrmex_echinatior/de_support/",
+                    path: "/data2/collections/genomeservices/1.0.0/24_77/Acromyrmex_echinatior/de_support/",
                     last_modified_on: "1426649060000",
                     name: "Acromyrmex_echinatior",
                     value: "Acromyrmex_echinatior",
@@ -164,8 +163,7 @@ export const params = {
             is_default_value: true,
             param_name: "Provide a reference annotation file (GTF/GFF)",
             param_value: {
-                value:
-                    "/iplant/home/shared/iplantcollaborative/example_data/wordcount/SampleText.txt",
+                value: "/iplant/home/shared/iplantcollaborative/example_data/wordcount/SampleText.txt",
             },
             is_visible: true,
             full_param_id:
@@ -366,8 +364,7 @@ export const params = {
             is_default_value: true,
             param_name: "Masking file containing transcripts to ignore (.GTF)",
             param_value: {
-                value:
-                    "/iplant/home/shared/cyverse_training/example/coffee_cake.txt",
+                value: "/iplant/home/shared/cyverse_training/example/coffee_cake.txt",
             },
             is_visible: true,
             full_param_id:
@@ -632,8 +629,7 @@ export const params = {
             param_name: "Select a reference genome from the list",
             param_value: {
                 value: {
-                    path:
-                        "/data2/collections/genomeservices/1.0.0/24_77/Acromyrmex_echinatior/de_support/",
+                    path: "/data2/collections/genomeservices/1.0.0/24_77/Acromyrmex_echinatior/de_support/",
                     last_modified_on: "1426649060000",
                     name: "Acromyrmex_echinatior",
                     value: "Acromyrmex_echinatior",

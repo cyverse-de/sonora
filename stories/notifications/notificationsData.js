@@ -17,8 +17,7 @@ const notificationsData = {
             message: {
                 id: "567DBB14-508D-47B2-A8B2-3E1415582908",
                 timestamp: "1532985820327",
-                text:
-                    "DOI Request Submitted for Cut_Columns_analysis1-2018-03-28-22-16-03.5",
+                text: "DOI Request Submitted for Cut_Columns_analysis1-2018-03-28-22-16-03.5",
             },
             seen: true,
             deleted: false,
@@ -72,8 +71,7 @@ const notificationsData = {
             message: {
                 id: "CD811004-32B7-4BA0-A36D-619880B26F4E",
                 timestamp: "1532547589758",
-                text:
-                    'Ipc Dev has requested to join team "sriram: testsriram "',
+                text: 'Ipc Dev has requested to join team "sriram: testsriram "',
             },
             seen: true,
             deleted: false,
@@ -600,8 +598,7 @@ const notificationsData = {
             message: {
                 id: "F74B592F-AA8D-4C7B-8458-3AF1D34ED4A2",
                 timestamp: "1528764376984",
-                text:
-                    "julianp has shared the following file(s)/folder(s) with you: atmosphere_user_videos",
+                text: "julianp has shared the following file(s)/folder(s) with you: atmosphere_user_videos",
             },
             seen: true,
             deleted: false,

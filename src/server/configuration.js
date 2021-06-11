@@ -104,6 +104,7 @@ const validate = () => {
     // 3rd Party Service URL/Endpoint Settings
     validateConfigSetting("services.ontology_lookup_service.base");
     validateConfigSetting("services.unified_astronomy_thesaurus.base");
+    validateConfigSetting("services.user_portal_api.base");
 };
 
 validate();
@@ -278,3 +279,8 @@ export const olsURL = config.get("services.ontology_lookup_service.base");
  * @type {string}
  */
 export const uatURL = config.get("services.unified_astronomy_thesaurus.base");
+
+/**
+ * The base URL for the User Portal's API
+ */
+export const userPortalURL = config.get("services.user_portal_api.base");

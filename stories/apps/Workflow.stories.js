@@ -1,14 +1,42 @@
 import React from "react";
 
-import { workflowDescription } from "./WorkflowMocks";
+import {
+    concatTasksMock,
+    wordCountTasksMock,
+    workflowDescription,
+} from "./WorkflowMocks";
 
-import { mockErrorResponse } from "../axiosMock";
+import { mockAxios, mockErrorResponse, errorResponseJSON } from "../axiosMock";
+import { appsSearchResp } from "../search/searchMocks";
 
 import WorkflowEditor from "components/apps/workflows/Editor";
 import ids from "components/apps/workflows/ids";
 import NewPipelineDefaults from "components/apps/workflows/NewPipelineDefaults";
 
+const initAxiosMocks = () => {
+    mockAxios.reset();
+
+    mockAxios.onGet(/\/api\/apps\/.*\/tasks/).replyOnce(500, errorResponseJSON);
+
+    mockAxios
+        .onGet("/api/apps/de/67d15627-22c5-42bd-8daf-9af5deecceab/tasks")
+        .reply((config) => {
+            console.log("GET Word Count Tasks", config.url);
+            return [200, wordCountTasksMock];
+        });
+    mockAxios
+        .onGet("/api/apps/de/77830f32-084a-11e8-a871-008cfa5ae621/tasks")
+        .reply((config) => {
+            console.log("GET Concatenate Tasks", config.url);
+            return [200, concatTasksMock];
+        });
+
+    mockAxios.onGet(/\/api\/apps\?.*/).reply(200, appsSearchResp);
+};
+
 export const NewWorkflow = (props) => {
+    initAxiosMocks();
+
     return (
         <WorkflowEditor
             baseId={ids.WORKFLOW_EDITOR_FORM}
@@ -19,6 +47,8 @@ export const NewWorkflow = (props) => {
 
 export const SimplePipeline = (props) => {
     const { loading, "Loading Error": loadingError } = props;
+
+    initAxiosMocks();
 
     return (
         <WorkflowEditor

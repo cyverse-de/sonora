@@ -1,4 +1,5 @@
 {
+    "appTaskFetchError": "Unable to lookup inputs and outputs for \"{{appName}}\". Please try again.",
     "confirmDeleteStepText": "This action cannot be undone.",
     "confirmDeleteStepTitle": "Delete Step?",
     "createWorkflow": "Create Workflow: {{name}}",

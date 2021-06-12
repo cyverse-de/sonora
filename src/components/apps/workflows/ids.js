@@ -9,6 +9,7 @@ export default {
     WORKFLOW_NAME: "name",
 
     BUTTONS: {
+        ADD_APPS: "addAppsBtn",
         BACK: "backBtn",
         DELETE_BTN: "delete",
         MOVE_UP_BTN: "moveUpBtn",

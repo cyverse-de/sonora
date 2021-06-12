@@ -76,7 +76,7 @@ function InputOutputMapping(props) {
 
         return (
             <StepMapping
-                key={step.task_id}
+                key={buildID(index, step.task_id)}
                 baseId={baseId}
                 step={step}
                 index={index}

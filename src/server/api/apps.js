@@ -193,6 +193,16 @@ export default function appsRouter() {
         })
     );
 
+    logger.info("adding the GET /apps/:systemId/:appId/tasks handler");
+    api.get(
+        "/apps/:systemId/:appId/tasks",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/:systemId/:appId/tasks",
+        })
+    );
+
     logger.info("adding the GET /apps/:systemId/:appId/ui handler");
     api.get(
         "/apps/:systemId/:appId/ui",

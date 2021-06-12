@@ -425,7 +425,7 @@ export const dataSearchResp = {
     ],
 };
 export const appsSearchResp = {
-    total: 4,
+    total: 6,
     apps: [
         {
             integration_date: "2015-08-04T16:30:16.000Z",
@@ -531,6 +531,76 @@ export const appsSearchResp = {
             integrator_email: "edwin@cyverse.org",
             app_type: "DE",
             rating: { average: 0, total: 0 },
+        },
+        {
+            integration_date: "2020-11-17T12:23:15.000Z",
+            description:
+                "This workflow does mapping using bowtie2 and converts bowtie2 output to sorted and indexed binary files.\n",
+            deleted: false,
+            pipeline_eligibility: {
+                is_valid: false,
+                reason: "Analysis, 33152660-1480-11eb-9ec7-008cfa5ae621, has too many steps for a pipeline.",
+            },
+            is_favorite: false,
+            integrator_name: "REETU TUTEJA",
+            beta: true,
+            permission: "read",
+            isBlessed: false,
+            can_favor: true,
+            disabled: false,
+            can_rate: true,
+            name: "Bowtie2-Map-SortBam Workflow",
+            limitChecks: {
+                canRun: true,
+                results: [],
+            },
+            system_id: "de",
+            is_public: true,
+            id: "33152660-1480-11eb-9ec7-008cfa5ae621",
+            edited_date: "2020-11-17T12:23:15.000Z",
+            step_count: 4,
+            can_run: true,
+            integrator_email: "reetututeja@email.arizona.edu",
+            app_type: "DE",
+            rating: {
+                average: 4.5,
+                total: 2,
+            },
+        },
+        {
+            integration_date: "2018-02-02T22:35:49.000Z",
+            description:
+                "Joins two or more files together head to tail using latest Dockerized version of cat.",
+            deleted: false,
+            pipeline_eligibility: {
+                is_valid: true,
+                reason: "",
+            },
+            is_favorite: true,
+            integrator_name: "rwalls",
+            beta: true,
+            permission: "read",
+            isBlessed: false,
+            can_favor: true,
+            disabled: false,
+            can_rate: true,
+            name: "Concatenate Multiple Files",
+            limitChecks: {
+                canRun: true,
+                results: [],
+            },
+            system_id: "de",
+            is_public: true,
+            id: "77830f32-084a-11e8-a871-008cfa5ae621",
+            edited_date: "2018-02-02T22:35:49.000Z",
+            step_count: 1,
+            can_run: true,
+            integrator_email: "rlwalls2008@gmail.com",
+            app_type: "DE",
+            rating: {
+                average: 5,
+                total: 1,
+            },
         },
     ],
 };

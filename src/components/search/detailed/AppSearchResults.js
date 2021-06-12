@@ -139,7 +139,7 @@ export default function AppSearchResults(props) {
                     )[1];
                     const { t } = useTranslation("common");
                     return (
-                        <Grid spacing={1}>
+                        <Grid container spacing={1}>
                             <Grid item>
                                 <IconButton
                                     id={build(baseId, ids.DETAILS_BUTTON)}

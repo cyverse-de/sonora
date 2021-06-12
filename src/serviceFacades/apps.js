@@ -22,6 +22,7 @@ const APPS_SEARCH_QUERY_KEY = "searchApps";
 const APP_BY_ID_QUERY_KEY = "fetchAppById";
 const APP_DOC_QUERY_KEY = "fetchAppDoc";
 const APP_ELEMENT_INFO_TYPES_QUERY_KEY = "fetchAppElementInfoTypes";
+const APP_TASKS_QUERY_KEY = "fetchAppTasks";
 const APP_UI_QUERY_KEY = "fetchAppUI";
 const APP_PUBLICATION_REQUESTS_QUERY_KEY = "fetchPublicationRequests";
 
@@ -267,6 +268,13 @@ function saveAppDoc({ systemId, appId, documentation }) {
     });
 }
 
+function getAppTasks(_, { systemId, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}/tasks`,
+        method: "GET",
+    });
+}
+
 function getAppUI(_, { systemId, appId }) {
     return callApi({
         endpoint: `/api/apps/${systemId}/${appId}/ui`,
@@ -441,6 +449,7 @@ export {
     getAppDetails,
     getAppElementInfoTypes,
     getAppPermissions,
+    getAppTasks,
     getAppUI,
     appFavorite,
     rateApp,
@@ -465,6 +474,7 @@ export {
     APP_BY_ID_QUERY_KEY,
     APP_DOC_QUERY_KEY,
     APP_ELEMENT_INFO_TYPES_QUERY_KEY,
+    APP_TASKS_QUERY_KEY,
     APP_UI_QUERY_KEY,
     ADMIN_APPS_QUERY_KEY,
     ADMIN_APP_DETAILS_QUERY_KEY,

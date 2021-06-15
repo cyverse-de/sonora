@@ -13,9 +13,11 @@ import TableView from "./TableView";
 import AppsToolbar from "../toolbar/Toolbar";
 import ids from "../ids";
 
-import { build } from "@cyverse-de/ui-lib";
+import { AnnouncerConstants, announce, build } from "@cyverse-de/ui-lib";
 
 import appType from "components/models/AppType";
+
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import DEPagination from "components/utils/DEPagination";
 
 import appsConstants from "../constants";
@@ -30,13 +32,14 @@ import {
     getAppsForAdmin,
     getAppById,
     getAppsInCategory,
+    deleteApp,
     APP_BY_ID_QUERY_KEY,
     ALL_APPS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,
     ADMIN_APPS_QUERY_KEY,
 } from "serviceFacades/apps";
 
-import { useQuery } from "react-query";
+import { queryCache, useMutation, useQuery } from "react-query";
 import { canShare } from "../utils";
 
 import Sharing from "components/sharing";
@@ -90,6 +93,7 @@ function Listing(props) {
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
     const [docDlgOpen, setDocDlgOpen] = useState(false);
     const [qlDlgOpen, setQLDlgOpen] = useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const sharingApps = formatSharedApps(getSelectedApps());
 
@@ -182,6 +186,32 @@ function Listing(props) {
             },
         },
     });
+
+    const [deleteAppMutation, { isLoading: deleteLoading }] = useMutation(
+        deleteApp,
+        {
+            onSuccess: () => {
+                announce({
+                    text: t("appDeleteSuccess", { appName: selectedApp?.name }),
+                    variant: AnnouncerConstants.SUCCESS,
+                });
+
+                setSelected([]);
+
+                if (selectedSystemId && selectedAppId) {
+                    queryCache.invalidateQueries([
+                        APP_BY_ID_QUERY_KEY,
+                        { systemId: selectedSystemId, appId: selectedAppId },
+                    ]);
+                }
+
+                queryCache.invalidateQueries(APPS_IN_CATEGORY_QUERY_KEY);
+            },
+            onError: (error) => {
+                showErrorAnnouncer(t("appDeleteError"), error);
+            },
+        }
+    );
 
     useEffect(() => {
         if (data && data.Location && data.status === 302) {
@@ -359,6 +389,18 @@ function Listing(props) {
         setDetailsOpen(true);
     };
 
+    const handleDelete = () => {
+        setDeleteDialogOpen(true);
+    };
+
+    const confirmDelete = () => {
+        setDeleteDialogOpen(false);
+        deleteAppMutation({
+            systemId: selectedApp?.system_id,
+            appId: selectedApp?.id,
+        });
+    };
+
     const addItemsToBag = useBagAddItems({
         handleError: (error) => {
             showErrorAnnouncer(t("addToBagError"), error);
@@ -437,6 +479,7 @@ function Listing(props) {
                     appInCategoryStatus ||
                     allAppsStatus ||
                     categoryStatus ||
+                    deleteLoading ||
                     appByIdStatus
                 }
                 error={
@@ -453,6 +496,7 @@ function Listing(props) {
                 handleSelectAllClick={handleSelectAllClick}
                 handleCheckboxClick={handleCheckboxClick}
                 handleClick={handleClick}
+                handleDelete={handleDelete}
                 handleRequestSort={handleRequestSort}
                 canShare={shareEnabled}
                 onDetailsSelected={onDetailsSelected}
@@ -516,6 +560,17 @@ function Listing(props) {
                 systemId={selectedApp?.system_id}
                 open={qlDlgOpen}
                 onClose={() => setQLDlgOpen(false)}
+            />
+
+            <ConfirmationDialog
+                open={deleteDialogOpen}
+                baseId={build(ids.DIALOG, ids.DELETE)}
+                onClose={() => setDeleteDialogOpen(false)}
+                onConfirm={confirmDelete}
+                title={t("common:delete")}
+                contentText={t("appDeleteWarning", {
+                    appName: selectedApp?.name,
+                })}
             />
         </>
     );

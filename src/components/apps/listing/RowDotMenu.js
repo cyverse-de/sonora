@@ -14,6 +14,7 @@ import { getHost } from "components/utils/getHost";
 import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
 import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
 import CopyMenuItem from "../menuItems/CopyMenuItem";
+import DeleteMenuItem from "../menuItems/DeleteMenuItem";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DocMenuItem from "../menuItems/DocMenuItem";
 import EditMenuItem from "../menuItems/EditMenuItem";
@@ -33,6 +34,7 @@ function RowDotMenu(props) {
         baseId,
         ButtonProps,
         canShare,
+        handleDelete,
         setSharingDlgOpen,
         onDetailsSelected,
         onDocSelected,
@@ -44,12 +46,18 @@ function RowDotMenu(props) {
     const [userProfile] = useUserProfile();
     const { t } = useTranslation("common");
 
+    const isOwner = hasOwn(app?.permission);
+    const isAppPublic = app?.is_public;
+    const isAppIntegrator =
+        app?.integrator_email === userProfile?.attributes?.email;
+    const isWorkflow = app?.step_count > 1;
+
+    const canPublish = isOwner && !isAppPublic;
+    const canDelete = isOwner && !isAppPublic;
     const canCopy = isReadable(app?.permission);
-    const canPublish = hasOwn(app?.permission);
     const canEdit =
         isWritable(app?.permission) ||
-        (app?.step_count === 1 &&
-            app?.integrator_email === userProfile?.attributes?.email);
+        (isAppPublic && !isWorkflow && isAppIntegrator);
 
     return (
         <>
@@ -124,6 +132,14 @@ function RowDotMenu(props) {
                                 copyLinkToClipboardHandler(t, copyPromise);
                             }}
                         />,
+                        canDelete && (
+                            <DeleteMenuItem
+                                key={build(baseId, ids.DELETE)}
+                                baseId={baseId}
+                                handleDelete={handleDelete}
+                                onClose={onClose}
+                            />
+                        ),
                     ],
                 ]}
             />

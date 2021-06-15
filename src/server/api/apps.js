@@ -71,6 +71,16 @@ export default function appsRouter() {
         })
     );
 
+    logger.info("adding the DELETE /apps/:systemId/:appId handler");
+    api.delete(
+        "/apps/:systemId/:appId",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/apps/:systemId/:appId",
+        })
+    );
+
     logger.info("adding the GET /apps/:systemId/:appId handler");
     api.get(
         "/apps/:systemId/:appId",

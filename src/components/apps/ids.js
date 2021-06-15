@@ -55,6 +55,7 @@ export default {
     FILTER_MENU_ITEM: "filter",
     VIEW_ALL_APPS: "viewAllApps",
     QL_MENU_ITEM: "quickLaunch",
+    DELETE: "delete",
     DOC_MENU_ITEM: "documentation",
     EDIT_MENU_ITEM: "edit",
     QUICK_LAUNCH: {

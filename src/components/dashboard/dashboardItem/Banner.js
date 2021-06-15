@@ -48,6 +48,7 @@ export default function Banner(props) {
                         height={400}
                         width={800}
                         loading="eager"
+                        layout="responsive"
                     />
                 </Grid>
                 <Grid item xs={isMobile ? 12 : 6}>

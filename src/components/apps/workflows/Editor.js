@@ -214,6 +214,7 @@ const WorkflowEditor = (props) => {
             {({
                 handleSubmit,
                 setTouched,
+                setFieldValue,
                 isSubmitting,
                 dirty,
                 touched,
@@ -374,6 +375,7 @@ const WorkflowEditor = (props) => {
                                 <AppOrder
                                     baseId={baseId}
                                     steps={values.steps}
+                                    setFieldValue={setFieldValue}
                                 />
                             ) : activeStepInfo === stepIOMapping ? (
                                 <InputOutputMapping

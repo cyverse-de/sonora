@@ -39,6 +39,51 @@ import {
 import { Add, Delete, ArrowDownward, ArrowUpward } from "@material-ui/icons";
 import { Skeleton } from "@material-ui/lab";
 
+/**
+ * Resets a step's output source `step` value when a step is moved.
+ *
+ * The step's outputs should not be copied into new objects,
+ * otherwise formik and the selection menus will lose track of their references
+ * to the outputs in any inputs that already have them selected.
+ *
+ * @param {Object} step The app step that was moved.
+ * @param {number} newOutputStep The index to which the step was moved.
+ */
+const resetOutputStepNumbers = (step, newOutputStep) => {
+    if (step.task?.outputs?.length) {
+        step.task.outputs.forEach((output) => {
+            output.step = newOutputStep;
+        });
+    }
+};
+
+/**
+ * Clears the input mappings of the given `step`, if those mappings reference
+ * an output of the given `removedStepIndex`.
+ *
+ * @param {function} setFieldValue Formik's setFieldValue callback.
+ * @param {Object} step The step to check for the removed step's outputs.
+ * @param {number} stepIndex The index for the `step` param.
+ * @param {number} removedStepIndex The index of the removed step.
+ */
+const resetInputStepMappings = (
+    setFieldValue,
+    step,
+    stepIndex,
+    removedStepIndex
+) => {
+    if (step.task?.inputs?.length) {
+        step.task.inputs.forEach((input, inputIndex) => {
+            if (input.output.step === removedStepIndex) {
+                setFieldValue(
+                    `steps.${stepIndex}.task.inputs.${inputIndex}.output`,
+                    ""
+                );
+            }
+        });
+    }
+};
+
 const useStyles = makeStyles(styles);
 
 const AppStepActions = (props) => {
@@ -209,7 +254,7 @@ const AppStep = (props) => {
 };
 
 function AppOrder(props) {
-    const { baseId, steps, showErrorAnnouncer } = props;
+    const { baseId, steps, setFieldValue, showErrorAnnouncer } = props;
 
     const [appSearchDrawerOpen, setAppSearchDrawerOpen] = React.useState(false);
     const [confirmDeleteIndex, setConfirmDeleteIndex] = React.useState(-1);
@@ -276,11 +321,36 @@ function AppOrder(props) {
                                 onDelete={() => setConfirmDeleteIndex(index)}
                                 onMoveUp={() => {
                                     if (index > 0) {
+                                        resetInputStepMappings(
+                                            setFieldValue,
+                                            step,
+                                            index,
+                                            index - 1
+                                        );
+
+                                        resetOutputStepNumbers(step, index - 1);
+                                        resetOutputStepNumbers(
+                                            steps[index - 1],
+                                            index
+                                        );
+
                                         arrayHelpers.move(index, index - 1);
                                     }
                                 }}
                                 onMoveDown={() => {
                                     if (index < steps.length - 1) {
+                                        const nextStep = steps[index + 1];
+
+                                        resetInputStepMappings(
+                                            setFieldValue,
+                                            nextStep,
+                                            index + 1,
+                                            index
+                                        );
+
+                                        resetOutputStepNumbers(step, index + 1);
+                                        resetOutputStepNumbers(nextStep, index);
+
                                         arrayHelpers.move(index, index + 1);
                                     }
                                 }}
@@ -291,7 +361,19 @@ function AppOrder(props) {
                             open={confirmDeleteIndex >= 0}
                             onClose={onCloseDeleteConfirm}
                             onConfirm={() => {
+                                steps
+                                    .slice(confirmDeleteIndex)
+                                    .forEach((step, index) => {
+                                        resetInputStepMappings(
+                                            setFieldValue,
+                                            step,
+                                            index,
+                                            confirmDeleteIndex
+                                        );
+                                    });
+
                                 arrayHelpers.remove(confirmDeleteIndex);
+
                                 onCloseDeleteConfirm();
                             }}
                             confirmButtonText={t("common:delete")}

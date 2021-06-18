@@ -12,6 +12,7 @@ import querystring from "querystring";
 import { terrainURL } from "../configuration";
 import logger from "../logging";
 import axiosInstance from "../../common/getAxios";
+import { replaceNamedPathSegments } from "../../common/functions";
 
 /**
  * Returns an Express handler that can proxy most requests to Terrain. Does not handle
@@ -81,16 +82,8 @@ export const call = (
     inStream
 ) => {
     const apiURL = new URL(terrainURL);
-    let updatedPathName = pathname;
 
-    // Replace any named path segments (:variableName) with the
-    // corresponding values
-    if (params) {
-        const keys = Object.keys(params);
-        keys.forEach((key) => {
-            updatedPathName = updatedPathName.replace(`:${key}`, params[key]);
-        });
-    }
+    let updatedPathName = replaceNamedPathSegments(params, pathname);
     apiURL.pathname = path.join(apiURL.pathname, updatedPathName);
 
     if (query) {

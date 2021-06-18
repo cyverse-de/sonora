@@ -63,3 +63,21 @@ export const groupBy = (list, keyFn) => {
         };
     }, {});
 };
+
+/**
+ * Replaces any named segments in an endpoint (e.g. :system-id, :app-id)
+ * with their corresponding values
+ * @param params
+ * @param pathname
+ * @returns {*}
+ */
+export const replaceNamedPathSegments = (params, pathname) => {
+    let updatedPathName = pathname;
+    if (params) {
+        const keys = Object.keys(params);
+        keys.forEach((key) => {
+            updatedPathName = updatedPathName.replace(`:${key}`, params[key]);
+        });
+    }
+    return updatedPathName;
+};

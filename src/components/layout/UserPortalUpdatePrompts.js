@@ -24,6 +24,7 @@ import {
     IconButton,
     Snackbar,
     Typography,
+    makeStyles,
     useTheme,
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
@@ -34,11 +35,16 @@ import { useUserProfile } from "contexts/userProfile";
 import { Trans, useTranslation } from "i18n";
 import ids from "./ids";
 import { usePortalStatus } from "serviceFacades/users";
+import styles from "./styles";
+
+const useStyles = makeStyles(styles);
 
 function UserPortalUpdatePrompts() {
     const [userProfile] = useUserProfile();
+
     const { t } = useTranslation("common");
     const theme = useTheme();
+    const classes = useStyles();
 
     const baseId = ids.USER_PORTAL_UPDATE_DLG;
     const dialogTitleId = build(baseId, ids.DIALOG_TITLE);
@@ -94,6 +100,7 @@ function UserPortalUpdatePrompts() {
                                 ids.LEARN_MORE
                             )}
                             key={ids.LEARN_MORE}
+                            classes={{ root: classes.announcerBtn }}
                         >
                             <Typography>{t("learnMore")}</Typography>
                         </Button>,

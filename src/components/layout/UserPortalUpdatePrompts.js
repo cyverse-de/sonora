@@ -22,17 +22,17 @@ import {
     DialogContentText,
     DialogTitle,
     IconButton,
+    makeStyles,
     Snackbar,
     Typography,
-    makeStyles,
     useTheme,
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
-import { Alert } from "@material-ui/lab";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 import constants from "constants.js";
 import { useUserProfile } from "contexts/userProfile";
-import { Trans, useTranslation } from "i18n";
+import { useTranslation } from "i18n";
 import ids from "./ids";
 import { usePortalStatus } from "serviceFacades/users";
 import styles from "./styles";
@@ -128,13 +128,8 @@ function UserPortalUpdatePrompts() {
                         </IconButton>,
                     ]}
                 >
-                    <Trans
-                        t={t}
-                        i18nKey="userPortalGracePeriodText"
-                        components={{
-                            br: <br />,
-                        }}
-                    />
+                    <AlertTitle>{t("updateAccountInformation")}</AlertTitle>
+                    {t("userPortalGracePeriodText")}
                 </Alert>
             </Snackbar>
 

@@ -14,6 +14,7 @@ const REDIRECT_URI_QUERY_KEY = "fetchRedirectURI";
 const WEBHOOKS_TYPES_QUERY_KEY = "fetchHookTypes";
 const WEBHOOKS_TOPICS_QUERY_KEY = "fetchHookTopics";
 const WEBHOOK_TEST_KEY = "testWebhook";
+const USER_PORTAL_QUERY_KEY = "fetchUserPortalStatus";
 
 const getUserInfo = (key, { userIds }) => {
     const userQuery = userIds.join("&username=");
@@ -127,6 +128,27 @@ function useBootStrap(enabled, onSuccess, onError) {
         },
     });
 }
+
+function getUserPortalStatus(key, userId) {
+    return callApi({
+        endpoint: `/api/users/${userId}/status`,
+        method: "GET",
+    });
+}
+
+function usePortalStatus(userId, onError) {
+    return useQuery({
+        queryKey: [USER_PORTAL_QUERY_KEY, userId],
+        queryFn: getUserPortalStatus,
+        config: {
+            enabled: userId,
+            onError,
+            staleTime: Infinity,
+            cacheTime: Infinity,
+        },
+    });
+}
+
 /**
  * Query to save preferences
  * @param {Function} onSuccessCallback - Callback function to use when query succeeds.
@@ -187,4 +209,5 @@ export {
     getWebhookTypes,
     getWebhookTopics,
     testWebhook,
+    usePortalStatus,
 };

@@ -136,5 +136,9 @@ const LayoutStyles = (theme) => ({
     nested: {
         paddingLeft: theme.spacing(4),
     },
+
+    announcerBtn: {
+        marginRight: theme.spacing(1),
+    },
 });
 export default LayoutStyles;

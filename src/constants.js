@@ -26,6 +26,8 @@ export default {
     WS_PROTOCOL: "ws://",
     WSS_PROTOCOL: "wss://",
     USER_PORTAL: "https://user.cyverse.org/register",
+    USER_PORTAL_FAQ:
+        "https://learning.cyverse.org/projects/faq/en/latest/account-portal-faq.html",
     IMPORT_IRODS_METADATA_LINK:
         "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027072/Using+Metadata+in+the+DE#UsingMetadataintheDE-irodsMetadataImport",
     IPLANT: "iplantcollaborative",

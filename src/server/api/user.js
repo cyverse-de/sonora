@@ -12,6 +12,8 @@ import logger from "../logging";
 
 import axiosInstance from "../../common/getAxios";
 import { handler as terrainHandler } from "./terrain";
+import { handler as cyRealmHandler } from "./cyverseRealm";
+import { userPortalURL } from "../configuration";
 
 const WEBHOOK_TEST_BODY = { text: "This is a test message from DE." };
 
@@ -152,6 +154,17 @@ export default function userRouter() {
                 res.send(e.response?.data);
             });
     });
+
+    logger.info("adding the User Portal's GET /users/:user/status handler");
+    api.get(
+        "/users/:user/status",
+        auth.authnTokenMiddleware,
+        cyRealmHandler({
+            method: "GET",
+            url: userPortalURL,
+            pathname: "/users/:user/status",
+        })
+    );
 
     return api;
 }

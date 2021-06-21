@@ -60,6 +60,7 @@ import { useNotifications } from "contexts/pushNotifications";
 import { useRunningViceJobs } from "serviceFacades/analyses";
 import { isViceNotification } from "components/notifications/utils";
 import analysisStatus from "components/models/analysisStatus";
+import UserPortalUpdatePrompts from "./UserPortalUpdatePrompts";
 
 // hidden in xsDown
 const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
@@ -451,6 +452,7 @@ function DEAppBar(props) {
                     }
                 />
             </Popover>
+            <UserPortalUpdatePrompts />
             <main
                 className={clsx(classes.content, {
                     [classes.contentShift]: open,

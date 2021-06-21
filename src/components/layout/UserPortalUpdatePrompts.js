@@ -29,6 +29,7 @@ import {
 import { Close } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
 
+import constants from "constants.js";
 import { useUserProfile } from "contexts/userProfile";
 import { Trans, useTranslation } from "i18n";
 import ids from "./ids";
@@ -64,6 +65,10 @@ function UserPortalUpdatePrompts() {
         }
     };
 
+    const onLearnMore = () => {
+        window.open(constants.USER_PORTAL_FAQ, "_blank");
+    };
+
     return (
         <>
             <Snackbar
@@ -83,6 +88,17 @@ function UserPortalUpdatePrompts() {
                     action={[
                         <Button
                             variant="outlined"
+                            onClick={onLearnMore}
+                            id={build(
+                                ids.USER_PORTAL_ANNOUNCER,
+                                ids.LEARN_MORE
+                            )}
+                            key={ids.LEARN_MORE}
+                        >
+                            <Typography>{t("learnMore")}</Typography>
+                        </Button>,
+                        <Button
+                            variant="outlined"
                             onClick={onUpdateNow}
                             id={build(
                                 ids.USER_PORTAL_ANNOUNCER,
@@ -90,9 +106,7 @@ function UserPortalUpdatePrompts() {
                             )}
                             key={ids.UPDATE_BTN}
                         >
-                            <Typography>
-                                {t("updateAccountInformation")}
-                            </Typography>
+                            <Typography>{t("updateNow")}</Typography>
                         </Button>,
                         <IconButton
                             id={build(ids.USER_PORTAL_ANNOUNCER, ids.CLOSE_BTN)}

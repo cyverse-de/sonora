@@ -22,6 +22,7 @@ export default {
     DRAWER_MENU_BTN: "drawerMenuButton",
     EMAIL_LBL: "email",
     INTERCOM_WIDGET: "cyverse_intercom_support",
+    LEARN_MORE: "learnMoreBtn",
     LOGOUT_BUTTON: "logoutButton",
     MANAGE_ACCOUNT_BTN: "manageAccountButton",
     MORE_BTN: "moreButton",

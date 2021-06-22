@@ -307,7 +307,6 @@ export const instantlyLaunch = async ({
         })
         .then((submission) => {
             submission.output_dir = output_dir;
-            console.log(submission);
             return submission;
         })
         .then((submission) => submitAnalysis(submission)) // submit the analysis

@@ -28,6 +28,7 @@ export default function MarkdownPreview(props) {
             style={{
                 background: "#fff",
                 height: viewerConstants.DEFAULT_VIEWER_HEIGHT,
+                overflow: "scroll",
             }}
             dangerouslySetInnerHTML={{
                 __html: markDownPreview,

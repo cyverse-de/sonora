@@ -30,12 +30,12 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(1),
         [theme.breakpoints.down("xs")]: {
             padding: theme.spacing(0.2),
-            backgroundColor: theme.palette.info.main,
+            backgroundColor: "#052537",
         },
     },
 
     typography: {
-        color: theme.palette.info.main,
+        color: "#052537",
         [theme.breakpoints.down("xs")]: {
             color: theme.palette.info.contrastText,
         },

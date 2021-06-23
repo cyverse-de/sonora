@@ -65,7 +65,7 @@ const LayoutStyles = (theme) => ({
         whiteSpace: "nowrap",
     },
     drawerOpen: {
-        backgroundColor: theme.palette.info.main,
+        backgroundColor: "#052537",
         color: theme.palette.info.contrastText,
         width: drawerWidth,
         [theme.breakpoints.up("sm")]: {
@@ -77,7 +77,7 @@ const LayoutStyles = (theme) => ({
     },
     drawerClose: {
         [theme.breakpoints.up("sm")]: {
-            backgroundColor: theme.palette.info.main,
+            backgroundColor: "#052537",
             color: theme.palette.info.contrastText,
             transition: theme.transitions.create("width", {
                 easing: theme.transitions.easing.sharp,

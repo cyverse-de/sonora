@@ -27,8 +27,12 @@ export default function BackButton(props) {
         if (dirty) {
             setShowConfirmationDialog(true);
         } else {
-            router && router.back();
+            goBack();
         }
+    };
+
+    const goBack = () => {
+        router && router.back();
     };
 
     const BackBtn = isMobile ? (
@@ -61,7 +65,7 @@ export default function BackButton(props) {
                 title={t("confirmDiscardChangesDialogHeader")}
                 contentText={t("confirmDiscardChangesDialogMsg")}
                 confirmButtonText={t("common:discard")}
-                onConfirm={onClick}
+                onConfirm={goBack}
                 onClose={() => setShowConfirmationDialog(false)}
             />
         </>

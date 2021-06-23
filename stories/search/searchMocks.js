@@ -425,7 +425,7 @@ export const dataSearchResp = {
     ],
 };
 export const appsSearchResp = {
-    total: 6,
+    total: 7,
     apps: [
         {
             integration_date: "2015-08-04T16:30:16.000Z",
@@ -455,6 +455,32 @@ export const appsSearchResp = {
                 user: 4,
                 comment_id: 0,
             },
+        },
+        {
+            integration_date: "2017-07-22T00:43:06.000Z",
+            description:
+                "Parses a large HT Path List file from the Discovery Environment into smaller HT Path List files, in batches of 128 paths per output file.",
+            deleted: false,
+            pipeline_eligibility: { is_valid: true, reason: "" },
+            is_favorite: false,
+            integrator_name: "psarando",
+            beta: true,
+            permission: "read",
+            isBlessed: false,
+            can_favor: true,
+            disabled: true,
+            can_rate: true,
+            name: "Large HT Path List splitter",
+            limitChecks: { canRun: true, results: [] },
+            system_id: "de",
+            is_public: true,
+            id: "8bc4be4e-6e69-11e7-8a93-008cfa5ae621",
+            edited_date: "2021-06-23T00:52:46.000Z",
+            step_count: 1,
+            can_run: true,
+            integrator_email: "psarando@iplantcollaborative.org",
+            app_type: "DE",
+            rating: { average: 0, total: 0 },
         },
         {
             description: "osgwc",

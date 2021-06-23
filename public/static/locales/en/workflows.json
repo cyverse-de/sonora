@@ -3,6 +3,7 @@
     "confirmDeleteStepText": "This action cannot be undone.",
     "confirmDeleteStepTitle": "Delete Step?",
     "createWorkflow": "Create Workflow: {{name}}",
+    "disabledAppsNotAllowed": "Disabled apps can't be included in a pipeline.",
     "editWorkflow": "Edit Workflow: {{name}}",
     "mapOutputsToInputs": "Match Outputs to Inputs",
     "outputMappingLabel": "Step {{step}}: {{label}}",

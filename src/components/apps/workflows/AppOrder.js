@@ -260,17 +260,19 @@ function AppOrder(props) {
     const [confirmDeleteIndex, setConfirmDeleteIndex] = React.useState(-1);
     const onCloseDeleteConfirm = () => setConfirmDeleteIndex(-1);
 
+    const { t } = useTranslation(["workflows", "common"]);
+
     const validateAppSelection = (apps) => {
         const invalidApp = apps?.find(
-            (app) => !app.pipeline_eligibility.is_valid
+            (app) => app.disabled || !app.pipeline_eligibility.is_valid
         );
         if (invalidApp) {
-            return invalidApp.pipeline_eligibility.reason;
+            return invalidApp.disabled
+                ? t("disabledAppsNotAllowed")
+                : invalidApp.pipeline_eligibility.reason;
         }
         return null;
     };
-
-    const { t } = useTranslation(["workflows", "common"]);
 
     return (
         <FieldArray

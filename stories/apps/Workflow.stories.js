@@ -2,6 +2,9 @@ import React from "react";
 
 import {
     concatTasksMock,
+    deprecatedConcatTasksMock,
+    deprecatedToolsWorkflowDescription,
+    deprecatedWordCountTasksMock,
     wordCountTasksMock,
     workflowDescription,
 } from "./WorkflowMocks";
@@ -12,6 +15,12 @@ import { appsSearchResp } from "../search/searchMocks";
 import WorkflowEditor from "components/apps/workflows/Editor";
 import ids from "components/apps/workflows/ids";
 import NewPipelineDefaults from "components/apps/workflows/NewPipelineDefaults";
+
+const booleanControl = {
+    control: {
+        type: "boolean",
+    },
+};
 
 const initAxiosMocks = () => {
     mockAxios.reset();
@@ -29,6 +38,18 @@ const initAxiosMocks = () => {
         .reply((config) => {
             console.log("GET Concatenate Tasks", config.url);
             return [200, concatTasksMock];
+        });
+    mockAxios
+        .onGet("/api/apps/de/c7f05682-23c8-4182-b9a2-e09650a5f49b/tasks")
+        .reply((config) => {
+            console.log("GET Deprecated Word Count Tasks", config.url);
+            return [200, deprecatedWordCountTasksMock];
+        });
+    mockAxios
+        .onGet("/api/apps/de/af334df2-ad6e-4bf4-b7e8-5686525b63b0/tasks")
+        .reply((config) => {
+            console.log("GET Deprecated Concatenate Tasks", config.url);
+            return [200, deprecatedConcatTasksMock];
         });
 
     mockAxios.onGet(/\/api\/apps\?.*/).reply(200, appsSearchResp);
@@ -60,15 +81,25 @@ export const SimplePipeline = (props) => {
     );
 };
 
-const booleanControl = {
-    control: {
-        type: "boolean",
-    },
-};
-
 SimplePipeline.argTypes = {
     loading: booleanControl,
     "Loading Error": booleanControl,
 };
+
+export const DeprecatedToolsPipeline = (props) => {
+    const { loading } = props;
+
+    initAxiosMocks();
+
+    return (
+        <WorkflowEditor
+            baseId={ids.WORKFLOW_EDITOR_FORM}
+            appDescription={!loading && deprecatedToolsWorkflowDescription}
+            loading={loading}
+        />
+    );
+};
+
+DeprecatedToolsPipeline.argTypes = { loading: booleanControl };
 
 export default { title: "Apps / Workflows" };

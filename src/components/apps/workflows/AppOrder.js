@@ -187,6 +187,8 @@ const AppStep = (props) => {
 
     const { system_id: systemId, id: appId } = step;
 
+    const { t } = useTranslation("workflows");
+
     const { data: tasksData } = useQuery({
         queryKey: [APP_TASKS_QUERY_KEY, { systemId, appId }],
         queryFn: getAppTasks,
@@ -231,13 +233,20 @@ const AppStep = (props) => {
     }, [index, step, tasksData, updateStep]);
 
     const stepBaseId = buildID(baseId, "steps", index);
+    const isDeprecated = step.task?.tool?.container?.image?.deprecated;
+    const stepDescription = isDeprecated
+        ? t("appDeprecatedTaskWarning")
+        : step.description;
 
     return (
         <Card>
             <CardHeader
                 title={step.name}
                 titleTypographyProps={{ variant: "subtitle1" }}
-                subheader={step.task ? step.description : <Skeleton />}
+                subheader={step.task ? stepDescription : <Skeleton />}
+                subheaderTypographyProps={{
+                    color: isDeprecated ? "error" : "textSecondary",
+                }}
                 action={
                     step.task && (
                         <AppStepActions

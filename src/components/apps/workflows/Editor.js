@@ -222,6 +222,9 @@ const WorkflowEditor = (props) => {
                 values,
             }) => {
                 const saveDisabled = isSubmitting || !dirty || errors.error;
+                const hasDeprecatedStep = values.steps?.find(
+                    (step) => step.task?.tool?.container?.image?.deprecated
+                );
 
                 const stepCompleted = (stepIndex) => {
                     return (
@@ -307,6 +310,12 @@ const WorkflowEditor = (props) => {
                                 onSave={handleSubmit}
                             />
                         </Grid>
+
+                        {hasDeprecatedStep && (
+                            <Typography variant="body2" color="error">
+                                {t("workflowDeprecatedTasksWarning")}
+                            </Typography>
+                        )}
 
                         {isSubmitting ? (
                             <StepperSkeleton baseId={baseId} ref={stepperRef} />

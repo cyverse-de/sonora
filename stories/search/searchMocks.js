@@ -425,7 +425,7 @@ export const dataSearchResp = {
     ],
 };
 export const appsSearchResp = {
-    total: 7,
+    total: 9,
     apps: [
         {
             integration_date: "2015-08-04T16:30:16.000Z",
@@ -626,6 +626,79 @@ export const appsSearchResp = {
             rating: {
                 average: 5,
                 total: 1,
+            },
+        },
+        {
+            integration_date: "2014-04-11T18:03:23.000Z",
+            description:
+                "Concatenate multiple files. Compatible with Workflows in the DE.",
+            deleted: false,
+            pipeline_eligibility: {
+                is_valid: true,
+                reason: "",
+            },
+            is_favorite: false,
+            integrator_name: "Roger Barthelson",
+            beta: true,
+            permission: "read",
+            isBlessed: false,
+            can_favor: true,
+            disabled: false,
+            can_rate: true,
+            name: "Concatenate 2 Files-workflow edition.",
+            limitChecks: {
+                canRun: true,
+                results: [],
+            },
+            system_id: "de",
+            is_public: true,
+            id: "af334df2-ad6e-4bf4-b7e8-5686525b63b0",
+            edited_date: "2021-06-23T22:56:57.000Z",
+            step_count: 1,
+            can_run: true,
+            integrator_email: "rogerab@email.arizona.edu",
+            app_type: "DE",
+            wiki_url:
+                "http://pods.iplantcollaborative.org/wiki/display/DEapps/Concatenate+2+Files-workflow+edition.",
+            rating: {
+                average: 3.3333333333333335,
+                total: 3,
+            },
+        },
+        {
+            description:
+                "Counts and summarizes the number of lines, words, and bytes in a target file",
+            deleted: false,
+            pipeline_eligibility: {
+                is_valid: true,
+                reason: "",
+            },
+            is_favorite: true,
+            integrator_name: "Matthew Vaughn",
+            beta: false,
+            permission: "read",
+            isBlessed: false,
+            can_favor: true,
+            disabled: false,
+            can_rate: true,
+            name: "Word Count",
+            limitChecks: {
+                canRun: true,
+                results: [],
+            },
+            system_id: "de",
+            is_public: true,
+            id: "c7f05682-23c8-4182-b9a2-e09650a5f49b",
+            edited_date: "2021-06-23T22:51:50.000Z",
+            step_count: 1,
+            can_run: true,
+            integrator_email: "vaughn@iplantcollaborative.org",
+            app_type: "DE",
+            wiki_url:
+                "https://pods.iplantcollaborative.org/wiki/display/DEapps/Word%20Count",
+            rating: {
+                average: 4.181818181818182,
+                total: 11,
             },
         },
     ],

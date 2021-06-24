@@ -2,7 +2,7 @@ const drawerWidth = 250;
 const miniDrawerWidth = 70;
 const LayoutStyles = (theme) => ({
     appBar: {
-        backgroundColor: theme.palette.primary,
+        backgroundColor: "#074060",
         zIndex: theme.zIndex.drawer + 1,
         width: "100%",
         [theme.breakpoints.up("sm")]: {

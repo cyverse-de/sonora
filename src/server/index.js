@@ -61,6 +61,17 @@ function buildNavigationRouteRegexp() {
 // Configure the Keycloak client.
 const keycloakClient = authn.getKeycloakClient();
 
+// Configure the Unleash SDK
+const unleash = require("unleash-client");
+
+unleash.initialize({
+    url: config.unleashApiURL,
+    appName: "de",
+    customHeaders: {
+        Authorization: config.unleashClientSecret,
+    },
+});
+
 app.prepare()
 
     .then(() => {
@@ -146,6 +157,17 @@ app.prepare()
 
         logger.info("mapping / to /dashboard in the app");
         server.use("/", compression());
+
+        logger.info("Adding the unleash handler");
+        server.use(express.static("public"));
+        server.use((req, res, next) => {
+            if (unleash.isEnabled(config.unleashMaintenanceFlag)) {
+                res.sendFile("maintenance.html", { root: "public" });
+            } else {
+                next();
+            }
+        });
+
         server.get("/", (req, res) => {
             app.render(req, res, "/dashboard", undefined);
         });

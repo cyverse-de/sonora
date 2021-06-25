@@ -21,6 +21,13 @@ function updatePipeline({ appId, workflow }) {
     });
 }
 
+function copyPipeline({ appId }) {
+    return callApi({
+        endpoint: `/api/apps/pipelines/${appId}/copy`,
+        method: "POST",
+    });
+}
+
 function getPipelineUI(_, { appId }) {
     return callApi({
         endpoint: `/api/apps/pipelines/${appId}/ui`,
@@ -28,4 +35,10 @@ function getPipelineUI(_, { appId }) {
     });
 }
 
-export { addPipeline, getPipelineUI, updatePipeline, PIPELINE_UI_QUERY_KEY };
+export {
+    addPipeline,
+    copyPipeline,
+    getPipelineUI,
+    updatePipeline,
+    PIPELINE_UI_QUERY_KEY,
+};

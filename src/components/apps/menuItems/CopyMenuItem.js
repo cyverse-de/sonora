@@ -12,6 +12,7 @@ import { getAppEditPath } from "../utils";
 
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
 import { copyApp } from "serviceFacades/apps";
+import { copyPipeline } from "serviceFacades/pipelines";
 
 import { AnnouncerConstants, announce, build } from "@cyverse-de/ui-lib";
 
@@ -28,35 +29,36 @@ function CopyMenuItem(props) {
     const { baseId, app, onClose, showErrorAnnouncer } = props;
 
     const router = useRouter();
-    const { t } = useTranslation(["apps", "common"]);
-
-    const [onCopyApp, { isLoading }] = useMutation(copyApp, {
-        onSuccess: (appCopy) => {
-            onClose();
-            announce({
-                text: t("appCopySuccess", { appName: app.name }),
-                variant: AnnouncerConstants.SUCCESS,
-            });
-            router.push(getAppEditPath(appCopy.system_id, appCopy.id));
-        },
-        onError: (error) => {
-            showErrorAnnouncer(t("appCopyError"), error);
-        },
-    });
+    const { t } = useTranslation("apps");
 
     const isWorkflow = app?.step_count > 1;
+
+    const [onCopyApp, { isLoading }] = useMutation(
+        (ids) => (isWorkflow ? copyPipeline(ids) : copyApp(ids)),
+        {
+            onSuccess: (appCopy) => {
+                onClose();
+                announce({
+                    text: t("appCopySuccess", { appName: app?.name }),
+                    variant: AnnouncerConstants.SUCCESS,
+                });
+                router.push(getAppEditPath(appCopy.system_id, appCopy.id));
+            },
+            onError: (error) => {
+                showErrorAnnouncer(
+                    t("appCopyError", { appName: app?.name }),
+                    error
+                );
+            },
+        }
+    );
 
     return (
         <MenuItem
             id={build(baseId, ids.COPY_MENU_ITEM)}
             disabled={isLoading}
             onClick={() => {
-                if (isWorkflow) {
-                    announce({ text: t("common:comingSoon") });
-                    onClose();
-                } else {
-                    onCopyApp({ systemId: app?.system_id, appId: app?.id });
-                }
+                onCopyApp({ systemId: app?.system_id, appId: app?.id });
             }}
         >
             <ListItemIcon>

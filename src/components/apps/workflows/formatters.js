@@ -52,6 +52,10 @@ export const initWorkflowValues = (appDescription) => {
     // Finally associate the formatted task with the appropriate step,
     // so the form will only need to use the formatted information in each step.
     return {
+        // The workflowSteps array is only required for preserving touched state
+        // after onSubmit:
+        // https://github.com/formium/formik/issues/445#issuecomment-366952762
+        workflowSteps: [null, null, null],
         ...appDescription,
         steps:
             steps?.map((step) => ({
@@ -84,7 +88,8 @@ export const formatWorkflowSubmission = (workflow) => {
             // accepted by the service.
             // [{source_step, target_step, map: {"input_id": "output_id"}}]
             return Object.keys(srcMap).map((source_step) => ({
-                source_step,
+                // The groupBy function turns source_step keys into strings.
+                source_step: parseInt(source_step, 10),
                 target_step,
                 map: srcMap[source_step].reduce((map, { id, output }) => {
                     map[id] = output.id;

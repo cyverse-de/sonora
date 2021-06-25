@@ -53,6 +53,23 @@ const initAxiosMocks = () => {
         });
 
     mockAxios.onGet(/\/api\/apps\?.*/).reply(200, appsSearchResp);
+
+    // Since the save request does not include the list of tasks,
+    // which are returned by the pipelines/:id/ui endpoint,
+    // just return any mock workflow on success.
+    mockAxios.onPost(/\/api\/apps\/pipelines/).reply((config) => {
+        const pipeline = JSON.parse(config.data);
+        console.log("Save New Workflow", config.url, pipeline);
+
+        return [200, workflowDescription];
+    });
+
+    mockAxios.onPut(/\/api\/apps\/pipelines\/.*/).reply((config) => {
+        const pipeline = JSON.parse(config.data);
+        console.log("Update Workflow", config.url, pipeline);
+
+        return [200, workflowDescription];
+    });
 };
 
 export const NewWorkflow = (props) => {

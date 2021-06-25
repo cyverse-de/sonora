@@ -6,6 +6,8 @@
 import React from "react";
 
 import { Formik } from "formik";
+import { useRouter } from "next/router";
+import { useMutation } from "react-query";
 
 import { useTranslation } from "i18n";
 
@@ -22,11 +24,15 @@ import AppStepper, { StepperSkeleton } from "../AppStepper";
 import AppStepperFormSkeleton from "../AppStepperFormSkeleton";
 import AppStepDisplay, { BottomNavigationSkeleton } from "../AppStepDisplay";
 
+import { getAppEditPath } from "components/apps/utils";
+
 import BackButton from "components/utils/BackButton";
 import SaveButton from "components/utils/SaveButton";
 import useComponentHeight from "components/utils/useComponentHeight";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+
+import { addPipeline, updatePipeline } from "serviceFacades/pipelines";
 
 import {
     AnnouncerConstants,
@@ -98,13 +104,26 @@ const WorkflowEditor = (props) => {
 
     const { t } = useTranslation(["workflows", "common"]);
     const classes = useStyles();
+    const router = useRouter();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
-    const saveApp = ({ workflow, onSuccess }) => {
-        console.log("saveApp", formatWorkflowSubmission(workflow));
-        setTimeout(() => onSuccess(appDescription), 1000);
-    };
+    const [savePipeline] = useMutation(
+        ({ workflow }) => {
+            const { id: appId } = workflow;
+            const request = { appId, workflow };
+
+            return appId ? updatePipeline(request) : addPipeline(request);
+        },
+        {
+            onSuccess: (resp, { onSuccess }) => {
+                onSuccess(resp);
+            },
+            onError: (error, { onError }) => {
+                onError(error);
+            },
+        }
+    );
 
     const stepAppInfo = {
         label: t("workflowInfo"),
@@ -187,9 +206,16 @@ const WorkflowEditor = (props) => {
                 return errors;
             }}
             onSubmit={(values, actions) => {
-                const workflow = values;
+                const workflow = formatWorkflowSubmission(values);
 
                 const onSuccess = (workflow) => {
+                    if (!values.id) {
+                        // A new pipeline was saved, so redirect to new URL
+                        router.replace(
+                            getAppEditPath(workflow.system_id, workflow.id)
+                        );
+                    }
+
                     // Note that enableReinitialize should not be used when
                     // using resetForm with new values.
                     actions.resetForm({
@@ -208,7 +234,7 @@ const WorkflowEditor = (props) => {
                     actions.setSubmitting(false);
                 };
 
-                saveApp({ workflow, onSuccess, onError });
+                savePipeline({ workflow, onSuccess, onError });
             }}
         >
             {({

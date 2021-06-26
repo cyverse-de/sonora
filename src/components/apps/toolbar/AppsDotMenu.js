@@ -9,8 +9,12 @@ import { useTranslation } from "i18n";
 import Link from "next/link";
 
 import ids from "../ids";
-import QLMenuItem from "../menuItems/QLMenuItem";
+
+import CreateAppMenuItem from "../menuItems/CreateAppMenuItem";
+import CreateWorkflowMenuItem from "../menuItems/CreateWorkflowMenuItem";
 import DocMenuItem from "../menuItems/DocMenuItem";
+import QLMenuItem from "../menuItems/QLMenuItem";
+
 import shareIds from "components/sharing/ids";
 import NavigationConstants from "common/NavigationConstants";
 
@@ -24,7 +28,6 @@ import {
     useTheme,
 } from "@material-ui/core";
 import {
-    Add as CreateAppIcon,
     FilterList,
     Build,
     Info,
@@ -142,17 +145,14 @@ function AppsDotMenu(props) {
                         <ListItemText primary={t("manageTools")} />
                     </MenuItem>
                 </Link>,
-                <Link
-                    key={ids.CREATE_MENU_ITEM}
-                    href={NavigationConstants.NEW_APP}
-                >
-                    <MenuItem id={build(baseId, ids.CREATE_MENU_ITEM)}>
-                        <ListItemIcon>
-                            <CreateAppIcon fontSize="small" />
-                        </ListItemIcon>
-                        <ListItemText primary={t("create")} />
-                    </MenuItem>
-                </Link>,
+                <CreateAppMenuItem
+                    key={ids.CREATE_APP_MENU_ITEM}
+                    baseId={baseId}
+                />,
+                <CreateWorkflowMenuItem
+                    key={ids.CREATE_WORKFLOW_MENU_ITEM}
+                    baseId={baseId}
+                />,
             ]}
         />
     );

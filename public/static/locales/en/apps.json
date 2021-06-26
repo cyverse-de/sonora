@@ -40,6 +40,8 @@
     "copyAppUrl": "Copy App URL",
     "copyWorkflow": "Copy Workflow",
     "create": "Create",
+    "createApp": "Create App",
+    "createWorkflow": "Create Workflow",
     "createQuickLaunchLabel": "Create Quick Launch",
     "declineAuthBtnText": "Not Now",
     "defaultLabel": "Default",

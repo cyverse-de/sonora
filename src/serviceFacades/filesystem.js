@@ -272,6 +272,13 @@ export const getPublicLinks = (key, paths) => {
     });
 };
 
+export const resetCache = (key, { path }) => {
+    return callApi({
+        endpoint: `/api/filesystem/reset-cache?path=${path}`,
+        method: "GET"
+    })
+}
+
 export const pathListCreator = ({
     paths,
     dest,

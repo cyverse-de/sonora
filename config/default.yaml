@@ -46,6 +46,7 @@ irods:
     home_path: /iplant/home
     trash_path: /iplant/trash/home/de-irods
     community_path: /iplant/home/shared
+    anon_files_url_base: https://data.cyverse.org/dav-anon  
 
 fileIdentifier:
     htPathList: "# application/vnd.de.path-list+csv; version=1"

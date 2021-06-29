@@ -100,7 +100,7 @@ const validate = () => {
     //irods settings
     validateConfigSetting("irods.home_path");
     validateConfigSetting("irods.trash_path");
-    validateConfigSetting("irods.anon_files_url_base");
+    validateConfigSetting("irods.web_dav.anon_uri");
 
     // 3rd Party Service URL/Endpoint Settings
     validateConfigSetting("services.ontology_lookup_service.base");
@@ -291,4 +291,4 @@ export const userPortalURL = config.get("services.user_portal_api.base");
  * The base ULR for Data Store anon files
  *
  */
-export const anonFilesBaseURL = config.get("irods.anon_files_url_base");
+export const anonFilesBaseURL = config.get("irods.web_dav.anon_uri");

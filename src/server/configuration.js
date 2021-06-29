@@ -106,8 +106,6 @@ const validate = () => {
     validateConfigSetting("services.ontology_lookup_service.base");
     validateConfigSetting("services.unified_astronomy_thesaurus.base");
     validateConfigSetting("services.user_portal_api.base");
-
-
 };
 
 validate();
@@ -289,8 +287,8 @@ export const uatURL = config.get("services.unified_astronomy_thesaurus.base");
 export const userPortalURL = config.get("services.user_portal_api.base");
 
 /**
- * 
+ *
  * The base ULR for Data Store anon files
- * 
+ *
  */
 export const anonFilesBaseURL = config.get("irods.anon_files_url_base");

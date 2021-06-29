@@ -124,7 +124,7 @@
     "refresh": "Refresh",
     "refreshCache": "Refresh Cache",
     "refreshCacheTooltip": "Public file(s) are cached for performance. Select `Refresh Cache` to update the cache.",
-    "refreshCacheSuccess": "Cached refreshed successfully.",
+    "refreshCacheSuccess": "Cache refresh successfully.",
     "refreshCacheFailed": "Unable to refresh cache. Please try again.",
     "rename": "Rename",
     "restore": "Restore",

@@ -272,12 +272,24 @@ export const getPublicLinks = (key, paths) => {
     });
 };
 
-export const resetCache = (key, { path }) => {
-    return callApi({
-        endpoint: `/api/filesystem/reset-cache?path=${path}`,
-        method: "GET"
-    })
-}
+export const refreshCache = (key, { paths }) => {
+    return (
+        paths &&
+        paths.length > 0 &&
+        new Promise((resolve, reject) =>
+            Promise.all(
+                paths.map((path) =>
+                    callApi({
+                        endpoint: `/api/filesystem/refresh-cache?path=${path}`,
+                        method: "GET",
+                    })
+                )
+            )
+                .then((values) => resolve(values))
+                .catch((error) => reject(error))
+        )
+    );
+};
 
 export const pathListCreator = ({
     paths,

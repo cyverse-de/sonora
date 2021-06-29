@@ -13,6 +13,7 @@ import { useTranslation } from "i18n";
 import { uploadTextAsFile } from "serviceFacades/fileio";
 import {
     getPublicLinks,
+    refreshCache,
     PUBLIC_LINKS_QUERY_KEY,
 } from "serviceFacades/filesystem";
 import { getHost } from "../utils/getHost";
@@ -21,16 +22,16 @@ import { getParentPath } from "./utils";
 import constants from "../../constants";
 import ids from "./ids";
 
-import { build } from "@cyverse-de/ui-lib";
+import { build, announce, AnnouncerConstants } from "@cyverse-de/ui-lib";
 import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
 import GridLoading from "components/utils/GridLoading";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 
 import {
     Button,
-    Hidden,
+    Grid,
     Paper,
-    TextField,
+    TextareaAutosize,
     Toolbar,
     Tooltip,
     Typography,
@@ -46,15 +47,16 @@ import {
     Error,
     Save,
     FileCopy,
+    Cached,
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     toolbarButtons: {
-        flexGrow: 1,
-        margin: theme.spacing(0.5),
+        margin: theme.spacing(0.2),
     },
     paper: {
-        padding: theme.spacing(0.5),
+        padding: theme.spacing(0.2),
+        flexGrow: 1,
     },
 }));
 
@@ -71,6 +73,9 @@ function PublicLinks(props) {
     const [fileSavePath, setFileSavePath] = useState();
     const [successMsg, setSuccessMsg] = useState();
     const [errorMsg, setErrorMsg] = useState();
+    const [refreshCacheEnabled, setRefreshCacheEnabled] = useState(false);
+    const [refreshCacheKey, setRefreshCacheKey] = useState();
+
     const { t } = useTranslation("data");
 
     const { isFetching, error } = useQuery({
@@ -88,6 +93,25 @@ function PublicLinks(props) {
                         );
                     });
                 setLinks(parsedLinks);
+            },
+        },
+    });
+
+    useQuery({
+        queryKey: refreshCacheKey,
+        queryFn: refreshCache,
+        config: {
+            enabled: refreshCacheEnabled,
+            onSuccess: (resp) => {
+                setRefreshCacheEnabled(false);
+                setErrorMsg(null);
+                announce({
+                    text: t("refreshCacheSuccess"),
+                    variant: AnnouncerConstants.INFO,
+                });
+            },
+            onError: (err) => {
+                setErrorMsg(err.toString());
             },
         },
     });
@@ -159,14 +183,6 @@ function PublicLinks(props) {
     return (
         <>
             <Paper className={classes.paper} elevation={0}>
-                <TextField
-                    multiline
-                    rows={paths?.length + 1 || 3}
-                    value={links}
-                    fullWidth
-                    variant="outlined"
-                    id={build(baseId, ids.PUBLIC_LINKS_TEXT_FIELD)}
-                />
                 {successMsg && (
                     <>
                         <div style={{ float: "left" }}>
@@ -186,47 +202,80 @@ function PublicLinks(props) {
                         <Typography variant="caption">{errorMsg}</Typography>
                     </>
                 )}
-                <Toolbar>
-                    <Tooltip title={t("copyLinks")}>
-                        <Button
-                            variant="outlined"
-                            color="primary"
-                            size="small"
-                            className={classes.toolbarButtons}
-                            onClick={copyToClipboard}
-                            startIcon={<FileCopy />}
-                            id={build(baseId, ids.COPY_LINKS_BTN)}
-                        >
-                            <Hidden xsDown>{t("copyLinks")}</Hidden>
-                        </Button>
-                    </Tooltip>
-                    <Tooltip title={t("saveToFile")}>
-                        <Button
-                            variant="outlined"
-                            color="primary"
-                            size="small"
-                            className={classes.toolbarButtons}
-                            onClick={() => setSaveAsDialogOpen(true)}
-                            startIcon={<Save />}
-                            id={build(baseId, ids.SAVE_LINKS_BTN)}
-                        >
-                            <Hidden xsDown>{t("saveToFile")}</Hidden>
-                        </Button>
-                    </Tooltip>
-                    <Tooltip title={t("download")}>
-                        <Button
-                            variant="outlined"
-                            color="primary"
-                            size="small"
-                            className={classes.toolbarButtons}
-                            onClick={() => setDownload(true)}
-                            startIcon={<CloudDownload />}
-                            id={build(baseId, ids.DOWNLOAD_LINKS_BTN)}
-                        >
-                            <Hidden xsDown>{t("download")}</Hidden>
-                        </Button>
-                    </Tooltip>
-                </Toolbar>
+                <TextareaAutosize
+                    rowsMin={paths?.length + 1 || 3}
+                    value={links}
+                    id={build(baseId, ids.PUBLIC_LINKS_TEXT_FIELD)}
+                    style={{ width: "100%" }}
+                />
+                <Grid container>
+                    <Grid item sm={3}>
+                        <Tooltip title={t("copyLinks")}>
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                size="small"
+                                className={classes.toolbarButtons}
+                                onClick={copyToClipboard}
+                                startIcon={<FileCopy />}
+                                id={build(baseId, ids.COPY_LINKS_BTN)}
+                            >
+                                {t("copyLinks")}
+                            </Button>
+                        </Tooltip>
+                    </Grid>
+                    <Grid item sm={3}>
+                        <Tooltip title={t("saveToFile")}>
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                size="small"
+                                className={classes.toolbarButtons}
+                                onClick={() => setSaveAsDialogOpen(true)}
+                                startIcon={<Save />}
+                                id={build(baseId, ids.SAVE_LINKS_BTN)}
+                            >
+                                {t("saveToFile")}
+                            </Button>
+                        </Tooltip>
+                    </Grid>
+                    <Grid item sm={3}>
+                        <Tooltip title={t("download")}>
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                size="small"
+                                className={classes.toolbarButtons}
+                                onClick={() => setDownload(true)}
+                                startIcon={<CloudDownload />}
+                                id={build(baseId, ids.DOWNLOAD_LINKS_BTN)}
+                            >
+                                {t("download")}
+                            </Button>
+                        </Tooltip>
+                    </Grid>
+                    <Grid item sm={3}>
+                        <Tooltip title={t("refreshCacheTooltip")}>
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                size="small"
+                                className={classes.toolbarButtons}
+                                onClick={() => {
+                                    setRefreshCacheKey([
+                                        "refreshCacheKey",
+                                        { paths },
+                                    ]);
+                                    setRefreshCacheEnabled(true);
+                                }}
+                                startIcon={<Cached />}
+                                id={build(baseId, ids.REFRESH_CACHE_BTN)}
+                            >
+                                {t("refreshCache")}
+                            </Button>
+                        </Tooltip>
+                    </Grid>
+                </Grid>
                 <Typography variant="caption">
                     {t("publicLinkWarning")}
                 </Typography>

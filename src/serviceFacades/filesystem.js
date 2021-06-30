@@ -276,13 +276,13 @@ export const refreshCache = (key, { paths }) => {
     return (
         paths &&
         paths.length > 0 &&
-            Promise.all(
-                paths.map((path) =>
-                    callApi({
-                        endpoint: `/api/filesystem/refresh-cache?path=${path}`,
-                        method: "GET",
-                    })
-                )
+        Promise.all(
+            paths.map((path) =>
+                callApi({
+                    endpoint: `/api/filesystem/refresh-cache?path=${path}`,
+                    method: "GET",
+                })
+            )
         )
     );
 };

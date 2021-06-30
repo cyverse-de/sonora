@@ -77,6 +77,7 @@ function PublicLinks(props) {
     const [refreshCacheKey, setRefreshCacheKey] = useState();
 
     const { t } = useTranslation("data");
+    const { t: common } = useTranslation("common");
 
     const { isFetching, error } = useQuery({
         queryKey: [PUBLIC_LINKS_QUERY_KEY, paths],
@@ -203,7 +204,7 @@ function PublicLinks(props) {
                     </>
                 )}
                 <TextareaAutosize
-                    rowsMin={paths?.length + 1 || 3}
+                    rowsMin={3}
                     value={links}
                     id={build(baseId, ids.PUBLIC_LINKS_TEXT_FIELD)}
                     style={{ width: "100%" }}
@@ -220,7 +221,7 @@ function PublicLinks(props) {
                                 startIcon={<FileCopy />}
                                 id={build(baseId, ids.COPY_LINKS_BTN)}
                             >
-                                {t("copyLinks")}
+                                {common("copy")}
                             </Button>
                         </Tooltip>
                     </Grid>

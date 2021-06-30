@@ -288,7 +288,7 @@ export const userPortalURL = config.get("services.user_portal_api.base");
 
 /**
  *
- * The base ULR for Data Store anon files
+ * The base URL for Data Store anon files
  *
  */
 export const anonFilesBaseURL = config.get("irods.web_dav.anon_uri");

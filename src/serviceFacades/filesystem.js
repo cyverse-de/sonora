@@ -276,7 +276,6 @@ export const refreshCache = (key, { paths }) => {
     return (
         paths &&
         paths.length > 0 &&
-        new Promise((resolve, reject) =>
             Promise.all(
                 paths.map((path) =>
                     callApi({
@@ -284,9 +283,6 @@ export const refreshCache = (key, { paths }) => {
                         method: "GET",
                     })
                 )
-            )
-                .then((values) => resolve(values))
-                .catch((error) => reject(error))
         )
     );
 };

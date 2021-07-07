@@ -2,7 +2,7 @@ const drawerWidth = 250;
 const miniDrawerWidth = 70;
 const LayoutStyles = (theme) => ({
     appBar: {
-        backgroundColor: "#074060",
+        backgroundColor: theme.palette.main_appbar,
         zIndex: theme.zIndex.drawer + 1,
         width: "100%",
         [theme.breakpoints.up("sm")]: {
@@ -65,7 +65,7 @@ const LayoutStyles = (theme) => ({
         whiteSpace: "nowrap",
     },
     drawerOpen: {
-        backgroundColor: "#052537",
+        backgroundColor: theme.palette.main_sidebar,
         color: theme.palette.info.contrastText,
         width: drawerWidth,
         [theme.breakpoints.up("sm")]: {
@@ -77,7 +77,7 @@ const LayoutStyles = (theme) => ({
     },
     drawerClose: {
         [theme.breakpoints.up("sm")]: {
-            backgroundColor: "#052537",
+            backgroundColor: theme.palette.main_sidebar,
             color: theme.palette.info.contrastText,
             transition: theme.transitions.create("width", {
                 easing: theme.transitions.easing.sharp,

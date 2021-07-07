@@ -30,12 +30,12 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(1),
         [theme.breakpoints.down("xs")]: {
             padding: theme.spacing(0.2),
-            backgroundColor: "#052537",
+            backgroundColor: theme.palette.main_sidebar,
         },
     },
 
     typography: {
-        color: "#052537",
+        color: theme.palette.main_sidebar,
         [theme.breakpoints.down("xs")]: {
             color: theme.palette.info.contrastText,
         },

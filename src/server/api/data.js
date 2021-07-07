@@ -10,6 +10,10 @@ import express from "express";
 import * as auth from "../auth";
 import logger from "../logging";
 
+import { anonFilesBaseURL } from "../configuration";
+
+import axiosInstance from "../../common/getAxios";
+
 import { handler as terrainHandler } from "./terrain";
 
 export default function dataRouter() {
@@ -274,6 +278,28 @@ export default function dataRouter() {
             },
         })
     );
+
+    logger.info("adding the HEAD /api/filesystem/refresh-cache");
+    api.get("/filesystem/refresh-cache", function (req, res) {
+        axiosInstance
+            .request({
+                method: "HEAD",
+                url: anonFilesBaseURL + req.query.path,
+                headers: { "Cache-Control": "no-cache" },
+            })
+            .then((apiResponse) => {
+                res.set(apiResponse.headers);
+                res.status(apiResponse.status);
+                res.send(apiResponse.data);
+            })
+            .catch(async (err) => {
+                logger.error(err);
+                const e = await err;
+
+                res.status(e.response?.status || 500);
+                res.send(e.response?.data);
+            });
+    });
 
     return api;
 }

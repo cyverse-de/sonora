@@ -88,6 +88,7 @@ export default {
     COPY_LINKS_BTN: "copyLinksButton",
     SAVE_LINKS_BTN: "saveLinksButton",
     DOWNLOAD_LINKS_BTN: "downloadLinksButton",
+    REFRESH_CACHE_BTN: "refreshCacheButton",
     READ: "read",
     REFRESH_BTN: "refreshButton",
     REFRESH_MENU_ITEM_DIVIDER: "refreshDivider",

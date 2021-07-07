@@ -100,6 +100,7 @@ const validate = () => {
     //irods settings
     validateConfigSetting("irods.home_path");
     validateConfigSetting("irods.trash_path");
+    validateConfigSetting("irods.web_dav.anon_uri");
 
     // 3rd Party Service URL/Endpoint Settings
     validateConfigSetting("services.ontology_lookup_service.base");
@@ -284,3 +285,10 @@ export const uatURL = config.get("services.unified_astronomy_thesaurus.base");
  * The base URL for the User Portal's API
  */
 export const userPortalURL = config.get("services.user_portal_api.base");
+
+/**
+ *
+ * The base URL for Data Store anon files
+ *
+ */
+export const anonFilesBaseURL = config.get("irods.web_dav.anon_uri");

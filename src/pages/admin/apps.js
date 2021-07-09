@@ -19,40 +19,15 @@ import { getListingPath } from "components/apps/utils";
 import Listing from "components/apps/listing/Listing";
 import { useUserProfile } from "contexts/userProfile";
 import NotAuthorized from "components/utils/error/NotAuthorized";
-import { DETabPanel } from "components/utils/DETabs";
+import { DETabs, DETab, DETabPanel } from "components/utils/DETabs";
 import AppPublicationRequests from "components/apps/admin/publicationRequests/RequestListing";
-
-import { Tab, Tabs, makeStyles } from "@material-ui/core";
 
 const TABS = {
     listing: "LISTING",
     pubRequest: "PUBLICATION REQUESTS",
 };
 
-const useStyles = makeStyles((theme) => ({
-    tabAppBarColorPrimary: {
-        backgroundColor: theme.palette.white,
-    },
-    tabRoot: {
-        color: theme.palette.darkGray,
-        "&:hover": {
-            color: theme.palette.black,
-        },
-    },
-    tabSelected: {
-        backgroundColor: theme.palette.primary.main,
-        color: theme.palette.primary.contrastText,
-    },
-    tabPanelRoot: {
-        paddingLeft: 0,
-        paddingRight: 0,
-        paddingTop: theme.spacing(2),
-        paddingBottom: theme.spacing(2),
-    },
-}));
-
 export default function Apps() {
-    const classes = useStyles();
     const router = useRouter();
     const query = router.query;
     const { t } = useTranslation("apps");
@@ -107,24 +82,18 @@ export default function Apps() {
     } else {
         return (
             <>
-                <Tabs
-                    value={selectedTab}
-                    onChange={onTabSelectionChange}
-                    classes={{ indicator: classes.tabIndicator }}
-                >
-                    <Tab
+                <DETabs value={selectedTab} onChange={onTabSelectionChange}>
+                    <DETab
                         value={TABS.listing}
                         label={t("listing")}
                         id="appListing"
-                        classes={{ selected: classes.tabSelected }}
                     />
-                    <Tab
+                    <DETab
                         value={TABS.pubRequest}
                         label={t("pubRequests")}
                         id="appPubRequests"
-                        classes={{ selected: classes.tabSelected }}
                     />
-                </Tabs>
+                </DETabs>
                 <DETabPanel
                     tabId="appListing"
                     value={TABS.listing}

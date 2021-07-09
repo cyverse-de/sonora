@@ -180,5 +180,28 @@ export default function toolsRouter() {
         })
     );
 
+    logger.info("adding the GET /admin/tool-requests handler");
+    api.get(
+        "/admin/tool-requests",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/tool-requests",
+        })
+    );
+
+    logger.info("adding the GET /api/admin/tool-requests/:id handler");
+    api.get(
+        "/admin/tool-requests/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/tool-requests/:id",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

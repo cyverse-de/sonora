@@ -109,7 +109,7 @@ export default function TableView(props) {
                 <EnhancedTableHead
                     baseId={baseId}
                     selectable={false}
-                    rowsInPage={listing?.analyses?.length || 0}
+                    rowsInPage={requests?.length || 0}
                     order={order}
                     orderBy={orderBy}
                     columnData={columns}

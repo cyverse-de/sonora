@@ -103,5 +103,9 @@ export default {
         DOCUMENTATION: "documentation",
         INSTRUCTIONS: "instructions",
         TEST_DATA_LINK: "testDataLink",
+        REQUESTED_BY: "requestedBy",
+        DATE_SUBMITTED: "dateSubmitted",
+        LAST_UPDATED: "lastUpdated",
+        STATUS: "status",
     },
 };

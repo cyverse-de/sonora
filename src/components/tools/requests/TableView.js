@@ -11,6 +11,7 @@ import ids from "../ids";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import TableLoading from "components/utils/TableLoading";
 import { DERow } from "components/utils/DERow";
+import PageWrapper from "components/layout/PageWrapper";
 
 import DetailsDialog from "components/tools/requests/Details";
 
@@ -82,6 +83,7 @@ export default function TableView(props) {
         selected,
         handleRequestSort,
         handleClick,
+        handleStatusClick,
     } = props;
     const { t } = useTranslation("tools");
     const [detailsDlgOpen, setDetailsDlgOpen] = React.useState(false);
@@ -95,7 +97,7 @@ export default function TableView(props) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
     }
     return (
-        <>
+        <PageWrapper appBarHeight={230}>
             <TableContainer component={Paper} style={{ overflow: "auto" }}>
                 <Table
                     id={tableId}
@@ -207,7 +209,14 @@ export default function TableView(props) {
                                                     ids.TOOL_REQUEST.STATUS
                                                 )}
                                             >
-                                                <Button color="primary">
+                                                <Button
+                                                    color="primary"
+                                                    onClick={() =>
+                                                        handleStatusClick(
+                                                            request?.id
+                                                        )
+                                                    }
+                                                >
                                                     {request.status}
                                                 </Button>
                                             </TableCell>
@@ -223,6 +232,6 @@ export default function TableView(props) {
                 onClose={() => setDetailsDlgOpen(false)}
                 requestId={selectedRequest?.id}
             />
-        </>
+        </PageWrapper>
     );
 }

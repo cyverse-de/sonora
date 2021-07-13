@@ -9,18 +9,26 @@ import { useQuery, useMutation, queryCache } from "react-query";
 import { Field, Form, Formik } from "formik";
 
 import constants from "../../constants";
-import ids from "./ids";
+import ids from "../doi/ids";
 import DEDialog from "components/utils/DEDialog";
-import RequestStatus from "components/models/RequestStatus";
+import DOIRequestStatus from "components/models/DOIRequestStatus";
+import ToolRequestStatus from "components/models/ToolRequestStatus";
+import RequestType from "components/models/RequestType";
 import RequestHistoryTable from "components/utils/RequestHistoryTable";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
 import { nonEmptyField } from "components/utils/validations";
 import {
     adminGetRequestDetails,
-    adminUpdateRequestStatus,
+    adminUpdateDOIRequestStatus,
     REQUEST_DETAILS_QUERY_KEY,
     DOI_LISTING_QUERY_KEY,
 } from "serviceFacades/doi";
+
+import {
+    ADMIN_TOOL_REQUEST_DETAILS_QUERY_KEY,
+    getAdminToolRequestDetails,
+    adminUpdateToolRequest,
+} from "serviceFacades/tools";
 
 import {
     announce,
@@ -39,26 +47,40 @@ import {
 import { Skeleton } from "@material-ui/lab";
 
 export default function UpdateRequestDialog(props) {
-    const { open, onClose, requestId } = props;
+    const { open, onClose, requestId, requestType } = props;
     const [requestDetails, setRequestDetails] = useState();
     const [updateRequestError, setUpdateRequestError] = useState();
     const theme = useTheme();
-    const { t } = useTranslation("doi");
-    const { t: i18nUtil } = useTranslation("util");
+    const { t } = useTranslation("util");
     const baseId = ids.UPDATE_REQUEST_DIALOG;
-    const { isFetching: isRequestFetching, error: requestFetchError } =
+    const { isFetching: isDOIRequestFetching, error: doiRequestFetchError } =
         useQuery({
             queryKey: [REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
             queryFn: adminGetRequestDetails,
             config: {
-                enabled: requestId && open,
+                enabled: requestId && open && requestType === RequestType.DOI,
                 onSuccess: (data) => {
                     setRequestDetails(data);
                 },
             },
         });
+
+    const { isFetching: isToolRequestFetching, error: toolRequestFetchError } =
+        useQuery({
+            queryKey: [ADMIN_TOOL_REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
+            queryFn: getAdminToolRequestDetails,
+            config: {
+                enabled: requestId && open && requestType === RequestType.TOOL,
+                onSuccess: (resp) => {
+                    setRequestDetails(resp);
+                },
+            },
+        });
+
     const [updateRequest, { status: updateRequestStatus }] = useMutation(
-        adminUpdateRequestStatus,
+        requestType === RequestType.TOOL
+            ? adminUpdateToolRequest
+            : adminUpdateDOIRequestStatus,
         {
             onSuccess: (data) => {
                 announce({
@@ -77,15 +99,25 @@ export default function UpdateRequestDialog(props) {
             comments: values.comments,
             status: values.status,
         };
-        if (!isRequestFetching && updateRequestStatus !== constants.LOADING) {
+        if (
+            !isDOIRequestFetching &&
+            updateRequestStatus !== constants.LOADING &&
+            !isToolRequestFetching
+        ) {
             updateRequest(submission);
         }
     };
 
+    let statuses =
+        requestType === RequestType.TOOL ? ToolRequestStatus : DOIRequestStatus;
+
     return (
         <Formik
             initialValues={{
-                email: requestDetails?.requested_by?.email,
+                email:
+                    requestType === RequestType.DOI
+                        ? requestDetails?.requested_by?.email
+                        : requestDetails?.submitted_by,
                 status: "",
                 comments: "",
             }}
@@ -122,9 +154,16 @@ export default function UpdateRequestDialog(props) {
                                 </>
                             }
                         >
-                            {requestFetchError && (
+                            {doiRequestFetchError && (
                                 <ErrorTypographyWithDialog
-                                    errorObject={requestFetchError}
+                                    errorObject={doiRequestFetchError}
+                                    errorMessage={t("requestFetchError")}
+                                    baseId={baseId}
+                                />
+                            )}
+                            {toolRequestFetchError && (
+                                <ErrorTypographyWithDialog
+                                    errorObject={toolRequestFetchError}
                                     errorMessage={t("requestFetchError")}
                                     baseId={baseId}
                                 />
@@ -136,7 +175,7 @@ export default function UpdateRequestDialog(props) {
                                     baseId={baseId}
                                 />
                             )}
-                            {isRequestFetching && (
+                            {isDOIRequestFetching && (
                                 <Skeleton
                                     animation="wave"
                                     variant="rect"
@@ -155,7 +194,7 @@ export default function UpdateRequestDialog(props) {
                                 />
                             )}
 
-                            {!isRequestFetching && (
+                            {!doiRequestFetchError && (
                                 <>
                                     <Field
                                         name="email"
@@ -172,14 +211,14 @@ export default function UpdateRequestDialog(props) {
                                         label={t("status")}
                                         required
                                         validate={(value) =>
-                                            nonEmptyField(value, i18nUtil)
+                                            nonEmptyField(value, t)
                                         }
                                         component={FormTextField}
                                         select={true}
                                         variant="outlined"
                                         size="small"
                                     >
-                                        {Object.values(RequestStatus).map(
+                                        {Object.values(statuses).map(
                                             (status, index) => (
                                                 <MenuItem
                                                     key={index}
@@ -206,7 +245,7 @@ export default function UpdateRequestDialog(props) {
                                         }}
                                     />
                                     <Typography variant="subtitle2">
-                                        History
+                                        {t("history")}
                                     </Typography>
                                     <RequestHistoryTable
                                         history={requestDetails?.history}

@@ -21,7 +21,7 @@ function adminGetRequestDetails(key, { id }) {
         method: "GET",
     });
 }
-function adminUpdateRequestStatus({ id, status, comments }) {
+function adminUpdateDOIRequestStatus({ id, status, comments }) {
     return callApi({
         endpoint: `/api/admin/permanent-id-requests/${id}/status`,
         method: "POST",
@@ -50,7 +50,7 @@ function createDOIRequest(request) {
 export {
     adminGetDOIRequests,
     adminGetRequestDetails,
-    adminUpdateRequestStatus,
+    adminUpdateDOIRequestStatus,
     adminCreateDOI,
     createDOIRequest,
     DOI_LISTING_QUERY_KEY,

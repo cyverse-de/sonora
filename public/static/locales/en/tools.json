@@ -22,6 +22,7 @@
     "delete": "Delete",
     "deprecatedLbl": "Deprecated",
     "descriptionLabel": "Description",
+    "requestDetailsFetchError": "Unable to fetch tool request details.",
     "detailsLbl": "Details",
     "device": "Device",
     "dockerHubURL": "Docker Hub URL",

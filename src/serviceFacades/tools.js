@@ -191,6 +191,18 @@ function getAdminToolRequestDetails(_, { id }) {
         method: "GET",
     });
 }
+
+function adminUpdateToolRequest({ id, status, comments }) {
+    return callApi({
+        endpoint: `/api/admin/tool-requests/${id}/status`,
+        method: "POST",
+        body: {
+            status,
+            comments,
+        },
+    });
+}
+
 export {
     getTools,
     getToolPermissions,
@@ -211,4 +223,5 @@ export {
     adminUpdateTool,
     getAdminToolRequests,
     getAdminToolRequestDetails,
+    adminUpdateToolRequest,
 };

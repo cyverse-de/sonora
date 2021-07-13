@@ -7,6 +7,7 @@ import TableLoading from "../../utils/TableLoading";
 import { DERow } from "components/utils/DERow";
 import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
 import DETableHead from "components/utils/DETableHead";
+import PageWrapper from "components/layout/PageWrapper";
 
 import { build, DECheckbox, EmptyTable } from "@cyverse-de/ui-lib";
 import {
@@ -260,40 +261,42 @@ function TableView(props) {
 
     // Build and return the table.
     return (
-        <TableContainer component={Paper} style={{ overflow: "auto" }}>
-            <Table
-                id={tableId}
-                stickyHeader={true}
-                size="small"
-                aria-label={t("ariaTableListing")}
-            >
-                <DETableHead
-                    baseId={baseId}
-                    columnData={columns}
-                    numSelected={selected.length}
-                    onRequestSort={handleRequestSort}
-                    onSelectAllClick={handleSelectAllClick}
-                    order={order}
-                    orderBy={orderBy}
-                    rowsInPage={listing?.tools?.length || 0}
-                    selectable={multiSelect}
-                />
-                {loading ? (
-                    <LoadingMask columns={columns} tableId={tableId} />
-                ) : (
-                    <ToolListingTableBody
-                        columns={columns}
-                        handleClick={handleClick}
-                        t={t}
-                        multiSelect={multiSelect}
-                        selected={selected}
-                        tableId={tableId}
-                        tools={tools}
-                        isAdmin={isAdmin}
+        <PageWrapper appBarHeight={isAdmin ? 280 : 0}>
+            <TableContainer component={Paper} style={{ overflow: "auto" }}>
+                <Table
+                    id={tableId}
+                    stickyHeader={true}
+                    size="small"
+                    aria-label={t("ariaTableListing")}
+                >
+                    <DETableHead
+                        baseId={baseId}
+                        columnData={columns}
+                        numSelected={selected.length}
+                        onRequestSort={handleRequestSort}
+                        onSelectAllClick={handleSelectAllClick}
+                        order={order}
+                        orderBy={orderBy}
+                        rowsInPage={listing?.tools?.length || 0}
+                        selectable={multiSelect}
                     />
-                )}
-            </Table>
-        </TableContainer>
+                    {loading ? (
+                        <LoadingMask columns={columns} tableId={tableId} />
+                    ) : (
+                        <ToolListingTableBody
+                            columns={columns}
+                            handleClick={handleClick}
+                            t={t}
+                            multiSelect={multiSelect}
+                            selected={selected}
+                            tableId={tableId}
+                            tools={tools}
+                            isAdmin={isAdmin}
+                        />
+                    )}
+                </Table>
+            </TableContainer>
+        </PageWrapper>
     );
 }
 

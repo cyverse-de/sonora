@@ -14,7 +14,8 @@ import ids from "./ids";
 import TableView from "./TableView";
 import DOIToolbar from "./Toolbar";
 import globalConstants from "../../constants";
-import UpdateRequestDialog from "./UpdateRequestDialog";
+import UpdateRequestDialog from "../utils/UpdateRequestDialog";
+import RequestType from "components/models/RequestType";
 
 import DEPagination from "components/utils/DEPagination";
 import {
@@ -182,6 +183,7 @@ function Listing(props) {
                 />
             )}
             <UpdateRequestDialog
+                requestType={RequestType.DOI}
                 open={updateDialogOpen}
                 onClose={() => setUpdateDialogOpen(false)}
                 requestId={selected}

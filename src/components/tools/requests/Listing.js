@@ -4,17 +4,14 @@
  * A component intended to list all the tool requests in a table view.
  *
  */
-import React, { useState, useEffect } from "react";
-import { useQuery, queryCache, useMutation } from "react-query";
-
-import { useTranslation } from "i18n";
-
-import { AnnouncerConstants, announce } from "@cyverse-de/ui-lib";
+import React, { useState } from "react";
+import { useQuery, queryCache } from "react-query";
 
 import globalConstants from "../../../constants";
 import TableView from "components/tools/requests/TableView";
 import DEPagination from "components/utils/DEPagination";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import RequestType from "components/models/RequestType";
+import UpdateRequestDialog from "components/utils/UpdateRequestDialog";
 
 import {
     ADMIN_TOOL_REQUESTS_QUERY_KEY,
@@ -28,13 +25,11 @@ function Listing(props) {
         page,
         rowsPerPage,
         onRouteToRequestsListing,
-        showErrorAnnouncer,
     } = props;
-
-    const { t } = useTranslation("tools");
 
     const [data, setData] = useState(null);
     const [selected, setSelected] = useState();
+    const [updateDialogOpen, setUpdateDialogOpen] = useState();
 
     const { isFetching, error } = useQuery({
         queryKey: [
@@ -81,9 +76,9 @@ function Listing(props) {
             );
     };
 
-    const getSelectedRequest = (id) => {
-        const item = id ? id : selected;
-        return data?.requests?.find((req) => req.id === item);
+    const handleStatusClick = (id) => {
+        setSelected(id);
+        setUpdateDialogOpen(true);
     };
 
     return (
@@ -97,20 +92,31 @@ function Listing(props) {
                 orderBy={orderBy}
                 handleRequestSort={handleRequestSort}
                 handleClick={handleClick}
-                selected={selected}
+                handleStatusClick={handleStatusClick}
             />
-            {data && data?.total > 0 && (
+            {data && data?.tool_requests.length > 0 && (
                 <DEPagination
                     page={page + 1}
                     onChange={handleChangePage}
-                    totalPages={Math.ceil(data?.total / rowsPerPage)}
+                    totalPages={Math.ceil(
+                        data?.tool_requests.length / rowsPerPage
+                    )}
                     onPageSizeChange={handleChangeRowsPerPage}
                     pageSize={rowsPerPage}
                     baseId={baseId}
                 />
             )}
+            <UpdateRequestDialog
+                requestType={RequestType.TOOL}
+                open={updateDialogOpen}
+                onClose={() => {
+                    setUpdateDialogOpen(false);
+                    queryCache.invalidateQueries(ADMIN_TOOL_REQUESTS_QUERY_KEY);
+                }}
+                requestId={selected}
+            />
         </>
     );
 }
 
-export default withErrorAnnouncer(Listing);
+export default Listing;

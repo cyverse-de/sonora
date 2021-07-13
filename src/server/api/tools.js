@@ -203,5 +203,18 @@ export default function toolsRouter() {
         })
     );
 
+    logger.info("adding the POST /admin/tool-requests/:id/status handler");
+    api.post(
+        "/admin/tool-requests/:id/status",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/tool-requests/:id/status",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

@@ -25,26 +25,28 @@ function StepMapping(props) {
                 const fieldName = `steps.${index}.task.inputs.${inputIndex}.output`;
 
                 return (
-                    <FastField
-                        key={input.id}
-                        id={buildID(baseId, fieldName)}
-                        name={fieldName}
-                        component={FormTextField}
-                        select
-                        variant="outlined"
-                        label={input.label}
-                        helperText={input.description}
-                    >
-                        <MenuItem value="">&nbsp;</MenuItem>
-                        {availableOutputs?.map((output) => (
-                            <MenuItem key={output.id} value={output}>
-                                {t("outputMappingLabel", {
-                                    step: output.step + 1,
-                                    label: output.label,
-                                })}
-                            </MenuItem>
-                        ))}
-                    </FastField>
+                    index > 0 && (
+                        <FastField
+                            key={input.id}
+                            id={buildID(baseId, fieldName)}
+                            name={fieldName}
+                            component={FormTextField}
+                            select
+                            variant="outlined"
+                            label={input.label}
+                            helperText={input.description}
+                        >
+                            <MenuItem value="">&nbsp;</MenuItem>
+                            {availableOutputs?.map((output) => (
+                                <MenuItem key={output.id} value={output}>
+                                    {t("outputMappingLabel", {
+                                        step: output.step + 1,
+                                        label: output.label,
+                                    })}
+                                </MenuItem>
+                            ))}
+                        </FastField>
+                    )
                 );
             })}
             <TextField

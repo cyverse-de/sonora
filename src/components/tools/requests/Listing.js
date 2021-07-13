@@ -9,7 +9,6 @@ import { useQuery, queryCache } from "react-query";
 
 import globalConstants from "../../../constants";
 import TableView from "components/tools/requests/TableView";
-import DEPagination from "components/utils/DEPagination";
 import RequestType from "components/models/RequestType";
 import UpdateRequestDialog from "components/utils/UpdateRequestDialog";
 
@@ -17,13 +16,12 @@ import {
     ADMIN_TOOL_REQUESTS_QUERY_KEY,
     getAdminToolRequests,
 } from "serviceFacades/tools";
+
 function Listing(props) {
     const {
         baseId,
         order,
         orderBy,
-        page,
-        rowsPerPage,
         onRouteToRequestsListing,
     } = props;
 
@@ -34,7 +32,7 @@ function Listing(props) {
     const { isFetching, error } = useQuery({
         queryKey: [
             ADMIN_TOOL_REQUESTS_QUERY_KEY,
-            { order, orderBy, page, rowsPerPage },
+            { order, orderBy },
         ],
         queryFn: getAdminToolRequests,
         config: {
@@ -52,28 +50,12 @@ function Listing(props) {
                     ? globalConstants.SORT_DESCENDING
                     : globalConstants.SORT_ASCENDING,
                 property,
-                page,
-                rowsPerPage
+
             );
     };
 
     const handleClick = (event, id, index) => {
         setSelected(id);
-    };
-
-    const handleChangePage = (event, newPage) => {
-        onRouteToRequestsListing &&
-            onRouteToRequestsListing(order, orderBy, newPage - 1, rowsPerPage);
-    };
-
-    const handleChangeRowsPerPage = (newPageSize) => {
-        onRouteToRequestsListing &&
-            onRouteToRequestsListing(
-                order,
-                orderBy,
-                0,
-                parseInt(newPageSize, 10)
-            );
     };
 
     const handleStatusClick = (id) => {
@@ -94,18 +76,7 @@ function Listing(props) {
                 handleClick={handleClick}
                 handleStatusClick={handleStatusClick}
             />
-            {data && data?.tool_requests.length > 0 && (
-                <DEPagination
-                    page={page + 1}
-                    onChange={handleChangePage}
-                    totalPages={Math.ceil(
-                        data?.tool_requests.length / rowsPerPage
-                    )}
-                    onPageSizeChange={handleChangeRowsPerPage}
-                    pageSize={rowsPerPage}
-                    baseId={baseId}
-                />
-            )}
+
             <UpdateRequestDialog
                 requestType={RequestType.TOOL}
                 open={updateDialogOpen}

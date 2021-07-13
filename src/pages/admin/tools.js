@@ -40,11 +40,6 @@ export default function Tools() {
     const selectedToolsPermFilter = query.selectedToolsPermFilter;
     const selectedToolsSearchTerm = query.selectedToolsSearchTerm || "";
 
-    const selectedRequestsPage = parseInt(query.selectedRequestsPage) || 0;
-    const selectedRequestsRowsPerPage =
-        parseInt(query.selectedRequestsRowsPerPage) ||
-        parseInt(getLocalStorage(constants.LOCAL_STORAGE.TOOLS.PAGE_SIZE)) ||
-        100;
     const selectedRequestsOrder =
         query.selectedRequestsOrder || constants.SORT_DESCENDING;
     const selectedRequestsOrderBy =
@@ -77,14 +72,12 @@ export default function Tools() {
     );
 
     const onRouteToRequestsListing = useCallback(
-        (order, orderBy, page, rowsPerPage) => {
+        (order, orderBy) => {
             router.push({
                 pathname: `/${NavigationConstants.ADMIN}/${NavigationConstants.TOOLS}`,
                 query: {
                     selectedRequestsOrder: order,
                     selectedRequestsOrderBy: orderBy,
-                    selectedRequestsPage: page,
-                    selectedRequestsRowsPerPage: rowsPerPage,
                 },
             });
         },
@@ -132,8 +125,6 @@ export default function Tools() {
                 >
                     <RequestListing
                         baseId="adminToolRequests"
-                        page={selectedRequestsPage}
-                        rowsPerPage={selectedRequestsRowsPerPage}
                         order={selectedRequestsOrder}
                         orderBy={selectedRequestsOrderBy}
                         onRouteToRequestsListing={onRouteToRequestsListing}

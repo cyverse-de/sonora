@@ -61,6 +61,7 @@ export default {
         DELETE: "deleteBtn",
         EXPAND: "expandBtn",
         SUBMIT: "submitBtn",
+        OK: "onBtn",
     },
     PORTS_TABLE: {
         NAME: "name",
@@ -99,6 +100,7 @@ export default {
         NAME: "name",
         DESCRIPTION: "description",
         SRC_LINK: "srcLink",
+        COMMAND_LINE: "commandLine",
         VERSION: "version",
         DOCUMENTATION: "documentation",
         INSTRUCTIONS: "instructions",

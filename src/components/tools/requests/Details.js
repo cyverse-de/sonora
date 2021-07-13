@@ -47,13 +47,10 @@ function DetailsDialog(props) {
                 },
             },
         });
-    const handleSubmit = (values) => {
-        console.log(JSON.stringify(values));
-    };
+
     return (
         <Formik
             initialValues={details}
-            onSubmit={handleSubmit}
             enableReinitialize={true}
         >
             {({ handleSubmit, values }) => {
@@ -66,22 +63,14 @@ function DetailsDialog(props) {
                             id={parentId}
                             title="Details"
                             actions={
-                                <>
                                     <Button
-                                        id={build(parentId, ids.BUTTONS.CANCEL)}
-                                        onClick={onClose}
-                                    >
-                                        {i18nCommon("cancel")}
-                                    </Button>
-                                    <Button
-                                        id={build(parentId, ids.BUTTONS.SAVE)}
+                                        id={build(parentId, ids.BUTTONS.OK)}
                                         type="submit"
                                         color="primary"
-                                        onClick={handleSubmit}
+                                    onClick={onClose}
                                     >
                                         {i18nCommon("ok")}
-                                    </Button>
-                                </>
+                                </Button>
                             }
                         >
                             {isDetailsFetching && (
@@ -107,6 +96,9 @@ function DetailsDialog(props) {
                                             ids.TOOL_REQUEST.NAME
                                         )}
                                         component={FormTextField}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
                                     />
                                     <Field
                                         name="description"
@@ -116,24 +108,33 @@ function DetailsDialog(props) {
                                             ids.TOOL_REQUEST.DESCRIPTION
                                         )}
                                         component={FormTextField}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
                                     />
                                     <Field
                                         name="source_url"
                                         label={t("source")}
                                         id={build(
                                             parentId,
-                                            ids.TOOL_REQUEST.SOURCE_URL
+                                            ids.TOOL_REQUEST.SRC_URL
                                         )}
                                         component={FormTextField}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
                                     />
                                     <Field
                                         name="documentation_url"
                                         label={t("documentation_url")}
                                         id={build(
                                             parentId,
-                                            ids.TOOL_REQUEST.DOCUMENTATION_URL
+                                            ids.TOOL_REQUEST.DOCUMENTATION
                                         )}
                                         component={FormTextField}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
                                     />
                                     <Field
                                         name="test_data_path"
@@ -143,6 +144,9 @@ function DetailsDialog(props) {
                                             ids.TOOL_REQUEST.TEST_DATA_LINK
                                         )}
                                         component={FormTextField}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
                                     />
                                     <Field
                                         name="cmd_line"
@@ -152,6 +156,9 @@ function DetailsDialog(props) {
                                             ids.TOOL_REQUEST.COMMAND_LINE
                                         )}
                                         component={FormTextField}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
                                     />
                                     <Field
                                         name="version"
@@ -161,6 +168,9 @@ function DetailsDialog(props) {
                                             ids.TOOL_REQUEST.VERSION
                                         )}
                                         component={FormTextField}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
                                     />
                                 </>
                             )}

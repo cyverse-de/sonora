@@ -160,22 +160,12 @@ function deleteTools({ ids: toolIds }) {
     );
 }
 
-function getAdminToolRequests(_, { order, orderBy, page, rowsPerPage }) {
-    // Determine if the request is supposed to be ordered.
+function getAdminToolRequests(_, { order, orderBy }) {
     const isOrdered = order && orderBy;
-
-    // Determine if the request is supposed to be paginated.
-    const isPaginated = (page || page === 0) && rowsPerPage;
-
-    // Build the object containing the query parameters.
     const params = {};
     if (isOrdered) {
         params["sort-dir"] = order.toUpperCase();
         params["sort-field"] = orderBy.toLowerCase();
-    }
-    if (isPaginated) {
-        params["limit"] = rowsPerPage;
-        params["offset"] = page * rowsPerPage;
     }
 
     return callApi({

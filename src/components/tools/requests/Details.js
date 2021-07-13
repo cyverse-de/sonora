@@ -77,7 +77,7 @@ function DetailsDialog(props) {
                                 <Skeleton
                                     animation="wave"
                                     variant="rect"
-                                    height={800}
+                                    height={400}
                                 />
                             )}
                             {detailsFetchError && (

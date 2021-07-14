@@ -101,32 +101,36 @@ const AppStepActions = (props) => {
                     baseId={baseId}
                     ButtonProps={{ color: "inherit" }}
                     render={(onClose) => [
-                        <MenuItem
-                            key={ids.BUTTONS.MOVE_UP_BTN}
-                            id={buildID(baseId, ids.BUTTONS.MOVE_UP_BTN)}
-                            onClick={() => {
-                                onClose();
-                                onMoveUp();
-                            }}
-                        >
-                            <ListItemIcon>
-                                <ArrowUpward />
-                            </ListItemIcon>
-                            <ListItemText primary={t("moveUp")} />
-                        </MenuItem>,
-                        <MenuItem
-                            key={ids.BUTTONS.MOVE_DOWN_BTN}
-                            id={buildID(baseId, ids.BUTTONS.MOVE_DOWN_BTN)}
-                            onClick={() => {
-                                onClose();
-                                onMoveDown();
-                            }}
-                        >
-                            <ListItemIcon>
-                                <ArrowDownward />
-                            </ListItemIcon>
-                            <ListItemText primary={t("moveDown")} />
-                        </MenuItem>,
+                        onMoveUp && (
+                            <MenuItem
+                                key={ids.BUTTONS.MOVE_UP_BTN}
+                                id={buildID(baseId, ids.BUTTONS.MOVE_UP_BTN)}
+                                onClick={() => {
+                                    onClose();
+                                    onMoveUp();
+                                }}
+                            >
+                                <ListItemIcon>
+                                    <ArrowUpward />
+                                </ListItemIcon>
+                                <ListItemText primary={t("moveUp")} />
+                            </MenuItem>
+                        ),
+                        onMoveDown && (
+                            <MenuItem
+                                key={ids.BUTTONS.MOVE_DOWN_BTN}
+                                id={buildID(baseId, ids.BUTTONS.MOVE_DOWN_BTN)}
+                                onClick={() => {
+                                    onClose();
+                                    onMoveDown();
+                                }}
+                            >
+                                <ListItemIcon>
+                                    <ArrowDownward />
+                                </ListItemIcon>
+                                <ListItemText primary={t("moveDown")} />
+                            </MenuItem>
+                        ),
                         <MenuItem
                             key={ids.BUTTONS.DELETE_BTN}
                             id={buildID(baseId, ids.BUTTONS.DELETE_BTN)}
@@ -144,22 +148,26 @@ const AppStepActions = (props) => {
                 />
             ) : (
                 [
-                    <Button
-                        key={ids.BUTTONS.MOVE_UP_BTN}
-                        id={buildID(baseId, ids.BUTTONS.MOVE_UP_BTN)}
-                        aria-label={t("moveUp")}
-                        onClick={onMoveUp}
-                    >
-                        <ArrowUpward />
-                    </Button>,
-                    <Button
-                        key={ids.BUTTONS.MOVE_DOWN_BTN}
-                        id={buildID(baseId, ids.BUTTONS.MOVE_DOWN_BTN)}
-                        aria-label={t("moveDown")}
-                        onClick={onMoveDown}
-                    >
-                        <ArrowDownward />
-                    </Button>,
+                    onMoveUp && (
+                        <Button
+                            key={ids.BUTTONS.MOVE_UP_BTN}
+                            id={buildID(baseId, ids.BUTTONS.MOVE_UP_BTN)}
+                            aria-label={t("moveUp")}
+                            onClick={onMoveUp}
+                        >
+                            <ArrowUpward />
+                        </Button>
+                    ),
+                    onMoveDown && (
+                        <Button
+                            key={ids.BUTTONS.MOVE_DOWN_BTN}
+                            id={buildID(baseId, ids.BUTTONS.MOVE_DOWN_BTN)}
+                            aria-label={t("moveDown")}
+                            onClick={onMoveDown}
+                        >
+                            <ArrowDownward />
+                        </Button>
+                    ),
                     <DeleteButton
                         key={ids.BUTTONS.DELETE_BTN}
                         baseId={baseId}
@@ -306,6 +314,7 @@ function AppOrder(props) {
                         >
                             {t("common:add")}
                         </Button>
+
                         <AppSearchDrawer
                             open={appSearchDrawerOpen}
                             onConfirm={onConfirmSelectedApps}
@@ -313,60 +322,68 @@ function AppOrder(props) {
                             searchTerm=""
                             validateSelection={validateAppSelection}
                         />
-                        {steps?.map((step, index) => (
-                            <AppStep
-                                key={buildID(index, step.task_id || step.id)}
-                                baseId={baseId}
-                                index={index}
-                                step={step}
-                                updateStep={arrayHelpers.replace}
-                                onLoadError={(error) => {
-                                    showErrorAnnouncer(
-                                        t("appTaskFetchError", {
-                                            appName: step.name,
-                                        }),
-                                        error
-                                    );
-                                    arrayHelpers.remove(index);
-                                }}
-                                onDelete={() => setConfirmDeleteIndex(index)}
-                                onMoveUp={() => {
-                                    if (index > 0) {
-                                        resetInputStepMappings(
-                                            setFieldValue,
-                                            step,
-                                            index,
-                                            index - 1
-                                        );
 
-                                        resetOutputStepNumbers(step, index - 1);
-                                        resetOutputStepNumbers(
-                                            steps[index - 1],
-                                            index
-                                        );
+                        {steps?.map((step, index) => {
+                            const onMoveUp = () => {
+                                resetInputStepMappings(
+                                    setFieldValue,
+                                    step,
+                                    index,
+                                    index - 1
+                                );
 
-                                        arrayHelpers.move(index, index - 1);
+                                resetOutputStepNumbers(step, index - 1);
+                                resetOutputStepNumbers(steps[index - 1], index);
+
+                                arrayHelpers.move(index, index - 1);
+                            };
+
+                            const onMoveDown = () => {
+                                const nextStep = steps[index + 1];
+
+                                resetInputStepMappings(
+                                    setFieldValue,
+                                    nextStep,
+                                    index + 1,
+                                    index
+                                );
+
+                                resetOutputStepNumbers(step, index + 1);
+                                resetOutputStepNumbers(nextStep, index);
+
+                                arrayHelpers.move(index, index + 1);
+                            };
+
+                            return (
+                                <AppStep
+                                    key={buildID(
+                                        index,
+                                        step.task_id || step.id
+                                    )}
+                                    baseId={baseId}
+                                    index={index}
+                                    step={step}
+                                    updateStep={arrayHelpers.replace}
+                                    onLoadError={(error) => {
+                                        showErrorAnnouncer(
+                                            t("appTaskFetchError", {
+                                                appName: step.name,
+                                            }),
+                                            error
+                                        );
+                                        arrayHelpers.remove(index);
+                                    }}
+                                    onDelete={() =>
+                                        setConfirmDeleteIndex(index)
                                     }
-                                }}
-                                onMoveDown={() => {
-                                    if (index < steps.length - 1) {
-                                        const nextStep = steps[index + 1];
-
-                                        resetInputStepMappings(
-                                            setFieldValue,
-                                            nextStep,
-                                            index + 1,
-                                            index
-                                        );
-
-                                        resetOutputStepNumbers(step, index + 1);
-                                        resetOutputStepNumbers(nextStep, index);
-
-                                        arrayHelpers.move(index, index + 1);
+                                    onMoveUp={index > 0 && onMoveUp}
+                                    onMoveDown={
+                                        index < steps.length - 1 && onMoveDown
                                     }
-                                }}
-                            />
-                        ))}
+                                />
+                            );
+                        })}
+
                         <ConfirmationDialog
                             baseId={ids.DELETE_CONFIRM_DIALOG}
                             open={confirmDeleteIndex >= 0}

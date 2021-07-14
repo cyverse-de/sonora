@@ -14,7 +14,7 @@ import { appsSearchResp } from "../search/searchMocks";
 
 import WorkflowEditor from "components/apps/workflows/Editor";
 import ids from "components/apps/workflows/ids";
-import NewPipelineDefaults from "components/apps/workflows/NewPipelineDefaults";
+import NewWorkflowDefaults from "components/apps/workflows/NewWorkflowDefaults";
 
 const booleanControl = {
     control: {
@@ -78,7 +78,7 @@ export const NewWorkflow = (props) => {
     return (
         <WorkflowEditor
             baseId={ids.WORKFLOW_EDITOR_FORM}
-            appDescription={NewPipelineDefaults}
+            appDescription={NewWorkflowDefaults}
         />
     );
 };

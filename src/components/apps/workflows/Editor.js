@@ -1,5 +1,5 @@
 /**
- * A component for creating and editing App Pipeline Workflows.
+ * A component for creating and editing App Workflows.
  *
  * @author psarando
  */
@@ -210,7 +210,7 @@ const WorkflowEditor = (props) => {
 
                 const onSuccess = (workflow) => {
                     if (!values.id) {
-                        // A new pipeline was saved, so redirect to new URL
+                        // A new workflow was saved, so redirect to new URL
                         router.replace(
                             getAppEditPath(workflow.system_id, workflow.id)
                         );

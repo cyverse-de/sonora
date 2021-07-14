@@ -103,7 +103,7 @@
     "pubRequests": "Publication Requests",
     "publicLabel": "Public",
     "publicQLTooltip": "Quick Launch visible to all users",
-    "publicSubmissionPrompt": "After saving your app and testing it, you may use this form to submit it for public use so it can be used by others. This form contains the required information needed for our team to publish your app. Please contact <support>support</support> to submit your test data for public use. <br/> <b>Note</b>: If you are submitting a workflow/pipeline, every app used in that workflow must be public before the workflow can be published.",
+    "publicSubmissionPrompt": "After saving your app and testing it, you may use this form to submit it for public use so it can be used by others. This form contains the required information needed for our team to publish your app. Please contact <support>support</support> to submit your test data for public use. <br/> <b>Note</b>: If you are submitting a workflow, every app used in that workflow must be public before the workflow can be published.",
     "publicSubmissionTitle": "Publish {{appName}}",
     "publicationRequestFailed": "Unable to submit your request. Please try again.",
     "publicationRequestSuccess": "Your request to publish {{appName}} has been submitted. You will be notified when the request is complete.",

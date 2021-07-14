@@ -17,7 +17,7 @@ export default {
     LOGOUT: "logout",
     MORE: "more",
     NEW_APP: "/apps/create",
-    NEW_WORKFLOW: "/pipelines/create",
+    NEW_WORKFLOW: "/workflows/create",
     NOTIFICATIONS: "notifications",
     NOTIFICATION_WS: "/websocket/notifications",
     REF_GENOMES: "refgenomes",

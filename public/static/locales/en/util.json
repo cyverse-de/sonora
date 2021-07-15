@@ -2,8 +2,10 @@
     "browser": "Browser",
     "cancel": "Cancel",
     "close": "Close",
-    "copyDELink": "Copy DE Link",
+    "comments": "Comments",
     "contactSupport": "Contact Support",
+    "copyDELink": "Copy DE Link",
+    "date": "Date",
     "details": "Details",
     "email": "E-mail",
     "emptyValue": "Empty Value",
@@ -13,6 +15,7 @@
     "gridView": "Grid View",
     "history": "History",
     "host": "Host",
+    "invalidUrl": "A valid URL must begin with either ftp or http or https.",
     "mustBeNumber": "Value must be a number",
     "mustBeZeroOrMore": "Must be at least 0",
     "needAccount": "Need a free account? ",
@@ -34,9 +37,8 @@
     "statusCode": "Status Code",
     "tableView": "Table View",
     "timestamp": "Timestamp",
-    "updateRequest": "Update Request",
     "unexpectedError": "This wasn't supposed to happen. Please try again or contact support!",
+    "updateRequest": "Update Request",
     "user": "User",
-    "viewDetails": "View Details",
-    "invalidUrl": "A valid URL must begin with either ftp or http or https."
+    "viewDetails": "View Details"
 }

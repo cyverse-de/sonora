@@ -175,11 +175,12 @@ export default function UpdateRequestDialog(props) {
                                     baseId={baseId}
                                 />
                             )}
-                            {isDOIRequestFetching && (
+                            {(isDOIRequestFetching ||
+                                isToolRequestFetching) && (
                                 <Skeleton
                                     animation="wave"
                                     variant="rect"
-                                    height={500}
+                                    height={400}
                                 />
                             )}
                             {updateRequestStatus === constants.LOADING && (
@@ -194,7 +195,8 @@ export default function UpdateRequestDialog(props) {
                                 />
                             )}
 
-                            {!doiRequestFetchError && (
+                            {!doiRequestFetchError && !toolRequestFetchError && !(isDOIRequestFetching ||
+                                isToolRequestFetching) && (
                                 <>
                                     <Field
                                         name="email"

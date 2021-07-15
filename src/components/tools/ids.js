@@ -61,7 +61,7 @@ export default {
         DELETE: "deleteBtn",
         EXPAND: "expandBtn",
         SUBMIT: "submitBtn",
-        OK: "onBtn",
+        OK: "okBtn",
     },
     PORTS_TABLE: {
         NAME: "name",
@@ -96,6 +96,7 @@ export default {
         VIEW_FILTER_FIELD: "filterField",
     },
     TOOL_REQUEST: {
+        ADMIN_TOOL_REQUEST_DETAILS: "adminToolRequestDetailsDlg",
         DIALOG: "toolRequestDlg",
         NAME: "name",
         DESCRIPTION: "description",

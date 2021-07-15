@@ -23,9 +23,10 @@ import { Button } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
 function DetailsDialog(props) {
-    const { open, parentId, requestId, onClose } = props;
+    const { open, requestId, onClose } = props;
     const { t } = useTranslation("tools");
     const { t: i18nCommon } = useTranslation("common");
+    const parentId = ids.ADMIN_TOOL_REQUEST_DETAILS;
     const [details, setDetails] = React.useState({
         name: "",
         description: "",
@@ -42,17 +43,12 @@ function DetailsDialog(props) {
             queryFn: getAdminToolRequestDetails,
             config: {
                 enabled: requestId && open,
-                onSuccess: (resp) => {
-                    setDetails(resp);
-                },
+                onSuccess: setDetails,
             },
         });
 
     return (
-        <Formik
-            initialValues={details}
-            enableReinitialize={true}
-        >
+        <Formik initialValues={details} enableReinitialize={true}>
             {({ handleSubmit, values }) => {
                 return (
                     <Form>
@@ -61,15 +57,15 @@ function DetailsDialog(props) {
                             fullWidth={true}
                             onClose={onClose}
                             id={parentId}
-                            title="Details"
+                            title={t("details")}
                             actions={
-                                    <Button
-                                        id={build(parentId, ids.BUTTONS.OK)}
-                                        type="submit"
-                                        color="primary"
+                                <Button
+                                    id={build(parentId, ids.BUTTONS.OK)}
+                                    type="submit"
+                                    color="primary"
                                     onClick={onClose}
-                                    >
-                                        {i18nCommon("ok")}
+                                >
+                                    {i18nCommon("ok")}
                                 </Button>
                             }
                         >

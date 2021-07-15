@@ -18,22 +18,14 @@ import {
 } from "serviceFacades/tools";
 
 function Listing(props) {
-    const {
-        baseId,
-        order,
-        orderBy,
-        onRouteToRequestsListing,
-    } = props;
+    const { baseId, order, orderBy, onRouteToRequestsListing } = props;
 
     const [data, setData] = useState(null);
     const [selected, setSelected] = useState();
     const [updateDialogOpen, setUpdateDialogOpen] = useState();
 
     const { isFetching, error } = useQuery({
-        queryKey: [
-            ADMIN_TOOL_REQUESTS_QUERY_KEY,
-            { order, orderBy },
-        ],
+        queryKey: [ADMIN_TOOL_REQUESTS_QUERY_KEY, { order, orderBy }],
         queryFn: getAdminToolRequests,
         config: {
             enabled: true,
@@ -49,8 +41,7 @@ function Listing(props) {
                 isAsc
                     ? globalConstants.SORT_DESCENDING
                     : globalConstants.SORT_ASCENDING,
-                property,
-
+                property
             );
     };
 

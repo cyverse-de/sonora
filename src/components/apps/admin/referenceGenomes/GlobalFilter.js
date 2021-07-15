@@ -10,7 +10,7 @@ import { useTranslation } from "i18n";
 
 import ids from "./ids";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import InputBase from "@material-ui/core/InputBase";
 import { makeStyles } from "@material-ui/core/styles";
@@ -69,7 +69,7 @@ const GlobalFilter = ({
                 <SearchIcon />
             </div>
             <InputBase
-                id={build(baseId, ids.FILTER_FIELD)}
+                id={buildID(baseId, ids.FILTER_FIELD)}
                 value={globalFilter || ""}
                 onChange={(e) => {
                     setGlobalFilter(e.target.value || undefined); // Set undefined to remove the filter entirely

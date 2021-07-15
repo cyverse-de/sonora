@@ -11,7 +11,7 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 import GlobalFilter from "./GlobalFilter";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -43,11 +43,11 @@ const TableToolbar = (props) => {
         globalFilter,
         onAddClicked,
     } = props;
-    const toolbarId = build(baseId, ids.TOOLBAR);
+    const toolbarId = buildID(baseId, ids.TOOLBAR);
     return (
         <Toolbar className={classes.root}>
             <Button
-                id={build(toolbarId, ids.ADD_BUTTON)}
+                id={buildID(toolbarId, ids.ADD_BUTTON)}
                 variant="outlined"
                 color="primary"
                 startIcon={<AddIcon />}

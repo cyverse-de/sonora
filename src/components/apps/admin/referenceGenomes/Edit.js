@@ -14,7 +14,9 @@ import refGenomeConstants from "./constants";
 
 import GridLabelValue from "../../../utils/GridLabelValue";
 
-import { FormTextField, FormSwitch, build } from "@cyverse-de/ui-lib";
+import FormTextField from "components/utils/forms/FormTextField";
+import FormSwitch from "components/utils/forms/FormSwitch";
+import buildID from "components/utils/DebugIDUtil";
 
 import { Button, Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -70,7 +72,7 @@ function Edit(props) {
                     <Grid container spacing={2} className={classes.grid}>
                         <GridLabelValue label={t("name")} variant="body1">
                             <Field
-                                id={build(baseId, ids.NAME_TEXT)}
+                                id={buildID(baseId, ids.NAME_TEXT)}
                                 component={FormTextField}
                                 name={refGenomeConstants.keys.NAME}
                                 required={true}
@@ -79,7 +81,7 @@ function Edit(props) {
                         </GridLabelValue>
                         <GridLabelValue label={t("path")} variant="body1">
                             <Field
-                                id={build(baseId, ids.PATH_TEXT)}
+                                id={buildID(baseId, ids.PATH_TEXT)}
                                 component={FormTextField}
                                 name={refGenomeConstants.keys.PATH}
                                 required={true}
@@ -88,7 +90,7 @@ function Edit(props) {
                         </GridLabelValue>
                         <GridLabelValue label={t("createdBy")} variant="body1">
                             <Field
-                                id={build(baseId, ids.CREATED_BY_TEXT)}
+                                id={buildID(baseId, ids.CREATED_BY_TEXT)}
                                 component={FormTextField}
                                 name={refGenomeConstants.keys.CREATED_BY}
                                 required={true}
@@ -100,7 +102,7 @@ function Edit(props) {
                         </GridLabelValue>
                         <GridLabelValue label={t("createdOn")} variant="body1">
                             <Field
-                                id={build(baseId, ids.CREATED_ON_TEXT)}
+                                id={buildID(baseId, ids.CREATED_ON_TEXT)}
                                 component={FormTextField}
                                 name={refGenomeConstants.keys.CREATED_ON}
                                 required={true}
@@ -115,7 +117,7 @@ function Edit(props) {
                             variant="body1"
                         >
                             <Field
-                                id={build(baseId, ids.LAST_MODIFIED_ON_TEXT)}
+                                id={buildID(baseId, ids.LAST_MODIFIED_ON_TEXT)}
                                 component={FormTextField}
                                 name={refGenomeConstants.keys.LAST_MODIFIED_ON}
                                 required={true}
@@ -130,7 +132,7 @@ function Edit(props) {
                             variant="body1"
                         >
                             <Field
-                                id={build(baseId, ids.LAST_MODIFIED_BY_TEXT)}
+                                id={buildID(baseId, ids.LAST_MODIFIED_BY_TEXT)}
                                 component={FormTextField}
                                 name={refGenomeConstants.keys.LAST_MODIFIED_BY}
                                 required={true}
@@ -142,7 +144,7 @@ function Edit(props) {
                         </GridLabelValue>
                         <Grid item>
                             <Field
-                                id={build(baseId, ids.DELETED_SWITCH)}
+                                id={buildID(baseId, ids.DELETED_SWITCH)}
                                 component={FormSwitch}
                                 name={refGenomeConstants.keys.DELETED}
                                 color="primary"
@@ -154,7 +156,7 @@ function Edit(props) {
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Button
-                                id={build(baseId, ids.CANCEL_BUTTON)}
+                                id={buildID(baseId, ids.CANCEL_BUTTON)}
                                 className={classes.actionButton}
                                 onClick={onCancel}
                             >
@@ -163,7 +165,7 @@ function Edit(props) {
                         </Grid>
                         <Grid item>
                             <Button
-                                id={build(baseId, ids.OK_BUTTON)}
+                                id={buildID(baseId, ids.OK_BUTTON)}
                                 className={classes.actionButton}
                                 color="primary"
                                 type="submit"

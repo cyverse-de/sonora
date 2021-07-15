@@ -8,8 +8,7 @@ import { useQuery, useMutation } from "react-query";
 
 import { useTranslation } from "i18n";
 
-import { build as buildDebugId } from "@cyverse-de/ui-lib";
-
+import buildID from "components/utils/DebugIDUtil";
 import ids from "../ids";
 import constants from "../../../constants";
 
@@ -108,7 +107,7 @@ function Documentation(props) {
             <>
                 {isViewMode && (
                     <div
-                        id={buildDebugId(baseId, ids.DOC_MARKDOWN)}
+                        id={buildID(baseId, ids.DOC_MARKDOWN)}
                         dangerouslySetInnerHTML={{
                             __html: htmlDocumentation,
                         }}
@@ -122,7 +121,7 @@ function Documentation(props) {
                 )}
                 {isEditMode && (
                     <TextField
-                        id={buildDebugId(baseId, ids.DOC_TEXT)}
+                        id={buildID(baseId, ids.DOC_TEXT)}
                         multiline={true}
                         rows={20}
                         value={documentation}
@@ -133,7 +132,7 @@ function Documentation(props) {
                 {editable && isViewMode && (
                     <Tooltip title={t("edit")}>
                         <Fab
-                            id={buildDebugId(baseId, ids.EDIT_BTN)}
+                            id={buildID(baseId, ids.EDIT_BTN)}
                             color="primary"
                             aria-label={t("edit")}
                             style={{ float: "right" }}
@@ -147,7 +146,7 @@ function Documentation(props) {
                 {editable && isEditMode && (
                     <Tooltip title={t("save")}>
                         <Fab
-                            id={buildDebugId(baseId, ids.SAVE_BTN)}
+                            id={buildID(baseId, ids.SAVE_BTN)}
                             color="primary"
                             aria-label={t("save")}
                             style={{ float: "right" }}
@@ -257,7 +256,7 @@ function AppDoc(props) {
                 <DialogTitle>
                     {t("documentation")}
                     <IconButton
-                        id={buildDebugId(docBaseId, ids.CLOSE_BTN)}
+                        id={buildID(docBaseId, ids.CLOSE_BTN)}
                         aria-label={t("close")}
                         onClick={handleClose}
                         style={{

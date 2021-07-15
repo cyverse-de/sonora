@@ -27,12 +27,11 @@ import refGenomeConstants from "./constants";
 import Edit from "./Edit";
 import EnhancedTable from "./TableView";
 
-import {
-    announce,
-    AnnouncerConstants,
-    dateConstants,
-    formatDateObject,
-} from "@cyverse-de/ui-lib";
+import AnnouncerConstants from "components/utils/announcer/AnnouncerConstants";
+import { announce } from "components/utils/announcer/CyVerseAnnouncer";
+import { formatDateObject } from "components/utils/DateFormatter";
+import dateConstants from "components/utils/dateConstants";
+
 import {
     Dialog,
     DialogContent,

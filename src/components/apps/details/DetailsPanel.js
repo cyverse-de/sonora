@@ -10,7 +10,9 @@ import GridLabelValue from "components/utils/GridLabelValue";
 
 import ids from "../ids";
 
-import { build, formatDateObject, Rate } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { formatDateObject } from "components/utils/DateFormatter";
+import Rate from "components/utils/Rate";
 
 import { CircularProgress, Grid } from "@material-ui/core";
 
@@ -81,7 +83,7 @@ function DetailsPanel(props) {
                     <Grid
                         container
                         spacing={3}
-                        id={build(baseId, details.id, ids.APP_DETAILS)}
+                        id={buildID(baseId, details.id, ids.APP_DETAILS)}
                     >
                         <Grid item xs={12}>
                             {details.description}

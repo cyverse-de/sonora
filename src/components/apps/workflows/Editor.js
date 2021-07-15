@@ -22,7 +22,9 @@ import { formatWorkflowSubmission, initWorkflowValues } from "./formatters";
 
 import AppStepper, { StepperSkeleton } from "../AppStepper";
 import AppStepperFormSkeleton from "../AppStepperFormSkeleton";
-import AppStepDisplay, { BottomNavigationSkeleton } from "../AppStepDisplay";
+import AppStepDisplay, {
+    BottomNavigationSkeleton as StepperNavSkeleton,
+} from "../AppStepDisplay";
 
 import { getAppEditPath } from "components/apps/utils";
 
@@ -57,12 +59,20 @@ import { ArrowBack, ArrowForward } from "@material-ui/icons";
 const useStyles = makeStyles(styles);
 
 const StepperNavigation = (props) => {
-    const { baseId, backDisabled, nextDisabled, handleBack, handleNext } =
-        props;
+    const {
+        baseId,
+        backDisabled,
+        nextDisabled,
+        handleBack,
+        handleNext,
+        loading,
+    } = props;
 
     const { t } = useTranslation("common");
 
-    return (
+    return loading ? (
+        <StepperNavSkeleton />
+    ) : (
         <ButtonGroup fullWidth variant="contained" color="primary">
             <Button
                 id={buildID(baseId, ids.BUTTONS.BACK)}
@@ -248,6 +258,8 @@ const WorkflowEditor = (props) => {
                 values,
             }) => {
                 const saveDisabled = isSubmitting || !dirty || errors.error;
+                const stepperLoading =
+                    isSubmitting || values.steps?.find((step) => !step.task);
                 const hasDeprecatedStep = values.steps?.find(
                     (step) => step.task?.tool?.container?.image?.deprecated
                 );
@@ -343,7 +355,7 @@ const WorkflowEditor = (props) => {
                             </Typography>
                         )}
 
-                        {isSubmitting ? (
+                        {stepperLoading ? (
                             <StepperSkeleton baseId={baseId} ref={stepperRef} />
                         ) : (
                             <AppStepper
@@ -382,25 +394,23 @@ const WorkflowEditor = (props) => {
                                         nextDisabled={isLastStep()}
                                         handleBack={handleBack}
                                         handleNext={handleNext}
+                                        loading={stepperLoading}
                                     />
                                 )
                             }
                             bottomNavigation={
-                                isSubmitting ? (
-                                    <BottomNavigationSkeleton />
-                                ) : (
-                                    !isMobile && (
-                                        <StepperNavigation
-                                            baseId={buildID(
-                                                baseId,
-                                                ids.BUTTONS.NAV_BOTTOM
-                                            )}
-                                            backDisabled={!activeStep}
-                                            nextDisabled={isLastStep()}
-                                            handleBack={handleBack}
-                                            handleNext={handleNext}
-                                        />
-                                    )
+                                !isMobile && (
+                                    <StepperNavigation
+                                        baseId={buildID(
+                                            baseId,
+                                            ids.BUTTONS.NAV_BOTTOM
+                                        )}
+                                        backDisabled={!activeStep}
+                                        nextDisabled={isLastStep()}
+                                        handleBack={handleBack}
+                                        handleNext={handleNext}
+                                        loading={stepperLoading}
+                                    />
                                 )
                             }
                         >

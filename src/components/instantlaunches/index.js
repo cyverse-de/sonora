@@ -21,8 +21,10 @@ import { useTranslation } from "i18n";
 import { build as buildID } from "@cyverse-de/ui-lib";
 import ids from "components/instantlaunches/ids";
 import { instantlyLaunch } from "serviceFacades/instantlaunches";
+
 import { useMutation } from "react-query";
 import { getHost } from "components/utils/getHost";
+import { useDefaultOutputDir } from "components/data/utils";
 
 const useStyles = makeStyles((theme) => ({
     progress: {
@@ -107,6 +109,7 @@ const InstantLaunchButton = ({
     const [open, setOpen] = React.useState(false);
     const [ilUrl, setIlUrl] = React.useState();
     const theme = useTheme();
+    const output_dir = useDefaultOutputDir();
 
     React.useEffect(() => {
         if (ilUrl) {
@@ -151,7 +154,7 @@ const InstantLaunchButton = ({
                 event.preventDefault();
 
                 setOpen(true);
-                launch({ instantLaunch, resource });
+                launch({ instantLaunch, resource, output_dir });
             }}
         >
             <InstantLaunchSubmissionDialog open={open} />

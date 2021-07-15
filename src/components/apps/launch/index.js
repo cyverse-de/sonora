@@ -12,7 +12,7 @@ import { useTranslation } from "i18n";
 
 import NavigationConstants from "common/NavigationConstants";
 
-import { useHomePath } from "components/data/utils";
+import { useDefaultOutputDir } from "components/data/utils";
 
 import { useConfig } from "contexts/config";
 import { useBootstrapInfo } from "contexts/bootstrap";
@@ -37,10 +37,10 @@ const Launch = ({ app, launchError, viceQuota, runningJobs, loading }) => {
         React.useState(false);
     const [bootstrapInfo] = useBootstrapInfo();
     const [config] = useConfig();
-    const homePath = useHomePath();
 
     const router = useRouter();
     const { t } = useTranslation("vice");
+    const defaultOutputDir = useDefaultOutputDir();
 
     const [submitAnalysisMutation] = useMutation(
         ({ submission }) => submitAnalysis(submission),
@@ -72,13 +72,6 @@ const Launch = ({ app, launchError, viceQuota, runningJobs, loading }) => {
     );
 
     const preferences = bootstrapInfo?.preferences;
-
-    const defaultOutputDir =
-        preferences?.default_output_folder?.path ||
-        preferences?.system_default_output_dir?.path ||
-        (homePath && `${homePath}/analyses`) ||
-        "";
-
     const notify = preferences?.enableAnalysisEmailNotification || false;
 
     const defaultMaxCPUCores = config?.tools?.private.max_cpu_limit;

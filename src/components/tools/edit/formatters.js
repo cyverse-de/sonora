@@ -181,15 +181,16 @@ export function mapPropsToValues(tool, isAdmin) {
             }
 
             if (container_volumes_from) {
-                values.container.container_volumes_from = container_volumes_from.map(
-                    ({ name, name_prefix, tag, url, read_only }) => ({
-                        name,
-                        name_prefix,
-                        tag: tag || "",
-                        url: url || "",
-                        read_only,
-                    })
-                );
+                values.container.container_volumes_from =
+                    container_volumes_from.map(
+                        ({ name, name_prefix, tag, url, read_only }) => ({
+                            name,
+                            name_prefix,
+                            tag: tag || "",
+                            url: url || "",
+                            read_only,
+                        })
+                    );
             }
         }
     }

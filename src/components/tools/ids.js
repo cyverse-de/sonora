@@ -61,6 +61,7 @@ export default {
         DELETE: "deleteBtn",
         EXPAND: "expandBtn",
         SUBMIT: "submitBtn",
+        OK: "okBtn",
     },
     PORTS_TABLE: {
         NAME: "name",
@@ -95,13 +96,19 @@ export default {
         VIEW_FILTER_FIELD: "filterField",
     },
     TOOL_REQUEST: {
+        ADMIN_TOOL_REQUEST_DETAILS: "adminToolRequestDetailsDlg",
         DIALOG: "toolRequestDlg",
         NAME: "name",
         DESCRIPTION: "description",
         SRC_LINK: "srcLink",
+        COMMAND_LINE: "commandLine",
         VERSION: "version",
         DOCUMENTATION: "documentation",
         INSTRUCTIONS: "instructions",
         TEST_DATA_LINK: "testDataLink",
+        REQUESTED_BY: "requestedBy",
+        DATE_SUBMITTED: "dateSubmitted",
+        LAST_UPDATED: "lastUpdated",
+        STATUS: "status",
     },
 };

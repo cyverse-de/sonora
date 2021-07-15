@@ -1,7 +1,7 @@
 import React from "react";
 import { mockAxios } from "../axiosMock";
 import { requestDetails } from "./doiRequestMocks";
-import UpdateRequestDialog from "components/doi/UpdateRequestDialog";
+import UpdateRequestDialog from "components/utils/UpdateRequestDialog";
 export default {
     title: "DOI / Update Request",
 };

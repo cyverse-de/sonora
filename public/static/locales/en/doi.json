@@ -1,5 +1,4 @@
 {
-    "cancel": "Cancel",
     "comments": "Comments",
     "createDoi": "Create DOI",
     "createDoiPrompt": "Do you want to create a DOI now?",
@@ -8,16 +7,9 @@
     "date": "Date",
     "dateSubmitted": "Date Submitted",
     "dateUpdated": "Date Updated",
-    "email": "E-mail",
-    "history": "History",
     "noRequests": "No requests to display.",
     "path": "Path",
-    "requestFetchError": "Unable to fetch request details. Please try again.",
-    "requestUpdateFailure": "Unable to update request. Please try again.",
-    "requestUpdateSuccess": "Request updated successfully.",
-    "status": "Status",
     "type": "Type",
-    "updateRequest": "Update Request",
     "user": "User",
     "viewMetadata": "View Metadata"
 }

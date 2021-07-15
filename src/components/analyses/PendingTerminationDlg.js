@@ -7,7 +7,7 @@
 
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Button, Typography } from "@material-ui/core";
 
 import DEDialog from "components/utils/DEDialog";
@@ -29,7 +29,7 @@ function PendingTerminationDlg(props) {
             onClose={onClose}
             actions={
                 <Button
-                    id={build(dialogId, ids.DIALOG.CLOSE)}
+                    id={buildID(dialogId, ids.DIALOG.CLOSE)}
                     onClick={() => {
                         onClose();
                     }}

@@ -34,7 +34,7 @@ import {
     DATA_DETAILS_QUERY_KEY,
 } from "serviceFacades/filesystem";
 
-import { build as buildId } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     CircularProgress,
@@ -135,7 +135,7 @@ function ParameterValue(props) {
     if (isInputType(param_type) && valid_info_type) {
         return (
             <InputParameterValue
-                id={buildId(baseId, param_id)}
+                id={buildID(baseId, param_id)}
                 param_type={param_type}
                 path={displayValue}
             />

@@ -13,7 +13,7 @@ import ids from "../ids";
 
 import AppsTypeFilter from "components/apps/AppsTypeFilter";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Button,
@@ -80,7 +80,7 @@ function PermissionsFilter(props) {
     const { t } = useTranslation("analyses");
     return (
         <Autocomplete
-            id={build(baseId, ids.VIEW_FILTER)}
+            id={buildID(baseId, ids.VIEW_FILTER)}
             disabled={false}
             value={filter}
             options={getOwnershipFilters(t)}
@@ -94,7 +94,7 @@ function PermissionsFilter(props) {
             renderInput={(params) => (
                 <TextField
                     {...params}
-                    id={build(baseId, ids.VIEW_FILTER_FIELD)}
+                    id={buildID(baseId, ids.VIEW_FILTER_FIELD)}
                     label={t("viewFilter")}
                     variant="outlined"
                 />
@@ -116,9 +116,9 @@ function ClearFilter(props) {
     const { t } = useTranslation("analyses");
 
     return (
-        <Tooltip title={t("clearFilter")} id={build(baseId, ids.CLEAR_FILTER)}>
+        <Tooltip title={t("clearFilter")} id={buildID(baseId, ids.CLEAR_FILTER)}>
             <Button
-                id={build(baseId, ids.CLEAR_FILTER)}
+                id={buildID(baseId, ids.CLEAR_FILTER)}
                 size="small"
                 onClick={onClearFilter}
                 className={classes.filterIcon}
@@ -161,7 +161,7 @@ function AnalysesToolbar(props) {
     const classes = useStyles();
     const theme = useTheme();
     const { t } = useTranslation("analyses");
-    const analysesNavId = build(baseId, ids.ANALYSES_NAVIGATION);
+    const analysesNavId = buildID(baseId, ids.ANALYSES_NAVIGATION);
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
     const [terminateAnalysisDlgOpen, setTerminateAnalysisDlgOpen] =
@@ -205,7 +205,7 @@ function AnalysesToolbar(props) {
                 <Hidden smDown>
                     {isSingleSelection && (
                         <Button
-                            id={build(analysesNavId, ids.DETAILS_BTN)}
+                            id={buildID(analysesNavId, ids.DETAILS_BTN)}
                             className={classes.toolbarItems}
                             variant="outlined"
                             disableElevation
@@ -219,7 +219,7 @@ function AnalysesToolbar(props) {
                     )}
                     {hasSelection && (
                         <Button
-                            id={build(analysesNavId, ids.ADD_TO_BAG_BTN)}
+                            id={buildID(analysesNavId, ids.ADD_TO_BAG_BTN)}
                             className={classes.toolbarItems}
                             variant="outlined"
                             disableElevation

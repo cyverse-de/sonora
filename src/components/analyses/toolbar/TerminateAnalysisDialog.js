@@ -7,7 +7,7 @@
 
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Button, Typography } from "@material-ui/core";
 
 import { groupBy } from "common/functions";
@@ -48,7 +48,7 @@ function TerminateAnalysisDialog(props) {
             actions={
                 <>
                     <Button
-                        id={build(dialogId, ids.DIALOG.CANCEL)}
+                        id={buildID(dialogId, ids.DIALOG.CANCEL)}
                         onClick={() => {
                             onClose();
                         }}
@@ -56,7 +56,7 @@ function TerminateAnalysisDialog(props) {
                         {t("cancel")}
                     </Button>
                     <Button
-                        id={build(dialogId, ids.TERMINATE_BTN)}
+                        id={buildID(dialogId, ids.TERMINATE_BTN)}
                         color="primary"
                         variant="contained"
                         onClick={() => {

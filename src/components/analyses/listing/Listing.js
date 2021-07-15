@@ -10,12 +10,10 @@ import { queryCache, useMutation, useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
-import {
-    AnnouncerConstants,
-    announce,
-    build,
-    formatDate,
-} from "@cyverse-de/ui-lib";
+import AnnouncerConstants from "components/utils/announcer/AnnouncerConstants";
+import { announce } from "components/utils/announcer/CyVerseAnnouncer";
+import { formatDate } from "components/utils/DateFormatter";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     ANALYSES_LISTING_QUERY_KEY,
@@ -774,7 +772,7 @@ function Listing(props) {
 
             <ConfirmationDialog
                 open={deleteDialogOpen}
-                baseId={build(baseId, ids.DIALOG.DELETE)}
+                baseId={buildID(baseId, ids.DIALOG.DELETE)}
                 onClose={() => setDeleteDialogOpen(false)}
                 onConfirm={confirmDelete}
                 title={t("delete")}
@@ -785,7 +783,7 @@ function Listing(props) {
 
             <ConfirmationDialog
                 open={relaunchDialogOpen}
-                baseId={build(baseId, ids.DIALOG.RELAUNCH)}
+                baseId={buildID(baseId, ids.DIALOG.RELAUNCH)}
                 onClose={() => setRelaunchDialogOpen(false)}
                 onConfirm={confirmMultiRelaunch}
                 title={t("relaunch")}
@@ -812,7 +810,7 @@ function Listing(props) {
 
             {shareWithSupportAnalysis && (
                 <ShareWithSupportDialog
-                    baseId={build(baseId, ids.DIALOG.STATUS_HELP)}
+                    baseId={buildID(baseId, ids.DIALOG.STATUS_HELP)}
                     open={!!shareWithSupportAnalysis}
                     analysis={shareWithSupportAnalysis}
                     name={userProfile?.attributes.name}

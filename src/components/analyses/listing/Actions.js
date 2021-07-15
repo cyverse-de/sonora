@@ -9,7 +9,8 @@ import React from "react";
 import { useTranslation } from "i18n";
 import Link from "next/link";
 import ids from "../ids";
-import { build } from "@cyverse-de/ui-lib";
+
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     isInteractive,
@@ -36,7 +37,7 @@ const RelaunchButton = React.forwardRef((props, ref) => {
     return (
         <IconButton
             size="small"
-            id={build(baseId, ids.ICONS.RELAUNCH, ids.BUTTON)}
+            id={buildID(baseId, ids.ICONS.RELAUNCH, ids.BUTTON)}
             className={className}
             href={href}
             onClick={onClick}
@@ -61,7 +62,7 @@ const GotoOutputFolderButton = React.forwardRef((props, ref) => {
     return (
         <IconButton
             size="small"
-            id={build(baseId, ids.ICONS.OUTPUT, ids.BUTTON)}
+            id={buildID(baseId, ids.ICONS.OUTPUT, ids.BUTTON)}
             className={className}
             href={href}
             ref={ref}
@@ -122,7 +123,7 @@ export default function Actions(props) {
                         event.stopPropagation();
                         handleBatchIconClick(analysis);
                     }}
-                    id={build(baseId, ids.ICONS.BATCH, ids.BUTTON)}
+                    id={buildID(baseId, ids.ICONS.BATCH, ids.BUTTON)}
                     color="primary"
                     title={t("htDetails")}
                 >
@@ -140,7 +141,7 @@ export default function Actions(props) {
                         handleInteractiveUrlClick(interactiveUrls[0])
                     }
                     size="small"
-                    id={build(baseId, ids.ICONS.INTERACTIVE, ids.BUTTON)}
+                    id={buildID(baseId, ids.ICONS.INTERACTIVE, ids.BUTTON)}
                     color="primary"
                     title={t("goToVice")}
                 >
@@ -150,7 +151,7 @@ export default function Actions(props) {
             {allowTimeExtn && (
                 <IconButton
                     onClick={handleTimeLimitExtnClick}
-                    id={build(baseId, ids.ICONS.TIME_LIMIT)}
+                    id={buildID(baseId, ids.ICONS.TIME_LIMIT)}
                     size="small"
                     color="primary"
                     title={t("extendTime")}

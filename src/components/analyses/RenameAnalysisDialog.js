@@ -13,8 +13,8 @@ import ids from "./ids";
 import { validateDiskResourceName } from "components/data/utils";
 import UtilIds from "components/utils/ids.js";
 import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
-
-import { build, FormTextField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/utils/forms/FormTextField";
 
 import {
     Button,
@@ -70,7 +70,7 @@ function RenameAnalysisDialog(props) {
                             <DialogTitle>{t("renameDlgHeader")}</DialogTitle>
                             <DialogContent>
                                 <Field
-                                    id={build(baseId, ids.NAME)}
+                                    id={buildID(baseId, ids.NAME)}
                                     name="name"
                                     required={true}
                                     label={t("renamePrompt")}
@@ -84,7 +84,7 @@ function RenameAnalysisDialog(props) {
                                         endAdornment: isLoading && (
                                             <InputAdornment position="start">
                                                 <CircularProgress
-                                                    id={build(
+                                                    id={buildID(
                                                         baseId,
                                                         UtilIds.LOADING_SKELETON
                                                     )}
@@ -111,13 +111,13 @@ function RenameAnalysisDialog(props) {
 
                             <DialogActions>
                                 <Button
-                                    id={build(baseId, UtilIds.DIALOG.CANCEL)}
+                                    id={buildID(baseId, UtilIds.DIALOG.CANCEL)}
                                     onClick={onClose}
                                 >
                                     {t("common:cancel")}
                                 </Button>
                                 <Button
-                                    id={build(baseId, UtilIds.DIALOG.CONFIRM)}
+                                    id={buildID(baseId, UtilIds.DIALOG.CONFIRM)}
                                     color="primary"
                                     type="submit"
                                     onClick={handleSubmit}

@@ -21,11 +21,10 @@ import { useTranslation } from "i18n";
 import { build as buildID } from "@cyverse-de/ui-lib";
 import ids from "components/instantlaunches/ids";
 import { instantlyLaunch } from "serviceFacades/instantlaunches";
-import { useBootstrapInfo } from "contexts/bootstrap";
 
 import { useMutation } from "react-query";
 import { getHost } from "components/utils/getHost";
-import { useHomePath } from "components/data/utils";
+import { useDefaultOutputDir } from "components/data/utils";
 
 const useStyles = makeStyles((theme) => ({
     progress: {
@@ -110,16 +109,7 @@ const InstantLaunchButton = ({
     const [open, setOpen] = React.useState(false);
     const [ilUrl, setIlUrl] = React.useState();
     const theme = useTheme();
-    const [bootstrapInfo] = useBootstrapInfo();
-    const homePath = useHomePath();
-
-    const preferences = bootstrapInfo?.preferences;
-
-    const output_dir =
-        preferences?.default_output_folder?.path ||
-        preferences?.system_default_output_dir?.path ||
-        (homePath && `${homePath}/analyses`) ||
-        "";
+    const output_dir = useDefaultOutputDir();
 
     React.useEffect(() => {
         if (ilUrl) {

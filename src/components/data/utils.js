@@ -175,6 +175,19 @@ const useSelectorDefaultFolderPath = () => {
     );
 };
 
+const useDefaultOutputDir = () => {
+    const homePath = useHomePath();
+    const [bootstrapInfo] = useBootstrapInfo();
+    const preferences = bootstrapInfo?.preferences;
+
+    return (
+        preferences?.default_output_folder?.path ||
+        preferences?.system_default_output_dir?.path ||
+        (homePath && `${homePath}/analyses`) ||
+        ""
+    );
+};
+
 const isPathInTrash = (path, trash_path) =>
     path && trash_path && path.startsWith(trash_path);
 
@@ -204,6 +217,7 @@ export {
     useDataNavigationLink,
     useHomePath,
     useSelectorDefaultFolderPath,
+    useDefaultOutputDir,
     containsFolders,
     isPathInTrash,
     formatFileSize,

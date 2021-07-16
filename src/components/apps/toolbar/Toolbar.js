@@ -6,12 +6,16 @@ import ids from "../ids";
 
 import AppsDotMenu from "./AppsDotMenu";
 import AppNavigation from "./AppNavigation";
+
+import CreateAppMenuItem from "../menuItems/CreateAppMenuItem";
+import CreateWorkflowMenuItem from "../menuItems/CreateWorkflowMenuItem";
+
 import appType from "components/models/AppType";
 import AppsTypeFilter from "components/apps/AppsTypeFilter";
 
 import NavigationConstants from "common/NavigationConstants";
 
-import { build } from "@cyverse-de/ui-lib";
+import { build, DotMenu } from "@cyverse-de/ui-lib";
 import {
     Button,
     Hidden,
@@ -171,19 +175,24 @@ function AppsToolbar(props) {
                     </Link>
                 </Hidden>
                 <Hidden xsDown>
-                    <Link href={NavigationConstants.NEW_APP}>
-                        <Button
-                            id={build(appsToolbarId, ids.CREATE_APP_BTN)}
-                            className={classes.toolbarItems}
-                            variant="outlined"
-                            disableElevation
-                            color="primary"
-                            startIcon={<CreateAppIcon />}
-                            size="small"
-                        >
-                            {t("create")}
-                        </Button>
-                    </Link>
+                    <DotMenu
+                        baseId={build(appsToolbarId, ids.CREATE_APP_BTN)}
+                        ButtonProps={{
+                            className: classes.toolbarItems,
+                            startIcon: <CreateAppIcon />,
+                        }}
+                        buttonText={t("create")}
+                        render={(onClose) => [
+                            <CreateAppMenuItem
+                                key={ids.CREATE_APP_MENU_ITEM}
+                                baseId={appsToolbarId}
+                            />,
+                            <CreateWorkflowMenuItem
+                                key={ids.CREATE_WORKFLOW_MENU_ITEM}
+                                baseId={appsToolbarId}
+                            />,
+                        ]}
+                    />
                 </Hidden>
                 <Hidden mdUp>
                     <AppsDotMenu

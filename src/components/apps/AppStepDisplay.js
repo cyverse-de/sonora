@@ -41,8 +41,16 @@ export const BottomNavigationSkeleton = React.forwardRef((props, ref) => (
 ));
 
 const AppStepDisplay = (props) => {
-    const { step, label, children, actions, bottomNavigation, bottomOffset } =
-        props;
+    const {
+        step,
+        label,
+        helpText,
+        errorText,
+        children,
+        actions,
+        bottomNavigation,
+        bottomOffset,
+    } = props;
 
     const { t } = useTranslation("launch");
     const classes = useStyles();
@@ -54,6 +62,10 @@ const AppStepDisplay = (props) => {
                 titleTypographyProps={{
                     variant: "subtitle1",
                     color: "primary",
+                }}
+                subheader={errorText || helpText}
+                subheaderTypographyProps={{
+                    color: errorText ? "error" : "textSecondary",
                 }}
                 action={actions}
             />

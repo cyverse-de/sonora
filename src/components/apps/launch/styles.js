@@ -1,10 +1,7 @@
+import commonStyles from "../commonStyles";
+
 export default (theme) => ({
-    accordionDetails: {
-        flexDirection: "column",
-        [theme.breakpoints.down("xs")]: {
-            padding: theme.spacing(1),
-        },
-    },
+    ...commonStyles(theme),
 
     spacer: {
         margin: theme.spacing(1),
@@ -24,13 +21,6 @@ export default (theme) => ({
         [theme.breakpoints.down("xs")]: {
             margin: theme.spacing(0.3),
         },
-    },
-    paramsViewSummary: {
-        color: theme.palette.info.contrastText,
-        backgroundColor: theme.palette.info.main,
-    },
-    paramsViewsExpandIcon: {
-        color: theme.palette.info.contrastText,
     },
     inputSelectorBrowseButton: {
         marginLeft: theme.spacing(1),

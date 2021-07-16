@@ -137,10 +137,7 @@ function SearchToolbar(props) {
                 value={searchText}
                 onChange={handleInputChange}
                 className={classes.searchField}
-                InputProps={{
-                    startAdornment: <SearchIcon color="primary" />,
-                    disableUnderline: true,
-                }}
+                InputProps={{ startAdornment: <SearchIcon color="primary" /> }}
             />
         </Toolbar>
     );

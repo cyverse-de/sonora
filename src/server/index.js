@@ -14,6 +14,7 @@ import groupsRouter from "./api/groups";
 import metadataRouter from "./api/metadata";
 import notificationsRouter from "./api/notifications";
 import oauthRouter from "./api/oauth";
+import pipelinesRouter from "./api/pipelines";
 import quickLaunchRouter from "./api/quickLaunch";
 import instantlaunchRouter from "./api/instantlaunches";
 import refGenomeRouter from "./api/referenceGenomes";
@@ -126,6 +127,7 @@ app.prepare()
         server.use("/api", metadataRouter());
         server.use("/api", notificationsRouter());
         server.use("/api", oauthRouter());
+        server.use("/api", pipelinesRouter());
         server.use("/api", quickLaunchRouter());
         server.use("/api", instantlaunchRouter());
         server.use("/api", sharingRouter());

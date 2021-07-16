@@ -1,0 +1,23 @@
+{
+    "appDeprecatedTaskWarning": "This app uses a deprecated tool. You can still use this app in your private workflow, but you will have to replace it with a newer version of the app before this workflow can be made public.",
+    "appTaskFetchError": "Unable to lookup inputs and outputs for \"{{appName}}\". Please try again.",
+    "confirmDeleteStepText": "This action cannot be undone.",
+    "confirmDeleteStepTitle": "Delete Step?",
+    "createWorkflow": "Create Workflow: {{name}}",
+    "disabledAppsNotAllowed": "Disabled apps can't be included in a workflow.",
+    "editWorkflow": "Edit Workflow: {{name}}",
+    "mapOutputsToInputs": "Match Outputs to Inputs",
+    "outputMappingLabel": "Step {{step}}: {{label}}",
+    "outputsLabel": "Output(s)",
+    "selectAndOrderApps": "Select & Order Apps",
+    "stepErrorInfo": "Workflows require a name and a description.",
+    "stepErrorMapping": "At least one input for each app must come from an output of a previous app.",
+    "stepErrorSelectAndOrder": "You must add 2 or more apps to this workflow.",
+    "stepHelpInfo": "Currently, only linear workflows may be created. At least one input for each app must come from an output of a previous app.",
+    "stepHelpMapping": "At least one input for each app must come from an output of a previous app.",
+    "stepHelpSelectAndOrder": "Add and organize apps in this workflow.",
+    "workflowDeprecatedTasksWarning": "This workflow contains 1 or more apps that use deprecated tools. You can still edit and use this private workflow, but you will have to replace these apps with a newer version before this workflow can be made public.",
+    "workflowInfo": "Workflow Information",
+    "workflowSaved": "Workflow Saved",
+    "workflowSaveErr": "Unable to save workflow. Please try again."
+}

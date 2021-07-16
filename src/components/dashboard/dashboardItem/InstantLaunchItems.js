@@ -1,6 +1,6 @@
 import React from "react";
 
-import { formatDate } from "@cyverse-de/ui-lib";
+import { formatDate } from "components/utils/DateFormatter";
 
 import { IconButton } from "@material-ui/core";
 import { Info, InsertEmoticon as Smiley } from "@material-ui/icons";

@@ -43,7 +43,12 @@ class CopyTextArea extends Component {
     }
 
     render() {
-        const { multiline, text, debugIdPrefix, margin="normal" } = this.props;
+        const {
+            multiline,
+            text,
+            debugIdPrefix,
+            margin = "normal",
+        } = this.props;
         return (
             <div>
                 <TextField

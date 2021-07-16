@@ -7,7 +7,7 @@
  */
 import React, { useState } from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import {
     Chip,
     CircularProgress,
@@ -31,8 +31,8 @@ import {
 } from "../../serviceFacades/tags";
 import styles from "./styles";
 import isQueryLoading from "../utils/isQueryLoading";
-import DEErrorDialog from "../utils/error/DEErrorDialog";
-import ErrorTypography from "../utils/error/ErrorTypography";
+import DEErrorDialog from "../error/DEErrorDialog";
+import ErrorTypography from "../error/ErrorTypography";
 import { useUserProfile } from "contexts/userProfile";
 
 const useStyles = makeStyles(styles);
@@ -212,7 +212,10 @@ function TagSearch(props) {
                                 <>
                                     {loading ? (
                                         <CircularProgress
-                                            id={build(id, ids.LOADING_SKELETON)}
+                                            id={buildID(
+                                                id,
+                                                ids.LOADING_SKELETON
+                                            )}
                                             color="inherit"
                                             size={20}
                                         />
@@ -227,17 +230,17 @@ function TagSearch(props) {
             {selectedTags && selectedTags.length > 0 && (
                 <Paper
                     className={classes.tagPaper}
-                    id={build(id, ids.SELECTED_TAGS)}
+                    id={buildID(id, ids.SELECTED_TAGS)}
                 >
                     {selectedTags.map((tag) => (
                         <Chip
-                            id={build(id, ids.SELECTED_TAGS, tag.value)}
+                            id={buildID(id, ids.SELECTED_TAGS, tag.value)}
                             key={tag.id}
                             label={tag.value}
                             onDelete={() => onTagRemove(tag)}
                             deleteIcon={
                                 <HighlightOff
-                                    id={build(
+                                    id={buildID(
                                         id,
                                         ids.SELECTED_TAGS,
                                         tag.value,

@@ -9,7 +9,8 @@ import { FastField } from "formik";
 
 import ids from "../../ids";
 
-import { build as buildID, FormIntegerField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormIntegerField from "components/forms/FormIntegerField";
 
 export default function CharacterLimitField(props) {
     const { baseId, fieldName, ...custom } = props;

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Edit } from "@material-ui/icons";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import { useTranslation } from "i18n";
@@ -13,7 +13,7 @@ function RenameMenuItem(props) {
 
     return (
         <MenuItem
-            id={build(baseId, ids.RENAME_MI)}
+            id={buildID(baseId, ids.RENAME_MI)}
             onClick={() => {
                 onClose();
                 onRenameSelected();

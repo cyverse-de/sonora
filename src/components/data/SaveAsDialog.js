@@ -9,7 +9,7 @@ import { Field, Form, Formik } from "formik";
 
 import { useTranslation } from "react-i18next";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import ids from "./ids";
 import SaveAsField from "./SaveAsField";
@@ -62,13 +62,13 @@ function SaveAsDialog(props) {
                             actions={
                                 <>
                                     <Button
-                                        id={build(baseId, ids.CANCEL_BTN)}
+                                        id={buildID(baseId, ids.CANCEL_BTN)}
                                         onClick={onClose}
                                     >
                                         {i18nCommon("cancel")}
                                     </Button>
                                     <Button
-                                        id={build(baseId, ids.CREATE_BTN)}
+                                        id={buildID(baseId, ids.CREATE_BTN)}
                                         color="primary"
                                         type="submit"
                                         onClick={handleSubmit}
@@ -81,14 +81,14 @@ function SaveAsDialog(props) {
                             <Field
                                 startingPath={path}
                                 name="dest"
-                                id={build(baseId, ids.PATH)}
+                                id={buildID(baseId, ids.PATH)}
                                 acceptedType={ResourceTypes.FOLDER}
                                 label={t("newFileLocation")}
                                 component={InputSelector}
                                 required={true}
                             />
                             <Field
-                                id={build(baseId, ids.FILE_NAME)}
+                                id={buildID(baseId, ids.FILE_NAME)}
                                 name="name"
                                 required={true}
                                 label={t("fileName")}

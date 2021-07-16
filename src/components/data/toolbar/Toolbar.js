@@ -22,7 +22,7 @@ import CreateFolderDialog from "../CreateFolderDialog";
 import { isOwner, isWritable, isPathInTrash } from "../utils";
 import SharingButton from "components/sharing/SharingButton";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Button,
@@ -98,7 +98,7 @@ function DataToolbar(props) {
         (isWritable(permission) && !inTrash) ||
         isSmall;
 
-    let toolbarId = build(baseId, ids.TOOLBAR);
+    let toolbarId = buildID(baseId, ids.TOOLBAR);
     return (
         <Toolbar style={{ padding: 0 }}>
             <Navigation
@@ -112,7 +112,7 @@ function DataToolbar(props) {
                 <>
                     <Hidden smDown>
                         <Button
-                            id={build(toolbarId, ids.REFRESH_BTN)}
+                            id={buildID(toolbarId, ids.REFRESH_BTN)}
                             variant="outlined"
                             size="small"
                             disableElevation
@@ -125,7 +125,7 @@ function DataToolbar(props) {
                         </Button>
                         {detailsEnabled && (
                             <Button
-                                id={build(toolbarId, ids.DETAILS_BTN)}
+                                id={buildID(toolbarId, ids.DETAILS_BTN)}
                                 variant="outlined"
                                 size="small"
                                 disableElevation
@@ -140,7 +140,7 @@ function DataToolbar(props) {
                         {uploadEnabled && (
                             <>
                                 <Button
-                                    id={build(toolbarId, ids.CREATE_BTN)}
+                                    id={buildID(toolbarId, ids.CREATE_BTN)}
                                     variant="outlined"
                                     size="small"
                                     disableElevation
@@ -162,7 +162,7 @@ function DataToolbar(props) {
                         )}
                         {bagEnabled && (
                             <Button
-                                id={build(toolbarId, ids.ADD_TO_BAG_BTN)}
+                                id={buildID(toolbarId, ids.ADD_TO_BAG_BTN)}
                                 variant="outlined"
                                 size="small"
                                 disableElevation

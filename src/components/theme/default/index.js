@@ -1,4 +1,4 @@
-import { getMuiTheme } from "@cyverse-de/ui-lib";
+import { getMuiTheme } from "./CyVerseTheme";
 
 const theme = getMuiTheme();
 

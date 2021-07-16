@@ -9,14 +9,15 @@ import { Field, Form, Formik } from "formik";
 
 import { useTranslation } from "react-i18next";
 
-import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { announce, INFO } from "components/announcer/CyVerseAnnouncer";
 import { useMutation } from "react-query";
 import ids from "./ids";
 import ResourceIcon from "components/data/listing/ResourceIcon";
 import ResourceTypes from "components/models/ResourceTypes";
 import InputSelector from "components/apps/launch/InputSelector";
 import DEDialog from "components/utils/DEDialog";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import { move } from "serviceFacades/filesystem";
 import constants from "../../constants";
 
@@ -47,7 +48,7 @@ function MoveDialog(props) {
         onSuccess: (data) => {
             announce({
                 text: t("asyncMovePending"),
-                variant: AnnouncerConstants.INFO,
+                variant: INFO,
             });
             onClose();
         },
@@ -80,13 +81,13 @@ function MoveDialog(props) {
                             actions={
                                 <>
                                     <Button
-                                        id={build(baseId, ids.CANCEL_BTN)}
+                                        id={buildID(baseId, ids.CANCEL_BTN)}
                                         onClick={onClose}
                                     >
                                         {i18nCommon("cancel")}
                                     </Button>
                                     <Button
-                                        id={build(baseId, ids.MOVE_BTN)}
+                                        id={buildID(baseId, ids.MOVE_BTN)}
                                         color="primary"
                                         type="submit"
                                         onClick={handleSubmit}
@@ -131,7 +132,7 @@ function MoveDialog(props) {
                                 {selectedResources?.map((resource) => {
                                     return (
                                         <ListItem
-                                            id={build(baseId, resource?.id)}
+                                            id={buildID(baseId, resource?.id)}
                                             key={resource?.id}
                                         >
                                             <IconButton
@@ -167,7 +168,7 @@ function MoveDialog(props) {
                             <Field
                                 startingPath={path}
                                 name="dest"
-                                id={build(baseId, ids.PATH)}
+                                id={buildID(baseId, ids.PATH)}
                                 acceptedType={ResourceTypes.FOLDER}
                                 label={t("moveDestination")}
                                 component={InputSelector}

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import {
     Button,
     Card,
@@ -26,7 +26,7 @@ function LegacyDE(props) {
     const [config] = useConfig();
     const theme = useTheme();
 
-    const baseId = build(parentId, ids.LEGACY_CARD);
+    const baseId = buildID(parentId, ids.LEGACY_CARD);
     const classes = useStyles();
 
     const legacyLink = config?.legacyDeUrl;
@@ -72,7 +72,7 @@ function LegacyDE(props) {
             {userProfile?.id && (
                 <CardActions>
                     <Button
-                        id={build(baseId, ids.DISMISS_BTN)}
+                        id={buildID(baseId, ids.DISMISS_BTN)}
                         size="small"
                         onClick={onDismiss}
                     >

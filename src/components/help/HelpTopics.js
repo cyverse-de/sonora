@@ -13,7 +13,7 @@ import ProductTour from "components/help/ProductTour";
 import Feedback from "components/help/Feedback";
 import { intercomShow } from "common/intercom";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Grid,
@@ -93,7 +93,7 @@ export default function HelpTopics(props) {
                         description={t("faq_prompt")}
                         action={
                             <Button
-                                id={build(baseId, ids.FAQ_BTN)}
+                                id={buildID(baseId, ids.FAQ_BTN)}
                                 size="small"
                                 color="primary"
                                 className={classes.action}
@@ -114,7 +114,7 @@ export default function HelpTopics(props) {
                         action={
                             <>
                                 <Button
-                                    id={build(baseId, ids.EMAIL_BTN)}
+                                    id={buildID(baseId, ids.EMAIL_BTN)}
                                     color="primary"
                                     href={`mailto:${constants.SUPPORT_EMAIL}`}
                                     startIcon={<LaunchIcon />}
@@ -123,7 +123,7 @@ export default function HelpTopics(props) {
                                     {t("email_button_label")}
                                 </Button>
                                 <Button
-                                    id={build(baseId, ids.CHAT_BTN)}
+                                    id={buildID(baseId, ids.CHAT_BTN)}
                                     className={classes.action}
                                     color="primary"
                                     startIcon={<LiveHelpIcon />}
@@ -146,7 +146,7 @@ export default function HelpTopics(props) {
                         description={t("feedback_prompt")}
                         action={
                             <Button
-                                id={build(baseId, ids.FEEDBACK_BTN)}
+                                id={buildID(baseId, ids.FEEDBACK_BTN)}
                                 color="primary"
                                 onClick={() => setFeedbackOpen(true)}
                                 className={classes.action}
@@ -169,7 +169,7 @@ export default function HelpTopics(props) {
                         description={t("product_tour_prompt")}
                         action={
                             <Button
-                                id={build(baseId, ids.TOUR_BTN)}
+                                id={buildID(baseId, ids.TOUR_BTN)}
                                 color="primary"
                                 onClick={() => setRunTour(true)}
                                 className={classes.action}
@@ -186,7 +186,7 @@ export default function HelpTopics(props) {
                         description={t("guide_prompt")}
                         action={
                             <Button
-                                id={build(baseId, ids.GUIDE_BTN)}
+                                id={buildID(baseId, ids.GUIDE_BTN)}
                                 color="primary"
                                 className={classes.action}
                                 startIcon={<LaunchIcon />}
@@ -206,7 +206,7 @@ export default function HelpTopics(props) {
                         description={t("glossary_prompt")}
                         action={
                             <Button
-                                id={build(baseId, ids.GLOSSARY_BTN)}
+                                id={buildID(baseId, ids.GLOSSARY_BTN)}
                                 color="primary"
                                 className={classes.action}
                                 startIcon={<LaunchIcon />}
@@ -229,7 +229,7 @@ export default function HelpTopics(props) {
                         description={t("learning_center_prompt")}
                         action={
                             <Button
-                                id={build(baseId, ids.LC_BTN)}
+                                id={buildID(baseId, ids.LC_BTN)}
                                 color="primary"
                                 className={classes.action}
                                 startIcon={<LaunchIcon />}

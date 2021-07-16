@@ -11,11 +11,9 @@ import { useQuery } from "react-query";
 
 import AppEditor from "components/apps/editor";
 import ids from "components/apps/editor/ids";
-
 import WorkflowEditor from "components/apps/workflows/Editor";
 import WorkflowIds from "components/apps/workflows/ids";
-
-import { signInErrorResponse } from "components/utils/error/errorCode";
+import { signInErrorResponse } from "components/error/errorCode";
 
 import { useUserProfile } from "contexts/userProfile";
 

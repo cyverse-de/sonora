@@ -28,15 +28,8 @@ const style1 = (theme) => ({
 
 class Rate extends Component {
     render() {
-        const {
-            name,
-            value,
-            readOnly,
-            total,
-            onChange,
-            onDelete,
-            classes,
-        } = this.props;
+        const { name, value, readOnly, total, onChange, onDelete, classes } =
+            this.props;
         const totalString = numeral(total).format("0a");
         return (
             <React.Fragment>

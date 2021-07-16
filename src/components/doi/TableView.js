@@ -8,16 +8,14 @@
 import React from "react";
 import { useTranslation } from "i18n";
 import ids from "./ids";
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
-import TableLoading from "components/utils/TableLoading";
-import { DERow } from "components/utils/DERow";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import TableLoading from "components/table/TableLoading";
+import { DERow } from "components/table/DERow";
 
-import {
-    build,
-    EmptyTable,
-    EnhancedTableHead,
-    formatDate,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import EmptyTable from "components/table/EmptyTable";
+import EnhancedTableHead from "components/table/EnhancedTableHead";
+import { formatDate } from "components/utils/DateFormatter";
 
 import {
     Link,
@@ -94,7 +92,7 @@ export default function TableView(props) {
     const requests = listing?.requests;
     let columns = columnData(t);
 
-    const tableId = build(baseId, ids.LISTING_TABLE);
+    const tableId = buildID(baseId, ids.LISTING_TABLE);
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
     }
@@ -135,7 +133,7 @@ export default function TableView(props) {
                             requests.map((request, index) => {
                                 const id = request.id;
                                 const isSelected = selected === id;
-                                const rowId = build(baseId, tableId, id);
+                                const rowId = buildID(baseId, tableId, id);
                                 return (
                                     <DERow
                                         onClick={(event) =>
@@ -154,7 +152,7 @@ export default function TableView(props) {
                                                 component="button"
                                                 onClick={handleUserNameClick}
                                                 color="primary"
-                                                id={build(rowId, ids.USER)}
+                                                id={buildID(rowId, ids.USER)}
                                             >
                                                 <Typography variant="body2">
                                                     {request.requested_by}
@@ -167,7 +165,7 @@ export default function TableView(props) {
                                                 onClick={() =>
                                                     handlePathClick(id)
                                                 }
-                                                id={build(rowId, ids.PATH)}
+                                                id={buildID(rowId, ids.PATH)}
                                                 color="primary"
                                             >
                                                 <Typography variant="body2">
@@ -195,7 +193,7 @@ export default function TableView(props) {
                                             </Typography>
                                         </TableCell>
                                         <TableCell
-                                            id={build(rowId, ids.STATUS)}
+                                            id={buildID(rowId, ids.STATUS)}
                                         >
                                             <Typography variant="body2">
                                                 {request.status}

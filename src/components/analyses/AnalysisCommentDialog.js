@@ -11,10 +11,10 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 
 import UtilIds from "components/utils/ids.js";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 import buildID from "components/utils/DebugIDUtil";
-import FormTextField from "components/utils/forms/FormTextField";
+import FormTextField from "components/forms/FormTextField";
 
 import {
     Button,

@@ -11,7 +11,8 @@ import { useTranslation } from "i18n";
 
 import { sortReferenceGenomes, useReferenceGenomes } from "../queries";
 
-import { FormFieldLoading, FormTextField } from "@cyverse-de/ui-lib";
+import FormFieldLoading from "components/forms/FormFieldLoading";
+import FormTextField from "components/forms/FormTextField";
 
 import { MenuItem } from "@material-ui/core";
 

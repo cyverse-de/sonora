@@ -1,5 +1,5 @@
 import React from "react";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import { TYPE } from "./constants";
 import {
@@ -75,7 +75,7 @@ function SharedItem(props) {
 
     return (
         <Identity
-            id={build(baseId, idFn(item))}
+            id={buildID(baseId, idFn(item))}
             avatar={icon}
             primaryText={labelFn(item)}
             secondaryText={secondaryText(item)}

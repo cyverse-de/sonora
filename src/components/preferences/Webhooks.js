@@ -10,10 +10,14 @@ import React from "react";
 import { useTranslation } from "i18n";
 import { Field } from "formik";
 import { useQuery } from "react-query";
-import { build, FormTextField, FormSwitch } from "@cyverse-de/ui-lib";
+
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
+import FormSwitch from "components/forms/FormSwitch";
+
 import { testWebhook, WEBHOOK_TEST_KEY } from "serviceFacades/users";
 
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import ids from "./ids";
 import styles from "./styles";
 
@@ -70,7 +74,7 @@ export default function Webhooks(props) {
                 </Grid>
                 <Grid item xs={6}>
                     <Field
-                        id={build(baseId, ids.WEBHOOK_URL_TEXT)}
+                        id={buildID(baseId, ids.WEBHOOK_URL_TEXT)}
                         component={FormTextField}
                         name="webhook.url"
                     />
@@ -78,7 +82,7 @@ export default function Webhooks(props) {
                 <Grid item>
                     <Field
                         name="webhook.type.type"
-                        id={build(baseId, ids.WEBHOOK_TYPES_SELECT)}
+                        id={buildID(baseId, ids.WEBHOOK_TYPES_SELECT)}
                         label={t("type")}
                         required
                         select
@@ -90,7 +94,7 @@ export default function Webhooks(props) {
                             <MenuItem
                                 key={index}
                                 value={type.type}
-                                id={build(
+                                id={buildID(
                                     baseId,
                                     ids.WEBHOOK_TYPES_SELECT,
                                     type.type
@@ -111,7 +115,7 @@ export default function Webhooks(props) {
                 {webhookTopics?.map((topic, index) => (
                     <Grid item xs={12}>
                         <Field
-                            id={build(
+                            id={buildID(
                                 baseId,
                                 ids.WEBHOOK_TOPIC_SWITCH,
                                 topic.topic
@@ -133,7 +137,7 @@ export default function Webhooks(props) {
                 )}
                 <Grid item>
                     <Button
-                        id={build(baseId, ids.WEBHOOK_TEST_BTN)}
+                        id={buildID(baseId, ids.WEBHOOK_TEST_BTN)}
                         variant="outlined"
                         enabled={!isTesting}
                         onClick={() => {

@@ -25,7 +25,7 @@ import React, { useState } from "react";
 import { Menu, IconButton } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-import build from "../../util/DebugIDUtil";
+import buildID from "components/utils/DebugIDUtil";
 
 function DotMenu(props) {
     const { baseId, render, ButtonProps, MenuProps } = props;
@@ -40,12 +40,12 @@ function DotMenu(props) {
         setAnchorEl(null);
     };
 
-    let menuId = build(baseId, "moreMenu");
+    let menuId = buildID(baseId, "moreMenu");
 
     return (
         <>
             <IconButton
-                id={build(baseId, "dotMenuIcon")}
+                id={buildID(baseId, "dotMenuIcon")}
                 aria-controls={menuId}
                 aria-haspopup="true"
                 onClick={handleDotMenuClick}

@@ -24,8 +24,8 @@ import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import RunError from "components/apps/RunError";
 import AppLaunchWizard from "./AppLaunchWizard";
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
-import { ERROR_CODES } from "components/utils/error/errorCode";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import { ERROR_CODES } from "components/error/errorCode";
 import AccessRequestDialog from "components/vice/AccessRequestDialog";
 import ids from "components/apps/ids";
 

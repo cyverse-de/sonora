@@ -6,7 +6,9 @@
 
 import React, { useState } from "react";
 
-import { build, DotMenu } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import DotMenu from "components/dotMenu/DotMenu";
+
 import {
     Button,
     Hidden,
@@ -40,13 +42,13 @@ function CommunityToolbar(props) {
         setFilter(event.target.value);
     };
 
-    const toolbarId = build(parentId, ids.TOOLBAR);
-    const dotMenuId = build(toolbarId, ids.DOT_MENU);
+    const toolbarId = buildID(parentId, ids.TOOLBAR);
+    const dotMenuId = buildID(toolbarId, ids.DOT_MENU);
 
     return (
         <Toolbar id={toolbarId} variant="dense">
             <TextField
-                id={build(toolbarId, ids.COMMUNITY_FILTER)}
+                id={buildID(toolbarId, ids.COMMUNITY_FILTER)}
                 label={t("view")}
                 value={filter}
                 onChange={onFilterChange}
@@ -57,14 +59,14 @@ function CommunityToolbar(props) {
                 <MenuItem
                     value={COMMUNITY_FILTER.ALL_COMMUNITIES}
                     key={COMMUNITY_FILTER.ALL_COMMUNITIES}
-                    id={build()}
+                    id={buildID()}
                 >
                     {t("allCommunities")}
                 </MenuItem>
                 <MenuItem
                     value={COMMUNITY_FILTER.MY_COMMUNITIES}
                     key={COMMUNITY_FILTER.MY_COMMUNITIES}
-                    id={build()}
+                    id={buildID()}
                 >
                     {t("myCommunities")}
                 </MenuItem>
@@ -74,7 +76,7 @@ function CommunityToolbar(props) {
                 <Button
                     color="primary"
                     variant="outlined"
-                    id={build(toolbarId, ids.BUTTONS.HELP_BTN)}
+                    id={buildID(toolbarId, ids.BUTTONS.HELP_BTN)}
                     onClick={() => setHelpDlgOpen(true)}
                     startIcon={<Help />}
                 >
@@ -86,8 +88,8 @@ function CommunityToolbar(props) {
                     baseId={dotMenuId}
                     render={(onClose) => [
                         <MenuItem
-                            key={build(dotMenuId, ids.BUTTONS.HELP_MI)}
-                            id={build(dotMenuId, ids.BUTTONS.HELP_MI)}
+                            key={buildID(dotMenuId, ids.BUTTONS.HELP_MI)}
+                            id={buildID(dotMenuId, ids.BUTTONS.HELP_MI)}
                             onClick={() => {
                                 onClose();
                                 setHelpDlgOpen(true);

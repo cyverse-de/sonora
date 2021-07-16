@@ -6,7 +6,7 @@ import Link from "next/link";
 import { PlayArrow, Info, Apps } from "@material-ui/icons";
 import { IconButton } from "@material-ui/core";
 
-import { formatDate } from "@cyverse-de/ui-lib";
+import { formatDate } from "components/utils/DateFormatter";
 
 import { appFavorite, APP_BY_ID_QUERY_KEY } from "serviceFacades/apps";
 
@@ -40,7 +40,7 @@ class AppItem extends ItemBase {
         // State variables.
         const [isFavorite, setIsFavorite] = useState(app.is_favorite);
 
-        // Functions to build keys and links.
+        // Functions to buildID keys and links.
         const baseId = `${constants.KIND_APPS}-${app.system_id}-${app.id}`;
         const buildKey = (keyType) => `${baseId}-${keyType}`;
         const [favorite] = useMutation(appFavorite, {

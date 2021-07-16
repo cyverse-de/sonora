@@ -116,7 +116,10 @@ function ClearFilter(props) {
     const { t } = useTranslation("analyses");
 
     return (
-        <Tooltip title={t("clearFilter")} id={buildID(baseId, ids.CLEAR_FILTER)}>
+        <Tooltip
+            title={t("clearFilter")}
+            id={buildID(baseId, ids.CLEAR_FILTER)}
+        >
             <Button
                 id={buildID(baseId, ids.CLEAR_FILTER)}
                 size="small"

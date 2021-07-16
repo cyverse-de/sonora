@@ -6,7 +6,7 @@
  */
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { IconButton, Popover, Tooltip, Typography } from "@material-ui/core";
 import { Help } from "@material-ui/icons";
 
@@ -36,7 +36,7 @@ function HelpIconButton(props) {
         <>
             <Tooltip title={t("help")}>
                 <IconButton
-                    id={build(parentId, ids.BUTTONS.HELP_BTN)}
+                    id={buildID(parentId, ids.BUTTONS.HELP_BTN)}
                     aria-label={t("help")}
                     onClick={handleClick}
                     {...rest}

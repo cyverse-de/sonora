@@ -8,8 +8,8 @@
  */
 import React from "react";
 
-import buildDebugId from "../DebugIDUtil";
-import ids from "../ids";
+import buildDebugId from "../utils/DebugIDUtil";
+import ids from "../utils/ids";
 
 import getFormError from "./getFormError";
 

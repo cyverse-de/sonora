@@ -6,7 +6,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import { Label } from "@material-ui/icons";
 import ids from "../ids";
@@ -17,8 +17,8 @@ export default function CopyPathMenuItem(props) {
 
     return (
         <MenuItem
-            key={build(baseId, ids.COPY_PATH_MENU_ITEM)}
-            id={build(baseId, ids.COPY_PATH_MENU_ITEM)}
+            key={buildID(baseId, ids.COPY_PATH_MENU_ITEM)}
+            id={buildID(baseId, ids.COPY_PATH_MENU_ITEM)}
             onClick={() => {
                 onClose();
                 onCopyPathSelected();

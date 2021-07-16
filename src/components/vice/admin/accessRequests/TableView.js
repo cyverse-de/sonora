@@ -7,7 +7,9 @@
  */
 import React, { useMemo } from "react";
 import { useTranslation } from "i18n";
-import { build, formatDateObject } from "@cyverse-de/ui-lib";
+
+import buildID from "components/utils/DebugIDUtil";
+import { formatDateObject } from "components/utils/DateFormatter";
 
 import ids from "./ids";
 
@@ -16,7 +18,7 @@ import {
     ACCESS_REQUEST_APPROVED,
     ACCESS_REQUEST_COMPLETED,
 } from "serviceFacades/vice/accessRequest";
-import BasicTable from "components/utils/BasicTable";
+import BasicTable from "components/table/BasicTable";
 import ExternalLink from "components/utils/ExternalLink";
 import { useConfig } from "contexts/config";
 
@@ -82,7 +84,7 @@ export default function TableView(props) {
                     const original = row.original;
                     return (
                         <IconButton
-                            id={build(baseId, ids.APPROVE_BTN)}
+                            id={buildID(baseId, ids.APPROVE_BTN)}
                             color={
                                 original?.status?.toLowerCase() ===
                                     ACCESS_REQUEST_COMPLETED ||
@@ -110,7 +112,7 @@ export default function TableView(props) {
                     const original = row.original;
                     return (
                         <IconButton
-                            id={build(baseId, ids.REJECT_BTN)}
+                            id={buildID(baseId, ids.REJECT_BTN)}
                             color={
                                 original?.status?.toLowerCase() ===
                                 ACCESS_REQUEST_REJECTED

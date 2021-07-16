@@ -12,7 +12,7 @@ import AnimatedNumber from "animated-number-react";
 
 import ids from "../ids";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import AppSearchResults from "./AppSearchResults";
 import DataSearchResults from "./DataSearchResults";
@@ -81,10 +81,10 @@ function DetailedSearchResults(props) {
     const [analysesCount, setAnalysesCount] = useState(0);
     const [teamCount, setTeamCount] = useState(0);
 
-    const dataTabId = build(baseId, ids.DATA_SEARCH_RESULTS_TAB);
-    const appsTabId = build(baseId, ids.APPS_SEARCH_RESULTS_TAB);
-    const analysesTabId = build(baseId, ids.ANALYSES_SEARCH_RESULTS_TAB);
-    const teamTabId = build(baseId, ids.TEAM_SEARCH_RESULTS_TAB);
+    const dataTabId = buildID(baseId, ids.DATA_SEARCH_RESULTS_TAB);
+    const appsTabId = buildID(baseId, ids.APPS_SEARCH_RESULTS_TAB);
+    const analysesTabId = buildID(baseId, ids.ANALYSES_SEARCH_RESULTS_TAB);
+    const teamTabId = buildID(baseId, ids.TEAM_SEARCH_RESULTS_TAB);
 
     const dataTabIcon =
         selectedTab === SEARCH_RESULTS_TABS.data ? (

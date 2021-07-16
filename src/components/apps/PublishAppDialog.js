@@ -18,13 +18,10 @@ import appsConstants from "./constants";
 import { useConfig } from "contexts/config";
 import { intercomShow } from "common/intercom";
 
-import {
-    announce,
-    AnnouncerConstants,
-    build,
-    FormMultilineTextField,
-    FormTextField,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { announce, INFO } from "components/announcer/CyVerseAnnouncer";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
+import FormTextField from "components/forms/FormTextField";
 
 import DEDialog from "components/utils/DEDialog";
 import ResourceTypes from "components/models/ResourceTypes";
@@ -33,7 +30,7 @@ import { validateAppName, formatAppDoc } from "components/apps/utils";
 
 import { requestToPublishApp } from "serviceFacades/apps";
 
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 import { Add, Remove } from "@material-ui/icons";
 import {
@@ -62,14 +59,14 @@ function ReferencesField(props) {
                                     <Grid
                                         item
                                         xs={6}
-                                        key={build(
+                                        key={buildID(
                                             parentId,
                                             ids.PUBLISH.LINK,
                                             index
                                         )}
                                     >
                                         <Field
-                                            id={build(
+                                            id={buildID(
                                                 parentId,
                                                 ids.PUBLISH.LINK,
                                                 index
@@ -84,7 +81,7 @@ function ReferencesField(props) {
                                     <Grid
                                         item
                                         xs={3}
-                                        key={build(
+                                        key={buildID(
                                             parentId,
                                             ids.PUBLISH.LINK,
                                             index,
@@ -92,7 +89,7 @@ function ReferencesField(props) {
                                         )}
                                     >
                                         <IconButton
-                                            id={build(
+                                            id={buildID(
                                                 parentId,
                                                 ids.PUBLISH.LINK,
                                                 index,
@@ -108,7 +105,7 @@ function ReferencesField(props) {
                                     <Grid
                                         item
                                         xs={3}
-                                        key={build(
+                                        key={buildID(
                                             parentId,
                                             ids.PUBLISH.LINK,
                                             index,
@@ -116,7 +113,7 @@ function ReferencesField(props) {
                                         )}
                                     >
                                         <IconButton
-                                            id={build(
+                                            id={buildID(
                                                 parentId,
                                                 ids.PUBLISH.LINK,
                                                 index,
@@ -134,7 +131,7 @@ function ReferencesField(props) {
                         ) : (
                             <Grid item xs={12}>
                                 <Button
-                                    id={build(
+                                    id={buildID(
                                         parentId,
                                         ids.PUBLISH.LINK,
                                         ids.PUBLISH.LINK_ADD_BTN
@@ -171,7 +168,7 @@ export default function PublishAppDialog(props) {
                     text: t("publicationRequestSuccess", {
                         appName: app?.name,
                     }),
-                    variant: AnnouncerConstants.INFO,
+                    variant: INFO,
                 });
                 handleClose();
             },
@@ -245,13 +242,13 @@ export default function PublishAppDialog(props) {
                             actions={
                                 <>
                                     <Button
-                                        id={build(parentId, ids.CANCEL_BTN)}
+                                        id={buildID(parentId, ids.CANCEL_BTN)}
                                         onClick={handleClose}
                                     >
                                         {i18nCommon("cancel")}
                                     </Button>
                                     <Button
-                                        id={build(parentId, ids.SUBMIT_BTN)}
+                                        id={buildID(parentId, ids.SUBMIT_BTN)}
                                         type="submit"
                                         color="primary"
                                         onClick={handleSubmit}
@@ -301,7 +298,7 @@ export default function PublishAppDialog(props) {
                             <Field
                                 name="name"
                                 label={t("name")}
-                                id={build(parentId, ids.PUBLISH.NAME)}
+                                id={buildID(parentId, ids.PUBLISH.NAME)}
                                 validate={(value) =>
                                     validateAppName(
                                         appsConstants.APP_NAME_RESTRICTED_STARTING_CHARS,
@@ -316,7 +313,7 @@ export default function PublishAppDialog(props) {
                             <Field
                                 name="description"
                                 label={t("descriptionLabel")}
-                                id={build(parentId, ids.PUBLISH.DESCRIPTION)}
+                                id={buildID(parentId, ids.PUBLISH.DESCRIPTION)}
                                 required={true}
                                 component={FormMultilineTextField}
                                 validate={(value) =>
@@ -325,7 +322,7 @@ export default function PublishAppDialog(props) {
                             />
                             <Field
                                 name="testData"
-                                id={build(parentId, ids.PATH)}
+                                id={buildID(parentId, ids.PATH)}
                                 acceptedType={ResourceTypes.FOLDER}
                                 label={t("testDataLocation")}
                                 component={FolderInput}
@@ -338,7 +335,7 @@ export default function PublishAppDialog(props) {
                             <Field
                                 name="inputDesc"
                                 label={t("inputDescLabel")}
-                                id={build(parentId, ids.PUBLISH.INPUT)}
+                                id={buildID(parentId, ids.PUBLISH.INPUT)}
                                 required={true}
                                 component={FormMultilineTextField}
                                 validate={(value) =>
@@ -349,7 +346,7 @@ export default function PublishAppDialog(props) {
                             <Field
                                 name="parameterDesc"
                                 label={t("parameterDescLabel")}
-                                id={build(parentId, ids.PUBLISH.PARAMS)}
+                                id={buildID(parentId, ids.PUBLISH.PARAMS)}
                                 required={true}
                                 component={FormMultilineTextField}
                                 validate={(value) =>
@@ -359,7 +356,7 @@ export default function PublishAppDialog(props) {
                             <Field
                                 name="outputDesc"
                                 label={t("outputDescLabel")}
-                                id={build(parentId, ids.PUBLISH.OUTPUT)}
+                                id={buildID(parentId, ids.PUBLISH.OUTPUT)}
                                 required={true}
                                 component={FormMultilineTextField}
                                 validate={(value) =>
@@ -370,14 +367,14 @@ export default function PublishAppDialog(props) {
                             <Field
                                 name="licenseType"
                                 label={t("licenseType")}
-                                id={build(parentId, ids.PUBLISH.LICENSE_TYPE)}
+                                id={buildID(parentId, ids.PUBLISH.LICENSE_TYPE)}
                                 component={FormTextField}
                                 helperText={t("licenseTypeHelp")}
                             />
                             <Field
                                 name="licenseLink"
                                 label={t("licenseLink")}
-                                id={build(parentId, ids.PUBLISH.LICENSE_LINK)}
+                                id={buildID(parentId, ids.PUBLISH.LICENSE_LINK)}
                                 component={FormTextField}
                                 validate={(value) =>
                                     urlField(value, i18nUtil, false)

@@ -11,10 +11,11 @@ import { useRowSelect, useSortBy, useTable } from "react-table";
 import { useTranslation } from "i18n";
 
 import PageWrapper from "components/layout/PageWrapper";
-import TableLoading from "../../utils/TableLoading";
+import TableLoading from "components/table/TableLoading";
 import ids from "../ids";
 
-import { build, DECheckbox } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import DECheckbox from "components/utils/DECheckbox";
 
 import {
     Button,
@@ -88,7 +89,7 @@ const SearchResultsTable = ({
     );
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-    const tableId = build(baseId, ids.TABLE_VIEW);
+    const tableId = buildID(baseId, ids.TABLE_VIEW);
     const { t } = useTranslation("search");
 
     useEffect(() => {

@@ -22,10 +22,11 @@ import { getParentPath } from "./utils";
 import constants from "../../constants";
 import ids from "./ids";
 
-import { build, announce, AnnouncerConstants } from "@cyverse-de/ui-lib";
-import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
+import buildID from "components/utils/DebugIDUtil";
+import { announce, INFO } from "components/announcer/CyVerseAnnouncer";
+import { ERROR_CODES, getErrorCode } from "components/error/errorCode";
 import GridLoading from "components/utils/GridLoading";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 import {
     Button,
@@ -108,7 +109,7 @@ function PublicLinks(props) {
                 setErrorMsg(null);
                 announce({
                     text: t("refreshCacheSuccess"),
-                    variant: AnnouncerConstants.INFO,
+                    variant: INFO,
                 });
             },
             onError: (err) => {
@@ -206,7 +207,7 @@ function PublicLinks(props) {
                 <TextareaAutosize
                     rowsMin={3}
                     value={links}
-                    id={build(baseId, ids.PUBLIC_LINKS_TEXT_FIELD)}
+                    id={buildID(baseId, ids.PUBLIC_LINKS_TEXT_FIELD)}
                     style={{ width: "100%" }}
                 />
                 <Grid container>
@@ -219,7 +220,7 @@ function PublicLinks(props) {
                                 className={classes.toolbarButtons}
                                 onClick={copyToClipboard}
                                 startIcon={<FileCopy />}
-                                id={build(baseId, ids.COPY_LINKS_BTN)}
+                                id={buildID(baseId, ids.COPY_LINKS_BTN)}
                             >
                                 {common("copy")}
                             </Button>
@@ -234,7 +235,7 @@ function PublicLinks(props) {
                                 className={classes.toolbarButtons}
                                 onClick={() => setSaveAsDialogOpen(true)}
                                 startIcon={<Save />}
-                                id={build(baseId, ids.SAVE_LINKS_BTN)}
+                                id={buildID(baseId, ids.SAVE_LINKS_BTN)}
                             >
                                 {t("saveToFile")}
                             </Button>
@@ -249,7 +250,7 @@ function PublicLinks(props) {
                                 className={classes.toolbarButtons}
                                 onClick={() => setDownload(true)}
                                 startIcon={<CloudDownload />}
-                                id={build(baseId, ids.DOWNLOAD_LINKS_BTN)}
+                                id={buildID(baseId, ids.DOWNLOAD_LINKS_BTN)}
                             >
                                 {t("download")}
                             </Button>
@@ -270,7 +271,7 @@ function PublicLinks(props) {
                                     setRefreshCacheEnabled(true);
                                 }}
                                 startIcon={<Cached />}
-                                id={build(baseId, ids.REFRESH_CACHE_BTN)}
+                                id={buildID(baseId, ids.REFRESH_CACHE_BTN)}
                             >
                                 {t("refreshCache")}
                             </Button>

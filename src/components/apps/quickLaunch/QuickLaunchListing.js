@@ -20,7 +20,7 @@ import { getHost } from "components/utils/getHost";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import GridLoading from "components/utils/GridLoading";
 import { getUserName } from "components/utils/getUserName";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import NavigationConstants from "common/NavigationConstants";
 
 import {
@@ -30,7 +30,8 @@ import {
 } from "serviceFacades/quickLaunches";
 import { useUserProfile } from "contexts/userProfile";
 
-import { build, CopyTextArea } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import CopyTextArea from "components/copy/CopyTextArea";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -124,7 +125,7 @@ function ActionsPopper(props) {
             >
                 <Paper>
                     <QuickLaunchButtonLink
-                        id={build(
+                        id={buildID(
                             baseDebugId,
                             ids.QUICK_LAUNCH.USE_QUICK_LAUNCH
                         )}
@@ -134,7 +135,7 @@ function ActionsPopper(props) {
                         systemId={systemId}
                     />
                     <IconButton
-                        id={build(
+                        id={buildID(
                             baseDebugId,
                             ids.QUICK_LAUNCH.EMBED_QUICK_LAUNCH
                         )}
@@ -145,7 +146,7 @@ function ActionsPopper(props) {
                         <Code color="primary" />
                     </IconButton>
                     <IconButton
-                        id={build(
+                        id={buildID(
                             baseDebugId,
                             ids.QUICK_LAUNCH.SHARE_QUICK_LAUNCH
                         )}
@@ -276,7 +277,7 @@ function ListQuickLaunches(props) {
                 <Paper style={{ padding: theme.spacing(0.5) }} id={baseDebugId}>
                     <Grid container spacing={1}>
                         {quickLaunches.map((qLaunch, index) => {
-                            const id = build(baseDebugId, qLaunch.id);
+                            const id = buildID(baseDebugId, qLaunch.id);
                             const is_public = qLaunch.is_public;
                             const onDelete =
                                 userName === getUserName(qLaunch.creator)
@@ -362,7 +363,7 @@ function ListQuickLaunches(props) {
                     </DialogTitle>
                     <DialogContent>
                         <CopyTextArea
-                            debugIdPrefix={build(
+                            debugIdPrefix={buildID(
                                 baseDebugId,
                                 ids.QUICK_LAUNCH.EMBED_QUICK_LAUNCH
                             )}
@@ -389,7 +390,7 @@ function ListQuickLaunches(props) {
                     </DialogTitle>
                     <DialogContent>
                         <CopyTextArea
-                            debugIdPrefix={build(
+                            debugIdPrefix={buildID(
                                 baseDebugId,
                                 ids.QUICK_LAUNCH.SHARE_QUICK_LAUNCH
                             )}

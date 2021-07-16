@@ -24,10 +24,10 @@ import {
 import AppParamTypes from "components/models/AppParamTypes";
 
 import DELink from "components/utils/DELink";
-import DETableHead from "components/utils/DETableHead";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
-import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
-import TableLoading from "components/utils/TableLoading";
+import DETableHead from "components/table/DETableHead";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
+import { ERROR_CODES, getErrorCode } from "components/error/errorCode";
+import TableLoading from "components/table/TableLoading";
 
 import {
     getResourceDetails,

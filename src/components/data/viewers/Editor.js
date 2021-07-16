@@ -8,7 +8,7 @@
 import React, { useEffect, useState } from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import ids from "./ids";
 import viewerConstants from "./constants";
@@ -76,7 +76,7 @@ export default function Editor(props) {
     } else {
         return (
             <Skeleton
-                id={build(baseId, ids.EDITOR_SKELETON)}
+                id={buildID(baseId, ids.EDITOR_SKELETON)}
                 animation="wave"
                 width="100%"
                 height={viewerConstants.DEFAULT_VIEWER_HEIGHT}

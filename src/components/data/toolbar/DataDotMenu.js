@@ -35,7 +35,8 @@ import {
     MULTI_INPUT_PATH_LIST,
 } from "serviceFacades/filesystem";
 
-import { build, DotMenu } from "@cyverse-de/ui-lib";
+import DotMenu from "components/dotMenu/DotMenu";
+import buildID from "components/utils/DebugIDUtil";
 import {
     Divider,
     ListItemIcon,
@@ -153,8 +154,8 @@ function DataDotMenu(props) {
                     isSmall
                         ? [
                               <MenuItem
-                                  key={build(baseId, ids.REFRESH_MENU_ITEM)}
-                                  id={build(baseId, ids.REFRESH_MENU_ITEM)}
+                                  key={buildID(baseId, ids.REFRESH_MENU_ITEM)}
+                                  id={buildID(baseId, ids.REFRESH_MENU_ITEM)}
                                   onClick={() => {
                                       onClose();
                                       onRefreshSelected();
@@ -168,8 +169,11 @@ function DataDotMenu(props) {
                               <Divider key={ids.REFRESH_MENU_ITEM_DIVIDER} />,
                               uploadEnabled && (
                                   <MenuItem
-                                      key={build(baseId, ids.CREATE_FOLDER_MI)}
-                                      id={build(baseId, ids.CREATE_FOLDER_MI)}
+                                      key={buildID(
+                                          baseId,
+                                          ids.CREATE_FOLDER_MI
+                                      )}
+                                      id={buildID(baseId, ids.CREATE_FOLDER_MI)}
                                       onClick={() => {
                                           onClose();
                                           onCreateFolderClicked();
@@ -183,7 +187,10 @@ function DataDotMenu(props) {
                               ),
                               detailsEnabled && (
                                   <DetailsMenuItem
-                                      key={build(baseId, ids.DETAILS_MENU_ITEM)}
+                                      key={buildID(
+                                          baseId,
+                                          ids.DETAILS_MENU_ITEM
+                                      )}
                                       baseId={baseId}
                                       onClose={onClose}
                                       onDetailsSelected={onDetailsSelected}
@@ -191,8 +198,8 @@ function DataDotMenu(props) {
                               ),
                               bagEnabled && (
                                   <MenuItem
-                                      key={build(baseId, ids.ADD_TO_BAG_MI)}
-                                      id={build(baseId, ids.ADD_TO_BAG_MI)}
+                                      key={buildID(baseId, ids.ADD_TO_BAG_MI)}
+                                      id={buildID(baseId, ids.ADD_TO_BAG_MI)}
                                       onClick={() => {
                                           onClose();
                                           onAddToBagSelected();
@@ -206,7 +213,7 @@ function DataDotMenu(props) {
                               ),
                               sharingEnabled && (
                                   <SharingMenuItem
-                                      key={build(
+                                      key={buildID(
                                           baseId,
                                           shareIds.SHARING_MENU_ITEM
                                       )}
@@ -225,11 +232,14 @@ function DataDotMenu(props) {
                                   />,
                                   requestDoiEnabled && (
                                       <MenuItem
-                                          key={build(
+                                          key={buildID(
                                               baseId,
                                               ids.REQUEST_DOI_MI
                                           )}
-                                          id={build(baseId, ids.REQUEST_DOI_MI)}
+                                          id={buildID(
+                                              baseId,
+                                              ids.REQUEST_DOI_MI
+                                          )}
                                           onClick={() => {
                                               onClose();
                                               onRequestDOISelected();
@@ -248,7 +258,10 @@ function DataDotMenu(props) {
                               <Divider key={ids.UPLOAD_MENU_ITEM_DIVIDER} />,
                               uploadEnabled && (
                                   <UploadMenuItems
-                                      key={build(baseId, ids.UPLOAD_MENU_ITEM)}
+                                      key={buildID(
+                                          baseId,
+                                          ids.UPLOAD_MENU_ITEM
+                                      )}
                                       localUploadId={localUploadId}
                                       uploadMenuId={uploadMenuId}
                                       onBrowseLocal={onClose}
@@ -273,8 +286,8 @@ function DataDotMenu(props) {
                               />,
                               requestDoiEnabled && (
                                   <MenuItem
-                                      key={build(baseId, ids.REQUEST_DOI_MI)}
-                                      id={build(baseId, ids.REQUEST_DOI_MI)}
+                                      key={buildID(baseId, ids.REQUEST_DOI_MI)}
+                                      id={buildID(baseId, ids.REQUEST_DOI_MI)}
                                       onClick={() => {
                                           onClose();
                                           onRequestDOISelected();
@@ -288,8 +301,8 @@ function DataDotMenu(props) {
                               ),
                               applyBulkMetadataEnabled && (
                                   <MenuItem
-                                      key={build(baseId, "BULK")}
-                                      id={build(baseId, ids.BULK)}
+                                      key={buildID(baseId, "BULK")}
+                                      id={buildID(baseId, ids.BULK)}
                                       onClick={() => {
                                           onClose();
                                           onApplyBulkMdClicked();
@@ -310,8 +323,8 @@ function DataDotMenu(props) {
 
                     uploadEnabled && [
                         <MenuItem
-                            key={build(baseId, ids.CREATE_FILE_MI)}
-                            id={build(baseId, ids.CREATE_FILE_MI)}
+                            key={buildID(baseId, ids.CREATE_FILE_MI)}
+                            id={buildID(baseId, ids.CREATE_FILE_MI)}
                             onClick={() => {
                                 onClose();
                                 setFileTypeSelectionDlgOpen(true);
@@ -323,8 +336,8 @@ function DataDotMenu(props) {
                             <ListItemText primary={t("newFile")} />
                         </MenuItem>,
                         <MenuItem
-                            key={build(baseId, ids.AUTO_CREATE_HT_FILE_MI)}
-                            id={build(baseId, ids.AUTO_CREATE_HT_FILE_MI)}
+                            key={buildID(baseId, ids.AUTO_CREATE_HT_FILE_MI)}
+                            id={buildID(baseId, ids.AUTO_CREATE_HT_FILE_MI)}
                             onClick={() => {
                                 setRequestedInfoType(HT_ANALYSIS_PATH_LIST);
                                 onClose();
@@ -339,8 +352,11 @@ function DataDotMenu(props) {
                             />
                         </MenuItem>,
                         <MenuItem
-                            key={build(baseId, ids.AUTO_CREATE_MULTI_INPUT_MI)}
-                            id={build(baseId, ids.AUTO_CREATE_MULTI_INPUT_MI)}
+                            key={buildID(
+                                baseId,
+                                ids.AUTO_CREATE_MULTI_INPUT_MI
+                            )}
+                            id={buildID(baseId, ids.AUTO_CREATE_MULTI_INPUT_MI)}
                             onClick={() => {
                                 setRequestedInfoType(MULTI_INPUT_PATH_LIST);
                                 onClose();
@@ -357,7 +373,7 @@ function DataDotMenu(props) {
                     ],
                     renameEnabled && (
                         <RenameMenuItem
-                            key={build(baseId, ids.RENAME_MI)}
+                            key={buildID(baseId, ids.RENAME_MI)}
                             onRenameSelected={onRenameSelected}
                             baseId={baseId}
                             onClose={onClose}
@@ -365,7 +381,7 @@ function DataDotMenu(props) {
                     ),
                     publicLinkEnabled && (
                         <PublicLinksMenuItem
-                            key={build(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
+                            key={buildID(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
                             onPublicLinksSelected={onPublicLinksSelected}
                             baseId={baseId}
                             onClose={onClose}
@@ -373,7 +389,7 @@ function DataDotMenu(props) {
                     ),
                     downloadEnabled && (
                         <DownloadMenuItem
-                            key={build(baseId, ids.DOWNLOAD_MENU_ITEM)}
+                            key={buildID(baseId, ids.DOWNLOAD_MENU_ITEM)}
                             onDownloadSelected={onDownloadSelected}
                             baseId={baseId}
                             onClose={onClose}
@@ -381,7 +397,7 @@ function DataDotMenu(props) {
                     ),
                     moveMiEnabled && (
                         <MoveMenuItem
-                            key={build(baseId, ids.MOVE_MENU_ITEM)}
+                            key={buildID(baseId, ids.MOVE_MENU_ITEM)}
                             onMoveSelected={onMoveSelected}
                             baseId={baseId}
                             onClose={onClose}
@@ -427,7 +443,7 @@ function DataDotMenu(props) {
                 open={pathListDlgOpen}
                 title={t("createPathList")}
                 requestedInfoType={requestedInfoType}
-                baseId={build(baseId, ids.PATH_LIST_AUTO_DIALOG)}
+                baseId={buildID(baseId, ids.PATH_LIST_AUTO_DIALOG)}
                 onClose={() => setPathListDlgOpen(false)}
                 onCreatePathList={(id, path) => {
                     setPathListDlgOpen(false);

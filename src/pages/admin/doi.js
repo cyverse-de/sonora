@@ -9,7 +9,7 @@
 import React, { useCallback } from "react";
 import { useRouter } from "next/router";
 import Listing from "components/doi/Listing";
-import NotAuthorized from "components/utils/error/NotAuthorized";
+import NotAuthorized from "components/error/NotAuthorized";
 import { useUserProfile } from "contexts/userProfile";
 import constants from "../../constants";
 import NavigationConstants from "common/NavigationConstants";

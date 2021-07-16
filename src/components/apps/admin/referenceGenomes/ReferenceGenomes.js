@@ -12,23 +12,22 @@ import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
 import { queryCache, useMutation, useQuery } from "react-query";
 
-import NavigationConstants from "../../../../common/NavigationConstants";
-import { useUserProfile } from "../../../../contexts/userProfile";
+import NavigationConstants from "common/NavigationConstants";
+import { useUserProfile } from "contexts/userProfile";
 import {
     ADMIN_REFERENCE_GENOMES_QUERY_KEY,
     createReferenceGenome,
     getReferenceGenomes,
     saveReferenceGenome,
-} from "../../../../serviceFacades/referenceGenomes";
+} from "serviceFacades/referenceGenomes";
 
-import withErrorAnnouncer from "../../../utils/error/withErrorAnnouncer";
-import TableLoading from "../../../utils/TableLoading";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
+import TableLoading from "components/table/TableLoading";
 import refGenomeConstants from "./constants";
 import Edit from "./Edit";
 import EnhancedTable from "./TableView";
 
-import AnnouncerConstants from "components/utils/announcer/AnnouncerConstants";
-import { announce } from "components/utils/announcer/CyVerseAnnouncer";
+import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
 import { formatDateObject } from "components/utils/DateFormatter";
 import dateConstants from "components/utils/dateConstants";
 
@@ -66,7 +65,7 @@ function ReferenceGenomes(props) {
                 setEditDialogOpen(false);
                 announce({
                     text: t("updateSuccess"),
-                    variant: AnnouncerConstants.SUCCESS,
+                    variant: SUCCESS,
                 });
                 queryCache.invalidateQueries(ADMIN_REFERENCE_GENOMES_QUERY_KEY);
             },
@@ -83,7 +82,7 @@ function ReferenceGenomes(props) {
                 setEditDialogOpen(false);
                 announce({
                     text: t("createSuccess"),
-                    variant: AnnouncerConstants.SUCCESS,
+                    variant: SUCCESS,
                 });
                 queryCache.invalidateQueries(ADMIN_REFERENCE_GENOMES_QUERY_KEY);
             },

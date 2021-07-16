@@ -11,12 +11,12 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 
 import GridLoading from "../../utils/GridLoading";
-import ErrorTypography from "../../utils/error/ErrorTypography";
-import DEErrorDialog from "../../utils/error/DEErrorDialog";
+import ErrorTypography from "../../error/ErrorTypography";
+import DEErrorDialog from "../../error/DEErrorDialog";
 
 import buildID from "components/utils/DebugIDUtil";
-import CopyTextArea from "components/utils/copy/CopyTextArea";
-import { formatDate } from "components/utils/DateFormatter"
+import CopyTextArea from "components/copy/CopyTextArea";
+import { formatDate } from "components/utils/DateFormatter";
 
 import {
     Accordion,

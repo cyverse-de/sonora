@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import ids from "../ids";
 import constants from "../../../constants";
@@ -72,9 +72,9 @@ function DetailsDrawer(props) {
     const [details, setDetails] = useState();
     const [apps, setApps] = useState();
 
-    const drawerId = build(baseId, ids.DETAILS_DRAWER);
-    const infoTabId = build(drawerId, ids.INFO_TAB);
-    const appsTabId = build(drawerId, ids.APPS_USING_TOOL);
+    const drawerId = buildID(baseId, ids.DETAILS_DRAWER);
+    const infoTabId = buildID(drawerId, ids.INFO_TAB);
+    const appsTabId = buildID(drawerId, ids.APPS_USING_TOOL);
 
     const { isFetching: isInfoFetching, error: infoFetchError } = useQuery({
         queryKey: [TOOL_DETAILS_QUERY_KEY, { id: selectedTool?.id }],
@@ -123,13 +123,13 @@ function DetailsDrawer(props) {
                     value={TABS.toolDetails}
                     label={t("toolInformationLbl")}
                     id={infoTabId}
-                    aria-controls={build(infoTabId, ids.PANEL)}
+                    aria-controls={buildID(infoTabId, ids.PANEL)}
                 />
                 <DETab
                     value={TABS.appsUsingTool}
                     label={t("appsUsingToolLbl")}
                     id={appsTabId}
-                    aria-controls={build(appsTabId, ids.PANEL)}
+                    aria-controls={buildID(appsTabId, ids.PANEL)}
                 />
             </DETabs>
             <DETabPanel

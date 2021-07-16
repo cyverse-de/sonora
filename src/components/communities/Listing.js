@@ -7,11 +7,11 @@
 
 import React, { useMemo, useState } from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { useQuery } from "react-query";
 
-import BasicTable from "components/utils/BasicTable";
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+import BasicTable from "components/table/BasicTable";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 import isQueryLoading from "components/utils/isQueryLoading";
 import { useUserProfile } from "contexts/userProfile";
 import { useTranslation } from "i18n";
@@ -38,7 +38,7 @@ function Listing(props) {
     const [data, setData] = useState([]);
     const [userProfile] = useUserProfile();
 
-    const tableId = build(parentId, ids.TABLE);
+    const tableId = buildID(parentId, ids.TABLE);
     const COMMUNITY_COLUMNS = Columns(t);
 
     const columns = useMemo(() => {

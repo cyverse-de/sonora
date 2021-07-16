@@ -10,7 +10,7 @@ import ids from "../ids";
 
 import { useTranslation } from "i18n";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import {
     DeleteForever,
@@ -25,8 +25,8 @@ export default function TrashMenuItems(props) {
     return [
         selected?.length > 0 && (
             <MenuItem
-                id={build(baseId, ids.DELETE_MENU_ITEM)}
-                key={build(baseId, ids.DELETE_MENU_ITEM)}
+                id={buildID(baseId, ids.DELETE_MENU_ITEM)}
+                key={buildID(baseId, ids.DELETE_MENU_ITEM)}
                 onClick={handleDelete}
             >
                 <ListItemIcon>
@@ -37,8 +37,8 @@ export default function TrashMenuItems(props) {
         ),
         selected?.length > 0 && (
             <MenuItem
-                id={build(baseId, ids.RESTORE_MENU_ITEM)}
-                key={build(baseId, ids.RESTORE_MENU_ITEM)}
+                id={buildID(baseId, ids.RESTORE_MENU_ITEM)}
+                key={buildID(baseId, ids.RESTORE_MENU_ITEM)}
                 onClick={() => handleRestore()}
             >
                 <ListItemIcon>
@@ -48,8 +48,8 @@ export default function TrashMenuItems(props) {
             </MenuItem>
         ),
         <MenuItem
-            id={build(baseId, ids.EMPTY_TRASH_MENU_ITEM)}
-            key={build(baseId, ids.EMPTY_TRASH_MENU_ITEM)}
+            id={buildID(baseId, ids.EMPTY_TRASH_MENU_ITEM)}
+            key={buildID(baseId, ids.EMPTY_TRASH_MENU_ITEM)}
             onClick={handleEmptyTrash}
         >
             <ListItemIcon>

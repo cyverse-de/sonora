@@ -12,11 +12,9 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 import { useAppElementInfoTypes } from "../../queries";
 
-import {
-    build as buildID,
-    FormFieldLoading,
-    FormTextField,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
+import FormFieldLoading from "components/forms/FormFieldLoading";
 
 import { MenuItem } from "@material-ui/core";
 

@@ -12,14 +12,14 @@ import SlideUpTransition from "../SlideUpTransition";
 
 import DEDialog from "components/utils/DEDialog";
 import { getHost } from "components/utils/getHost";
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
 import {
     FILESYSTEM_METADATA_TEMPLATE_LISTING_QUERY_KEY,
     getFilesystemMetadataTemplateListing,
 } from "serviceFacades/metadata";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Button,
@@ -53,7 +53,7 @@ const TemplateListItem = (props) => {
             />
             <ListItemSecondaryAction>
                 <IconButton
-                    id={build(baseId, ids.BUTTONS.DOWNLOAD)}
+                    id={buildID(baseId, ids.BUTTONS.DOWNLOAD)}
                     aria-label={t("downloadTemplate")}
                     color="primary"
                     onClick={onDownload}
@@ -95,8 +95,8 @@ const MetadataTemplateListing = (props) => {
         },
     });
 
-    const dialogID = build(baseId, ids.DIALOG);
-    const listingID = build(dialogID, ids.METADATA_TEMPLATE_LISTING);
+    const dialogID = buildID(baseId, ids.DIALOG);
+    const listingID = buildID(dialogID, ids.METADATA_TEMPLATE_LISTING);
 
     if (fetchError) {
         return (
@@ -114,14 +114,14 @@ const MetadataTemplateListing = (props) => {
             actions={[
                 <Button
                     key={ids.BUTTONS.DONE}
-                    id={build(dialogID, ids.BUTTONS.DONE)}
+                    id={buildID(dialogID, ids.BUTTONS.DONE)}
                     onClick={onClose}
                 >
                     {t("common:cancel")}
                 </Button>,
                 <Button
                     key={ids.BUTTONS.CONFIRM}
-                    id={build(dialogID, ids.BUTTONS.CONFIRM)}
+                    id={buildID(dialogID, ids.BUTTONS.CONFIRM)}
                     color="primary"
                     onClick={() =>
                         selectedTemplateId &&
@@ -140,7 +140,7 @@ const MetadataTemplateListing = (props) => {
                     : templates?.map((template) => (
                           <TemplateListItem
                               key={template.id}
-                              baseId={build(listingID, template.id)}
+                            baseId={buildID(listingID, template.id)}
                               template={template}
                               selected={selectedTemplateId === template.id}
                               onClick={() => setSelectedTemplateId(template.id)}

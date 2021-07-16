@@ -1,6 +1,6 @@
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import { Delete as DeleteIcon } from "@material-ui/icons";
 
@@ -13,8 +13,8 @@ function DeleteMenuItem(props) {
 
     return (
         <MenuItem
-            key={build(baseId, ids.MOVE_TO_TRASH_MENU_ITEM)}
-            id={build(baseId, ids.MOVE_TO_TRASH_MENU_ITEM)}
+            key={buildID(baseId, ids.MOVE_TO_TRASH_MENU_ITEM)}
+            id={buildID(baseId, ids.MOVE_TO_TRASH_MENU_ITEM)}
             onClick={() => {
                 onClose();
                 onDeleteSelected();

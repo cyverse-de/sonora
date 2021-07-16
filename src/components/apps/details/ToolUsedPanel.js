@@ -5,7 +5,7 @@
 import React from "react";
 import { useTranslation } from "i18n";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
@@ -16,7 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
 import GridLabelValue from "components/utils/GridLabelValue";
 import GridLoading from "components/utils/GridLoading";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import ids from "../ids";
 
 function ToolsUsedPanel({ details, loading, baseId, error }) {
@@ -33,11 +33,11 @@ function ToolsUsedPanel({ details, loading, baseId, error }) {
         );
     }
     if (details) {
-        const toolUsedBaseId = build(baseId, details.id, ids.TOOLS_USED);
+        const toolUsedBaseId = buildID(baseId, details.id, ids.TOOLS_USED);
         return details.tools.map((toolInfo, index) => (
             <Accordion
                 key={index}
-                id={build(toolUsedBaseId, index, toolInfo.name)}
+                id={buildID(toolUsedBaseId, index, toolInfo.name)}
             >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon color="primary" />}

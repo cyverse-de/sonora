@@ -1,7 +1,7 @@
 import React from "react";
 import ReferenceGenomes from "../../components/apps/admin/referenceGenomes/ReferenceGenomes";
 import { useUserProfile } from "contexts/userProfile";
-import NotAuthorized from "components/utils/error/NotAuthorized";
+import NotAuthorized from "components/error/NotAuthorized";
 
 export default function RefGenome() {
     const profile = useUserProfile()[0];

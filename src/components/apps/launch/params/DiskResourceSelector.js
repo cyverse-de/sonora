@@ -11,7 +11,7 @@ import { useTranslation } from "i18n";
 
 import InputSelector from "../InputSelector";
 
-import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
+import { ERROR_CODES, getErrorCode } from "components/error/errorCode";
 
 import {
     getResourceDetails,

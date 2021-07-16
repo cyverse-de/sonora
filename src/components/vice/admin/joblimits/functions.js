@@ -1,4 +1,4 @@
-import { build as buildID } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import ids from "./ids";
 

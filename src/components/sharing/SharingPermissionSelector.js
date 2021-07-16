@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Divider, ListItemIcon, MenuItem, Select } from "@material-ui/core";
 import { Check, Delete } from "@material-ui/icons";
 
@@ -46,7 +46,7 @@ function SharingPermissionSelector(props) {
             <MenuItem
                 key={SharingPermissions.READ}
                 value={SharingPermissions.READ}
-                id={build(baseId, SharingPermissions.READ)}
+                id={buildID(baseId, SharingPermissions.READ)}
                 onClick={onClose}
             >
                 <ListItemIcon>
@@ -59,7 +59,7 @@ function SharingPermissionSelector(props) {
             <MenuItem
                 key={SharingPermissions.WRITE}
                 value={SharingPermissions.WRITE}
-                id={build(baseId, SharingPermissions.WRITE)}
+                id={buildID(baseId, SharingPermissions.WRITE)}
                 onClick={onClose}
             >
                 <ListItemIcon>
@@ -72,7 +72,7 @@ function SharingPermissionSelector(props) {
             <MenuItem
                 key={SharingPermissions.OWN}
                 value={SharingPermissions.OWN}
-                id={build(baseId, SharingPermissions.OWN)}
+                id={buildID(baseId, SharingPermissions.OWN)}
                 onClick={onClose}
             >
                 <ListItemIcon>
@@ -86,7 +86,7 @@ function SharingPermissionSelector(props) {
                 <MenuItem
                     key={SharingPermissions.VARIES}
                     value={SharingPermissions.VARIES}
-                    id={build(baseId, SharingPermissions.VARIES)}
+                    id={buildID(baseId, SharingPermissions.VARIES)}
                     onClick={onClose}
                 >
                     <ListItemIcon>
@@ -101,7 +101,7 @@ function SharingPermissionSelector(props) {
             <MenuItem
                 key={REMOVE}
                 value={REMOVE}
-                id={build(baseId, REMOVE)}
+                id={buildID(baseId, REMOVE)}
                 onClick={onClose}
             >
                 <ListItemIcon>

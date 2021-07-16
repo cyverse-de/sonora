@@ -18,7 +18,7 @@ import RequestListing from "components/tools/requests/Listing";
 import { DETabs, DETab, DETabPanel } from "components/utils/DETabs";
 import NavigationConstants from "common/NavigationConstants";
 import { useUserProfile } from "contexts/userProfile";
-import NotAuthorized from "components/utils/error/NotAuthorized";
+import NotAuthorized from "components/error/NotAuthorized";
 
 const TABS = {
     listing: "LISTING",

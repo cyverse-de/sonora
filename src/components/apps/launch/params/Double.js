@@ -5,7 +5,7 @@
  */
 import React from "react";
 
-import { FormNumberField } from "@cyverse-de/ui-lib";
+import FormNumberField from "components/forms/FormNumberField";
 
 export default function Double({ param, ...props }) {
     return (

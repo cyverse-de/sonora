@@ -5,13 +5,13 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 
-import GridLabelValue from "../GridLabelValue";
-import constants from "../../../constants";
-import GridLoading from "../GridLoading";
-import { useUserProfile } from "../../../contexts/userProfile";
+import GridLabelValue from "../utils/GridLabelValue";
+import constants from "../../constants";
+import GridLoading from "../utils/GridLoading";
+import { useUserProfile } from "../../contexts/userProfile";
 
-import { build } from "@cyverse-de/ui-lib";
-import ids from "../ids";
+import buildID from "components/utils/DebugIDUtil";
+import ids from "../utils/ids";
 import { Typography } from "@material-ui/core";
 
 function ClientInfo(props) {
@@ -32,24 +32,24 @@ function ClientInfo(props) {
     return (
         <>
             <GridLabelValue label={t("user")}>
-                <Typography id={build(baseId, ids.USER)}>
+                <Typography id={buildID(baseId, ids.USER)}>
                     {userProfile?.id}
                 </Typography>
             </GridLabelValue>
             <GridLabelValue label={t("browser")}>
-                <Typography id={build(baseId, ids.BROWSER)}>
+                <Typography id={buildID(baseId, ids.BROWSER)}>
                     {browser.getBrowser().name} - {browser.getBrowser().version}
                 </Typography>
             </GridLabelValue>
             <GridLabelValue label={t("os")}>
-                <Typography id={build(baseId, ids.OS)}>
+                <Typography id={buildID(baseId, ids.OS)}>
                     {browser.getOS().name} - {browser.getOS().versionName} -
                     {browser.getOS().version}
                 </Typography>
             </GridLabelValue>
             <GridLabelValue label={t("host")}>
                 <Typography
-                    id={build(baseId, ids.host)}
+                    id={buildID(baseId, ids.host)}
                     className={constants.CHROMATIC_IGNORE}
                 >
                     {window.location.origin}
@@ -57,7 +57,7 @@ function ClientInfo(props) {
             </GridLabelValue>
             <GridLabelValue label={t("timestamp")}>
                 <Typography
-                    id={build(baseId, ids.host)}
+                    id={buildID(baseId, ids.host)}
                     className={constants.CHROMATIC_IGNORE}
                 >
                     {new Date().toString()}

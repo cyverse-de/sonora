@@ -10,7 +10,9 @@
 
 import React, { useMemo } from "react";
 
-import { build, FormSelectField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormSelectField from "components/forms/FormSelectField";
+
 import {
     Button,
     FormControlLabel,
@@ -26,7 +28,7 @@ import { MemberPrivileges } from "components/models/Privilege";
 import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
 import { SubjectTableCell } from "components/sharing/UserTable";
 import { getUserPrimaryText } from "components/sharing/util";
-import BasicTable from "components/utils/BasicTable";
+import BasicTable from "components/table/BasicTable";
 import HelpIconButton from "./HelpIconButton";
 import { useTranslation } from "i18n";
 import ids from "../ids";
@@ -42,7 +44,7 @@ const useStyles = makeStyles(styles);
 function MemberPrivilegeSelector(props) {
     const { parentId, field, onChange, ...rest } = props;
     const { t } = useTranslation("teams");
-    const selectId = build(parentId, ids.EDIT_TEAM.PRIVILEGE);
+    const selectId = buildID(parentId, ids.EDIT_TEAM.PRIVILEGE);
 
     return (
         <FormSelectField
@@ -55,11 +57,11 @@ function MemberPrivilegeSelector(props) {
             {MemberPrivileges.map((privilegeType) => (
                 <MenuItem
                     value={privilegeType.value}
-                    id={build(
+                    id={buildID(
                         selectId,
                         ids.EDIT_TEAM[privilegeType.value.toUpperCase()]
                     )}
-                    key={build(
+                    key={buildID(
                         selectId,
                         ids.EDIT_TEAM[privilegeType.value.toUpperCase()]
                     )}
@@ -105,7 +107,7 @@ function Members(props) {
         }
     };
 
-    const baseId = build(parentId, ids.EDIT_TEAM.MEMBERS);
+    const baseId = buildID(parentId, ids.EDIT_TEAM.MEMBERS);
 
     const columns = useMemo(() => {
         const isSelf = (privilege) => {
@@ -113,7 +115,7 @@ function Members(props) {
         };
 
         const getRowId = (row) => {
-            return build(baseId, row.original.subject.id);
+            return buildID(baseId, row.original.subject.id);
         };
 
         return [
@@ -164,7 +166,7 @@ function Members(props) {
                     if (isAdmin && !isSelf(privilege)) {
                         return (
                             <Button
-                                id={build(rowId, ids.BUTTONS.DELETE)}
+                                id={buildID(rowId, ids.BUTTONS.DELETE)}
                                 aria-label={t("remove")}
                                 className={classes.deleteBtn}
                                 onClick={() => {
@@ -205,7 +207,7 @@ function Members(props) {
         >
             {isAdmin && (
                 <SubjectSearchField
-                    baseId={build(baseId, ids.TEAMS.SEARCH)}
+                    baseId={buildID(baseId, ids.TEAMS.SEARCH)}
                     onUserSelected={addMember}
                 />
             )}

@@ -9,7 +9,8 @@ import { FastField } from "formik";
 
 import ids from "../../ids";
 
-import { build as buildID, FormNumberField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormNumberField from "components/forms/FormNumberField";
 
 export default function DoubleBelowField(props) {
     const { baseId, fieldName, ...custom } = props;

@@ -19,7 +19,7 @@ import { useTranslation } from "i18n";
 
 import NotificationCategory from "components/models/NotificationCategory";
 
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import {
     NOTIFICATIONS_MESSAGES_QUERY_KEY,
@@ -28,7 +28,7 @@ import {
     markSeen,
 } from "serviceFacades/notifications";
 
-import { build as buildId } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 const NotificationView = (props) => {

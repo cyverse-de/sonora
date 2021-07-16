@@ -4,8 +4,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import build from "../DebugIDUtil";
-import DECheckbox from "../DECheckbox";
+import buildID from "../utils/DebugIDUtil";
+import DECheckbox from "../utils/DECheckbox";
 
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
@@ -60,7 +60,7 @@ class EnhancedTableHead extends React.Component {
                         return (
                             <TableCell
                                 key={key}
-                                id={build(this.props.baseId, column.id)}
+                                id={buildID(this.props.baseId, column.id)}
                                 variant="head"
                                 align={align}
                                 padding={column.padding || padding || "default"}

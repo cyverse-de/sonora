@@ -12,9 +12,9 @@ import ids from "./ids";
 
 import { validateDiskResourceName } from "components/data/utils";
 import UtilIds from "components/utils/ids.js";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import buildID from "components/utils/DebugIDUtil";
-import FormTextField from "components/utils/forms/FormTextField";
+import FormTextField from "components/forms/FormTextField";
 
 import {
     Button,

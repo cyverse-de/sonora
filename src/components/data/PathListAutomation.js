@@ -12,11 +12,10 @@ import { Field, Form, Formik } from "formik";
 import { useTranslation } from "i18n";
 import { Trans } from "react-i18next";
 import { useMutation } from "react-query";
-import {
-    build as buildId,
-    FormTextField,
-    FormSwitch,
-} from "@cyverse-de/ui-lib";
+
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
+import FormSwitch from "components/forms/FormSwitch";
 
 import SaveAsField from "./SaveAsField";
 import ids from "./ids";
@@ -31,9 +30,9 @@ import {
 } from "serviceFacades/filesystem";
 import MultiInputSelector from "components/apps/launch/MultiInputSelector";
 import ExternalLink from "components/utils/ExternalLink";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import constants from "../../constants";
-import { ERROR_CODES, getErrorCode } from "../utils/error/errorCode";
+import { ERROR_CODES, getErrorCode } from "../error/errorCode";
 
 import {
     Button,
@@ -267,7 +266,7 @@ export default function PathListAutomation(props) {
                                             />
                                         )}
                                         <Field
-                                            id={buildId(
+                                            id={buildID(
                                                 baseId,
                                                 ids.PATH_LIST_AUTO_INPUTS
                                             )}
@@ -282,7 +281,7 @@ export default function PathListAutomation(props) {
                                     </Grid>
                                     <Grid item xs>
                                         <Field
-                                            id={buildId(
+                                            id={buildID(
                                                 baseId,
                                                 ids.PATH_LIST_AUTO_FOLDERS_ONLY_SWITCH
                                             )}
@@ -316,7 +315,7 @@ export default function PathListAutomation(props) {
                                         </Typography>
 
                                         <Field
-                                            id={buildId(
+                                            id={buildID(
                                                 baseId,
                                                 ids.PATH_LIST_AUTO_MATCH_PATTERN
                                             )}
@@ -337,7 +336,7 @@ export default function PathListAutomation(props) {
                                                     maxHeight: 150,
                                                     overflow: "auto",
                                                 }}
-                                                id={buildId(
+                                                id={buildID(
                                                     baseId,
                                                     ids.PATH_LIST_AUTO_MATCH_INFO_TYPES
                                                 )}
@@ -399,7 +398,7 @@ export default function PathListAutomation(props) {
                                             <Field
                                                 startingPath={startingPath}
                                                 name="dest"
-                                                id={buildId(
+                                                id={buildID(
                                                     baseId,
                                                     ids.PATH_LIST_AUTO_DEST_FIELD
                                                 )}
@@ -411,7 +410,7 @@ export default function PathListAutomation(props) {
                                                 required={true}
                                             />
                                             <Field
-                                                id={buildId(
+                                                id={buildID(
                                                     baseId,
 
                                                     ids.PATH_LIST_AUTO_FILE_NAME_FIELD
@@ -446,7 +445,7 @@ export default function PathListAutomation(props) {
                                     )}
                                     <Grid item>
                                         <Button
-                                            id={buildId(
+                                            id={buildID(
                                                 baseId,
                                                 ids.PATH_LIST_AUTO_CANCEL_BTN
                                             )}
@@ -457,7 +456,7 @@ export default function PathListAutomation(props) {
                                     </Grid>
                                     <Grid item>
                                         <Button
-                                            id={buildId(
+                                            id={buildID(
                                                 baseId,
                                                 ids.PATH_LIST_AUTO_DONE_BTN
                                             )}

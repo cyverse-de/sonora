@@ -1,7 +1,7 @@
 import Button from "@material-ui/core/Button";
 import React, { Component } from "react";
-import { storiesOf } from "@storybook/react";
-import TriggerField from "../src/components/triggerField/TriggerField";
+
+import TriggerField from "components/triggerField/TriggerField";
 
 export class TriggerFieldTest extends Component {
     render() {

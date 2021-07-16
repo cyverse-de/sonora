@@ -37,7 +37,7 @@ import {
     useUploadTrackingDispatch,
 } from "../../../contexts/uploadTracking";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import ids from "../dialog/ids";
 
 const useStyles = makeStyles((theme) => ({
@@ -65,7 +65,7 @@ const UploadStatus = ({ upload, baseId }) => {
         statusIcon = (
             <CircularProgress
                 size={20}
-                id={build(baseId, ids.STATUS.UPLOADING)}
+                id={buildID(baseId, ids.STATUS.UPLOADING)}
             />
         );
     }
@@ -74,14 +74,14 @@ const UploadStatus = ({ upload, baseId }) => {
         statusIcon = (
             <CheckCircleIcon
                 style={{ color: theme.palette.success.main }}
-                id={build(baseId, ids.STATUS.SUCCESS)}
+                id={buildID(baseId, ids.STATUS.SUCCESS)}
             />
         );
     }
 
     if (upload.hasErrored) {
         statusIcon = (
-            <ErrorIcon color="error" id={build(baseId, ids.STATUS.FAILED)} />
+            <ErrorIcon color="error" id={buildID(baseId, ids.STATUS.FAILED)} />
         );
     }
 
@@ -108,7 +108,7 @@ const UploadItem = ({ upload, handleCancel, baseId }) => {
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
     const uploadPath = [upload.parentPath, upload.filename].join("/");
-    const itemId = build(baseId, uploadPath);
+    const itemId = buildID(baseId, uploadPath);
 
     return (
         <ListItem id={itemId}>

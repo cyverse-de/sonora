@@ -5,15 +5,13 @@ import { AddBtn, DeleteBtn } from "../Buttons";
 import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import { nonEmptyField } from "components/utils/validations";
-import { DERow } from "components/utils/DERow";
-import DETableHead from "components/utils/DETableHead";
+import { DERow } from "components/table/DERow";
+import DETableHead from "components/table/DETableHead";
 
-import {
-    build,
-    EmptyTable,
-    FormTextField,
-    getFormError,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import EmptyTable from "components/table/EmptyTable";
+import FormTextField from "components/forms/FormTextField";
+import getFormError from "components/forms/getFormError";
 import { Field, getIn } from "formik";
 import {
     Table,
@@ -73,7 +71,7 @@ function ContainerDevices(props) {
                                 <TableCell>
                                     <Field
                                         name={`${name}.${index}.host_path`}
-                                        id={build(
+                                        id={buildID(
                                             parentId,
                                             index,
                                             ids.EDIT_TOOL_DLG.HOST_PATH
@@ -90,7 +88,7 @@ function ContainerDevices(props) {
                                 <TableCell>
                                     <Field
                                         name={`${name}.${index}.container_path`}
-                                        id={build(
+                                        id={buildID(
                                             parentId,
                                             index,
                                             ids.EDIT_TOOL_DLG.CONTAINER_PATH
@@ -106,7 +104,7 @@ function ContainerDevices(props) {
                                 </TableCell>
                                 <TableCell>
                                     <DeleteBtn
-                                        parentId={build(parentId, index)}
+                                        parentId={buildID(parentId, index)}
                                         onClick={() => remove(index)}
                                     />
                                 </TableCell>

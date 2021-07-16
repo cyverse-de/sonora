@@ -5,7 +5,8 @@
  */
 import React, { useState } from "react";
 
-import { build, FormTextField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
 import {
     Button,
     CircularProgress,
@@ -22,7 +23,7 @@ import { Field, Form, Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
 
-import { ERROR_CODES, getErrorCode } from "../utils/error/errorCode";
+import { ERROR_CODES, getErrorCode } from "../error/errorCode";
 import ids from "./ids";
 import { validateDiskResourceName } from "./utils";
 import { createFolder } from "../../serviceFacades/filesystem";
@@ -107,7 +108,7 @@ function CreateFolderDialog(props) {
                                     {t("newFolderLocation", { path: path })}
                                 </Typography>
                                 <Field
-                                    id={build(baseId, ids.FOLDER_NAME)}
+                                    id={buildID(baseId, ids.FOLDER_NAME)}
                                     name="name"
                                     required={true}
                                     label={t("folderName")}
@@ -123,7 +124,7 @@ function CreateFolderDialog(props) {
                                                 {isLoading && (
                                                     <InputAdornment position="start">
                                                         <CircularProgress
-                                                            id={build(
+                                                            id={buildID(
                                                                 baseId,
                                                                 ids.FOLDER_NAME,
                                                                 ids.LOADING_SKELETON
@@ -143,13 +144,13 @@ function CreateFolderDialog(props) {
 
                             <DialogActions>
                                 <Button
-                                    id={build(baseId, ids.CANCEL_BTN)}
+                                    id={buildID(baseId, ids.CANCEL_BTN)}
                                     onClick={onClose}
                                 >
                                     {t("cancel")}
                                 </Button>
                                 <Button
-                                    id={build(baseId, ids.CREATE_BTN)}
+                                    id={buildID(baseId, ids.CREATE_BTN)}
                                     color="primary"
                                     type="submit"
                                     onClick={handleSubmit}

@@ -18,7 +18,7 @@ import { useUploadTrackingDispatch } from "../../../contexts/uploadTracking";
 
 import { useTranslation } from "i18n";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Button, makeStyles, Menu } from "@material-ui/core";
 
 import {
@@ -66,7 +66,7 @@ function UploadMenuBtn(props) {
                 handleUploadFiles={handleUploadFiles}
             />
             <Button
-                id={build(uploadMenuId, ids.UPLOAD_BTN)}
+                id={buildID(uploadMenuId, ids.UPLOAD_BTN)}
                 variant="outlined"
                 size="small"
                 disableElevation

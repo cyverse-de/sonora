@@ -23,7 +23,7 @@ import styles from "./styles";
 
 import { isEmptyParamValue } from "./validate";
 
-import { build as buildDebugId } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Accordion,
@@ -59,52 +59,49 @@ const useStyles = makeStyles(styles);
  * and baseId.
  */
 const buildParamId = (baseId, paramIndex, type) => {
-    const baseParamId = buildDebugId(baseId, paramIndex);
+    const baseParamId = buildID(baseId, paramIndex);
 
     switch (type) {
         case AppParamTypes.DOUBLE:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_DOUBLE_SPINNER);
+            return buildID(baseParamId, ids.APP_LAUNCH_DOUBLE_SPINNER);
         case AppParamTypes.DOUBLE_SELECTION:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_DOUBLE_SELECTION);
+            return buildID(baseParamId, ids.APP_LAUNCH_DOUBLE_SELECTION);
         case AppParamTypes.ENV_VAR:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_ENV_VAR);
+            return buildID(baseParamId, ids.APP_LAUNCH_ENV_VAR);
         case AppParamTypes.FILE_INPUT:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_FILE_SELECTOR);
+            return buildID(baseParamId, ids.APP_LAUNCH_FILE_SELECTOR);
         case AppParamTypes.FILE_OUTPUT:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_OUTPUT_FILE);
+            return buildID(baseParamId, ids.APP_LAUNCH_OUTPUT_FILE);
         case AppParamTypes.FILE_FOLDER_INPUT:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_FILE_FOLDER_INPUT);
+            return buildID(baseParamId, ids.APP_LAUNCH_FILE_FOLDER_INPUT);
         case AppParamTypes.FLAG:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_FLAG);
+            return buildID(baseParamId, ids.APP_LAUNCH_FLAG);
         case AppParamTypes.FOLDER_INPUT:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_INPUT_FOLDER);
+            return buildID(baseParamId, ids.APP_LAUNCH_INPUT_FOLDER);
         case AppParamTypes.FOLDER_OUTPUT:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_OUTPUT_FOLDER);
+            return buildID(baseParamId, ids.APP_LAUNCH_OUTPUT_FOLDER);
         case AppParamTypes.INFO:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_INFO_LABEL);
+            return buildID(baseParamId, ids.APP_LAUNCH_INFO_LABEL);
         case AppParamTypes.INTEGER:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_INTEGER_SPINNER);
+            return buildID(baseParamId, ids.APP_LAUNCH_INTEGER_SPINNER);
         case AppParamTypes.INTEGER_SELECTION:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_INTEGER_SELECTION);
+            return buildID(baseParamId, ids.APP_LAUNCH_INTEGER_SELECTION);
         case AppParamTypes.MULTIFILE_OUTPUT:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_MULTI_FILE_OUTPUT);
+            return buildID(baseParamId, ids.APP_LAUNCH_MULTI_FILE_OUTPUT);
         case AppParamTypes.MULTIFILE_SELECTOR:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_MULTI_FILE_INPUT);
+            return buildID(baseParamId, ids.APP_LAUNCH_MULTI_FILE_INPUT);
         case AppParamTypes.MULTILINE_TEXT:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_MULTI_LINE_TEXT);
+            return buildID(baseParamId, ids.APP_LAUNCH_MULTI_LINE_TEXT);
         case AppParamTypes.REFERENCE_ANNOTATION:
-            return buildDebugId(
-                baseParamId,
-                ids.APP_LAUNCH_REFERENCE_ANNOTATION
-            );
+            return buildID(baseParamId, ids.APP_LAUNCH_REFERENCE_ANNOTATION);
         case AppParamTypes.REFERENCE_GENOME:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_REFERENCE_GENOME);
+            return buildID(baseParamId, ids.APP_LAUNCH_REFERENCE_GENOME);
         case AppParamTypes.REFERENCE_SEQUENCE:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_REFERENCE_SEQUENCE);
+            return buildID(baseParamId, ids.APP_LAUNCH_REFERENCE_SEQUENCE);
         case AppParamTypes.TEXT:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_TEXT_INPUT);
+            return buildID(baseParamId, ids.APP_LAUNCH_TEXT_INPUT);
         case AppParamTypes.TEXT_SELECTION:
-            return buildDebugId(baseParamId, ids.APP_LAUNCH_TEXT_SELECTION);
+            return buildID(baseParamId, ids.APP_LAUNCH_TEXT_SELECTION);
         default:
             return baseParamId;
     }
@@ -122,7 +119,7 @@ function ParamGroupForm(props) {
             <AccordionSummary
                 expandIcon={
                     <ExpandMore
-                        id={buildDebugId(baseId, ids.BUTTONS.EXPAND)}
+                        id={buildID(baseId, ids.BUTTONS.EXPAND)}
                         className={classes.paramsViewsExpandIcon}
                     />
                 }
@@ -265,7 +262,7 @@ const HPCWaitTimesMessage = ({ baseId }) => {
                 p: <p />,
                 support: (
                     <Link
-                        id={buildDebugId(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
+                        id={buildID(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
                         component="button"
                         onClick={(event) => {
                             // prevent form submission
@@ -292,8 +289,8 @@ const HPCWaitTimesMessage = ({ baseId }) => {
 };
 
 const ShowAllParameters = ({ baseId, checked, onChange }) => {
-    const switchId = buildDebugId(baseId, ids.BUTTONS.SHOW_ALL_PARAMETERS);
-    const helperTextID = buildDebugId(switchId, ids.BUTTONS.HELPER_TEXT);
+    const switchId = buildID(baseId, ids.BUTTONS.SHOW_ALL_PARAMETERS);
+    const helperTextID = buildID(switchId, ids.BUTTONS.HELPER_TEXT);
     const { t } = useTranslation("launch");
     return (
         <Toolbar component={Paper}>

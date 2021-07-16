@@ -16,7 +16,8 @@ import styles from "./styles";
 import prefConstants from "./constants";
 import GridLabelValue from "../utils/GridLabelValue";
 
-import { build, FormTextField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
 
 import { Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -42,7 +43,7 @@ function Shortcuts(props) {
                             {prefConstants.defaults.KEYBOARD_SC_META_KEY}
                         </Typography>
                         <Field
-                            id={build(baseId, ids.APPS_KB_SHORTCUT_TEXT)}
+                            id={buildID(baseId, ids.APPS_KB_SHORTCUT_TEXT)}
                             component={FormTextField}
                             name={prefConstants.keys.APPS_KB_SC}
                             className={classes.shortcutField}
@@ -61,7 +62,7 @@ function Shortcuts(props) {
                             {prefConstants.defaults.KEYBOARD_SC_META_KEY}
                         </Typography>
                         <Field
-                            id={build(baseId, ids.DATA_KB_SHORTCUT_TEXT)}
+                            id={buildID(baseId, ids.DATA_KB_SHORTCUT_TEXT)}
                             component={FormTextField}
                             name={prefConstants.keys.DATA_KB_SC}
                             className={classes.shortcutField}
@@ -80,7 +81,7 @@ function Shortcuts(props) {
                             {prefConstants.defaults.KEYBOARD_SC_META_KEY}
                         </Typography>
                         <Field
-                            id={build(baseId, ids.ANALYSES_KB_SHORTCUT_TEXT)}
+                            id={buildID(baseId, ids.ANALYSES_KB_SHORTCUT_TEXT)}
                             component={FormTextField}
                             name={prefConstants.keys.ANALYSES_KB_SC}
                             className={classes.shortcutField}
@@ -99,7 +100,7 @@ function Shortcuts(props) {
                             {prefConstants.defaults.KEYBOARD_SC_META_KEY}
                         </Typography>
                         <Field
-                            id={build(
+                            id={buildID(
                                 baseId,
                                 ids.NOTIFICATIONS_KB_SHORTCUT_TEXT
                             )}

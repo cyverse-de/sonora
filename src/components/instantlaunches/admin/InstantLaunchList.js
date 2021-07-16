@@ -12,18 +12,16 @@ import {
     deleteInstantLaunchHandler,
 } from "serviceFacades/instantlaunches";
 
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import { Skeleton } from "@material-ui/lab";
 
 import { format as formatDate } from "date-fns";
 
-import {
-    build as buildID,
-    announce,
-    AnnouncerConstants,
-} from "@cyverse-de/ui-lib";
+import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import buildID from "components/utils/DebugIDUtil";
+
 import ids from "components/instantlaunches/ids";
 
 import {
@@ -158,7 +156,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
             queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
             announce({
                 text: t("addedToDashboard"),
-                variant: AnnouncerConstants.SUCCESS,
+                variant: SUCCESS,
             });
         },
         onError: (error) => {
@@ -171,7 +169,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
             queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
             announce({
                 text: t("removedFromDashboard"),
-                variant: AnnouncerConstants.SUCCESS,
+                variant: SUCCESS,
             });
         },
         onError: (error) => {
@@ -185,7 +183,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
             queryCache.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
             announce({
                 text: t("deletedInstantLaunch"),
-                variant: AnnouncerConstants.SUCCESS,
+                variant: SUCCESS,
             });
         },
 

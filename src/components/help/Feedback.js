@@ -15,16 +15,13 @@ import { nonEmptyField } from "components/utils/validations";
 import constants from "../../constants";
 
 import { useUserProfile } from "contexts/userProfile";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import DEDialog from "components/utils/DEDialog";
 
-import {
-    build,
-    AnnouncerConstants,
-    announce,
-    FormTextField,
-    FormMultilineTextField,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
+import FormTextField from "components/forms/FormTextField";
+import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
 
 import {
     Button,
@@ -48,7 +45,7 @@ export default function Feedback(props) {
         onSuccess: () => {
             announce({
                 text: i18nHelp("feedback_success"),
-                variant: AnnouncerConstants.SUCCESS,
+                variant: SUCCESS,
             });
         },
         onError: setError,
@@ -129,7 +126,7 @@ export default function Feedback(props) {
                             {!userProfile?.id && (
                                 <>
                                     <Field
-                                        id={build(baseId, ids.NAME)}
+                                        id={buildID(baseId, ids.NAME)}
                                         name={"name"}
                                         required={true}
                                         component={FormTextField}
@@ -139,7 +136,7 @@ export default function Feedback(props) {
                                         label={i18nHelp("name")}
                                     />
                                     <Field
-                                        id={build(baseId, ids.EMAIL)}
+                                        id={buildID(baseId, ids.EMAIL)}
                                         name="email"
                                         required={false}
                                         component={FormTextField}
@@ -150,7 +147,7 @@ export default function Feedback(props) {
                                 </>
                             )}
                             <Field
-                                id={build(baseId, ids.FEEDBACK)}
+                                id={buildID(baseId, ids.FEEDBACK)}
                                 name="feedback"
                                 label={i18nHelp("feedback_title")}
                                 required={true}

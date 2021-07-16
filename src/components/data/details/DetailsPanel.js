@@ -6,7 +6,10 @@
  */
 import React, { useState } from "react";
 
-import { build, CopyTextArea, formatDate } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import CopyTextArea from "components/copy/CopyTextArea";
+import { formatDate } from "components/utils/DateFormatter";
+
 import {
     Button,
     Divider,
@@ -34,8 +37,8 @@ import { useDataNavigationLink, formatFileSize } from "components/data/utils";
 import GridLabelValue from "../../utils/GridLabelValue";
 import GridLoading from "../../utils/GridLoading";
 import isQueryLoading from "../../utils/isQueryLoading";
-import ErrorTypography from "../../utils/error/ErrorTypography";
-import DEErrorDialog from "../../utils/error/DEErrorDialog";
+import ErrorTypography from "../../error/ErrorTypography";
+import DEErrorDialog from "../../error/DEErrorDialog";
 
 const useStyles = makeStyles(styles);
 
@@ -131,16 +134,16 @@ function DetailsTabPanel(props) {
                 {isFile && (
                     <GridLabelValue
                         label={t("infoType")}
-                        id={build(baseId, ids.INFO_TYPES, ids.LABEL)}
+                        id={buildID(baseId, ids.INFO_TYPES, ids.LABEL)}
                     >
                         {infoTypes && infoTypes.length > 0 ? (
                             <Select
-                                labelId={build(
+                                labelId={buildID(
                                     baseId,
                                     ids.INFO_TYPES,
                                     ids.LABEL
                                 )}
-                                id={build(baseId, ids.INFO_TYPES)}
+                                id={buildID(baseId, ids.INFO_TYPES)}
                                 value={details.infoType}
                                 onChange={onInfoTypeChange}
                             >
@@ -170,30 +173,30 @@ function DetailsTabPanel(props) {
                     <GridLabelValue label={t("md5")}>
                         <CopyTextArea
                             text={details.md5}
-                            debugIdPrefix={build(baseId, ids.md5)}
+                            debugIdPrefix={buildID(baseId, ids.md5)}
                         />
                     </GridLabelValue>
                 )}
                 <GridLabelValue
-                    id={build(baseId, ids.PATH, ids.LABEL)}
+                    id={buildID(baseId, ids.PATH, ids.LABEL)}
                     label={t("path")}
                 >
                     <CopyTextArea
                         text={details.path}
                         multiline
-                        debugIdPrefix={build(baseId, ids.PATH)}
+                        debugIdPrefix={buildID(baseId, ids.PATH)}
                     />
                 </GridLabelValue>
                 <GridLabelValue label={t("deLink")}>
                     <CopyTextArea
                         text={`${getHost()}${partialLink}`}
-                        debugIdPrefix={build(baseId, ids.DE_LINK)}
+                        debugIdPrefix={buildID(baseId, ids.DE_LINK)}
                     />
                 </GridLabelValue>
                 {isFile && (
                     <Grid item xs={6}>
                         <Button
-                            id={build(baseId, ids.PATH_LINK_BTN)}
+                            id={buildID(baseId, ids.PATH_LINK_BTN)}
                             color="primary"
                             variant="outlined"
                             startIcon={<Link />}
@@ -205,7 +208,10 @@ function DetailsTabPanel(props) {
                 )}
             </Grid>
             <Divider className={classes.dividerMargins} />
-            <TagSearch id={build(baseId, ids.TAG_SEARCH)} resource={resource} />
+            <TagSearch
+                id={buildID(baseId, ids.TAG_SEARCH)}
+                resource={resource}
+            />
         </>
     );
 }

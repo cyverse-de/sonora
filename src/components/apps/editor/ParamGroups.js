@@ -18,7 +18,7 @@ import ParamLayoutActions from "./ParamLayoutActions";
 
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
-import { build as buildID } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Accordion,

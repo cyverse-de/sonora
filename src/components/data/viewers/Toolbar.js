@@ -20,20 +20,18 @@ import ResourceTypes from "components/models/ResourceTypes";
 
 import BackButton from "components/utils/BackButton";
 import { getHost } from "components/utils/getHost";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
-import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
+import { ERROR_CODES, getErrorCode } from "components/error/errorCode";
 
 import SaveAsDialog from "../SaveAsDialog";
 import { getParentPath, formatFileSize } from "../utils";
 
 import { uploadTextAsFile } from "serviceFacades/fileio";
 
-import {
-    announce,
-    AnnouncerConstants,
-    build,
-    DotMenu,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import DotMenu from "components/dotMenu/DotMenu";
+
 import {
     Button,
     Divider,
@@ -170,7 +168,7 @@ function ViewerToolbar(props) {
                     text: t("fileSaveSuccess", {
                         fileName: resp?.file.label,
                     }),
-                    variant: AnnouncerConstants.SUCCESS,
+                    variant: SUCCESS,
                 });
 
                 if (createFileType && onNewFileSaved) {
@@ -221,7 +219,7 @@ function ViewerToolbar(props) {
     const ToolbarButton = ({ idExtension, text, ...props }) => {
         return (
             <Button
-                id={build(baseId, idExtension)}
+                id={buildID(baseId, idExtension)}
                 size="small"
                 className={classes.toolbarItems}
                 variant="outlined"
@@ -304,7 +302,7 @@ function ViewerToolbar(props) {
                                 <FormControlLabel
                                     control={
                                         <WrapSwitch
-                                            id={build(
+                                            id={buildID(
                                                 baseId,
                                                 ids.WRAP_TEXT_SWITCH
                                             )}
@@ -326,7 +324,7 @@ function ViewerToolbar(props) {
                                 <FormControlLabel
                                     control={
                                         <LineNumberSwitch
-                                            id={build(
+                                            id={buildID(
                                                 baseId,
                                                 ids.LINE_NUMBERS_SWITCH
                                             )}
@@ -345,7 +343,7 @@ function ViewerToolbar(props) {
                                 <FormControlLabel
                                     control={
                                         <Switch
-                                            id={build(
+                                            id={buildID(
                                                 baseId,
                                                 ids.HEADER_SWITCH
                                             )}
@@ -409,11 +407,11 @@ function ViewerToolbar(props) {
                     render={(onClose) => [
                         isSmall && onShowLineNumbers && (
                             <MenuItem
-                                key={build(baseId, ids.LINE_NUMBER_SWITCH)}
+                                key={buildID(baseId, ids.LINE_NUMBER_SWITCH)}
                             >
                                 <ListItemIcon>
                                     <LineNumberSwitch
-                                        id={build(
+                                        id={buildID(
                                             baseId,
                                             ids.LINE_NUMBER_SWITCH
                                         )}
@@ -423,10 +421,15 @@ function ViewerToolbar(props) {
                             </MenuItem>
                         ),
                         isSmall && onWrapText && (
-                            <MenuItem key={build(baseId, ids.WRAP_TEXT_SWITCH)}>
+                            <MenuItem
+                                key={buildID(baseId, ids.WRAP_TEXT_SWITCH)}
+                            >
                                 <ListItemIcon>
                                     <WrapSwitch
-                                        id={build(baseId, ids.WRAP_TEXT_SWITCH)}
+                                        id={buildID(
+                                            baseId,
+                                            ids.WRAP_TEXT_SWITCH
+                                        )}
                                     />
                                 </ListItemIcon>
                                 <ListItemText primary={t("wrapText")} />
@@ -434,14 +437,14 @@ function ViewerToolbar(props) {
                         ),
                         isSmall && onFirstRowHeader && (
                             <MenuItem
-                                key={build(
+                                key={buildID(
                                     baseId,
                                     ids.FIRST_ROW_HEADER_MENU_ITEM
                                 )}
                             >
                                 <ListItemIcon>
                                     <Switch
-                                        id={build(baseId, ids.HEADER_SWITCH)}
+                                        id={buildID(baseId, ids.HEADER_SWITCH)}
                                         size="small"
                                         checked={firstRowHeader}
                                         onChange={(event) => {
@@ -451,7 +454,7 @@ function ViewerToolbar(props) {
                                         }}
                                         color="primary"
                                         inputProps={{
-                                            "aria-labelledby": build(
+                                            "aria-labelledby": buildID(
                                                 baseId,
                                                 ids.FIRST_ROW_HEADER_MENU_ITEM
                                             ),
@@ -459,7 +462,7 @@ function ViewerToolbar(props) {
                                     />
                                 </ListItemIcon>
                                 <ListItemText
-                                    id={build(
+                                    id={buildID(
                                         baseId,
                                         ids.FIRST_ROW_HEADER_MENU_ITEM
                                     )}
@@ -470,8 +473,8 @@ function ViewerToolbar(props) {
                         isSmall &&
                             editable && [
                                 <MenuItem
-                                    key={build(baseId, ids.SAVE_MENU_ITEM)}
-                                    id={build(baseId, ids.SAVE_MENU_ITEM)}
+                                    key={buildID(baseId, ids.SAVE_MENU_ITEM)}
+                                    id={buildID(baseId, ids.SAVE_MENU_ITEM)}
                                     onClick={() => {
                                         onClose();
                                         onSave();
@@ -487,8 +490,8 @@ function ViewerToolbar(props) {
                                 </MenuItem>,
                                 isPathListViewer && [
                                     <MenuItem
-                                        key={build(baseId, ids.ADD_MENU_ITEM)}
-                                        id={build(baseId, ids.ADD_MENU_ITEM)}
+                                        key={buildID(baseId, ids.ADD_MENU_ITEM)}
+                                        id={buildID(baseId, ids.ADD_MENU_ITEM)}
                                         onClick={() => {
                                             onClose();
                                             onAddRow();
@@ -500,11 +503,14 @@ function ViewerToolbar(props) {
                                         <ListItemText primary={t("add")} />
                                     </MenuItem>,
                                     <MenuItem
-                                        key={build(
+                                        key={buildID(
                                             baseId,
                                             ids.DELETE_MENU_ITEM
                                         )}
-                                        id={build(baseId, ids.DELETE_MENU_ITEM)}
+                                        id={buildID(
+                                            baseId,
+                                            ids.DELETE_MENU_ITEM
+                                        )}
                                         onClick={() => {
                                             onClose();
                                             onDeleteRow();
@@ -521,7 +527,7 @@ function ViewerToolbar(props) {
                         !createFileType && [
                             <MenuItem
                                 key={ids.DETAILS_MENU_ITEM}
-                                id={build(baseId, ids.DETAILS_MENU_ITEM)}
+                                id={buildID(baseId, ids.DETAILS_MENU_ITEM)}
                                 onClick={() => {
                                     onClose();
                                     onViewDetails();
@@ -534,7 +540,7 @@ function ViewerToolbar(props) {
                             </MenuItem>,
                             <MenuItem
                                 key={ids.METADATA_MENU_ITEM}
-                                id={build(baseId, ids.METADATA_MENU_ITEM)}
+                                id={buildID(baseId, ids.METADATA_MENU_ITEM)}
                                 onClick={() => {
                                     onClose();
                                     onViewMetadata();
@@ -547,7 +553,7 @@ function ViewerToolbar(props) {
                             </MenuItem>,
                             <MenuItem
                                 key={ids.DOWNLOAD_MENU_ITEM}
-                                id={build(baseId, ids.DOWNLOAD_MENU_ITEM)}
+                                id={buildID(baseId, ids.DOWNLOAD_MENU_ITEM)}
                                 onClick={() => {
                                     onClose();
                                     setDownload(true);
@@ -560,7 +566,7 @@ function ViewerToolbar(props) {
                             </MenuItem>,
                             <MenuItem
                                 key={ids.REFRESH_MENU_ITEM}
-                                id={build(baseId, ids.REFRESH_MENU_ITEM)}
+                                id={buildID(baseId, ids.REFRESH_MENU_ITEM)}
                                 onClick={onRefresh}
                             >
                                 <ListItemIcon>

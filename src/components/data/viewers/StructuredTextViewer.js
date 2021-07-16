@@ -15,7 +15,7 @@ import viewerConstants from "./constants";
 import SplitView from "./SplitView";
 import Editor from "./Editor";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import {
     Paper,
     Table,
@@ -109,7 +109,7 @@ export default function StructuredTextViewer(props) {
             }}
         >
             <Table
-                id={build(baseId, ids.VIEWER_STRUCTURED, fileName)}
+                id={buildID(baseId, ids.VIEWER_STRUCTURED, fileName)}
                 size="small"
                 stickyHeader
                 {...getTableProps()}
@@ -147,7 +147,7 @@ export default function StructuredTextViewer(props) {
     return (
         <>
             <Toolbar
-                baseId={build(baseId, ids.VIEWER_STRUCTURED, ids.TOOLBAR)}
+                baseId={buildID(baseId, ids.VIEWER_STRUCTURED, ids.TOOLBAR)}
                 path={path}
                 resourceId={resourceId}
                 allowLineNumbers={true}
@@ -206,7 +206,7 @@ export default function StructuredTextViewer(props) {
                     rightPanel={<TableView />}
                     leftPanelTitle={t("editor")}
                     rightPanelTitle={t("preview")}
-                    baseId={build(baseId, ids.SPLIT_VIEW)}
+                    baseId={buildID(baseId, ids.SPLIT_VIEW)}
                 />
             )}
             {!busy && !editable && <TableView />}

@@ -1,5 +1,5 @@
 import React from "react";
-import ErrorHandler from "../src/components/utils/error/ErrorHandler";
+import ErrorHandler from "components/error/ErrorHandler";
 
 const errorResponse = {
     data: {

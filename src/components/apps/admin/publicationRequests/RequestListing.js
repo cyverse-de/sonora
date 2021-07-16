@@ -3,17 +3,17 @@ import { useTranslation } from "i18n";
 import { useQuery, useMutation, queryCache } from "react-query";
 
 import buildID from "components/utils/DebugIDUtil";
-import EmptyTable from "components/utils/table/EmptyTable";
+import EmptyTable from "components/table/EmptyTable";
 
-import DETableHead from "components/utils/DETableHead";
-import TableLoading from "components/utils/TableLoading";
+import DETableHead from "components/table/DETableHead";
+import TableLoading from "components/table/TableLoading";
 import {
     getAppPublicationRequests,
     adminPublishApp,
     APP_PUBLICATION_REQUESTS_QUERY_KEY,
 } from "serviceFacades/apps";
 import DEDialog from "components/utils/DEDialog";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 import ids from "../../ids";
 import constants from "../../../../constants";

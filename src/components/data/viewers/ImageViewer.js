@@ -14,7 +14,7 @@ import { getHost } from "../../utils/getHost";
 import ids from "./ids";
 import Toolbar from "./Toolbar";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Typography } from "@material-ui/core";
 
 export default function ImageViewer(props) {
@@ -31,7 +31,7 @@ export default function ImageViewer(props) {
         return (
             <PageWrapper appBarHeight={120}>
                 <Toolbar
-                    baseId={build(baseId, ids.VIEWER_IMAGE, ids.TOOLBAR)}
+                    baseId={buildID(baseId, ids.VIEWER_IMAGE, ids.TOOLBAR)}
                     path={path}
                     resourceId={resourceId}
                     allowLineNumbers={false}
@@ -40,7 +40,7 @@ export default function ImageViewer(props) {
                     fileName={fileName}
                 />
                 <img
-                    id={build(baseId, ids.VIEWER_IMAGE, fileName)}
+                    id={buildID(baseId, ids.VIEWER_IMAGE, fileName)}
                     src={`${url}`}
                     alt={fileName}
                     style={{ overflow: "auto" }}

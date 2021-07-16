@@ -21,7 +21,8 @@ import styles from "../styles";
 
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
-import { build as buildID, FormTextField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
 
 import {
     Button,

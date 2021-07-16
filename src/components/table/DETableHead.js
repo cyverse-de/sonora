@@ -6,7 +6,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import { EnhancedTableHead } from "@cyverse-de/ui-lib";
+import EnhancedTableHead from "components/table/EnhancedTableHead";
 export default function DETableHead(props) {
     const { t } = useTranslation("common");
     return (

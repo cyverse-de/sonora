@@ -22,7 +22,7 @@ import Info from "components/apps/launch/params/Info";
 import MultiFileSelector from "components/apps/launch/params/MultiFileSelector";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
-import { build as buildID } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import { Button, Card, CardHeader, makeStyles } from "@material-ui/core";
 

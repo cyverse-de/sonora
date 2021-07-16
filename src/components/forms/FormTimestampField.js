@@ -3,9 +3,9 @@
  */
 import React from "react";
 
-import build from "../DebugIDUtil";
-import { formatDateObject } from "../DateFormatter";
-import dateConstants from "../../dateConstants";
+import buildID from "../utils/DebugIDUtil";
+import { formatDateObject } from "../utils/DateFormatter";
+import dateConstants from "components/utils/dateConstants";
 
 import getFormError from "./getFormError";
 
@@ -44,7 +44,7 @@ const FormTimestampField = ({
     return (
         <FormControl error={!!errorMsg}>
             <TextField
-                id={build(id, "date")}
+                id={buildID(id, "date")}
                 type="date"
                 variant="outlined"
                 label={label}
@@ -60,7 +60,7 @@ const FormTimestampField = ({
                 {...custom}
             />
             <TextField
-                id={build(id, "time")}
+                id={buildID(id, "time")}
                 type="time"
                 variant="outlined"
                 error={!!errorMsg}

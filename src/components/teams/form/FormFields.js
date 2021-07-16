@@ -7,15 +7,14 @@
  */
 import React from "react";
 
-import {
-    build,
-    FormCheckbox,
-    FormMultilineTextField,
-    FormTextField,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
+import FormTextField from "components/forms/FormTextField";
+import FormCheckbox from "components/forms/FormCheckbox";
+
 import { Field, FieldArray } from "formik";
 
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import { validateGroupName } from "../util";
 import ids from "../ids";
 import { useTranslation } from "i18n";
@@ -36,7 +35,7 @@ function FormFields(props) {
             <Field
                 name="name"
                 label={t("teamName")}
-                id={build(parentId, ids.EDIT_TEAM.NAME)}
+                id={buildID(parentId, ids.EDIT_TEAM.NAME)}
                 InputProps={{
                     readOnly: !isAdmin,
                 }}
@@ -46,7 +45,7 @@ function FormFields(props) {
             <Field
                 name="description"
                 label={t("teamDesc")}
-                id={build(parentId, ids.EDIT_TEAM.DESCRIPTION)}
+                id={buildID(parentId, ids.EDIT_TEAM.DESCRIPTION)}
                 InputProps={{
                     readOnly: !isAdmin,
                 }}
@@ -62,11 +61,11 @@ function FormFields(props) {
                     <Field
                         name="isPublicTeam"
                         label={t("publicTeam")}
-                        id={build(parentId, ids.EDIT_TEAM.PUBLIC_PRIVILEGES)}
+                        id={buildID(parentId, ids.EDIT_TEAM.PUBLIC_PRIVILEGES)}
                         component={FormCheckbox}
                     />
                     <HelpIconButton
-                        parentId={build(
+                        parentId={buildID(
                             parentId,
                             ids.EDIT_TEAM.PUBLIC_PRIVILEGES
                         )}

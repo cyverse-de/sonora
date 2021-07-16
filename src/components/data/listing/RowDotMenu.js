@@ -23,12 +23,15 @@ import ids from "../ids";
 import shareIds from "components/sharing/ids";
 import { useDataNavigationLink } from "components/data/utils";
 import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
+
+import buildID from "components/utils/DebugIDUtil";
+import DotMenu from "components/dotMenu/DotMenu";
 import {
-    AnnouncerConstants,
     announce,
-    build,
-    DotMenu,
-} from "@cyverse-de/ui-lib";
+    ERROR,
+    SUCCESS,
+} from "components/announcer/CyVerseAnnouncer";
+
 import ResourceTypes from "components/models/ResourceTypes";
 
 function RowDotMenu(props) {
@@ -66,7 +69,7 @@ function RowDotMenu(props) {
             ButtonProps={ButtonProps}
             render={(onClose) => [
                 <DetailsMenuItem
-                    key={build(baseId, ids.DETAILS_MENU_ITEM)}
+                    key={buildID(baseId, ids.DETAILS_MENU_ITEM)}
                     baseId={baseId}
                     onClose={onClose}
                     onDetailsSelected={onDetailsSelected}
@@ -82,7 +85,7 @@ function RowDotMenu(props) {
                 ),
                 sharingEnabled && (
                     <SharingMenuItem
-                        key={build(baseId, shareIds.SHARING_MENU_ITEM)}
+                        key={buildID(baseId, shareIds.SHARING_MENU_ITEM)}
                         baseId={baseId}
                         onClose={onClose}
                         setSharingDlgOpen={setSharingDlgOpen}
@@ -90,7 +93,7 @@ function RowDotMenu(props) {
                 ),
                 publicLinkEnabled && (
                     <PublicLinksMenuItem
-                        key={build(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
+                        key={buildID(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
                         baseId={baseId}
                         onClose={onClose}
                         onPublicLinksSelected={onPublicLinksSelected}
@@ -98,7 +101,7 @@ function RowDotMenu(props) {
                 ),
                 renameEnabled && (
                     <RenameMenuItem
-                        key={build(baseId, ids.RENAME_MI)}
+                        key={buildID(baseId, ids.RENAME_MI)}
                         baseId={baseId}
                         onClose={onClose}
                         onRenameSelected={onRenameSelected}
@@ -106,7 +109,7 @@ function RowDotMenu(props) {
                 ),
                 moveMiEnabled && (
                     <MoveMenuItem
-                        key={build(baseId, ids.MOVE_MENU_ITEM)}
+                        key={buildID(baseId, ids.MOVE_MENU_ITEM)}
                         onMoveSelected={onMoveSelected}
                         baseId={baseId}
                         onClose={onClose}
@@ -114,7 +117,7 @@ function RowDotMenu(props) {
                 ),
                 isFile && (
                     <DownloadMenuItem
-                        key={build(baseId, ids.DOWNLOAD_MENU_ITEM)}
+                        key={buildID(baseId, ids.DOWNLOAD_MENU_ITEM)}
                         onDownloadSelected={onDownloadSelected}
                         baseId={baseId}
                         onClose={onClose}
@@ -122,7 +125,7 @@ function RowDotMenu(props) {
                 ),
                 !inTrash && [
                     <CopyLinkMenuItem
-                        key={build(baseId, ids.COPY_LINK_MENU_ITEM)}
+                        key={buildID(baseId, ids.COPY_LINK_MENU_ITEM)}
                         baseId={baseId}
                         onClose={onClose}
                         onCopyLinkSelected={() => {
@@ -132,7 +135,7 @@ function RowDotMenu(props) {
                         }}
                     />,
                     <CopyPathMenuItem
-                        key={build(baseId, ids.COPY_PATH_MENU_ITEM)}
+                        key={buildID(baseId, ids.COPY_PATH_MENU_ITEM)}
                         baseId={baseId}
                         onClose={onClose}
                         onCopyPathSelected={() => {
@@ -140,20 +143,20 @@ function RowDotMenu(props) {
                                 () => {
                                     announce({
                                         text: i18nData("pathCopied"),
-                                        variant: AnnouncerConstants.SUCCESS,
+                                        variant: SUCCESS,
                                     });
                                 },
                                 () => {
                                     announce({
                                         text: i18nData("pathCopiedFailed"),
-                                        variant: AnnouncerConstants.ERROR,
+                                        variant: ERROR,
                                     });
                                 }
                             );
                         }}
                     />,
                     <DeleteMenuItem
-                        key={build(baseId, ids.DELETE_MENU_ITEM)}
+                        key={buildID(baseId, ids.DELETE_MENU_ITEM)}
                         baseId={baseId}
                         onClose={onClose}
                         onDeleteSelected={onDeleteSelected}

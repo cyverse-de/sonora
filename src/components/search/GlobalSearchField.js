@@ -18,7 +18,7 @@ import {
 import ResourceTypes from "../models/ResourceTypes";
 import searchConstants from "./constants";
 import constants from "../../constants";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import NavigationConstants from "common/NavigationConstants";
 import { useDataNavigationLink } from "components/data/utils";
 import { useAppLaunchLink } from "components/apps/utils";
@@ -38,7 +38,8 @@ import SEARCH_RESULTS_TABS from "components/search/detailed/tabs";
 import { getDataSimpleSearchQuery } from "./dataSearchQueryBuilder";
 import { getAnalysesSearchQueryFilter } from "./analysesSearchQueryBuilder";
 
-import { build, Highlighter } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import Highlighter from "components/highlighter/Highlighter";
 
 import SearchIcon from "@material-ui/icons/Search";
 import {
@@ -254,7 +255,7 @@ function DataSearchOption(props) {
             secondary={path}
             icon={icon}
             searchTerm={searchTerm}
-            id={build(baseId, resourceId)}
+            id={buildID(baseId, resourceId)}
         />
     );
 }
@@ -274,7 +275,7 @@ function AppsSearchOption(props) {
             secondary={selectedOption.description}
             icon={<AppsIcon />}
             searchTerm={searchTerm}
-            id={build(baseId, selectedOption.id)}
+            id={buildID(baseId, selectedOption.id)}
             onOptionSelected={onOptionSelected}
         />
     );
@@ -293,7 +294,7 @@ function AnalysesSearchOption(props) {
             secondary={selectedOption.status}
             icon={<AnalysesIcon />}
             searchTerm={searchTerm}
-            id={build(baseId, selectedOption.id)}
+            id={buildID(baseId, selectedOption.id)}
         />
     );
 }
@@ -311,7 +312,7 @@ function TeamSearchOption(props) {
             secondary={selectedOption.description}
             icon={<TeamIcon style={{ color: theme.palette.info.main }} />}
             searchTerm={searchTerm}
-            id={build(baseId, selectedOption.id)}
+            id={buildID(baseId, selectedOption.id)}
         />
     );
 }
@@ -685,7 +686,7 @@ function GlobalSearchField(props) {
                     prompt={prompt}
                     selectedTab={selectedTab}
                     onShowDetailedSearch={onShowDetailedSearch}
-                    id={build(
+                    id={buildID(
                         ids.SEARCH,
                         ids[`${resultType?.toUpperCase()}_SEARCH_OPTION`],
                         ids.VIEW_ALL
@@ -699,7 +700,7 @@ function GlobalSearchField(props) {
                     <DataSearchOption
                         selectedOption={option}
                         searchTerm={searchTerm}
-                        baseId={build(ids.SEARCH, ids.DATA_SEARCH_OPTION)}
+                        baseId={buildID(ids.SEARCH, ids.DATA_SEARCH_OPTION)}
                     />
                 );
             case searchConstants.APPS:
@@ -712,7 +713,7 @@ function GlobalSearchField(props) {
                                 ? () => onOptionSelected(option)
                                 : false
                         }
-                        baseId={build(ids.SEARCH, ids.APPS_SEARCH_OPTION)}
+                        baseId={buildID(ids.SEARCH, ids.APPS_SEARCH_OPTION)}
                     />
                 );
             case searchConstants.ANALYSES:
@@ -720,7 +721,7 @@ function GlobalSearchField(props) {
                     <AnalysesSearchOption
                         selectedOption={option}
                         searchTerm={searchTerm}
-                        baseId={build(ids.SEARCH, ids.ANALYSES_SEARCH_OPTION)}
+                        baseId={buildID(ids.SEARCH, ids.ANALYSES_SEARCH_OPTION)}
                     />
                 );
             case searchConstants.TEAMS:
@@ -728,7 +729,7 @@ function GlobalSearchField(props) {
                     <TeamSearchOption
                         selectedOption={option}
                         searchTerm={searchTerm}
-                        baseId={build(ids.SEARCH, ids.TEAMS_SEARCH_OPTION)}
+                        baseId={buildID(ids.SEARCH, ids.TEAMS_SEARCH_OPTION)}
                     />
                 );
             default:
@@ -738,7 +739,7 @@ function GlobalSearchField(props) {
 
     const renderCustomInput = (params) => (
         <TextField
-            id={build(ids.SEARCH, ids.SEARCH_INPUT_FILED)}
+            id={buildID(ids.SEARCH, ids.SEARCH_INPUT_FILED)}
             {...params}
             className={classes.input}
             variant={isMobile ? "outlined" : "standard"}
@@ -771,7 +772,7 @@ function GlobalSearchField(props) {
         />
     );
 
-    const searchFilterId = build(ids.SEARCH, ids.SEARCH_FILTER_MENU);
+    const searchFilterId = buildID(ids.SEARCH, ids.SEARCH_FILTER_MENU);
     const filterOptions = singleSearchOption
         ? [selectedFilter]
         : [
@@ -798,7 +799,7 @@ function GlobalSearchField(props) {
                 onClose={() => {
                     setOpen(false);
                 }}
-                id={build(ids.SEARCH, ids.GLOBAL_SEARCH_FIELD)}
+                id={buildID(ids.SEARCH, ids.GLOBAL_SEARCH_FIELD)}
                 size="small"
                 options={options}
                 onInputChange={handleChange}
@@ -831,7 +832,7 @@ function GlobalSearchField(props) {
             >
                 {filterOptions.map((option) => (
                     <MenuItem
-                        id={build(
+                        id={buildID(
                             searchFilterId,
                             ids.SEARCH_FILTER_MI[option.toUpperCase()]
                         )}

@@ -12,10 +12,10 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 import refGenomeConstants from "./constants";
 
-import GridLabelValue from "../../../utils/GridLabelValue";
+import GridLabelValue from "components/utils/GridLabelValue";
 
-import FormTextField from "components/utils/forms/FormTextField";
-import FormSwitch from "components/utils/forms/FormSwitch";
+import FormTextField from "components/forms/FormTextField";
+import FormSwitch from "components/forms/FormSwitch";
 import buildID from "components/utils/DebugIDUtil";
 
 import { Button, Grid, Typography } from "@material-ui/core";

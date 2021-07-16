@@ -17,7 +17,7 @@ import AppParamTypes from "components/models/AppParamTypes";
 import ResourceTypes from "components/models/ResourceTypes";
 import DEDialog from "components/utils/DEDialog";
 
-import { build as buildID } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Avatar,

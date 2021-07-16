@@ -13,12 +13,12 @@ import {
 
 import { PlayCircleOutlineOutlined } from "@material-ui/icons";
 
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import constants from "../../constants";
 import { useTranslation } from "i18n";
 
-import { build as buildID } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import ids from "components/instantlaunches/ids";
 import { instantlyLaunch } from "serviceFacades/instantlaunches";
 

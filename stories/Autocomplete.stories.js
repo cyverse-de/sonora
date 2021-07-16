@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Autocomplete from "../src/components/autocomplete/Autocomplete";
-import { storiesOf } from "@storybook/react";
+import Autocomplete from "components/autocomplete/Autocomplete";
+
 
 /**
  * @author aramsey
@@ -58,4 +58,3 @@ export class AutocompleteTest extends Component {
 export default {
     title: "AutoComplete",
 };
-

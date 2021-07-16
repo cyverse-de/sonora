@@ -15,7 +15,7 @@ import DOIRequestStatus from "components/models/DOIRequestStatus";
 import ToolRequestStatus from "components/models/ToolRequestStatus";
 import RequestType from "components/models/RequestType";
 import RequestHistoryTable from "components/utils/RequestHistoryTable";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import { nonEmptyField } from "components/utils/validations";
 import {
     adminGetRequestDetails,
@@ -23,19 +23,15 @@ import {
     REQUEST_DETAILS_QUERY_KEY,
     DOI_LISTING_QUERY_KEY,
 } from "serviceFacades/doi";
-
 import {
     ADMIN_TOOL_REQUEST_DETAILS_QUERY_KEY,
     getAdminToolRequestDetails,
     adminUpdateToolRequest,
 } from "serviceFacades/tools";
-
-import {
-    announce,
-    build,
-    FormTextField,
-    FormMultilineTextField,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import FormTextField from "components/forms/FormTextField";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
 import {
     CircularProgress,
     MenuItem,
@@ -136,7 +132,7 @@ export default function UpdateRequestDialog(props) {
                                 <>
                                     <Button
                                         type="cancel"
-                                        id={build(baseId, ids.CANCEL_BTN)}
+                                        id={buildID(baseId, ids.CANCEL_BTN)}
                                         aria-label={t("cancel")}
                                         onClick={onClose}
                                     >
@@ -145,7 +141,7 @@ export default function UpdateRequestDialog(props) {
                                     <Button
                                         color="primary"
                                         type="submit"
-                                        id={build(baseId, ids.SUBMIT_BTN)}
+                                        id={buildID(baseId, ids.SUBMIT_BTN)}
                                         aria-label={t("updateRequest")}
                                         onClick={handleSubmit}
                                     >
@@ -203,12 +199,12 @@ export default function UpdateRequestDialog(props) {
                                         label={t("email")}
                                         required={false}
                                         margin="dense"
-                                        id={build(baseId, ids.EMAIL)}
+                                        id={buildID(baseId, ids.EMAIL)}
                                         component={FormTextField}
                                     />
 
                                     <Field
-                                        id={build(baseId, ids.STATUS)}
+                                        id={buildID(baseId, ids.STATUS)}
                                         name="status"
                                         label={t("status")}
                                         required
@@ -237,7 +233,7 @@ export default function UpdateRequestDialog(props) {
                                         label={t("comments")}
                                         required={false}
                                         margin="dense"
-                                        id={build(baseId, ids.COMMENTS)}
+                                        id={buildID(baseId, ids.COMMENTS)}
                                         component={FormMultilineTextField}
                                     />
                                     <Divider

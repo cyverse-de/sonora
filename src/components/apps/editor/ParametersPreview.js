@@ -13,7 +13,7 @@ import { ParamGroupForm as PreviewParamGroup } from "components/apps/launch/Para
 import { initGroupValues } from "components/apps/launch/formatters";
 import validate from "components/apps/launch/validate";
 
-import { build as buildID } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 export default function ParametersPreview(props) {
     const { baseId, groups } = props;

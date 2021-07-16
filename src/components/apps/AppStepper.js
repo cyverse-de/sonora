@@ -10,7 +10,7 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 import UtilIds from "../utils/ids";
 
-import { build as buildID } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Button,

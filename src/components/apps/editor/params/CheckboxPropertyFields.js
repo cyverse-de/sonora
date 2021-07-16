@@ -15,11 +15,9 @@ import DescriptionField from "./common/DescriptionField";
 import LabelField from "./common/LabelField";
 import VisibleField from "./common/VisibleField";
 
-import {
-    build as buildID,
-    FormCheckbox,
-    FormTextField,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
+import FormCheckbox from "components/forms/FormCheckbox";
 
 import { Grid } from "@material-ui/core";
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import {
     List,
     ListItem,
@@ -23,7 +23,7 @@ function RunningViceTab(props) {
 
     if (isFetching) {
         return (
-            <div id={build(baseId, ids.LOADING_SKELETON)}>
+            <div id={buildID(baseId, ids.LOADING_SKELETON)}>
                 <Skeleton />
                 <Skeleton />
                 <Skeleton />
@@ -53,7 +53,7 @@ function RunningViceTab(props) {
                                         openInteractiveUrl(accessUrl);
                                         handleClose();
                                     }}
-                                    id={build(baseId, analysis.id)}
+                                    id={buildID(baseId, analysis.id)}
                                     key={analysis.id}
                                     text={analysis.name}
                                 />

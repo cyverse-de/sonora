@@ -22,7 +22,7 @@ import {
     setUserJobLimit,
 } from "../../../../serviceFacades/vice/admin";
 
-import withErrorAnnouncer from "../../../utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "../../../error/withErrorAnnouncer";
 
 const useStyles = makeStyles((theme) => ({
     root: {

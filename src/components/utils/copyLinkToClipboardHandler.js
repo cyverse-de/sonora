@@ -1,16 +1,20 @@
-import { AnnouncerConstants, announce } from "@cyverse-de/ui-lib";
+import {
+    announce,
+    ERROR,
+    SUCCESS,
+} from "components/announcer/CyVerseAnnouncer";
 const copyLinkToClipboardHandler = (t, promise) => {
     promise.then(
         () => {
             announce({
                 text: t("linkCopied"),
-                variant: AnnouncerConstants.SUCCESS,
+                variant: SUCCESS,
             });
         },
         () => {
             announce({
                 text: t("linkCopyFailed"),
-                variant: AnnouncerConstants.ERROR,
+                variant: ERROR,
             });
         }
     );

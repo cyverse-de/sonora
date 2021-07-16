@@ -11,7 +11,12 @@ import { useQuery, queryCache } from "react-query";
 import Link from "next/link";
 import { useTranslation } from "i18n";
 
-import { AnnouncerConstants, announce, build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import {
+    announce,
+    ERROR,
+    SUCCESS,
+} from "components/announcer/CyVerseAnnouncer";
 
 import DELink from "components/utils/DELink";
 
@@ -27,13 +32,13 @@ import {
     getInfoTypes,
 } from "serviceFacades/filesystem";
 
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import dataFields from "components/data/dataFields";
 import ResourceIcon from "components/data/listing/ResourceIcon";
 import { useDataNavigationLink } from "components/data/utils";
 
 import DetailsDrawer from "components/data/details/Drawer";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import { getHost } from "components/utils/getHost";
 import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
 import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
@@ -64,7 +69,7 @@ function CopyPathButton(props) {
     return (
         <Tooltip title={t("copyPath")} aria-label={t("copyPath")}>
             <IconButton
-                id={build(baseId, ids.COPY_PATH_BUTTON)}
+                id={buildID(baseId, ids.COPY_PATH_BUTTON)}
                 onClick={() => {
                     onCopyPathSelected();
                 }}
@@ -195,7 +200,7 @@ function DataSearchResults(props) {
                         <Grid spacing={1}>
                             <Grid item>
                                 <IconButton
-                                    id={build(baseId, ids.DETAILS_BUTTON)}
+                                    id={buildID(baseId, ids.DETAILS_BUTTON)}
                                     onClick={() => setDetailsResource(original)}
                                     size="small"
                                     color="primary"
@@ -231,8 +236,7 @@ function DataSearchResults(props) {
                                                     text: dataI18n(
                                                         "pathCopied"
                                                     ),
-                                                    variant:
-                                                        AnnouncerConstants.SUCCESS,
+                                                    variant: SUCCESS,
                                                 });
                                             },
                                             () => {
@@ -240,8 +244,7 @@ function DataSearchResults(props) {
                                                     text: dataI18n(
                                                         "pathCopiedFailed"
                                                     ),
-                                                    variant:
-                                                        AnnouncerConstants.ERROR,
+                                                    variant: ERROR,
                                                 });
                                             }
                                         );

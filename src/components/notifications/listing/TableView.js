@@ -17,17 +17,14 @@ import { useTranslation } from "i18n";
 import { notificationTypeToCategory } from "components/models/NotificationCategory";
 
 import DEPagination from "components/utils/DEPagination";
-import TableLoading from "components/utils/TableLoading";
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
-import DETableHead from "components/utils/DETableHead";
+import TableLoading from "components/table/TableLoading";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import DETableHead from "components/table/DETableHead";
 
-import {
-    build as buildId,
-    DECheckbox,
-    EmptyTable,
-    formatDate,
-} from "@cyverse-de/ui-lib";
-
+import buildID from "components/utils/DebugIDUtil";
+import EmptyTable from "components/table/EmptyTable";
+import DECheckbox from "components/utils/DECheckbox";
+import { formatDate } from "components/utils/DateFormatter";
 import {
     makeStyles,
     Paper,
@@ -225,7 +222,7 @@ const TableView = (props) => {
                                                 padding="checkbox"
                                             >
                                                 <DECheckbox
-                                                    id={buildId(
+                                                    id={buildID(
                                                         baseId,
                                                         ids.CHECKBOX,
                                                         n?.message.id
@@ -249,7 +246,7 @@ const TableView = (props) => {
                                             </TableCell>
                                             <TableCell className={className}>
                                                 <Message
-                                                    baseId={buildId(
+                                                    baseId={buildID(
                                                         baseId,
                                                         ids.MESSAGE,
                                                         n?.message.id

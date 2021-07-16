@@ -9,7 +9,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import SearchResultsTable from "./SearchResultsTable";
 import { useAppsSearchInfinite } from "../searchQueries";
@@ -17,7 +17,7 @@ import searchConstants from "../constants";
 import constants from "../../../constants";
 import ids from "../ids";
 
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import AppName from "components/apps/AppName";
 import { APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
 import appFields from "components/apps/appFields";
@@ -142,7 +142,7 @@ export default function AppSearchResults(props) {
                         <Grid container spacing={1}>
                             <Grid item>
                                 <IconButton
-                                    id={build(baseId, ids.DETAILS_BUTTON)}
+                                    id={buildID(baseId, ids.DETAILS_BUTTON)}
                                     onClick={() => setDetailsApp(original)}
                                     size="small"
                                     color="primary"

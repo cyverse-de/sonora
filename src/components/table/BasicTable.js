@@ -7,7 +7,7 @@
 
 import React from "react";
 
-import TableLoading from "components/utils/TableLoading";
+import TableLoading from "components/table/TableLoading";
 import {
     Table,
     TableBody,

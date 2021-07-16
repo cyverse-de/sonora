@@ -15,7 +15,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import ids from "./ids";
 
@@ -28,7 +28,7 @@ function AgaveAuthPromptDialog(props) {
         window.location.replace(location);
         handleClose();
     };
-    const dialogTitleId = build(
+    const dialogTitleId = buildID(
         baseId,
         ids.AGAVE_AUTH_PROMPT_DIALOG,
         ids.AGAVE_AUTH_PROMPT_DIALOG_TITLE
@@ -37,7 +37,7 @@ function AgaveAuthPromptDialog(props) {
         <Dialog
             open={open}
             onClose={handleClose}
-            id={build(baseId, ids.AGAVE_AUTH_PROMPT_DIALOG)}
+            id={buildID(baseId, ids.AGAVE_AUTH_PROMPT_DIALOG)}
             fullScreen={fullScreen}
             aria-labelledby={dialogTitleId}
         >
@@ -52,7 +52,7 @@ function AgaveAuthPromptDialog(props) {
             <DialogActions>
                 <Button
                     onClick={handleClose}
-                    id={build(
+                    id={buildID(
                         baseId,
                         ids.AGAVE_AUTH_PROMPT_DIALOG,
                         ids.AGAVE_AUTH_PROMPT_DIALOG_DENY_BTN
@@ -63,7 +63,7 @@ function AgaveAuthPromptDialog(props) {
                 <Button
                     onClick={redirectUser}
                     color="primary"
-                    id={build(
+                    id={buildID(
                         baseId,
                         ids.AGAVE_AUTH_PROMPT_DIALOG,
                         ids.AGAVE_AUTH_PROMPT_DIALOG_AUTH_BTN

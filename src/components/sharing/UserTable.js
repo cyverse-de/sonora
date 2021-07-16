@@ -6,7 +6,7 @@
  */
 import React, { useMemo } from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { ListItem, ListItemText, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
@@ -15,7 +15,7 @@ import { getUserPrimaryText, getUserSecondaryText, isGroup } from "./util";
 import ids from "./ids";
 import SharingPermissionSelector from "./SharingPermissionSelector";
 import styles from "./styles";
-import BasicTable from "../utils/BasicTable";
+import BasicTable from "../table/BasicTable";
 
 const useStyles = makeStyles(styles);
 
@@ -67,7 +67,7 @@ function UserTable(props) {
                     const user = row.original;
                     return (
                         <SharingPermissionSelector
-                            baseId={build(
+                            baseId={buildID(
                                 baseId,
                                 user.id,
                                 ids.PERMISSION_SELECTOR

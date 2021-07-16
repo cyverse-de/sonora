@@ -5,7 +5,7 @@
  */
 import React from "react";
 
-import { FormMultilineTextField } from "@cyverse-de/ui-lib";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
 
 export default function MultilineText({ param, ...props }) {
     return (

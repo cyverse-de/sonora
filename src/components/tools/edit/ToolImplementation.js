@@ -5,15 +5,14 @@ import { DeleteBtn, AddBtn } from "../Buttons";
 import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import { nonEmptyField } from "components/utils/validations";
-import { DERow } from "components/utils/DERow";
-import DETableHead from "components/utils/DETableHead";
+import { DERow } from "components/table/DERow";
+import DETableHead from "components/table/DETableHead";
 
-import {
-    build,
-    EmptyTable,
-    FormTextField,
-    getFormError,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import EmptyTable from "components/table/EmptyTable";
+import FormTextField from "components/forms/FormTextField";
+import getFormError from "components/forms/getFormError";
+
 import { Field, FieldArray, getIn } from "formik";
 import {
     Table,
@@ -72,7 +71,7 @@ function TestFiles(props) {
                                     <Field
                                         name={`${name}.${index}`}
                                         fullWidth={false}
-                                        id={build(parentId, index)}
+                                        id={buildID(parentId, index)}
                                         label={t("fileName")}
                                         required
                                         validate={(value) =>
@@ -83,7 +82,7 @@ function TestFiles(props) {
                                 </TableCell>
                                 <TableCell>
                                     <DeleteBtn
-                                        parentId={build(parentId, index)}
+                                        parentId={buildID(parentId, index)}
                                         onClick={() => remove(index)}
                                     />
                                 </TableCell>
@@ -124,7 +123,7 @@ function ToolImplementation(props) {
             <Field
                 name={`${name}.implementor`}
                 label={t("implementor")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.IMPLEMENTOR)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.IMPLEMENTOR)}
                 required
                 validate={(value) => isAdmin && nonEmptyField(value, i18nUtil)}
                 component={FormTextField}
@@ -132,7 +131,7 @@ function ToolImplementation(props) {
             <Field
                 name={`${name}.implementor_email`}
                 label={t("implementorEmail")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.IMPLEMENTOR_EMAIL)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.IMPLEMENTOR_EMAIL)}
                 required
                 validate={(value) => isAdmin && nonEmptyField(value, i18nUtil)}
                 component={FormTextField}
@@ -143,7 +142,7 @@ function ToolImplementation(props) {
                     <TestFiles
                         {...props}
                         header={t("sampleInputFiles")}
-                        parentId={build(
+                        parentId={buildID(
                             parentId,
                             ids.EDIT_TOOL_DLG.SAMPLE_INPUT_FILES
                         )}
@@ -156,7 +155,7 @@ function ToolImplementation(props) {
                     <TestFiles
                         {...props}
                         header={t("sampleOutputFiles")}
-                        parentId={build(
+                        parentId={buildID(
                             parentId,
                             ids.EDIT_TOOL_DLG.SAMPLE_OUTPUT_FILES
                         )}

@@ -9,13 +9,13 @@ import {
     ERROR_CODES,
     getErrorCode,
     getErrorData,
-} from "components/utils/error/errorCode";
+} from "components/error/errorCode";
 
 import constants from "../../constants";
 import { uploadByUrl } from "serviceFacades/fileio";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
-import { build as buildID } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {

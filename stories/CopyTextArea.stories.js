@@ -3,8 +3,7 @@
  */
 
 import React, { Component } from "react";
-import CopyTextArea from "../src/components/copy/CopyTextArea";
-import { storiesOf } from "@storybook/react";
+import CopyTextArea from "components/copy/CopyTextArea";
 
 export class CopyTextAreaTest extends Component {
     render() {
@@ -26,4 +25,3 @@ oh boy!`;
 export default {
     title: "CopyTextArea",
 };
-

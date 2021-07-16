@@ -1,6 +1,6 @@
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import SyncAltIcon from "@material-ui/icons/SyncAlt";
 
@@ -13,8 +13,8 @@ function MoveMenuItem(props) {
 
     return (
         <MenuItem
-            key={build(baseId, ids.MOVE_MENU_ITEM)}
-            id={build(baseId, ids.MOVE_MENU_ITEM)}
+            key={buildID(baseId, ids.MOVE_MENU_ITEM)}
+            id={buildID(baseId, ids.MOVE_MENU_ITEM)}
             onClick={() => {
                 onClose();
                 onMoveSelected();

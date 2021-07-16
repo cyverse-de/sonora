@@ -4,7 +4,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import ids from "../ids";
 import ProductTour from "components/help/ProductTour";
@@ -55,14 +55,14 @@ export default function Tour(props) {
                     </CardContent>
                     <CardActions>
                         <Button
-                            id={build(baseId, ids.DISMISS_BTN)}
+                            id={buildID(baseId, ids.DISMISS_BTN)}
                             size="small"
                             onClick={onDismiss}
                         >
                             {t("dismiss")}
                         </Button>
                         <Button
-                            id={build(baseId, ids.TOUR_BTN)}
+                            id={buildID(baseId, ids.TOUR_BTN)}
                             size="small"
                             color="primary"
                             onClick={() => setRunTour(true)}

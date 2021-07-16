@@ -7,7 +7,9 @@
 
 import React, { useState } from "react";
 
-import { build, DECheckbox } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import DECheckbox from "components/utils/DECheckbox";
+
 import {
     Button,
     Hidden,
@@ -66,7 +68,7 @@ function CustomizeColumns(props) {
 
     const ButtonType = isSmall ? IconButton : Button;
 
-    const menuId = build(baseId, ids.CUSTOM_COLS);
+    const menuId = buildID(baseId, ids.CUSTOM_COLS);
 
     return (
         <>
@@ -92,7 +94,7 @@ function CustomizeColumns(props) {
                 {allTableColumns.map((col) => (
                     <MenuItem
                         key={col.key}
-                        id={build(menuId, col.key)}
+                        id={buildID(menuId, col.key)}
                         onClick={() => {
                             onColumnSelected(col);
                         }}

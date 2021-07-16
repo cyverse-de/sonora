@@ -6,16 +6,15 @@ import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import { nonEmptyField } from "components/utils/validations";
 
-import { DERow } from "components/utils/DERow";
-import DETableHead from "components/utils/DETableHead";
+import { DERow } from "components/table/DERow";
+import DETableHead from "components/table/DETableHead";
 
-import {
-    build,
-    EmptyTable,
-    FormCheckbox,
-    FormTextField,
-    getFormError,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import EmptyTable from "components/table/EmptyTable";
+import FormCheckbox from "components/forms/FormCheckbox";
+import FormTextField from "components/forms/FormTextField";
+import getFormError from "components/forms/getFormError";
+
 import { Field, getIn } from "formik";
 import {
     Table,
@@ -87,7 +86,7 @@ function ContainerVolumesFrom(props) {
                                 <TableCell>
                                     <Field
                                         name={`${name}.${index}.name`}
-                                        id={build(
+                                        id={buildID(
                                             parentId,
                                             index,
                                             ids.EDIT_TOOL_DLG.NAME
@@ -104,7 +103,7 @@ function ContainerVolumesFrom(props) {
                                 <TableCell>
                                     <Field
                                         name={`${name}.${index}.name_prefix`}
-                                        id={build(
+                                        id={buildID(
                                             parentId,
                                             index,
                                             ids.EDIT_TOOL_DLG.NAME_PREFIX
@@ -121,7 +120,7 @@ function ContainerVolumesFrom(props) {
                                 <TableCell>
                                     <Field
                                         name={`${name}.${index}.tag`}
-                                        id={build(
+                                        id={buildID(
                                             parentId,
                                             index,
                                             ids.EDIT_TOOL_DLG.TAG
@@ -134,7 +133,7 @@ function ContainerVolumesFrom(props) {
                                 <TableCell>
                                     <Field
                                         name={`${name}.${index}.url`}
-                                        id={build(
+                                        id={buildID(
                                             parentId,
                                             index,
                                             ids.EDIT_TOOL_DLG.DOCKER_URL
@@ -147,7 +146,7 @@ function ContainerVolumesFrom(props) {
                                 <TableCell>
                                     <Field
                                         name={`${name}.${index}.read_only`}
-                                        id={build(
+                                        id={buildID(
                                             parentId,
                                             index,
                                             ids.EDIT_TOOL_DLG.READ_ONLY
@@ -159,7 +158,7 @@ function ContainerVolumesFrom(props) {
                                 <TableCell>
                                     <DeleteBtn
                                         onClick={() => remove(index)}
-                                        parentId={build(parentId, index)}
+                                        parentId={buildID(parentId, index)}
                                     />
                                 </TableCell>
                             </DERow>

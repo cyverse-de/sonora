@@ -10,8 +10,8 @@ import { queryCache, useMutation, useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
-import AnnouncerConstants from "components/utils/announcer/AnnouncerConstants";
-import { announce } from "components/utils/announcer/CyVerseAnnouncer";
+import AnnouncerConstants from "components/announcer/AnnouncerConstants";
+import { announce } from "components/announcer/CyVerseAnnouncer";
 import { formatDate } from "components/utils/DateFormatter";
 import buildID from "components/utils/DebugIDUtil";
 
@@ -41,7 +41,7 @@ import { canShare, openInteractiveUrl } from "../utils";
 import globalConstants from "../../../constants";
 import ConfirmationDialog from "../../utils/ConfirmationDialog";
 import DEPagination from "../../utils/DEPagination";
-import withErrorAnnouncer from "../../utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "../../error/withErrorAnnouncer";
 import Drawer from "../details/Drawer";
 
 import ids from "../ids";

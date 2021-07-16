@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 
 import ids from "./ids";
 import styles from "./styles";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import {
     ListItem,
     ListItemIcon,
@@ -33,7 +33,7 @@ export default function AdminDrawerItems(props) {
     return (
         <>
             <ListItem
-                id={build(ids.DRAWER_MENU, ids.ADMIN_MI)}
+                id={buildID(ids.DRAWER_MENU, ids.ADMIN_MI)}
                 className={
                     activeView === NavigationConstants.ADMIN
                         ? classes.listItemActive
@@ -51,7 +51,7 @@ export default function AdminDrawerItems(props) {
             <Tooltip title={t("apps")} placement="right" arrow>
                 <ListItem
                     button
-                    id={build(ids.DRAWER_MENU, ids.APPS_ADMIN_MI)}
+                    id={buildID(ids.DRAWER_MENU, ids.APPS_ADMIN_MI)}
                     className={clsx(classes.nested, classes.listItem)}
                     onClick={() =>
                         router.push(
@@ -71,7 +71,7 @@ export default function AdminDrawerItems(props) {
             <Tooltip title={t("doiRequests")} placement="right" arrow>
                 <ListItem
                     button
-                    id={build(ids.DRAWER_MENU, ids.DOI_ADMIN_MI)}
+                    id={buildID(ids.DRAWER_MENU, ids.DOI_ADMIN_MI)}
                     className={clsx(classes.nested, classes.listItem)}
                     onClick={() =>
                         router.push(
@@ -91,7 +91,7 @@ export default function AdminDrawerItems(props) {
             <Tooltip title={t("refGenomes")} placement="right" arrow>
                 <ListItem
                     button
-                    id={build(ids.DRAWER_MENU, ids.REF_GENOME_MI)}
+                    id={buildID(ids.DRAWER_MENU, ids.REF_GENOME_MI)}
                     className={clsx(classes.nested, classes.listItem)}
                     onClick={() =>
                         router.push(
@@ -111,7 +111,7 @@ export default function AdminDrawerItems(props) {
             <Tooltip title={t("tools")} placement="right" arrow>
                 <ListItem
                     button
-                    id={build(ids.DRAWER_MENU, ids.TOOLS_ADMIN_MI)}
+                    id={buildID(ids.DRAWER_MENU, ids.TOOLS_ADMIN_MI)}
                     className={clsx(classes.nested, classes.listItem)}
                     onClick={() =>
                         router.push(
@@ -131,7 +131,7 @@ export default function AdminDrawerItems(props) {
             <Tooltip title={t("vice")} placement="right" arrow>
                 <ListItem
                     button
-                    id={build(ids.DRAWER_MENU, ids.VICE_MI)}
+                    id={buildID(ids.DRAWER_MENU, ids.VICE_MI)}
                     className={clsx(classes.nested, classes.listItem)}
                     onClick={() =>
                         router.push(

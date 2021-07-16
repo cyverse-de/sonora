@@ -20,7 +20,8 @@ import ValidationRulesEditor from "./validators/ValidationRulesEditor";
 import { getTextFieldInputProps } from "components/apps/launch/params/Text";
 import { ValidatorTypes } from "components/models/AppParamTypes";
 
-import { build as buildID, FormTextField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
 
 import { Grid } from "@material-ui/core";
 

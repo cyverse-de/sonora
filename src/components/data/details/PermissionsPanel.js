@@ -8,7 +8,7 @@
 
 import React, { Fragment, useState, useEffect } from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import {
     Avatar,
     CircularProgress,
@@ -36,8 +36,8 @@ import {
 import { dataSharing } from "serviceFacades/sharing";
 import isQueryLoading from "components/utils/isQueryLoading";
 import { getUserInfo } from "serviceFacades/users";
-import ErrorTypography from "components/utils/error/ErrorTypography";
-import DEErrorDialog from "components/utils/error/DEErrorDialog";
+import ErrorTypography from "components/error/ErrorTypography";
+import DEErrorDialog from "components/error/DEErrorDialog";
 import { getUserPrimaryText, getUserSecondaryText } from "../../sharing/util";
 
 const useStyles = makeStyles(styles);
@@ -225,7 +225,7 @@ function PermissionsTabPanel(props) {
         const arrayRows = [...Array(10)];
         return (
             <Grid
-                id={build(baseId, ids.LOADING_SKELETON)}
+                id={buildID(baseId, ids.LOADING_SKELETON)}
                 container
                 spacing={1}
             >
@@ -260,13 +260,13 @@ function PermissionsTabPanel(props) {
 
     return (
         <>
-            <Typography id={build(baseId, ids.SELF_PERMISSION)}>
+            <Typography id={buildID(baseId, ids.SELF_PERMISSION)}>
                 {t("selfPermission", { permission: selfPermission })}
             </Typography>
             {selfPermission === Permissions.OWN && (
                 <List
                     className={classes.permissionsList}
-                    id={build(baseId, ids.PERMISSION_LIST)}
+                    id={buildID(baseId, ids.PERMISSION_LIST)}
                 >
                     {Object.values(Permissions).map(
                         (permissionValue, index) => (
@@ -281,7 +281,7 @@ function PermissionsTabPanel(props) {
                                     groupedPermissions[permissionValue]?.map(
                                         (permission, index) => (
                                             <Identity
-                                                id={build(
+                                                id={buildID(
                                                     baseId,
                                                     ids.PERMISSION_LIST,
                                                     permission.user
@@ -304,7 +304,7 @@ function PermissionsTabPanel(props) {
                                                             />
                                                         ) : (
                                                             <PermissionSelector
-                                                                baseId={build(
+                                                                    baseId={buildID(
                                                                     baseId,
                                                                     ids.PERMISSION_LIST,
                                                                     permission.user

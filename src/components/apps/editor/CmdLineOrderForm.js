@@ -12,7 +12,8 @@ import styles from "./styles";
 
 import AppParamTypes from "components/models/AppParamTypes";
 
-import { build as buildID, stableSort } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { stableSort } from "components/table/TableSort";
 
 import {
     Button,

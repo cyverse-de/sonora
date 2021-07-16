@@ -5,12 +5,12 @@
  */
 import React from "react";
 
-import ids from "../ids";
+import ids from "../utils/ids";
 
 import ErrorTypography from "./ErrorTypography";
 import DEErrorDialog from "./DEErrorDialog";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 const ErrorTypographyWithDialog = ({ baseId, errorMessage, errorObject }) => {
@@ -24,7 +24,7 @@ const ErrorTypographyWithDialog = ({ baseId, errorMessage, errorObject }) => {
             />
             <DEErrorDialog
                 open={errorDialogOpen}
-                baseId={build(baseId, ids.ERROR_DLG)}
+                baseId={buildID(baseId, ids.ERROR_DLG)}
                 errorObject={errorObject}
                 handleClose={() => {
                     setErrorDialogOpen(false);

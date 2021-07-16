@@ -5,7 +5,7 @@
  */
 import React from "react";
 
-import { FormCheckbox } from "@cyverse-de/ui-lib";
+import FormCheckbox from "components/forms/FormCheckbox";
 
 export default function Checkbox({ param, ...props }) {
     return (

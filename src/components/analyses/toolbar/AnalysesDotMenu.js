@@ -26,7 +26,7 @@ import {
 } from "../utils";
 
 import buildID from "components/utils/DebugIDUtil";
-import DotMenu from "components/utils/dotMenu/DotMenu";
+import DotMenu from "components/dotMenu/DotMenu";
 import {
     Hidden,
     ListItemIcon,

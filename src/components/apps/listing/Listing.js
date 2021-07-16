@@ -13,7 +13,8 @@ import TableView from "./TableView";
 import AppsToolbar from "../toolbar/Toolbar";
 import ids from "../ids";
 
-import { AnnouncerConstants, announce, build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
 
 import appType from "components/models/AppType";
 
@@ -24,7 +25,7 @@ import appsConstants from "../constants";
 import constants from "../../../constants";
 
 import { useBagAddItems } from "serviceFacades/bags";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import { useTranslation } from "i18n";
 
 import {
@@ -193,7 +194,7 @@ function Listing(props) {
             onSuccess: () => {
                 announce({
                     text: t("appDeleteSuccess", { appName: selectedApp?.name }),
-                    variant: AnnouncerConstants.SUCCESS,
+                    variant: SUCCESS,
                 });
 
                 setSelected([]);
@@ -546,7 +547,7 @@ function Listing(props) {
                 resources={sharingApps}
             />
             <AppDoc
-                baseId={build(baseId, ids.DOCUMENTATION)}
+                baseId={buildID(baseId, ids.DOCUMENTATION)}
                 open={docDlgOpen}
                 appId={selectedApp?.id}
                 systemId={selectedApp?.system_id}
@@ -554,7 +555,7 @@ function Listing(props) {
                 onClose={() => setDocDlgOpen(false)}
             />
             <QuickLaunchDialog
-                baseDebugId={build(baseId, ids.APP_QUICK_LAUNCH)}
+                baseDebugId={buildID(baseId, ids.APP_QUICK_LAUNCH)}
                 appName={selectedApp?.name}
                 appId={selectedApp?.id}
                 systemId={selectedApp?.system_id}
@@ -564,7 +565,7 @@ function Listing(props) {
 
             <ConfirmationDialog
                 open={deleteDialogOpen}
-                baseId={build(ids.DIALOG, ids.DELETE)}
+                baseId={buildID(ids.DIALOG, ids.DELETE)}
                 onClose={() => setDeleteDialogOpen(false)}
                 onConfirm={confirmDelete}
                 title={t("common:delete")}

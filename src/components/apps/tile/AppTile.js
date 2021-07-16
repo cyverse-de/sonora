@@ -15,7 +15,10 @@ import { withStyles } from "@material-ui/core";
 import AppName from "../AppName";
 import AppMenu from "../AppMenu";
 import ids from "../ids";
-import { Highlighter, build, Rate } from "@cyverse-de/ui-lib";
+
+import buildID from "components/utils/DebugIDUtil";
+import Rate from "components/rating/Rate";
+import Highlighter from "components/highlighter/Highlighter";
 
 const styles = (theme) => ({
     card: {
@@ -122,7 +125,7 @@ function AppTile(props) {
     const getGravatarIconSrc = `https://www.gravatar.com/avatar/${md5(
         uuid
     )}?d=identicon&s=60`;
-    const tileId = build(baseDebugId, uuid);
+    const tileId = buildID(baseDebugId, uuid);
     return (
         <Paper
             className={
@@ -147,7 +150,7 @@ function AppTile(props) {
                     tabIndex="0"
                 >
                     <img
-                        id={build(tileId, ids.CARD)}
+                        id={buildID(tileId, ids.CARD)}
                         src={getGravatarIconSrc}
                         alt="avatar"
                     />
@@ -156,7 +159,7 @@ function AppTile(props) {
             </div>
             <div>
                 <AppName
-                    baseDebugId={build(tileId, ids.APP_NAME)}
+                    baseDebugId={buildID(tileId, ids.APP_NAME)}
                     name={name}
                     isDisabled={isDisabled}
                     classes={classes}

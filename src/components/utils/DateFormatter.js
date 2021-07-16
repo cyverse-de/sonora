@@ -4,7 +4,7 @@
 
 import lightFormat from "date-fns/lightFormat";
 import toDate from "date-fns/toDate";
-import dateConstants from "../dateConstants";
+import dateConstants from "./dateConstants";
 
 /**
  * Format a date with the given format or return a `-`.

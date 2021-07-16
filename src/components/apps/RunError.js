@@ -8,7 +8,7 @@ import React from "react";
 import { useTranslation } from "i18n";
 import { Trans } from "react-i18next";
 import { intercomShow } from "common/intercom";
-import { ERROR_CODES } from "components/utils/error/errorCode";
+import { ERROR_CODES } from "components/error/errorCode";
 import { Link } from "@material-ui/core";
 
 export default function RunError(props) {

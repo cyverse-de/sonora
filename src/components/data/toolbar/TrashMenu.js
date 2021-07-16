@@ -10,7 +10,7 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 import styles from "../styles";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Button, makeStyles, Menu } from "@material-ui/core";
 
 import { ArrowDropDown, Delete } from "@material-ui/icons";
@@ -37,7 +37,7 @@ export function TrashMenu(props) {
     return (
         <>
             <Button
-                id={build(baseId, ids.TRASH_BUTTON)}
+                id={buildID(baseId, ids.TRASH_BUTTON)}
                 variant="outlined"
                 size="small"
                 disableElevation
@@ -45,14 +45,14 @@ export function TrashMenu(props) {
                 className={classes.button}
                 onClick={onTrashMenuClick}
                 aria-haspopup={true}
-                aria-controls={build(baseId, ids.TRASH_BUTTON_MENU)}
+                aria-controls={buildID(baseId, ids.TRASH_BUTTON_MENU)}
                 startIcon={<Delete />}
                 endIcon={<ArrowDropDown />}
             >
                 {t("trash")}
             </Button>
             <Menu
-                id={build(baseId, ids.TRASH_BUTTON_MENU)}
+                id={buildID(baseId, ids.TRASH_BUTTON_MENU)}
                 anchorEl={trashAnchor}
                 open={Boolean(trashAnchor)}
                 onClose={onTrashClose}

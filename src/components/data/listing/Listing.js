@@ -29,7 +29,7 @@ import {
     trackUpload,
 } from "components/uploads/UploadDrop";
 import UploadDropTarget from "components/uploads/UploadDropTarget";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import Sharing from "components/sharing";
 import { formatSharedData } from "components/sharing/util";
 import { getPageQueryParams } from "../utils";
@@ -56,7 +56,8 @@ import {
     DEFAULTS_MAPPING_QUERY_KEY,
 } from "serviceFacades/instantlaunches";
 
-import { announce, build, AnnouncerConstants } from "@cyverse-de/ui-lib";
+import { announce, INFO } from "components/announcer/CyVerseAnnouncer";
+import buildID from "components/utils/DebugIDUtil";
 
 import { useTranslation } from "i18n";
 import { useBagAddItems } from "serviceFacades/bags";
@@ -219,7 +220,7 @@ function Listing(props) {
             onSuccess: () => {
                 announce({
                     text: t("asyncDataDeletePending"),
-                    variant: AnnouncerConstants.INFO,
+                    variant: INFO,
                 });
             },
             onError: (e) => {
@@ -246,7 +247,7 @@ function Listing(props) {
             onSuccess: () => {
                 announce({
                     text: t("asyncDataEmptyTrashPending"),
-                    variant: AnnouncerConstants.INFO,
+                    variant: INFO,
                 });
             },
             onError: (e) => {
@@ -259,7 +260,7 @@ function Listing(props) {
         onSuccess: () => {
             announce({
                 text: t("asyncDataRestorePending"),
-                variant: AnnouncerConstants.INFO,
+                variant: INFO,
             });
         },
         onError: (e) => {
@@ -557,7 +558,7 @@ function Listing(props) {
         restoreStatus,
         isFetchingDefaultsMapping,
     ]);
-    const localUploadId = build(baseId, ids.UPLOAD_MI, ids.UPLOAD_INPUT);
+    const localUploadId = buildID(baseId, ids.UPLOAD_MI, ids.UPLOAD_INPUT);
     return (
         <>
             {render && render(selected.length, getSelectedResources)}
@@ -583,7 +584,7 @@ function Listing(props) {
                     setUploadDialogOpen={setUploadDialogOpen}
                     setImportDialogOpen={setImportDialogOpen}
                     localUploadId={localUploadId}
-                    uploadMenuId={build(baseId, ids.TOOLBAR, ids.UPLOAD_MENU)}
+                    uploadMenuId={buildID(baseId, ids.TOOLBAR, ids.UPLOAD_MENU)}
                     onCreateFileSelected={(fileType) =>
                         onCreateFileSelected(path, fileType)
                     }

@@ -6,7 +6,7 @@
 
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Button, makeStyles } from "@material-ui/core";
 import { Share } from "@material-ui/icons";
 
@@ -23,7 +23,7 @@ function SharingButton(props) {
 
     return (
         <Button
-            id={build(baseId, ids.BUTTONS.SHARE)}
+            id={buildID(baseId, ids.BUTTONS.SHARE)}
             variant="outlined"
             disableElevation
             color="primary"

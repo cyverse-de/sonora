@@ -31,7 +31,10 @@ import {
     rateApp,
 } from "serviceFacades/apps";
 
-import { build, CopyTextArea, Rate } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import CopyTextArea from "components/copy/CopyTextArea";
+import Rate from "components/rating/Rate";
+
 import {
     CircularProgress,
     Dialog,
@@ -139,7 +142,7 @@ function DetailsHeader({
                 <DialogContent>
                     <CopyTextArea
                         text={link}
-                        debugIdPrefix={build(baseId, appId)}
+                        debugIdPrefix={buildID(baseId, appId)}
                     />
                 </DialogContent>
             </Dialog>
@@ -200,8 +203,8 @@ function DetailsDrawer(props) {
     } = selectedApp?.rating || { average: 0, total: 0, user: 0 };
 
     const drawerId = ids.DETAILS_DRAWER;
-    const detailsTabId = build(drawerId, ids.DETAILS_TAB);
-    const toolInfoTabId = build(drawerId, ids.TOOLS_INFO_TAB);
+    const detailsTabId = buildID(drawerId, ids.DETAILS_TAB);
+    const toolInfoTabId = buildID(drawerId, ids.TOOLS_INFO_TAB);
 
     const { isFetching: appByIdStatus, error: appByIdError } = useQuery({
         queryKey: [APP_BY_ID_QUERY_KEY, { systemId, appId }],
@@ -325,13 +328,13 @@ function DetailsDrawer(props) {
                     value={TABS.appInfo}
                     label={t("details")}
                     id={detailsTabId}
-                    aria-controls={build(detailsTabId, ids.PANEL)}
+                    aria-controls={buildID(detailsTabId, ids.PANEL)}
                 />
                 <DETab
                     value={TABS.toolInfo}
                     label={t("toolsUsedByApp")}
                     id={toolInfoTabId}
-                    aria-controls={build(toolInfoTabId, ids.PANEL)}
+                    aria-controls={buildID(toolInfoTabId, ids.PANEL)}
                 />
             </DETabs>
             <DETabPanel

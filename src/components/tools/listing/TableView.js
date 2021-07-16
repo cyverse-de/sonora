@@ -3,13 +3,15 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 
-import TableLoading from "../../utils/TableLoading";
-import { DERow } from "components/utils/DERow";
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
-import DETableHead from "components/utils/DETableHead";
+import TableLoading from "components/table/TableLoading";
+import { DERow } from "components/table/DERow";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import DETableHead from "components/table/DETableHead";
 import PageWrapper from "components/layout/PageWrapper";
 
-import { build, DECheckbox, EmptyTable } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import DECheckbox from "components/utils/DECheckbox";
+import EmptyTable from "components/table/EmptyTable";
 import {
     Paper,
     Table,
@@ -20,7 +22,7 @@ import {
     Typography,
 } from "@material-ui/core";
 
-const buildId = build;
+const buildId = buildID;
 
 /**
  * Returns localized column header information for the tool listing table.

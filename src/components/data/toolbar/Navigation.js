@@ -17,7 +17,7 @@ import {
 } from "../../../serviceFacades/filesystem";
 import { useUserProfile } from "../../../contexts/userProfile";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
@@ -175,7 +175,7 @@ function FolderSelectorMenu({
                     component="nav"
                     aria-controls={t("selectedFolderAriaControl")}
                     aria-label={t("selectedFolderAriaLabel")}
-                    id={build(baseId, ids.PATH_ITEMS)}
+                    id={buildID(baseId, ids.PATH_ITEMS)}
                     className={classes.list}
                 >
                     <ListItem
@@ -188,7 +188,7 @@ function FolderSelectorMenu({
                     >
                         {<FolderIcon fontSize="small" />}
                         <ListItemText
-                            id={build(
+                            id={buildID(
                                 baseId,
                                 ids.PATH_ITEMS,
                                 ids.SELECTED_PATH_ITEM
@@ -208,7 +208,7 @@ function FolderSelectorMenu({
                 </List>
 
                 <Menu
-                    id={build(baseId, ids.PATH_ITEMS_MENU)}
+                    id={buildID(baseId, ids.PATH_ITEMS_MENU)}
                     aria-haspopup="true"
                     aria-controls={t("FolderPathsMenuAriaControl")}
                     aria-label={t("FolderPathsMenuAriaLabel")}
@@ -219,7 +219,7 @@ function FolderSelectorMenu({
                 >
                     {pathItems.map((crumb, index) => (
                         <ListItem
-                            id={build(
+                            id={buildID(
                                 baseId,
                                 ids.PATH_ITEMS_MENU,
                                 ids.PATH_ITEMS_MENU_ITEM
@@ -281,7 +281,7 @@ function BreadCrumb({
             <Breadcrumbs
                 maxItems={2}
                 aria-label="breadcrumb"
-                id={build(baseId, ids.BREADCRUMBS)}
+                id={buildID(baseId, ids.BREADCRUMBS)}
                 aria-controls={t("dataNavigationBreadcrumbsControl")}
             >
                 {getPathItems(relativePath).map((crumb) => (
@@ -290,7 +290,7 @@ function BreadCrumb({
                             variant="text"
                             startIcon={<FolderIcon className={classes.icon} />}
                             aria-controls={t("folderPathAriaControl")}
-                            id={build(
+                            id={buildID(
                                 baseId,
                                 ids.BREADCRUMBS,
                                 ids.PATH_ITEM,
@@ -324,7 +324,7 @@ function Navigation(props) {
     const [userTrashPath, setUserTrashPath] = useState("");
     const [sharedWithMePath, setSharedWithMePath] = useState("");
     const [communityDataPath, setCommunityDataPath] = useState("");
-    const dataNavId = build(baseId, ids.DATA_NAVIGATION);
+    const dataNavId = buildID(baseId, ids.DATA_NAVIGATION);
     const [userProfile] = useUserProfile();
     const [config] = useConfig();
     const irodsHomePath = config?.irods?.home_path;
@@ -468,7 +468,7 @@ function Navigation(props) {
             <List
                 component="nav"
                 aria-label={t("selectedDataRootMenuAriaLabel")}
-                id={build(dataNavId, ids.DATA_ROOTS)}
+                id={buildID(dataNavId, ids.DATA_ROOTS)}
                 className={classes.list}
             >
                 <ListItem
@@ -481,7 +481,7 @@ function Navigation(props) {
                 >
                     {dataRoots[selectedIndex].icon}
                     <ListItemText
-                        id={build(
+                        id={buildID(
                             baseId,
                             ids.DATA_ROOTS,
                             dataRoots[selectedIndex].label
@@ -498,7 +498,7 @@ function Navigation(props) {
                 </ListItem>
             </List>
             <Menu
-                id={build(baseId, ids.DATA_ROOTS_MENU)}
+                id={buildID(baseId, ids.DATA_ROOTS_MENU)}
                 aria-haspopup="true"
                 aria-controls={t("dataRootMenuAriaControl")}
                 aria-label={t("dataRootsMenuAriaLabel")}
@@ -509,7 +509,7 @@ function Navigation(props) {
             >
                 {dataRoots.map((menuItem, index) => (
                     <ListItem
-                        id={build(
+                        id={buildID(
                             dataNavId,
                             ids.DATA_ROOTS_MENU,
                             ids.DATA_ROOTS_MENU_ITEM,

@@ -17,12 +17,12 @@
  */
 import React, { useEffect, useState } from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Container, makeStyles, Typography } from "@material-ui/core";
 import { Trans, useTranslation } from "i18n";
 import { useQuery } from "react-query";
 
-import ErrorHandler from "components/utils/error/ErrorHandler";
+import ErrorHandler from "components/error/ErrorHandler";
 import LinearProgressWithLabel from "components/utils/LinearProgressWithLabel";
 import { useConfig } from "contexts/config";
 import ids from "./ids";
@@ -310,7 +310,7 @@ function ViceLoading(props) {
                 )}
                 <LinearProgressWithLabel value={progress.percent} />
                 <Typography
-                    id={build(baseId, ids.STATUS_MSG)}
+                    id={buildID(baseId, ids.STATUS_MSG)}
                     gutterBottom={true}
                     color={progress.hasError ? "error" : "inherit"}
                 >

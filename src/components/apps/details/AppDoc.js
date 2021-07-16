@@ -20,7 +20,7 @@ import {
     getAppDetails,
     saveAppDoc,
 } from "serviceFacades/apps";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import GridLoading from "components/utils/GridLoading";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import markdownToHtml from "components/utils/markdownToHtml";

@@ -5,7 +5,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import ids from "../ids";
 
@@ -41,12 +41,12 @@ export default function QuickLaunchDialog(props) {
                     onClick={onClose}
                     size="small"
                     edge="end"
-                    id={build(baseDebugId, ids.CLOSE_BTN)}
+                    id={buildID(baseDebugId, ids.CLOSE_BTN)}
                 >
                     <Close />
                 </IconButton>
             </DialogTitle>
-            <DialogContent id={build(baseDebugId, ids.DIALOG)}>
+            <DialogContent id={buildID(baseDebugId, ids.DIALOG)}>
                 <ListQuickLaunches
                     appId={appId}
                     systemId={systemId}

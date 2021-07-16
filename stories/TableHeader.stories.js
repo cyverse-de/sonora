@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import { Table, TableBody, TableCell, TableRow } from "@material-ui/core";
 
-import EnhancedTableHead from "../src/util/table/EnhancedTableHead";
-import DECheckbox from "../src/util/table/DECheckbox";
+import EnhancedTableHead from "components/table/EnhancedTableHead";
+import DECheckbox from "components/utils/DECheckbox";
 
 export const DETableHeader = () => {
     const [checked, setChecked] = useState(false);

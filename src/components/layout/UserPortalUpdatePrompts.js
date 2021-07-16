@@ -13,7 +13,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import {
     Button,
     Dialog,
@@ -47,7 +47,7 @@ function UserPortalUpdatePrompts() {
     const classes = useStyles();
 
     const baseId = ids.USER_PORTAL_UPDATE_DLG;
-    const dialogTitleId = build(baseId, ids.DIALOG_TITLE);
+    const dialogTitleId = buildID(baseId, ids.DIALOG_TITLE);
 
     const [showSnackbar, setShowSnackbar] = useState(false);
 
@@ -95,7 +95,7 @@ function UserPortalUpdatePrompts() {
                         <Button
                             variant="outlined"
                             onClick={onLearnMore}
-                            id={build(
+                            id={buildID(
                                 ids.USER_PORTAL_ANNOUNCER,
                                 ids.LEARN_MORE
                             )}
@@ -107,7 +107,7 @@ function UserPortalUpdatePrompts() {
                         <Button
                             variant="outlined"
                             onClick={onUpdateNow}
-                            id={build(
+                            id={buildID(
                                 ids.USER_PORTAL_ANNOUNCER,
                                 ids.UPDATE_BTN
                             )}
@@ -116,7 +116,10 @@ function UserPortalUpdatePrompts() {
                             <Typography>{t("updateNow")}</Typography>
                         </Button>,
                         <IconButton
-                            id={build(ids.USER_PORTAL_ANNOUNCER, ids.CLOSE_BTN)}
+                            id={buildID(
+                                ids.USER_PORTAL_ANNOUNCER,
+                                ids.CLOSE_BTN
+                            )}
                             key={ids.CLOSE_BTN}
                             size="small"
                             style={{
@@ -151,7 +154,7 @@ function UserPortalUpdatePrompts() {
                 </DialogContent>
                 <DialogActions>
                     <Button
-                        id={build(baseId, ids.UPDATE_BTN)}
+                        id={buildID(baseId, ids.UPDATE_BTN)}
                         onClick={onUpdateNow}
                         color="primary"
                         variant="contained"

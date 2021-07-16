@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 import { useTranslation } from "i18n";
 
-import { FormSearchField } from "@cyverse-de/ui-lib";
+import FormSearchField from "components/forms/FormSearchField";
 
 import { ListItemText, MenuItem } from "@material-ui/core";
 

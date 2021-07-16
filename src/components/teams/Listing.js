@@ -8,13 +8,15 @@
 
 import React, { useMemo, useState } from "react";
 
-import { build, EmptyTable } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import EmptyTable from "components/table/EmptyTable";
+
 import { IconButton, Table, TableBody } from "@material-ui/core";
 import { Info } from "@material-ui/icons";
 
 import ids from "./ids";
 import { useTranslation } from "i18n";
-import TableLoading from "../utils/TableLoading";
+import TableLoading from "../table/TableLoading";
 import { useQuery } from "react-query";
 import {
     ALL_TEAMS_QUERY,
@@ -26,11 +28,11 @@ import {
 import { TEAM_FILTER } from "./index";
 import { useUserProfile } from "contexts/userProfile";
 import isQueryLoading from "../utils/isQueryLoading";
-import BasicTable from "../utils/BasicTable";
+import BasicTable from "../table/BasicTable";
 import DELink from "../utils/DELink";
 import { useTeamsSearch } from "../search/searchQueries";
-import WrappedErrorHandler from "../utils/error/WrappedErrorHandler";
-import ErrorTypographyWithDialog from "../utils/error/ErrorTypographyWithDialog";
+import WrappedErrorHandler from "../error/WrappedErrorHandler";
+import ErrorTypographyWithDialog from "../error/ErrorTypographyWithDialog";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 function Columns(t) {
@@ -58,7 +60,7 @@ function Listing(props) {
     const [data, setData] = useState([]);
     const [userProfile] = useUserProfile();
 
-    const tableId = build(parentId, ids.TEAMS.TABLE);
+    const tableId = buildID(parentId, ids.TEAMS.TABLE);
     const TEAM_COLUMNS = Columns(t);
     const isSearchPage = !!searchTerm;
 
@@ -69,10 +71,10 @@ function Listing(props) {
                 accessor: TEAM_COLUMNS.NAME.key,
                 Cell: ({ row, value }) => {
                     const team = row.original;
-                    const rowId = build(tableId, team.id);
+                    const rowId = buildID(tableId, team.id);
                     return (
                         <DELink
-                            id={build(rowId, ids.TEAMS.LINK)}
+                            id={buildID(rowId, ids.TEAMS.LINK)}
                             onClick={() => onTeamNameSelected(team.name)}
                             searchTerm={searchTerm}
                             text={value}

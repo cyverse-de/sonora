@@ -6,7 +6,8 @@
  */
 import React, { useState } from "react";
 
-import { build, FormMultilineTextField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
 import {
     Button,
     CircularProgress,
@@ -19,7 +20,7 @@ import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
 
 import DEDialog from "components/utils/DEDialog";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import isQueryLoading from "components/utils/isQueryLoading";
 import ids from "../ids";
 import { requestJoinTeam } from "serviceFacades/groups";
@@ -72,13 +73,13 @@ function JoinTeamDialog(props) {
                         actions={
                             <>
                                 <Button
-                                    id={build(baseId, ids.BUTTONS.CANCEL_BTN)}
+                                    id={buildID(baseId, ids.BUTTONS.CANCEL_BTN)}
                                     onClick={onClose}
                                 >
                                     {t("common:cancel")}
                                 </Button>
                                 <Button
-                                    id={build(baseId, ids.BUTTONS.JOIN_BTN)}
+                                    id={buildID(baseId, ids.BUTTONS.JOIN_BTN)}
                                     color="primary"
                                     type="submit"
                                     onClick={handleSubmit}
@@ -92,7 +93,7 @@ function JoinTeamDialog(props) {
                             {t("joinDlgInfo", { name: teamShortName })}
                         </Typography>
                         <Field
-                            id={build(baseId, ids.JOIN_MSG)}
+                            id={buildID(baseId, ids.JOIN_MSG)}
                             name="message"
                             label={t("joinDlgLabel")}
                             onKeyDown={(event) => {
@@ -107,7 +108,7 @@ function JoinTeamDialog(props) {
                                         {isLoading && (
                                             <InputAdornment position="start">
                                                 <CircularProgress
-                                                    id={build(
+                                                    id={buildID(
                                                         baseId,
                                                         ids.JOIN_MSG,
                                                         ids.LOADING_SKELETON

@@ -7,7 +7,7 @@
  */
 import React, { useState } from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import {
     Button,
     Card,
@@ -32,7 +32,7 @@ import { useMutation } from "react-query";
 import Privilege, { MemberPrivileges } from "components/models/Privilege";
 import DEDialog from "components/utils/DEDialog";
 import GridLabelValue from "components/utils/GridLabelValue";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import isQueryLoading from "components/utils/isQueryLoading";
 import ids from "../ids";
 import { useTranslation } from "i18n";
@@ -60,7 +60,7 @@ function ApproveAction(props) {
     return (
         <FormControl className={classes.formControl}>
             <Select
-                id={build(baseId, ids.ADMIN_JOIN_TEAM.PRIVILEGE_SELECT)}
+                id={buildID(baseId, ids.ADMIN_JOIN_TEAM.PRIVILEGE_SELECT)}
                 value={privilege}
                 onChange={(event) => {
                     setPrivilege(event.target.value);
@@ -69,14 +69,14 @@ function ApproveAction(props) {
                 {MemberPrivileges.map((privilegeType) => (
                     <MenuItem
                         value={privilegeType.value}
-                        id={build(
+                        id={buildID(
                             baseId,
                             ids.ADMIN_JOIN_TEAM.PRIVILEGE_SELECT,
                             ids.ADMIN_JOIN_TEAM[
                                 privilegeType.value.toUpperCase()
                             ]
                         )}
-                        key={build(
+                        key={buildID(
                             baseId,
                             ids.ADMIN_JOIN_TEAM.PRIVILEGE_SELECT,
                             ids.ADMIN_JOIN_TEAM[
@@ -104,7 +104,7 @@ function DenyAction(props) {
 
     return (
         <TextField
-            id={build(baseId, ids.ADMIN_JOIN_TEAM.DENY_MSG)}
+            id={buildID(baseId, ids.ADMIN_JOIN_TEAM.DENY_MSG)}
             label={t("denyRequestLabel", { name: userFullName })}
             multiline
             rows={3}
@@ -173,13 +173,13 @@ function DialogContent(props) {
                     onChange={handleRequestChange}
                 >
                     <FormControlLabel
-                        id={build(baseId, ids.ADMIN_JOIN_TEAM.APPROVE)}
+                        id={buildID(baseId, ids.ADMIN_JOIN_TEAM.APPROVE)}
                         value={REQUEST_CHOICES.APPROVE}
                         control={<Radio />}
                         label={t("approveBtnText")}
                     />
                     <FormControlLabel
-                        id={build(baseId, ids.ADMIN_JOIN_TEAM.DENY)}
+                        id={buildID(baseId, ids.ADMIN_JOIN_TEAM.DENY)}
                         value={REQUEST_CHOICES.DENY}
                         control={<Radio />}
                         label={t("denyBtnText")}
@@ -311,14 +311,14 @@ function AdminJoinTeamRequestDialog(props) {
             actions={
                 <>
                     <Button
-                        id={build(baseId, ids.CANCEL_BTN)}
+                        id={buildID(baseId, ids.CANCEL_BTN)}
                         onClick={handleClose}
                     >
                         {t("common:cancel")}
                     </Button>
                     <Button
                         color="primary"
-                        id={build(baseId, ids.ADMIN_JOIN_TEAM.SUBMIT_BTN)}
+                        id={buildID(baseId, ids.ADMIN_JOIN_TEAM.SUBMIT_BTN)}
                         onClick={handleSubmit}
                     >
                         {t("common:submit")}
@@ -327,7 +327,7 @@ function AdminJoinTeamRequestDialog(props) {
             }
         >
             {loading && (
-                <div id={build(baseId, ids.LOADING_SKELETON)}>
+                <div id={buildID(baseId, ids.LOADING_SKELETON)}>
                     <Skeleton variant="text" height={40} />
                     <Skeleton variant="rect" height={100} />
                     <Skeleton variant="text" height={40} />

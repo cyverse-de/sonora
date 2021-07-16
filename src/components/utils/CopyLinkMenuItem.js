@@ -6,7 +6,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import { FileCopy } from "@material-ui/icons";
 import ids from "./ids";
@@ -17,7 +17,7 @@ export default function CopyLinkMenuItem(props) {
 
     return (
         <MenuItem
-            id={build(baseId, ids.COPY_LINK_MENU_ITEM)}
+            id={buildID(baseId, ids.COPY_LINK_MENU_ITEM)}
             onClick={() => {
                 onClose();
                 onCopyLinkSelected();

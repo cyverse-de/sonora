@@ -6,8 +6,8 @@
  */
 
 import React, { useEffect, useState } from "react";
-
-import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { announce, INFO } from "components/announcer/CyVerseAnnouncer";
 import {
     Button,
     Dialog,
@@ -54,8 +54,8 @@ import {
 } from "serviceFacades/sharing";
 import styles from "./styles";
 import UserTable from "./UserTable";
-import ErrorTypography from "components/utils/error/ErrorTypography";
-import DEErrorDialog from "components/utils/error/DEErrorDialog";
+import ErrorTypography from "components/error/ErrorTypography";
+import DEErrorDialog from "components/error/DEErrorDialog";
 
 const useStyles = makeStyles(styles);
 
@@ -147,7 +147,7 @@ function Sharing(props) {
         if (isGroup(user) && hasData) {
             announce({
                 text: tSharing("dataGroupSharingDisabled"),
-                variant: AnnouncerConstants.INFO,
+                variant: INFO,
             });
             return;
         }
@@ -255,14 +255,14 @@ function Sharing(props) {
             fullScreen={isMobile}
             id={baseId}
         >
-            <DialogTitle id={build(baseId, ids.TITLE_BAR)}>
+            <DialogTitle id={buildID(baseId, ids.TITLE_BAR)}>
                 {tSharing("sharing")}
                 <IconButton
                     aria-label={tCommon("cancel")}
                     onClick={handleClose}
                     size="small"
                     classes={{ root: classes.closeButton }}
-                    id={build(baseId, ids.TITLE_BAR, ids.BUTTONS.CANCEL)}
+                    id={buildID(baseId, ids.TITLE_BAR, ids.BUTTONS.CANCEL)}
                 >
                     <Close />
                 </IconButton>
@@ -271,14 +271,14 @@ function Sharing(props) {
                 {isLoading && (
                     <GridLoading
                         rows={5}
-                        baseId={build(ids.DIALOG, ids.LOADING)}
+                        baseId={buildID(ids.DIALOG, ids.LOADING)}
                     />
                 )}
                 {!isLoading && (
                     <Grid container spacing={1}>
                         <Grid item xs={12}>
                             <SubjectSearchField
-                                baseId={build(ids.DIALOG, ids.SEARCH_FIELD)}
+                                baseId={buildID(ids.DIALOG, ids.SEARCH_FIELD)}
                                 onUserSelected={onUserSelected}
                                 onSearchStart={() => setErrorDetails(null)}
                             />
@@ -354,13 +354,13 @@ function Sharing(props) {
             </DialogContent>
             <DialogActions>
                 <Button
-                    id={build(baseId, ids.BUTTONS.CANCEL)}
+                    id={buildID(baseId, ids.BUTTONS.CANCEL)}
                     onClick={handleClose}
                 >
                     {tCommon("cancel")}
                 </Button>
                 <Button
-                    id={build(baseId, ids.BUTTONS.SAVE)}
+                    id={buildID(baseId, ids.BUTTONS.SAVE)}
                     color="primary"
                     type="submit"
                     onClick={onSave}

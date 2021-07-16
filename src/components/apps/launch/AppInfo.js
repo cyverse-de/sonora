@@ -15,12 +15,12 @@ import AppDoc from "components/apps/details/AppDoc";
 import DetailsDrawer from "components/apps/details/Drawer";
 
 import BackButton from "components/utils/BackButton";
-import DEErrorDialog from "components/utils/error/DEErrorDialog";
-import ErrorTypography from "components/utils/error/ErrorTypography";
+import DEErrorDialog from "components/error/DEErrorDialog";
+import ErrorTypography from "components/error/ErrorTypography";
 
 import ids from "./ids";
 
-import { build as buildDebugId } from "@cyverse-de/ui-lib";
+import { buildID as buildDebugId } from "components/utils/DebugIDUtil";
 
 import {
     Box,

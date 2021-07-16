@@ -3,7 +3,7 @@ import Link from "next/link";
 import { BarChart, Info, PermMedia, Repeat } from "@material-ui/icons";
 import { IconButton, useTheme } from "@material-ui/core";
 
-import { formatDate } from "@cyverse-de/ui-lib";
+import { formatDate } from "components/utils/DateFormatter";
 
 import * as constants from "../constants";
 

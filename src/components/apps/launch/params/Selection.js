@@ -5,7 +5,7 @@
  */
 import React from "react";
 
-import { FormTextField } from "@cyverse-de/ui-lib";
+import FormTextField from "components/forms/FormTextField";
 
 import { MenuItem } from "@material-ui/core";
 

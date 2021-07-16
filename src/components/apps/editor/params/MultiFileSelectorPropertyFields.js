@@ -20,7 +20,8 @@ import ImplicitField from "./common/ImplicitField";
 import LabelField from "./common/LabelField";
 import RequiredField from "./common/RequiredField";
 
-import { build as buildID, FormCheckbox } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormCheckbox from "components/forms/FormCheckbox";
 
 import { Grid } from "@material-ui/core";
 

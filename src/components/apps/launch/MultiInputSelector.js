@@ -14,14 +14,12 @@ import { BrowseButton } from "./InputSelector";
 
 import globalConstants from "../../../constants";
 import AppParamTypes from "components/models/AppParamTypes";
-import DETableHead from "components/utils/DETableHead";
+import DETableHead from "components/table/DETableHead";
 
-import {
-    build as buildDebugId,
-    getFormError,
-    stableSort,
-    EmptyTable,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { stableSort } from "components/table/TableSort";
+import EmptyTable from "components/table/EmptyTable";
+import getFormError from "components/forms/getFormError";
 
 import {
     IconButton,
@@ -96,8 +94,8 @@ const MultiInputSelector = (props) => {
     const resources = getIn(values, name);
     const errorMsg = getFormError(name, touched, errors);
 
-    const tableId = buildDebugId(id, "table");
-    const tableLabelID = buildDebugId(tableId, "tableLabel");
+    const tableId = buildID(id, "table");
+    const tableLabelID = buildID(tableId, "tableLabel");
 
     const theme = useTheme();
 
@@ -197,10 +195,7 @@ const MultiInputSelector = (props) => {
                                         />
                                     ) : (
                                         resources?.map((resource, index) => {
-                                            const rowID = buildDebugId(
-                                                id,
-                                                index
-                                            );
+                                            const rowID = buildID(id, index);
 
                                             return (
                                                 <MultiInputRow
@@ -245,7 +240,7 @@ const MultiInputRow = ({ id, path, onRowDeleted }) => {
             </TableCell>
             <TableCell align="right">
                 <IconButton
-                    id={buildDebugId(id, ids.BUTTONS.DELETE)}
+                    id={buildID(id, ids.BUTTONS.DELETE)}
                     aria-label={t("delete")}
                     onClick={onRowDeleted}
                     size="small"

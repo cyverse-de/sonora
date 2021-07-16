@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 
 import Link from "next/link";
 import DELink from "components/utils/DELink";
-import { ERROR_CODES } from "components/utils/error/errorCode";
+import { ERROR_CODES } from "components/error/errorCode";
 import AccessRequestDialog from "components/vice/AccessRequestDialog";
 
 import { useUserProfile } from "contexts/userProfile";
@@ -18,7 +18,7 @@ import RunError from "./RunError";
 import { useAppLaunchLink } from "./utils";
 import ids from "./ids";
 
-import { Highlighter } from "@cyverse-de/ui-lib";
+import Highlighter from "components/highlighter/Highlighter";
 import { Button, Link as MuiLink, Typography } from "@material-ui/core";
 
 function RunErrorDialog(props) {

@@ -2,7 +2,7 @@ import React from "react";
 
 import { queryCache, useMutation, useQuery } from "react-query";
 
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import { Button } from "@material-ui/core";
 
@@ -14,7 +14,7 @@ import {
     addInstantLaunch,
 } from "serviceFacades/instantlaunches";
 
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 import { Skeleton } from "@material-ui/lab";
 
 import {
@@ -30,11 +30,10 @@ import {
 import { Add as AddIcon } from "@material-ui/icons";
 
 import { useTranslation } from "i18n";
-import {
-    build as buildID,
-    announce,
-    AnnouncerConstants,
-} from "@cyverse-de/ui-lib";
+
+import buildID from "components/utils/DebugIDUtil";
+import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+
 import ids from "components/instantlaunches/ids";
 
 import { shortenUsername, isInInstantLaunch } from "../functions";
@@ -55,7 +54,7 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
             queryCache.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
             announce({
                 text: t("createdInstantLaunch"),
-                variant: AnnouncerConstants.SUCCESS,
+                variant: SUCCESS,
             });
         },
         onError: (error) =>

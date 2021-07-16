@@ -4,7 +4,7 @@ import { useTranslation } from "i18n";
 
 import GridLabelValue from "components/utils/GridLabelValue";
 import GridLoading from "components/utils/GridLoading";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 import { Grid, Typography } from "@material-ui/core";
 

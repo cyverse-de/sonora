@@ -1,4 +1,4 @@
-import palette from "./CyVersePalette";
+import palette from "../theme/default/CyVersePalette";
 
 export default {
     errorHandlerTitle: {

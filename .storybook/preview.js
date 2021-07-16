@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import CyVerseAnnouncer from "components/utils/announcer/CyVerseAnnouncer";
+import CyVerseAnnouncer from "components/announcer/CyVerseAnnouncer";
 import { ThemeProvider } from "@material-ui/core/styles";
 
 import theme from "../src/components/theme/default";

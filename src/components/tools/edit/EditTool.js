@@ -23,7 +23,7 @@ import ToolImplementation from "./ToolImplementation";
 import { nonEmptyField } from "components/utils/validations";
 import constants from "../../../constants";
 
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 import {
     getToolTypes,
@@ -37,14 +37,12 @@ import {
     TOOLS_QUERY_KEY,
 } from "serviceFacades/tools";
 
-import {
-    announce,
-    build,
-    FormMultilineTextField,
-    FormNumberField,
-    FormSelectField,
-    FormTextField,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
+import FormTextField from "components/forms/FormTextField";
+import FormSelectField from "components/forms/FormSelectField";
+import FormNumberField from "components/forms/FormNumberField";
 
 import { Field, FieldArray, Form, Formik } from "formik";
 import {
@@ -192,13 +190,16 @@ function EditToolDialog(props) {
                             actions={
                                 <>
                                     <Button
-                                        id={build(parentId, ids.BUTTONS.CANCEL)}
+                                        id={buildID(
+                                            parentId,
+                                            ids.BUTTONS.CANCEL
+                                        )}
                                         onClick={onClose}
                                     >
                                         {t("cancel")}
                                     </Button>
                                     <Button
-                                        id={build(parentId, ids.BUTTONS.SAVE)}
+                                        id={buildID(parentId, ids.BUTTONS.SAVE)}
                                         type="submit"
                                         color="primary"
                                         onClick={handleSubmit}
@@ -349,7 +350,7 @@ function EditToolForm(props) {
             <Field
                 name="name"
                 label={t("toolName")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.NAME)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.NAME)}
                 required
                 validate={(value) => nonEmptyField(value, i18nUtil)}
                 component={FormTextField}
@@ -357,13 +358,13 @@ function EditToolForm(props) {
             <Field
                 name="description"
                 label={t("toolDesc")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.DESCRIPTION)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.DESCRIPTION)}
                 component={FormMultilineTextField}
             />
             <Field
                 name="version"
                 label={t("toolVersion")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.VERSION)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.VERSION)}
                 required
                 validate={(value) => nonEmptyField(value, i18nUtil)}
                 component={FormTextField}
@@ -372,7 +373,7 @@ function EditToolForm(props) {
                 <Field
                     name="attribution"
                     label={t("attribution")}
-                    id={build(parentId, ids.EDIT_TOOL_DLG.ATTRIBUTION)}
+                    id={buildID(parentId, ids.EDIT_TOOL_DLG.ATTRIBUTION)}
                     component={FormTextField}
                 />
             )}
@@ -380,7 +381,7 @@ function EditToolForm(props) {
                 <Field
                     name="location"
                     label={t("location")}
-                    id={build(parentId, ids.EDIT_TOOL_DLG.LOCATION)}
+                    id={buildID(parentId, ids.EDIT_TOOL_DLG.LOCATION)}
                     component={FormTextField}
                 />
             )}
@@ -395,13 +396,13 @@ function EditToolForm(props) {
                             resetOnTypeChange(event.target.value, props.form);
                             onChange(event);
                         }}
-                        id={build(parentId, ids.EDIT_TOOL_DLG.TYPE)}
+                        id={buildID(parentId, ids.EDIT_TOOL_DLG.TYPE)}
                     >
                         {toolTypes.map((type, index) => (
                             <MenuItem
                                 key={index}
                                 value={type}
-                                id={build(
+                                id={buildID(
                                     parentId,
                                     ids.EDIT_TOOL_DLG.TYPE,
                                     type
@@ -417,7 +418,7 @@ function EditToolForm(props) {
                 <Field
                     name="implementation"
                     isAdmin={isAdmin}
-                    parentId={build(
+                    parentId={buildID(
                         parentId,
                         ids.EDIT_TOOL_DLG.TOOL_IMPLEMENTATION
                     )}
@@ -434,7 +435,7 @@ function EditToolForm(props) {
                 <Field
                     name="container.name"
                     label={t("containerName")}
-                    id={build(parentId, ids.EDIT_TOOL_DLG.CONTAINER_NAME)}
+                    id={buildID(parentId, ids.EDIT_TOOL_DLG.CONTAINER_NAME)}
                     component={FormTextField}
                 />
             )}
@@ -448,19 +449,19 @@ function EditToolForm(props) {
             <Field
                 name="container.entrypoint"
                 label={t("entrypoint")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.ENTRYPOINT)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.ENTRYPOINT)}
                 component={FormTextField}
             />
             <Field
                 name="container.working_directory"
                 label={t("workingDirectory")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.WORKING_DIR)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.WORKING_DIR)}
                 component={FormTextField}
             />
             <Field
                 name="container.uid"
                 label={t("containerUID")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.CONTAINER_UID)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.CONTAINER_UID)}
                 component={FormNumberField}
             />
             {(isAdmin || isInteractiveTool) && (
@@ -469,7 +470,7 @@ function EditToolForm(props) {
                     render={(arrayHelpers) => (
                         <ContainerPorts
                             isAdmin={isAdmin}
-                            parentId={build(
+                            parentId={buildID(
                                 parentId,
                                 ids.EDIT_TOOL_DLG.CONTAINER_PORTS
                             )}
@@ -483,7 +484,7 @@ function EditToolForm(props) {
                     name="container.container_devices"
                     render={(arrayHelpers) => (
                         <ContainerDevices
-                            parentId={build(
+                            parentId={buildID(
                                 parentId,
                                 ids.EDIT_TOOL_DLG.CONTAINER_DEVICES
                             )}
@@ -504,7 +505,7 @@ function EditToolForm(props) {
                     name="container.container_volumes"
                     render={(arrayHelpers) => (
                         <ContainerVolumes
-                            parentId={build(
+                            parentId={buildID(
                                 parentId,
                                 ids.EDIT_TOOL_DLG.CONTAINER_VOLUMES
                             )}
@@ -518,7 +519,7 @@ function EditToolForm(props) {
                     name="container.container_volumes_from"
                     render={(arrayHelpers) => (
                         <ContainerVolumesFrom
-                            parentId={build(
+                            parentId={buildID(
                                 parentId,
                                 ids.EDIT_TOOL_DLG.CONTAINER_VOLUMES
                             )}
@@ -529,7 +530,7 @@ function EditToolForm(props) {
             )}
             <Field
                 isAdmin={isAdmin}
-                parentId={build(parentId, ids.EDIT_TOOL_DLG.RESTRICTIONS)}
+                parentId={buildID(parentId, ids.EDIT_TOOL_DLG.RESTRICTIONS)}
                 maxDiskSpace={maxDiskSpace}
                 maxCPUCore={maxCPUCore}
                 maxMemory={maxMemory}

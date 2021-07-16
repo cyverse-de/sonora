@@ -10,13 +10,13 @@ import React from "react";
 import { useTranslation } from "i18n";
 import { Field, Form, Formik } from "formik";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import ids from "./ids";
 import { nonEmptyField } from "components/utils/validations";
 import DEDialog from "components/utils/DEDialog";
 import MultiInputSelector from "components/apps/launch/MultiInputSelector";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 import { Button, CircularProgress, Typography } from "@material-ui/core";
 
@@ -54,13 +54,13 @@ export default function CopyMetadataDialog(props) {
                             actions={
                                 <>
                                     <Button
-                                        id={build(baseId, ids.CANCEL_BUTTON)}
+                                        id={buildID(baseId, ids.CANCEL_BUTTON)}
                                         onClick={handleClose}
                                     >
                                         {i18nCommon("cancel")}
                                     </Button>
                                     <Button
-                                        id={build(baseId, ids.COPY_BUTTON)}
+                                        id={buildID(baseId, ids.COPY_BUTTON)}
                                         type="submit"
                                         color="primary"
                                         onClick={handleSubmit}
@@ -97,7 +97,7 @@ export default function CopyMetadataDialog(props) {
                             <Field
                                 name="selectedResources"
                                 label={t("copyMetadataInputLabel")}
-                                id={build(baseId, ids.SELECTED_RESOURCES)}
+                                id={buildID(baseId, ids.SELECTED_RESOURCES)}
                                 required={true}
                                 height="25vh"
                                 component={MultiInputSelector}

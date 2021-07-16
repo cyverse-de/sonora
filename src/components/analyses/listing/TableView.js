@@ -11,10 +11,10 @@ import Actions from "./Actions";
 import ids from "../ids";
 
 import analysisStatus from "components/models/analysisStatus";
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
-import TableLoading from "components/utils/TableLoading";
-import { DERow } from "components/utils/DERow";
-import DETableHead from "components/utils/DETableHead";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import TableLoading from "components/table/TableLoading";
+import { DERow } from "components/table/DERow";
+import DETableHead from "components/table/DETableHead";
 
 import analysisFields from "../analysisFields";
 
@@ -22,8 +22,8 @@ import { getAnalysisUser } from "../utils";
 
 import buildID from "components/utils/DebugIDUtil";
 import { formatDate } from "components/utils/DateFormatter";
-import DECheckbox from "components/utils/forms/DECheckbox";
-import EmptyTable from "components/utils/table/EmptyTable";
+import DECheckbox from "components/utils/DECheckbox";
+import EmptyTable from "components/table/EmptyTable";
 
 import {
     makeStyles,
@@ -251,7 +251,10 @@ function TableView(props) {
                                     >
                                         <TableCell padding="checkbox">
                                             <DECheckbox
-                                                id={buildID(rowId, ids.CHECKBOX)}
+                                                id={buildID(
+                                                    rowId,
+                                                    ids.CHECKBOX
+                                                )}
                                                 checked={isSelected}
                                                 tabIndex={0}
                                                 onChange={(event) =>
@@ -291,7 +294,10 @@ function TableView(props) {
                                             </Typography>
                                         </TableCell>
                                         <TableCell
-                                            id={buildID(rowId, ids.APP_NAME_CELL)}
+                                            id={buildID(
+                                                rowId,
+                                                ids.APP_NAME_CELL
+                                            )}
                                         >
                                             <AppName analysis={analysis} />
                                         </TableCell>
@@ -306,7 +312,10 @@ function TableView(props) {
                                             </Typography>
                                         </TableCell>
                                         <TableCell
-                                            id={buildID(rowId, ids.SUPPORT_CELL)}
+                                            id={buildID(
+                                                rowId,
+                                                ids.SUPPORT_CELL
+                                            )}
                                         >
                                             <Status
                                                 analysis={analysis}

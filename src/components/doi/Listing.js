@@ -8,7 +8,7 @@ import React, { useState, useEffect } from "react";
 import { useQuery, queryCache, useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
-import { AnnouncerConstants, announce } from "@cyverse-de/ui-lib";
+import { SUCCESS, announce } from "components/announcer/CyVerseAnnouncer";
 
 import ids from "./ids";
 import TableView from "./TableView";
@@ -24,7 +24,7 @@ import {
     DOI_LISTING_QUERY_KEY,
 } from "serviceFacades/doi";
 import { INFO_TYPES_QUERY_KEY, getInfoTypes } from "serviceFacades/filesystem";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import DetailsDrawer from "components/data/details/Drawer";
 import ResourceTypes from "components/models/ResourceTypes";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
@@ -108,7 +108,7 @@ function Listing(props) {
             onSuccess: () => {
                 announce({
                     text: t("createDoiSuccess"),
-                    variant: AnnouncerConstants.SUCCESS,
+                    variant: SUCCESS,
                 });
                 queryCache.invalidateQueries(DOI_LISTING_QUERY_KEY);
             },

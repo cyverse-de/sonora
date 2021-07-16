@@ -10,12 +10,12 @@
  */
 import React, { useState } from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Button, TextField, Typography } from "@material-ui/core";
 import { useMutation } from "react-query";
 
 import DEDialog from "components/utils/DEDialog";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import GridLoading from "components/utils/GridLoading";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
@@ -130,14 +130,14 @@ function ContactSupportDialog(props) {
             actions={
                 <>
                     <Button
-                        id={build(baseId, ids.CANCEL_BTN)}
+                        id={buildID(baseId, ids.CANCEL_BTN)}
                         onClick={onClose}
                     >
                         {t("common:cancel")}
                     </Button>
                     <Button
                         color="primary"
-                        id={build(baseId, ids.CONTACT_SUPPORT_BTN)}
+                        id={buildID(baseId, ids.CONTACT_SUPPORT_BTN)}
                         onClick={onContactSupport}
                     >
                         {t("common:submit")}
@@ -148,14 +148,14 @@ function ContactSupportDialog(props) {
             {isLoading && (
                 <GridLoading
                     rows={10}
-                    baseId={build(baseId, ids.LOADING_SKELETON)}
+                    baseId={buildID(baseId, ids.LOADING_SKELETON)}
                 />
             )}
             {!isLoading && (
                 <>
                     {supportEmailError && (
                         <ErrorTypographyWithDialog
-                            baseId={build(baseId, ids.SUPPORT_EMAIL_ERROR)}
+                            baseId={buildID(baseId, ids.SUPPORT_EMAIL_ERROR)}
                             errorObject={supportEmailError.error}
                             errorMessage={supportEmailError.message}
                         />
@@ -164,7 +164,7 @@ function ContactSupportDialog(props) {
                         {t("optionalCommentHelpText", { appName })}
                     </Typography>
                     <TextField
-                        id={build(baseId, ids.SUPPORT_EMAIL_COMMENT)}
+                        id={buildID(baseId, ids.SUPPORT_EMAIL_COMMENT)}
                         multiline
                         rows={3}
                         variant="outlined"
@@ -182,7 +182,7 @@ function ContactSupportDialog(props) {
                     />
                     {supportEmailError && (
                         <ErrorTypographyWithDialog
-                            baseId={build(baseId, ids.SUPPORT_EMAIL_ERROR)}
+                            baseId={buildID(baseId, ids.SUPPORT_EMAIL_ERROR)}
                             errorObject={supportEmailError.error}
                             errorMessage={supportEmailError.message}
                         />

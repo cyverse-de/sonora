@@ -13,11 +13,13 @@ import constants from "../../../constants";
 import ids from "../ids";
 import styles from "../styles";
 
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
-import TableLoading from "components/utils/TableLoading";
-import DETableHead from "components/utils/DETableHead";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import TableLoading from "components/table/TableLoading";
+import DETableHead from "components/table/DETableHead";
 
-import { build, DECheckbox, getSorting, stableSort } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { stableSort, getSorting } from "components/table/TableSort";
+import DECheckbox from "components/utils/DECheckbox";
 
 import {
     ButtonGroup,
@@ -56,7 +58,7 @@ const MetadataGridToolbar = (props) => {
     return (
         <Toolbar>
             <Typography
-                id={build(parentID, ids.TITLE)}
+                id={buildID(parentID, ids.TITLE)}
                 variant="h6"
                 className={classes.avuListingTitle}
             >
@@ -65,7 +67,7 @@ const MetadataGridToolbar = (props) => {
             {editable &&
                 (isMobile ? (
                     <IconButton
-                        id={build(parentID, ids.BUTTONS.ADD)}
+                        id={buildID(parentID, ids.BUTTONS.ADD)}
                         color="primary"
                         aria-label={t("addMetadata")}
                         onClick={onAddAVU}
@@ -74,7 +76,7 @@ const MetadataGridToolbar = (props) => {
                     </IconButton>
                 ) : (
                     <Button
-                        id={build(parentID, ids.BUTTONS.ADD)}
+                        id={buildID(parentID, ids.BUTTONS.ADD)}
                         color="primary"
                         variant="outlined"
                         startIcon={<ContentAdd />}
@@ -93,25 +95,25 @@ MetadataGridToolbar.propTypes = {
 
 const columnData = (t) => [
     {
-        id: build(ids.COL_HEADER, ids.AVU_ATTR),
+        id: buildID(ids.COL_HEADER, ids.AVU_ATTR),
         key: "attr",
         name: t("attribute"),
         enableSorting: true,
     },
     {
-        id: build(ids.COL_HEADER, ids.AVU_VALUE),
+        id: buildID(ids.COL_HEADER, ids.AVU_VALUE),
         key: "value",
         name: t("value"),
         enableSorting: true,
     },
     {
-        id: build(ids.COL_HEADER, ids.AVU_UNIT),
+        id: buildID(ids.COL_HEADER, ids.AVU_UNIT),
         key: "unit",
         name: t("metadataUnitLabel"),
         enableSorting: true,
     },
     {
-        id: build(ids.COL_HEADER, ids.AVU_AVUS),
+        id: buildID(ids.COL_HEADER, ids.AVU_AVUS),
         key: "avus",
         name: t("metadataChildrenLabel"),
         enableSorting: true,
@@ -119,7 +121,7 @@ const columnData = (t) => [
         padding: "none",
     },
     {
-        id: build(ids.COL_HEADER, ids.COL_ACTIONS),
+        id: buildID(ids.COL_HEADER, ids.COL_ACTIONS),
         key: "actions",
         enableSorting: false,
         padding: "none",
@@ -147,7 +149,7 @@ const AVURow = ({
             {selectable && (
                 <TableCell padding="checkbox">
                     <DECheckbox
-                        id={build(rowID, ids.AVU_GRID_CHECKBOX)}
+                        id={buildID(rowID, ids.AVU_GRID_CHECKBOX)}
                         checked={selected}
                         onChange={onRowSelect}
                     />
@@ -162,7 +164,7 @@ const AVURow = ({
             <TableCell>
                 <ButtonGroup variant="text">
                     <Button
-                        id={build(rowID, ids.BUTTONS.EDIT)}
+                        id={buildID(rowID, ids.BUTTONS.EDIT)}
                         aria-label={editable ? t("edit") : t("view")}
                         className={classes.button}
                         onClick={(event) => {
@@ -174,7 +176,7 @@ const AVURow = ({
                     </Button>
                     {editable && (
                         <Button
-                            id={build(rowID, ids.BUTTONS.DELETE)}
+                            id={buildID(rowID, ids.BUTTONS.DELETE)}
                             aria-label={t("delete")}
                             className={classes.deleteIcon}
                             onClick={(event) => {
@@ -259,7 +261,7 @@ const MetadataList = (props) => {
     };
 
     const avus = getIn(values, name);
-    const tableID = build(parentID, ids.AVU_GRID);
+    const tableID = buildID(parentID, ids.AVU_GRID);
 
     // A copy of the list of AVUs, but including only each AVU's sortable fields,
     // along with a TableRow component for rendering within the returned Table below.
@@ -273,7 +275,7 @@ const MetadataList = (props) => {
 
             const field = `${name}[${index}]`;
 
-            const rowID = build(ids.EDIT_METADATA_FORM, field);
+            const rowID = buildID(ids.EDIT_METADATA_FORM, field);
 
             const selected = avusSelected && avusSelected.includes(avu);
             const avuChildCount = avus ? avus.length : 0;
@@ -331,7 +333,7 @@ const MetadataList = (props) => {
                 component={Paper}
                 className={classes.metadataTableContainer}
             >
-                <Table aria-labelledby={build(tableID, ids.TITLE)}>
+                <Table aria-labelledby={buildID(tableID, ids.TITLE)}>
                     {loading ? (
                         <TableLoading
                             baseId={ids.EDIT_METADATA_FORM}

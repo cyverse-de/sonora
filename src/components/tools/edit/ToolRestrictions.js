@@ -5,12 +5,10 @@ import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import globalConstants from "../../../constants";
 
-import {
-    build,
-    FormCheckbox,
-    FormNumberField,
-    FormSelectField,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormCheckbox from "components/forms/FormCheckbox";
+import FormSelectField from "components/forms/FormSelectField";
+import FormNumberField from "components/forms/FormNumberField";
 
 import { MenuItem, Typography } from "@material-ui/core";
 import { Field, getIn } from "formik";
@@ -107,7 +105,7 @@ function Restrictions(props) {
                 <Field
                     name="restricted"
                     label={t("restricted")}
-                    id={build(parentId, ids.EDIT_TOOL_DLG.RESTRICTED)}
+                    id={buildID(parentId, ids.EDIT_TOOL_DLG.RESTRICTED)}
                     component={FormCheckbox}
                 />
             )}
@@ -115,7 +113,7 @@ function Restrictions(props) {
                 <Field
                     name="container.min_cpu_cores"
                     label={t("minCPUCores")}
-                    id={build(parentId, ids.EDIT_TOOL_DLG.MIN_CPU_CORES)}
+                    id={buildID(parentId, ids.EDIT_TOOL_DLG.MIN_CPU_CORES)}
                     component={FormNumberField}
                     validate={validateMinCPUs}
                 />
@@ -123,7 +121,7 @@ function Restrictions(props) {
             <Field
                 name="container.max_cpu_cores"
                 label={t("maxCPUCores")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.MAX_CPU_CORES)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.MAX_CPU_CORES)}
                 component={FormSelectField}
                 validate={validateMaxCPUs}
             >
@@ -131,7 +129,7 @@ function Restrictions(props) {
                     <MenuItem
                         key={index}
                         value={size}
-                        id={build(
+                        id={buildID(
                             parentId,
                             ids.EDIT_TOOL_DLG.MAX_CPU_CORES,
                             size
@@ -145,7 +143,7 @@ function Restrictions(props) {
                 <Field
                     name="container.min_memory_limit"
                     label={t("minMemoryLimit")}
-                    id={build(parentId, ids.EDIT_TOOL_DLG.MIN_MEMORY_LIMIT)}
+                    id={buildID(parentId, ids.EDIT_TOOL_DLG.MIN_MEMORY_LIMIT)}
                     component={FormNumberField}
                     validate={validateMinRAM}
                 />
@@ -153,7 +151,7 @@ function Restrictions(props) {
             <Field
                 name="container.memory_limit"
                 label={t("memoryLimit")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.MEMORY_LIMIT)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.MEMORY_LIMIT)}
                 component={FormSelectField}
                 renderValue={formatGBValue}
                 validate={validateMaxRAM}
@@ -162,7 +160,7 @@ function Restrictions(props) {
                     <MenuItem
                         key={index}
                         value={size}
-                        id={build(
+                        id={buildID(
                             parentId,
                             ids.EDIT_TOOL_DLG.MEMORY_LIMIT,
                             size
@@ -176,14 +174,14 @@ function Restrictions(props) {
                 <Field
                     name="container.cpu_shares"
                     label={t("cpuShares")}
-                    id={build(parentId, ids.EDIT_TOOL_DLG.CPU_SHARES)}
+                    id={buildID(parentId, ids.EDIT_TOOL_DLG.CPU_SHARES)}
                     component={FormNumberField}
                 />
             )}
             <Field
                 name="container.min_disk_space"
                 label={t("minDiskSpace")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.MIN_DISK_SPACE)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.MIN_DISK_SPACE)}
                 component={FormSelectField}
                 renderValue={formatGBValue}
             >
@@ -191,7 +189,7 @@ function Restrictions(props) {
                     <MenuItem
                         key={index}
                         value={size}
-                        id={build(
+                        id={buildID(
                             parentId,
                             ids.EDIT_TOOL_DLG.MIN_DISK_SPACE,
                             size
@@ -209,14 +207,14 @@ function Restrictions(props) {
             <Field
                 name="container.pids_limit"
                 label={t("pidsLimit")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.PIDS_LIMIT)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.PIDS_LIMIT)}
                 disabled={!isAdmin}
                 component={FormNumberField}
             />
             <Field
                 name="container.network_mode"
                 label={t("networkMode")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.NETWORK_MODE)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.NETWORK_MODE)}
                 disabled={!isAdmin}
                 component={FormSelectField}
             >
@@ -224,7 +222,7 @@ function Restrictions(props) {
                     <MenuItem
                         key={index}
                         value={mode}
-                        id={build(
+                        id={buildID(
                             parentId,
                             ids.EDIT_TOOL_DLG.NETWORK_MODE,
                             mode
@@ -237,7 +235,7 @@ function Restrictions(props) {
             <Field
                 name="time_limit_seconds"
                 label={t("timeLimit")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.TIME_LIMIT)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.TIME_LIMIT)}
                 disabled={!isAdmin}
                 component={FormNumberField}
             />

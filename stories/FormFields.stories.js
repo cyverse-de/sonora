@@ -12,10 +12,10 @@ import {
     FormSwitch,
     FormTextField,
     FormTimestampField,
-} from "../src/util/FormField";
+} from "components/forms/FormField";
 
-import { formatDateObject } from "../src/util/DateFormatter";
-import dateConstants from "../src/dateConstants";
+import { formatDateObject } from "components/utils/DateFormatter";
+import dateConstants from "components/utils/dateConstants";
 
 import { MenuItem } from "@material-ui/core";
 
@@ -56,13 +56,13 @@ export const TextField = ({ label, helperText, required, loading }) => {
 TextField.argTypes = {
     label: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
     helperText: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
     required: {
         control: {
@@ -73,8 +73,8 @@ TextField.argTypes = {
         control: {
             type: "boolean",
         },
-    }
-}
+    },
+};
 
 export const MultilineTextField = ({ label, helperText, required }) => {
     return (
@@ -93,20 +93,20 @@ export const MultilineTextField = ({ label, helperText, required }) => {
 MultilineTextField.argTypes = {
     label: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
     helperText: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
     required: {
         control: {
             type: "boolean",
         },
     },
-}
+};
 
 export const IntegerField = ({ label, helperText, required }) => {
     return (
@@ -125,20 +125,20 @@ export const IntegerField = ({ label, helperText, required }) => {
 IntegerField.argTypes = {
     label: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
     helperText: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
     required: {
         control: {
             type: "boolean",
         },
     },
-}
+};
 
 export const NumberField = ({ label, helperText, required }) => {
     return (
@@ -157,20 +157,20 @@ export const NumberField = ({ label, helperText, required }) => {
 NumberField.argTypes = {
     label: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
     helperText: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
     required: {
         control: {
             type: "boolean",
         },
     },
-}
+};
 export const SelectField = ({ label, helperText, required }) => {
     return (
         <TestForm required={required} initialValue="">
@@ -192,20 +192,20 @@ export const SelectField = ({ label, helperText, required }) => {
 SelectField.argTypes = {
     label: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
     helperText: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
     required: {
         control: {
             type: "boolean",
         },
     },
-}
+};
 
 export const Checkbox = ({ label, helperText }) => {
     return (
@@ -222,15 +222,15 @@ export const Checkbox = ({ label, helperText }) => {
 Checkbox.argTypes = {
     label: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
     helperText: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
-}
+};
 
 export const Switch = ({ label, helperText }) => {
     return (
@@ -248,15 +248,15 @@ export const Switch = ({ label, helperText }) => {
 Switch.argTypes = {
     label: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
     helperText: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
-}
+};
 
 export const Timestamp = ({ label, helperText }) => {
     return (
@@ -279,15 +279,15 @@ export const Timestamp = ({ label, helperText }) => {
 Timestamp.argTypes = {
     label: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
     helperText: {
         control: {
-            text: "Text"
-        }
+            text: "Text",
+        },
     },
-}
+};
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default { title: "Form Fields" };

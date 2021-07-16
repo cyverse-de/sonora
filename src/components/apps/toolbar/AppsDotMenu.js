@@ -18,7 +18,9 @@ import QLMenuItem from "../menuItems/QLMenuItem";
 import shareIds from "components/sharing/ids";
 import NavigationConstants from "common/NavigationConstants";
 
-import { build, DotMenu } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import DotMenu from "components/dotMenu/DotMenu";
+
 import {
     Divider,
     ListItemIcon,
@@ -63,8 +65,8 @@ function AppsDotMenu(props) {
             render={(onClose) => [
                 detailsEnabled && (
                     <MenuItem
-                        key={build(baseId, ids.DETAILS_MENU_ITEM)}
-                        id={build(baseId, ids.DETAILS_MENU_ITEM)}
+                        key={buildID(baseId, ids.DETAILS_MENU_ITEM)}
+                        id={buildID(baseId, ids.DETAILS_MENU_ITEM)}
                         onClick={() => {
                             onClose();
                             onDetailsSelected();
@@ -78,8 +80,8 @@ function AppsDotMenu(props) {
                 ),
                 addToBagEnabled && (
                     <MenuItem
-                        key={build(baseId, ids.ADD_TO_BAG_MENU_ITEM)}
-                        id={build(baseId, ids.ADD_TO_BAG_MENU_ITEM)}
+                        key={buildID(baseId, ids.ADD_TO_BAG_MENU_ITEM)}
+                        id={buildID(baseId, ids.ADD_TO_BAG_MENU_ITEM)}
                         onClick={() => {
                             onClose();
                             onAddToBagClicked();
@@ -93,8 +95,8 @@ function AppsDotMenu(props) {
                 ),
                 isMobile && (
                     <MenuItem
-                        key={build(baseId, ids.FILTER_MENU_ITEM)}
-                        id={build(baseId, ids.FILTER_MENU_ITEM)}
+                        key={buildID(baseId, ids.FILTER_MENU_ITEM)}
+                        id={buildID(baseId, ids.FILTER_MENU_ITEM)}
                         onClick={() => {
                             onClose();
                             onFilterSelected();
@@ -108,7 +110,7 @@ function AppsDotMenu(props) {
                 ),
                 canShare && (
                     <SharingMenuItem
-                        key={build(baseId, shareIds.SHARING_MENU_ITEM)}
+                        key={buildID(baseId, shareIds.SHARING_MENU_ITEM)}
                         baseId={baseId}
                         onClose={onClose}
                         setSharingDlgOpen={setSharingDlgOpen}
@@ -116,7 +118,7 @@ function AppsDotMenu(props) {
                 ),
                 detailsEnabled && (
                     <DocMenuItem
-                        key={build(baseId, ids.DOC_MENU_ITEM)}
+                        key={buildID(baseId, ids.DOC_MENU_ITEM)}
                         baseId={baseId}
                         onClose={onClose}
                         onDocSelected={onDocSelected}
@@ -124,21 +126,21 @@ function AppsDotMenu(props) {
                 ),
                 detailsEnabled && (
                     <QLMenuItem
-                        key={build(baseId, ids.QL_MENU_ITEM)}
+                        key={buildID(baseId, ids.QL_MENU_ITEM)}
                         baseId={baseId}
                         onClose={onClose}
                         onQLSelected={onQLSelected}
                     />
                 ),
                 <Divider
-                    key={build(baseId, ids.MANAGE_TOOLS_DIVIDER)}
-                    id={build(baseId, ids.MANAGE_TOOLS_DIVIDER)}
+                    key={buildID(baseId, ids.MANAGE_TOOLS_DIVIDER)}
+                    id={buildID(baseId, ids.MANAGE_TOOLS_DIVIDER)}
                 />,
                 <Link
                     key={ids.TOOLS_MENU_ITEM}
                     href={NavigationConstants.TOOLS}
                 >
-                    <MenuItem id={build(baseId, ids.TOOLS_MENU_ITEM)}>
+                    <MenuItem id={buildID(baseId, ids.TOOLS_MENU_ITEM)}>
                         <ListItemIcon>
                             <Build fontSize="small" />
                         </ListItemIcon>

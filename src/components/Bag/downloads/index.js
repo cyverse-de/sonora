@@ -15,7 +15,7 @@ import {
 
 import { Cancel as CancelIcon, Close } from "@material-ui/icons";
 
-import { build as buildID } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import { useTranslation } from "i18n";
 

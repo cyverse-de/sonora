@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
 import GridLoading from "components/utils/GridLoading";
-import ErrorTypography from "components/utils/error/ErrorTypography";
-import DEErrorDialog from "components/utils/error/DEErrorDialog";
+import ErrorTypography from "components/error/ErrorTypography";
+import DEErrorDialog from "components/error/DEErrorDialog";
 import ListQuickLaunches from "components/apps/quickLaunch/QuickLaunchListing";
 
 import GridLabelValue from "components/utils/GridLabelValue";
@@ -12,7 +12,7 @@ import ids from "../ids";
 
 import buildID from "components/utils/DebugIDUtil";
 import { formatDateObject } from "components/utils/DateFormatter";
-import Rate from "components/utils/Rate";
+import Rate from "components/rating/Rate";
 
 import { CircularProgress, Grid } from "@material-ui/core";
 

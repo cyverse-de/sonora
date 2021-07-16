@@ -21,15 +21,15 @@ import {
 } from "serviceFacades/apps";
 
 import buildID from "components/utils/DebugIDUtil";
-import FormTextField from "components/utils/forms/FormTextField";
-import FormMultilineTextField from "components/utils/forms/FormMultilineTextField";
-import FormCheckbox from "components/utils/forms/FormCheckbox";
+import FormTextField from "components/forms/FormTextField";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
+import FormCheckbox from "components/forms/FormCheckbox";
 
 import DEDialog from "components/utils/DEDialog";
 import { getHost } from "components/utils/getHost";
 import { validateAppName } from "components/apps/utils";
 import { Skeleton } from "@material-ui/lab";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 import { Button, CircularProgress, Link, Paper } from "@material-ui/core";
 
@@ -246,7 +246,10 @@ function AdminAppDetailsForm(props) {
                         <Field
                             name={"description"}
                             label={t("descriptionLabel")}
-                            id={buildID(parentId, ids.ADMIN_DETAILS.DESCRIPTION)}
+                            id={buildID(
+                                parentId,
+                                ids.ADMIN_DETAILS.DESCRIPTION
+                            )}
                             component={FormMultilineTextField}
                         />
                         <Field

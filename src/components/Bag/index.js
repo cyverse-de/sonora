@@ -36,11 +36,11 @@ import {
     ShoppingBasket as ShoppingBasketIcon,
 } from "@material-ui/icons";
 
-import { build as buildID } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import constants from "./constants";
 
-import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "../error/withErrorAnnouncer";
 import DownloadLinksDialog from "./downloads";
 
 import * as facade from "../../serviceFacades/bags";

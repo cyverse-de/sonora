@@ -158,7 +158,7 @@ const NotificationView = (props) => {
         queryCache.invalidateQueries(notificationsKey);
     };
 
-    const baseId = buildId(baseDebugId, ids.NOTIFICATION_VIEW);
+    const baseId = buildID(baseDebugId, ids.NOTIFICATION_VIEW);
 
     const hasSelection = selected.length > 0;
 

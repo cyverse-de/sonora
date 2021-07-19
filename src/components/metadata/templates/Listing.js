@@ -140,7 +140,7 @@ const MetadataTemplateListing = (props) => {
                     : templates?.map((template) => (
                           <TemplateListItem
                               key={template.id}
-                            baseId={buildID(listingID, template.id)}
+                              baseId={buildID(listingID, template.id)}
                               template={template}
                               selected={selectedTemplateId === template.id}
                               onClick={() => setSelectedTemplateId(template.id)}

@@ -10,8 +10,7 @@ import { queryCache, useMutation, useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
-import AnnouncerConstants from "components/announcer/AnnouncerConstants";
-import { announce } from "components/announcer/CyVerseAnnouncer";
+import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
 import { formatDate } from "components/utils/DateFormatter";
 import buildID from "components/utils/DebugIDUtil";
 
@@ -231,7 +230,7 @@ function Listing(props) {
                         count: analyses?.length,
                         name: selectedAnalysis?.name,
                     }),
-                    variant: AnnouncerConstants.SUCCESS,
+                    variant: SUCCESS,
                 });
                 const analysisIds = analyses?.map(({ id }) => id);
 
@@ -270,7 +269,7 @@ function Listing(props) {
                 setShareWithSupportAnalysis(null);
                 announce({
                     text: t("statusHelpShareSuccess"),
-                    variant: AnnouncerConstants.SUCCESS,
+                    variant: SUCCESS,
                 });
             },
             onError: (error) => {
@@ -308,7 +307,7 @@ function Listing(props) {
                         newTimeLimit: formatDate(resp?.time_limit * 1000),
                         analysisName: getSelectedAnalyses()[0]?.name,
                     }),
-                    variant: AnnouncerConstants.SUCCESS,
+                    variant: SUCCESS,
                 });
             },
             onError: (error) => {

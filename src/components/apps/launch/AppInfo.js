@@ -20,7 +20,7 @@ import ErrorTypography from "components/error/ErrorTypography";
 
 import ids from "./ids";
 
-import { buildID as buildDebugId } from "components/utils/DebugIDUtil";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Box,
@@ -71,7 +71,7 @@ const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
                 components={{
                     support: (
                         <Link
-                            id={buildDebugId(
+                            id={buildID(
                                 baseId,
                                 ids.BUTTONS.CONTACT_SUPPORT
                             )}
@@ -92,7 +92,7 @@ const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
                 components={{
                     support: (
                         <Link
-                            id={buildDebugId(
+                            id={buildID(
                                 baseId,
                                 ids.BUTTONS.CONTACT_SUPPORT
                             )}
@@ -129,7 +129,7 @@ const AppInfo = (props) => {
                 }}
             />
             <Button
-                id={buildDebugId(baseId, ids.BUTTONS.DETAILS)}
+                id={buildID(baseId, ids.BUTTONS.DETAILS)}
                 className={classes.detailsButton}
                 onClick={() => setDetailsDrawerOpen(true)}
                 variant={isMobile ? "text" : "outlined"}
@@ -139,7 +139,7 @@ const AppInfo = (props) => {
                 <Hidden xsDown>{t("details")}</Hidden>
             </Button>
             <Button
-                id={buildDebugId(baseId, ids.BUTTONS.DOCUMENTATION)}
+                id={buildID(baseId, ids.BUTTONS.DOCUMENTATION)}
                 className={classes.detailsButton}
                 onClick={() => setDocDialogOpen(true)}
                 variant={isMobile ? "text" : "outlined"}

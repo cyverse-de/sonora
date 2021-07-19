@@ -179,8 +179,8 @@ function ErrorHandler(props) {
                         <Typography id={buildID(errBaseId, ids.REASON)}>
                             {JSON.stringify(
                                 errorResponse?.data?.reason ||
-                                errorResponse?.data?.message ||
-                                errorResponse?.data?.grouper_result_message
+                                    errorResponse?.data?.message ||
+                                    errorResponse?.data?.grouper_result_message
                             )}
                         </Typography>
                     </GridLabelValue>

@@ -304,7 +304,7 @@ function PermissionsTabPanel(props) {
                                                             />
                                                         ) : (
                                                             <PermissionSelector
-                                                                    baseId={buildID(
+                                                                baseId={buildID(
                                                                     baseId,
                                                                     ids.PERMISSION_LIST,
                                                                     permission.user

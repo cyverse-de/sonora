@@ -6,13 +6,6 @@
 
 import React, { Component } from "react";
 import Announcer from "./Announcer";
-/* import {
-    EMPTY_QUEUE_TIMEOUT,
-    TIMEOUT,
-    LEFT,
-    BOTTOM,
-    INFO,
-} from "./AnnouncerConstants"; */
 
 let msgQueue = [];
 

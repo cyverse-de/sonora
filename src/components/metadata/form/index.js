@@ -47,7 +47,8 @@ import {
 import { copyMetadata } from "serviceFacades/filesystem";
 
 import buildID from "components/utils/DebugIDUtil";
-import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import { AppBar, Tab, Tabs } from "@material-ui/core";
 

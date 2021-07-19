@@ -46,7 +46,8 @@ import GridLoading from "components/utils/GridLoading";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import buildID from "components/utils/DebugIDUtil";
-import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import {
     Button,

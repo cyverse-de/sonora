@@ -10,7 +10,8 @@ import React, { useCallback, useState } from "react";
 
 import { useTranslation } from "i18n";
 
-import { announce, ERROR } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { ERROR } from "components/announcer/AnnouncerConstants";
 
 import { Button, Typography, useTheme } from "@material-ui/core";
 

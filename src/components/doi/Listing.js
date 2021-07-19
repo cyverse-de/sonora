@@ -8,7 +8,8 @@ import React, { useState, useEffect } from "react";
 import { useQuery, queryCache, useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
-import { SUCCESS, announce } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import ids from "./ids";
 import TableView from "./TableView";

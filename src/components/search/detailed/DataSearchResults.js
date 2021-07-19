@@ -12,11 +12,8 @@ import Link from "next/link";
 import { useTranslation } from "i18n";
 
 import buildID from "components/utils/DebugIDUtil";
-import {
-    announce,
-    ERROR,
-    SUCCESS,
-} from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { ERROR, SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import DELink from "components/utils/DELink";
 

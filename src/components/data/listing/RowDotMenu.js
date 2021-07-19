@@ -26,11 +26,8 @@ import PublicLinksMenuItem from "../menuItems/PublicLinksMenuItem";
 
 import buildID from "components/utils/DebugIDUtil";
 import DotMenu from "components/dotMenu/DotMenu";
-import {
-    announce,
-    ERROR,
-    SUCCESS,
-} from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS, ERROR } from "components/announcer/AnnouncerConstants";
 
 import ResourceTypes from "components/models/ResourceTypes";
 

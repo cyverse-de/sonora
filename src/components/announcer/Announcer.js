@@ -13,7 +13,7 @@ import {
     SUCCESS,
     TIMEOUT,
     WARNING,
-} from "components/announcer/CyVerseAnnouncer";
+} from "components/announcer/AnnouncerConstants";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import { Snackbar, useTheme } from "@material-ui/core";

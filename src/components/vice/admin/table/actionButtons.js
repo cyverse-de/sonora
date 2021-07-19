@@ -5,11 +5,8 @@ import { useTranslation } from "i18n";
 import { Button } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
-import {
-    announce,
-    ERROR,
-    SUCCESS,
-} from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { ERROR, SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import { id } from "./functions";
 import useStyles from "./styles";

@@ -17,7 +17,8 @@ import { Typography } from "@material-ui/core";
 
 import { Skeleton } from "@material-ui/lab";
 
-import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import ids from "./ids";
 import * as constants from "./constants";

@@ -10,7 +10,8 @@ import { Field, Form, Formik } from "formik";
 import { useTranslation } from "react-i18next";
 
 import buildID from "components/utils/DebugIDUtil";
-import { announce, INFO } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { INFO } from "components/announcer/AnnouncerConstants";
 import { useMutation } from "react-query";
 import ids from "./ids";
 import ResourceIcon from "components/data/listing/ResourceIcon";

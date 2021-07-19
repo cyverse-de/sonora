@@ -14,7 +14,8 @@ import AppsToolbar from "../toolbar/Toolbar";
 import ids from "../ids";
 
 import buildID from "components/utils/DebugIDUtil";
-import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import appType from "components/models/AppType";
 

@@ -32,7 +32,8 @@ import { Add as AddIcon } from "@material-ui/icons";
 import { useTranslation } from "i18n";
 
 import buildID from "components/utils/DebugIDUtil";
-import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import ids from "components/instantlaunches/ids";
 

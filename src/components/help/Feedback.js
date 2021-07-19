@@ -21,7 +21,8 @@ import DEDialog from "components/utils/DEDialog";
 import buildID from "components/utils/DebugIDUtil";
 import FormMultilineTextField from "components/forms/FormMultilineTextField";
 import FormTextField from "components/forms/FormTextField";
-import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import {
     Button,

@@ -17,7 +17,8 @@ import MetadataList from "../listing";
 import SlideUpTransition from "../SlideUpTransition";
 
 import buildID from "components/utils/DebugIDUtil";
-import { announce, ERROR } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { ERROR } from "components/announcer/AnnouncerConstants";
 import FormTextField from "components/forms/FormTextField";
 import getFormError from "components/forms/getFormError";
 

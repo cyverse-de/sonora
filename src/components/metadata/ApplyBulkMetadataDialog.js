@@ -12,7 +12,8 @@ import { useTranslation } from "i18n";
 import { Field, Form, Formik } from "formik";
 
 import buildID from "components/utils/DebugIDUtil";
-import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import ids from "./ids";
 import constants from "../../constants";

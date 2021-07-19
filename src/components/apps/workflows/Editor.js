@@ -36,7 +36,8 @@ import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import { addPipeline, updatePipeline } from "serviceFacades/pipelines";
 
-import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 import buildID from "components/utils/DebugIDUtil";
 import getFormError from "components/forms/getFormError";
 

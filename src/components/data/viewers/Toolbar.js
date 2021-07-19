@@ -29,7 +29,8 @@ import { getParentPath, formatFileSize } from "../utils";
 import { uploadTextAsFile } from "serviceFacades/fileio";
 
 import buildID from "components/utils/DebugIDUtil";
-import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 import DotMenu from "components/dotMenu/DotMenu";
 
 import {

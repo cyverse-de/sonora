@@ -19,7 +19,8 @@ import { useConfig } from "contexts/config";
 import { intercomShow } from "common/intercom";
 
 import buildID from "components/utils/DebugIDUtil";
-import { announce, INFO } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { INFO } from "components/announcer/AnnouncerConstants";
 import FormMultilineTextField from "components/forms/FormMultilineTextField";
 import FormTextField from "components/forms/FormTextField";
 

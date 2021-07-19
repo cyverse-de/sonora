@@ -25,12 +25,8 @@ import {
 } from "../notifications/utils";
 
 import buildID from "components/utils/DebugIDUtil";
-import {
-    announce,
-    INFO,
-    ERROR,
-    SUCCESS,
-} from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { INFO, ERROR, SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import {
     Badge,

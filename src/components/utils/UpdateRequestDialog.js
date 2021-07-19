@@ -191,67 +191,71 @@ export default function UpdateRequestDialog(props) {
                                 />
                             )}
 
-                            {!doiRequestFetchError && !toolRequestFetchError && !(isDOIRequestFetching ||
-                                isToolRequestFetching) && (
-                                <>
-                                    <Field
-                                        name="email"
-                                        label={t("email")}
-                                        required={false}
-                                        margin="dense"
-                                        id={buildID(baseId, ids.EMAIL)}
-                                        component={FormTextField}
-                                    />
+                            {!doiRequestFetchError &&
+                                !toolRequestFetchError &&
+                                !(
+                                    isDOIRequestFetching ||
+                                    isToolRequestFetching
+                                ) && (
+                                    <>
+                                        <Field
+                                            name="email"
+                                            label={t("email")}
+                                            required={false}
+                                            margin="dense"
+                                            id={buildID(baseId, ids.EMAIL)}
+                                            component={FormTextField}
+                                        />
 
-                                    <Field
-                                        id={buildID(baseId, ids.STATUS)}
-                                        name="status"
-                                        label={t("status")}
-                                        required
-                                        validate={(value) =>
-                                            nonEmptyField(value, t)
-                                        }
-                                        component={FormTextField}
-                                        select={true}
-                                        variant="outlined"
-                                        size="small"
-                                    >
-                                        {Object.values(statuses).map(
-                                            (status, index) => (
-                                                <MenuItem
-                                                    key={index}
-                                                    value={status}
-                                                    id={baseId}
-                                                >
-                                                    {status}
-                                                </MenuItem>
-                                            )
-                                        )}
-                                    </Field>
-                                    <Field
-                                        name="comments"
-                                        label={t("comments")}
-                                        required={false}
-                                        margin="dense"
-                                        id={buildID(baseId, ids.COMMENTS)}
-                                        component={FormMultilineTextField}
-                                    />
-                                    <Divider
-                                        style={{
-                                            marginTop: theme.spacing(1),
-                                            marginBottom: theme.spacing(1),
-                                        }}
-                                    />
-                                    <Typography variant="subtitle2">
-                                        {t("history")}
-                                    </Typography>
-                                    <RequestHistoryTable
-                                        history={requestDetails?.history}
-                                        baseId={baseId}
-                                        t={t}
-                                    />
-                                </>
-                            )}
+                                        <Field
+                                            id={buildID(baseId, ids.STATUS)}
+                                            name="status"
+                                            label={t("status")}
+                                            required
+                                            validate={(value) =>
+                                                nonEmptyField(value, t)
+                                            }
+                                            component={FormTextField}
+                                            select={true}
+                                            variant="outlined"
+                                            size="small"
+                                        >
+                                            {Object.values(statuses).map(
+                                                (status, index) => (
+                                                    <MenuItem
+                                                        key={index}
+                                                        value={status}
+                                                        id={baseId}
+                                                    >
+                                                        {status}
+                                                    </MenuItem>
+                                                )
+                                            )}
+                                        </Field>
+                                        <Field
+                                            name="comments"
+                                            label={t("comments")}
+                                            required={false}
+                                            margin="dense"
+                                            id={buildID(baseId, ids.COMMENTS)}
+                                            component={FormMultilineTextField}
+                                        />
+                                        <Divider
+                                            style={{
+                                                marginTop: theme.spacing(1),
+                                                marginBottom: theme.spacing(1),
+                                            }}
+                                        />
+                                        <Typography variant="subtitle2">
+                                            {t("history")}
+                                        </Typography>
+                                        <RequestHistoryTable
+                                            history={requestDetails?.history}
+                                            baseId={baseId}
+                                            t={t}
+                                        />
+                                    </>
+                                )}
                         </DEDialog>
                     </Form>
                 );

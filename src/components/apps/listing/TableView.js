@@ -177,7 +177,11 @@ function TableView(props) {
                                     const appName = app.name;
                                     const isSelected =
                                         selected.indexOf(appId) !== -1;
-                                    const rowId = buildID(baseId, tableId, appId);
+                                    const rowId = buildID(
+                                        baseId,
+                                        tableId,
+                                        appId
+                                    );
                                     return (
                                         <DERow
                                             role="checkbox"
@@ -278,7 +282,10 @@ function TableView(props) {
                                             </TableCell>
                                             <TableCell
                                                 align="right"
-                                                id={buildID(rowId, ids.SYSTEM_ID)}
+                                                id={buildID(
+                                                    rowId,
+                                                    ids.SYSTEM_ID
+                                                )}
                                             >
                                                 {app.system_id}
                                             </TableCell>

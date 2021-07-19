@@ -23,7 +23,8 @@ import constants from "../../constants";
 import ids from "./ids";
 
 import buildID from "components/utils/DebugIDUtil";
-import { announce, INFO } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { INFO } from "components/announcer/AnnouncerConstants";
 import { ERROR_CODES, getErrorCode } from "components/error/errorCode";
 import GridLoading from "components/utils/GridLoading";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";

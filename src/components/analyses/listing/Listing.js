@@ -10,7 +10,8 @@ import { queryCache, useMutation, useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
-import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 import { formatDate } from "components/utils/DateFormatter";
 import buildID from "components/utils/DebugIDUtil";
 

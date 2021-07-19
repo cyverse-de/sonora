@@ -7,7 +7,8 @@
 
 import React, { useEffect, useState } from "react";
 import buildID from "components/utils/DebugIDUtil";
-import { announce, INFO } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { INFO } from "components/announcer/AnnouncerConstants";
 import {
     Button,
     Dialog,

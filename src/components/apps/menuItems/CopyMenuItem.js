@@ -15,7 +15,8 @@ import { copyApp } from "serviceFacades/apps";
 import { copyPipeline } from "serviceFacades/pipelines";
 
 import buildID from "components/utils/DebugIDUtil";
-import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import {
     CircularProgress,

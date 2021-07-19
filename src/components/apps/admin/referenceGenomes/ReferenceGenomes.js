@@ -27,7 +27,8 @@ import refGenomeConstants from "./constants";
 import Edit from "./Edit";
 import EnhancedTable from "./TableView";
 
-import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 import { formatDateObject } from "components/utils/DateFormatter";
 import dateConstants from "components/utils/dateConstants";
 

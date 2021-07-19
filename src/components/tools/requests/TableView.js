@@ -18,7 +18,7 @@ import DetailsDialog from "components/tools/requests/Details";
 import buildID from "components/utils/DebugIDUtil";
 import EmptyTable from "components/table/EmptyTable";
 import EnhancedTableHead from "components/table/EnhancedTableHead";
-import { formatDate } from "components/utils/DateFormatter"
+import { formatDate } from "components/utils/DateFormatter";
 
 import {
     Button,

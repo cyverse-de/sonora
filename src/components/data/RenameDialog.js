@@ -5,7 +5,8 @@
  */
 import React, { useState } from "react";
 
-import { announce, INFO } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { INFO } from "components/announcer/AnnouncerConstants";
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
 

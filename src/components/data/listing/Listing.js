@@ -56,7 +56,8 @@ import {
     DEFAULTS_MAPPING_QUERY_KEY,
 } from "serviceFacades/instantlaunches";
 
-import { announce, INFO } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { INFO } from "components/announcer/AnnouncerConstants";
 import buildID from "components/utils/DebugIDUtil";
 
 import { useTranslation } from "i18n";

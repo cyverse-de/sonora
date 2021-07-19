@@ -19,7 +19,8 @@ import { Skeleton } from "@material-ui/lab";
 
 import { format as formatDate } from "date-fns";
 
-import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 import buildID from "components/utils/DebugIDUtil";
 
 import ids from "components/instantlaunches/ids";

@@ -8,7 +8,7 @@ import {
     formatCurrentDate,
     formatDate,
     formatDateObject,
-} from "../../src/util/DateFormatter";
+} from "../../src/components/utils/DateFormatter";
 
 import { format } from "date-fns";
 import { legacyParse } from "@date-fns/upgrade/v2";

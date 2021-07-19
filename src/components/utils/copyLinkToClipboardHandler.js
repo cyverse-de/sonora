@@ -1,8 +1,5 @@
-import {
-    announce,
-    ERROR,
-    SUCCESS,
-} from "components/announcer/CyVerseAnnouncer";
+import { ERROR, SUCCESS } from "components/announcer/AnnouncerConstants";
+import { announce } from "components/announcer/CyVerseAnnouncer";
 const copyLinkToClipboardHandler = (t, promise) => {
     promise.then(
         () => {

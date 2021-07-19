@@ -6,7 +6,13 @@
 
 import React, { Component } from "react";
 import Announcer from "./Announcer";
-import { INFO, LEFT, BOTTOM, TIMEOUT, EMPTY_QUEUE_TIMEOUT } from "./AnnouncerConstants";
+import {
+    INFO,
+    LEFT,
+    BOTTOM,
+    TIMEOUT,
+    EMPTY_QUEUE_TIMEOUT,
+} from "./AnnouncerConstants";
 let msgQueue = [];
 
 class CyVerseAnnouncer extends Component {

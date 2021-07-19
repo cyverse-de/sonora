@@ -11,7 +11,8 @@ import { useTranslation } from "i18n";
 
 import AppStepDisplay from "../AppStepDisplay";
 
-import { build as buildID, FormTextField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
 import { MenuItem, TextField } from "@material-ui/core";
 
 function StepMapping(props) {

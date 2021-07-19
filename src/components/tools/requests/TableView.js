@@ -8,19 +8,17 @@
 import React from "react";
 import { useTranslation } from "i18n";
 import ids from "../ids";
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
-import TableLoading from "components/utils/TableLoading";
-import { DERow } from "components/utils/DERow";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import TableLoading from "components/table/TableLoading";
+import { DERow } from "components/table/DERow";
 import PageWrapper from "components/layout/PageWrapper";
 
 import DetailsDialog from "components/tools/requests/Details";
 
-import {
-    build,
-    EmptyTable,
-    EnhancedTableHead,
-    formatDate,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import EmptyTable from "components/table/EmptyTable";
+import EnhancedTableHead from "components/table/EnhancedTableHead";
+import { formatDate } from "components/utils/DateFormatter"
 
 import {
     Button,
@@ -92,7 +90,7 @@ export default function TableView(props) {
     const requests = listing?.tool_requests;
     let columns = columnData(t);
 
-    const tableId = build(baseId, ids.LISTING_TABLE);
+    const tableId = buildID(baseId, ids.LISTING_TABLE);
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
     }
@@ -134,7 +132,7 @@ export default function TableView(props) {
                                 requests.map((request, index) => {
                                     const id = request.id;
                                     const isSelected = selected === id;
-                                    const rowId = build(baseId, tableId, id);
+                                    const rowId = buildID(baseId, tableId, id);
                                     return (
                                         <DERow
                                             onClick={(event) =>
@@ -149,7 +147,7 @@ export default function TableView(props) {
                                             id={rowId}
                                         >
                                             <TableCell
-                                                id={build(
+                                                id={buildID(
                                                     rowId,
                                                     ids.TOOL_REQUEST.NAME
                                                 )}
@@ -167,7 +165,7 @@ export default function TableView(props) {
                                                 </Button>
                                             </TableCell>
                                             <TableCell
-                                                id={build(
+                                                id={buildID(
                                                     rowId,
                                                     ids.TOOL_REQUEST
                                                         .REQUESTED_BY
@@ -178,7 +176,7 @@ export default function TableView(props) {
                                                 </Typography>
                                             </TableCell>
                                             <TableCell
-                                                id={build(
+                                                id={buildID(
                                                     rowId,
                                                     ids.TOOL_REQUEST
                                                         .DATE_SUBMITTED
@@ -191,7 +189,7 @@ export default function TableView(props) {
                                                 </Typography>
                                             </TableCell>
                                             <TableCell
-                                                id={build(
+                                                id={buildID(
                                                     rowId,
                                                     ids.TOOL_REQUEST
                                                         .LAST_UPDATED
@@ -204,7 +202,7 @@ export default function TableView(props) {
                                                 </Typography>
                                             </TableCell>
                                             <TableCell
-                                                id={build(
+                                                id={buildID(
                                                     rowId,
                                                     ids.TOOL_REQUEST.STATUS
                                                 )}

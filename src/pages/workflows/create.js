@@ -9,7 +9,7 @@ import WorkflowEditor from "components/apps/workflows/Editor";
 import NewWorkflowDefaults from "components/apps/workflows/NewWorkflowDefaults";
 import ids from "components/apps/workflows/ids";
 
-import { signInErrorResponse } from "components/utils/error/errorCode";
+import { signInErrorResponse } from "components/error/errorCode";
 
 import { useUserProfile } from "contexts/userProfile";
 

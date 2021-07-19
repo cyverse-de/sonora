@@ -13,10 +13,11 @@ import {
     getAdminToolRequestDetails,
 } from "serviceFacades/tools";
 
-import { build, FormTextField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
 
 import DEDialog from "components/utils/DEDialog";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 import { Field, Form, Formik } from "formik";
 import { Button } from "@material-ui/core";
@@ -60,7 +61,7 @@ function DetailsDialog(props) {
                             title={t("details")}
                             actions={
                                 <Button
-                                    id={build(parentId, ids.BUTTONS.OK)}
+                                    id={buildID(parentId, ids.BUTTONS.OK)}
                                     type="submit"
                                     color="primary"
                                     onClick={onClose}
@@ -87,7 +88,7 @@ function DetailsDialog(props) {
                                     <Field
                                         name="name"
                                         label={t("toolName")}
-                                        id={build(
+                                        id={buildID(
                                             parentId,
                                             ids.TOOL_REQUEST.NAME
                                         )}
@@ -99,7 +100,7 @@ function DetailsDialog(props) {
                                     <Field
                                         name="description"
                                         label={t("description")}
-                                        id={build(
+                                        id={buildID(
                                             parentId,
                                             ids.TOOL_REQUEST.DESCRIPTION
                                         )}
@@ -111,7 +112,7 @@ function DetailsDialog(props) {
                                     <Field
                                         name="source_url"
                                         label={t("source")}
-                                        id={build(
+                                        id={buildID(
                                             parentId,
                                             ids.TOOL_REQUEST.SRC_URL
                                         )}
@@ -123,7 +124,7 @@ function DetailsDialog(props) {
                                     <Field
                                         name="documentation_url"
                                         label={t("documentation_url")}
-                                        id={build(
+                                        id={buildID(
                                             parentId,
                                             ids.TOOL_REQUEST.DOCUMENTATION
                                         )}
@@ -135,7 +136,7 @@ function DetailsDialog(props) {
                                     <Field
                                         name="test_data_path"
                                         label={t("testData")}
-                                        id={build(
+                                        id={buildID(
                                             parentId,
                                             ids.TOOL_REQUEST.TEST_DATA_LINK
                                         )}
@@ -147,7 +148,7 @@ function DetailsDialog(props) {
                                     <Field
                                         name="cmd_line"
                                         label={t("commandLine")}
-                                        id={build(
+                                        id={buildID(
                                             parentId,
                                             ids.TOOL_REQUEST.COMMAND_LINE
                                         )}
@@ -159,7 +160,7 @@ function DetailsDialog(props) {
                                     <Field
                                         name="version"
                                         label={t("version")}
-                                        id={build(
+                                        id={buildID(
                                             parentId,
                                             ids.TOOL_REQUEST.VERSION
                                         )}

@@ -31,17 +31,14 @@ import { getAppEditPath } from "components/apps/utils";
 import BackButton from "components/utils/BackButton";
 import SaveButton from "components/utils/SaveButton";
 import useComponentHeight from "components/utils/useComponentHeight";
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import { addPipeline, updatePipeline } from "serviceFacades/pipelines";
 
-import {
-    AnnouncerConstants,
-    announce,
-    build as buildID,
-    getFormError,
-} from "@cyverse-de/ui-lib";
+import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
+import buildID from "components/utils/DebugIDUtil";
+import getFormError from "components/forms/getFormError";
 
 import {
     Button,
@@ -235,7 +232,7 @@ const WorkflowEditor = (props) => {
 
                     announce({
                         text: t("workflowSaved"),
-                        variant: AnnouncerConstants.SUCCESS,
+                        variant: SUCCESS,
                     });
                 };
 

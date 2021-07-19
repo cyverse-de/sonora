@@ -2,7 +2,7 @@
  * @author psarando
  */
 
-import React, { Component } from "react";
+import React from "react";
 import CopyTextArea from "components/copy/CopyTextArea";
 
 export function CopyTextAreaTest() {
@@ -18,7 +18,6 @@ oh boy!`;
             text={textToCopy}
         />
     );
-
 }
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {

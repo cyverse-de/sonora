@@ -71,10 +71,7 @@ const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
                 components={{
                     support: (
                         <Link
-                            id={buildID(
-                                baseId,
-                                ids.BUTTONS.CONTACT_SUPPORT
-                            )}
+                            id={buildID(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
                             component="button"
                             onClick={intercomShow}
                         />
@@ -92,10 +89,7 @@ const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
                 components={{
                     support: (
                         <Link
-                            id={buildID(
-                                baseId,
-                                ids.BUTTONS.CONTACT_SUPPORT
-                            )}
+                            id={buildID(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
                             component="button"
                             onClick={intercomShow}
                         />

@@ -1,7 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
 import CyVerseAnnouncer, {
-    announce, BOTTOM,
+    announce,
+    BOTTOM,
     ERROR,
     LEFT,
     RIGHT,
@@ -22,33 +23,32 @@ const action = () => {
     );
 };
 export function AnnouncerTest() {
-        [
-            {
-                text: "this is an Information",
-                duration: 3000,
-                vertical: TOP,
-                CustomAction: action,
-            },
-            {
-                text: "this is Error Message",
-                variant: ERROR,
-                horizontal: RIGHT,
-            },
-            {
-                text: "this is a Warning",
-                variant: WARNING,
-                duration: 10000,
-                horizontal: LEFT,
-                vertical: BOTTOM,
-            },
-            {
-                text: "this is a Success",
-                variant: SUCCESS,
-            },
-        ].forEach((msg) => announce(msg));
+    [
+        {
+            text: "this is an Information",
+            duration: 3000,
+            vertical: TOP,
+            CustomAction: action,
+        },
+        {
+            text: "this is Error Message",
+            variant: ERROR,
+            horizontal: RIGHT,
+        },
+        {
+            text: "this is a Warning",
+            variant: WARNING,
+            duration: 10000,
+            horizontal: LEFT,
+            vertical: BOTTOM,
+        },
+        {
+            text: "this is a Success",
+            variant: SUCCESS,
+        },
+    ].forEach((msg) => announce(msg));
 
-        return <CyVerseAnnouncer />;
-
+    return <CyVerseAnnouncer />;
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

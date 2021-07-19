@@ -3,7 +3,6 @@ import SearchField from "components/searchField/SearchField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 export function SearchFieldTest(props) {
-
     const handleSearch =
         props.logger ||
         ((selection) => {
@@ -18,7 +17,6 @@ export function SearchFieldTest(props) {
             />
         </div>
     );
-
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

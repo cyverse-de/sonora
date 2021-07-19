@@ -4,7 +4,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import TriggerField from "components/triggerField/TriggerField";
 
 export function TriggerFieldTest(props) {
-
     const handleSearch =
         props.logger ||
         ((selection) => {
@@ -23,7 +22,6 @@ export function TriggerFieldTest(props) {
             />
         </div>
     );
-
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export

@@ -39,7 +39,7 @@ import { addApp, updateApp, updateAppLabels } from "serviceFacades/apps";
 
 import { announce, SUCCESS } from "components/announcer/CyVerseAnnouncer";
 import buildID from "components/utils/DebugIDUtil";
-import { getFormError } from "components/forms/getFormError";
+import getFormError from "components/forms/getFormError";
 
 import {
     Button,

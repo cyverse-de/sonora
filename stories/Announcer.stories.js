@@ -1,17 +1,14 @@
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
 import CyVerseAnnouncer, {
-    announce,
-} from "../src/components/announcer/CyVerseAnnouncer";
-import {
-    BOTTOM,
+    announce, BOTTOM,
     ERROR,
     LEFT,
     RIGHT,
     SUCCESS,
     TOP,
     WARNING,
-} from "../src/components/announcer/AnnouncerConstants";
+} from "components/announcer/CyVerseAnnouncer";
 
 const action = () => {
     return (
@@ -24,8 +21,7 @@ const action = () => {
         </Button>
     );
 };
-export class AnnouncerTest extends Component {
-    render() {
+export function AnnouncerTest() {
         [
             {
                 text: "this is an Information",
@@ -52,10 +48,10 @@ export class AnnouncerTest extends Component {
         ].forEach((msg) => announce(msg));
 
         return <CyVerseAnnouncer />;
-    }
+
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-    title: "Announcer",
+    title: "lib/Announcer",
 };

@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import Autocomplete from "components/autocomplete/Autocomplete";
 
-
 /**
  * @author aramsey
  */
-export class AutocompleteTest extends Component {
-    render() {
+export function AutocompleteTest(props) {
+
         const selectOptionLogger =
-            this.props.selectOptionLogger ||
+            props.selectOptionLogger ||
             ((selection) => {
                 console.log(selection);
             });
@@ -52,9 +51,9 @@ export class AutocompleteTest extends Component {
                 options={options}
             />
         );
-    }
+
 }
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-    title: "AutoComplete",
+    title: "lib/AutoComplete",
 };

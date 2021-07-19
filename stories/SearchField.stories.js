@@ -1,24 +1,27 @@
-import React, { Component } from "react";
+import React from "react";
 import SearchField from "components/searchField/SearchField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-export class SearchFieldTest extends Component {
-    render() {
-        const handleSearch =
-            this.props.logger ||
-            ((selection) => {
-                console.log(selection);
-            });
+export function SearchFieldTest(props) {
 
-        return (
-            <div>
-                <label>Type at least 3 characters, then wait a second</label>
-                <SearchField handleSearch={handleSearch} />
-            </div>
-        );
-    }
+    const handleSearch =
+        props.logger ||
+        ((selection) => {
+            console.log(selection);
+        });
+
+    return (
+        <div>
+            <FormControlLabel
+                label="Type at least 3 characters, then wait a second"
+                control={<SearchField handleSearch={handleSearch} />}
+            />
+        </div>
+    );
+
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-    title: "SearchField",
+    title: "lib/SearchField",
 };

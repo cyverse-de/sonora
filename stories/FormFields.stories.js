@@ -56,12 +56,12 @@ export const TextField = ({ label, helperText, required, loading }) => {
 TextField.argTypes = {
     label: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
     helperText: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
     required: {
@@ -93,12 +93,12 @@ export const MultilineTextField = ({ label, helperText, required }) => {
 MultilineTextField.argTypes = {
     label: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
     helperText: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
     required: {
@@ -125,12 +125,12 @@ export const IntegerField = ({ label, helperText, required }) => {
 IntegerField.argTypes = {
     label: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
     helperText: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
     required: {
@@ -157,12 +157,12 @@ export const NumberField = ({ label, helperText, required }) => {
 NumberField.argTypes = {
     label: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
     helperText: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
     required: {
@@ -192,12 +192,12 @@ export const SelectField = ({ label, helperText, required }) => {
 SelectField.argTypes = {
     label: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
     helperText: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
     required: {
@@ -222,12 +222,12 @@ export const Checkbox = ({ label, helperText }) => {
 Checkbox.argTypes = {
     label: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
     helperText: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
 };
@@ -248,12 +248,12 @@ export const Switch = ({ label, helperText }) => {
 Switch.argTypes = {
     label: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
     helperText: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
 };
@@ -279,15 +279,15 @@ export const Timestamp = ({ label, helperText }) => {
 Timestamp.argTypes = {
     label: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
     helperText: {
         control: {
-            text: "Text",
+            type: "text",
         },
     },
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { title: "Form Fields" };
+export default { title: "lib/Form Fields" };

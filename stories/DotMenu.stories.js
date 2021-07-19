@@ -40,4 +40,4 @@ export const DotMenuTest = () => {
     );
 };
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { title: "DotMenu" };
+export default { title: "lib/DotMenu" };

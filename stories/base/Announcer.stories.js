@@ -53,5 +53,5 @@ export function AnnouncerTest() {
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-    title: "lib/Announcer",
+    title: "base/Announcer",
 };

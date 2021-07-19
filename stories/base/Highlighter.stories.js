@@ -3,7 +3,7 @@ import Highlighter from "components/highlighter/Highlighter";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-    title: "lib/Highlighter",
+    title: "base/Highlighter",
 };
 
 export function HighlighterTest({ searchText }) {

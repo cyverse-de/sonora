@@ -53,5 +53,5 @@ export function AutocompleteTest(props) {
 }
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-    title: "lib/AutoComplete",
+    title: "base/AutoComplete",
 };

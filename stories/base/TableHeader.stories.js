@@ -77,5 +77,5 @@ export const DETableHeader = () => {
 };
 
 export default {
-    title: "lib/TableHeader",
+    title: "base/TableHeader",
 };

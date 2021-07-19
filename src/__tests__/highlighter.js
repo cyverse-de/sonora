@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { HighlighterTest } from "../../stories/Highlighter.stories";
+import { HighlighterTest } from "../../stories/base/Highlighter.stories";
 
 it("renders highlighter without crashing", () => {
     const div = document.createElement("div");

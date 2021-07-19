@@ -3,7 +3,7 @@ import React from "react";
 import Rate from "components/rating/Rate";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-    title: "lib/Rate",
+    title: "base/Rate",
 };
 export function RatingTest({ readOnly }) {
     const onChange = (event, value) => console.log("new rating:" + value);

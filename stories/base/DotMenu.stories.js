@@ -1,7 +1,7 @@
 import React from "react";
 import { MenuItem } from "@material-ui/core";
 
-import DotMenu from "../src/components/dotMenu/DotMenu";
+import DotMenu from "../../src/components/dotMenu/DotMenu";
 
 export const DotMenuTest = () => {
     return (
@@ -40,4 +40,4 @@ export const DotMenuTest = () => {
     );
 };
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { title: "lib/DotMenu" };
+export default { title: "base/DotMenu" };

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { AutocompleteTest } from "../../stories/Autocomplete.stories";
+import { AutocompleteTest } from "../../stories/base/Autocomplete.stories";
 
 it("renders autocomplete without crashing", () => {
     const div = document.createElement("div");

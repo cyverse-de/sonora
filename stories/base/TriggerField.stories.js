@@ -26,5 +26,5 @@ export function TriggerFieldTest(props) {
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-    title: "lib/TriggerField",
+    title: "base/TriggerField",
 };

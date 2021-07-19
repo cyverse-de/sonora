@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import CyVerseAnnouncer, {
-    announce,
+import CyVerseAnnouncer, { announce } from "components/announcer/CyVerseAnnouncer";
+import {
     BOTTOM,
     ERROR,
     LEFT,
@@ -9,7 +9,7 @@ import CyVerseAnnouncer, {
     SUCCESS,
     TOP,
     WARNING,
-} from "components/announcer/CyVerseAnnouncer";
+} from "components/announcer/AnnouncerConstants";
 
 const action = () => {
     return (

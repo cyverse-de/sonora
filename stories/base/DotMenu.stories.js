@@ -36,10 +36,7 @@ const getMenuItems = (onClose) => [
 export const DotMenuTest = () => {
     return (
         <>
-            <DotMenu
-                baseId="sampleDotMenu"
-                render={getMenuItems}
-        />
+            <DotMenu baseId="sampleDotMenu" render={getMenuItems} />
             <DotMenu
                 baseId="sampleDotMenu"
                 render={getMenuItems}

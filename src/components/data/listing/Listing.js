@@ -129,6 +129,7 @@ function Listing(props) {
     const [download, setDownload] = useState(false);
     const [renameDlgOpen, setRenameDlgOpen] = useState(false);
     const [moveDlgOpen, setMoveDlgOpen] = useState(false);
+    const [erroredUploadCount, setErroredUploadCount] = useState(0);
 
     const onRenameClicked = () => setRenameDlgOpen(true);
     const onRenameDlgClose = () => setRenameDlgOpen(false);
@@ -290,15 +291,30 @@ function Listing(props) {
     }, [t, theme.palette.primary.contrastText]);
 
     useEffect(() => {
-        if (uploadTracker.uploads.length > 0) {
+        const uploads = uploadTracker.uploads;
+        if (uploads.length > 0) {
             announce({
                 text: t("filesQueuedForUploadMsg", {
                     count: uploadTracker.uploads.length,
                 }),
                 CustomAction: viewUploadQueue,
             });
+
+            setErroredUploadCount(uploads.filter((upload) => upload.hasErrored).length)
         }
     }, [uploadTracker, t, viewUploadQueue]);
+
+    useEffect(() => {
+        if (erroredUploadCount > 0) {
+            announce({
+                text: t("uploadFailed", {
+                    count: erroredUploadCount,
+                }),
+                variant: AnnouncerConstants.ERROR,
+                CustomAction: viewUploadQueue,
+            })
+        }
+    }, [erroredUploadCount, t, viewUploadQueue])
 
     let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
 

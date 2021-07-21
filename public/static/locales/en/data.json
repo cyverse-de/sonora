@@ -169,6 +169,8 @@
     "write": "Write",
     "updatePermissionsError": "Unable to update permissions. Please try again.",
     "upload": "Upload",
+    "uploadFailed": "{{count}} file failed to upload",
+    "uploadFailed_plural": "{{count}} files failed to upload",
     "validationDiskResourceName": "Cannot be named . or ..",
     "validationEmptyDiskResourceName": "Cannot be empty",
     "validationInvalidCharacters": "Invalid characters: {{- charList}}",

@@ -17,24 +17,24 @@ import {
     ListItemAvatar,
     ListItemSecondaryAction,
     ListItemText,
+    makeStyles,
     useMediaQuery,
     useTheme,
-    makeStyles,
 } from "@material-ui/core";
 
 import {
-    CheckCircle as CheckCircleIcon,
     Cancel as CancelIcon,
-    Error as ErrorIcon,
+    CheckCircle as CheckCircleIcon,
     Description as DescriptionIcon,
+    Error as ErrorIcon,
     Http as HttpIcon,
 } from "@material-ui/icons";
 
 import {
     KindFile,
     removeAction,
-    useUploadTrackingState,
     useUploadTrackingDispatch,
+    useUploadTrackingState,
 } from "../../../contexts/uploadTracking";
 
 import buildID from "components/utils/DebugIDUtil";
@@ -45,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
         overflow: "hidden",
         textOverflow: "ellipsis",
         paddingRight: theme.spacing(1),
+    },
+
+    error: {
+        color: theme.palette.error.main,
     },
 }));
 
@@ -104,6 +108,7 @@ const EllipsisField = ({ children }) => {
  */
 const UploadItem = ({ upload, handleCancel, baseId }) => {
     const theme = useTheme();
+    const classes = useStyles();
     const { t } = useTranslation("upload");
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -112,26 +117,31 @@ const UploadItem = ({ upload, handleCancel, baseId }) => {
 
     return (
         <ListItem id={itemId}>
-            <ListItemAvatar>
-                <Avatar>
-                    {upload.kind === KindFile ? (
-                        <DescriptionIcon />
-                    ) : (
-                        <HttpIcon />
-                    )}
-                </Avatar>
-            </ListItemAvatar>
-
-            {isSmall ? (
-                <ListItemText
-                    primary={<EllipsisField>{upload.filename}</EllipsisField>}
-                />
-            ) : (
-                <ListItemText
-                    primary={<EllipsisField>{upload.filename}</EllipsisField>}
-                    secondary={upload.parentPath}
-                />
+            {!isSmall && (
+                <ListItemAvatar>
+                    <Avatar>
+                        {upload.kind === KindFile ? (
+                            <DescriptionIcon />
+                        ) : (
+                            <HttpIcon />
+                        )}
+                    </Avatar>
+                </ListItemAvatar>
             )}
+
+            <ListItemText
+                primary={<EllipsisField>{upload.filename}</EllipsisField>}
+                classes={
+                    upload.hasErrored ? { secondary: classes.error } : null
+                }
+                secondary={
+                    upload.hasErrored
+                        ? t("failDetails", { details: upload.errorMessage })
+                        : !isSmall
+                        ? upload.parentPath
+                        : null
+                }
+            />
 
             <UploadStatus upload={upload} baseId={itemId} />
 

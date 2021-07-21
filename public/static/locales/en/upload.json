@@ -2,6 +2,7 @@
     "cancelUploadAria": "cancel-upload",
     "close": "Close",
     "closeAria": "close",
+    "failDetails": "Failure Details: {{details}}",
     "help": "The list of uploads running in this browser tab or window.",
     "title": "Upload Queue"
 }

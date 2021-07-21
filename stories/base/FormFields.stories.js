@@ -39,7 +39,14 @@ const TestForm = ({ initialValue, required, children }) => {
         </Formik>
     );
 };
-export const TextField = ({ label, helperText, required, loading }) => {
+export const TextField = ({
+    label,
+    helperText,
+    required,
+    loading,
+    readOnly,
+}) => {
+    const inputProps = { readOnly };
     return (
         <TestForm required={required} initialValue="">
             <Field
@@ -48,6 +55,7 @@ export const TextField = ({ label, helperText, required, loading }) => {
                 label={label}
                 helperText={helperText}
                 required={required}
+                inputProps={inputProps}
             />
         </TestForm>
     );
@@ -74,9 +82,20 @@ TextField.argTypes = {
             type: "boolean",
         },
     },
+    readOnly: {
+        control: {
+            type: "boolean",
+        },
+    },
 };
 
-export const MultilineTextField = ({ label, helperText, required }) => {
+export const MultilineTextField = ({
+    label,
+    helperText,
+    required,
+    readOnly,
+}) => {
+    const inputProps = { readOnly };
     return (
         <TestForm required={required} initialValue="">
             <Field
@@ -85,6 +104,7 @@ export const MultilineTextField = ({ label, helperText, required }) => {
                 label={label}
                 helperText={helperText}
                 required={required}
+                inputProps={inputProps}
             />
         </TestForm>
     );
@@ -106,9 +126,15 @@ MultilineTextField.argTypes = {
             type: "boolean",
         },
     },
+    readOnly: {
+        control: {
+            type: "boolean",
+        },
+    },
 };
 
-export const IntegerField = ({ label, helperText, required }) => {
+export const IntegerField = ({ label, helperText, required, readOnly }) => {
+    const inputProps = { readOnly };
     return (
         <TestForm required={required} initialValue="">
             <Field
@@ -117,6 +143,7 @@ export const IntegerField = ({ label, helperText, required }) => {
                 label={label}
                 helperText={helperText}
                 required={required}
+                inputProps={inputProps}
             />
         </TestForm>
     );
@@ -138,9 +165,15 @@ IntegerField.argTypes = {
             type: "boolean",
         },
     },
+    readOnly: {
+        control: {
+            type: "boolean",
+        },
+    },
 };
 
-export const NumberField = ({ label, helperText, required }) => {
+export const NumberField = ({ label, helperText, required, readOnly }) => {
+    const inputProps = { readOnly };
     return (
         <TestForm required={required} initialValue="">
             <Field
@@ -149,6 +182,7 @@ export const NumberField = ({ label, helperText, required }) => {
                 label={label}
                 helperText={helperText}
                 required={required}
+                inputProps={inputProps}
             />
         </TestForm>
     );
@@ -170,8 +204,14 @@ NumberField.argTypes = {
             type: "boolean",
         },
     },
+    readOnly: {
+        control: {
+            type: "boolean",
+        },
+    },
 };
-export const SelectField = ({ label, helperText, required }) => {
+export const SelectField = ({ label, helperText, required, readOnly }) => {
+    const inputProps = { readOnly };
     return (
         <TestForm required={required} initialValue="">
             <Field
@@ -180,6 +220,7 @@ export const SelectField = ({ label, helperText, required }) => {
                 label={label}
                 helperText={helperText}
                 required={required}
+                inputProps={inputProps}
             >
                 <MenuItem value={1}>One</MenuItem>
                 <MenuItem value={2}>Two</MenuItem>
@@ -205,9 +246,15 @@ SelectField.argTypes = {
             type: "boolean",
         },
     },
+    readOnly: {
+        control: {
+            type: "boolean",
+        },
+    },
 };
 
-export const Checkbox = ({ label, helperText }) => {
+export const Checkbox = ({ label, helperText, readOnly }) => {
+    const inputProps = { readOnly };
     return (
         <TestForm initialValue={true}>
             <Field
@@ -215,6 +262,7 @@ export const Checkbox = ({ label, helperText }) => {
                 name="test_field"
                 label={label}
                 helperText={helperText}
+                inputProps={inputProps}
             />
         </TestForm>
     );
@@ -230,9 +278,15 @@ Checkbox.argTypes = {
             type: "text",
         },
     },
+    readOnly: {
+        control: {
+            type: "boolean",
+        },
+    },
 };
 
-export const Switch = ({ label, helperText }) => {
+export const Switch = ({ label, helperText, readOnly }) => {
+    const inputProps = { readOnly };
     return (
         <TestForm initialValue={true}>
             <Field
@@ -240,6 +294,7 @@ export const Switch = ({ label, helperText }) => {
                 name="test_field"
                 label={label}
                 helperText={helperText}
+                inputProps={inputProps}
             />
         </TestForm>
     );
@@ -256,9 +311,15 @@ Switch.argTypes = {
             type: "text",
         },
     },
+    readOnly: {
+        control: {
+            type: "boolean",
+        },
+    },
 };
 
-export const Timestamp = ({ label, helperText }) => {
+export const Timestamp = ({ label, helperText, readOnly }) => {
+    const inputProps = { readOnly };
     return (
         <TestForm
             initialValue={formatDateObject(
@@ -271,6 +332,7 @@ export const Timestamp = ({ label, helperText }) => {
                 name="test_field"
                 label={label}
                 helperText={helperText}
+                inputProps={inputProps}
             />
         </TestForm>
     );
@@ -285,6 +347,11 @@ Timestamp.argTypes = {
     helperText: {
         control: {
             type: "text",
+        },
+    },
+    readOnly: {
+        control: {
+            type: "boolean",
         },
     },
 };

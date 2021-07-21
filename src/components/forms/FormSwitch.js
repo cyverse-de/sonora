@@ -30,7 +30,11 @@ const FormSwitch = (props) => {
                 control={
                     <Switch
                         checked={!!value}
-                        onChange={onCheckboxChange(setFieldValue, field.name)}
+                        onChange={onCheckboxChange(
+                            setFieldValue,
+                            field.name,
+                            custom.inputProps?.readOnly
+                        )}
                         {...field}
                         {...custom}
                     />

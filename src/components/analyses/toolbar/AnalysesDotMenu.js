@@ -88,7 +88,7 @@ const OutputFolderMenuItem = React.forwardRef((props, ref) => {
             href={href}
             onClick={(event) => {
                 if (terminated) {
-                    onClick();
+                    onClick(event);
                 } else {
                     onClose();
                     setPendingTerminationDlgOpen(true);

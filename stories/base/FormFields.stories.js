@@ -19,6 +19,28 @@ import dateConstants from "components/utils/dateConstants";
 
 import { MenuItem } from "@material-ui/core";
 
+const helperText = {
+    name: "Helper Text",
+    defaultValue: "",
+    control: {
+        type: "text",
+    },
+};
+const required = {
+    name: "Required?",
+    defaultValue: false,
+    control: {
+        type: "boolean",
+    },
+};
+const readOnly = {
+    name: "Read Only?",
+    defaultValue: false,
+    control: {
+        type: "boolean",
+    },
+};
+
 const TestForm = ({ initialValue, required, children }) => {
     return (
         <Formik
@@ -63,30 +85,22 @@ export const TextField = ({
 
 TextField.argTypes = {
     label: {
+        name: "Label",
+        defaultValue: "Text Field Label",
         control: {
             type: "text",
         },
     },
-    helperText: {
-        control: {
-            type: "text",
-        },
-    },
-    required: {
-        control: {
-            type: "boolean",
-        },
-    },
+    helperText,
+    required,
     loading: {
+        name: "Loading Mask?",
+        defaultValue: false,
         control: {
             type: "boolean",
         },
     },
-    readOnly: {
-        control: {
-            type: "boolean",
-        },
-    },
+    readOnly,
 };
 
 export const MultilineTextField = ({
@@ -112,25 +126,15 @@ export const MultilineTextField = ({
 
 MultilineTextField.argTypes = {
     label: {
+        name: "Label",
+        defaultValue: "MultiLine Field Label",
         control: {
             type: "text",
         },
     },
-    helperText: {
-        control: {
-            type: "text",
-        },
-    },
-    required: {
-        control: {
-            type: "boolean",
-        },
-    },
-    readOnly: {
-        control: {
-            type: "boolean",
-        },
-    },
+    helperText,
+    required,
+    readOnly,
 };
 
 export const IntegerField = ({ label, helperText, required, readOnly }) => {
@@ -151,25 +155,15 @@ export const IntegerField = ({ label, helperText, required, readOnly }) => {
 
 IntegerField.argTypes = {
     label: {
+        name: "Label",
+        defaultValue: "Integer Field Label",
         control: {
             type: "text",
         },
     },
-    helperText: {
-        control: {
-            type: "text",
-        },
-    },
-    required: {
-        control: {
-            type: "boolean",
-        },
-    },
-    readOnly: {
-        control: {
-            type: "boolean",
-        },
-    },
+    helperText,
+    required,
+    readOnly,
 };
 
 export const NumberField = ({ label, helperText, required, readOnly }) => {
@@ -190,25 +184,15 @@ export const NumberField = ({ label, helperText, required, readOnly }) => {
 
 NumberField.argTypes = {
     label: {
+        name: "Label",
+        defaultValue: "Number Field Label",
         control: {
             type: "text",
         },
     },
-    helperText: {
-        control: {
-            type: "text",
-        },
-    },
-    required: {
-        control: {
-            type: "boolean",
-        },
-    },
-    readOnly: {
-        control: {
-            type: "boolean",
-        },
-    },
+    helperText,
+    required,
+    readOnly,
 };
 export const SelectField = ({ label, helperText, required, readOnly }) => {
     const inputProps = { readOnly };
@@ -232,25 +216,15 @@ export const SelectField = ({ label, helperText, required, readOnly }) => {
 
 SelectField.argTypes = {
     label: {
+        name: "Label",
+        defaultValue: "Select Field Label",
         control: {
             type: "text",
         },
     },
-    helperText: {
-        control: {
-            type: "text",
-        },
-    },
-    required: {
-        control: {
-            type: "boolean",
-        },
-    },
-    readOnly: {
-        control: {
-            type: "boolean",
-        },
-    },
+    helperText,
+    required,
+    readOnly,
 };
 
 export const Checkbox = ({ label, helperText, readOnly }) => {
@@ -269,20 +243,14 @@ export const Checkbox = ({ label, helperText, readOnly }) => {
 };
 Checkbox.argTypes = {
     label: {
+        name: "Label",
+        defaultValue: "Checkbox Label",
         control: {
             type: "text",
         },
     },
-    helperText: {
-        control: {
-            type: "text",
-        },
-    },
-    readOnly: {
-        control: {
-            type: "boolean",
-        },
-    },
+    helperText,
+    readOnly,
 };
 
 export const Switch = ({ label, helperText, readOnly }) => {
@@ -302,20 +270,14 @@ export const Switch = ({ label, helperText, readOnly }) => {
 
 Switch.argTypes = {
     label: {
+        name: "Label",
+        defaultValue: "Switch Label",
         control: {
             type: "text",
         },
     },
-    helperText: {
-        control: {
-            type: "text",
-        },
-    },
-    readOnly: {
-        control: {
-            type: "boolean",
-        },
-    },
+    helperText,
+    readOnly,
 };
 
 export const Timestamp = ({ label, helperText, readOnly }) => {
@@ -340,20 +302,14 @@ export const Timestamp = ({ label, helperText, readOnly }) => {
 
 Timestamp.argTypes = {
     label: {
+        name: "Label",
+        defaultValue: "Timestamp Field Label",
         control: {
             type: "text",
         },
     },
-    helperText: {
-        control: {
-            type: "text",
-        },
-    },
-    readOnly: {
-        control: {
-            type: "boolean",
-        },
-    },
+    helperText,
+    readOnly,
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export

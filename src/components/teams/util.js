@@ -74,7 +74,7 @@ function getDefaultPrivilege(privilege) {
 
 /**
  * It's possible via the API to assign multiple privileges to the same person, however,
- * it's only logical to have one permission as they mostly buildID on top of each
+ * it's only logical to have one permission as they mostly build on top of each
  * other.
  *
  * For Sonora, we have simplified privileges to only ADMIN or READ for members,

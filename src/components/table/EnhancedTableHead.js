@@ -63,7 +63,7 @@ class EnhancedTableHead extends React.Component {
                                 id={buildID(this.props.baseId, column.id)}
                                 variant="head"
                                 align={align}
-                                padding={column.padding || padding || "default"}
+                                padding={column.padding || padding || "normal"}
                                 sortDirection={orderBy === key ? order : false}
                             >
                                 {column.enableSorting ? (

@@ -22,8 +22,6 @@ import {
     Typography,
 } from "@material-ui/core";
 
-const buildId = buildID;
-
 /**
  * Returns localized column header information for the tool listing table.
  * @param {Object} t - the internationalization function
@@ -129,7 +127,7 @@ function ToolListing(props) {
 
     return tools.map((tool, index) => {
         const id = tool.id;
-        const rowId = buildId(tableId, id);
+        const rowId = buildID(tableId, id);
         const handleRowClick = (event) => handleClick(event, id, index);
         const isSelected = selected.includes(id);
 
@@ -151,7 +149,7 @@ function ToolListing(props) {
                     <TableCell padding="checkbox">
                         <DECheckbox
                             checked={isSelected}
-                            id={buildId(rowId, ids.CHECKBOX)}
+                            id={buildID(rowId, ids.CHECKBOX)}
                             tabIndex={0}
                             inputProps={{
                                 "aria-label": t("ariaCheckbox", {
@@ -252,7 +250,7 @@ function TableView(props) {
         selected,
         isAdmin,
     } = props;
-    const tableId = buildId(baseId, ids.LISTING_TABLE);
+    const tableId = buildID(baseId, ids.LISTING_TABLE);
     const { t } = useTranslation("tools");
     const columns = columnData(t, isAdmin);
     const tools = listing?.tools;

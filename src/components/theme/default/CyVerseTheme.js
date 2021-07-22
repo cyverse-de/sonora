@@ -2,8 +2,7 @@ import { createTheme } from "@material-ui/core/styles";
 import palette from "./CyVersePalette";
 
 /**
- * Creates and returns a new theme. If an existing theme object is passed in,
- * it will be merged with the ui-lib theme.
+ * Creates and returns a new theme.
  *
  * @param {object} theme - A theme to override/add on to the default ui-lib theme.
  * @returns {object}

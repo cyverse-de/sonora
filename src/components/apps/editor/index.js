@@ -174,18 +174,26 @@ const AppEditor = (props) => {
     const stepAppInfo = {
         label: t("appInfo"),
         contentLabel: t("appInfo"),
+        helpText: t("app_editor_help:StepHelpInfo"),
+        errorText: t("app_editor_help:StepErrorInfo"),
     };
     const stepParameters = {
         label: t("parameters"),
         contentLabel: t("appParameters"),
+        helpText: null,
+        errorText: null,
     };
     const stepPreview = {
         label: t("previewApp"),
         contentLabel: t("previewApp"),
+        helpText: null,
+        errorText: null,
     };
     const stepCmdLineOrder = {
         label: t("commandLineOrder"),
         contentLabel: t("commandLineOrder"),
+        helpText: null,
+        errorText: null,
     };
 
     const steps = [stepAppInfo, stepParameters, stepPreview];
@@ -193,26 +201,6 @@ const AppEditor = (props) => {
     if (!cosmeticOnly) {
         steps.push(stepCmdLineOrder);
     }
-
-    const isLastStep = () => {
-        return activeStep === steps.length - 1;
-    };
-
-    const handleNext = () => {
-        const newActiveStep = isLastStep() ? 0 : activeStep + 1;
-
-        setActiveStep(newActiveStep);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) =>
-            activeStep ? prevActiveStep - 1 : steps.length - 1
-        );
-    };
-
-    const handleStep = (step) => () => {
-        setActiveStep(step);
-    };
 
     const activeStepInfo = steps[activeStep];
 
@@ -223,20 +211,26 @@ const AppEditor = (props) => {
     ) : (
         <Formik
             initialValues={initAppValues(appDescription)}
+            initialTouched={{ editorSteps: [false, false, false, false] }}
             validate={(values) => {
                 const errors = {};
+                const editorStepErrors = [];
 
                 if (!values.name) {
                     errors.error = true;
                     errors.name = t("common:required");
+                    editorStepErrors[0] = true;
                 }
                 if (!values.description) {
                     errors.error = true;
                     errors.description = t("common:required");
+                    editorStepErrors[0] = true;
                 }
 
-                // TODO add a flag for saveable-errors,
-                // so user can save work-in-progress but get a warning
+                if (editorStepErrors.length > 0) {
+                    errors.editorSteps = editorStepErrors;
+                }
+
                 return errors;
             }}
             onSubmit={(values, actions) => {
@@ -250,7 +244,10 @@ const AppEditor = (props) => {
 
                     // Note that enableReinitialize should not be used when
                     // using resetForm with new values.
-                    actions.resetForm({ values: initAppValues(app) });
+                    actions.resetForm({
+                        values: initAppValues(app),
+                        touched: { editorSteps: [true, true, true, true] },
+                    });
 
                     announce({
                         text: t("appSaved"),
@@ -270,12 +267,53 @@ const AppEditor = (props) => {
                 handleSubmit,
                 isSubmitting,
                 setFieldValue,
+                setTouched,
                 dirty,
                 touched,
                 errors,
                 values,
             }) => {
                 const saveDisabled = isSubmitting || !dirty || errors.error;
+
+                const stepCompleted = (stepIndex) => {
+                    return (
+                        touched.editorSteps[stepIndex] &&
+                        !(errors.editorSteps && errors.editorSteps[stepIndex])
+                    );
+                };
+
+                const handleStepVisited = () => {
+                    const editorStepsTouched = [...touched.editorSteps];
+                    editorStepsTouched[activeStep] = true;
+
+                    setTouched(
+                        { ...touched, editorSteps: editorStepsTouched },
+                        true
+                    );
+                };
+
+                const isLastStep = () => {
+                    return activeStep === steps.length - 1;
+                };
+
+                const handleNext = () => {
+                    const newActiveStep = isLastStep() ? 0 : activeStep + 1;
+
+                    setActiveStep(newActiveStep);
+                    handleStepVisited();
+                };
+
+                const handleBack = () => {
+                    setActiveStep((prevActiveStep) =>
+                        activeStep ? prevActiveStep - 1 : steps.length - 1
+                    );
+                    handleStepVisited();
+                };
+
+                const handleStep = (step) => () => {
+                    setActiveStep(step);
+                    handleStepVisited();
+                };
 
                 return (
                     <Paper className={classes.formContainer}>
@@ -322,6 +360,7 @@ const AppEditor = (props) => {
                                 handleBack={handleBack}
                                 activeStep={activeStep}
                                 isLastStep={isLastStep}
+                                stepCompleted={stepCompleted}
                                 stepError={(stepIndex) =>
                                     !!displayStepError(
                                         stepIndex,
@@ -336,6 +375,11 @@ const AppEditor = (props) => {
                         <AppStepDisplay
                             step={activeStep + 1}
                             label={activeStepInfo.contentLabel}
+                            helpText={activeStepInfo.helpText}
+                            errorText={
+                                displayStepError(activeStep, errors, touched) &&
+                                activeStepInfo.errorText
+                            }
                             bottomOffset={isMobile && stepperHeight}
                             actions={
                                 !isMobile &&

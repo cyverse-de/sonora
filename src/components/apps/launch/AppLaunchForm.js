@@ -216,26 +216,6 @@ const AppLaunchForm = (props) => {
 
     steps.push(stepReviewAndLaunch);
 
-    const isLastStep = () => {
-        return activeStep === steps.length - 1;
-    };
-
-    const handleNext = () => {
-        const newActiveStep = isLastStep() ? 0 : activeStep + 1;
-
-        setActiveStep(newActiveStep);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) =>
-            activeStep ? prevActiveStep - 1 : steps.length - 1
-        );
-    };
-
-    const handleStep = (step) => () => {
-        setActiveStep(step);
-    };
-
     const handleSaveQuickLaunch = (quickLaunch, onSuccess, onError) => {
         saveQuickLaunch(
             quickLaunch,
@@ -253,148 +233,215 @@ const AppLaunchForm = (props) => {
     return (
         <>
             <Formik
-                enableReinitialize
                 initialValues={initAppLaunchValues(t, props)}
+                initialTouched={{ launchSteps: [false, false, false, false] }}
                 validate={validate(t)}
-                onSubmit={(values, { setSubmitting }) => {
+                onSubmit={(values, { resetForm, setSubmitting }) => {
                     submitAnalysis(
                         formatSubmission(defaultOutputDir, values),
-                        () => setSubmitting(false),
+                        () => {
+                            resetForm({
+                                values,
+                                touched: {
+                                    launchSteps: [true, true, true, true],
+                                },
+                            });
+                        },
                         (errorMsg) => setSubmitting(false)
                     );
                 }}
             >
-                {({ values, errors, touched, handleSubmit, isSubmitting }) => (
-                    <Form id={formId}>
-                        {isSubmitting ? (
-                            <StepperSkeleton baseId={formId} ref={stepperRef} />
-                        ) : (
-                            <AppStepper
-                                baseId={formId}
-                                steps={steps}
-                                handleStep={handleStep}
-                                handleNext={handleNext}
-                                handleBack={handleBack}
-                                activeStep={activeStep}
-                                isLastStep={isLastStep}
-                                stepError={(stepIndex) =>
-                                    !!displayStepError(
-                                        stepIndex,
-                                        errors,
-                                        touched,
-                                        groups
+                {({
+                    values,
+                    errors,
+                    touched,
+                    handleSubmit,
+                    setTouched,
+                    isSubmitting,
+                }) => {
+                    const stepCompleted = (stepIndex) => {
+                        return (
+                            touched.launchSteps[stepIndex] &&
+                            !(
+                                errors.launchSteps &&
+                                errors.launchSteps[stepIndex]
+                            )
+                        );
+                    };
+
+                    const handleStepVisited = () => {
+                        const launchStepsTouched = [...touched.launchSteps];
+                        launchStepsTouched[activeStep] = true;
+
+                        setTouched(
+                            { ...touched, launchSteps: launchStepsTouched },
+                            true
+                        );
+                    };
+
+                    const isLastStep = () => {
+                        return activeStep === steps.length - 1;
+                    };
+
+                    const handleNext = () => {
+                        const newActiveStep = isLastStep() ? 0 : activeStep + 1;
+
+                        setActiveStep(newActiveStep);
+                        handleStepVisited();
+                    };
+
+                    const handleBack = () => {
+                        setActiveStep((prevActiveStep) =>
+                            activeStep ? prevActiveStep - 1 : steps.length - 1
+                        );
+                        handleStepVisited();
+                    };
+
+                    const handleStep = (step) => () => {
+                        setActiveStep(step);
+                        handleStepVisited();
+                    };
+
+                    return (
+                        <Form id={formId}>
+                            {isSubmitting ? (
+                                <StepperSkeleton
+                                    baseId={formId}
+                                    ref={stepperRef}
+                                />
+                            ) : (
+                                <AppStepper
+                                    baseId={formId}
+                                    steps={steps}
+                                    handleStep={handleStep}
+                                    handleNext={handleNext}
+                                    handleBack={handleBack}
+                                    activeStep={activeStep}
+                                    isLastStep={isLastStep}
+                                    stepCompleted={stepCompleted}
+                                    stepError={(stepIndex) =>
+                                        !!displayStepError(
+                                            stepIndex,
+                                            errors,
+                                            touched,
+                                            groups
+                                        )
+                                    }
+                                    ref={stepperRef}
+                                />
+                            )}
+                            <AppStepDisplay
+                                step={activeStep + 1}
+                                label={activeStepInfo.contentLabel}
+                                bottomOffset={isMobile && stepperHeight}
+                                actions={
+                                    !isSubmitting && (
+                                        <StepperNavigation
+                                            formId={formId}
+                                            backDisabled={!activeStep}
+                                            nextDisabled={isLastStep()}
+                                            showBackButton={!isMobile}
+                                            showNextButton={!isMobile}
+                                            showSubmitButton={false}
+                                            showSaveQuickLaunchButton={false}
+                                            handleBack={handleBack}
+                                            handleNext={handleNext}
+                                        />
                                     )
                                 }
-                                ref={stepperRef}
-                            />
-                        )}
-                        <AppStepDisplay
-                            step={activeStep + 1}
-                            label={activeStepInfo.contentLabel}
-                            bottomOffset={isMobile && stepperHeight}
-                            actions={
-                                !isSubmitting && (
-                                    <StepperNavigation
-                                        formId={formId}
-                                        backDisabled={!activeStep}
-                                        nextDisabled={isLastStep()}
-                                        showBackButton={!isMobile}
-                                        showNextButton={!isMobile}
-                                        showSubmitButton={false}
-                                        showSaveQuickLaunchButton={false}
-                                        handleBack={handleBack}
-                                        handleNext={handleNext}
-                                    />
-                                )
-                            }
-                            bottomNavigation={
-                                isSubmitting ? (
-                                    <BottomNavigationSkeleton />
-                                ) : (
-                                    <StepperNavigation
-                                        formId={formId}
-                                        backDisabled={!activeStep}
-                                        showBackButton={!isMobile}
-                                        showNextButton={
-                                            !(isMobile || isLastStep())
-                                        }
-                                        showSubmitButton={isLastStep()}
-                                        showSaveQuickLaunchButton={
-                                            isLastStep() &&
-                                            app_type !==
-                                                GlobalConstants.APP_TYPE_EXTERNAL
-                                        }
-                                        handleBack={handleBack}
-                                        handleNext={handleNext}
-                                        handleSubmit={handleSubmit}
-                                        handleSaveQuickLaunch={() => {
-                                            setQuickLaunchDialogOpen(true);
-                                            setQuickLaunchSubmission(
-                                                formatSubmission(
-                                                    defaultOutputDir,
-                                                    values
-                                                )
-                                            );
-                                        }}
-                                    />
-                                )
-                            }
-                        >
-                            {activeStepInfo === stepAnalysisInfo ? (
-                                <AnalysisInfoForm
-                                    formId={formId}
-                                    appType={app_type}
-                                />
-                            ) : activeStepInfo === stepParameters ? (
-                                values.groups?.map((group, index) => (
-                                    <ParamGroupForm
-                                        key={group.id}
-                                        index={index + 1}
-                                        noOfGroups={groups.length}
-                                        baseId={buildID(
-                                            stepIdParams,
-                                            index + 1
-                                        )}
-                                        fieldName={`groups.${index}`}
-                                        group={group}
-                                    />
-                                ))
-                            ) : activeStepInfo === stepAdvanced ? (
-                                values.limits && (
-                                    <ResourceRequirementsForm
-                                        baseId={stepIdResources}
-                                        limits={values.limits}
-                                        defaultMaxCPUCores={defaultMaxCPUCores}
-                                        defaultMaxMemory={defaultMaxMemory}
-                                        defaultMaxDiskSpace={
-                                            defaultMaxDiskSpace
-                                        }
-                                    />
-                                )
-                            ) : activeStepInfo === stepReviewAndLaunch ? (
-                                <>
-                                    <ParamsReview
-                                        baseId={formId}
-                                        appType={app_type}
-                                        groups={values.groups}
-                                        errors={errors}
-                                        touched={touched}
-                                        showAll={reviewShowAll}
-                                        setShowAll={setReviewShowAll}
-                                    />
-
-                                    {values.requirements && (
-                                        <ResourceRequirementsReview
-                                            baseId={stepIdReview}
-                                            requirements={values.requirements}
-                                            showAll={reviewShowAll}
+                                bottomNavigation={
+                                    isSubmitting ? (
+                                        <BottomNavigationSkeleton />
+                                    ) : (
+                                        <StepperNavigation
+                                            formId={formId}
+                                            backDisabled={!activeStep}
+                                            showBackButton={!isMobile}
+                                            showNextButton={
+                                                !(isMobile || isLastStep())
+                                            }
+                                            showSubmitButton={isLastStep()}
+                                            showSaveQuickLaunchButton={
+                                                isLastStep() &&
+                                                app_type !==
+                                                    GlobalConstants.APP_TYPE_EXTERNAL
+                                            }
+                                            handleBack={handleBack}
+                                            handleNext={handleNext}
+                                            handleSubmit={handleSubmit}
+                                            handleSaveQuickLaunch={() => {
+                                                setQuickLaunchDialogOpen(true);
+                                                setQuickLaunchSubmission(
+                                                    formatSubmission(
+                                                        defaultOutputDir,
+                                                        values
+                                                    )
+                                                );
+                                            }}
                                         />
-                                    )}
-                                </>
-                            ) : null}
-                        </AppStepDisplay>
-                    </Form>
-                )}
+                                    )
+                                }
+                            >
+                                {activeStepInfo === stepAnalysisInfo ? (
+                                    <AnalysisInfoForm
+                                        formId={formId}
+                                        appType={app_type}
+                                    />
+                                ) : activeStepInfo === stepParameters ? (
+                                    values.groups?.map((group, index) => (
+                                        <ParamGroupForm
+                                            key={group.id}
+                                            index={index + 1}
+                                            noOfGroups={groups.length}
+                                            baseId={buildID(
+                                                stepIdParams,
+                                                index + 1
+                                            )}
+                                            fieldName={`groups.${index}`}
+                                            group={group}
+                                        />
+                                    ))
+                                ) : activeStepInfo === stepAdvanced ? (
+                                    values.limits && (
+                                        <ResourceRequirementsForm
+                                            baseId={stepIdResources}
+                                            limits={values.limits}
+                                            defaultMaxCPUCores={
+                                                defaultMaxCPUCores
+                                            }
+                                            defaultMaxMemory={defaultMaxMemory}
+                                            defaultMaxDiskSpace={
+                                                defaultMaxDiskSpace
+                                            }
+                                        />
+                                    )
+                                ) : activeStepInfo === stepReviewAndLaunch ? (
+                                    <>
+                                        <ParamsReview
+                                            baseId={formId}
+                                            appType={app_type}
+                                            groups={values.groups}
+                                            errors={errors}
+                                            touched={touched}
+                                            showAll={reviewShowAll}
+                                            setShowAll={setReviewShowAll}
+                                        />
+
+                                        {values.requirements && (
+                                            <ResourceRequirementsReview
+                                                baseId={stepIdReview}
+                                                requirements={
+                                                    values.requirements
+                                                }
+                                                showAll={reviewShowAll}
+                                            />
+                                        )}
+                                    </>
+                                ) : null}
+                            </AppStepDisplay>
+                        </Form>
+                    );
+                }}
             </Formik>
 
             <CreateQuickLaunchDialog

@@ -13,7 +13,7 @@
  */
 
 import React from "react";
-import { Highlighter } from "@cyverse-de/ui-lib";
+import Highlighter from "components/highlighter/Highlighter";
 import { Link, makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
     link: {

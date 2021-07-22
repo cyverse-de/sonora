@@ -7,14 +7,14 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
 
-import NavigationConstants from "../../../common/NavigationConstants";
-import GridLabelValue from "../GridLabelValue";
-import constants from "../../../constants";
+import NavigationConstants from "../../common/NavigationConstants";
+import GridLabelValue from "../utils/GridLabelValue";
+import constants from "../../constants";
 import ClientInfo from "./ClientInfo";
 import ContactSupport from "./ContactSupport";
 
-import { build } from "@cyverse-de/ui-lib";
-import ids from "../ids";
+import buildID from "components/utils/DebugIDUtil";
+import ids from "../utils/ids";
 import {
     Card,
     CardActions,
@@ -56,7 +56,7 @@ function ErrorHandler(props) {
     const { t } = useTranslation("util");
     const router = useRouter();
     const classes = useStyles();
-    const errBaseId = build(baseId, ids.ERROR_HANDLER);
+    const errBaseId = buildID(baseId, ids.ERROR_HANDLER);
 
     useEffect(() => {
         trackIntercomEvent(IntercomEvents.ENCOUNTERED_ERROR, errorObject);
@@ -96,7 +96,7 @@ function ErrorHandler(props) {
                         <Link
                             component="button"
                             className={classes.link}
-                            id={build(errBaseId, ids.SIGN_IN_LINK)}
+                            id={buildID(errBaseId, ids.SIGN_IN_LINK)}
                             color="primary"
                             onClick={() => {
                                 router.push(
@@ -115,7 +115,7 @@ function ErrorHandler(props) {
                         <Link
                             className={classes.link}
                             component="button"
-                            id={build(errBaseId, ids.REGISTER_LINK)}
+                            id={buildID(errBaseId, ids.REGISTER_LINK)}
                             color="primary"
                             onClick={() => {
                                 window.open(constants.USER_PORTAL);
@@ -160,23 +160,23 @@ function ErrorHandler(props) {
             contents = (
                 <Grid container spacing={2} className={classes.container}>
                     <GridLabelValue label={t("requestedURL")}>
-                        <Typography id={build(errBaseId, ids.REQUESTED_URL)}>
+                        <Typography id={buildID(errBaseId, ids.REQUESTED_URL)}>
                             {errorObject.config?.method}{" "}
                             {errorObject.config?.url}
                         </Typography>
                     </GridLabelValue>
                     <GridLabelValue label={t("statusCode")}>
-                        <Typography id={build(errBaseId, ids.STATUS_CODE)}>
+                        <Typography id={buildID(errBaseId, ids.STATUS_CODE)}>
                             {errorResponse?.status}
                         </Typography>
                     </GridLabelValue>
                     <GridLabelValue label={t("errorCode")}>
-                        <Typography id={build(errBaseId, ids.ERROR_CODE)}>
+                        <Typography id={buildID(errBaseId, ids.ERROR_CODE)}>
                             {errorResponse?.data?.error_code}
                         </Typography>
                     </GridLabelValue>
                     <GridLabelValue label={t("reason")}>
-                        <Typography id={build(errBaseId, ids.REASON)}>
+                        <Typography id={buildID(errBaseId, ids.REASON)}>
                             {JSON.stringify(
                                 errorResponse?.data?.reason ||
                                     errorResponse?.data?.message ||

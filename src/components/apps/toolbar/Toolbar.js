@@ -15,7 +15,8 @@ import AppsTypeFilter from "components/apps/AppsTypeFilter";
 
 import NavigationConstants from "common/NavigationConstants";
 
-import { build, DotMenu } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import DotMenu from "components/dotMenu/DotMenu";
 import {
     Button,
     Hidden,
@@ -60,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
-
 function AppsToolbar(props) {
     const {
         handleCategoryChange,
@@ -82,7 +82,7 @@ function AppsToolbar(props) {
     } = props;
     const { t } = useTranslation("apps");
     const classes = useStyles();
-    const appsToolbarId = build(baseId, ids.APPS_TOOLBAR);
+    const appsToolbarId = buildID(baseId, ids.APPS_TOOLBAR);
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
 
     return (
@@ -97,7 +97,7 @@ function AppsToolbar(props) {
                 />
                 {viewAllApps && (
                     <Button
-                        id={build(appsToolbarId, ids.VIEW_ALL_APPS)}
+                        id={buildID(appsToolbarId, ids.VIEW_ALL_APPS)}
                         variant="outlined"
                         disableElevation
                         color="primary"
@@ -123,7 +123,7 @@ function AppsToolbar(props) {
                 <Hidden smDown>
                     {addToBagEnabled && (
                         <Button
-                            id={build(appsToolbarId, ids.ADD_TO_BAG_BTN)}
+                            id={buildID(appsToolbarId, ids.ADD_TO_BAG_BTN)}
                             className={classes.toolbarItems}
                             variant="outlined"
                             disableElevation
@@ -139,7 +139,7 @@ function AppsToolbar(props) {
                 <Hidden smDown>
                     {detailsEnabled && (
                         <Button
-                            id={build(appsToolbarId, ids.DETAILS_BTN)}
+                            id={buildID(appsToolbarId, ids.DETAILS_BTN)}
                             className={classes.toolbarItems}
                             variant="outlined"
                             disableElevation
@@ -162,7 +162,7 @@ function AppsToolbar(props) {
                 <Hidden xsDown>
                     <Link href={NavigationConstants.TOOLS}>
                         <Button
-                            id={build(appsToolbarId, ids.TOOLS_BTN)}
+                            id={buildID(appsToolbarId, ids.TOOLS_BTN)}
                             className={classes.toolbarItems}
                             variant="outlined"
                             disableElevation
@@ -176,7 +176,7 @@ function AppsToolbar(props) {
                 </Hidden>
                 <Hidden xsDown>
                     <DotMenu
-                        baseId={build(appsToolbarId, ids.CREATE_APP_BTN)}
+                        baseId={buildID(appsToolbarId, ids.CREATE_APP_BTN)}
                         ButtonProps={{
                             className: classes.toolbarItems,
                             startIcon: <CreateAppIcon />,

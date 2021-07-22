@@ -16,8 +16,8 @@ import { urlField } from "components/utils/validations";
 import AttributeTypes from "components/models/metadata/TemplateAttributeTypes";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import DEDialog from "components/utils/DEDialog";
-import TableLoading from "components/utils/TableLoading";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import TableLoading from "components/table/TableLoading";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import {
     FILESYSTEM_METADATA_TEMPLATE_QUERY_KEY,
@@ -28,18 +28,18 @@ import {
     searchUnifiedAstronomyThesaurus,
 } from "serviceFacades/metadata";
 
-import {
-    build,
-    formatCurrentDate,
-    FormCheckboxStringValue,
-    FormIntegerField,
-    FormMultilineTextField,
-    FormNumberField,
-    FormSelectField,
-    FormTextField,
-    FormTimestampField,
-    getFormError,
-} from "@cyverse-de/ui-lib";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
+import FormTextField from "components/forms/FormTextField";
+import FormTimestampField from "components/forms/FormTimestampField";
+import FormSelectField from "components/forms/FormSelectField";
+
+import FormNumberField from "components/forms/FormNumberField";
+
+import FormIntegerField from "components/forms/FormIntegerField";
+import getFormError from "components/forms/getFormError";
+import buildID from "components/utils/DebugIDUtil";
+import { formatCurrentDate } from "components/utils/DateFormatter";
+import FormCheckboxStringValue from "components/forms/FormCheckboxStringValue";
 
 import AstroThesaurusSearchField from "./AstroThesaurusSearchField";
 import OntologyLookupServiceSearchField from "./OntologyLookupServiceSearchField";
@@ -157,7 +157,7 @@ const MetadataTemplateAttributeForm = (props) => {
             name={`${field}.avus`}
             render={(arrayHelpers) => {
                 return attributes.map((attribute) => {
-                    const attrFieldId = build(
+                    const attrFieldId = buildID(
                         ids.METADATA_TEMPLATE_VIEW,
                         field,
                         attribute.name
@@ -254,7 +254,7 @@ const MetadataTemplateAttributeForm = (props) => {
                             );
                             attrErrors = attrErrors || avuError;
 
-                            const rowID = build(
+                            const rowID = buildID(
                                 ids.METADATA_TEMPLATE_VIEW,
                                 avuFieldName
                             );
@@ -264,7 +264,7 @@ const MetadataTemplateAttributeForm = (props) => {
 
                             const deleteBtn = canRemove && writable && (
                                 <IconButton
-                                    id={build(rowID, ids.BUTTONS.DELETE)}
+                                    id={buildID(rowID, ids.BUTTONS.DELETE)}
                                     aria-label={t("delete")}
                                     classes={{ root: classes.deleteIcon }}
                                     onClick={() => arrayHelpers.remove(index)}
@@ -358,7 +358,7 @@ const MetadataTemplateAttributeForm = (props) => {
                                 <AccordionSummary
                                     expandIcon={
                                         <ExpandMoreIcon
-                                            id={build(
+                                            id={buildID(
                                                 attrFieldId,
                                                 ids.BUTTONS.EXPAND
                                             )}
@@ -367,7 +367,7 @@ const MetadataTemplateAttributeForm = (props) => {
                                 >
                                     {writable && (
                                         <IconButton
-                                            id={build(
+                                            id={buildID(
                                                 attrFieldId,
                                                 ids.BUTTONS.ADD
                                             )}
@@ -489,7 +489,7 @@ const MetadataTemplateForm = (props) => {
             actions={[
                 <Button
                     key={ids.BUTTONS.DONE}
-                    id={build(ids.METADATA_TEMPLATE_VIEW, ids.BUTTONS.DONE)}
+                    id={buildID(ids.METADATA_TEMPLATE_VIEW, ids.BUTTONS.DONE)}
                     onClick={closeMetadataTemplateDialog}
                 >
                     {t("common:cancel")}
@@ -497,7 +497,10 @@ const MetadataTemplateForm = (props) => {
                 writable && (
                     <Button
                         key={ids.BUTTONS.SAVE}
-                        id={build(ids.METADATA_TEMPLATE_VIEW, ids.BUTTONS.SAVE)}
+                        id={buildID(
+                            ids.METADATA_TEMPLATE_VIEW,
+                            ids.BUTTONS.SAVE
+                        )}
                         disabled={loading || isSubmitting}
                         onClick={handleSubmitWrapper}
                         color="primary"

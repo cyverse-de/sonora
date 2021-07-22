@@ -14,7 +14,7 @@ import { getHost } from "../../utils/getHost";
 import ids from "./ids";
 import Toolbar from "./Toolbar";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import { Typography } from "@material-ui/core";
 
@@ -30,9 +30,9 @@ export default function VideoViewer(props) {
 
     if (url) {
         return (
-            <div id={build(baseId, ids.VIEWER_VIDEO, fileName)}>
+            <div id={buildID(baseId, ids.VIEWER_VIDEO, fileName)}>
                 <Toolbar
-                    baseId={build(baseId, ids.VIEWER_VIDEO, ids.TOOLBAR)}
+                    baseId={buildID(baseId, ids.VIEWER_VIDEO, ids.TOOLBAR)}
                     path={path}
                     resourceId={resourceId}
                     allowLineNumbers={false}

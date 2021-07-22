@@ -11,7 +11,7 @@ import { useTranslation } from "i18n";
 import { getHost } from "../../utils/getHost";
 import ids from "./ids";
 import Toolbar from "./Toolbar";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import { Typography } from "@material-ui/core";
 
@@ -29,7 +29,7 @@ export default function DocumentViewer(props) {
     return (
         <>
             <Toolbar
-                baseId={build(baseId, ids.VIEWER_DOC, ids.TOOLBAR)}
+                baseId={buildID(baseId, ids.VIEWER_DOC, ids.TOOLBAR)}
                 path={path}
                 resourceId={resourceId}
                 allowLineNumbers={false}

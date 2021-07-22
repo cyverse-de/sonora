@@ -29,7 +29,7 @@ import {
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Apps as AppsIcon,
@@ -88,7 +88,7 @@ function AppNavigation(props) {
         userProfile?.id,
     ]);
 
-    const appNavId = build(baseId, ids.APPS_NAVIGATION);
+    const appNavId = buildID(baseId, ids.APPS_NAVIGATION);
 
     const iconMap = new Map();
     iconMap.set(constants.APPS_UNDER_DEV, <LockIcon />);
@@ -197,7 +197,7 @@ function AppNavigation(props) {
             <List
                 component="nav"
                 aria-label={t("selectedCategoryAriaLabel")}
-                id={build(appNavId, ids.APPS_CATEGORIES)}
+                id={buildID(appNavId, ids.APPS_CATEGORIES)}
                 className={classes.list}
             >
                 <ListItem
@@ -209,7 +209,7 @@ function AppNavigation(props) {
                 >
                     {iconMap.get(selectedCategory.name)}
                     <ListItemText
-                        id={build(
+                        id={buildID(
                             appNavId,
                             ids.APPS_CATEGORIES,
                             selectedCategory.name
@@ -226,7 +226,7 @@ function AppNavigation(props) {
                 </ListItem>
             </List>
             <Menu
-                id={build(appNavId, ids.APP_CATEGORIES_MENU)}
+                id={buildID(appNavId, ids.APP_CATEGORIES_MENU)}
                 aria-haspopup="true"
                 anchorEl={anchorEl}
                 keepMounted
@@ -236,7 +236,7 @@ function AppNavigation(props) {
             >
                 {categories.map((menuItem, index) => (
                     <ListItem
-                        id={build(
+                        id={buildID(
                             appNavId,
                             ids.APPS_CATEGORIES_MENU,
                             ids.APPS_CATEGORIES_MENU_ITEM,

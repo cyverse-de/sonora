@@ -7,7 +7,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import {
     Button,
     Drawer,
@@ -100,7 +100,7 @@ function SelectionToolbar(props) {
         return (
             <>
                 <Button
-                    id={build(baseId, ids.SELECTION_TOOLBAR, ids.CANCEL_BTN)}
+                    id={buildID(baseId, ids.SELECTION_TOOLBAR, ids.CANCEL_BTN)}
                     onClick={onClose}
                     variant="outlined"
                     style={{
@@ -117,7 +117,7 @@ function SelectionToolbar(props) {
                     <>
                         <Button
                             startIcon={<FolderIcon />}
-                            id={build(
+                            id={buildID(
                                 baseId,
                                 ids.CURRENT_FOLDER_BTN,
                                 ids.FOLDER
@@ -138,7 +138,7 @@ function SelectionToolbar(props) {
                 )}
                 {hasValidSelection && (
                     <Button
-                        id={build(baseId, ids.SELECTION_TOOLBAR, ids.OK_BTN)}
+                        id={buildID(baseId, ids.SELECTION_TOOLBAR, ids.OK_BTN)}
                         color={"primary"}
                         onClick={handleConfirm}
                         variant="contained"
@@ -158,7 +158,10 @@ function SelectionToolbar(props) {
 
     return (
         <>
-            <Toolbar id={build(baseId, ids.SELECTION_TOOLBAR)} ref={toolbarRef}>
+            <Toolbar
+                id={buildID(baseId, ids.SELECTION_TOOLBAR)}
+                ref={toolbarRef}
+            >
                 {hasValidSelection ? (
                     <Typography color="primary" variant="h6">
                         {t("selectedItems", { count: selectedTotal })}
@@ -191,7 +194,7 @@ function SelectionToolbar(props) {
             )}
             <Toolbar>
                 <TextField
-                    id={build(baseId, ids.DATA_PATH)}
+                    id={buildID(baseId, ids.DATA_PATH)}
                     label={t("path")}
                     value={displayPath}
                     onChange={(event) => setDisplayPath(event.target.value)}
@@ -207,7 +210,7 @@ function SelectionToolbar(props) {
                         endAdornment: (
                             <InputAdornment position="end">
                                 <IconButton
-                                    id={build(
+                                    id={buildID(
                                         baseId,
                                         ids.DATA_PATH,
                                         ids.DATA_PATH_CHANGE_BTN
@@ -297,7 +300,7 @@ function SelectionDrawer(props) {
                 <Listing
                     path={currentPath}
                     handlePathChange={handlePathChange}
-                    baseId={build(id, ids.DATA_VIEW)}
+                    baseId={buildID(id, ids.DATA_VIEW)}
                     multiSelect={multiSelect}
                     isInvalidSelection={isInvalidSelection}
                     onRouteToListing={onRouteToListing}

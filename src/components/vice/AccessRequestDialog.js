@@ -7,7 +7,11 @@ import React from "react";
 import { useTranslation } from "i18n";
 import { useMutation } from "react-query";
 import ids from "./ids";
-import { build, announce, FormMultilineTextField } from "@cyverse-de/ui-lib";
+
+import buildID from "components/utils/DebugIDUtil";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
+
 import { Field, Form, Formik } from "formik";
 
 import { requestAccess } from "serviceFacades/vice/accessRequest";
@@ -16,7 +20,7 @@ import constants from "../../constants";
 import DEDialog from "components/utils/DEDialog";
 import { useConfig } from "contexts/config";
 import { Button, CircularProgress, Typography } from "@material-ui/core";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 export default function AccessRequestDialog(props) {
     const { open, baseId, onClose } = props;
@@ -72,7 +76,7 @@ export default function AccessRequestDialog(props) {
                             actions={
                                 <>
                                     <Button
-                                        id={build(
+                                        id={buildID(
                                             baseId,
                                             ids.ACCESS_REQUEST_DLG.CANCEL
                                         )}
@@ -81,7 +85,7 @@ export default function AccessRequestDialog(props) {
                                         {i18nCommon("cancel")}
                                     </Button>
                                     <Button
-                                        id={build(
+                                        id={buildID(
                                             baseId,
                                             ids.ACCESS_REQUEST_DLG.SUBMIT
                                         )}
@@ -118,7 +122,7 @@ export default function AccessRequestDialog(props) {
                             <Field
                                 name="intended_use"
                                 label={t("useCase")}
-                                id={build(
+                                id={buildID(
                                     baseId,
                                     ids.ACCESS_REQUEST_DLG.USE_CASE
                                 )}

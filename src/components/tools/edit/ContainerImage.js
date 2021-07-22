@@ -6,7 +6,9 @@ import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import { nonEmptyField } from "components/utils/validations";
 
-import { build, FormTextField, getFormError } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
+import getFormError from "components/forms/getFormError";
 import { Field } from "formik";
 
 function ContainerImage(props) {
@@ -23,13 +25,13 @@ function ContainerImage(props) {
     return (
         <SimpleExpansionPanel
             header={t("containerImage")}
-            parentId={build(parentId, ids.EDIT_TOOL_DLG.CONTAINER_IMAGE)}
+            parentId={buildID(parentId, ids.EDIT_TOOL_DLG.CONTAINER_IMAGE)}
             hasErrors={hasErrors}
         >
             <Field
                 name={`${name}.name`}
                 label={t("imageName")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.IMAGE_NAME)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.IMAGE_NAME)}
                 required
                 validate={(value) => nonEmptyField(value, i18nUtil)}
                 component={FormTextField}
@@ -38,13 +40,13 @@ function ContainerImage(props) {
             <Field
                 name={`${name}.url`}
                 label={t("dockerHubURL")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.DOCKER_URL)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.DOCKER_URL)}
                 component={FormTextField}
             />
             <Field
                 name={`${name}.tag`}
                 label={t("tag")}
-                id={build(parentId, ids.EDIT_TOOL_DLG.TAG)}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.TAG)}
                 required
                 validate={(value) => nonEmptyField(value, i18nUtil)}
                 component={FormTextField}
@@ -55,7 +57,7 @@ function ContainerImage(props) {
                     label={t("osgImagePath")}
                     required
                     validate={(value) => isOSGTool && nonEmptyField(value, t)}
-                    id={build(parentId, ids.EDIT_TOOL_DLG.OSG_IMAGE_PATH)}
+                    id={buildID(parentId, ids.EDIT_TOOL_DLG.OSG_IMAGE_PATH)}
                     component={FormTextField}
                 />
             )}

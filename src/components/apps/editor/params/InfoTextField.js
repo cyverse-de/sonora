@@ -13,7 +13,8 @@ import ids from "../ids";
 
 import AppParamTypes from "components/models/AppParamTypes";
 
-import { build as buildID, FormMultilineTextField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
 
 export default function InfoTextField(props) {
     const { baseId, fieldName } = props;

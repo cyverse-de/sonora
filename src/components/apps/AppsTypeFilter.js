@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "i18n";
 import ids from "./ids";
 import appType from "components/models/AppType";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { TextField } from "@material-ui/core";
 
@@ -16,7 +16,7 @@ export default function AppsTypeFilter(props) {
 
     return (
         <Autocomplete
-            id={build(baseId, ids.APPS_FILTER)}
+            id={buildID(baseId, ids.APPS_FILTER)}
             disabled={disabled}
             value={filter}
             options={getFilters()}

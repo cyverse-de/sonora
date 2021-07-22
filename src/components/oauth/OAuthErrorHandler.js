@@ -6,7 +6,7 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 import ErrorIcon from "@material-ui/icons/Error";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import {
     Card,
     CardActions,
@@ -18,8 +18,8 @@ import {
     Typography,
 } from "@material-ui/core";
 
-import ClientInfo from "../utils/error/ClientInfo";
-import ContactSupport from "../utils/error/ContactSupport";
+import ClientInfo from "../error/ClientInfo";
+import ContactSupport from "../error/ContactSupport";
 import ids from "./ids";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 function OAuthErrorHandler(props) {
     const { errorCode, baseId } = props;
     const { t } = useTranslation("oauth");
-    const errorBaseId = build(baseId, ids.OAUTH_ERROR_HANDLER);
+    const errorBaseId = buildID(baseId, ids.OAUTH_ERROR_HANDLER);
     const classes = useStyles();
 
     const avatar = <ErrorIcon fontSize="large" color="error" />;

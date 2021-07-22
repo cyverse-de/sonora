@@ -14,11 +14,9 @@ import ids from "./ids";
 
 import ToolSelectionDialog from "components/tools/ToolSelectionDialog";
 
-import {
-    build as buildID,
-    FormTextField,
-    FormMultilineTextField,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
+import FormTextField from "components/forms/FormTextField";
 
 import { Button, InputAdornment } from "@material-ui/core";
 import { Build as SelectToolIcon } from "@material-ui/icons";

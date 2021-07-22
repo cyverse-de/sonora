@@ -20,18 +20,16 @@ import {
     ADMIN_APPS_QUERY_KEY,
 } from "serviceFacades/apps";
 
-import {
-    build,
-    FormCheckbox,
-    FormMultilineTextField,
-    FormTextField,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
+import FormCheckbox from "components/forms/FormCheckbox";
 
 import DEDialog from "components/utils/DEDialog";
 import { getHost } from "components/utils/getHost";
 import { validateAppName } from "components/apps/utils";
 import { Skeleton } from "@material-ui/lab";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 import { Button, CircularProgress, Link, Paper } from "@material-ui/core";
 
@@ -181,13 +179,13 @@ function AdminAppDetailsForm(props) {
                 actions={
                     <>
                         <Button
-                            id={build(parentId, ids.CANCEL_BTN)}
+                            id={buildID(parentId, ids.CANCEL_BTN)}
                             onClick={handleClose}
                         >
                             {i18nCommon("cancel")}
                         </Button>
                         <Button
-                            id={build(parentId, ids.SAVE_BTN)}
+                            id={buildID(parentId, ids.SAVE_BTN)}
                             type="submit"
                             color="primary"
                             onClick={handleSubmit}
@@ -234,7 +232,7 @@ function AdminAppDetailsForm(props) {
                         <Field
                             name={"name"}
                             label={t("name")}
-                            id={build(parentId, ids.ADMIN_DETAILS.NAME)}
+                            id={buildID(parentId, ids.ADMIN_DETAILS.NAME)}
                             validate={(value) =>
                                 validateAppName(
                                     restrictedStartingChars,
@@ -248,19 +246,22 @@ function AdminAppDetailsForm(props) {
                         <Field
                             name={"description"}
                             label={t("descriptionLabel")}
-                            id={build(parentId, ids.ADMIN_DETAILS.DESCRIPTION)}
+                            id={buildID(
+                                parentId,
+                                ids.ADMIN_DETAILS.DESCRIPTION
+                            )}
                             component={FormMultilineTextField}
                         />
                         <Field
                             name={"integrator_name"}
                             label={t("integratorName")}
-                            id={build(parentId, ids.ADMIN_DETAILS.INTEGRATOR)}
+                            id={buildID(parentId, ids.ADMIN_DETAILS.INTEGRATOR)}
                             component={FormTextField}
                         />
                         <Field
                             name={"integrator_email"}
                             label={t("integratorEmail")}
-                            id={build(
+                            id={buildID(
                                 parentId,
                                 ids.ADMIN_DETAILS.INTEGRATOR_EMAIL
                             )}
@@ -269,7 +270,7 @@ function AdminAppDetailsForm(props) {
                         <Field
                             name={"extra.htcondor.extra_requirements"}
                             label={t("htcondorExtraRequirements")}
-                            id={build(
+                            id={buildID(
                                 parentId,
                                 ids.ADMIN_DETAILS.HTCONDOR_EXTRA_REQS
                             )}
@@ -278,25 +279,25 @@ function AdminAppDetailsForm(props) {
                         <Field
                             name={"deleted"}
                             label={t("deleted")}
-                            id={build(parentId, ids.ADMIN_DETAILS.DELETED)}
+                            id={buildID(parentId, ids.ADMIN_DETAILS.DELETED)}
                             component={FormCheckbox}
                         />
                         <Field
                             name={"disabled"}
                             label={t("disabled")}
-                            id={build(parentId, ids.ADMIN_DETAILS.DISABLED)}
+                            id={buildID(parentId, ids.ADMIN_DETAILS.DISABLED)}
                             component={FormCheckbox}
                         />
                         <Field
                             name={"beta"}
                             label={t("beta")}
-                            id={build(parentId, ids.ADMIN_DETAILS.BETA)}
+                            id={buildID(parentId, ids.ADMIN_DETAILS.BETA)}
                             component={FormCheckbox}
                         />
                         <Field
                             name={"isBlessed"}
                             label={t("blessed")}
-                            id={build(parentId, ids.ADMIN_DETAILS.BLESSED)}
+                            id={buildID(parentId, ids.ADMIN_DETAILS.BLESSED)}
                             component={FormCheckbox}
                         />
                         <Paper elevation={1}>
@@ -316,7 +317,7 @@ function AdminAppDetailsForm(props) {
                         <Field
                             name={"documentation.documentation"}
                             label={t("appDocumentation")}
-                            id={build(
+                            id={buildID(
                                 parentId,
                                 ids.ADMIN_DETAILS.DOCUMENTATION
                             )}

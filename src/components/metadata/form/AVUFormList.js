@@ -16,8 +16,11 @@ import styles from "../styles";
 import MetadataList from "../listing";
 import SlideUpTransition from "../SlideUpTransition";
 
-import { announce, AnnouncerConstants } from "@cyverse-de/ui-lib";
-import { build, FormTextField, getFormError } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { ERROR } from "components/announcer/AnnouncerConstants";
+import FormTextField from "components/forms/FormTextField";
+import getFormError from "components/forms/getFormError";
 
 import {
     Button,
@@ -56,7 +59,7 @@ const AVUFormDialog = (props) => {
     const avuErrors = getFormError(field, touched, errors);
     const error = avuErrors && avuErrors.error;
 
-    const formID = build(ids.EDIT_METADATA_FORM, field, ids.DIALOG);
+    const formID = buildID(ids.EDIT_METADATA_FORM, field, ids.DIALOG);
 
     const title = t(
         editable ? "dialogTitleEditMetadataFor" : "dialogTitleViewMetadataFor",
@@ -69,7 +72,7 @@ const AVUFormDialog = (props) => {
         error
             ? announce({
                   text: t("errAVUEditFormAnnounce"),
-                  variant: AnnouncerConstants.ERROR,
+                  variant: ERROR,
               })
             : closeAttrDialog();
     };
@@ -91,7 +94,7 @@ const AVUFormDialog = (props) => {
                 >
                     <span>
                         <Button
-                            id={build(formID, ids.BUTTONS.DONE)}
+                            id={buildID(formID, ids.BUTTONS.DONE)}
                             color="primary"
                             onClick={onClose}
                         >
@@ -104,7 +107,7 @@ const AVUFormDialog = (props) => {
             <FastField
                 name={`${field}.attr`}
                 label={t("attribute")}
-                id={build(formID, ids.AVU_ATTR)}
+                id={buildID(formID, ids.AVU_ATTR)}
                 required={editable}
                 InputProps={{ readOnly: !editable }}
                 component={FormTextField}
@@ -112,14 +115,14 @@ const AVUFormDialog = (props) => {
             <FastField
                 name={`${field}.value`}
                 label={t("value")}
-                id={build(formID, ids.AVU_VALUE)}
+                id={buildID(formID, ids.AVU_VALUE)}
                 InputProps={{ readOnly: !editable }}
                 component={FormTextField}
             />
             <FastField
                 name={`${field}.unit`}
                 label={t("metadataUnitLabel")}
-                id={build(formID, ids.AVU_UNIT)}
+                id={buildID(formID, ids.AVU_UNIT)}
                 InputProps={{ readOnly: !editable }}
                 component={FormTextField}
             />
@@ -132,7 +135,7 @@ const AVUFormDialog = (props) => {
                         <AccordionSummary
                             expandIcon={
                                 <ExpandMoreIcon
-                                    id={build(
+                                    id={buildID(
                                         formID,
                                         ids.BUTTONS.EXPAND,
                                         ids.AVU_GRID

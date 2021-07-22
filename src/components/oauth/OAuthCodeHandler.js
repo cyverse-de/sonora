@@ -5,7 +5,7 @@
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     APP_CATEGORIES_QUERY_KEY,
@@ -27,7 +27,7 @@ const ERR_SERVICE = "general_service_error";
 
 function OAuthCodeHandler(props) {
     const { baseId, apiName, code, stateId } = props;
-    const handlerId = build(baseId, ids.OAUTH_CODE_HANDLER);
+    const handlerId = buildID(baseId, ids.OAUTH_CODE_HANDLER);
     const router = useRouter();
     const [userProfile] = useUserProfile();
     const [listingUrl, setListingUrl] = useState(

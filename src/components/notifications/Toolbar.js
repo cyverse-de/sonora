@@ -12,7 +12,7 @@ import NotificationCategory from "components/models/NotificationCategory";
 
 import { useTranslation } from "i18n";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Button,
@@ -44,8 +44,8 @@ const NotificationToolbar = (props) => {
     const classes = useStyles();
 
     const { t } = useTranslation(["notifications", "common"]);
-    const baseId = build(baseDebugId, ids.TOOLBAR);
-    const filterId = build(baseId, ids.NOTIFICATION_FILTER);
+    const baseId = buildID(baseDebugId, ids.TOOLBAR);
+    const filterId = buildID(baseId, ids.NOTIFICATION_FILTER);
 
     return (
         <Toolbar variant="dense">
@@ -62,7 +62,7 @@ const NotificationToolbar = (props) => {
                 {Object.keys(NotificationCategory).map((key) => (
                     <MenuItem
                         key={key}
-                        id={build(filterId, key)}
+                        id={buildID(filterId, key)}
                         value={NotificationCategory[key]}
                     >
                         {NotificationCategory[key]}
@@ -73,7 +73,7 @@ const NotificationToolbar = (props) => {
             <div className={classes.divider} />
 
             <Button
-                id={build(baseId, ids.REFRESH_BTN)}
+                id={buildID(baseId, ids.REFRESH_BTN)}
                 variant="outlined"
                 size="small"
                 onClick={onRefreshClicked}
@@ -85,7 +85,7 @@ const NotificationToolbar = (props) => {
 
             {markAsSeenEnabled && (
                 <Button
-                    id={build(baseId, ids.MARK_ALL_SEEN_BTN)}
+                    id={buildID(baseId, ids.MARK_ALL_SEEN_BTN)}
                     variant="outlined"
                     size="small"
                     className={classes.toolbarButton}
@@ -97,7 +97,7 @@ const NotificationToolbar = (props) => {
             )}
             {deleteEnabled && (
                 <Button
-                    id={build(baseId, ids.DELETE_BTN)}
+                    id={buildID(baseId, ids.DELETE_BTN)}
                     variant="outlined"
                     size="small"
                     onClick={onDeleteClicked}

@@ -12,7 +12,7 @@ import ids from "../ids";
 import { useTranslation } from "react-i18next";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import UploadIcon from "@material-ui/icons/CloudUpload";
 import QueueIcon from "@material-ui/icons/Sort";
@@ -29,8 +29,8 @@ function UploadMenuItems(props) {
     return [
         <label htmlFor={localUploadId}>
             <MenuItem
-                id={build(uploadMenuId, ids.UPLOAD_MI)}
-                key={build(uploadMenuId, ids.UPLOAD_MI)}
+                id={buildID(uploadMenuId, ids.UPLOAD_MI)}
+                key={buildID(uploadMenuId, ids.UPLOAD_MI)}
                 onClick={onBrowseLocal ? onBrowseLocal : null}
             >
                 <ListItemIcon>
@@ -40,8 +40,8 @@ function UploadMenuItems(props) {
             </MenuItem>
         </label>,
         <MenuItem
-            id={build(uploadMenuId, ids.IMPORT_MI)}
-            key={build(uploadMenuId, ids.IMPORT_MI)}
+            id={buildID(uploadMenuId, ids.IMPORT_MI)}
+            key={buildID(uploadMenuId, ids.IMPORT_MI)}
             onClick={onImportFromURL}
         >
             <ListItemIcon>
@@ -50,8 +50,8 @@ function UploadMenuItems(props) {
             <ListItemText primary={t("importUrl")} />
         </MenuItem>,
         <MenuItem
-            key={build(uploadMenuId, ids.UPLOAD_QUEUE_MI)}
-            id={build(uploadMenuId, ids.UPLOAD_QUEUE_MI)}
+            key={buildID(uploadMenuId, ids.UPLOAD_QUEUE_MI)}
+            id={buildID(uploadMenuId, ids.UPLOAD_QUEUE_MI)}
             onClick={() => {
                 onUploadQueue();
             }}

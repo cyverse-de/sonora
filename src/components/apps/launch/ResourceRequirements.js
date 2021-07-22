@@ -18,7 +18,8 @@ import ids from "./ids";
 
 import styles from "./styles";
 
-import { FormSelectField, build as buildDebugId } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormSelectField from "components/forms/FormSelectField";
 
 import {
     makeStyles,
@@ -111,7 +112,7 @@ const StepResourceRequirementsForm = ({
         <Grid container spacing={1}>
             <Grid item xs={12}>
                 <FastField
-                    id={buildDebugId(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
+                    id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
                     name={`requirements.${index}.min_cpu_cores`}
                     label={t("minCPUCores")}
                     component={FormSelectField}
@@ -125,7 +126,7 @@ const StepResourceRequirementsForm = ({
             </Grid>
             <Grid item xs={12}>
                 <FastField
-                    id={buildDebugId(baseId, ids.RESOURCE_REQUESTS.TOOL_MEM)}
+                    id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_MEM)}
                     name={`requirements.${index}.min_memory_limit`}
                     label={t("minMemory")}
                     component={FormSelectField}
@@ -140,10 +141,7 @@ const StepResourceRequirementsForm = ({
             </Grid>
             <Grid item xs={12}>
                 <FastField
-                    id={buildDebugId(
-                        baseId,
-                        ids.RESOURCE_REQUESTS.MIN_DISK_SPACE
-                    )}
+                    id={buildID(baseId, ids.RESOURCE_REQUESTS.MIN_DISK_SPACE)}
                     name={`requirements.${index}.min_disk_space`}
                     label={t("minDiskSpace")}
                     component={FormSelectField}
@@ -177,9 +175,7 @@ const ResourceRequirementsForm = ({
             <Accordion defaultExpanded>
                 <AccordionSummary
                     expandIcon={
-                        <ExpandMore
-                            id={buildDebugId(baseId, ids.BUTTONS.EXPAND)}
-                        />
+                        <ExpandMore id={buildID(baseId, ids.BUTTONS.EXPAND)} />
                     }
                 >
                     <Typography variant="subtitle1">
@@ -196,7 +192,7 @@ const ResourceRequirementsForm = ({
                     </Typography>
                     {limits.length === 1 ? (
                         <StepResourceRequirementsForm
-                            baseId={buildDebugId(baseId, limits[0].step_number)}
+                            baseId={buildID(baseId, limits[0].step_number)}
                             requirements={limits[0]}
                             index={0}
                             defaultMaxCPUCores={defaultMaxCPUCores}
@@ -213,7 +209,7 @@ const ResourceRequirementsForm = ({
                                     <AccordionSummary
                                         expandIcon={
                                             <ExpandMore
-                                                id={buildDebugId(
+                                                id={buildID(
                                                     baseId,
                                                     reqs.step_number,
                                                     ids.BUTTONS.EXPAND
@@ -233,7 +229,7 @@ const ResourceRequirementsForm = ({
                                         className={classes.accordionDetails}
                                     >
                                         <StepResourceRequirementsForm
-                                            baseId={buildDebugId(
+                                            baseId={buildID(
                                                 baseId,
                                                 reqs.step_number
                                             )}
@@ -276,7 +272,7 @@ const StepResourceRequirementsReview = ({
                 <AccordionSummary
                     expandIcon={
                         <ExpandMore
-                            id={buildDebugId(
+                            id={buildID(
                                 baseId,
                                 step_number,
                                 ids.BUTTONS.EXPAND

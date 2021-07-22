@@ -6,8 +6,7 @@
 import React from "react";
 
 import { ValidatorTypes } from "components/models/AppParamTypes";
-
-import { FormTextField } from "@cyverse-de/ui-lib";
+import FormTextField from "components/forms/FormTextField";
 
 export function getTextFieldInputProps(param) {
     const inputProps = {};

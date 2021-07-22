@@ -10,7 +10,7 @@ import { TabContext, TabList, TabPanel } from "@material-ui/lab";
 
 import { makeStyles } from "@material-ui/styles";
 
-import { build as id } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import CollapsibleTable from "components/vice/admin/table";
 
@@ -110,8 +110,8 @@ const VICEAdminTabs = ({ data = {} }) => {
 
     const [value, setValue] = useState("0");
 
-    const tabID = (name) => id(ids.ROOT, "admin", "tabs", name);
-    const tabPanelID = (name) => id(ids.ROOT, "admin", "tab-panels", name);
+    const tabID = (name) => buildID(ids.ROOT, "admin", "tabs", name);
+    const tabPanelID = (name) => buildID(ids.ROOT, "admin", "tab-panels", name);
 
     const [mutantExit] = useMutation(exit, {
         onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
@@ -160,7 +160,7 @@ const VICEAdminTabs = ({ data = {} }) => {
                     {orderOfTabs.map((tabName, index) => (
                         <Tab
                             label={t(tabName)}
-                            id={tabID(tabName)}
+                            buildID={tabID(tabName)}
                             key={tabID(tabName)}
                             value={`${index}`}
                             aria-controls={tabPanelID(tabName)}
@@ -176,7 +176,7 @@ const VICEAdminTabs = ({ data = {} }) => {
             {orderOfTabs.map((tabName, index) => (
                 <TabPanel
                     value={`${index}`}
-                    id={tabPanelID(tabName)}
+                    buildID={tabPanelID(tabName)}
                     key={tabPanelID(tabName)}
                     classes={{ root: classes.tabPanelRoot }}
                 >

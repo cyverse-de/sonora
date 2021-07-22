@@ -19,7 +19,7 @@ import TableToolbar from "./Toolbar";
 
 import ids from "./ids";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import Checkbox from "@material-ui/core/Checkbox";
 import Table from "@material-ui/core/Table";
@@ -142,7 +142,7 @@ const EnhancedTable = ({
         setLastSelectIndex(index);
     };
 
-    const tableId = build(baseId, ids.TABLE_VIEW);
+    const tableId = buildID(baseId, ids.TABLE_VIEW);
     return (
         <>
             <TableToolbar

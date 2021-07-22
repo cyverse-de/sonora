@@ -10,11 +10,13 @@ import React, { useCallback, useState } from "react";
 
 import { useTranslation } from "i18n";
 
-import { announce, AnnouncerConstants } from "@cyverse-de/ui-lib";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { ERROR } from "components/announcer/AnnouncerConstants";
+
 import { Button, Typography, useTheme } from "@material-ui/core";
 
 import DEErrorDialog from "./DEErrorDialog";
-import ids from "../ids";
+import ids from "../utils/ids";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 const withErrorAnnouncer = (WrappedComponent) => {
@@ -48,7 +50,7 @@ const withErrorAnnouncer = (WrappedComponent) => {
                 setErrorObject(error);
                 announce({
                     text,
-                    variant: AnnouncerConstants.ERROR,
+                    variant: ERROR,
                     CustomAction: viewErrorDetails,
                 });
             },

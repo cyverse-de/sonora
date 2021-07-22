@@ -8,7 +8,9 @@
 
 import React, { useState } from "react";
 
-import { build, DotMenu } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import DotMenu from "components/dotMenu/DotMenu";
+
 import {
     Button,
     Hidden,
@@ -47,7 +49,7 @@ function EditTeamToolbar(props) {
     const [deleteTeamDlgOpen, setDeleteTeamDlgOpen] = useState(false);
     const [joinTeamDlgOpen, setJoinTeamDlgOpen] = useState(false);
 
-    const baseId = build(parentId, ids.EDIT_TEAM.TOOLBAR);
+    const baseId = buildID(parentId, ids.EDIT_TEAM.TOOLBAR);
     const teamShortName = groupShortName(teamName);
     const isCreatingTeam = !teamName;
 
@@ -63,7 +65,7 @@ function EditTeamToolbar(props) {
                     type="submit"
                     color="primary"
                     variant="outlined"
-                    id={build(baseId, ids.BUTTONS.SAVE_BTN)}
+                    id={buildID(baseId, ids.BUTTONS.SAVE_BTN)}
                     className={classes.button}
                     startIcon={<Save />}
                     onClick={handleSubmit}
@@ -77,7 +79,7 @@ function EditTeamToolbar(props) {
                     <Button
                         color="primary"
                         variant="outlined"
-                        id={build(baseId, ids.BUTTONS.LEAVE_BTN)}
+                        id={buildID(baseId, ids.BUTTONS.LEAVE_BTN)}
                         className={classes.button}
                         startIcon={<ExitToApp />}
                         onClick={() => {
@@ -91,7 +93,7 @@ function EditTeamToolbar(props) {
                     <Button
                         color="primary"
                         variant="outlined"
-                        id={build(baseId, ids.BUTTONS.JOIN_BTN)}
+                        id={buildID(baseId, ids.BUTTONS.JOIN_BTN)}
                         className={classes.button}
                         startIcon={<EmojiPeople />}
                         onClick={() => {
@@ -105,7 +107,7 @@ function EditTeamToolbar(props) {
                     <Button
                         classes={{ root: classes.deleteBtn }}
                         variant="outlined"
-                        id={build(baseId, ids.BUTTONS.DELETE)}
+                        id={buildID(baseId, ids.BUTTONS.DELETE)}
                         className={classes.button}
                         startIcon={<Delete />}
                         onClick={() => {
@@ -122,7 +124,7 @@ function EditTeamToolbar(props) {
                     render={(onClose) => [
                         leaveEnabled && (
                             <MenuItem
-                                key={build(baseId, ids.BUTTONS.LEAVE_MI)}
+                                key={buildID(baseId, ids.BUTTONS.LEAVE_MI)}
                                 onClick={() => {
                                     onClose();
                                     setLeaveTeamDlgOpen(true);
@@ -136,7 +138,7 @@ function EditTeamToolbar(props) {
                         ),
                         joinEnabled && (
                             <MenuItem
-                                key={build(baseId, ids.BUTTONS.JOIN_MI)}
+                                key={buildID(baseId, ids.BUTTONS.JOIN_MI)}
                                 onClick={() => {
                                     onClose();
                                     setJoinTeamDlgOpen(true);
@@ -150,7 +152,7 @@ function EditTeamToolbar(props) {
                         ),
                         deleteEnabled && (
                             <MenuItem
-                                key={build(baseId, ids.BUTTONS.DELETE_MI)}
+                                key={buildID(baseId, ids.BUTTONS.DELETE_MI)}
                                 onClick={() => {
                                     onClose();
                                     setDeleteTeamDlgOpen(true);

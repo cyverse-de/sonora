@@ -24,7 +24,9 @@ import {
     getDisplayMessage,
 } from "../notifications/utils";
 
-import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { INFO, ERROR, SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import {
     Badge,
@@ -86,11 +88,7 @@ function Notifications(props) {
         const completed = status === analysisStatus.COMPLETED;
         const failed = status === analysisStatus.FAILED;
 
-        const variant = completed
-            ? AnnouncerConstants.SUCCESS
-            : failed
-            ? AnnouncerConstants.ERROR
-            : AnnouncerConstants.INFO;
+        const variant = completed ? SUCCESS : failed ? ERROR : INFO;
 
         const CustomAction =
             (completed || failed) && outputFolderPath
@@ -161,7 +159,7 @@ function Notifications(props) {
                 arrow
             >
                 <IconButton
-                    id={build(ids.APP_BAR_BASE, ids.NOTIFICATION_BTN)}
+                    id={buildID(ids.APP_BAR_BASE, ids.NOTIFICATION_BTN)}
                     aria-label={t("newNotificationAriaLabel")}
                     style={{ color: theme.palette.primary.contrastText }}
                     onClick={handleClick}

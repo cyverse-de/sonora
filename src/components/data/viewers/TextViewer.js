@@ -21,7 +21,7 @@ import {
     setFilesystemMetadata,
 } from "serviceFacades/metadata";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import Skeleton from "@material-ui/lab/Skeleton";
 
@@ -123,7 +123,7 @@ export default function TextViewer(props) {
     return (
         <>
             <Toolbar
-                baseId={build(baseId, ids.VIEWER_DOC, ids.TOOLBAR)}
+                baseId={buildID(baseId, ids.VIEWER_DOC, ids.TOOLBAR)}
                 path={path}
                 resourceId={resourceId}
                 allowLineNumbers={true}
@@ -157,7 +157,7 @@ export default function TextViewer(props) {
             )}
             {!busy && isMarkdown && (
                 <SplitView
-                    baseId={build(baseId, ids.SPLIT_VIEW)}
+                    baseId={buildID(baseId, ids.SPLIT_VIEW)}
                     leftPanel={
                         <Editor
                             baseId={baseId}

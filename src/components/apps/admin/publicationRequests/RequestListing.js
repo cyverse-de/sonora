@@ -2,17 +2,18 @@ import React, { useState } from "react";
 import { useTranslation } from "i18n";
 import { useQuery, useMutation, queryCache } from "react-query";
 
-import { build, EmptyTable } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import EmptyTable from "components/table/EmptyTable";
 
-import DETableHead from "components/utils/DETableHead";
-import TableLoading from "components/utils/TableLoading";
+import DETableHead from "components/table/DETableHead";
+import TableLoading from "components/table/TableLoading";
 import {
     getAppPublicationRequests,
     adminPublishApp,
     APP_PUBLICATION_REQUESTS_QUERY_KEY,
 } from "serviceFacades/apps";
 import DEDialog from "components/utils/DEDialog";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 import ids from "../../ids";
 import constants from "../../../../constants";
@@ -82,7 +83,7 @@ function ToolsUsed(props) {
                 {t("viewTools")}
             </Button>
             <DEDialog
-                id={build(ids.PUBLICATION_REQUESTS.TOOLS_USED_DIALOG)}
+                id={buildID(ids.PUBLICATION_REQUESTS.TOOLS_USED_DIALOG)}
                 open={toolsDialogOpen}
                 title={t("toolsUsed", {
                     appName: appName,
@@ -96,7 +97,7 @@ function ToolsUsed(props) {
                         aria-label={t("toolsUsed", {
                             appName: appName,
                         })}
-                        id={build(
+                        id={buildID(
                             ids.PUBLICATION_REQUESTS.TOOLS_USED_DIALOG,
                             ids.PUBLICATION_REQUESTS.TOOLS_USED_LISTING
                         )}
@@ -120,7 +121,7 @@ function ToolsUsed(props) {
                             selectable={false}
                             numSelected={0}
                             rowCount={tools ? tools.length : 0}
-                            baseId={build(
+                            baseId={buildID(
                                 ids.PUBLICATION_REQUESTS.TOOLS_USED_DIALOG,
                                 ids.PUBLICATION_REQUESTS.TOOLS_USED_LISTING
                             )}
@@ -188,7 +189,7 @@ function AppPublicationRequests(props) {
                     stickyHeader={true}
                     size="small"
                     aria-label={t("ariaTableListing")}
-                    id={build(
+                    id={buildID(
                         parentId,
                         ids.PUBLICATION_REQUESTS.REQUEST_LISTING
                     )}

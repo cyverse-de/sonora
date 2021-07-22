@@ -5,7 +5,8 @@ import { useTranslation } from "i18n";
 import { Button } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
-import { announce, AnnouncerConstants } from "@cyverse-de/ui-lib";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { ERROR, SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import { id } from "./functions";
 import useStyles from "./styles";
@@ -70,9 +71,7 @@ const ActionButtons = ({
             tlErr = err;
         }
 
-        const variant = tlErr
-            ? AnnouncerConstants.ERROR
-            : AnnouncerConstants.SUCCESS;
+        const variant = tlErr ? ERROR : SUCCESS;
         const text = tlErr ? tlErr.message : t(msgKey);
 
         announce({ text, variant });
@@ -84,7 +83,7 @@ const ActionButtons = ({
         if (hasErrored) {
             announce({
                 text: `Action buttons not available: ${error.message}`,
-                variant: AnnouncerConstants.ERROR,
+                variant: ERROR,
             });
         }
     }, [hasErrored, error]);

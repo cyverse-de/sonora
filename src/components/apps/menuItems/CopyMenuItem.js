@@ -10,11 +10,13 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 import { getAppEditPath } from "../utils";
 
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import { copyApp } from "serviceFacades/apps";
 import { copyPipeline } from "serviceFacades/pipelines";
 
-import { AnnouncerConstants, announce, build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import {
     CircularProgress,
@@ -40,7 +42,7 @@ function CopyMenuItem(props) {
                 onClose();
                 announce({
                     text: t("appCopySuccess", { appName: app?.name }),
-                    variant: AnnouncerConstants.SUCCESS,
+                    variant: SUCCESS,
                 });
                 router.push(getAppEditPath(appCopy.system_id, appCopy.id));
             },
@@ -55,7 +57,7 @@ function CopyMenuItem(props) {
 
     return (
         <MenuItem
-            id={build(baseId, ids.COPY_MENU_ITEM)}
+            id={buildID(baseId, ids.COPY_MENU_ITEM)}
             disabled={isLoading}
             onClick={() => {
                 onCopyApp({ systemId: app?.system_id, appId: app?.id });

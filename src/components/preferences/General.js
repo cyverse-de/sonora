@@ -23,7 +23,9 @@ import GridLabelValue from "../utils/GridLabelValue";
 
 import constants from "../../constants";
 
-import { build, FormTextField, FormSwitch } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
+import FormSwitch from "components/forms/FormSwitch";
 
 import {
     Button,
@@ -63,7 +65,7 @@ function General(props) {
             <Grid container spacing={2} className={classes.grid}>
                 <Grid item>
                     <Field
-                        id={build(baseId, ids.REMEMBER_LAST_PATH_SWITCH)}
+                        id={buildID(baseId, ids.REMEMBER_LAST_PATH_SWITCH)}
                         component={FormSwitch}
                         name={prefConstants.keys.REMEMBER_LAST_PATH}
                         color="primary"
@@ -75,7 +77,7 @@ function General(props) {
                 </Grid>
                 <Grid item>
                     <Field
-                        id={build(baseId, ids.HPC_LOGIN_PROMPT_SWITCH)}
+                        id={buildID(baseId, ids.HPC_LOGIN_PROMPT_SWITCH)}
                         component={FormSwitch}
                         name={prefConstants.keys.ENABLE_HPC_PROMPT}
                         color="primary"
@@ -87,7 +89,7 @@ function General(props) {
                 </Grid>
                 <Grid item>
                     <Field
-                        id={build(baseId, ids.HPC_WAIT_TIMES_SWITCH)}
+                        id={buildID(baseId, ids.HPC_WAIT_TIMES_SWITCH)}
                         component={FormSwitch}
                         name={prefConstants.keys.ENABLE_WAIT_TIME_MESSAGE}
                         color="primary"
@@ -106,7 +108,7 @@ function General(props) {
                 <Grid item>
                     <>
                         <Field
-                            id={build(baseId, ids.DEFAULT_OUTPUT_FOLDER)}
+                            id={buildID(baseId, ids.DEFAULT_OUTPUT_FOLDER)}
                             component={FormTextField}
                             className={classes.textField}
                             name={prefConstants.keys.DEFAULT_OUTPUT_FOLDER}
@@ -143,7 +145,7 @@ function General(props) {
                         />
                         <Button
                             color="primary"
-                            id={build(baseId, ids.BROWSE_BUTTON)}
+                            id={buildID(baseId, ids.BROWSE_BUTTON)}
                             className={classes.browseButton}
                             onClick={() => setOpenFileBrowser(true)}
                             variant="outlined"
@@ -160,7 +162,7 @@ function General(props) {
             <Grid container spacing={3} className={classes.grid}>
                 <Grid item>
                     <Field
-                        id={build(
+                        id={buildID(
                             baseId,
                             ids.ANALYSES_EMAIL_NOTIFICATION_SWITCH
                         )}
@@ -178,7 +180,7 @@ function General(props) {
                 </Grid>
                 <Grid item>
                     <Field
-                        id={build(
+                        id={buildID(
                             baseId,
                             ids.URL_IMPORT_EMAIL_NOTIFICATION_SWITCH
                         )}
@@ -196,7 +198,7 @@ function General(props) {
             </Grid>
             <Divider className={classes.dividers} />
             <Webhooks
-                baseId={build(baseId, ids.WEBHOOK_PREF)}
+                baseId={buildID(baseId, ids.WEBHOOK_PREF)}
                 values={values}
                 webhookTopics={webhookTopics}
                 webhookTypes={webhookTypes}
@@ -211,7 +213,7 @@ function General(props) {
                     variant="body1"
                 >
                     <Button
-                        id={build(baseId, ids.RESET_HPC_BTN)}
+                        id={buildID(baseId, ids.RESET_HPC_BTN)}
                         color="primary"
                         variant="outlined"
                         disabled={requireAgaveAuth}
@@ -227,7 +229,7 @@ function General(props) {
             </Grid>
             {defaultOutputFolder && (
                 <SelectionDrawer
-                    id={build(baseId, ids.FOLDER_SELECTION_DRAWER)}
+                    id={buildID(baseId, ids.FOLDER_SELECTION_DRAWER)}
                     open={openFileBrowser}
                     onClose={() => setOpenFileBrowser(false)}
                     startingPath={defaultOutputFolder}

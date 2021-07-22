@@ -15,7 +15,7 @@ import {
 } from "components/apps/utils";
 import { getFolderPage } from "components/data/utils";
 import systemId from "components/models/systemId";
-import BasicTable from "components/utils/BasicTable";
+import BasicTable from "components/table/BasicTable";
 
 export default function DeLegacyRedirector() {
     const router = useRouter();

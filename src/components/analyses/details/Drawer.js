@@ -33,7 +33,7 @@ import {
     getAnalysisParameters,
 } from "serviceFacades/analyses";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import { Drawer, Typography } from "@material-ui/core";
 
@@ -167,9 +167,9 @@ function DetailsDrawer(props) {
 
     const analysisName = selectedAnalysis.name;
 
-    const drawerId = build(baseId, ids.DETAILS_DRAWER);
-    const infoTabId = build(drawerId, ids.INFO_TAB);
-    const paramsTabId = build(drawerId, ids.PARAMS_TAB);
+    const drawerId = buildID(baseId, ids.DETAILS_DRAWER);
+    const infoTabId = buildID(drawerId, ids.INFO_TAB);
+    const paramsTabId = buildID(drawerId, ids.PARAMS_TAB);
 
     return (
         <Drawer
@@ -190,13 +190,13 @@ function DetailsDrawer(props) {
                     value={TABS.analysisInfo}
                     label={t("info")}
                     id={infoTabId}
-                    aria-controls={build(infoTabId, ids.PANEL)}
+                    aria-controls={buildID(infoTabId, ids.PANEL)}
                 />
                 <DETab
                     value={TABS.analysisParams}
                     label={t("analysisParams")}
                     id={paramsTabId}
-                    aria-controls={build(paramsTabId, ids.PANEL)}
+                    aria-controls={buildID(paramsTabId, ids.PANEL)}
                 />
             </DETabs>
             <DETabPanel

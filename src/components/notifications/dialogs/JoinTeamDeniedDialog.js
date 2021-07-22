@@ -10,7 +10,7 @@ import React from "react";
 import { useTranslation } from "i18n";
 import ids from "../ids";
 import DEDialog from "../../utils/DEDialog";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Button, TextField, Typography } from "@material-ui/core";
 import { useNotifications } from "contexts/pushNotifications";
 
@@ -36,7 +36,7 @@ function JoinTeamDeniedDialog(props) {
             actions={
                 <Button
                     color="primary"
-                    id={build(baseId, ids.OK_BTN)}
+                    id={buildID(baseId, ids.OK_BTN)}
                     onClick={handleClose}
                 >
                     {t("common:ok")}
@@ -47,7 +47,7 @@ function JoinTeamDeniedDialog(props) {
                 {t("denyDetailsMessage", { team: teamName })}
             </Typography>
             <TextField
-                id={build(baseId, ids.DENY_MSG)}
+                id={buildID(baseId, ids.DENY_MSG)}
                 label={t("denyAdminLabel")}
                 multiline
                 rows={3}

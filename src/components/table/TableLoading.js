@@ -7,11 +7,11 @@
  */
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { makeStyles, TableBody, TableCell, TableRow } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
-import ids from "./ids";
+import ids from "../utils/ids";
 
 const useStyles = makeStyles((theme) => ({
     skeleton: {
@@ -26,7 +26,7 @@ function TableLoading(props) {
     const arrayColumns = [...Array(numColumns)];
 
     return (
-        <TableBody id={build(baseId, ids.LOADING_SKELETON)}>
+        <TableBody id={buildID(baseId, ids.LOADING_SKELETON)}>
             {arrayRows.map((element, rowIndex) => (
                 <TableRow key={rowIndex}>
                     {arrayColumns.map((element, colIndex) => (

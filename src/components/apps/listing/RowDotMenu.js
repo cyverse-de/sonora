@@ -6,7 +6,9 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import { build, DotMenu } from "@cyverse-de/ui-lib";
+
+import buildID from "components/utils/DebugIDUtil";
+import DotMenu from "components/dotMenu/DotMenu";
 
 import ids from "../ids";
 import { hasOwn, isReadable, isWritable } from "../utils";
@@ -66,7 +68,7 @@ function RowDotMenu(props) {
                 ButtonProps={ButtonProps}
                 render={(onClose) => [
                     <DetailsMenuItem
-                        key={build(baseId, ids.DETAILS_MENU_ITEM)}
+                        key={buildID(baseId, ids.DETAILS_MENU_ITEM)}
                         baseId={baseId}
                         onClose={onClose}
                         onDetailsSelected={onDetailsSelected}
@@ -74,7 +76,7 @@ function RowDotMenu(props) {
                     !isAdminView && [
                         canEdit && (
                             <EditMenuItem
-                                key={build(baseId, ids.EDIT_MENU_ITEM)}
+                                key={buildID(baseId, ids.EDIT_MENU_ITEM)}
                                 baseId={baseId}
                                 onClose={onClose}
                                 app={app}
@@ -82,7 +84,10 @@ function RowDotMenu(props) {
                         ),
                         canShare && (
                             <SharingMenuItem
-                                key={build(baseId, shareIds.SHARING_MENU_ITEM)}
+                                key={buildID(
+                                    baseId,
+                                    shareIds.SHARING_MENU_ITEM
+                                )}
                                 baseId={baseId}
                                 onClose={onClose}
                                 setSharingDlgOpen={setSharingDlgOpen}
@@ -90,7 +95,7 @@ function RowDotMenu(props) {
                         ),
                         canPublish && (
                             <PublishMenuItem
-                                key={build(baseId, ids.PUBLISH_MENU_ITEM)}
+                                key={buildID(baseId, ids.PUBLISH_MENU_ITEM)}
                                 baseId={baseId}
                                 onClose={onClose}
                                 onPublishSelected={() =>
@@ -100,26 +105,26 @@ function RowDotMenu(props) {
                         ),
                         canCopy && (
                             <CopyMenuItem
-                                key={build(baseId, ids.COPY_MENU_ITEM)}
+                                key={buildID(baseId, ids.COPY_MENU_ITEM)}
                                 baseId={baseId}
                                 onClose={onClose}
                                 app={app}
                             />
                         ),
                         <DocMenuItem
-                            key={build(baseId, ids.DOC_MENU_ITEM)}
+                            key={buildID(baseId, ids.DOC_MENU_ITEM)}
                             baseId={baseId}
                             onClose={onClose}
                             onDocSelected={onDocSelected}
                         />,
                         <QLMenuItem
-                            key={build(baseId, ids.QL_MENU_ITEM)}
+                            key={buildID(baseId, ids.QL_MENU_ITEM)}
                             baseId={baseId}
                             onClose={onClose}
                             onQLSelected={onQLSelected}
                         />,
                         <CopyLinkMenuItem
-                            key={build(baseId, utilIds.COPY_LINK_MENU_ITEM)}
+                            key={buildID(baseId, utilIds.COPY_LINK_MENU_ITEM)}
                             baseId={baseId}
                             onClose={onClose}
                             onCopyLinkSelected={() => {
@@ -134,7 +139,7 @@ function RowDotMenu(props) {
                         />,
                         canDelete && (
                             <DeleteMenuItem
-                                key={build(baseId, ids.DELETE)}
+                                key={buildID(baseId, ids.DELETE)}
                                 baseId={baseId}
                                 handleDelete={handleDelete}
                                 onClose={onClose}

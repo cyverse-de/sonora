@@ -10,7 +10,7 @@ import UnFavoriteIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import CommentsIcon from "@material-ui/icons/CommentOutlined";
 import PlayIcon from "@material-ui/icons/PlayArrow";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import ids from "./ids";
 
@@ -49,7 +49,7 @@ function AppMenu(props) {
     return (
         <div>
             <IconButton
-                id={build(baseDebugId, ids.DOT_MENU)}
+                id={buildID(baseDebugId, ids.DOT_MENU)}
                 aria-label={t("more")}
                 aria-owns={open ? "long-menu" : null}
                 aria-haspopup="true"
@@ -60,7 +60,7 @@ function AppMenu(props) {
             </IconButton>
             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
                 <MenuItem
-                    id={build(baseDebugId, ids.APP_INFO)}
+                    id={buildID(baseDebugId, ids.APP_INFO)}
                     className={classes.menuItem}
                     data-disabled={false}
                     onClick={() => {
@@ -73,7 +73,7 @@ function AppMenu(props) {
                 </MenuItem>
                 {!isFavorite && !isExternal && (
                     <MenuItem
-                        id={build(baseDebugId, ids.FAVORITES)}
+                        id={buildID(baseDebugId, ids.FAVORITES)}
                         disabled={false}
                         className={classes.menuItem}
                         data-disabled={false}
@@ -88,7 +88,7 @@ function AppMenu(props) {
                 )}
                 {isFavorite && !isExternal && (
                     <MenuItem
-                        id={build(baseDebugId, ids.FAVORITES)}
+                        id={buildID(baseDebugId, ids.FAVORITES)}
                         disabled={false}
                         className={classes.menuItem}
                         data-disabled={false}
@@ -103,7 +103,7 @@ function AppMenu(props) {
                 )}
                 {!isExternal && [
                     <MenuItem
-                        id={build(baseDebugId, ids.APP_QUICK_LAUNCH)}
+                        id={buildID(baseDebugId, ids.APP_QUICK_LAUNCH)}
                         key={ids.APP_QUICK_LAUNCH}
                         disabled={false}
                         className={classes.menuItem}
@@ -117,7 +117,7 @@ function AppMenu(props) {
                         {t("quickLaunch")}
                     </MenuItem>,
                     <MenuItem
-                        id={build(baseDebugId, ids.APP_COMMENTS)}
+                        id={buildID(baseDebugId, ids.APP_COMMENTS)}
                         key={ids.APP_COMMENTS}
                         disabled={false}
                         className={classes.menuItem}
@@ -133,7 +133,7 @@ function AppMenu(props) {
                 ]}
                 {isExternal && [
                     <MenuItem
-                        id={build(baseDebugId, ids.FAVORITES)}
+                        id={buildID(baseDebugId, ids.FAVORITES)}
                         key={ids.FAVORITES}
                         className={classes.menuItem}
                         data-disabled={false}
@@ -142,7 +142,7 @@ function AppMenu(props) {
                         {t("favoriteNotSupported")}
                     </MenuItem>,
                     <MenuItem
-                        id={build(baseDebugId, ids.APP_COMMENTS)}
+                        id={buildID(baseDebugId, ids.APP_COMMENTS)}
                         key={ids.APP_COMMENTS}
                         className={classes.menuItem}
                         data-disabled={false}

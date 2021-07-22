@@ -18,7 +18,8 @@ import Sharing from "components/sharing";
 import { formatSharedTools } from "components/sharing/util";
 import EditToolDialog from "components/tools/edit/EditTool";
 
-import { build, SearchField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import SearchField from "components/searchField/SearchField";
 import NewToolRequestDialog from "../NewToolRequestDialog";
 
 import {
@@ -78,7 +79,7 @@ function PermissionsFilter(props) {
     const { t } = useTranslation("tools");
     return (
         <Autocomplete
-            id={build(baseId, ids.MANAGE_TOOLS.TOOL_FILTER)}
+            id={buildID(baseId, ids.MANAGE_TOOLS.TOOL_FILTER)}
             disabled={false}
             value={filter}
             options={getOwnershipFilters(t)}
@@ -92,7 +93,7 @@ function PermissionsFilter(props) {
             renderInput={(params) => (
                 <TextField
                     {...params}
-                    id={build(baseId, ids.MANAGE_TOOLS.VIEW_FILTER_FIELD)}
+                    id={buildID(baseId, ids.MANAGE_TOOLS.VIEW_FILTER_FIELD)}
                     label={t("viewFilter")}
                     variant="outlined"
                 />
@@ -163,14 +164,14 @@ export default function ToolsToolbar(props) {
                     <SearchField
                         handleSearch={handleSearch}
                         value={searchTerm}
-                        id={build(baseId, ids.MANAGE_TOOLS.SEARCH)}
+                        id={buildID(baseId, ids.MANAGE_TOOLS.SEARCH)}
                         placeholder={t("searchTools")}
                     />
                 </Hidden>
                 <Hidden smDown>
                     {isSingleSelection && (
                         <Button
-                            id={build(baseId, ids.MANAGE_TOOLS.TOOL_INFO_BTN)}
+                            id={buildID(baseId, ids.MANAGE_TOOLS.TOOL_INFO_BTN)}
                             className={classes.toolbarItems}
                             variant="outlined"
                             disableElevation
@@ -242,7 +243,7 @@ export default function ToolsToolbar(props) {
                     <SearchField
                         handleSearch={handleSearch}
                         value={searchTerm}
-                        id={build(baseId, ids.MANAGE_TOOLS.SEARCH)}
+                        id={buildID(baseId, ids.MANAGE_TOOLS.SEARCH)}
                         placeholder={t("searchTools")}
                     />
                 </DialogContent>

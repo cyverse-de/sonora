@@ -19,7 +19,8 @@ import ValidationRulesEditor from "./validators/ValidationRulesEditor";
 
 import { ValidatorTypes } from "components/models/AppParamTypes";
 
-import { build as buildID, FormNumberField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormNumberField from "components/forms/FormNumberField";
 
 import { Grid } from "@material-ui/core";
 

@@ -6,15 +6,14 @@ import { DeleteBtn, AddBtn } from "../Buttons";
 import ids from "../ids";
 import SimpleExpansionPanel from "../SimpleExpansionPanel";
 import { minValue, nonEmptyMinValue } from "components/utils/validations";
-import { DERow } from "components/utils/DERow";
-import DETableHead from "components/utils/DETableHead";
+import { DERow } from "components/table/DERow";
+import DETableHead from "components/table/DETableHead";
 
-import {
-    build,
-    EmptyTable,
-    FormCheckbox,
-    FormNumberField,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import EmptyTable from "components/table/EmptyTable";
+import FormCheckbox from "components/forms/FormCheckbox";
+import FormNumberField from "components/forms/FormNumberField";
+
 import { Field, getIn } from "formik";
 import {
     Table,
@@ -105,7 +104,7 @@ function ContainerPorts(props) {
                                 <TableCell>
                                     <Field
                                         name={`${name}.${index}.container_port`}
-                                        id={build(
+                                        id={buildID(
                                             parentId,
                                             index,
                                             ids.EDIT_TOOL_DLG.CONTAINER_PORT
@@ -123,7 +122,7 @@ function ContainerPorts(props) {
                                         <TableCell>
                                             <Field
                                                 name={`${name}.${index}.host_port`}
-                                                id={build(
+                                                id={buildID(
                                                     parentId,
                                                     index,
                                                     ids.EDIT_TOOL_DLG.HOST_PORT
@@ -138,7 +137,7 @@ function ContainerPorts(props) {
                                         <TableCell>
                                             <Field
                                                 name={`${name}.${index}.bind_to_host`}
-                                                id={build(
+                                                id={buildID(
                                                     parentId,
                                                     index,
                                                     ids.EDIT_TOOL_DLG
@@ -156,7 +155,7 @@ function ContainerPorts(props) {
                                 )}
                                 <TableCell>
                                     <DeleteBtn
-                                        parentId={build(parentId, index)}
+                                        parentId={buildID(parentId, index)}
                                         onClick={() => remove(index)}
                                     />
                                 </TableCell>

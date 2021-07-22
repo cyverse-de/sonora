@@ -30,19 +30,18 @@ import { getAppEditPath } from "../utils";
 
 import BackButton from "components/utils/BackButton";
 import SaveButton from "components/utils/SaveButton";
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
 import useComponentHeight from "components/utils/useComponentHeight";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import { addApp, updateApp, updateAppLabels } from "serviceFacades/apps";
 
-import {
-    AnnouncerConstants,
-    announce,
-    build as buildID,
-    getFormError,
-} from "@cyverse-de/ui-lib";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
+
+import buildID from "components/utils/DebugIDUtil";
+import getFormError from "components/forms/getFormError";
 
 import {
     Button,
@@ -255,7 +254,7 @@ const AppEditor = (props) => {
 
                     announce({
                         text: t("appSaved"),
-                        variant: AnnouncerConstants.SUCCESS,
+                        variant: SUCCESS,
                     });
                 };
 

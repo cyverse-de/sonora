@@ -4,11 +4,11 @@
 import React from "react";
 import { useTranslation } from "i18n";
 
-import { intercomShow } from "../../../common/intercom";
+import { intercomShow } from "../../common/intercom";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Button } from "@material-ui/core";
-import ids from "../ids";
+import ids from "../utils/ids";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 
 function ContactSupport(props) {
@@ -16,7 +16,7 @@ function ContactSupport(props) {
     const { t } = useTranslation("util");
     return (
         <Button
-            id={build(baseId, ids.CONTACT_SUPPORT_BUTTON)}
+            id={buildID(baseId, ids.CONTACT_SUPPORT_BUTTON)}
             color="primary"
             startIcon={<LiveHelpIcon />}
             onClick={intercomShow}

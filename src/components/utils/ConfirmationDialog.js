@@ -17,7 +17,7 @@ import {
     useTheme,
 } from "@material-ui/core";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import ids from "./ids";
 
@@ -36,7 +36,7 @@ function ConfirmationDialog(props) {
     const { t } = useTranslation("common");
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const dialogTitleId = build(baseId, ids.DIALOG.TITLE);
+    const dialogTitleId = buildID(baseId, ids.DIALOG.TITLE);
 
     return (
         <Dialog
@@ -51,11 +51,14 @@ function ConfirmationDialog(props) {
                 <DialogContentText>{contentText}</DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button id={build(baseId, ids.DIALOG.CANCEL)} onClick={onClose}>
+                <Button
+                    id={buildID(baseId, ids.DIALOG.CANCEL)}
+                    onClick={onClose}
+                >
                     {t("cancel")}
                 </Button>
                 <Button
-                    id={build(baseId, ids.DIALOG.CONFIRM)}
+                    id={buildID(baseId, ids.DIALOG.CONFIRM)}
                     onClick={onConfirm}
                     color="primary"
                     variant="contained"

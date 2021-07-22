@@ -5,7 +5,7 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 import ids from "./ids";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import {
     Button,
     IconButton,
@@ -22,7 +22,7 @@ const SaveButton = (props) => {
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const buttonId = build(baseId, ids.SAVE_BTN);
+    const buttonId = buildID(baseId, ids.SAVE_BTN);
 
     return isSmall ? (
         <Tooltip title={t("save")} placement="bottom" enterDelay={200}>

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import ids from "./ids";
 import { setLocalStorage } from "components/utils/localStorage";
 import constants from "../../constants";
@@ -93,7 +93,7 @@ function ItemsPerPage(props) {
         }
         setOpen(false);
     };
-    const menuId = build(baseId, ids.PAGE_SIZE_MENU);
+    const menuId = buildID(baseId, ids.PAGE_SIZE_MENU);
     return (
         <>
             <Tooltip title={t("selectPageSize")}>
@@ -168,7 +168,7 @@ function DEPagination(props) {
             <Grid container justify="center">
                 <Grid item>
                     <Pagination
-                        id={build(baseId, ids.PAGINATION_TOOLBAR)}
+                        id={buildID(baseId, ids.PAGINATION_TOOLBAR)}
                         size={matches ? "small" : "medium"}
                         className={classes.paginationItems}
                         count={totalPages}

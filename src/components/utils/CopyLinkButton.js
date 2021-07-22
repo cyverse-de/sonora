@@ -6,7 +6,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { IconButton, Tooltip } from "@material-ui/core";
 import { FileCopy } from "@material-ui/icons";
 import ids from "./ids";
@@ -18,7 +18,7 @@ export default function CopyLinkButton(props) {
     return (
         <Tooltip title={t("copyDELink")} aria-label={t("copyDELink")}>
             <IconButton
-                id={build(baseId, ids.COPY_LINK_BUTTON)}
+                id={buildID(baseId, ids.COPY_LINK_BUTTON)}
                 onClick={() => {
                     onCopyLinkSelected();
                 }}

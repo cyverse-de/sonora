@@ -2,7 +2,7 @@ import React from "react";
 
 import { queryCache, useMutation, useQuery } from "react-query";
 
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import {
     createDefaultsMapping,
@@ -17,13 +17,13 @@ import {
 
 import { getInfoTypes, INFO_TYPES_QUERY_KEY } from "serviceFacades/filesystem";
 
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
 import { Skeleton } from "@material-ui/lab";
 
 import ids from "components/instantlaunches/ids";
 
-import { build as buildID } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Button,

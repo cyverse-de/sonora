@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { useUserProfile } from "contexts/userProfile";
-import NotAuthorized from "components/utils/error/NotAuthorized";
+import NotAuthorized from "components/error/NotAuthorized";
 
 import { useTranslation } from "i18n";
 
@@ -9,9 +9,9 @@ import { useQuery } from "react-query";
 
 import { makeStyles } from "@material-ui/styles";
 
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
-import { build as buildID } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import getData, { VICE_ADMIN_QUERY_KEY } from "serviceFacades/vice/admin";
 import { DETabPanel, DETabs, DETab } from "components/utils/DETabs";

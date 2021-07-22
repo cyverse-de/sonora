@@ -11,9 +11,10 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 
 import UtilIds from "components/utils/ids.js";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
-import { build, FormTextField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
 
 import {
     Button,
@@ -60,7 +61,7 @@ function AnalysisCommentDialog(props) {
                             <DialogTitle>{t("commentsDlgHeader")}</DialogTitle>
                             <DialogContent>
                                 <Field
-                                    id={build(baseId, ids.COMMENTS)}
+                                    id={buildID(baseId, ids.COMMENTS)}
                                     name="description"
                                     label={t("commentsPrompt")}
                                     multiline
@@ -70,7 +71,7 @@ function AnalysisCommentDialog(props) {
                                         endAdornment: isLoading && (
                                             <InputAdornment position="start">
                                                 <CircularProgress
-                                                    id={build(
+                                                    id={buildID(
                                                         baseId,
                                                         UtilIds.LOADING_SKELETON
                                                     )}
@@ -97,13 +98,13 @@ function AnalysisCommentDialog(props) {
 
                             <DialogActions>
                                 <Button
-                                    id={build(baseId, UtilIds.DIALOG.CANCEL)}
+                                    id={buildID(baseId, UtilIds.DIALOG.CANCEL)}
                                     onClick={onClose}
                                 >
                                     {t("common:cancel")}
                                 </Button>
                                 <Button
-                                    id={build(baseId, UtilIds.DIALOG.CONFIRM)}
+                                    id={buildID(baseId, UtilIds.DIALOG.CONFIRM)}
                                     color="primary"
                                     type="submit"
                                     onClick={handleSubmit}

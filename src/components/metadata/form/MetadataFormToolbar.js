@@ -14,7 +14,8 @@ import DEDialog from "components/utils/DEDialog";
 import ids from "../ids";
 import styles from "../styles";
 
-import { build, DotMenu } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import DotMenu from "components/dotMenu/DotMenu";
 
 import {
     Divider,
@@ -61,7 +62,7 @@ const MetadataFormToolbar = (props) => {
         <Toolbar variant="dense" className={classes.metadataFormToolbar}>
             <BackButton />
             <Typography
-                id={build(baseId, ids.TITLE)}
+                id={buildID(baseId, ids.TITLE)}
                 variant="h6"
                 color="inherit"
                 className={classes.metadataFormTitle}
@@ -86,7 +87,7 @@ const MetadataFormToolbar = (props) => {
                     showViewInTemplate && (
                         <MenuItem
                             key={ids.BUTTONS.VIEW_TEMPLATES}
-                            id={build(baseId, ids.BUTTONS.VIEW_TEMPLATES)}
+                            id={buildID(baseId, ids.BUTTONS.VIEW_TEMPLATES)}
                             onClick={() => {
                                 onViewInTemplate();
                                 onClose();
@@ -101,7 +102,7 @@ const MetadataFormToolbar = (props) => {
                     showImportIRODSMetadata && (
                         <MenuItem
                             key={ids.BUTTONS.IMPORT_IRODS_METADATA}
-                            id={build(
+                            id={buildID(
                                 baseId,
                                 ids.BUTTONS.IMPORT_IRODS_METADATA
                             )}
@@ -119,7 +120,7 @@ const MetadataFormToolbar = (props) => {
                     showSaveToFile && (
                         <MenuItem
                             key={ids.BUTTONS.SAVE_METADATA_TO_FILE}
-                            id={build(
+                            id={buildID(
                                 baseId,
                                 ids.BUTTONS.SAVE_METADATA_TO_FILE
                             )}
@@ -137,7 +138,7 @@ const MetadataFormToolbar = (props) => {
                     showCopy && (
                         <MenuItem
                             key={ids.BUTTONS.COPY_METADATA}
-                            id={build(baseId, ids.BUTTONS.COPY_METADATA)}
+                            id={buildID(baseId, ids.BUTTONS.COPY_METADATA)}
                             onClick={() => {
                                 onCopyMetadata();
                                 onClose();
@@ -152,7 +153,7 @@ const MetadataFormToolbar = (props) => {
                     <Divider key="divider" />,
                     <MenuItem
                         key={ids.BUTTONS.HELP}
-                        id={build(baseId, ids.BUTTONS.HELP)}
+                        id={buildID(baseId, ids.BUTTONS.HELP)}
                         onClick={() => {
                             setHelpDialogOpen(true);
                             onClose();

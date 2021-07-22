@@ -1,5 +1,5 @@
 import React from "react";
-import ErrorHandler from "components/utils/error/ErrorHandler";
+import ErrorHandler from "components/error/ErrorHandler";
 import { signInErrorResponse } from "./errorCode";
 
 const NotLoggedIn = (props) => {

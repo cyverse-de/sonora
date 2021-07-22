@@ -17,11 +17,12 @@ import AppSearchDrawer from "components/search/detailed/AppSearchDrawer";
 
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import DeleteButton from "components/utils/DeleteButton";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import { APP_TASKS_QUERY_KEY, getAppTasks } from "serviceFacades/apps";
 
-import { build as buildID, DotMenu } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import DotMenu from "components/dotMenu/DotMenu";
 
 import {
     Button,

@@ -13,16 +13,19 @@ import SpanLink from "./SpanLink";
 
 import ids from "../ids";
 
-import TableLoading from "../../utils/TableLoading";
+import TableLoading from "../../table/TableLoading";
 import constants from "../../../constants";
 import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
-import WrappedErrorHandler from "../../utils/error/WrappedErrorHandler";
-import { DERow } from "components/utils/DERow";
-import DETableHead from "components/utils/DETableHead";
+import WrappedErrorHandler from "../../error/WrappedErrorHandler";
+import { DERow } from "components/table/DERow";
+import DETableHead from "components/table/DETableHead";
 import { isPathInTrash, formatFileSize } from "../utils";
 import { useConfig } from "contexts/config";
 
-import { build, DECheckbox, EmptyTable, formatDate } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import DECheckbox from "components/utils/DECheckbox";
+import EmptyTable from "components/table/EmptyTable";
+import { formatDate } from "components/utils/DateFormatter";
 
 import InstantLaunchButton from "components/instantlaunches";
 import { defaultInstantLaunch } from "serviceFacades/instantlaunches";
@@ -153,7 +156,7 @@ function TableView(props) {
     const invalidRowClass = invalidRowStyles();
     const { t } = useTranslation("data");
     const dataRecordFields = dataFields(t);
-    const tableId = build(baseId, ids.LISTING_TABLE);
+    const tableId = buildID(baseId, ids.LISTING_TABLE);
     const [config] = useConfig();
 
     const [displayColumns, setDisplayColumns] = useState(
@@ -330,7 +333,7 @@ function TableView(props) {
                                         role="checkbox"
                                         tabIndex={0}
                                         hover
-                                        id={build(tableId, resourceName)}
+                                        id={buildID(tableId, resourceName)}
                                         key={resourceId}
                                         selected={isSelected}
                                         aria-checked={isSelected}
@@ -346,7 +349,7 @@ function TableView(props) {
                                             <DECheckbox
                                                 checked={isSelected}
                                                 tabIndex={0}
-                                                id={build(
+                                                id={buildID(
                                                     tableId,
                                                     resourceName,
                                                     ids.checkbox
@@ -375,7 +378,7 @@ function TableView(props) {
                                         </TableCell>
                                         <TableCell>
                                             <SpanLink
-                                                id={build(
+                                                id={buildID(
                                                     tableId,
                                                     resourceName,
                                                     ids.navLink
@@ -418,7 +421,7 @@ function TableView(props) {
                                         {rowDotMenuVisibility && (
                                             <TableCell align="right">
                                                 <RowDotMenu
-                                                    baseId={build(
+                                                    baseId={buildID(
                                                         tableId,
                                                         resourceName
                                                     )}

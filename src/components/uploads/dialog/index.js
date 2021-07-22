@@ -21,7 +21,7 @@ import {
 } from "@material-ui/core";
 
 import { Close as CloseIcon } from "@material-ui/icons";
-import { build as buildID } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import UploadQueue from "../queue";
 import ids from "./ids";
 

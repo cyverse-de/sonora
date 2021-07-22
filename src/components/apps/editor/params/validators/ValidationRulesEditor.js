@@ -25,7 +25,8 @@ import RegexField from "./RegexField";
 import { ValidatorTypes } from "components/models/AppParamTypes";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
-import { build as buildID, FormTextField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
 
 import {
     Button,

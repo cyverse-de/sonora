@@ -11,16 +11,19 @@ import Actions from "./Actions";
 import ids from "../ids";
 
 import analysisStatus from "components/models/analysisStatus";
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
-import TableLoading from "components/utils/TableLoading";
-import { DERow } from "components/utils/DERow";
-import DETableHead from "components/utils/DETableHead";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import TableLoading from "components/table/TableLoading";
+import { DERow } from "components/table/DERow";
+import DETableHead from "components/table/DETableHead";
 
 import analysisFields from "../analysisFields";
 
 import { getAnalysisUser } from "../utils";
 
-import { build, DECheckbox, EmptyTable, formatDate } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { formatDate } from "components/utils/DateFormatter";
+import DECheckbox from "components/utils/DECheckbox";
+import EmptyTable from "components/table/EmptyTable";
 
 import {
     makeStyles,
@@ -49,12 +52,12 @@ function AnalysisName(props) {
     const baseId = props.baseId;
     return (
         <Tooltip
-            id={build(baseId, ids.ANALYSIS_NAME_CELL, ids.TOOLTIP)}
+            id={buildID(baseId, ids.ANALYSIS_NAME_CELL, ids.TOOLTIP)}
             aria-label={name}
             title={name}
         >
             <Typography
-                id={build(baseId, ids.ANALYSIS_NAME_CELL)}
+                id={buildID(baseId, ids.ANALYSIS_NAME_CELL)}
                 className={classes.name}
                 variant="body2"
             >
@@ -75,7 +78,7 @@ function Status(props) {
 
     let StatusDisplay = Typography,
         statusDisplayProps = {
-            id: build(baseId, ids.STATUS),
+            id: buildID(baseId, ids.STATUS),
             variant: "body2",
         };
 
@@ -186,7 +189,7 @@ function TableView(props) {
     }
 
     const analyses = listing?.analyses;
-    const tableId = build(baseId, ids.LISTING_TABLE);
+    const tableId = buildID(baseId, ids.LISTING_TABLE);
 
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
@@ -232,7 +235,7 @@ function TableView(props) {
                                 const id = analysis.id;
                                 const user = getAnalysisUser(analysis);
                                 const isSelected = selected.indexOf(id) !== -1;
-                                const rowId = build(baseId, tableId, id);
+                                const rowId = buildID(baseId, tableId, id);
                                 return (
                                     <DERow
                                         onClick={(event) =>
@@ -248,7 +251,10 @@ function TableView(props) {
                                     >
                                         <TableCell padding="checkbox">
                                             <DECheckbox
-                                                id={build(rowId, ids.CHECKBOX)}
+                                                id={buildID(
+                                                    rowId,
+                                                    ids.CHECKBOX
+                                                )}
                                                 checked={isSelected}
                                                 tabIndex={0}
                                                 onChange={(event) =>
@@ -269,13 +275,13 @@ function TableView(props) {
                                             />
                                         </TableCell>
                                         <TableCell
-                                            id={build(
+                                            id={buildID(
                                                 rowId + ids.ANALYSIS_NAME_CELL
                                             )}
                                         >
                                             <AnalysisName
                                                 analysis={analysis}
-                                                baseId={build(
+                                                baseId={buildID(
                                                     rowId +
                                                         ids.ANALYSIS_NAME_CELL
                                                 )}
@@ -288,7 +294,10 @@ function TableView(props) {
                                             </Typography>
                                         </TableCell>
                                         <TableCell
-                                            id={build(rowId, ids.APP_NAME_CELL)}
+                                            id={buildID(
+                                                rowId,
+                                                ids.APP_NAME_CELL
+                                            )}
                                         >
                                             <AppName analysis={analysis} />
                                         </TableCell>
@@ -303,7 +312,10 @@ function TableView(props) {
                                             </Typography>
                                         </TableCell>
                                         <TableCell
-                                            id={build(rowId, ids.SUPPORT_CELL)}
+                                            id={buildID(
+                                                rowId,
+                                                ids.SUPPORT_CELL
+                                            )}
                                         >
                                             <Status
                                                 analysis={analysis}
@@ -318,7 +330,7 @@ function TableView(props) {
                                                 <Actions
                                                     analysis={analysis}
                                                     username={username}
-                                                    baseId={build(
+                                                    baseId={buildID(
                                                         rowId +
                                                             ids.ANALYSIS_ACTIONS_CELL
                                                     )}

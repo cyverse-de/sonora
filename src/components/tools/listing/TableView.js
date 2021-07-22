@@ -3,13 +3,15 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 
-import TableLoading from "../../utils/TableLoading";
-import { DERow } from "components/utils/DERow";
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
-import DETableHead from "components/utils/DETableHead";
+import TableLoading from "components/table/TableLoading";
+import { DERow } from "components/table/DERow";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import DETableHead from "components/table/DETableHead";
 import PageWrapper from "components/layout/PageWrapper";
 
-import { build, DECheckbox, EmptyTable } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import DECheckbox from "components/utils/DECheckbox";
+import EmptyTable from "components/table/EmptyTable";
 import {
     Paper,
     Table,
@@ -19,8 +21,6 @@ import {
     TableRow,
     Typography,
 } from "@material-ui/core";
-
-const buildId = build;
 
 /**
  * Returns localized column header information for the tool listing table.
@@ -127,7 +127,7 @@ function ToolListing(props) {
 
     return tools.map((tool, index) => {
         const id = tool.id;
-        const rowId = buildId(tableId, id);
+        const rowId = buildID(tableId, id);
         const handleRowClick = (event) => handleClick(event, id, index);
         const isSelected = selected.includes(id);
 
@@ -149,7 +149,7 @@ function ToolListing(props) {
                     <TableCell padding="checkbox">
                         <DECheckbox
                             checked={isSelected}
-                            id={buildId(rowId, ids.CHECKBOX)}
+                            id={buildID(rowId, ids.CHECKBOX)}
                             tabIndex={0}
                             inputProps={{
                                 "aria-label": t("ariaCheckbox", {
@@ -250,7 +250,7 @@ function TableView(props) {
         selected,
         isAdmin,
     } = props;
-    const tableId = buildId(baseId, ids.LISTING_TABLE);
+    const tableId = buildID(baseId, ids.LISTING_TABLE);
     const { t } = useTranslation("tools");
     const columns = columnData(t, isAdmin);
     const tools = listing?.tools;

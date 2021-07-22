@@ -11,7 +11,8 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 import styles from "./styles";
 
-import { build as buildID, DotMenu } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import DotMenu from "components/dotMenu/DotMenu";
 
 import {
     Button,

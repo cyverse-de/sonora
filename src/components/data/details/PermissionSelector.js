@@ -6,7 +6,7 @@
  */
 
 import React, { Fragment, useState } from "react";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { IconButton, ListItemIcon, Menu, MenuItem } from "@material-ui/core";
 import { Check, Edit } from "@material-ui/icons";
 import { useTranslation } from "react-i18next";
@@ -27,12 +27,12 @@ function PermissionSelector(props) {
         setAnchorEl(null);
     };
 
-    const menuId = build(baseId, ids.PERMISSION_MENU);
+    const menuId = buildID(baseId, ids.PERMISSION_MENU);
 
     return (
         <>
             <IconButton
-                id={build(baseId, ids.PERMISSION_MENU_BTN)}
+                id={buildID(baseId, ids.PERMISSION_MENU_BTN)}
                 aria-controls={menuId}
                 aria-haspopup={true}
                 onClick={onEditClick}
@@ -51,7 +51,7 @@ function PermissionSelector(props) {
                     return (
                         <MenuItem
                             key={permissionKey}
-                            id={build(menuId, ids[permissionKey])}
+                            id={buildID(menuId, ids[permissionKey])}
                             onClick={() => {
                                 handleEditClose();
                                 onPermissionChange(permissionValue);

@@ -30,7 +30,7 @@
  */
 import React, { useEffect, useState } from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import {
     CircularProgress,
     ListItemIcon,
@@ -57,7 +57,7 @@ import { useTranslation } from "i18n";
 import { groupName, isGroup } from "components/sharing/util";
 import PersonIcon from "@material-ui/icons/Person";
 import { TeamIcon } from "../teams/Icons";
-import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "../error/withErrorAnnouncer";
 import DeleteButton from "../utils/DeleteButton";
 
 function recentContactMatches(option, searchTerm) {
@@ -268,7 +268,10 @@ function SubjectSearchField(props) {
                             <>
                                 {loading ? (
                                     <CircularProgress
-                                        id={build(baseId, ids.LOADING_SKELETON)}
+                                        id={buildID(
+                                            baseId,
+                                            ids.LOADING_SKELETON
+                                        )}
                                         color="inherit"
                                         size={20}
                                     />

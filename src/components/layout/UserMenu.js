@@ -12,7 +12,7 @@ import ids from "./ids";
 import constants from "../../constants";
 
 import ExternalLink from "components/utils/ExternalLink";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Avatar,
@@ -78,7 +78,7 @@ export default function UserMenu(props) {
                 spacing={1}
             >
                 <Avatar
-                    id={build(baseId, ids.AVATAR)}
+                    id={buildID(baseId, ids.AVATAR)}
                     style={{
                         color: theme.palette.success.contrastText,
                         backgroundColor: theme.palette.success.main,
@@ -88,7 +88,7 @@ export default function UserMenu(props) {
                 </Avatar>
                 <Grid item>
                     <Typography
-                        id={build(baseId, ids.NAME_LBL)}
+                        id={buildID(baseId, ids.NAME_LBL)}
                         variant="caption"
                         className={classes.typography}
                     >
@@ -97,7 +97,7 @@ export default function UserMenu(props) {
                 </Grid>
                 <Grid item>
                     <Typography
-                        id={build(baseId, ids.USERNAME_LBL)}
+                        id={buildID(baseId, ids.USERNAME_LBL)}
                         variant="caption"
                         className={classes.typography}
                     >
@@ -106,7 +106,7 @@ export default function UserMenu(props) {
                 </Grid>
                 <Grid item>
                     <Typography
-                        id={build(baseId, ids.EMAIL_LBL)}
+                        id={buildID(baseId, ids.EMAIL_LBL)}
                         variant="caption"
                         className={classes.typography}
                     >
@@ -115,7 +115,7 @@ export default function UserMenu(props) {
                 </Grid>
                 <Grid item>
                     <Button
-                        id={build(baseId, ids.MANAGE_ACCOUNT_BTN)}
+                        id={buildID(baseId, ids.MANAGE_ACCOUNT_BTN)}
                         variant="outlined"
                         className={classes.button}
                         onClick={onManageAccountClick}
@@ -135,7 +135,7 @@ export default function UserMenu(props) {
             >
                 <Grid item>
                     <Button
-                        id={build(baseId, ids.LOGOUT_BUTTON)}
+                        id={buildID(baseId, ids.LOGOUT_BUTTON)}
                         variant="outlined"
                         className={classes.button}
                         onClick={onLogoutClick}
@@ -155,7 +155,7 @@ export default function UserMenu(props) {
             >
                 <Grid item>
                     <ExternalLink
-                        id={build(baseId, ids.POLICY_LINK)}
+                        id={buildID(baseId, ids.POLICY_LINK)}
                         href={constants.CYVERSE_POLICY_URL}
                     >
                         <Typography
@@ -171,7 +171,7 @@ export default function UserMenu(props) {
                 </Grid>
                 <Grid item>
                     <ExternalLink
-                        id={build(baseId, ids.ABOUT_LINK)}
+                        id={buildID(baseId, ids.ABOUT_LINK)}
                         href={constants.CYVERSE_ABOUT_URL}
                     >
                         <Typography

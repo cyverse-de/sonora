@@ -9,18 +9,16 @@ import { useMutation } from "react-query";
 import { Field, Form, Formik } from "formik";
 
 import DEDialog from "components/utils/DEDialog";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import ids from "./ids";
 import constants from "../../constants";
 import { toolRequest } from "serviceFacades/tools";
 import { nonEmptyField, urlField } from "components/utils/validations";
 
-import {
-    build,
-    announce,
-    FormMultilineTextField,
-    FormTextField,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
+import FormTextField from "components/forms/FormTextField";
 
 import Button from "@material-ui/core/Button";
 
@@ -85,7 +83,7 @@ export default function NewToolRequestDialog(props) {
                                 <Button
                                     color="primary"
                                     type="submit"
-                                    id={build(baseId, ids.BUTTONS.SUBMIT)}
+                                    id={buildID(baseId, ids.BUTTONS.SUBMIT)}
                                     aria-label={t("submit")}
                                     onClick={handleSubmit}
                                 >
@@ -106,7 +104,7 @@ export default function NewToolRequestDialog(props) {
                                 label={t("toolNameLabel")}
                                 required={true}
                                 margin="dense"
-                                id={build(baseId, ids.TOOL_REQUEST.NAME)}
+                                id={buildID(baseId, ids.TOOL_REQUEST.NAME)}
                                 component={FormTextField}
                                 validate={(value) => nonEmptyField(value, t)}
                             />
@@ -115,7 +113,10 @@ export default function NewToolRequestDialog(props) {
                                 label={t("toolDescLabel")}
                                 required={true}
                                 margin="dense"
-                                id={build(baseId, ids.TOOL_REQUEST.DESCRIPTION)}
+                                id={buildID(
+                                    baseId,
+                                    ids.TOOL_REQUEST.DESCRIPTION
+                                )}
                                 component={FormMultilineTextField}
                                 validate={(value) => nonEmptyField(value, t)}
                             />
@@ -125,7 +126,7 @@ export default function NewToolRequestDialog(props) {
                                 required={true}
                                 margin="dense"
                                 validate={(value) => urlField(value, i18nUtil)}
-                                id={build(baseId, ids.TOOL_REQUEST.SRC_LINK)}
+                                id={buildID(baseId, ids.TOOL_REQUEST.SRC_LINK)}
                                 component={FormTextField}
                             />
                             <Field
@@ -133,7 +134,7 @@ export default function NewToolRequestDialog(props) {
                                 label={t("toolVersionLabel")}
                                 required={true}
                                 margin="dense"
-                                id={build(baseId, ids.TOOL_REQUEST.VERSION)}
+                                id={buildID(baseId, ids.TOOL_REQUEST.VERSION)}
                                 component={FormTextField}
                                 validate={(value) => nonEmptyField(value, t)}
                             />
@@ -142,7 +143,7 @@ export default function NewToolRequestDialog(props) {
                                 label={t("toolDocumentationLabel")}
                                 required={true}
                                 margin="dense"
-                                id={build(
+                                id={buildID(
                                     baseId,
                                     ids.TOOL_REQUEST.DOCUMENTATION
                                 )}
@@ -154,7 +155,7 @@ export default function NewToolRequestDialog(props) {
                                 label={t("toolInstructionsLabel")}
                                 required={false}
                                 margin="dense"
-                                id={build(
+                                id={buildID(
                                     baseId,
                                     ids.TOOL_REQUEST.INSTRUCTIONS
                                 )}
@@ -165,7 +166,7 @@ export default function NewToolRequestDialog(props) {
                                 label={t("toolTestDataLabel")}
                                 required={false}
                                 margin="dense"
-                                id={build(
+                                id={buildID(
                                     baseId,
                                     ids.TOOL_REQUEST.TEST_DATA_LINK
                                 )}

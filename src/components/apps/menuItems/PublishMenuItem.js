@@ -1,6 +1,6 @@
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import PublicIcon from "@material-ui/icons/Public";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import { useTranslation } from "i18n";
@@ -11,7 +11,7 @@ export default function PublishMenuItem(props) {
     const { t } = useTranslation("apps");
     return (
         <MenuItem
-            id={build(baseId, ids.PUBLISH_MENU_ITEM)}
+            id={buildID(baseId, ids.PUBLISH_MENU_ITEM)}
             onClick={() => {
                 onClose();
                 onPublishSelected();

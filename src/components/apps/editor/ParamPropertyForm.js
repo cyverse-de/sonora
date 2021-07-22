@@ -34,7 +34,7 @@ import MultiFileSelector from "components/apps/launch/params/MultiFileSelector";
 
 import AppParamTypes from "components/models/AppParamTypes";
 
-import { build as buildID } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Button,

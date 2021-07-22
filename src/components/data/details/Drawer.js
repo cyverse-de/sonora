@@ -6,7 +6,7 @@
  */
 import React, { useState } from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Drawer, makeStyles, Typography } from "@material-ui/core";
 
 import { useTranslation } from "react-i18next";
@@ -44,9 +44,9 @@ function DetailsDrawer(props) {
         setSelectedTab(selectedTab);
     };
 
-    const drawerId = build(baseId, ids.DETAILS_DRAWER);
-    const detailsTabId = build(drawerId, ids.DETAILS_TAB);
-    const permissionsTabId = build(drawerId, ids.PERMISSIONS_TAB);
+    const drawerId = buildID(baseId, ids.DETAILS_DRAWER);
+    const detailsTabId = buildID(drawerId, ids.DETAILS_TAB);
+    const permissionsTabId = buildID(drawerId, ids.PERMISSIONS_TAB);
 
     return (
         <Drawer
@@ -71,13 +71,13 @@ function DetailsDrawer(props) {
                     value={TABS.details}
                     label={t("details")}
                     id={detailsTabId}
-                    aria-controls={build(detailsTabId, ids.PANEL)}
+                    aria-controls={buildID(detailsTabId, ids.PANEL)}
                 />
                 <DETab
                     value={TABS.permissions}
                     label={t("permissions")}
                     id={permissionsTabId}
-                    aria-controls={build(permissionsTabId, ids.PANEL)}
+                    aria-controls={buildID(permissionsTabId, ids.PANEL)}
                 />
             </DETabs>
             <DETabPanel

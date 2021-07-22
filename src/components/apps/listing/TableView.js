@@ -7,7 +7,12 @@
 
 import React from "react";
 import { useTranslation } from "i18n";
-import { build, DECheckbox, EmptyTable, Rate } from "@cyverse-de/ui-lib";
+
+import buildID from "components/utils/DebugIDUtil";
+import DECheckbox from "components/utils/DECheckbox";
+import EmptyTable from "components/table/EmptyTable";
+import Rate from "components/rating/Rate";
+import PageWrapper from "components/layout/PageWrapper";
 
 import {
     Paper,
@@ -22,11 +27,10 @@ import RowDotMenu from "./RowDotMenu";
 
 import AppStatusIcon from "../AppStatusIcon";
 import AppName from "../AppName";
-import DETableHead from "components/utils/DETableHead";
-import TableLoading from "components/utils/TableLoading";
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
-import PageWrapper from "components/layout/PageWrapper";
-import { DERow } from "components/utils/DERow";
+import DETableHead from "components/table/DETableHead";
+import TableLoading from "components/table/TableLoading";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import { DERow } from "components/table/DERow";
 import appFields from "../appFields";
 
 function getTableColumns(enableDelete, enableMenu, t) {
@@ -116,7 +120,7 @@ function TableView(props) {
     const { t } = useTranslation("apps");
     const apps = listing?.apps;
     const columnData = getTableColumns(enableDelete, enableMenu, t);
-    const tableId = build(baseId, ids.LISTING_TABLE);
+    const tableId = buildID(baseId, ids.LISTING_TABLE);
 
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
@@ -173,7 +177,11 @@ function TableView(props) {
                                     const appName = app.name;
                                     const isSelected =
                                         selected.indexOf(appId) !== -1;
-                                    const rowId = build(baseId, tableId, appId);
+                                    const rowId = buildID(
+                                        baseId,
+                                        tableId,
+                                        appId
+                                    );
                                     return (
                                         <DERow
                                             role="checkbox"
@@ -198,7 +206,7 @@ function TableView(props) {
                                                     <DECheckbox
                                                         checked={isSelected}
                                                         tabIndex={0}
-                                                        id={build(
+                                                        id={buildID(
                                                             rowId,
                                                             ids.checkbox
                                                         )}
@@ -222,7 +230,7 @@ function TableView(props) {
                                             )}
                                             <TableCell
                                                 padding="none"
-                                                id={build(
+                                                id={buildID(
                                                     rowId,
                                                     ids.APP_STATUS_ICON
                                                 )}
@@ -236,7 +244,7 @@ function TableView(props) {
                                             </TableCell>
                                             <TableCell>
                                                 <AppName
-                                                    baseDebugId={build(
+                                                    baseDebugId={buildID(
                                                         rowId,
                                                         ids.APP_NAME
                                                     )}
@@ -251,7 +259,7 @@ function TableView(props) {
                                                 />
                                             </TableCell>
                                             <TableCell
-                                                id={build(
+                                                id={buildID(
                                                     rowId,
                                                     ids.integratorName
                                                 )}
@@ -259,7 +267,7 @@ function TableView(props) {
                                                 {app.integrator_name}
                                             </TableCell>
                                             <TableCell
-                                                id={build(rowId, ids.RATING)}
+                                                id={buildID(rowId, ids.RATING)}
                                                 padding="none"
                                             >
                                                 <Rate
@@ -274,14 +282,17 @@ function TableView(props) {
                                             </TableCell>
                                             <TableCell
                                                 align="right"
-                                                id={build(rowId, ids.SYSTEM_ID)}
+                                                id={buildID(
+                                                    rowId,
+                                                    ids.SYSTEM_ID
+                                                )}
                                             >
                                                 {app.system_id}
                                             </TableCell>
                                             {enableMenu && (
                                                 <TableCell align="right">
                                                     <RowDotMenu
-                                                        baseId={build(
+                                                        baseId={buildID(
                                                             tableId,
                                                             appName
                                                         )}

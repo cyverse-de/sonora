@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import ids from "./ids";
 import styles from "./styles";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Accordion,
@@ -31,7 +31,7 @@ function SimpleExpansionPanel(props) {
             <AccordionSummary
                 expandIcon={
                     <ExpandMore
-                        id={build(parentId, ids.BUTTONS.EXPAND)}
+                        id={buildID(parentId, ids.BUTTONS.EXPAND)}
                         className={classes.paramsViewsExpandIcon}
                     />
                 }

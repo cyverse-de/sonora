@@ -5,12 +5,11 @@
  */
 import React, { useState } from "react";
 
-import {
-    announce,
-    AnnouncerConstants,
-    build,
-    FormTextField,
-} from "@cyverse-de/ui-lib";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { INFO } from "components/announcer/AnnouncerConstants";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
+
 import {
     Button,
     CircularProgress,
@@ -21,7 +20,7 @@ import { Field, Form, Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
 
-import { ERROR_CODES, getErrorCode } from "../utils/error/errorCode";
+import { ERROR_CODES, getErrorCode } from "../error/errorCode";
 import DEDialog from "components/utils/DEDialog";
 import ids from "./ids";
 import {
@@ -48,7 +47,7 @@ function RenameDialog(props) {
             setRenameError(null);
             announce({
                 text: t("asyncRenamePending"),
-                variant: AnnouncerConstants.INFO,
+                variant: INFO,
             });
             resetForm();
             onRenamed();
@@ -98,13 +97,13 @@ function RenameDialog(props) {
                             actions={
                                 <>
                                     <Button
-                                        id={build(baseId, ids.CANCEL_BTN)}
+                                        id={buildID(baseId, ids.CANCEL_BTN)}
                                         onClick={onClose}
                                     >
                                         {t("cancel")}
                                     </Button>
                                     <Button
-                                        id={build(baseId, ids.RENAME_BTN)}
+                                        id={buildID(baseId, ids.RENAME_BTN)}
                                         color="primary"
                                         type="submit"
                                         onClick={handleSubmit}
@@ -120,7 +119,7 @@ function RenameDialog(props) {
                                 {t("path")}: {getParentPath(path)}
                             </Typography>
                             <Field
-                                id={build(baseId, ids.NAME)}
+                                id={buildID(baseId, ids.NAME)}
                                 name="name"
                                 required={true}
                                 label={t("name")}
@@ -136,7 +135,7 @@ function RenameDialog(props) {
                                             {isLoading && (
                                                 <InputAdornment position="start">
                                                     <CircularProgress
-                                                        id={build(
+                                                        id={buildID(
                                                             baseId,
                                                             ids.FOLDER_NAME,
                                                             ids.LOADING_SKELETON

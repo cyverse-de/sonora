@@ -7,11 +7,11 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 import { queryCache, useMutation, useQuery } from "react-query";
 
-import { Rate } from "@cyverse-de/ui-lib";
+import Rate from "components/rating/Rate";
 
 import constants from "../../constants";
 import { getAppById, rateApp, APP_BY_ID_QUERY_KEY } from "serviceFacades/apps";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 import { Grid, Typography } from "@material-ui/core";
 

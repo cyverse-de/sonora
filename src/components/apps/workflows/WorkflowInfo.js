@@ -11,11 +11,9 @@ import { useTranslation } from "i18n";
 
 import ids from "./ids";
 
-import {
-    build as buildID,
-    FormTextField,
-    FormMultilineTextField,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
 
 export default function WorkflowInfo(props) {
     const { baseId, cosmeticOnly } = props;

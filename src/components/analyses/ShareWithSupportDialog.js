@@ -22,7 +22,8 @@ import ExternalLink from "components/utils/ExternalLink";
 import GridLabelValue from "components/utils/GridLabelValue";
 import UtilIds from "components/utils/ids";
 
-import { build, formatDate } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { formatDate } from "components/utils/DateFormatter";
 
 import {
     Button,
@@ -325,7 +326,7 @@ function RunningStateSupport(props) {
                             ),
                             support: (
                                 <Link
-                                    id={build(
+                                    id={buildID(
                                         baseId,
                                         UtilIds.CONTACT_SUPPORT_BUTTON
                                     )}
@@ -455,7 +456,7 @@ const ShareWithSupportDialog = ({
     const { t } = useTranslation("analyses");
 
     const status = analysis.status;
-    const baseDebugID = build(baseId, ids.SHARE_WITH_SUPPORT);
+    const baseDebugID = buildID(baseId, ids.SHARE_WITH_SUPPORT);
 
     return (
         <Dialog open={open} onClose={onClose}>
@@ -507,7 +508,7 @@ const ShareWithSupportDialog = ({
                             email={email}
                         />
                         <TextField
-                            id={build(baseDebugID, ids.COMMENTS)}
+                            id={buildID(baseDebugID, ids.COMMENTS)}
                             placeholder={t("comments")}
                             fullWidth
                             multiline
@@ -537,7 +538,7 @@ const ShareWithSupportDialog = ({
             </DialogContent>
             <DialogActions>
                 <Button
-                    id={build(baseDebugID, ids.DIALOG.CANCEL)}
+                    id={buildID(baseDebugID, ids.DIALOG.CANCEL)}
                     variant="outlined"
                     disabled={loading}
                     onClick={() => {
@@ -550,7 +551,7 @@ const ShareWithSupportDialog = ({
 
                 {shareWithSupport ? (
                     <Button
-                        id={build(baseDebugID, ids.DIALOG.SUBMIT)}
+                        id={buildID(baseDebugID, ids.DIALOG.SUBMIT)}
                         variant="contained"
                         color="primary"
                         disabled={!enableSubmit || loading}
@@ -562,7 +563,7 @@ const ShareWithSupportDialog = ({
                     </Button>
                 ) : (
                     <Button
-                        id={build(baseDebugID, ids.DIALOG.MORE_HELP)}
+                        id={buildID(baseDebugID, ids.DIALOG.MORE_HELP)}
                         variant="contained"
                         color="primary"
                         onClick={() => {

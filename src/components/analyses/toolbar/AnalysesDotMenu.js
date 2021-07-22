@@ -25,7 +25,8 @@ import {
     useRelaunchLink,
 } from "../utils";
 
-import { build, DotMenu } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import DotMenu from "components/dotMenu/DotMenu";
 import {
     Hidden,
     ListItemIcon,
@@ -56,8 +57,8 @@ const RelaunchMenuItem = React.forwardRef((props, ref) => {
     const { t } = useTranslation("analyses");
     return (
         <MenuItem
-            key={build(baseId, ids.MENUITEM_RELAUNCH)}
-            id={build(baseId, ids.MENUITEM_RELAUNCH)}
+            key={buildID(baseId, ids.MENUITEM_RELAUNCH)}
+            id={buildID(baseId, ids.MENUITEM_RELAUNCH)}
             href={href}
             onClick={onClick}
             ref={ref}
@@ -83,8 +84,8 @@ const OutputFolderMenuItem = React.forwardRef((props, ref) => {
     const terminated = isTerminated(analysis);
     return (
         <MenuItem
-            key={build(baseId, ids.MENUITEM_GO_TO_FOLDER)}
-            id={build(baseId, ids.MENUITEM_GO_TO_FOLDER)}
+            key={buildID(baseId, ids.MENUITEM_GO_TO_FOLDER)}
+            id={buildID(baseId, ids.MENUITEM_GO_TO_FOLDER)}
             href={href}
             onClick={(event) => {
                 if (terminated) {
@@ -144,8 +145,8 @@ function DotMenuItems(props) {
         <Hidden mdUp>
             {isSingleSelection && (
                 <MenuItem
-                    key={build(baseId, ids.MENUITEM_DETAILS)}
-                    id={build(baseId, ids.MENUITEM_DETAILS)}
+                    key={buildID(baseId, ids.MENUITEM_DETAILS)}
+                    id={buildID(baseId, ids.MENUITEM_DETAILS)}
                     onClick={() => {
                         onClose();
                         onDetailsSelected();
@@ -159,7 +160,7 @@ function DotMenuItems(props) {
             )}
             {canShare && (
                 <SharingMenuItem
-                    key={build(baseId, shareIds.SHARING_MENU_ITEM)}
+                    key={buildID(baseId, shareIds.SHARING_MENU_ITEM)}
                     baseId={baseId}
                     onClose={onClose}
                     setSharingDlgOpen={setSharingDlgOpen}
@@ -183,8 +184,8 @@ function DotMenuItems(props) {
         ),
         !isSingleSelection && allowRelaunch && (
             <MenuItem
-                key={build(baseId, ids.MENUITEM_RELAUNCH)}
-                id={build(baseId, ids.MENUITEM_RELAUNCH)}
+                key={buildID(baseId, ids.MENUITEM_RELAUNCH)}
+                id={buildID(baseId, ids.MENUITEM_RELAUNCH)}
                 onClick={() => {
                     onClose();
                     handleRelaunch(selectedAnalyses);
@@ -198,8 +199,8 @@ function DotMenuItems(props) {
         ),
         allowEdit && (
             <MenuItem
-                key={build(baseId, ids.MENUITEM_RENAME)}
-                id={build(baseId, ids.MENUITEM_RENAME)}
+                key={buildID(baseId, ids.MENUITEM_RENAME)}
+                id={buildID(baseId, ids.MENUITEM_RENAME)}
                 onClick={() => {
                     onClose();
                     handleRename(selectedAnalyses[0]);
@@ -213,8 +214,8 @@ function DotMenuItems(props) {
         ),
         allowEdit && (
             <MenuItem
-                key={build(baseId, ids.MENUITEM_UPDATE_COMMENTS)}
-                id={build(baseId, ids.MENUITEM_UPDATE_COMMENTS)}
+                key={buildID(baseId, ids.MENUITEM_UPDATE_COMMENTS)}
+                id={buildID(baseId, ids.MENUITEM_UPDATE_COMMENTS)}
                 onClick={() => {
                     onClose();
                     handleComments(selectedAnalyses[0]);
@@ -228,8 +229,8 @@ function DotMenuItems(props) {
         ),
         isBatch && (
             <MenuItem
-                key={build(baseId, ids.MENUITEM_BATCH_FILTER)}
-                id={build(baseId, ids.MENUITEM_BATCH_FILTER)}
+                key={buildID(baseId, ids.MENUITEM_BATCH_FILTER)}
+                id={buildID(baseId, ids.MENUITEM_BATCH_FILTER)}
                 onClick={(event) => {
                     onClose();
                     event.stopPropagation();
@@ -244,8 +245,8 @@ function DotMenuItems(props) {
         ),
         isVICE && (
             <MenuItem
-                key={build(baseId, ids.MENUITEM_GOTO_VICE)}
-                id={build(baseId, ids.MENUITEM_GOTO_VICE)}
+                key={buildID(baseId, ids.MENUITEM_GOTO_VICE)}
+                id={buildID(baseId, ids.MENUITEM_GOTO_VICE)}
                 onClick={() => {
                     onClose();
                     handleInteractiveUrlClick();
@@ -259,8 +260,8 @@ function DotMenuItems(props) {
         ),
         allowTimeExtn && (
             <MenuItem
-                key={build(baseId, ids.MENUITEM_EXTEND_TIME_LIMIT)}
-                id={build(baseId, ids.MENUITEM_EXTEND_TIME_LIMIT)}
+                key={buildID(baseId, ids.MENUITEM_EXTEND_TIME_LIMIT)}
+                id={buildID(baseId, ids.MENUITEM_EXTEND_TIME_LIMIT)}
                 onClick={() => {
                     onClose();
                     handleTimeLimitExtnClick();
@@ -274,8 +275,8 @@ function DotMenuItems(props) {
         ),
         allowCancel && (
             <MenuItem
-                key={build(baseId, ids.MENUITEM_CANCEL)}
-                id={build(baseId, ids.MENUITEM_CANCEL)}
+                key={buildID(baseId, ids.MENUITEM_CANCEL)}
+                id={buildID(baseId, ids.MENUITEM_CANCEL)}
                 onClick={() => {
                     onClose();
                     handleTerminateSelected();
@@ -289,8 +290,8 @@ function DotMenuItems(props) {
         ),
         allowDelete && (
             <MenuItem
-                key={build(baseId, ids.MENUITEM_DELETE)}
-                id={build(baseId, ids.MENUITEM_DELETE)}
+                key={buildID(baseId, ids.MENUITEM_DELETE)}
+                id={buildID(baseId, ids.MENUITEM_DELETE)}
                 onClick={() => {
                     onClose();
                     handleDelete(selectedAnalyses);
@@ -304,8 +305,8 @@ function DotMenuItems(props) {
         ),
         isMobile && (
             <MenuItem
-                key={build(baseId, ids.MENUITEM_FILTER)}
-                id={build(baseId, ids.MENUITEM_FILTER)}
+                key={buildID(baseId, ids.MENUITEM_FILTER)}
+                id={buildID(baseId, ids.MENUITEM_FILTER)}
                 onClick={() => {
                     onClose();
                     onFilterSelected();
@@ -319,8 +320,8 @@ function DotMenuItems(props) {
         ),
         hasSelection && (
             <MenuItem
-                key={build(baseId, ids.MENUITEM_ADD_TO_BAG)}
-                id={build(baseId, ids.MENUITEM_ADD_TO_BAG)}
+                key={buildID(baseId, ids.MENUITEM_ADD_TO_BAG)}
+                id={buildID(baseId, ids.MENUITEM_ADD_TO_BAG)}
                 onClick={() => {
                     onClose();
                     onAddToBagSelected();

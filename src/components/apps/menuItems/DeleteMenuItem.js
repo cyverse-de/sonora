@@ -6,7 +6,7 @@ import React from "react";
 import { useTranslation } from "i18n";
 import ids from "../ids";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 
@@ -19,7 +19,7 @@ export default function DeleteMenuItem(props) {
 
     return (
         <MenuItem
-            id={build(baseId, ids.DELETE)}
+            id={buildID(baseId, ids.DELETE)}
             onClick={() => {
                 handleDelete();
                 onClose();

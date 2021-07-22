@@ -25,9 +25,9 @@ import { getColumns, LINE_NUMBER_ACCESSOR } from "./utils";
 import DataSelectionDrawer from "components/data/SelectionDrawer";
 import PageWrapper from "components/layout/PageWrapper";
 
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Checkbox,
@@ -159,7 +159,7 @@ function PathListViewer(props) {
     return (
         <PageWrapper appBarHeight={120}>
             <Toolbar
-                baseId={build(baseId, ids.VIEWER_STRUCTURED, ids.TOOLBAR)}
+                baseId={buildID(baseId, ids.VIEWER_STRUCTURED, ids.TOOLBAR)}
                 path={path}
                 resourceId={resourceId}
                 allowLineNumbers={true}
@@ -209,7 +209,7 @@ function PathListViewer(props) {
             )}
             <TableContainer component={Paper} style={{ overflow: "auto" }}>
                 <Table
-                    id={build(baseId, ids.VIEWER_STRUCTURED, fileName)}
+                    id={buildID(baseId, ids.VIEWER_STRUCTURED, fileName)}
                     size="small"
                     stickyHeader
                     {...getTableProps()}

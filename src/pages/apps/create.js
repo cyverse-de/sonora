@@ -9,7 +9,7 @@ import AppEditor from "components/apps/editor";
 import NewAppDefaults from "components/apps/editor/NewAppDefaults";
 import ids from "components/apps/editor/ids";
 
-import { signInErrorResponse } from "components/utils/error/errorCode";
+import { signInErrorResponse } from "components/error/errorCode";
 
 import { useUserProfile } from "contexts/userProfile";
 

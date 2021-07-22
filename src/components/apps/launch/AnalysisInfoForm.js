@@ -14,18 +14,16 @@ import ids from "./ids";
 
 import InputSelector from "./InputSelector";
 
-import {
-    build as buildDebugId,
-    FormMultilineTextField,
-    FormTextField,
-} from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
 
 const AnalysisInfoForm = ({ formId }) => {
     const { t } = useTranslation("launch");
     return (
         <>
             <FastField
-                id={buildDebugId(
+                id={buildID(
                     formId,
                     ids.LAUNCH_ANALYSIS_GROUP,
                     ids.APP_LAUNCH_NAME
@@ -39,7 +37,7 @@ const AnalysisInfoForm = ({ formId }) => {
                 inputProps={{ maxLength: 255 }}
             />
             <FastField
-                id={buildDebugId(
+                id={buildID(
                     formId,
                     ids.LAUNCH_ANALYSIS_GROUP,
                     ids.APP_LAUNCH_COMMENTS
@@ -49,7 +47,7 @@ const AnalysisInfoForm = ({ formId }) => {
                 component={FormMultilineTextField}
             />
             <FastField
-                id={buildDebugId(
+                id={buildID(
                     formId,
                     ids.LAUNCH_ANALYSIS_GROUP,
                     ids.APP_LAUNCH_OUTPUT_FOLDER

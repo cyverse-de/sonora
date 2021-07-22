@@ -13,7 +13,8 @@ import shareIds from "components/sharing/ids";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
 import { isWritable } from "../utils";
 
-import { build, DotMenu } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import DotMenu from "components/dotMenu/DotMenu";
 
 import {
     Hidden,
@@ -52,8 +53,8 @@ function DotMenuItems(props) {
         <Hidden mdUp key="hiddenMdUp">
             {isSingleSelection && (
                 <MenuItem
-                    key={build(baseId, ids.MANAGE_TOOLS.TOOL_INFO_MI)}
-                    id={build(baseId, ids.MANAGE_TOOLS.TOOL_INFO_MI)}
+                    key={buildID(baseId, ids.MANAGE_TOOLS.TOOL_INFO_MI)}
+                    id={buildID(baseId, ids.MANAGE_TOOLS.TOOL_INFO_MI)}
                     onClick={() => {
                         onClose();
                         onDetailsSelected();
@@ -67,7 +68,7 @@ function DotMenuItems(props) {
             )}
             {!isAdmin && canShare && (
                 <SharingMenuItem
-                    key={build(baseId, shareIds.SHARING_MENU_ITEM)}
+                    key={buildID(baseId, shareIds.SHARING_MENU_ITEM)}
                     baseId={baseId}
                     onClose={onClose}
                     setSharingDlgOpen={setSharingDlgOpen}
@@ -76,8 +77,8 @@ function DotMenuItems(props) {
         </Hidden>,
 
         <MenuItem
-            key={build(baseId, ids.MANAGE_TOOLS.ADD_TOOL_MI)}
-            id={build(baseId, ids.MANAGE_TOOLS.ADD_TOOL_MI)}
+            key={buildID(baseId, ids.MANAGE_TOOLS.ADD_TOOL_MI)}
+            id={buildID(baseId, ids.MANAGE_TOOLS.ADD_TOOL_MI)}
             onClick={() => {
                 onClose();
                 onAddToolSelected();
@@ -91,8 +92,8 @@ function DotMenuItems(props) {
 
         allowEditing && (
             <MenuItem
-                key={build(baseId, ids.MANAGE_TOOLS.EDIT_TOOL_MI)}
-                id={build(baseId, ids.MANAGE_TOOLS.EDIT_TOOL_MI)}
+                key={buildID(baseId, ids.MANAGE_TOOLS.EDIT_TOOL_MI)}
+                id={buildID(baseId, ids.MANAGE_TOOLS.EDIT_TOOL_MI)}
                 onClick={() => {
                     onClose();
                     onEditToolSelected();
@@ -107,8 +108,8 @@ function DotMenuItems(props) {
 
         allowDeletes && (
             <MenuItem
-                key={build(baseId, ids.MANAGE_TOOLS.DELETE_TOOL_MI)}
-                id={build(baseId, ids.MANAGE_TOOLS.DELETE_TOOL_MI)}
+                key={buildID(baseId, ids.MANAGE_TOOLS.DELETE_TOOL_MI)}
+                id={buildID(baseId, ids.MANAGE_TOOLS.DELETE_TOOL_MI)}
                 onClick={() => {
                     onClose();
                     onDeleteToolSelected();
@@ -123,8 +124,8 @@ function DotMenuItems(props) {
 
         !isAdmin && (
             <MenuItem
-                key={build(baseId, ids.MANAGE_TOOLS.REQUEST_TOOL_MI)}
-                id={build(baseId, ids.MANAGE_TOOLS.REQUEST_TOOL_MI)}
+                key={buildID(baseId, ids.MANAGE_TOOLS.REQUEST_TOOL_MI)}
+                id={buildID(baseId, ids.MANAGE_TOOLS.REQUEST_TOOL_MI)}
                 onClick={() => {
                     onClose();
                     onRequestToolSelected();
@@ -139,8 +140,8 @@ function DotMenuItems(props) {
 
         isMobile && (
             <MenuItem
-                key={build(baseId, ids.MANAGE_TOOLS.FILTER_TOOLS_MI)}
-                id={build(baseId, ids.MANAGE_TOOLS.FILTER_TOOLS_MI)}
+                key={buildID(baseId, ids.MANAGE_TOOLS.FILTER_TOOLS_MI)}
+                id={buildID(baseId, ids.MANAGE_TOOLS.FILTER_TOOLS_MI)}
                 onClick={() => {
                     onClose();
                     onFilterSelected();

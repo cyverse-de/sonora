@@ -11,7 +11,8 @@ import { useTranslation } from "i18n";
 
 import ids from "../../ids";
 
-import { build as buildID, FormCheckbox } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormCheckbox from "components/forms/FormCheckbox";
 
 export default function VisibleField(props) {
     const { baseId, fieldName, ...custom } = props;

@@ -7,9 +7,10 @@
 import React, { useState } from "react";
 
 import ids from "./ids";
-import DETableHead from "components/utils/DETableHead";
-import { formatDate, stableSort, getSorting } from "@cyverse-de/ui-lib";
+import DETableHead from "components/table/DETableHead";
 
+import { formatDate } from "components/utils/DateFormatter";
+import { stableSort, getSorting } from "components/table/TableSort";
 import {
     Table,
     TableRow,

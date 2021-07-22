@@ -26,7 +26,7 @@ import {
     USER_PROFILE_QUERY_KEY,
 } from "serviceFacades/users";
 import constants from "../../constants";
-import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "../error/withErrorAnnouncer";
 import CustomIntercom from "./CustomIntercom";
 import DrawerItems from "./DrawerItems";
 import ids from "./ids";
@@ -36,7 +36,9 @@ import UserMenu from "./UserMenu";
 
 import SvgDEAppBarLogo from "components/icons/DEAppBarLogo";
 
-import { build, CyVerseAnnouncer } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import CyVerseAnnouncer from "components/announcer/CyVerseAnnouncer";
+
 import {
     AppBar,
     Avatar,
@@ -351,7 +353,7 @@ function DEAppBar(props) {
                         />
                     </div>
                     <Hidden xsDown>
-                        <div id={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}>
+                        <div id={buildID(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}>
                             {accountAvatar}
                         </div>
                     </Hidden>
@@ -399,12 +401,15 @@ function DEAppBar(props) {
                 </Hidden>
                 <Hidden smUp>
                     <div
-                        id={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
+                        id={buildID(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
                         style={{ margin: 8 }}
                     >
                         {userProfile ? (
                             <UserMenu
-                                baseId={build(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
+                                baseId={buildID(
+                                    ids.DRAWER_MENU,
+                                    ids.ACCOUNT_MI
+                                )}
                                 profile={userProfile}
                                 onLogoutClick={onLogoutClick}
                                 onManageAccountClick={() =>
@@ -444,7 +449,7 @@ function DEAppBar(props) {
                 }}
             >
                 <UserMenu
-                    baseId={build(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}
+                    baseId={buildID(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}
                     profile={userProfile}
                     onLogoutClick={onLogoutClick}
                     onManageAccountClick={() =>

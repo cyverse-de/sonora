@@ -9,7 +9,7 @@
  */
 import React, { useEffect, useState } from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import {
     Button,
     Drawer,
@@ -37,7 +37,7 @@ function ToolbarButtons(props) {
     return (
         <>
             <Button
-                id={build(baseId, ids.CANCEL_BTN)}
+                id={buildID(baseId, ids.CANCEL_BTN)}
                 onClick={onClose}
                 variant="outlined"
                 size="small"
@@ -47,7 +47,7 @@ function ToolbarButtons(props) {
 
             {hasSelection && !hasError && (
                 <Button
-                    id={build(baseId, ids.OK_BTN)}
+                    id={buildID(baseId, ids.OK_BTN)}
                     color={"primary"}
                     onClick={onConfirm}
                     variant="contained"
@@ -71,7 +71,7 @@ function SelectionToolbar(props) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
-    const toolbarId = build(baseId, ids.SELECTION_TOOLBAR);
+    const toolbarId = buildID(baseId, ids.SELECTION_TOOLBAR);
 
     const errorMsg = validateSelection
         ? validateSelection(selectedApps)
@@ -133,7 +133,7 @@ function SearchToolbar(props) {
             <TextField
                 fullWidth
                 variant="outlined"
-                id={build(baseId, ids.SEARCH)}
+                id={buildID(baseId, ids.SEARCH)}
                 value={searchText}
                 onChange={handleInputChange}
                 className={classes.searchField}

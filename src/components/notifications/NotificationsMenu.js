@@ -8,11 +8,11 @@ import {
 } from "../../serviceFacades/notifications";
 import { useTranslation } from "../../i18n";
 import ids from "./ids";
-import withErrorAnnouncer from "../utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "../error/withErrorAnnouncer";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { ListItem, Menu } from "@material-ui/core";
-import NotLoggedIn from "../utils/error/NotLoggedIn";
+import NotLoggedIn from "../error/NotLoggedIn";
 import { DETab, DETabPanel, DETabs } from "../utils/DETabs";
 import NotificationsTab from "./NotificationsTab";
 import RunningViceTab from "./RunningViceTab";
@@ -111,12 +111,12 @@ function NotificationsMenu(props) {
     const onTabSelectionChange = (event, selectedTab) =>
         setSelectedTab(selectedTab);
 
-    const notificationTabId = build(
+    const notificationTabId = buildID(
         ids.BASE_DEBUG_ID,
         ids.NOTIFICATIONS_MENU,
         ids.NOTIFICATIONS_HEADER
     );
-    const viceTabId = build(
+    const viceTabId = buildID(
         ids.BASE_DEBUG_ID,
         ids.NOTIFICATIONS_MENU,
         ids.VICE_HEADER
@@ -125,7 +125,7 @@ function NotificationsMenu(props) {
     return (
         <Menu
             anchorEl={anchorEl}
-            id={build(ids.BASE_DEBUG_ID, ids.NOTIFICATIONS_MENU)}
+            id={buildID(ids.BASE_DEBUG_ID, ids.NOTIFICATIONS_MENU)}
             open={Boolean(anchorEl)}
             onClose={handleClose}
         >
@@ -140,13 +140,13 @@ function NotificationsMenu(props) {
                         value={TABS.NOTIFICATIONS}
                         label={t("notifications")}
                         id={notificationTabId}
-                        aria-controls={build(notificationTabId, ids.PANEL)}
+                        aria-controls={buildID(notificationTabId, ids.PANEL)}
                     />
                     <DETab
                         value={TABS.VICE}
                         label={t("vice")}
                         id={viceTabId}
-                        aria-controls={build(viceTabId, ids.PANEL)}
+                        aria-controls={buildID(viceTabId, ids.PANEL)}
                     />
                 </DETabs>,
                 <DETabPanel
@@ -169,7 +169,7 @@ function NotificationsMenu(props) {
                     selectedTab={selectedTab}
                 >
                     <RunningViceTab
-                        baseId={build(viceTabId, ids.PANEL)}
+                        baseId={buildID(viceTabId, ids.PANEL)}
                         runningViceJobs={runningViceJobs}
                         handleClose={handleClose}
                         isFetching={isFetchingRunningVice}

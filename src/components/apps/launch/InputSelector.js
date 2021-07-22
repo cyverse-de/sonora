@@ -12,7 +12,7 @@ import {
     useSelectorDefaultFolderPath,
 } from "components/data/utils";
 import DataSelectionDrawer from "components/data/SelectionDrawer";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import { UploadTrackingProvider } from "contexts/uploadTracking";
 import { useBootstrapInfo } from "contexts/bootstrap";
@@ -22,7 +22,8 @@ import { useSavePreferences } from "serviceFacades/users";
 import ids from "./ids";
 import styles from "./styles";
 
-import { build as buildDebugId, FormTextField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
 
 import {
     Button,
@@ -55,7 +56,7 @@ const BrowseButton = (props) => {
     return (
         <>
             <Button
-                id={buildDebugId(baseId, ids.BUTTONS.BROWSE)}
+                id={buildID(baseId, ids.BUTTONS.BROWSE)}
                 disabled={disabled}
                 color="primary"
                 size="small"
@@ -74,7 +75,7 @@ const BrowseButton = (props) => {
                         setOpen(false);
                         onConfirm(selections);
                     }}
-                    baseId={buildDebugId(baseId, "dataSelection")}
+                    baseId={buildID(baseId, "dataSelection")}
                     multiSelect={multiSelect}
                 />
             </UploadTrackingProvider>
@@ -131,7 +132,7 @@ const InputSelector = ({
     if (field.value && !required && !props.disabled) {
         inputProps.endAdornment = (
             <IconButton
-                id={buildDebugId(field.name, ids.BUTTONS.DELETE)}
+                id={buildID(field.name, ids.BUTTONS.DELETE)}
                 aria-label={t("clearInput")}
                 size="small"
                 onClick={() => setFieldValue(field.name, "")}

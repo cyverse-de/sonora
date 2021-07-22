@@ -7,7 +7,7 @@
 import React from "react";
 import { useTranslation } from "i18n";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import ids from "./ids";
 
@@ -38,7 +38,7 @@ function DEDialog(props) {
     const { t } = useTranslation("common");
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
-    const dialogTitleId = build(baseId, ids.DIALOG.TITLE);
+    const dialogTitleId = buildID(baseId, ids.DIALOG.TITLE);
     return (
         <Dialog
             id={baseId}

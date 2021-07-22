@@ -5,7 +5,7 @@
  */
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Delete } from "@material-ui/icons";
 import { Button, IconButton } from "@material-ui/core";
 import PropTypes from "prop-types";
@@ -31,7 +31,7 @@ function DeleteButton(props) {
 
     return (
         <Component
-            id={build(baseId, ids.BUTTONS.DELETE)}
+            id={buildID(baseId, ids.BUTTONS.DELETE)}
             aria-label={ariaLabel || t("delete")}
             className={isButton ? classes.deleteBtn : null}
             classes={!isButton ? { root: classes.deleteBtn } : null}

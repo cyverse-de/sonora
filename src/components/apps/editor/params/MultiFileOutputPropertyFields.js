@@ -18,7 +18,7 @@ import LabelField from "./common/LabelField";
 import RequiredField from "./common/RequiredField";
 import VisibleField from "./common/VisibleField";
 
-import { FormTextField } from "@cyverse-de/ui-lib";
+import FormTextField from "components/forms/FormTextField";
 
 import { Grid } from "@material-ui/core";
 

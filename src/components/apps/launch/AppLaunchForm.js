@@ -30,7 +30,8 @@ import {
     ResourceRequirementsReview,
 } from "./ResourceRequirements";
 
-import { build as buildDebugId, getFormError } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import getFormError from "components/forms/getFormError";
 
 import {
     Button,
@@ -70,7 +71,7 @@ const StepperNavigation = (props) => {
         >
             {showBackButton && (
                 <Button
-                    id={buildDebugId(formId, ids.BUTTONS.STEP_BACK)}
+                    id={buildID(formId, ids.BUTTONS.STEP_BACK)}
                     disabled={backDisabled}
                     startIcon={<ArrowBack />}
                     onClick={handleBack}
@@ -80,7 +81,7 @@ const StepperNavigation = (props) => {
             )}
             {showSaveQuickLaunchButton && (
                 <Button
-                    id={buildDebugId(formId, ids.BUTTONS.SAVE_AS_QUICK_LAUNCH)}
+                    id={buildID(formId, ids.BUTTONS.SAVE_AS_QUICK_LAUNCH)}
                     startIcon={<Save />}
                     onClick={handleSaveQuickLaunch}
                 >
@@ -89,7 +90,7 @@ const StepperNavigation = (props) => {
             )}
             {showSubmitButton && (
                 <Button
-                    id={buildDebugId(formId, ids.BUTTONS.SUBMIT)}
+                    id={buildID(formId, ids.BUTTONS.SUBMIT)}
                     startIcon={<PlayArrow />}
                     onClick={(event) => handleSubmit(event)}
                 >
@@ -98,7 +99,7 @@ const StepperNavigation = (props) => {
             )}
             {showNextButton && (
                 <Button
-                    id={buildDebugId(formId, ids.BUTTONS.STEP_NEXT)}
+                    id={buildID(formId, ids.BUTTONS.STEP_NEXT)}
                     disabled={nextDisabled}
                     endIcon={<ArrowForward />}
                     onClick={handleNext}
@@ -167,13 +168,10 @@ const AppLaunchForm = (props) => {
         app: { id: app_id, name: appName, app_type, groups, requirements },
     } = props;
 
-    const formId = buildDebugId(baseId, ids.APP_LAUNCH_FORM);
-    const stepIdParams = buildDebugId(formId, ids.TEMPLATE_GROUP);
-    const stepIdResources = buildDebugId(
-        formId,
-        ids.APP_LAUNCH_RESOURCE_REQUESTS
-    );
-    const stepIdReview = buildDebugId(formId, ids.APP_LAUNCH_REVIEW);
+    const formId = buildID(baseId, ids.APP_LAUNCH_FORM);
+    const stepIdParams = buildID(formId, ids.TEMPLATE_GROUP);
+    const stepIdResources = buildID(formId, ids.APP_LAUNCH_RESOURCE_REQUESTS);
+    const stepIdReview = buildID(formId, ids.APP_LAUNCH_REVIEW);
 
     const hasParams = groups?.find((group) => group.parameters?.length > 0);
 
@@ -353,7 +351,7 @@ const AppLaunchForm = (props) => {
                                         key={group.id}
                                         index={index + 1}
                                         noOfGroups={groups.length}
-                                        baseId={buildDebugId(
+                                        baseId={buildID(
                                             stepIdParams,
                                             index + 1
                                         )}

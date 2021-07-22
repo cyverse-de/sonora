@@ -10,7 +10,7 @@ import { useTranslation } from "i18n";
 
 import ids from "./ids";
 import { Hidden, IconButton, Tooltip } from "@material-ui/core";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     GridOn as GridIcon,
@@ -24,12 +24,12 @@ function DisplayTypeSelector(props) {
         <Hidden smDown>
             {isGridView && (
                 <Tooltip
-                    id={build(baseId, ids.TABLE_VIEW_BTN, ids.TOOLTIP)}
+                    id={buildID(baseId, ids.TABLE_VIEW_BTN, ids.TOOLTIP)}
                     title={t("tableView")}
                     aria-label={t("tableView")}
                 >
                     <IconButton
-                        id={build(baseId, ids.TABLE_VIEW_BTN)}
+                        id={buildID(baseId, ids.TABLE_VIEW_BTN)}
                         edge="start"
                         onClick={() => toggleDisplay()}
                         color="primary"
@@ -40,12 +40,12 @@ function DisplayTypeSelector(props) {
             )}
             {!isGridView && (
                 <Tooltip
-                    id={build(baseId, ids.GRID_VIEW_BTN, ids.TOOLTIP)}
+                    id={buildID(baseId, ids.GRID_VIEW_BTN, ids.TOOLTIP)}
                     title={t("gridView")}
                     aria-label={t("gridView")}
                 >
                     <IconButton
-                        id={build(baseId, ids.GRID_VIEW_BTN)}
+                        id={buildID(baseId, ids.GRID_VIEW_BTN)}
                         edge="start"
                         onClick={() => toggleDisplay()}
                         color="primary"

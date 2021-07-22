@@ -16,9 +16,9 @@ import { getAnalysesSearchQueryFilter } from "../analysesSearchQueryBuilder";
 import searchConstants from "../constants";
 import constants from "../../../constants";
 
-import { formatDate } from "@cyverse-de/ui-lib";
+import { formatDate } from "components/utils/DateFormatter";
 
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import NavigationConstants from "common/NavigationConstants";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
 import analysisFields from "components/analyses/analysisFields";

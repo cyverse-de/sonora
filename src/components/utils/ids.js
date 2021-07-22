@@ -31,4 +31,7 @@ export default {
     BUTTONS: {
         DELETE: "deleteBtn",
     },
+    errorHandlerDlg: "errorHandlerDlg",
+    HELPER_TEXT: "helper-text",
+    okBtn: "okBtn",
 };

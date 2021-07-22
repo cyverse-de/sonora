@@ -8,7 +8,7 @@
  */
 import React, { useState } from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Button, Drawer, makeStyles, Toolbar } from "@material-ui/core";
 import { BugReport, Info } from "@material-ui/icons";
 
@@ -42,13 +42,13 @@ function ViceLoadingToolbar(props) {
     const onContactSupport = () => setContactSupportDlgOpen(true);
     const onCloseContactSupport = () => setContactSupportDlgOpen(false);
 
-    const toolbarId = build(parentId, ids.TOOLBAR);
+    const toolbarId = buildID(parentId, ids.TOOLBAR);
 
     return (
         <>
             <Toolbar id={toolbarId} variant="dense">
                 <Button
-                    id={build(toolbarId, ids.REPORT_PROBLEM_BTN)}
+                    id={buildID(toolbarId, ids.REPORT_PROBLEM_BTN)}
                     variant="outlined"
                     color="primary"
                     startIcon={<BugReport />}
@@ -58,7 +58,7 @@ function ViceLoadingToolbar(props) {
                 </Button>
                 <div className={classes.divider} />
                 <Button
-                    id={build(toolbarId, ids.DETAILS_BTN)}
+                    id={buildID(toolbarId, ids.DETAILS_BTN)}
                     variant="outlined"
                     color="primary"
                     startIcon={<Info />}
@@ -83,7 +83,7 @@ function ViceLoadingToolbar(props) {
             />
 
             <Drawer
-                id={build(parentId, ids.DETAILS_DRAWER)}
+                id={buildID(parentId, ids.DETAILS_DRAWER)}
                 anchor="right"
                 open={drawerOpen}
                 onClose={handleClose}

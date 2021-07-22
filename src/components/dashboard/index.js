@@ -17,7 +17,8 @@ import { Typography } from "@material-ui/core";
 
 import { Skeleton } from "@material-ui/lab";
 
-import { announce, AnnouncerConstants } from "@cyverse-de/ui-lib";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import ids from "./ids";
 import * as constants from "./constants";
@@ -39,7 +40,7 @@ import { useBootstrapInfo } from "contexts/bootstrap";
 
 import { useSavePreferences } from "serviceFacades/users";
 
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import { useUserProfile } from "contexts/userProfile";
 import Banner from "./dashboardItem/Banner";
 import Tour from "./dashboardItem/Tour";
@@ -109,7 +110,7 @@ const Dashboard = (props) => {
         (resp) => {
             announce({
                 text: i18nIntro("dismissPrompt"),
-                variant: AnnouncerConstants.SUCCESS,
+                variant: SUCCESS,
             });
         },
         (e) => {

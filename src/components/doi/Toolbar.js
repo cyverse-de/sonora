@@ -8,7 +8,7 @@ import React from "react";
 import { useTranslation } from "i18n";
 
 import ids from "./ids";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import {
     Button,
     IconButton,
@@ -40,7 +40,7 @@ export default function DOIToolbar(props) {
     } = props;
     const { t } = useTranslation("doi");
     const classes = useStyles();
-    const toolbarId = build(baseId, ids.toolbarId);
+    const toolbarId = buildID(baseId, ids.toolbarId);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
@@ -51,7 +51,7 @@ export default function DOIToolbar(props) {
                     <>
                         <div className={classes.divider} />
                         <Button
-                            id={build(toolbarId, ids.UPDATE_REQUEST_BTN)}
+                            id={buildID(toolbarId, ids.UPDATE_REQUEST_BTN)}
                             startIcon={<UpdateIcon />}
                             color="primary"
                             size="small"
@@ -62,7 +62,7 @@ export default function DOIToolbar(props) {
                             {t("updateRequest")}
                         </Button>
                         <Button
-                            id={build(toolbarId, ids.VIEW_METADATA_BTN)}
+                            id={buildID(toolbarId, ids.VIEW_METADATA_BTN)}
                             startIcon={<ViewListIcon />}
                             color="primary"
                             size="small"
@@ -73,7 +73,7 @@ export default function DOIToolbar(props) {
                             {t("viewMetadata")}
                         </Button>
                         <Button
-                            id={build(toolbarId, ids.CREATE_DOI_BTN)}
+                            id={buildID(toolbarId, ids.CREATE_DOI_BTN)}
                             startIcon={<AddCircleIcon />}
                             color="primary"
                             size="small"
@@ -88,7 +88,7 @@ export default function DOIToolbar(props) {
                 {isMobile && selected && (
                     <>
                         <IconButton
-                            id={build(toolbarId, ids.UPDATE_REQUEST_BTN)}
+                            id={buildID(toolbarId, ids.UPDATE_REQUEST_BTN)}
                             color="primary"
                             variant="outlined"
                             className={classes.toolbarItems}
@@ -97,7 +97,7 @@ export default function DOIToolbar(props) {
                             <UpdateIcon />
                         </IconButton>
                         <IconButton
-                            id={build(toolbarId, ids.VIEW_METADATA_BTN)}
+                            id={buildID(toolbarId, ids.VIEW_METADATA_BTN)}
                             color="primary"
                             variant="outlined"
                             className={classes.toolbarItems}
@@ -106,7 +106,7 @@ export default function DOIToolbar(props) {
                             <ViewListIcon />
                         </IconButton>
                         <IconButton
-                            id={build(toolbarId, ids.CREATE_DOI_BTN)}
+                            id={buildID(toolbarId, ids.CREATE_DOI_BTN)}
                             color="primary"
                             variant="outlined"
                             className={classes.toolbarItems}

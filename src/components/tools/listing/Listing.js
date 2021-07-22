@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useQuery, useMutation, queryCache } from "react-query";
 import { useTranslation } from "i18n";
 
-import { announce } from "@cyverse-de/ui-lib";
+import { announce } from "components/announcer/CyVerseAnnouncer";
 
 import TableView from "./TableView";
 import Drawer from "components/tools/details/Drawer";
 import { getTools, deleteTools, TOOLS_QUERY_KEY } from "serviceFacades/tools";
 import DEPagination from "components/utils/DEPagination";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import constants from "../../../constants";
 import ToolsToolbar, { TOOL_FILTER_VALUES } from "../toolbar/Toolbar";

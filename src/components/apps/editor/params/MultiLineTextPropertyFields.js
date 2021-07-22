@@ -13,7 +13,7 @@ import LabelField from "./common/LabelField";
 import RequiredField from "./common/RequiredField";
 import VisibleField from "./common/VisibleField";
 
-import { FormMultilineTextField } from "@cyverse-de/ui-lib";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
 
 import { Grid } from "@material-ui/core";
 

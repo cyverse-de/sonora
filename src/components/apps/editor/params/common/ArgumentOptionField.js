@@ -11,7 +11,8 @@ import { useTranslation } from "i18n";
 
 import ids from "../../ids";
 
-import { build as buildID, FormTextField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
 
 export default function ArgumentOptionField(props) {
     const { baseId, fieldName, ...custom } = props;

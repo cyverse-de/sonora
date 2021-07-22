@@ -11,7 +11,8 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 import styles from "./styles";
 
-import { build as buildDebugId, FormTextField } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import FormTextField from "components/forms/FormTextField";
 
 import { CircularProgress, IconButton, makeStyles } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -36,11 +37,7 @@ const SaveAsField = ({ loading, ...props }) => {
             <>
                 {loading && (
                     <CircularProgress
-                        id={buildDebugId(
-                            id,
-                            ids.FOLDER_NAME,
-                            ids.LOADING_SKELETON
-                        )}
+                        id={buildID(id, ids.FOLDER_NAME, ids.LOADING_SKELETON)}
                         color="inherit"
                         size={20}
                     />
@@ -52,7 +49,7 @@ const SaveAsField = ({ loading, ...props }) => {
     if (value && !required && !loading) {
         inputProps.endAdornment = (
             <IconButton
-                id={buildDebugId(name, ids.DELETE_BTN)}
+                id={buildID(name, ids.DELETE_BTN)}
                 aria-label={t("clearInput")}
                 size="small"
                 onClick={() => setFieldValue(name, "")}

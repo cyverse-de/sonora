@@ -6,7 +6,7 @@ import {
     Link,
     RssFeed,
 } from "@material-ui/icons";
-import { formatDate } from "@cyverse-de/ui-lib";
+import { formatDate } from "components/utils/DateFormatter";
 
 import * as fns from "../functions";
 import * as constants from "../constants";

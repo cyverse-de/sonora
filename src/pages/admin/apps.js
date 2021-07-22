@@ -18,8 +18,8 @@ import appFields from "components/apps/appFields";
 import { getListingPath } from "components/apps/utils";
 import Listing from "components/apps/listing/Listing";
 import { useUserProfile } from "contexts/userProfile";
-import NotAuthorized from "components/utils/error/NotAuthorized";
 import { DETabs, DETab, DETabPanel } from "components/utils/DETabs";
+import NotAuthorized from "components/error/NotAuthorized";
 import AppPublicationRequests from "components/apps/admin/publicationRequests/RequestListing";
 
 const TABS = {

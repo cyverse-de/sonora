@@ -6,7 +6,7 @@
  */
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import ids from "./ids";
 import DEDialog from "components/utils/DEDialog";
 import ViewerConstants from "./constants";
@@ -43,13 +43,13 @@ export default function FileTypeSelectionDialog(props) {
             actions={
                 <>
                     <Button
-                        id={build(baseId, ids.CANCEL_BTN)}
+                        id={buildID(baseId, ids.CANCEL_BTN)}
                         onClick={onClose}
                     >
                         {i18nCommon("cancel")}
                     </Button>
                     <Button
-                        id={build(baseId, ids.CREATE_BTN)}
+                        id={buildID(baseId, ids.CREATE_BTN)}
                         color="primary"
                         onClick={() => onFileTypeSelected(type)}
                     >
@@ -63,7 +63,7 @@ export default function FileTypeSelectionDialog(props) {
                 <Select
                     value={type}
                     onChange={handleChange}
-                    id={build(baseId, ids.FILE_TYPE_SELECT)}
+                    id={buildID(baseId, ids.FILE_TYPE_SELECT)}
                     variant="outlined"
                 >
                     <MenuItem value="raw">

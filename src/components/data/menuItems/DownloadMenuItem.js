@@ -1,6 +1,6 @@
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import { CloudDownload } from "@material-ui/icons";
 
@@ -13,7 +13,7 @@ function DeleteMenuItem(props) {
 
     return (
         <MenuItem
-            id={build(baseId, ids.DOWNLOAD_MENU_ITEM)}
+            id={buildID(baseId, ids.DOWNLOAD_MENU_ITEM)}
             onClick={() => {
                 onClose();
                 onDownloadSelected();

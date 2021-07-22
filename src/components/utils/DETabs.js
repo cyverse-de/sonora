@@ -14,7 +14,7 @@ import {
     Tabs,
     Typography,
 } from "@material-ui/core";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import ids from "../data/ids";
 
 import { useMediaQuery, useTheme } from "@material-ui/core";
@@ -53,7 +53,7 @@ function DETabPanel(props) {
                 component="div"
                 role="tabpanel"
                 hidden={value !== selectedTab}
-                id={build(tabId, ids.PANEL)}
+                id={buildID(tabId, ids.PANEL)}
                 aria-labelledby={tabId}
             >
                 <Box p={isMobile || dense ? 1 : 3}>{children}</Box>

@@ -10,7 +10,7 @@ import React from "react";
 import { useQuery, queryCache, useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import ids from "./ids";
 import {
@@ -27,8 +27,8 @@ import { setUserJobLimit } from "serviceFacades/vice/admin";
 import TableView from "./TableView";
 import DEDialog from "components/utils/DEDialog";
 
-import ErrorHandler from "components/utils/error/ErrorHandler";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import ErrorHandler from "components/error/ErrorHandler";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import {
     Button,
     FormControlLabel,
@@ -163,7 +163,10 @@ function Listing(props) {
                         style={{ float: "right" }}
                         control={
                             <Switch
-                                id={build(baseId, ids.SHOW_ALL_REQUESTS_SWITCH)}
+                                id={buildID(
+                                    baseId,
+                                    ids.SHOW_ALL_REQUESTS_SWITCH
+                                )}
                                 checked={showAllRequests}
                                 onChange={handleRequestFilterChange}
                                 name="requestFilter"
@@ -175,7 +178,7 @@ function Listing(props) {
                 </div>
 
                 <TableView
-                    baseId={build(baseId, ids.REQUESTS_TABLE)}
+                    baseId={buildID(baseId, ids.REQUESTS_TABLE)}
                     data={data?.requests || []}
                     onUpdateRequest={onUpdateRequest}
                     showAllRequest={showAllRequests}
@@ -203,7 +206,10 @@ function Listing(props) {
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Typography
-                            id={build(ids.JOB_LIMITS_DLG, ids.JOB_LIMIT_SLIDER)}
+                            id={buildID(
+                                ids.JOB_LIMITS_DLG,
+                                ids.JOB_LIMIT_SLIDER
+                            )}
                         >
                             {t("setLimitPrompt", {
                                 username: selectedRequest?.requesting_user,
@@ -215,7 +221,7 @@ function Listing(props) {
                             style={{ marginTop: theme.spacing(2) }}
                             value={jobLimit}
                             onChange={handleSliderChange}
-                            aria-labelledby={build(
+                            aria-labelledby={buildID(
                                 ids.JOB_LIMITS_DLG,
                                 ids.JOB_LIMIT_SLIDER
                             )}
@@ -254,7 +260,7 @@ function Listing(props) {
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            id={build(
+                            id={buildID(
                                 ids.REJECT_REQUEST_DLG,
                                 ids.REJECT_REQUEST_DLG
                             )}

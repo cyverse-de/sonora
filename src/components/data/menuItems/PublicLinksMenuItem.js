@@ -1,6 +1,6 @@
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import { Link } from "@material-ui/icons";
 
@@ -13,8 +13,8 @@ export default function PublicLinksMenuItem(props) {
 
     return (
         <MenuItem
-            key={build(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
-            id={build(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
+            key={buildID(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
+            id={buildID(baseId, ids.PUBLIC_LINKS_MENU_ITEM)}
             onClick={() => {
                 onClose();
                 onPublicLinksSelected();

@@ -24,17 +24,17 @@ import {
 import AppParamTypes from "components/models/AppParamTypes";
 
 import DELink from "components/utils/DELink";
-import DETableHead from "components/utils/DETableHead";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
-import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
-import TableLoading from "components/utils/TableLoading";
+import DETableHead from "components/table/DETableHead";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
+import { ERROR_CODES, getErrorCode } from "components/error/errorCode";
+import TableLoading from "components/table/TableLoading";
 
 import {
     getResourceDetails,
     DATA_DETAILS_QUERY_KEY,
 } from "serviceFacades/filesystem";
 
-import { build as buildId } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     CircularProgress,
@@ -135,7 +135,7 @@ function ParameterValue(props) {
     if (isInputType(param_type) && valid_info_type) {
         return (
             <InputParameterValue
-                id={buildId(baseId, param_id)}
+                id={buildID(baseId, param_id)}
                 param_type={param_type}
                 path={displayValue}
             />

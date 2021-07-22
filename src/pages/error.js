@@ -7,7 +7,7 @@
  */
 import React from "react";
 import { useRouter } from "next/router";
-import ErrorHandler from "../components/utils/error/ErrorHandler";
+import ErrorHandler from "../components/error/ErrorHandler";
 
 export default function Error() {
     const router = useRouter();

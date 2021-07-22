@@ -6,8 +6,8 @@
  */
 import React from "react";
 
-import DEErrorDialog from "./error/DEErrorDialog";
-import { signInErrorResponse } from "./error/errorCode";
+import DEErrorDialog from "../error/DEErrorDialog";
+import { signInErrorResponse } from "../error/errorCode";
 
 const SignInDialog = (props) => {
     return <DEErrorDialog errorObject={signInErrorResponse} {...props} />;

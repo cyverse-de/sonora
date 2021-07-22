@@ -1,6 +1,6 @@
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import {
     Button,
     Divider,
@@ -19,7 +19,7 @@ import classnames from "classnames";
 import Link from "next/link";
 
 import NavigationConstants from "common/NavigationConstants";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import { useTranslation } from "i18n";
 import ids from "./ids";
 import Message from "./Message";
@@ -31,7 +31,7 @@ const useStyles = makeStyles(styles);
 const NotificationsListingButton = React.forwardRef((props, ref) => {
     const { isMobile, handleClose, href, onClick } = props;
     const { t } = useTranslation("common");
-    const buttonId = build(
+    const buttonId = buildID(
         ids.BASE_DEBUG_ID,
         ids.NOTIFICATIONS_MENU,
         ids.VIEW_ALL_NOTIFICATIONS
@@ -96,7 +96,7 @@ function NotificationsTab(props) {
             {isMobile && [
                 <NotificationsListingLink
                     key={ids.VIEW_ALL_NOTIFICATIONS}
-                    id={build(
+                    id={buildID(
                         ids.BASE_DEBUG_ID,
                         ids.NOTIFICATIONS_MENU,
                         ids.VIEW_ALL_NOTIFICATIONS
@@ -108,7 +108,7 @@ function NotificationsTab(props) {
                     key={ids.MARK_ALL_READ}
                     className={classes.markSeen}
                     onClick={handleMarkAllAsSeenClick}
-                    id={build(
+                    id={buildID(
                         ids.BASE_DEBUG_ID,
                         ids.NOTIFICATIONS_MENU,
                         ids.MARK_ALL_READ
@@ -143,7 +143,7 @@ function NotificationsTab(props) {
                 notifications.map((n, index) => (
                     <ListItem
                         onClick={handleClose}
-                        id={build(
+                        id={buildID(
                             ids.BASE_DEBUG_ID,
                             ids.NOTIFICATIONS_MENU,
                             index
@@ -163,7 +163,7 @@ function NotificationsTab(props) {
                         <ListItemText
                             primary={
                                 <Message
-                                    baseId={build(
+                                    baseId={buildID(
                                         ids.BASE_DEBUG_ID,
                                         ids.NOTIFICATIONS_MENU,
                                         n?.message.id
@@ -173,7 +173,7 @@ function NotificationsTab(props) {
                             }
                             secondary={
                                 <Typography
-                                    id={build(
+                                    id={buildID(
                                         ids.BASE_DEBUG_ID,
                                         ids.NOTIFICATIONS_MENU,
                                         ids.TIME_STAMP
@@ -195,7 +195,7 @@ function NotificationsTab(props) {
                 <Divider light key="divider" />,
                 <NotificationsListingLink
                     key={ids.VIEW_ALL_NOTIFICATIONS}
-                    id={build(
+                    id={buildID(
                         ids.BASE_DEBUG_ID,
                         ids.NOTIFICATIONS_MENU,
                         ids.VIEW_ALL_NOTIFICATIONS
@@ -205,7 +205,7 @@ function NotificationsTab(props) {
                 />,
                 <Button
                     key={ids.MARK_ALL_READ}
-                    id={build(
+                    id={buildID(
                         ids.BASE_DEBUG_ID,
                         ids.NOTIFICATIONS_MENU,
                         ids.MARK_ALL_READ

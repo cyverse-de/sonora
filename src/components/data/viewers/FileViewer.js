@@ -43,7 +43,7 @@ import { parseNameFromPath, isWritable } from "../utils";
 import isQueryLoading from "components/utils/isQueryLoading";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Button, Toolbar, Typography } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 
@@ -329,7 +329,7 @@ export default function FileViewer(props) {
     const LoadMoreButton = () => (
         <Toolbar>
             <Button
-                id={build(baseId, ids.LOAD_MORE_BTN)}
+                id={buildID(baseId, ids.LOAD_MORE_BTN)}
                 variant="outlined"
                 color="primary"
                 style={{ flex: 1 }}

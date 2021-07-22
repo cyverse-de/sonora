@@ -6,7 +6,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import ids from "./ids";
 
@@ -89,7 +89,7 @@ export default function SplitView(props) {
                     }}
                 >
                     <ToggleButton
-                        id={build(baseId, ids.HIDE_LEFT_PANEL_BTN)}
+                        id={buildID(baseId, ids.HIDE_LEFT_PANEL_BTN)}
                         value={LEFT_PANEL}
                         aria-label={t("hideLeftPanel")}
                         title={t("hideLeftPanel")}
@@ -97,7 +97,7 @@ export default function SplitView(props) {
                         <FirstPageIcon fontSize="small" />
                     </ToggleButton>
                     <ToggleButton
-                        id={build(baseId, ids.SHOW_ALL_PANELS_BTN)}
+                        id={buildID(baseId, ids.SHOW_ALL_PANELS_BTN)}
                         value={NONE}
                         aria-label={t("showSplitView")}
                         title={t("showSplitView")}
@@ -105,7 +105,7 @@ export default function SplitView(props) {
                         <CompareArrowsIcon fontSize="small" />
                     </ToggleButton>
                     <ToggleButton
-                        id={build(baseId, ids.HIDE_RIGHT_PANEL_BTN)}
+                        id={buildID(baseId, ids.HIDE_RIGHT_PANEL_BTN)}
                         value={RIGHT_PANEL}
                         aria-label={t("hideRightPanel")}
                         title={t("hideRightPanel")}

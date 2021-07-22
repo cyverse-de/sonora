@@ -29,9 +29,9 @@ import SignInDialog from "components/utils/SignInDialog";
 import ExternalLink from "components/utils/ExternalLink";
 import CopyMetadataDialog from "components/metadata/CopyMetadataDialog";
 
-import { ERROR_CODES, getErrorCode } from "components/utils/error/errorCode";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
-import WrappedErrorHandler from "components/utils/error/WrappedErrorHandler";
+import { ERROR_CODES, getErrorCode } from "components/error/errorCode";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
 import { useBootstrapInfo } from "contexts/bootstrap";
 import { useUserProfile } from "contexts/userProfile";
@@ -46,7 +46,9 @@ import {
 
 import { copyMetadata } from "serviceFacades/filesystem";
 
-import { AnnouncerConstants, announce, build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import { AppBar, Tab, Tabs } from "@material-ui/core";
 
@@ -211,11 +213,14 @@ const MetadataFormListing = (props) => {
                         variant="fullWidth"
                     >
                         <Tab
-                            id={build(baseId, ids.BUTTONS.VIEW_USER_METADATA)}
+                            id={buildID(baseId, ids.BUTTONS.VIEW_USER_METADATA)}
                             label={t("userMetadata")}
                         />
                         <Tab
-                            id={build(baseId, ids.BUTTONS.VIEW_IRODS_METADATA)}
+                            id={buildID(
+                                baseId,
+                                ids.BUTTONS.VIEW_IRODS_METADATA
+                            )}
                             label={t("additionalMetadata")}
                         />
                     </Tabs>
@@ -369,7 +374,7 @@ const MetadataForm = ({
                 setSaveAsDialogOpen(false);
                 announce({
                     text: t("metadataSaved"),
-                    variant: AnnouncerConstants.SUCCESS,
+                    variant: SUCCESS,
                 });
             },
             onError: (error, { dest }) => {
@@ -391,7 +396,7 @@ const MetadataForm = ({
             onSuccess: () => {
                 announce({
                     text: t("copySuccess"),
-                    variant: AnnouncerConstants.SUCCESS,
+                    variant: SUCCESS,
                 });
                 setCopyDialogOpen(false);
                 setCopyMetadataError(null);
@@ -454,7 +459,7 @@ const MetadataForm = ({
 
             announce({
                 text: t("metadataSaved"),
-                variant: AnnouncerConstants.SUCCESS,
+                variant: SUCCESS,
             });
         };
 

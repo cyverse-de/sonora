@@ -11,10 +11,13 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 
 import GridLoading from "../../utils/GridLoading";
-import ErrorTypography from "../../utils/error/ErrorTypography";
-import DEErrorDialog from "../../utils/error/DEErrorDialog";
+import ErrorTypography from "../../error/ErrorTypography";
+import DEErrorDialog from "../../error/DEErrorDialog";
 
-import { build, CopyTextArea, formatDate } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import CopyTextArea from "components/copy/CopyTextArea";
+import { formatDate } from "components/utils/DateFormatter";
+
 import {
     Accordion,
     AccordionDetails,
@@ -59,7 +62,7 @@ function Updates(props) {
                 const message = update.message;
                 return (
                     <>
-                        <ListItem id={build(baseId, updateIndex)}>
+                        <ListItem id={buildID(baseId, updateIndex)}>
                             <ListItemText
                                 primary={`${formatDate(timestamp)} - ${status}`}
                                 secondary={`${formatDate(
@@ -96,7 +99,7 @@ function Step(props) {
                 </div>
                 <Updates
                     updates={updates}
-                    baseId={build(baseId, ids.INFO.UPDATE)}
+                    baseId={buildID(baseId, ids.INFO.UPDATE)}
                 />
             </AccordionDetails>
         </Accordion>
@@ -109,7 +112,7 @@ function InfoPanel(props) {
 
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
 
-    const debugId = build(baseId, ids.INFO.INFO);
+    const debugId = buildID(baseId, ids.INFO.INFO);
 
     if (isInfoFetching) {
         return <GridLoading rows={2} baseId={baseId} />;
@@ -144,7 +147,7 @@ function InfoPanel(props) {
                     <Step
                         key={index}
                         step={s}
-                        baseId={build(debugId, ids.INFO.STEP, index)}
+                        baseId={buildID(debugId, ids.INFO.STEP, index)}
                     />
                 );
             })}

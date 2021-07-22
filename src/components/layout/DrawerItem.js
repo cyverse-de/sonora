@@ -4,7 +4,7 @@ import clsx from "clsx";
 import styles from "./styles";
 import ids from "./ids";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     ListItem,
@@ -37,7 +37,7 @@ const DrawerItem = (props) => {
     return (
         <Tooltip title={title} placement="right" arrow>
             <ListItem
-                id={build(ids.DRAWER_MENU, id)}
+                id={buildID(ids.DRAWER_MENU, id)}
                 onClick={() => {
                     toggleDrawer(false);
                     onClick ? onClick() : router.push("/" + thisView);

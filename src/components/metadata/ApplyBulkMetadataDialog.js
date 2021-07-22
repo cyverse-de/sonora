@@ -11,14 +11,16 @@ import { useMutation } from "react-query";
 import { useTranslation } from "i18n";
 import { Field, Form, Formik } from "formik";
 
-import { build, announce, AnnouncerConstants } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import ids from "./ids";
 import constants from "../../constants";
 import { nonEmptyField } from "components/utils/validations";
 import DEDialog from "components/utils/DEDialog";
 import FileInput from "components/apps/launch/params/FileInput";
-import ErrorTypographyWithDialog from "components/utils/error/ErrorTypographyWithDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import { applyBulkMetadataFromFile } from "serviceFacades/metadata";
 
 import {
@@ -44,7 +46,7 @@ export default function ApplyBulkMetadataDialog(props) {
             onSuccess: () => {
                 announce({
                     text: t("metadataApplied"),
-                    variant: AnnouncerConstants.SUCCESS,
+                    variant: SUCCESS,
                 });
                 handleClose();
             },
@@ -78,13 +80,13 @@ export default function ApplyBulkMetadataDialog(props) {
                             actions={
                                 <>
                                     <Button
-                                        id={build(baseId, ids.CANCEL_BUTTON)}
+                                        id={buildID(baseId, ids.CANCEL_BUTTON)}
                                         onClick={handleClose}
                                     >
                                         {i18nCommon("cancel")}
                                     </Button>
                                     <Button
-                                        id={build(baseId, ids.COPY_BUTTON)}
+                                        id={buildID(baseId, ids.COPY_BUTTON)}
                                         type="submit"
                                         color="primary"
                                         onClick={handleSubmit}
@@ -119,7 +121,7 @@ export default function ApplyBulkMetadataDialog(props) {
                             <Field
                                 name="metadataFile"
                                 label={t("metadataFile")}
-                                id={build(baseId, ids.METADATA_FILE)}
+                                id={buildID(baseId, ids.METADATA_FILE)}
                                 required={true}
                                 component={FileInput}
                                 style={{ marginBottom: theme.spacing(4) }}

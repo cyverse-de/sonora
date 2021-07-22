@@ -13,7 +13,7 @@ import { useMutation, useQuery } from "react-query";
 
 import Privilege from "components/models/Privilege";
 import isQueryLoading from "components/utils/isQueryLoading";
-import TableLoading from "components/utils/TableLoading";
+import TableLoading from "components/table/TableLoading";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import FormFields from "./FormFields";

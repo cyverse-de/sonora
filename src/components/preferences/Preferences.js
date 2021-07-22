@@ -43,9 +43,11 @@ import {
     DATA_DETAILS_QUERY_KEY,
 } from "serviceFacades/filesystem";
 import GridLoading from "components/utils/GridLoading";
-import withErrorAnnouncer from "components/utils/error/withErrorAnnouncer";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
-import { announce, AnnouncerConstants, build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import {
     Button,
@@ -194,7 +196,7 @@ function Preferences(props) {
             (updatedPref) => {
                 announce({
                     text: t("prefSaveSuccess"),
-                    variant: AnnouncerConstants.SUCCESS,
+                    variant: SUCCESS,
                 });
                 queryCache.invalidateQueries(BOOTSTRAP_KEY);
             },
@@ -209,7 +211,7 @@ function Preferences(props) {
             onSuccess: () => {
                 announce({
                     text: t("resetTokenSuccess"),
-                    variant: AnnouncerConstants.SUCCESS,
+                    variant: SUCCESS,
                 });
                 setFetchRedirectURIsQueryEnabled(true);
                 setRequireAgaveAuth(true);
@@ -451,7 +453,7 @@ function Preferences(props) {
         <>
             {busy && (
                 <CircularProgress
-                    id={build(baseId, ids.LOADING_PROGRESS)}
+                    id={buildID(baseId, ids.LOADING_PROGRESS)}
                     size={30}
                     thickness={5}
                     style={{
@@ -471,7 +473,7 @@ function Preferences(props) {
                     {(props) => (
                         <Form
                             aria-busy={busy}
-                            aria-describedby={build(
+                            aria-describedby={buildID(
                                 baseId,
                                 ids.LOADING_PROGRESS
                             )}
@@ -479,7 +481,7 @@ function Preferences(props) {
                             <Grid container justify="flex-end">
                                 <Grid item>
                                     <Button
-                                        id={build(
+                                        id={buildID(
                                             baseId,
                                             ids.RESTORE_DEFAULT_BUTTON
                                         )}
@@ -495,7 +497,7 @@ function Preferences(props) {
                                 </Grid>
                                 <Grid item>
                                     <Button
-                                        id={build(
+                                        id={buildID(
                                             baseId,
                                             ids.SAVE_PREFERENCES_BUTTON
                                         )}
@@ -509,7 +511,7 @@ function Preferences(props) {
                                 </Grid>
                             </Grid>
                             <General
-                                baseId={build(baseId, ids.GENERAL)}
+                                baseId={buildID(baseId, ids.GENERAL)}
                                 defaultOutputFolder={defaultOutputFolder}
                                 isValidating={isFetchingStat}
                                 onNewDefaultOutputFolder={(newFolder) => {
@@ -529,12 +531,12 @@ function Preferences(props) {
                             />
                             <Divider className={classes.dividers} />
                             <Shortcuts
-                                baseId={build(baseId, ids.KB_SHORTCUTS)}
+                                baseId={buildID(baseId, ids.KB_SHORTCUTS)}
                             />
                             <Grid container justify="flex-end">
                                 <Grid item>
                                     <Button
-                                        id={build(
+                                        id={buildID(
                                             baseId,
                                             ids.RESTORE_DEFAULT_BUTTON
                                         )}
@@ -550,7 +552,7 @@ function Preferences(props) {
                                 </Grid>
                                 <Grid item>
                                     <Button
-                                        id={build(
+                                        id={buildID(
                                             baseId,
                                             ids.SAVE_PREFERENCES_BUTTON
                                         )}
@@ -577,7 +579,7 @@ function Preferences(props) {
                                 </DialogContent>
                                 <DialogActions>
                                     <Button
-                                        id={build(baseId, ids.OK_BUTTON)}
+                                        id={buildID(baseId, ids.OK_BUTTON)}
                                         onClick={restoreDefaults(
                                             props.setFieldValue
                                         )}
@@ -586,7 +588,7 @@ function Preferences(props) {
                                         {t("okBtnLbl")}
                                     </Button>
                                     <Button
-                                        id={build(baseId, ids.CANCEL_BUTTON)}
+                                        id={buildID(baseId, ids.CANCEL_BUTTON)}
                                         onClick={() =>
                                             setShowRestoreConfirmation(false)
                                         }

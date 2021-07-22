@@ -6,7 +6,7 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 import { getAppEditPath } from "../utils";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import { Edit } from "@material-ui/icons";
@@ -21,7 +21,7 @@ export default function EditMenuItem(props) {
 
     return (
         <MenuItem
-            id={build(baseId, ids.EDIT_MENU_ITEM)}
+            id={buildID(baseId, ids.EDIT_MENU_ITEM)}
             onClick={() => {
                 onClose();
                 router.push(getAppEditPath(app.system_id, app.id));

@@ -15,7 +15,7 @@ import {
     REFERENCE_GENOMES_QUERY_KEY,
 } from "serviceFacades/referenceGenomes";
 
-import { stableSort } from "@cyverse-de/ui-lib";
+import { stableSort } from "components/table/TableSort";
 
 export function useAppElementInfoTypes(enabled, onSuccess, onError) {
     return useQuery({

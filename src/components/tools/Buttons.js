@@ -3,7 +3,7 @@ import React from "react";
 import ids from "./ids";
 import styles from "./styles";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Fab, IconButton, makeStyles } from "@material-ui/core";
 import { Add, Delete } from "@material-ui/icons";
 import PropTypes from "prop-types";
@@ -17,7 +17,7 @@ function AddBtn(props) {
         <Fab
             color="primary"
             size="small"
-            id={build(parentId, ids.BUTTONS.ADD)}
+            id={buildID(parentId, ids.BUTTONS.ADD)}
             className={classes.addBtn}
             onClick={onClick}
         >
@@ -33,7 +33,7 @@ function DeleteBtn(props) {
         <IconButton
             className={classes.deleteBtn}
             size="small"
-            id={build(parentId, ids.BUTTONS.DELETE)}
+            id={buildID(parentId, ids.BUTTONS.DELETE)}
             onClick={onClick}
         >
             <Delete />

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { build } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 import { Info } from "@material-ui/icons";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import { useTranslation } from "i18n";
@@ -13,8 +13,8 @@ function DetailsMenuItem(props) {
 
     return (
         <MenuItem
-            key={build(baseId, ids.DETAILS_MENU_ITEM)}
-            id={build(baseId, ids.DETAILS_MENU_ITEM)}
+            key={buildID(baseId, ids.DETAILS_MENU_ITEM)}
+            id={buildID(baseId, ids.DETAILS_MENU_ITEM)}
             onClick={() => {
                 onClose();
                 onDetailsSelected();

@@ -15,12 +15,12 @@ import AppDoc from "components/apps/details/AppDoc";
 import DetailsDrawer from "components/apps/details/Drawer";
 
 import BackButton from "components/utils/BackButton";
-import DEErrorDialog from "components/utils/error/DEErrorDialog";
-import ErrorTypography from "components/utils/error/ErrorTypography";
+import DEErrorDialog from "components/error/DEErrorDialog";
+import ErrorTypography from "components/error/ErrorTypography";
 
 import ids from "./ids";
 
-import { build as buildDebugId } from "@cyverse-de/ui-lib";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Box,
@@ -71,10 +71,7 @@ const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
                 components={{
                     support: (
                         <Link
-                            id={buildDebugId(
-                                baseId,
-                                ids.BUTTONS.CONTACT_SUPPORT
-                            )}
+                            id={buildID(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
                             component="button"
                             onClick={intercomShow}
                         />
@@ -92,10 +89,7 @@ const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
                 components={{
                     support: (
                         <Link
-                            id={buildDebugId(
-                                baseId,
-                                ids.BUTTONS.CONTACT_SUPPORT
-                            )}
+                            id={buildID(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
                             component="button"
                             onClick={intercomShow}
                         />
@@ -129,7 +123,7 @@ const AppInfo = (props) => {
                 }}
             />
             <Button
-                id={buildDebugId(baseId, ids.BUTTONS.DETAILS)}
+                id={buildID(baseId, ids.BUTTONS.DETAILS)}
                 className={classes.detailsButton}
                 onClick={() => setDetailsDrawerOpen(true)}
                 variant={isMobile ? "text" : "outlined"}
@@ -139,7 +133,7 @@ const AppInfo = (props) => {
                 <Hidden xsDown>{t("details")}</Hidden>
             </Button>
             <Button
-                id={buildDebugId(baseId, ids.BUTTONS.DOCUMENTATION)}
+                id={buildID(baseId, ids.BUTTONS.DOCUMENTATION)}
                 className={classes.detailsButton}
                 onClick={() => setDocDialogOpen(true)}
                 variant={isMobile ? "text" : "outlined"}

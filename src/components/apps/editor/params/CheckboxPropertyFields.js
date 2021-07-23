@@ -36,7 +36,7 @@ export default function CheckboxPropertyFields(props) {
                 xs={12}
                 container
                 direction="row"
-                justify="flex-start"
+                justifyContent="flex-start"
                 alignItems="flex-start"
             >
                 <Grid item xs={6}>
@@ -66,7 +66,7 @@ export default function CheckboxPropertyFields(props) {
                 xs={12}
                 container
                 direction="row"
-                justify="flex-start"
+                justifyContent="flex-start"
                 alignItems="flex-start"
             >
                 <Grid item xs={6}>

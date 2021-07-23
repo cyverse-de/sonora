@@ -320,7 +320,7 @@ const AppEditor = (props) => {
                         <Grid
                             ref={scrollOnEditEl}
                             container
-                            justify="space-between"
+                            justifyContent="space-between"
                             alignItems="flex-start"
                             wrap="nowrap"
                         >

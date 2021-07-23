@@ -10,14 +10,15 @@ import FormSearchField from "components/forms/FormSearchField";
 
 import { ListItemText, MenuItem } from "@material-ui/core";
 
-const OLSOption = ({ innerRef, isFocused, innerProps, data }) => (
-    <MenuItem buttonRef={innerRef} selected={isFocused} {...innerProps}>
+
+const OLSOption = (option) => (
+    <MenuItem>
         <ListItemText
-            primary={data.label}
+            primary={option.label}
             secondary={
-                data.ontology_prefix &&
-                data.iri &&
-                `${data.ontology_prefix}: ${data.iri}`
+                option.ontology_prefix &&
+                option.iri &&
+                `${option.ontology_prefix}: ${option.iri}`
             }
         />
     </MenuItem>
@@ -25,29 +26,28 @@ const OLSOption = ({ innerRef, isFocused, innerProps, data }) => (
 
 const OntologyLookupServiceSearchField = (props) => {
     const { attribute, searchOLSTerms, ...custom } = props;
-
+    const [options, setOptions] = React.useState([]);
     const { t } = useTranslation("metadata");
 
-    const loadOptions = (inputValue, callback) => {
+    const handleSearch = (event, value, reason) => {
+        if (reason === "clear" || value === "") {
+            setOptions([]);
+        }
+        loadOptions(value);
+    };
+    const loadOptions = (inputValue) => {
         searchOLSTerms({
             inputValue,
             loaderSettings: attribute?.settings || {},
-            callback: (results) => callback(results?.response?.docs),
+            callback: (results) => setOptions(results?.response?.docs),
         });
-    };
-
-    const formatCreateLabel = (inputValue) => {
-        return t("formatMetadataTermFreeTextOption", { inputValue });
     };
 
     return (
         <FormSearchField
-            loadOptions={loadOptions}
-            variant="asyncCreatable"
-            labelKey="label"
-            valueKey="label"
-            CustomOption={OLSOption}
-            formatCreateLabel={formatCreateLabel}
+            renderCustomOption={OLSOption}
+            handleSearch={handleSearch}
+            options={options}
             {...custom}
         />
     );

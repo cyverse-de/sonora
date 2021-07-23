@@ -3,11 +3,12 @@
  */
 import React from "react";
 
-import Autocomplete from "../../components/autocomplete/Autocomplete";
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import getFormError from "./getFormError";
 
 import FormControl from "@material-ui/core/FormControl";
+import TextField from '@material-ui/core/TextField';
 import FormHelperText from "@material-ui/core/FormHelperText";
 
 const FormSearchField = ({
@@ -15,29 +16,40 @@ const FormSearchField = ({
     label,
     helperText,
     required,
+    options,
+    size = "small",
+    renderCustomOption,
+    handleSearch,
     form: { touched, errors, setFieldTouched, setFieldValue },
     ...props
 }) => {
     const errorMsg = getFormError(field.name, touched, errors);
-    const onOptionSelected = (option) => {
-        setFieldValue(field.name, option ? option[props.valueKey] : "");
+    const onOptionSelected = (event, option, reason) => {
+        setFieldValue(field.name, option ? option?.label : "");
     };
-    const onSearchBlur = (event) => {
-        setFieldTouched(field.name, true);
-    };
-
     return (
         <FormControl fullWidth error={!!errorMsg}>
             <Autocomplete
-                label={label}
-                controlShouldRenderValue
-                isClearable={!required}
-                cacheOptions
-                defaultInputValue={value}
+                id="searchField"
+                getOptionSelected={(option, value) => option.label === value.label}
+                getOptionLabel={(option) => option.label}
+                options={options}
+                value={value}
+                size={size}
+                freeSolo={true}
+                onInputChange={handleSearch}
                 onChange={onOptionSelected}
-                onBlur={onSearchBlur}
-                {...field}
-                {...props}
+                renderOption={(option, state) => renderCustomOption(option)}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label={helperText}
+                        variant="outlined"
+                        InputProps={{
+                            ...params.InputProps,
+                        }}
+                    />
+                )}
             />
             <FormHelperText>{errorMsg || helperText}</FormHelperText>
         </FormControl>

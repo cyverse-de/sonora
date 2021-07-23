@@ -17,34 +17,40 @@ import {
     ListItemAvatar,
     ListItemSecondaryAction,
     ListItemText,
+    makeStyles,
     useMediaQuery,
     useTheme,
-    makeStyles,
 } from "@material-ui/core";
 
 import {
-    CheckCircle as CheckCircleIcon,
     Cancel as CancelIcon,
-    Error as ErrorIcon,
+    CheckCircle as CheckCircleIcon,
     Description as DescriptionIcon,
+    Error as ErrorIcon,
     Http as HttpIcon,
 } from "@material-ui/icons";
 
 import {
     KindFile,
     removeAction,
-    useUploadTrackingState,
     useUploadTrackingDispatch,
+    useUploadTrackingState,
 } from "../../../contexts/uploadTracking";
 
 import buildID from "components/utils/DebugIDUtil";
 import ids from "../dialog/ids";
+import { ERROR_CODES, getErrorCode } from "components/error/errorCode";
 
 const useStyles = makeStyles((theme) => ({
     ellipsis: {
         overflow: "hidden",
         textOverflow: "ellipsis",
         paddingRight: theme.spacing(1),
+    },
+
+    error: {
+        color: theme.palette.error.main,
+        wordBreak: "break-word",
     },
 }));
 
@@ -94,6 +100,27 @@ const EllipsisField = ({ children }) => {
     return <div className={classes.ellipsis}>{children}</div>;
 };
 
+function UploadSecondaryText(props) {
+    const { upload } = props;
+    const theme = useTheme();
+    const { t } = useTranslation("upload");
+    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
+    if (upload.hasErrored) {
+        return getErrorCode(upload.errorMessage) === ERROR_CODES.ERR_EXISTS
+            ? t("uploadExists", { path: upload.parentPath })
+            : t("failDetails", {
+                  details: JSON.stringify(upload.errorMessage),
+              });
+    }
+
+    if (!isSmall) {
+        return upload.parentPath;
+    }
+
+    return null;
+}
+
 /**
  * Component for an item in the list of uploads.
  *
@@ -104,6 +131,7 @@ const EllipsisField = ({ children }) => {
  */
 const UploadItem = ({ upload, handleCancel, baseId }) => {
     const theme = useTheme();
+    const classes = useStyles();
     const { t } = useTranslation("upload");
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -112,26 +140,25 @@ const UploadItem = ({ upload, handleCancel, baseId }) => {
 
     return (
         <ListItem id={itemId}>
-            <ListItemAvatar>
-                <Avatar>
-                    {upload.kind === KindFile ? (
-                        <DescriptionIcon />
-                    ) : (
-                        <HttpIcon />
-                    )}
-                </Avatar>
-            </ListItemAvatar>
-
-            {isSmall ? (
-                <ListItemText
-                    primary={<EllipsisField>{upload.filename}</EllipsisField>}
-                />
-            ) : (
-                <ListItemText
-                    primary={<EllipsisField>{upload.filename}</EllipsisField>}
-                    secondary={upload.parentPath}
-                />
+            {!isSmall && (
+                <ListItemAvatar>
+                    <Avatar>
+                        {upload.kind === KindFile ? (
+                            <DescriptionIcon />
+                        ) : (
+                            <HttpIcon />
+                        )}
+                    </Avatar>
+                </ListItemAvatar>
             )}
+
+            <ListItemText
+                primary={<EllipsisField>{upload.filename}</EllipsisField>}
+                classes={
+                    upload.hasErrored ? { secondary: classes.error } : null
+                }
+                secondary={<UploadSecondaryText upload={upload} />}
+            />
 
             <UploadStatus upload={upload} baseId={itemId} />
 

@@ -6,13 +6,12 @@
  * @module uploads/api
  */
 
-import { checkForError } from "../../common/callApi";
-import { trackIntercomEvent, IntercomEvents } from "common/intercom";
+import { IntercomEvents, trackIntercomEvent } from "common/intercom";
 
 import {
     errorAction,
-    updateStatusAction,
     setCancelFnAction,
+    updateStatusAction,
 } from "../../contexts/uploadTracking";
 
 /**
@@ -63,7 +62,21 @@ export const startUpload = (
         body: formData,
         signal,
     })
-        .then((resp) => checkForError(resp, { method, endpoint, headers: {} }))
+        .then((resp) => {
+            // resp.json() contains the response body, but returns another promise
+            return resp.json().then((data) => ({
+                ok: resp.ok,
+                status: resp.status,
+                data,
+            }));
+        })
+        .then((resp) => {
+            if (!resp.ok) {
+                throw resp;
+            } else {
+                return resp;
+            }
+        })
         .then((resp) => {
             dispatch(
                 updateStatusAction({
@@ -79,18 +92,17 @@ export const startUpload = (
             completedCB(upload.id);
         })
         .catch((e) => {
-            if (e.details) {
-                console.error(
-                    `${e.details.code} ${JSON.stringify(e.details.context)}`
-                );
-            } else {
-                console.error(e.message);
+            let errorMessage = JSON.stringify(e);
+            if (e.data) {
+                const { error_code, ...rest } = e.data;
+                errorMessage = `${error_code} ${JSON.stringify(rest)}`;
             }
+            console.error(errorMessage);
 
             dispatch(
                 errorAction({
                     id: upload.id,
-                    errorMessage: e.message,
+                    errorMessage: e?.data || errorMessage,
                 })
             );
         });

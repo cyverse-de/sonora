@@ -1,5 +1,5 @@
 export function getErrorData(error) {
-    return error?.response?.data;
+    return error?.response?.data || error;
 }
 
 export function getErrorCode(error) {

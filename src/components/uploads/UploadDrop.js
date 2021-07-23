@@ -82,7 +82,6 @@ export const processDroppedFiles = async (transferItemList, itemsFn) => {
     const fileItems = allItems
         .filter((i) => i.kind === "file")
         .map((i) => i.getAsFile())
-        .filter((f) => f.size > 0) // filter out 0-byte files and directories.
         .map((i) => ({ kind: KindFile, value: i }));
 
     // Set the new value of uploadItems, which should trigger a re-render.
@@ -101,7 +100,6 @@ export const processSelectedFiles = async (itemList, itemsFn) => {
 
     // Get all of the files split out into their own list.
     const fileItems = allItems
-        .filter((f) => f.size > 0) // filter out 0-byte files and directories.
         .map((i) => ({ kind: KindFile, value: i }));
 
     // Set the new value of uploadItems, which should trigger a re-render.

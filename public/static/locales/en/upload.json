@@ -4,5 +4,6 @@
     "closeAria": "close",
     "failDetails": "Failure Details: {{details}}",
     "help": "The list of uploads running in this browser tab or window.",
-    "title": "Upload Queue"
+    "title": "Upload Queue",
+    "uploadExists": "A file or folder with that name already exists in {{path}}"
 }

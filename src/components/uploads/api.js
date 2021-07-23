@@ -8,7 +8,11 @@
 
 import { IntercomEvents, trackIntercomEvent } from "common/intercom";
 
-import { errorAction, setCancelFnAction, updateStatusAction } from "../../contexts/uploadTracking";
+import {
+    errorAction,
+    setCancelFnAction,
+    updateStatusAction,
+} from "../../contexts/uploadTracking";
 
 /**
  * Starts a single upload.
@@ -88,7 +92,7 @@ export const startUpload = (
             completedCB(upload.id);
         })
         .catch((e) => {
-            let errorMessage = e;
+            let errorMessage = JSON.stringify(e);
             if (e.data) {
                 const { error_code, ...rest } = e.data;
                 errorMessage = `${error_code} ${JSON.stringify(rest)}`;
@@ -98,7 +102,7 @@ export const startUpload = (
             dispatch(
                 errorAction({
                     id: upload.id,
-                    errorMessage: errorMessage,
+                    errorMessage: e?.data || errorMessage,
                 })
             );
         });

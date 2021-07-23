@@ -39,6 +39,7 @@ import {
 
 import buildID from "components/utils/DebugIDUtil";
 import ids from "../dialog/ids";
+import { ERROR_CODES, getErrorCode } from "components/error/errorCode";
 
 const useStyles = makeStyles((theme) => ({
     ellipsis: {
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
     error: {
         color: theme.palette.error.main,
+        wordBreak: "break-word",
     },
 }));
 
@@ -98,6 +100,27 @@ const EllipsisField = ({ children }) => {
     return <div className={classes.ellipsis}>{children}</div>;
 };
 
+function UploadSecondaryText(props) {
+    const { upload } = props;
+    const theme = useTheme();
+    const { t } = useTranslation("upload");
+    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
+    if (upload.hasErrored) {
+        return getErrorCode(upload.errorMessage) === ERROR_CODES.ERR_EXISTS
+            ? t("uploadExists", { path: upload.parentPath })
+            : t("failDetails", {
+                  details: JSON.stringify(upload.errorMessage),
+              });
+    }
+
+    if (!isSmall) {
+        return upload.parentPath;
+    }
+
+    return null;
+}
+
 /**
  * Component for an item in the list of uploads.
  *
@@ -134,13 +157,7 @@ const UploadItem = ({ upload, handleCancel, baseId }) => {
                 classes={
                     upload.hasErrored ? { secondary: classes.error } : null
                 }
-                secondary={
-                    upload.hasErrored
-                        ? t("failDetails", { details: upload.errorMessage })
-                        : !isSmall
-                        ? upload.parentPath
-                        : null
-                }
+                secondary={<UploadSecondaryText upload={upload} />}
             />
 
             <UploadStatus upload={upload} baseId={itemId} />

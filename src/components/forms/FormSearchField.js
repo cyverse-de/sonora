@@ -3,12 +3,12 @@
  */
 import React from "react";
 
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import getFormError from "./getFormError";
 
 import FormControl from "@material-ui/core/FormControl";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
 import FormHelperText from "@material-ui/core/FormHelperText";
 
 const FormSearchField = ({
@@ -25,18 +25,20 @@ const FormSearchField = ({
 }) => {
     const errorMsg = getFormError(field.name, touched, errors);
     const onOptionSelected = (event, option, reason) => {
-        setFieldValue(field.name, option ? option?.label : "");
+        setFieldValue(field.name, option ? option[props.valueKey] : "");
     };
     return (
         <FormControl fullWidth error={!!errorMsg}>
             <Autocomplete
                 id="searchField"
-                getOptionSelected={(option, value) => option.label === value.label}
-                getOptionLabel={(option) => option.label}
+                getOptionSelected={(option, value) =>
+                    option[props.labelKey] === value[props.labelKey]
+                }
+                getOptionLabel={(option) => option[props.labelKey]}
                 options={options}
-                value={value}
                 size={size}
                 freeSolo={true}
+                inputValue={value}
                 onInputChange={handleSearch}
                 onChange={onOptionSelected}
                 renderOption={(option, state) => renderCustomOption(option)}

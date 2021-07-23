@@ -4,8 +4,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { useTranslation } from "i18n";
-
 import FormSearchField from "components/forms/FormSearchField";
 
 import { ListItemText, MenuItem } from "@material-ui/core";
@@ -19,7 +17,6 @@ const AstroThesaurusOption = (option) => (
 const AstroThesaurusSearchField = (props) => {
     const { searchAstroThesaurusTerms, ...custom } = props;
     const [options, setOptions] = React.useState([]);
-    const { t } = useTranslation("metadata");
 
     const handleSearch = (event, value, reason) => {
         if (reason === "clear" || value === "") {
@@ -57,12 +54,13 @@ const AstroThesaurusSearchField = (props) => {
         });
     };
 
-
     return (
         <FormSearchField
             renderCustomOption={AstroThesaurusOption}
             handleSearch={handleSearch}
             options={options}
+            labelKey="label"
+            valueKey="label"
             {...custom}
         />
     );

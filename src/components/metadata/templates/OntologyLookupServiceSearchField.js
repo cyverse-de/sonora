@@ -4,12 +4,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { useTranslation } from "i18n";
-
 import FormSearchField from "components/forms/FormSearchField";
 
 import { ListItemText, MenuItem } from "@material-ui/core";
-
 
 const OLSOption = (option) => (
     <MenuItem>
@@ -27,7 +24,6 @@ const OLSOption = (option) => (
 const OntologyLookupServiceSearchField = (props) => {
     const { attribute, searchOLSTerms, ...custom } = props;
     const [options, setOptions] = React.useState([]);
-    const { t } = useTranslation("metadata");
 
     const handleSearch = (event, value, reason) => {
         if (reason === "clear" || value === "") {
@@ -48,6 +44,8 @@ const OntologyLookupServiceSearchField = (props) => {
             renderCustomOption={OLSOption}
             handleSearch={handleSearch}
             options={options}
+            labelKey="label"
+            valueKey="label"
             {...custom}
         />
     );

@@ -57,7 +57,7 @@ import {
 } from "serviceFacades/instantlaunches";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
-import { INFO } from "components/announcer/AnnouncerConstants";
+import { ERROR, INFO } from "components/announcer/AnnouncerConstants";
 import buildID from "components/utils/DebugIDUtil";
 
 import { useTranslation } from "i18n";
@@ -300,7 +300,9 @@ function Listing(props) {
                 CustomAction: viewUploadQueue,
             });
 
-            setErroredUploadCount(uploads.filter((upload) => upload.hasErrored).length)
+            setErroredUploadCount(
+                uploads.filter((upload) => upload.hasErrored).length
+            );
         }
     }, [uploadTracker, t, viewUploadQueue]);
 
@@ -310,11 +312,11 @@ function Listing(props) {
                 text: t("uploadFailed", {
                     count: erroredUploadCount,
                 }),
-                variant: AnnouncerConstants.ERROR,
+                variant: ERROR,
                 CustomAction: viewUploadQueue,
-            })
+            });
         }
-    }, [erroredUploadCount, t, viewUploadQueue])
+    }, [erroredUploadCount, t, viewUploadQueue]);
 
     let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
 

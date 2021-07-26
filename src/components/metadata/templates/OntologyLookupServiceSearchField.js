@@ -1,24 +1,22 @@
 /**
- * @author psarando
+ * @author psarando sriram
  */
 import React from "react";
 import PropTypes from "prop-types";
 
 import FormSearchField from "components/forms/FormSearchField";
 
-import { ListItemText, MenuItem } from "@material-ui/core";
+import { ListItemText } from "@material-ui/core";
 
 const OLSOption = (option) => (
-    <MenuItem>
-        <ListItemText
-            primary={option.label}
-            secondary={
-                option.ontology_prefix &&
-                option.iri &&
-                `${option.ontology_prefix}: ${option.iri}`
-            }
-        />
-    </MenuItem>
+    <ListItemText
+        primary={option.label}
+        secondary={
+            option.ontology_prefix &&
+            option.iri &&
+            `${option.ontology_prefix}: ${option.iri}`
+        }
+    />
 );
 
 const OntologyLookupServiceSearchField = (props) => {

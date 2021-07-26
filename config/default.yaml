@@ -81,3 +81,8 @@ services:
 grouper:
     allUsers: GrouperAll
     admin: de_grouper
+
+unleash:
+    api_url: http://unleash:4242/api
+    client_secret: null
+    maintenance_flag: DE-Maintenance

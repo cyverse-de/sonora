@@ -1,5 +1,5 @@
 /**
- * @author psarando
+ * @author psarando sriram
  */
 import React from "react";
 
@@ -24,6 +24,14 @@ const FormSearchField = ({
     ...props
 }) => {
     const errorMsg = getFormError(field.name, touched, errors);
+    const [searchValue, setSearchValue] = React.useState(value);
+
+    React.useEffect(() => {
+        const val = {};
+        val[props.labelKey] = value;
+        setSearchValue(val);
+    }, [value, setSearchValue, props.labelKey]);
+
     const onOptionSelected = (event, option, reason) => {
         setFieldValue(field.name, option ? option[props.valueKey] : "");
     };
@@ -34,11 +42,13 @@ const FormSearchField = ({
                 getOptionSelected={(option, value) =>
                     option[props.labelKey] === value[props.labelKey]
                 }
-                getOptionLabel={(option) => option[props.labelKey]}
+                getOptionLabel={(option) =>
+                    option ? option[props.labelKey] : ""
+                }
                 options={options}
                 size={size}
                 freeSolo={true}
-                inputValue={value}
+                value={searchValue}
                 onInputChange={handleSearch}
                 onChange={onOptionSelected}
                 renderOption={(option, state) => renderCustomOption(option)}

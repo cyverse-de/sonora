@@ -313,7 +313,7 @@ Timestamp.argTypes = {
     readOnly,
 };
 
-export const SearchField = ({ label, helperText }) => {
+export const SearchField = ({ label, helperText, required }) => {
     const CustomOption = (option) => (
         <ListItemText primary={option.label} secondary={option.iri} />
     );
@@ -393,6 +393,7 @@ export const SearchField = ({ label, helperText }) => {
                 label={label}
                 helperText={helperText}
                 name="test_field"
+                required={required}
             />
         </TestForm>
     );
@@ -407,6 +408,7 @@ SearchField.argTypes = {
         },
     },
     helperText,
+    required,
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export

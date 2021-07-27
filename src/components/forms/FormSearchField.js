@@ -4,15 +4,14 @@
 import React from "react";
 import { useTranslation } from "i18n";
 
-import getFormError from "./getFormError";
-
 import Autocomplete, {
     createFilterOptions,
 } from "@material-ui/lab/Autocomplete";
-import TextField from "@material-ui/core/TextField";
+
+import FormTextField from "./FormTextField";
 
 const FormSearchField = ({
-    field: { value, onBlur, onChange, ...field },
+    field: { value, onChange, ...field },
     label,
     helperText,
     required,
@@ -20,10 +19,9 @@ const FormSearchField = ({
     size = "small",
     renderCustomOption,
     handleSearch,
-    form: { touched, errors, setFieldTouched, setFieldValue },
+    form: { setFieldValue, ...form },
     ...props
 }) => {
-    const errorMsg = getFormError(field.name, touched, errors);
     const [searchValue, setSearchValue] = React.useState(value);
     const filter = createFilterOptions();
     const { t } = useTranslation("common");
@@ -61,6 +59,7 @@ const FormSearchField = ({
             freeSolo={true}
             selectOnFocus={true}
             value={searchValue}
+            blurOnSelect={true}
             handleHomeEndKeys={true}
             onInputChange={handleSearch}
             onChange={onOptionSelected}
@@ -80,16 +79,17 @@ const FormSearchField = ({
                 return filtered;
             }}
             renderInput={(params) => (
-                <TextField
-                    error={!!errorMsg}
+                <FormTextField
                     label={label}
                     variant="outlined"
-                    helperText={errorMsg || helperText}
+                    form={form}
+                    field={field}
+                    helperText={helperText}
+                    required={required}
+                    {...props}
                     {...params}
                 />
             )}
-            {...field}
-            {...props}
         />
     );
 };

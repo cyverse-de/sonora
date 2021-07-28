@@ -380,7 +380,7 @@ export const SearchField = ({ label, helperText, required }) => {
         },
     ];
     return (
-        <TestForm initialValue="subtropical desert biome">
+        <TestForm initialValue="subtropical desert biome" required={required}>
             <Field
                 component={FormSearchField}
                 renderCustomOption={CustomOption}

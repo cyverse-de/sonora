@@ -78,6 +78,11 @@ a {
     justify-content: space-around !important;
 }
 
+.btn-maintenance {
+    background-color: #0971ab;
+    color: #ffff
+}
+
 .btn-outline-secondary {
     color: #004471;
     border-color: #004471;

@@ -14,6 +14,7 @@ const FormSearchField = ({
     field: { value, onChange, ...field },
     options,
     size = "small",
+    id,
     renderCustomOption,
     handleSearch,
     form: { setFieldValue, ...form },
@@ -48,7 +49,7 @@ const FormSearchField = ({
 
     return (
         <Autocomplete
-            id="searchField"
+            id={id}
             getOptionSelected={(option, value) =>
                 option[labelKey] === value[labelKey]
             }
@@ -70,7 +71,7 @@ const FormSearchField = ({
                     filtered.push({
                         inputValue: params.inputValue,
                         label: t("formatTermFreeTextOption", {
-                            inputValue: inputValue,
+                            inputValue,
                         }),
                     });
                 }

@@ -24,6 +24,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { Web } from "@material-ui/icons";
 import { openInteractiveUrl } from "../analyses/utils";
+import { CommunityIcon } from "../communities/Icons";
 
 function DrawerItems(props) {
     const {
@@ -116,15 +117,15 @@ function DrawerItems(props) {
                 toggleDrawer={toggleDrawer}
                 open={open}
             />
-            {/*<DrawerItem*/}
-            {/*    title={t("communities")}*/}
-            {/*    id={ids.COMMUNITIES_MI}*/}
-            {/*    icon={CommunityIcon}*/}
-            {/*    thisView={NavigationConstants.COMMUNITIES}*/}
-            {/*    activeView={activeView}*/}
-            {/*    toggleDrawer={toggleDrawer}*/}
-            {/*    open={open}*/}
-            {/*/>*/}
+            <DrawerItem
+                title={t("communities")}
+                id={ids.COMMUNITIES_MI}
+                icon={CommunityIcon}
+                thisView={NavigationConstants.COMMUNITIES}
+                activeView={activeView}
+                toggleDrawer={toggleDrawer}
+                open={open}
+            />
             <Hidden smUp>
                 <DrawerItem
                     title={t("search")}

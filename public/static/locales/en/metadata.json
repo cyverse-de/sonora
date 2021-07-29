@@ -39,7 +39,6 @@
     "errMetadataTemplateAlertMsg": "1 or more Attributes (or a child attribute) have 1 or more errors.",
     "errMetadataTemplateLoad": "Unable to load Metadata Template. Please try again.",
     "errSubmission": "Unable to save metadata. Please try again.",
-    "formatMetadataTermFreeTextOption": "Use \"{{inputValue}}\"",
     "helpText": "<p>An attribute is a changeable property or characteristic of the file or folder you have selected that can be set to a value.</p><p>For example, \"filetype\" is an attribute of a file and \"text\" would be its value.</p><p>By entering this information, you are describing the contents and context of the data. This can be very useful when you are trying to remember specific information about that data in the future, or sharing a file so collaborators may know the context of the data, and many other instances. </p>",
     "importIRODSMetadata": "Import to User Metadata",
     "importIRODSMetadataMsg": "This will import your existing metadata to the CyVerse metadata database. This cannot be undone. For more information, please see <irodsMetadataLink>Using Metadata with the CyVerse Data Store</irodsMetadataLink>. Continue?",

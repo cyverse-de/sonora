@@ -1,27 +1,29 @@
 /**
- * @author psarando
+ * @author psarando sriram
  */
 import React from "react";
 import PropTypes from "prop-types";
 
-import { useTranslation } from "i18n";
-
 import FormSearchField from "components/forms/FormSearchField";
 
-import { ListItemText, MenuItem } from "@material-ui/core";
+import { ListItemText } from "@material-ui/core";
 
-const AstroThesaurusOption = ({ innerRef, isFocused, innerProps, data }) => (
-    <MenuItem buttonRef={innerRef} selected={isFocused} {...innerProps}>
-        <ListItemText primary={data.label} secondary={data.iri} />
-    </MenuItem>
+const AstroThesaurusOption = (option) => (
+    <ListItemText primary={option.label} secondary={option.iri} />
 );
 
 const AstroThesaurusSearchField = (props) => {
     const { searchAstroThesaurusTerms, ...custom } = props;
+    const [options, setOptions] = React.useState([]);
 
-    const { t } = useTranslation("metadata");
+    const handleSearch = (event, value, reason) => {
+        if (reason === "clear" || value === "") {
+            setOptions([]);
+        }
+        loadOptions(value);
+    };
 
-    const loadOptions = (inputValue, callback) => {
+    const loadOptions = (inputValue) => {
         searchAstroThesaurusTerms({
             inputValue,
             callback: (response) => {
@@ -45,23 +47,18 @@ const AstroThesaurusSearchField = (props) => {
                     return filtered;
                 }, {});
 
-                callback(Object.values(filteredMap || {}));
+                setOptions(Object.values(filteredMap || {}));
             },
         });
     };
 
-    const formatCreateLabel = (inputValue) => {
-        return t("formatMetadataTermFreeTextOption", { inputValue });
-    };
-
     return (
         <FormSearchField
-            loadOptions={loadOptions}
-            variant="asyncCreatable"
+            renderCustomOption={AstroThesaurusOption}
+            handleSearch={handleSearch}
+            options={options}
             labelKey="label"
             valueKey="label"
-            CustomOption={AstroThesaurusOption}
-            formatCreateLabel={formatCreateLabel}
             {...custom}
         />
     );

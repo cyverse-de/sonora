@@ -1,53 +1,49 @@
 /**
- * @author psarando
+ * @author psarando sriram
  */
 import React from "react";
 import PropTypes from "prop-types";
 
-import { useTranslation } from "i18n";
-
 import FormSearchField from "components/forms/FormSearchField";
 
-import { ListItemText, MenuItem } from "@material-ui/core";
+import { ListItemText } from "@material-ui/core";
 
-const OLSOption = ({ innerRef, isFocused, innerProps, data }) => (
-    <MenuItem buttonRef={innerRef} selected={isFocused} {...innerProps}>
-        <ListItemText
-            primary={data.label}
-            secondary={
-                data.ontology_prefix &&
-                data.iri &&
-                `${data.ontology_prefix}: ${data.iri}`
-            }
-        />
-    </MenuItem>
+const OLSOption = (option) => (
+    <ListItemText
+        primary={option.label}
+        secondary={
+            option.ontology_prefix &&
+            option.iri &&
+            `${option.ontology_prefix}: ${option.iri}`
+        }
+    />
 );
 
 const OntologyLookupServiceSearchField = (props) => {
     const { attribute, searchOLSTerms, ...custom } = props;
+    const [options, setOptions] = React.useState([]);
 
-    const { t } = useTranslation("metadata");
-
-    const loadOptions = (inputValue, callback) => {
+    const handleSearch = (event, value, reason) => {
+        if (reason === "clear" || value === "") {
+            setOptions([]);
+        }
+        loadOptions(value);
+    };
+    const loadOptions = (inputValue) => {
         searchOLSTerms({
             inputValue,
             loaderSettings: attribute?.settings || {},
-            callback: (results) => callback(results?.response?.docs),
+            callback: (results) => setOptions(results?.response?.docs),
         });
-    };
-
-    const formatCreateLabel = (inputValue) => {
-        return t("formatMetadataTermFreeTextOption", { inputValue });
     };
 
     return (
         <FormSearchField
-            loadOptions={loadOptions}
-            variant="asyncCreatable"
+            renderCustomOption={OLSOption}
+            handleSearch={handleSearch}
+            options={options}
             labelKey="label"
             valueKey="label"
-            CustomOption={OLSOption}
-            formatCreateLabel={formatCreateLabel}
             {...custom}
         />
     );

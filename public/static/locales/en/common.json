@@ -34,6 +34,7 @@
     "environment": "<b>E</b>nvironment",
     "errorMarkAsSeen": "Unable to mark notifications as read.",
     "filter": "Filter",
+    "formatTermFreeTextOption": "Use \"{{inputValue}}\"",
     "help": "Help",
     "home": "Home",
     "interactiveAnalysisUrl": "{{message}}. Access your running analysis here.",

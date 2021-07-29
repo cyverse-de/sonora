@@ -98,7 +98,6 @@
         "react-player": "^2.6.2",
         "react-query": "^2.5.13",
         "react-query-devtools": "^2.1.1",
-        "react-select": "^2.4.4",
         "react-table": "^7.7.0",
         "request": "^2.88.0",
         "request-promise": "^4.2.5",

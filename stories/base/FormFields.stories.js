@@ -12,12 +12,13 @@ import {
     FormSwitch,
     FormTextField,
     FormTimestampField,
+    FormSearchField,
 } from "components/forms/FormField";
 
 import { formatDateObject } from "components/utils/DateFormatter";
 import dateConstants from "components/utils/dateConstants";
 
-import { MenuItem } from "@material-ui/core";
+import { MenuItem, ListItemText } from "@material-ui/core";
 
 const helperText = {
     name: "Helper Text",
@@ -310,6 +311,104 @@ Timestamp.argTypes = {
     },
     helperText,
     readOnly,
+};
+
+export const SearchField = ({ label, helperText, required }) => {
+    const CustomOption = (option) => (
+        <ListItemText primary={option.label} secondary={option.iri} />
+    );
+    const searchOptions = [
+        {
+            id: "envo:class:http://purl.obolibrary.org/obo/ENVO_01000955",
+            iri: "http://purl.obolibrary.org/obo/ENVO_01000955",
+            label: "desert tree line ecotone",
+            ontology_prefix: "ENVO",
+        },
+        {
+            id: "envo:class:http://purl.obolibrary.org/obo/ENVO_01000956",
+            iri: "http://purl.obolibrary.org/obo/ENVO_01000956",
+            label: "desert-alpine tree line ecotone",
+            ontology_prefix: "ENVO",
+        },
+        {
+            id: "envo:class:http://purl.obolibrary.org/obo/ENVO_01000179",
+            iri: "http://purl.obolibrary.org/obo/ENVO_01000179",
+            label: "desert biome",
+            ontology_prefix: "ENVO",
+        },
+        {
+            id: "envo:class:http://purl.obolibrary.org/obo/ENVO_01001780",
+            iri: "http://purl.obolibrary.org/obo/ENVO_01001780",
+            label: "desert ecosystem",
+            ontology_prefix: "ENVO",
+        },
+        {
+            id: "envo:class:http://purl.obolibrary.org/obo/ENVO_03500006",
+            iri: "http://purl.obolibrary.org/obo/ENVO_03500006",
+            label: "food desert",
+            ontology_prefix: "ENVO",
+        },
+        {
+            id: "envo:class:http://purl.obolibrary.org/obo/ENVO_01000185",
+            iri: "http://purl.obolibrary.org/obo/ENVO_01000185",
+            label: "montane desert biome",
+            ontology_prefix: "ENVO",
+        },
+        {
+            id: "envo:class:http://purl.obolibrary.org/obo/ENVO_01000186",
+            iri: "http://purl.obolibrary.org/obo/ENVO_01000186",
+            label: "polar desert biome",
+            ontology_prefix: "ENVO",
+        },
+        {
+            id: "envo:class:http://purl.obolibrary.org/obo/ENVO_01000182",
+            iri: "http://purl.obolibrary.org/obo/ENVO_01000182",
+            label: "temperate desert biome",
+            ontology_prefix: "ENVO",
+        },
+        {
+            id: "envo:class:http://purl.obolibrary.org/obo/ENVO_01000183",
+            iri: "http://purl.obolibrary.org/obo/ENVO_01000183",
+            label: "tropical desert biome",
+            ontology_prefix: "ENVO",
+        },
+        {
+            id: "envo:class:http://purl.obolibrary.org/obo/ENVO_01000184",
+            iri: "http://purl.obolibrary.org/obo/ENVO_01000184",
+            label: "subtropical desert biome",
+            ontology_prefix: "ENVO",
+        },
+    ];
+    return (
+        <TestForm initialValue="subtropical desert biome" required={required}>
+            <Field
+                component={FormSearchField}
+                renderCustomOption={CustomOption}
+                handleSearch={(event, value, reason) => {
+                    console.log("SearchField handleSearch = " + value);
+                }}
+                options={searchOptions}
+                labelKey="label"
+                valueKey="label"
+                label={label}
+                helperText={helperText}
+                name="test_field"
+                required={required}
+            />
+        </TestForm>
+    );
+};
+
+SearchField.argTypes = {
+    label: {
+        name: "Label",
+        defaultValue: "Search Field Label",
+        control: {
+            type: "text",
+        },
+    },
+    helperText,
+    required,
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export

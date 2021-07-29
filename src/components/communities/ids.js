@@ -1,4 +1,5 @@
 export default {
+    APP_LIST: "appList",
     BUTTONS: {
         HELP_BTN: "helpBtn",
     },

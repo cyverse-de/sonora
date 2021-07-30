@@ -1,52 +1,120 @@
-:root {
-    --primary-color: #0971AB;
-    --primary-hover: rgb(6, 79, 119);
-    --secondary-color: #99D9EA;
-}
-
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #fafafa;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    height: 100vh;
-    overflow: auto;
 }
 
-.main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 25vh;
+.icons {
+    margin-left: 8px;
+    margin-top: 4px;
+    width: 150px;
 }
 
-.primary {
-    color: var(--primary-color);
+.icon {
+    margin: 1rem;
+    width: 25px;
 }
 
-.card {
-    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-    border-radius: 4px;
-    padding: 12px;
+a {
+    text-decoration: none;
 }
 
-.cardActions {
-    display: flex;
-    justify-content: space-evenly;
+.cyverse-blue-bg {
+    background-color: rgba(9, 113, 171, .2);
+    color: #004471;
 }
 
-button {
-    color: white;
-    background-color: var(--primary-color);
-    padding: 6px 16px;
-    margin: 6px;
+.cyverse-silver-bg {
+    background-color: rgba(72, 81, 95, .2);
+    color: #004471;
+}
+
+.cyverse-dk-navy-bg {
+    background-color: rgba(0, 68, 113, .2);
+    color: #004471;
+}
+
+.cyverse-blue {
+    color: #0971ab;
+}
+
+.bottomDiv {
+    margin: 0.5rem;
+    padding: 8px;
+    flex-grow: 1;
+}
+
+.bottomButton {
+    padding: 0;
     border: none;
-    box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-    border-radius: 4px;
+    background: none;
+    outline: none;
+    margin: 8px;
+    text-decoration-line: none;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: var(--primary-hover);
+.bottomButton:hover {
+    text-decoration-line: underline;
+    color: #000000;
+}
+
+.center {
+    margin: auto;
+    text-align: center;
+}
+
+.d-flex {
+    display: flex !important;
+}
+
+.justify-content-center {
+    justify-content: center !important;
+}
+
+.justify-content-between {
+    justify-content: space-between !important;
+}
+
+.justify-content-around {
+    justify-content: space-around !important;
+}
+
+.btn-maintenance {
+    background-color: #0971ab;
+    color: #ffff
+}
+
+.btn-outline-secondary {
+    color: #004471;
+    border-color: #004471;
+}
+
+.btn-outline-secondary:hover {
+    color: #004471;
+    background-color: #99d9ea;
+    border-color: #99d9ea;
+}
+
+.btn-outline-light {
+    color: #004471;
+    border-color: #004471
+}
+
+.btn-outline-light:hover {
+    color: #000000;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.flex-col {
+    flex-direction: column !important;
+}
+
+.col-content {
+    position: relative;
+    min-height: 175px;
+}
+
+.align-self-end {
+    position: absolute;
+    bottom: 0px;
 }

@@ -11,6 +11,7 @@ export default {
         UNFOLLOW_MI: "unfollowMI",
     },
     COMMUNITY_FILTER: "communityFilter",
+    COMMUNITY_LINK: "communityLink",
     DELETE_COMMUNITY_DLG: "deleteCommunityDlg",
     DESCRIPTION: "description",
     DOT_MENU: "dotMenu",

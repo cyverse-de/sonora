@@ -15,7 +15,7 @@ const COMMUNITY_FILTER = {
 };
 
 function Communities(props) {
-    const { baseId } = props;
+    const { baseId, onCommunitySelected } = props;
     const [communityFilter, setCommunityFilter] = useState(
         COMMUNITY_FILTER.ALL_COMMUNITIES
     );
@@ -27,7 +27,11 @@ function Communities(props) {
                 filter={communityFilter}
                 setFilter={setCommunityFilter}
             />
-            <Listing parentId={baseId} filter={communityFilter} />
+            <Listing
+                parentId={baseId}
+                filter={communityFilter}
+                onCommunitySelected={onCommunitySelected}
+            />
         </>
     );
 }

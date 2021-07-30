@@ -68,9 +68,12 @@ function EditToolDialog(props) {
     const [toolTypeQueryEnabled, setToolTypesQueryEnabled] = useState();
 
     const [config] = useConfig();
-    const maxCPUCore = config?.tools?.private.max_cpu_limit;
-    const maxMemory = config?.tools?.private.max_memory_limit;
-    const maxDiskSpace = config?.tools?.private.max_disk_limit;
+    const resourceConfigs = isAdmin
+        ? config?.tools?.admin
+        : config?.tools?.private;
+    const maxCPUCore = resourceConfigs?.max_cpu_limit;
+    const maxMemory = resourceConfigs?.max_memory_limit;
+    const maxDiskSpace = resourceConfigs?.max_disk_limit;
 
     const toolTypesCache = queryCache.getQueryData(TOOL_TYPES_QUERY_KEY);
 
@@ -274,7 +277,7 @@ function EditToolDialog(props) {
                             <Grid
                                 container
                                 direction="row"
-                                justify="flex-end"
+                                justifyContent="flex-end"
                                 alignItems="flex-end"
                                 spacing={1}
                             >

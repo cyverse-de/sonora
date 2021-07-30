@@ -23,6 +23,15 @@ module.exports = withBundleAnalyzer({
         SESSION_POLL_INTERVAL_MS: config.has("sessions.poll_interval_ms")
             ? config.get("sessions.poll_interval_ms")
             : 5000,
+        TOOLS_ADMIN_MAX_CPU_LIMIT: config.has("tools.admin.max_cpu_limit")
+            ? config.get("tools.admin.max_cpu_limit")
+            : 8,
+        TOOLS_ADMIN_MAX_MEMORY_LIMIT: config.has("tools.admin.max_memory_limit")
+            ? config.get("tools.admin.max_memory_limit")
+            : 16 * ONE_GiB,
+        TOOLS_ADMIN_MAX_DISK_LIMIT: config.has("tools.admin.max_disk_limit")
+            ? config.get("tools.admin.max_disk_limit")
+            : 512 * ONE_GiB,
         TOOLS_PRIVATE_MAX_CPU_LIMIT: config.has("tools.private.max_cpu_limit")
             ? config.get("tools.private.max_cpu_limit")
             : 8,

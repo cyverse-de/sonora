@@ -55,6 +55,10 @@ function buildLimitList(startValue, minValue, maxValue) {
         value *= 2;
     }
 
+    if (limits[limits.length - 1] !== maxValue) {
+        limits.push(maxValue);
+    }
+
     return limits;
 }
 

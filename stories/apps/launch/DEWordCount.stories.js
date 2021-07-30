@@ -23,6 +23,9 @@ export const DEWordCount = ({
     loading,
     loadingError,
     submissionError,
+    defaultMaxCPUCores,
+    defaultMaxMemory,
+    defaultMaxDiskSpace,
 }) => {
     const [appError, setAppError] = React.useState(null);
 
@@ -50,9 +53,9 @@ export const DEWordCount = ({
             app={!loadingError && app}
             loading={loading}
             appError={appError || (loadingError && errorObject)}
-            defaultMaxCPUCores={8}
-            defaultMaxMemory={4 * constants.ONE_GiB}
-            defaultMaxDiskSpace={64 * constants.ONE_GiB}
+            defaultMaxCPUCores={defaultMaxCPUCores}
+            defaultMaxMemory={defaultMaxMemory}
+            defaultMaxDiskSpace={defaultMaxDiskSpace}
             submitAnalysis={(submission, onSuccess, onError) => {
                 setAppError(null);
                 submitAnalysis(
@@ -104,6 +107,24 @@ DEWordCount.argTypes = {
             type: "boolean",
         },
     },
+    defaultMaxCPUCores: {
+        name: "Max CPU Cores",
+        control: {
+            type: "number",
+        },
+    },
+    defaultMaxMemory: {
+        name: "Max Memory",
+        control: {
+            type: "number",
+        },
+    },
+    defaultMaxDiskSpace: {
+        name: "Max Disk Space",
+        control: {
+            type: "number",
+        },
+    },
 };
 
 DEWordCount.args = {
@@ -112,4 +133,7 @@ DEWordCount.args = {
     loading: false,
     loadingError: false,
     submissionError: false,
+    defaultMaxCPUCores: 8,
+    defaultMaxMemory: 4 * constants.ONE_GiB,
+    defaultMaxDiskSpace: 64 * constants.ONE_GiB,
 };

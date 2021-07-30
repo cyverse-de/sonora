@@ -22,7 +22,7 @@ export default {
     tools: {
         admin: {
             max_cpu_limit: 48,
-            max_memory_limit: 256 * constants.ONE_GiB,
+            max_memory_limit: 244 * constants.ONE_GiB,
             max_disk_limit: 1024 * constants.ONE_GiB,
         },
         private: {

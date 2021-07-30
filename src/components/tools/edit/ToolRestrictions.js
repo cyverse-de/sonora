@@ -21,15 +21,18 @@ const formatGBListItem = (size) => size && numeral(size).format("0 ib");
 const formatGBValue = (size) => size && numeral(size).format("0.0 ib");
 
 function buildLimitList(startValue, maxValue) {
-    let limits = [];
-    limits.push(0);
-    limits.push(startValue);
+    const limits = [0];
 
     let value = startValue;
-    while (value < maxValue) {
-        value *= 2;
+    while (value <= maxValue) {
         limits.push(value);
+        value *= 2;
     }
+
+    if (limits[limits.length - 1] !== maxValue) {
+        limits.push(maxValue);
+    }
+
     return limits;
 }
 

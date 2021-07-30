@@ -114,7 +114,14 @@ const initAppValues = (app) => {
         }),
     }));
 
-    return { ...app, groups: initializedGroups };
+    return {
+        ...app,
+        groups: initializedGroups,
+        // The editorSteps array is only required for preserving touched state
+        // after any onSubmit errors:
+        // https://github.com/formium/formik/issues/445#issuecomment-366952762
+        editorSteps: [null, null, null, null],
+    };
 };
 
 /**
@@ -151,7 +158,7 @@ const initFlagName = (name) => {
  *
  * @returns The App formatted for submission to the service.
  */
-const formatSubmission = (app) => {
+const formatSubmission = ({ editorSteps, ...app }) => {
     const { groups, tools } = app;
 
     const formattedGroups = groups?.map(

@@ -50,6 +50,10 @@ const initAppLaunchValues = (
     );
 
     return {
+        // The launchSteps array is only required for preserving touched state
+        // after any onSubmit errors:
+        // https://github.com/formium/formik/issues/445#issuecomment-366952762
+        launchSteps: [null, null, null, null],
         debug: false,
         notify,
         output_dir: defaultOutputDir,

@@ -16,7 +16,8 @@ import WorkflowEditor from "components/apps/workflows/Editor";
 import ids from "components/apps/workflows/ids";
 import NewWorkflowDefaults from "components/apps/workflows/NewWorkflowDefaults";
 
-const booleanControl = {
+const loading = {
+    name: "Loading Mask",
     control: {
         type: "boolean",
     },
@@ -84,7 +85,7 @@ export const NewWorkflow = (props) => {
 };
 
 export const SimplePipeline = (props) => {
-    const { loading, "Loading Error": loadingError } = props;
+    const { loading, loadingError } = props;
 
     initAxiosMocks();
 
@@ -99,8 +100,18 @@ export const SimplePipeline = (props) => {
 };
 
 SimplePipeline.argTypes = {
-    loading: booleanControl,
-    "Loading Error": booleanControl,
+    loading,
+    loadingError: {
+        name: "Loading Error",
+        control: {
+            type: "boolean",
+        },
+    },
+};
+
+SimplePipeline.args = {
+    loading: false,
+    loadingError: false,
 };
 
 export const DeprecatedToolsPipeline = (props) => {
@@ -117,6 +128,7 @@ export const DeprecatedToolsPipeline = (props) => {
     );
 };
 
-DeprecatedToolsPipeline.argTypes = { loading: booleanControl };
+DeprecatedToolsPipeline.argTypes = { loading };
+DeprecatedToolsPipeline.args = { loading: false };
 
 export default { title: "Apps / Workflows" };

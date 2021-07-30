@@ -21,8 +21,8 @@ export const DEWordCount = ({
     deleted,
     disabled,
     loading,
-    "Loading Error": loadingError,
-    "Submission Error": submissionError,
+    loadingError,
+    submissionError,
 }) => {
     const [appError, setAppError] = React.useState(null);
 
@@ -75,28 +75,41 @@ export const DEWordCount = ({
 
 DEWordCount.argTypes = {
     deleted: {
+        name: "Deleted",
         control: {
             type: "boolean",
         },
     },
     disabled: {
+        name: "Disabled",
         control: {
             type: "boolean",
         },
     },
     loading: {
+        name: "Loading Mask",
         control: {
             type: "boolean",
         },
     },
-    "Loading Error": {
+    loadingError: {
+        name: "Loading Error",
         control: {
             type: "boolean",
         },
     },
-    "Submission Error": {
+    submissionError: {
+        name: "Submission Error",
         control: {
             type: "boolean",
         },
     },
+};
+
+DEWordCount.args = {
+    deleted: false,
+    disabled: false,
+    loading: false,
+    loadingError: false,
+    submissionError: false,
 };

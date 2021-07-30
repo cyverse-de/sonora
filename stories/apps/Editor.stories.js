@@ -80,11 +80,7 @@ export const NewApp = (props) => {
 };
 
 export const KitchenSinkEditor = (props) => {
-    const {
-        loading,
-        "Loading Error": loadingError,
-        "Public App View": cosmeticOnly,
-    } = props;
+    const { loading, loadingError, cosmeticOnly } = props;
 
     initMockAxiosForAppEditor();
 
@@ -99,18 +95,27 @@ export const KitchenSinkEditor = (props) => {
     );
 };
 
+KitchenSinkEditor.args = {
+    loading: false,
+    loadingError: false,
+    cosmeticOnly: false,
+};
+
 KitchenSinkEditor.argTypes = {
     loading: {
+        name: "Loading Mask",
         control: {
             type: "boolean",
         },
     },
-    "Loading Error": {
+    loadingError: {
+        name: "Loading Error",
         control: {
             type: "boolean",
         },
     },
-    "Public App View": {
+    cosmeticOnly: {
+        name: "Public App View",
         control: {
             type: "boolean",
         },

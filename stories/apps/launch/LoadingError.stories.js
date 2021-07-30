@@ -12,7 +12,7 @@ const errorObject = {
     },
 };
 
-export const LoadingError = ({ "Longer Error Message": customMessage }) => {
+export const LoadingError = ({ customMessage }) => {
     return (
         <AppLaunchStoryBase
             appError={{
@@ -28,9 +28,14 @@ export const LoadingError = ({ "Longer Error Message": customMessage }) => {
 };
 
 LoadingError.argTypes = {
-    "Longer Error Message": {
+    customMessage: {
+        name: "Longer Error Message",
         control: {
             type: "boolean",
         },
     },
+};
+
+LoadingError.args = {
+    customMessage: false,
 };

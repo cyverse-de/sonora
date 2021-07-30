@@ -210,18 +210,22 @@ const validateDouble = ({ value, validators }, t) => {
  */
 const validate = (t) => (values) => {
     const errors = {};
+    const launchStepErrors = [];
 
     if (!values.name) {
         errors.name = t("required");
+        launchStepErrors[0] = true;
     } else {
         const nameError = validateDiskResourceName(values.name, t);
         if (nameError) {
             errors.name = nameError;
+            launchStepErrors[0] = true;
         }
     }
 
     if (!values.output_dir) {
         errors.output_dir = t("required");
+        launchStepErrors[0] = true;
     }
 
     if (values.groups) {
@@ -283,7 +287,12 @@ const validate = (t) => (values) => {
 
         if (groupErrors.length > 0) {
             errors.groups = groupErrors;
+            launchStepErrors[1] = true;
         }
+    }
+
+    if (launchStepErrors.length > 0) {
+        errors.launchSteps = launchStepErrors;
     }
 
     return errors;

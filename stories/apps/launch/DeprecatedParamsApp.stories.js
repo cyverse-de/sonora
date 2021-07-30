@@ -11,13 +11,20 @@ export const DeprecatedParams = ({ deleted, disabled }) => {
 
 DeprecatedParams.argTypes = {
     deleted: {
+        name: "Deleted",
         control: {
             type: "boolean",
         },
     },
     disabled: {
+        name: "Disabled",
         control: {
             type: "boolean",
         },
     },
+};
+
+DeprecatedParams.args = {
+    deleted: false,
+    disabled: false,
 };

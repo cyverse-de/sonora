@@ -1,10 +1,13 @@
 {
+    "adminHelpMessage": "A community admin has the ability to help manage the community. Admins can add or remove other community admins and add or remove apps to the community.",
     "allCommunities": "All Communities",
+    "communityAdmins": "Community Admins",
     "communityApps": "Community Apps",
     "description": "Description",
     "helpText": "Communities are a selected collection of public resources that you can create. You can also follow a community to see and easily access that community's custom list of resources, like in the Apps view.",
     "myCommunities": "My Communities",
     "name": "Name",
     "noCommunities": "No communities",
+    "remove": "Remove",
     "view": "View"
 }

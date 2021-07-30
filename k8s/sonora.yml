@@ -36,7 +36,7 @@ spec:
             path: local.yaml
       containers:
       - name: sonora
-        image: discoenv/sonora
+        image: harbor.cyverse.org/de/sonora
         resources:
           requests:
             cpu: "100m"

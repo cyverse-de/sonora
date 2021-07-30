@@ -10,5 +10,5 @@ build:
   tagPolicy:
     gitCommit: {}
   artifacts:
-    - image: discoenv/sonora
+    - image: harbor.cyverse.org/de/sonora
   local: {}

@@ -327,6 +327,7 @@ function GlobalSearchField(props) {
         singleSearchOption = false,
         onShowDetailedSearch,
         onOptionSelected,
+        outlined,
     } = props;
 
     const { t } = useTranslation("common");
@@ -742,7 +743,7 @@ function GlobalSearchField(props) {
             id={buildID(ids.SEARCH, ids.SEARCH_INPUT_FILED)}
             {...params}
             className={classes.input}
-            variant={isMobile ? "outlined" : "standard"}
+            variant={isMobile || outlined ? "outlined" : "standard"}
             InputProps={{
                 ...params.InputProps,
                 disableUnderline: true,

@@ -265,6 +265,12 @@ function SelectionDrawer(props) {
         //disable file viewer from selection drawer
         if (resource?.type !== ResourceTypes.FILE) {
             setCurrentPath(path);
+            setViewSettings({
+                order: viewSettings?.order,
+                orderBy: viewSettings?.orderBy,
+                page: 0,
+                rowsPerPage: viewSettings?.rowsPerPage,
+            });
         }
     };
 

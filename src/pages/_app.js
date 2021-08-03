@@ -156,6 +156,12 @@ function MyApp({ Component, pageProps }) {
             poll_interval_ms: publicRuntimeConfig.SESSION_POLL_INTERVAL_MS,
         };
         const tools = {
+            admin: {
+                max_cpu_limit: publicRuntimeConfig.TOOLS_ADMIN_MAX_CPU_LIMIT,
+                max_memory_limit:
+                    publicRuntimeConfig.TOOLS_ADMIN_MAX_MEMORY_LIMIT,
+                max_disk_limit: publicRuntimeConfig.TOOLS_ADMIN_MAX_DISK_LIMIT,
+            },
             private: {
                 max_cpu_limit: publicRuntimeConfig.TOOLS_PRIVATE_MAX_CPU_LIMIT,
                 max_memory_limit:

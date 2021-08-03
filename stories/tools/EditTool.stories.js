@@ -55,20 +55,30 @@ export function EditToolTest({ admin, adminPub, newTool }) {
         );
     }
 }
+
 EditToolTest.argTypes = {
     admin: {
+        name: "Admin",
         control: {
             type: "boolean",
         },
     },
     adminPub: {
+        name: "Admin Publishing",
         control: {
             type: "boolean",
         },
     },
     newTool: {
+        name: "New Tool",
         control: {
             type: "boolean",
         },
     },
+};
+
+EditToolTest.args = {
+    admin: false,
+    adminPub: false,
+    newTool: false,
 };

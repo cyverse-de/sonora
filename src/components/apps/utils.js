@@ -74,7 +74,9 @@ export const getListingPath = (
     rowsPerPage,
     filter,
     category,
-    isAdminView
+    isAdminView,
+    searchTerm,
+    adminOwnershipFilter
 ) => {
     return {
         pathname: isAdminView
@@ -87,6 +89,8 @@ export const getListingPath = (
             selectedRowsPerPage: rowsPerPage,
             selectedFilter: filter,
             selectedCategory: category,
+            searchTerm: searchTerm || "",
+            adminOwnershipFilter: adminOwnershipFilter,
         },
     };
 };

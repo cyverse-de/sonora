@@ -60,6 +60,7 @@ export default {
     DELETE: "delete",
     DOC_MENU_ITEM: "documentation",
     EDIT_MENU_ITEM: "edit",
+    SEARCH: "search",
     QUICK_LAUNCH: {
         NAME: "name",
         DESCRIPTION: "description",

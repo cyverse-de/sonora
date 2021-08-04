@@ -198,6 +198,10 @@ function MyApp({ Component, pageProps }) {
             admin: publicRuntimeConfig.GROUPER_ADMIN,
         };
 
+        const metadata = {
+            communityAttr: publicRuntimeConfig.COMMUNITY_ATTR,
+        };
+
         const legacyDeUrl = publicRuntimeConfig.LEGACY_DE_URL;
 
         if (
@@ -210,7 +214,8 @@ function MyApp({ Component, pageProps }) {
             fileIdentifiers ||
             vice ||
             grouper ||
-            legacyDeUrl
+            legacyDeUrl ||
+            metadata
         ) {
             setConfig({
                 intercom,
@@ -223,6 +228,7 @@ function MyApp({ Component, pageProps }) {
                 vice,
                 grouper,
                 legacyDeUrl,
+                metadata,
             });
         }
 

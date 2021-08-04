@@ -4,6 +4,7 @@
     "communityAdmins": "Community Admins",
     "communityApps": "Community Apps",
     "communityName": "Community Name",
+    "createCommunity": "Create Community",
     "deleteCommunityError": "Failed to delete {{ name }}. Please try again.",
     "deleteCommunitySuccess": "Successfully deleted {{ name }}",
     "deleteCommunityText": "Deleting a community removes this community for all users.",

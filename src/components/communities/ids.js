@@ -2,6 +2,8 @@ export default {
     ADMIN_LIST: "admins",
     APP_LIST: "appList",
     BUTTONS: {
+        CREATE_BTN: "createBtn",
+        CREATE_MI: "createMI",
         DELETE_MI: "deleteMI",
         FOLLOW_BTN: "followBtn",
         FOLLOW_MI: "followMI",

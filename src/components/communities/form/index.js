@@ -202,7 +202,7 @@ function CommunitiesForm(props) {
                 <>
                     <CommunityToolbar
                         parentId={parentId}
-                        isAdmin={isAdmin}
+                        isAdmin={isAdmin || isCreatingCommunity}
                         isFollower={isFollower}
                         communityName={communityName}
                         handleSubmit={handleSubmit}
@@ -234,7 +234,7 @@ function CommunitiesForm(props) {
                         {!loading && (
                             <FormFields
                                 parentId={parentId}
-                                isAdmin={isAdmin}
+                                isAdmin={isAdmin || isCreatingCommunity}
                                 queryError={queryError}
                             />
                         )}

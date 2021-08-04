@@ -20,7 +20,7 @@ import {
     Toolbar,
     Typography,
 } from "@material-ui/core";
-import { Help } from "@material-ui/icons";
+import { Add, Help } from "@material-ui/icons";
 
 import ids from "./ids";
 import styles from "./styles";
@@ -32,7 +32,7 @@ import DEDialog from "../utils/DEDialog";
 const useStyles = makeStyles(styles);
 
 function CommunityToolbar(props) {
-    const { parentId, filter, setFilter } = props;
+    const { parentId, filter, setFilter, onCreateCommunitySelected } = props;
     const classes = useStyles();
     const { t } = useTranslation(["communities", "common"]);
 
@@ -76,6 +76,17 @@ function CommunityToolbar(props) {
                 <Button
                     color="primary"
                     variant="outlined"
+                    id={buildID(toolbarId, ids.BUTTONS.CREATE_BTN)}
+                    onClick={onCreateCommunitySelected}
+                    startIcon={<Add />}
+                >
+                    {t("createCommunity")}
+                </Button>
+            </Hidden>
+            <Hidden xsDown>
+                <Button
+                    color="primary"
+                    variant="outlined"
                     id={buildID(toolbarId, ids.BUTTONS.HELP_BTN)}
                     onClick={() => setHelpDlgOpen(true)}
                     startIcon={<Help />}
@@ -87,6 +98,19 @@ function CommunityToolbar(props) {
                 <DotMenu
                     baseId={dotMenuId}
                     render={(onClose) => [
+                        <MenuItem
+                            key={buildID(dotMenuId, ids.BUTTONS.CREATE_MI)}
+                            id={buildID(dotMenuId, ids.BUTTONS.CREATE_MI)}
+                            onClick={() => {
+                                onClose();
+                                onCreateCommunitySelected();
+                            }}
+                        >
+                            <ListItemIcon>
+                                <Add fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText primary={t("createCommunity")} />
+                        </MenuItem>,
                         <MenuItem
                             key={buildID(dotMenuId, ids.BUTTONS.HELP_MI)}
                             id={buildID(dotMenuId, ids.BUTTONS.HELP_MI)}

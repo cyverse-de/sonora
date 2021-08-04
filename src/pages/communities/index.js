@@ -13,7 +13,6 @@ export default function Communities() {
     const router = useRouter();
 
     const onCommunitySelected = (communityName) => {
-        console.log(communityName);
         router.push(
             `${NavigationConstants.COMMUNITIES}/${encodeURIComponent(
                 communityName
@@ -21,10 +20,17 @@ export default function Communities() {
         );
     };
 
+    const onCreateCommunitySelected = () => {
+        router.push(
+            `${NavigationConstants.COMMUNITIES}/create`
+        );
+    }
+
     return (
         <CommunitiesView
             baseId="communities"
             onCommunitySelected={onCommunitySelected}
+            onCreateCommunitySelected={onCreateCommunitySelected}
         />
     );
 }

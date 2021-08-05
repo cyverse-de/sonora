@@ -55,7 +55,7 @@ export const initWorkflowValues = (appDescription) => {
         // The workflowSteps array is only required for preserving touched state
         // after onSubmit:
         // https://github.com/formium/formik/issues/445#issuecomment-366952762
-        workflowSteps: [null, null, null],
+        workflowSteps: [null, null, null, null],
         ...appDescription,
         steps:
             steps?.map((step) => ({

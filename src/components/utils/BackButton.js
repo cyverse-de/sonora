@@ -13,8 +13,7 @@ import { Button, IconButton, useMediaQuery, useTheme } from "@material-ui/core";
 
 import { ArrowBack } from "@material-ui/icons";
 
-export default function BackButton(props) {
-    const { dirty = false } = props;
+export default function BackButton({ dirty = false, ...props }) {
     const router = useRouter();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));

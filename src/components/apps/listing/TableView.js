@@ -116,6 +116,7 @@ function TableView(props) {
         enableSelection = true,
         enableDelete = false,
         isAdminView,
+        searchTerm
     } = props;
     const { t } = useTranslation("apps");
     const apps = listing?.apps;
@@ -252,7 +253,7 @@ function TableView(props) {
                                                     name={app.name}
                                                     systemId={app.system_id}
                                                     appId={app.id}
-                                                    searchTerm=""
+                                                    searchTerm={searchTerm}
                                                     limitChecks={
                                                         app?.limitChecks
                                                     }

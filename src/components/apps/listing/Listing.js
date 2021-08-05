@@ -565,6 +565,7 @@ function Listing(props) {
                 onDocSelected={() => setDocDlgOpen(true)}
                 onQLSelected={() => setQLDlgOpen(true)}
                 isAdminView={isAdminView}
+                searchTerm={searchTerm}
             />
 
             {detailsOpen && !isAdminView && (

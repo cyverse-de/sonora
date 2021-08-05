@@ -21,6 +21,7 @@ import { useUserProfile } from "contexts/userProfile";
 import { DETabs, DETab, DETabPanel } from "components/utils/DETabs";
 import NotAuthorized from "components/error/NotAuthorized";
 import AppPublicationRequests from "components/apps/admin/publicationRequests/RequestListing";
+import { getOwnershipFilters } from "components/apps/toolbar/Toolbar";
 
 const TABS = {
     listing: "LISTING",
@@ -45,7 +46,9 @@ export default function Apps() {
     const selectedOrder = query.selectedOrder || constants.SORT_ASCENDING;
     const selectedOrderBy = query.selectedOrderBy || appRecordFields.NAME.key;
     const searchTerm = query.searchTerm || "";
-    const adminOwnershipFilter = query.adminOwnershipFilter || "";
+    const adminOwnershipFilter = query.adminOwnershipFilter
+        ? JSON.parse(query.adminOwnershipFilter)
+        : getOwnershipFilters(t)[0];
 
     const selectedFilter = query.selectedFilter
         ? JSON.parse(query.selectedFilter)

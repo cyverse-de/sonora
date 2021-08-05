@@ -51,21 +51,21 @@ function PermissionsFilter(props) {
     return (
         <Autocomplete
             id={buildID(baseId, ids.ADMIN_APPS_FILTER)}
-            disabled={false}
             value={filter}
+            disabled={false}
             options={getOwnershipFilters(t)}
             size="small"
             onChange={(event, filter) => {
-                handleFilterChange(filter?.value);
+                handleFilterChange(filter);
             }}
             getOptionLabel={(option) => option.name}
-            getOptionSelected={(option, value) => option.name === value.name}
+            getOptionSelected={(option, value) => option?.name === value?.name}
             className={classes.filter}
             renderInput={(params) => (
                 <TextField
                     {...params}
-                    id={buildID(baseId, ids.VIEW_FILTER_FIELD)}
-                    label={t("viewFilter")}
+                    id={buildID(baseId, ids.ADMIN_APPS_FILTER_FIELD)}
+                    label={t("filterLbl")}
                     variant="outlined"
                 />
             )}
@@ -76,12 +76,12 @@ function PermissionsFilter(props) {
 function getOwnershipFilters(t) {
     return [
         {
-            name: t("privateApps"),
-            value: ADMIN_APPS_FILTER_VALUES.PRIVATE,
-        },
-        {
             name: t("publicApps"),
             value: ADMIN_APPS_FILTER_VALUES.PUBLIC,
+        },
+        {
+            name: t("privateApps"),
+            value: ADMIN_APPS_FILTER_VALUES.PRIVATE,
         },
         {
             name: t("allApps"),
@@ -151,7 +151,7 @@ function AppsToolbar(props) {
                     <SearchField
                         handleSearch={handleSearch}
                         value={searchTerm}
-                        id={buildID(baseId, ids.SEARCH)}
+                        id={buildID(baseId, ids.ADMIN_APPS_SEARCH)}
                         placeholder={t("searchApps")}
                     />
                     <PermissionsFilter
@@ -164,7 +164,6 @@ function AppsToolbar(props) {
             )}
             {!isAdminView && (
                 <Toolbar>
-                    {" "}
                     <AppNavigation
                         baseId={appsToolbarId}
                         handleCategoryChange={handleCategoryChange}
@@ -312,3 +311,4 @@ function AppsToolbar(props) {
 }
 
 export default AppsToolbar;
+export { getOwnershipFilters };

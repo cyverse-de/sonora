@@ -155,7 +155,7 @@ function Listing(props) {
                 page,
                 appTypeFilter: filter?.value,
                 searchTerm,
-                adminOwnershipFilter,
+                adminOwnershipFilter: adminOwnershipFilter?.value,
             },
         ],
         queryFn: isAdminView ? getAppsForAdmin : getApps,
@@ -170,7 +170,7 @@ function Listing(props) {
                     page,
                     appTypeFilter: filter?.value,
                     searchTerm,
-                    adminOwnershipFilter,
+                    adminOwnershipFilter: adminOwnershipFilter?.value,
                 });
                 setData(resp);
             },
@@ -325,7 +325,8 @@ function Listing(props) {
                 rowsPerPage,
                 JSON.stringify(filter),
                 JSON.stringify(category),
-                searchTerm
+                searchTerm,
+                JSON.stringify(adminOwnershipFilter)
             );
     };
 
@@ -340,7 +341,7 @@ function Listing(props) {
                 JSON.stringify(filter),
                 JSON.stringify(category),
                 searchTerm,
-                adminOwnershipFilter
+                JSON.stringify(adminOwnershipFilter)
             );
     };
 
@@ -358,7 +359,7 @@ function Listing(props) {
                 JSON.stringify(filter),
                 JSON.stringify(category),
                 searchTerm,
-                adminOwnershipFilter
+                JSON.stringify(adminOwnershipFilter)
             );
     };
 
@@ -381,7 +382,7 @@ function Listing(props) {
                     toFilter ? JSON.stringify(filter) : null,
                     JSON.stringify(category),
                     searchTerm,
-                    adminOwnershipFilter
+                    JSON.stringify(adminOwnershipFilter)
                 );
         },
         [
@@ -406,11 +407,11 @@ function Listing(props) {
                 JSON.stringify(filter),
                 JSON.stringify(category),
                 searchTerm,
-                adminOwnershipFilter
+                JSON.stringify(adminOwnershipFilter)
             );
     };
 
-    const handleAdminOwnershipFilterChange = (filter) => {
+    const handleAdminOwnershipFilterChange = (adminFilter) => {
         setSelected([]);
         onRouteToListing &&
             onRouteToListing(
@@ -421,7 +422,7 @@ function Listing(props) {
                 JSON.stringify(filter),
                 JSON.stringify(category),
                 searchTerm,
-                filter
+                JSON.stringify(adminFilter)
             );
     };
 

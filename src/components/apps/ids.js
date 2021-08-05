@@ -1,4 +1,7 @@
 export default {
+    ADMIN_APPS_FILTER: "adminAppsFilter",
+    ADMIN_APPS_FILTER_FIELD: "adminAppsFilterField",
+    ADMIN_APPS_SEARCH: "adminAppsSearch",
     APP_NAME: "appName",
     ACCESS_REQUEST_DLG: "accessRequestDlg",
     DOT_MENU: "dotMenu",

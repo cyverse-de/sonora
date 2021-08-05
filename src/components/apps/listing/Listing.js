@@ -477,7 +477,8 @@ function Listing(props) {
                 name: constants.BROWSE_ALL_APPS,
                 id: constants.BROWSE_ALL_APPS_ID,
             }),
-            searchTerm
+            searchTerm,
+            JSON.stringify(adminOwnershipFilter)
         );
     };
 
@@ -491,7 +492,8 @@ function Listing(props) {
                 rowsPerPage,
                 JSON.stringify(filter),
                 JSON.stringify(category),
-                term
+                term,
+                JSON.stringify(adminOwnershipFilter)
             );
     };
 

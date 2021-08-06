@@ -285,13 +285,13 @@ function CommunitiesForm(props) {
                         communityName={communityName}
                         handleSubmit={handleSubmit}
                         onFollowSelected={() =>
-                            followMutation({ name: communityName })
+                            followMutation({ communityName })
                         }
                         onUnfollowSelected={() =>
-                            unfollowMutation({ name: communityName })
+                            unfollowMutation({ communityName })
                         }
                         onDeleteCommunitySelected={() =>
-                            deleteMutation({ name: communityName })
+                            deleteMutation({ communityName })
                         }
                     />
                     <Paper

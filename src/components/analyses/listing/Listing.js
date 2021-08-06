@@ -707,6 +707,10 @@ function Listing(props) {
 
     const sharingEnabled = canShare(getSelectedAnalyses());
 
+    const onRefreshSelected = () => {
+        queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
+    };
+
     const isLoading = isQueryLoading([
         isFetching,
         cancelLoading,
@@ -745,6 +749,7 @@ function Listing(props) {
                 canShare={sharingEnabled}
                 setPendingTerminationDlgOpen={setPendingTerminationDlgOpen}
                 handleTimeLimitExtnClick={() => setTimeLimitQueryEnabled(true)}
+                onRefreshSelected={onRefreshSelected}
             />
             <TableView
                 loading={isLoading}

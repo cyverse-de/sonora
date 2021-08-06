@@ -48,6 +48,7 @@ export default {
 
     DETAILS_BTN: "detailsBtn",
     ADD_TO_BAG_BTN: "addToBagBtn",
+    REFRESH_BTN: "refreshBtn",
 
     VIEW_PARAMS: ".viewParamsView",
 

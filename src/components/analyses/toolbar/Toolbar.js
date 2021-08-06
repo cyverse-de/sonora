@@ -36,6 +36,7 @@ import {
     FilterList as FilterListIcon,
     Info,
     Queue as AddToBagIcon,
+    Refresh,
 } from "@material-ui/icons";
 import SharingButton from "components/sharing/SharingButton";
 import Sharing from "components/sharing";
@@ -160,6 +161,7 @@ function AnalysesToolbar(props) {
         canShare,
         setPendingTerminationDlgOpen,
         handleTimeLimitExtnClick,
+        onRefreshSelected,
     } = props;
     const classes = useStyles();
     const theme = useTheme();
@@ -203,7 +205,18 @@ function AnalysesToolbar(props) {
                         onClearFilter={onClearFilter}
                     />
                 )}
-
+                <Button
+                    id={buildID(analysesNavId, ids.REFRESH_BTN)}
+                    variant="outlined"
+                    size="small"
+                    disableElevation
+                    color="primary"
+                    onClick={onRefreshSelected}
+                    className={classes.button}
+                    startIcon={<Refresh />}
+                >
+                    <Hidden xsDown>{t("refresh")}</Hidden>
+                </Button>
                 <div className={classes.divider} />
                 <Hidden smDown>
                     {isSingleSelection && (

@@ -262,7 +262,12 @@ function CommunitiesForm(props) {
                     ? {
                           name: "",
                           description: "",
-                          admins: admins,
+                          admins: [
+                              {
+                                  ...userProfile?.attributes,
+                                  id: userProfile?.id,
+                              },
+                          ],
                           apps: apps,
                           retagApps: null,
                       }

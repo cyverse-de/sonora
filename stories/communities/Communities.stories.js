@@ -7,6 +7,7 @@ import {
     communityFollowers,
     devCommunity,
     myCommunityList,
+    updateCommunityNameDescMock,
 } from "./CommunityMocks";
 import CommunityView from "components/communities";
 import CommunitiesForm from "components/communities/form";
@@ -18,7 +19,7 @@ export const View = () => {
 };
 
 export const ViewCommunity = () => {
-    const communityName = "ipcdev:Dev Team";
+    const communityName = "Dev Community";
 
     mockAxios
         .onGet(`/api/communities/${encodeURIComponent(communityName)}/admins`)
@@ -43,7 +44,12 @@ export const ViewCommunity = () => {
 };
 
 export const EditCommunity = () => {
-    const communityName = "ipcdev:Another Team";
+    const communityName = "Another Community";
+
+    const logRequest = (req) => {
+        const { method, url, params, data } = req;
+        console.log("REQUEST:", method, url, params, data);
+    };
 
     mockAxios
         .onGet(`/api/communities/${encodeURIComponent(communityName)}/admins`)
@@ -63,6 +69,68 @@ export const EditCommunity = () => {
         )
         .reply(200, communityApps);
     mockAxios.onGet(/\/api\/apps.*/).reply(200, appsSearchResp);
+
+    mockAxios
+        .onPatch(`/api/communities/${encodeURIComponent(communityName)}`)
+        .replyOnce((req) => {
+            logRequest(req);
+            return [
+                500,
+                {
+                    error_code: 500,
+                    reason: "Failed to update name/desc, try again",
+                },
+            ];
+        })
+        .onPatch(`/api/communities/${encodeURIComponent(communityName)}`)
+        .reply((req) => {
+            logRequest(req);
+            return [200, updateCommunityNameDescMock];
+        });
+
+    mockAxios
+        .onPost(
+            `/api/communities/${encodeURIComponent(
+                communityName
+            )}/admins/deleter`
+        )
+        .replyOnce((req) => {
+            logRequest(req);
+            return [
+                500,
+                {
+                    error_code: 500,
+                    reason: "Failed to remove an admin, try again",
+                },
+            ];
+        })
+        .onPost(
+            `/api/communities/${encodeURIComponent(
+                communityName
+            )}/admins/deleter`
+        )
+        .reply((req) => {
+            logRequest(req);
+            return [200];
+        });
+
+    mockAxios
+        .onDelete(/\/api\/apps\/.*\/communities/)
+        .replyOnce((req) => {
+            logRequest(req);
+            return [
+                500,
+                {
+                    error_code: 500,
+                    reason: "Failed to remove an app from the community, try again",
+                },
+            ];
+        })
+        .onDelete(/\/api\/apps\/.*\/communities/)
+        .reply((req) => {
+            logRequest(req);
+            return [200];
+        });
 
     return <CommunitiesForm parentId="form" communityName={communityName} />;
 };

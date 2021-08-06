@@ -14,21 +14,28 @@ import FormFields from "./FormFields";
 import { useTranslation } from "i18n";
 import {
     COMMUNITY_DETAILS_QUERY,
-    createTeam,
+    createCommunity,
     deleteCommunity,
     followCommunity,
     getCommunityDetails,
     unfollowCommunity,
+    updateCommunityDetails,
+    updateCommunityNameDesc,
 } from "serviceFacades/groups";
 import styles from "../styles";
 import CommunityToolbar from "./Toolbar";
+import { useConfig } from "../../../contexts/config";
+import ConfirmationDialog from "../../utils/ConfirmationDialog";
+import ids from "../ids";
+import { ERROR_CODES, getErrorCode } from "../../error/errorCode";
 
 const useStyles = makeStyles(styles);
 
 function CommunitiesForm(props) {
-    const { parentId, communityName } = props;
+    const { parentId, communityName, goBackToCommunityList } = props;
     const { t } = useTranslation(["communities", "common"]);
     const classes = useStyles();
+    const [config] = useConfig();
 
     const [userProfile] = useUserProfile();
     const [community, setCommunity] = useState(null);
@@ -38,13 +45,18 @@ function CommunitiesForm(props) {
     const [apps, setApps] = useState([]);
     const [queryError, setQueryError] = useState(null);
     const [communityNameSaved, setCommunityNameSaved] = useState(false);
+    const [showRetagAppsDlg, setShowRetagAppsDlg] = useState(false);
 
     const isCreatingCommunity = !communityName;
 
     const { isFetching: fetchingCommunityDetails } = useQuery({
         queryKey: [
             COMMUNITY_DETAILS_QUERY,
-            { name: communityName, userId: userProfile?.id },
+            {
+                name: communityName,
+                fullName: community?.display_name,
+                userId: userProfile?.id,
+            },
         ],
         queryFn: getCommunityDetails,
         config: {
@@ -123,6 +135,7 @@ function CommunitiesForm(props) {
                     }),
                     variant: INFO,
                 });
+                goBackToCommunityList();
             },
             onError: (error) => {
                 setQueryError({
@@ -135,20 +148,61 @@ function CommunitiesForm(props) {
         }
     );
 
-    // Creates the team name, description, and initial public privilege
-    // then calls updateTeamMemberStatsMutation
+    const [
+        updateCommunityNameDescMutation,
+        { status: updateCommunityNameDescStatus },
+    ] = useMutation(updateCommunityNameDesc, {
+        onSuccess: (resp, { newAdmins, newApps, attr }) => {
+            updateCommunityDetailsMutation({
+                name: resp?.name,
+                oldAdmins: admins,
+                oldApps: apps,
+                newAdmins,
+                newApps,
+                attr,
+            });
+        },
+        onError: (error) => {
+            const errorCode = getErrorCode(error);
+
+            if (errorCode === ERROR_CODES.ERR_EXISTS) {
+                setShowRetagAppsDlg(true);
+            } else {
+                setQueryError({
+                    message: t("updateCommunityNameDescError"),
+                    object: error,
+                });
+            }
+        },
+    });
+
+    const [updateCommunityDetailsMutation, { status: updateCommunityStatus }] =
+        useMutation(updateCommunityDetails, {
+            onSuccess: goBackToCommunityList,
+            onError: (error) => {
+                setQueryError({
+                    message: t("updateCommunityDetailsFail"),
+                    object: error,
+                });
+            },
+        });
+
     const [createCommunityMutation, { status: createCommunityStatus }] =
-        useMutation(createTeam, {
-            onSuccess: (resp, { newPrivileges }) => {
+        useMutation(createCommunity, {
+            onSuccess: (resp, { newAdmins, newApps, attr }) => {
                 setCommunityNameSaved(true);
-                updateTeamMemberStatsMutation({
+                updateCommunityDetailsMutation({
                     name: resp?.name,
-                    newPrivileges,
+                    oldAdmins: admins,
+                    oldApps: apps,
+                    newAdmins,
+                    newApps,
+                    attr,
                 });
             },
             onError: (error) => {
-                setSaveError({
-                    message: t("createTeamFail"),
+                setQueryError({
+                    message: t("createCommunityFail"),
                     object: error,
                 });
             },
@@ -159,6 +213,9 @@ function CommunitiesForm(props) {
         followStatus,
         unfollowStatus,
         deleteStatus,
+        createCommunityStatus,
+        updateCommunityNameDescStatus,
+        updateCommunityStatus,
     ]);
 
     const handleSubmit = (values) => {
@@ -167,15 +224,34 @@ function CommunitiesForm(props) {
             description: newDescription,
             admins: newAdmins,
             apps: newApps,
+            retagApps,
         } = values;
 
         const newName = untrimmedName.trim();
 
         setQueryError(null);
 
-        if (isCreatingCommunity && !communityNameSaved) {
-            createCommunityMutation({});
-        }
+        const mutation =
+            isCreatingCommunity && !communityNameSaved
+                ? createCommunityMutation
+                : communityName !== newName ||
+                  community?.description !== newDescription
+                ? updateCommunityNameDescMutation
+                : updateCommunityDetailsMutation;
+
+        mutation({
+            originalName: communityName,
+            originalDescription: community?.description,
+            fullName: community?.display_name,
+            name: newName,
+            description: newDescription,
+            oldAdmins: admins,
+            oldApps: apps,
+            newAdmins,
+            newApps,
+            retagApps,
+            attr: config?.metadata?.communityAttr,
+        });
     };
 
     return (
@@ -188,17 +264,19 @@ function CommunitiesForm(props) {
                           description: "",
                           admins: admins,
                           apps: apps,
+                          retagApps: null,
                       }
                     : {
                           name: communityName || "",
                           description: community?.description || "",
                           admins: admins,
                           apps: apps,
+                          retagApps: null,
                       }
             }
             onSubmit={handleSubmit}
         >
-            {({ handleSubmit }) => (
+            {({ handleSubmit, setFieldValue }) => (
                 <>
                     <CommunityToolbar
                         parentId={parentId}
@@ -239,6 +317,20 @@ function CommunitiesForm(props) {
                             />
                         )}
                     </Paper>
+                    <ConfirmationDialog
+                        baseId={ids.RETAG_APPS_DLG}
+                        open={showRetagAppsDlg}
+                        onClose={() => setShowRetagAppsDlg(false)}
+                        onConfirm={() => {
+                            setShowRetagAppsDlg(false);
+                            setFieldValue("retagApps", true);
+                            handleSubmit();
+                        }}
+                        title={t("retagAppsTitle")}
+                        contentText={t("retagAppsMessage", {
+                            name: communityName,
+                        })}
+                    />
                 </>
             )}
         </Formik>

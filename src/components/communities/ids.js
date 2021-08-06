@@ -20,6 +20,7 @@ export default {
     FOLLOW_COMMUNITY_DLG: "followCommunityDlg",
     HELP_DLG: "communityHelpDlg",
     NAME: "communityName",
+    RETAG_APPS_DLG: "retagAppsDlg",
     SUBJECT_SEARCH: "subjectSearch",
     TABLE: "table",
     TOOLBAR: "toolbar",

@@ -416,14 +416,14 @@ function getCommunityApps(key, { name, sortField, sortDir, appFilter }) {
 
 function getCommunityDetails(
     key,
-    { name, userId, sortField, sortDir, appFilter }
+    { name, fullName, userId, sortField, sortDir, appFilter }
 ) {
     return Promise.all([
         getCommunityInfo(COMMUNITY_INFO_QUERY, { name }),
         getCommunityAdmins(COMMUNITY_ADMINS_QUERY, { name }),
         getCommunityFollowers(COMMUNITY_FOLLOWERS_QUERY, { name }),
         getCommunityApps(COMMUNITY_APPS_QUERY, {
-            name,
+            name: fullName,
             sortField,
             sortDir,
             appFilter,
@@ -493,7 +493,12 @@ function createCommunity({ name, description }) {
     });
 }
 
-function updateCommunity({ originalName, name, description, retagApps }) {
+function updateCommunityNameDesc({
+    originalName,
+    name,
+    description,
+    retagApps,
+}) {
     const params = {
         "retag-apps": retagApps,
     };
@@ -542,6 +547,99 @@ function removeCommunityAdmins({ name, adminIds }) {
     });
 }
 
+function addAppToCommunity({ avu, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${appId}/communities`,
+        method: "POST",
+        body: {
+            avus: [avu],
+        },
+    });
+}
+
+function addAppsToCommunity({ name, apps, attr }) {
+    const avu = {
+        attr,
+        value: name,
+        unit: "",
+    };
+
+    return Promise.all(apps.map((appId) => addAppToCommunity({ avu, appId })));
+}
+
+function removeAppFromCommunity({ avu, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${appId}/communities`,
+        method: "DELETE",
+        body: {
+            avus: [avu],
+        },
+    });
+}
+
+function removeAppsFromCommunity({ name, apps, attr }) {
+    const avu = {
+        attr,
+        value: name,
+        unit: "",
+    };
+
+    return Promise.all(
+        apps.map((appId) => removeAppFromCommunity({ avu, appId }))
+    );
+}
+
+function updateCommunityDetails({
+    name,
+    fullName,
+    oldAdmins,
+    newAdmins,
+    oldApps,
+    newApps,
+    attr,
+}) {
+    const oldAdminIds = oldAdmins.map((admin) => admin.id);
+    const newAdminIds = newAdmins.map((admin) => admin.id);
+    const oldAppIds = oldApps.map((app) => app.id);
+    const newAppIds = newApps.map((app) => app.id);
+
+    const addAdminIds = newAdminIds.filter(
+        (adminId) => !oldAdminIds.includes(adminId)
+    );
+    const removeAdminIds = oldAdminIds.filter(
+        (adminId) => !newAdminIds.includes(adminId)
+    );
+    const addAppIds = newAppIds.filter((id) => !oldAppIds.includes(id));
+    const removeAppIds = oldAppIds.filter((id) => !newAppIds.includes(id));
+
+    let promises = [];
+
+    if (addAdminIds.length > 0) {
+        promises.push(addCommunityAdmins({ name, adminIds: addAdminIds }));
+    }
+    if (removeAdminIds.length > 0) {
+        promises.push(
+            removeCommunityAdmins({ name, adminIds: removeAdminIds })
+        );
+    }
+    if (addAppIds.length > 0) {
+        promises.push(
+            addAppsToCommunity({ name: fullName, apps: addAppIds, attr })
+        );
+    }
+    if (removeAppIds.length > 0) {
+        promises.push(
+            removeAppsFromCommunity({
+                name: fullName,
+                apps: removeAppIds,
+                attr,
+            })
+        );
+    }
+
+    return Promise.all(promises);
+}
+
 export {
     MY_TEAMS_QUERY,
     ALL_TEAMS_QUERY,
@@ -574,7 +672,8 @@ export {
     unfollowCommunity,
     deleteCommunity,
     createCommunity,
-    updateCommunity,
+    updateCommunityNameDesc,
     addCommunityAdmins,
     removeCommunityAdmins,
+    updateCommunityDetails,
 };

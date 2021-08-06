@@ -295,3 +295,11 @@ export const communityApps = {
         },
     ],
 };
+
+export const updateCommunityNameDescMock = {
+    name: "Another Community",
+    description: "some new desc",
+    display_extension: "Another Community",
+    display_name: "iplant:de:qa:communities:Another Community",
+    id: "abf19937340e4611839f50bc81d880c3",
+};

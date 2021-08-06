@@ -328,13 +328,13 @@ export default function groupsRouter() {
         })
     );
 
-    logger.info("adding the PATCH /communities handler");
+    logger.info("adding the PATCH /communities/:name handler");
     api.patch(
-        "/communities",
+        "/communities/:name",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "PATCH",
-            pathname: "/communities",
+            pathname: "/communities/:name",
             headers: {
                 "Content-Type": "application/json",
             },

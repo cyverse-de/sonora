@@ -236,7 +236,7 @@ function AppsToolbar(props) {
                         )}
                     </Hidden>
                     <Hidden xsDown>
-                        <Link href={NavigationConstants.TOOLS}>
+                        <Link href={`/${NavigationConstants.TOOLS}`}>
                             <Button
                                 id={buildID(appsToolbarId, ids.TOOLS_BTN)}
                                 className={classes.toolbarItems}

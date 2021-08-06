@@ -58,7 +58,7 @@ function ToolsUsedPanel({ details, loading, baseId, error }) {
                             {toolInfo.description}
                         </GridLabelValue>
                         <GridLabelValue label={t("imageLabel")}>
-                            {toolInfo.image}
+                            {toolInfo?.container?.image?.name}
                         </GridLabelValue>
                         <GridLabelValue label={t("toolVersionLabel")}>
                             {toolInfo.version}

@@ -31,7 +31,7 @@ function BasicTable(props) {
         data,
         tableSize = "small",
         sortable = false,
-        bodyCellPadding = "default",
+        bodyCellPadding = "normal",
         loading,
         emptyDataMessage,
     } = props;

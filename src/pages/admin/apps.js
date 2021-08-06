@@ -21,6 +21,7 @@ import { useUserProfile } from "contexts/userProfile";
 import { DETabs, DETab, DETabPanel } from "components/utils/DETabs";
 import NotAuthorized from "components/error/NotAuthorized";
 import AppPublicationRequests from "components/apps/admin/publicationRequests/RequestListing";
+import { getOwnershipFilters } from "components/apps/toolbar/Toolbar";
 
 const TABS = {
     listing: "LISTING",
@@ -44,6 +45,10 @@ export default function Apps() {
         100;
     const selectedOrder = query.selectedOrder || constants.SORT_ASCENDING;
     const selectedOrderBy = query.selectedOrderBy || appRecordFields.NAME.key;
+    const searchTerm = query.searchTerm || "";
+    const adminOwnershipFilter = query.adminOwnershipFilter
+        ? JSON.parse(query.adminOwnershipFilter)
+        : getOwnershipFilters(t)[0];
 
     const selectedFilter = query.selectedFilter
         ? JSON.parse(query.selectedFilter)
@@ -57,7 +62,16 @@ export default function Apps() {
           };
 
     const onRouteToListing = useCallback(
-        (order, orderBy, page, rowsPerPage, filter, category) => {
+        (
+            order,
+            orderBy,
+            page,
+            rowsPerPage,
+            filter,
+            category,
+            searchTerm,
+            adminOwnershipFilter
+        ) => {
             router.push(
                 getListingPath(
                     order,
@@ -66,7 +80,9 @@ export default function Apps() {
                     rowsPerPage,
                     filter,
                     category,
-                    isAdmin
+                    isAdmin,
+                    searchTerm,
+                    adminOwnershipFilter
                 )
             );
         },
@@ -109,6 +125,8 @@ export default function Apps() {
                         filter={selectedFilter}
                         category={selectedCategory}
                         isAdminView={isAdmin}
+                        searchTerm={searchTerm}
+                        adminOwnershipFilter={adminOwnershipFilter}
                     />
                 </DETabPanel>
                 <DETabPanel

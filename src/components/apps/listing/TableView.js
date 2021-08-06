@@ -116,6 +116,7 @@ function TableView(props) {
         enableSelection = true,
         enableDelete = false,
         isAdminView,
+        searchTerm
     } = props;
     const { t } = useTranslation("apps");
     const apps = listing?.apps;
@@ -127,7 +128,7 @@ function TableView(props) {
     }
 
     return (
-        <PageWrapper appBarHeight={isAdminView ? 230 : 0}>
+        <PageWrapper appBarHeight={isAdminView ? 290 : 0}>
             <TableContainer component={Paper} style={{ overflow: "auto" }}>
                 <Table
                     stickyHeader={true}
@@ -252,7 +253,7 @@ function TableView(props) {
                                                     name={app.name}
                                                     systemId={app.system_id}
                                                     appId={app.id}
-                                                    searchTerm=""
+                                                    searchTerm={searchTerm}
                                                     limitChecks={
                                                         app?.limitChecks
                                                     }

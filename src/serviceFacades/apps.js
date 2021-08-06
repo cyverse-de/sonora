@@ -285,13 +285,49 @@ function getAppUI(_, { systemId, appId }) {
 // start of admin end-points
 function getAppsForAdmin(
     key,
-    { rowsPerPage, orderBy, order, page, appTypeFilter }
+    {
+        rowsPerPage,
+        orderBy,
+        order,
+        page,
+        appTypeFilter,
+        searchTerm,
+        adminOwnershipFilter,
+    }
 ) {
+    // Determine if the request is supposed to be ordered.
+    const isOrdered = order && orderBy;
+
+    // Determine if the request is supposed to be paginated.
+    const isPaginated = (page || page === 0) && rowsPerPage;
+    // Build the object containing the query parameters.
+    const params = {};
+    if (isOrdered) {
+        params["sort-dir"] = order.toUpperCase();
+        params["sort-field"] = orderBy.toLowerCase();
+    }
+    if (isPaginated) {
+        params["limit"] = rowsPerPage;
+        params["offset"] = page * rowsPerPage;
+    }
+    if (searchTerm) {
+        params["search"] = searchTerm;
+    }
+
+    if (appTypeFilter && appTypeFilter !== appType.all) {
+        params["app-type"] = appTypeFilter;
+    } else {
+        params["app-type"] = "";
+    }
+
+    if (adminOwnershipFilter) {
+        params["app-subset"] = adminOwnershipFilter;
+    }
+
     return callApi({
-        endpoint: `/api/admin/apps?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
-            rowsPerPage * page
-        }${getAppTypeFilter(appTypeFilter)}`,
+        endpoint: `/api/admin/apps`,
         method: "GET",
+        params: params,
     });
 }
 

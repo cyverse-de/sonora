@@ -66,6 +66,8 @@ function Listing(props) {
         category,
         showErrorAnnouncer,
         isAdminView,
+        searchTerm,
+        adminOwnershipFilter,
     } = props;
 
     const { t } = useTranslation(["apps", "common"]);
@@ -152,6 +154,8 @@ function Listing(props) {
                 order,
                 page,
                 appTypeFilter: filter?.value,
+                searchTerm,
+                adminOwnershipFilter: adminOwnershipFilter?.value,
             },
         ],
         queryFn: isAdminView ? getAppsForAdmin : getApps,
@@ -165,6 +169,8 @@ function Listing(props) {
                     order,
                     page,
                     appTypeFilter: filter?.value,
+                    searchTerm,
+                    adminOwnershipFilter: adminOwnershipFilter?.value,
                 });
                 setData(resp);
             },
@@ -318,7 +324,9 @@ function Listing(props) {
                 newPage - 1,
                 rowsPerPage,
                 JSON.stringify(filter),
-                JSON.stringify(category)
+                JSON.stringify(category),
+                searchTerm,
+                JSON.stringify(adminOwnershipFilter)
             );
     };
 
@@ -331,7 +339,9 @@ function Listing(props) {
                 0,
                 parseInt(newPageSize, 10),
                 JSON.stringify(filter),
-                JSON.stringify(category)
+                JSON.stringify(category),
+                searchTerm,
+                JSON.stringify(adminOwnershipFilter)
             );
     };
 
@@ -347,7 +357,9 @@ function Listing(props) {
                 page,
                 rowsPerPage,
                 JSON.stringify(filter),
-                JSON.stringify(category)
+                JSON.stringify(category),
+                searchTerm,
+                JSON.stringify(adminOwnershipFilter)
             );
     };
 
@@ -368,10 +380,20 @@ function Listing(props) {
                     0,
                     rowsPerPage,
                     toFilter ? JSON.stringify(filter) : null,
-                    JSON.stringify(category)
+                    JSON.stringify(category),
+                    searchTerm,
+                    JSON.stringify(adminOwnershipFilter)
                 );
         },
-        [filter, onRouteToListing, order, orderBy, rowsPerPage]
+        [
+            adminOwnershipFilter,
+            filter,
+            onRouteToListing,
+            order,
+            orderBy,
+            rowsPerPage,
+            searchTerm,
+        ]
     );
 
     const handleFilterChange = (filter) => {
@@ -383,7 +405,24 @@ function Listing(props) {
                 0,
                 rowsPerPage,
                 JSON.stringify(filter),
-                JSON.stringify(category)
+                JSON.stringify(category),
+                searchTerm,
+                JSON.stringify(adminOwnershipFilter)
+            );
+    };
+
+    const handleAdminOwnershipFilterChange = (adminFilter) => {
+        setSelected([]);
+        onRouteToListing &&
+            onRouteToListing(
+                order,
+                orderBy,
+                0,
+                rowsPerPage,
+                JSON.stringify(filter),
+                JSON.stringify(category),
+                searchTerm,
+                JSON.stringify(adminFilter)
             );
     };
 
@@ -437,8 +476,25 @@ function Listing(props) {
             JSON.stringify({
                 name: constants.BROWSE_ALL_APPS,
                 id: constants.BROWSE_ALL_APPS_ID,
-            })
+            }),
+            searchTerm,
+            JSON.stringify(adminOwnershipFilter)
         );
+    };
+
+    const handleSearch = (term) => {
+        setSelected([]);
+        onRouteToListing &&
+            onRouteToListing(
+                order,
+                orderBy,
+                0,
+                rowsPerPage,
+                JSON.stringify(filter),
+                JSON.stringify(category),
+                term,
+                JSON.stringify(adminOwnershipFilter)
+            );
     };
 
     return (
@@ -449,33 +505,36 @@ function Listing(props) {
                 location={data?.Location}
                 handleClose={() => setAgaveAuthDialogOpen(false)}
             />
-            {!isAdminView && (
-                <AppsToolbar
-                    handleCategoryChange={handleCategoryChange}
-                    handleFilterChange={handleFilterChange}
-                    viewAllApps={
-                        selectedSystemId && selectedAppId
-                            ? handleViewAllApps
-                            : null
-                    }
-                    baseId={baseId}
-                    filter={filter}
-                    selectedCategory={category}
-                    setCategoryStatus={setCategoryStatus}
-                    handleAppNavError={handleAppNavError}
-                    isGridView={isGridView}
-                    toggleDisplay={toggleDisplay}
-                    detailsEnabled={detailsEnabled}
-                    onDetailsSelected={onDetailsSelected}
-                    addToBagEnabled={addToBagEnabled}
-                    onAddToBagClicked={onAddToBagClicked}
-                    canShare={shareEnabled}
-                    selectedApps={getSelectedApps()}
-                    setSharingDlgOpen={setSharingDlgOpen}
-                    onDocSelected={() => setDocDlgOpen(true)}
-                    onQLSelected={() => setQLDlgOpen(true)}
-                />
-            )}
+            <AppsToolbar
+                handleCategoryChange={handleCategoryChange}
+                handleFilterChange={handleFilterChange}
+                viewAllApps={
+                    selectedSystemId && selectedAppId ? handleViewAllApps : null
+                }
+                baseId={baseId}
+                filter={filter}
+                selectedCategory={category}
+                setCategoryStatus={setCategoryStatus}
+                handleAppNavError={handleAppNavError}
+                isGridView={isGridView}
+                toggleDisplay={toggleDisplay}
+                detailsEnabled={detailsEnabled}
+                onDetailsSelected={onDetailsSelected}
+                addToBagEnabled={addToBagEnabled}
+                onAddToBagClicked={onAddToBagClicked}
+                canShare={shareEnabled}
+                selectedApps={getSelectedApps()}
+                setSharingDlgOpen={setSharingDlgOpen}
+                onDocSelected={() => setDocDlgOpen(true)}
+                onQLSelected={() => setQLDlgOpen(true)}
+                isAdminView={isAdminView}
+                handleSearch={handleSearch}
+                searchTerm={searchTerm}
+                adminOwnershipFilter={adminOwnershipFilter}
+                handleAdminOwnershipFilterChange={
+                    handleAdminOwnershipFilterChange
+                }
+            />
             <TableView
                 loading={
                     appInCategoryStatus ||
@@ -506,6 +565,7 @@ function Listing(props) {
                 onDocSelected={() => setDocDlgOpen(true)}
                 onQLSelected={() => setQLDlgOpen(true)}
                 isAdminView={isAdminView}
+                searchTerm={searchTerm}
             />
 
             {detailsOpen && !isAdminView && (

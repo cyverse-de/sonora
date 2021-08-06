@@ -1,4 +1,7 @@
 export default {
+    ADMIN_APPS_FILTER: "adminAppsFilter",
+    ADMIN_APPS_FILTER_FIELD: "adminAppsFilterField",
+    ADMIN_APPS_SEARCH: "adminAppsSearch",
     APP_NAME: "appName",
     ACCESS_REQUEST_DLG: "accessRequestDlg",
     DOT_MENU: "dotMenu",
@@ -60,6 +63,7 @@ export default {
     DELETE: "delete",
     DOC_MENU_ITEM: "documentation",
     EDIT_MENU_ITEM: "edit",
+    SEARCH: "search",
     QUICK_LAUNCH: {
         NAME: "name",
         DESCRIPTION: "description",

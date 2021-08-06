@@ -32,7 +32,7 @@ function CommunityApps(props) {
     const appList = getIn(values, name);
     const { t } = useTranslation(["communities", "sharing"]);
     const [sortedApps, setSortedApps] = useState(appList);
-    const [searchQuery, setSearchQuery] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
     const [viewSettings, setViewSettings] = useState({
         order: constants.SORT_ASCENDING,
         orderBy: "name",
@@ -86,7 +86,9 @@ function CommunityApps(props) {
                         outlined
                         singleSearchOption={true}
                         selectedFilter={SearchConstants.APPS}
-                        onShowDetailedSearch={(query) => setSearchQuery(query)}
+                        onShowDetailedSearch={(query) =>
+                            setSearchTerm(query?.searchTerm)
+                        }
                         onOptionSelected={onAddApp}
                     />
                 </Toolbar>
@@ -106,13 +108,13 @@ function CommunityApps(props) {
                 handleRequestSort={handleRequestSort}
             />
             <AppSearchDrawer
-                open={!!searchQuery}
+                open={searchTerm.length > 0}
                 onConfirm={(apps) => {
                     onAddApps(apps);
-                    setSearchQuery(null);
+                    setSearchTerm("");
                 }}
-                onClose={() => setSearchQuery(null)}
-                searchTerm={searchQuery?.searchTerm}
+                onClose={() => setSearchTerm("")}
+                searchTerm={searchTerm}
             />
         </SimpleExpansionPanel>
     );

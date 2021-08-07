@@ -6,19 +6,22 @@
 
 import React, { useEffect, useState } from "react";
 
-import buildID from "components/utils/DebugIDUtil";
+import { Toolbar, Typography } from "@material-ui/core";
 import { getIn } from "formik";
 
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { ERROR } from "components/announcer/AnnouncerConstants";
 import TableView from "components/apps/listing/TableView";
+import GlobalSearchField from "components/search/GlobalSearchField";
+import SearchConstants from "components/search/constants";
+import AppSearchDrawer from "components/search/detailed/AppSearchDrawer";
+import { getSorting, stableSort } from "components/table/TableSort";
 import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
+import buildID from "components/utils/DebugIDUtil";
+
+import constants from "constants.js";
 import { useTranslation } from "i18n";
 import ids from "../ids";
-import GlobalSearchField from "../../search/GlobalSearchField";
-import SearchConstants from "../../search/constants";
-import AppSearchDrawer from "../../search/detailed/AppSearchDrawer";
-import Toolbar from "@material-ui/core/Toolbar";
-import constants from "../../../constants";
-import { getSorting, stableSort } from "../../table/TableSort";
 
 function CommunityApps(props) {
     const {
@@ -40,8 +43,20 @@ function CommunityApps(props) {
 
     const baseId = buildID(parentId, ids.APP_LIST);
 
+    const isExternalApp = (app) => {
+        return (
+            app?.app_type.toUpperCase() ===
+            constants.APP_TYPE_EXTERNAL.toUpperCase()
+        );
+    };
+
     const onAddApp = (app) => {
-        if (!appList.find((resource) => resource.id === app.id)) {
+        if (isExternalApp(app)) {
+            announce({
+                text: t("noExternalApps"),
+                variant: ERROR,
+            });
+        } else if (!appList.find((resource) => resource.id === app.id)) {
             push(app);
         }
     };
@@ -53,6 +68,12 @@ function CommunityApps(props) {
     const onDeleteSelected = (app) => {
         const index = appList.findIndex((item) => item.id === app.id);
         remove(index);
+    };
+
+    const validateAppSelection = (apps) => {
+        if (apps.some(isExternalApp)) {
+            return t("noExternalApps");
+        }
     };
 
     useEffect(() => {
@@ -80,6 +101,7 @@ function CommunityApps(props) {
             defaultExpanded={true}
             parentId={baseId}
         >
+            <Typography>{t("noExternalAppsNote")}</Typography>
             {isAdmin && (
                 <Toolbar>
                     <GlobalSearchField
@@ -115,6 +137,7 @@ function CommunityApps(props) {
                 }}
                 onClose={() => setSearchTerm("")}
                 searchTerm={searchTerm}
+                validateSelection={validateAppSelection}
             />
         </SimpleExpansionPanel>
     );

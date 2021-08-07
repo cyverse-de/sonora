@@ -21,6 +21,8 @@
     "myCommunities": "My Communities",
     "name": "Name",
     "noCommunities": "No communities",
+    "noExternalApps": "Adding Agave/HPC apps is not currently supported",
+    "noExternalAppsNote": "NOTE: $t(noExternalApps).",
     "remove": "Remove",
     "retagApps": "Re-tag Apps",
     "retagAppsMessage": "{{name}} currently has apps tagged to it. Renaming the community will cause all the currently tagged apps to be re-tagged to the community with the new name.  Do you wish to continue?",

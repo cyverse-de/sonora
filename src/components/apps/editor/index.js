@@ -18,15 +18,16 @@ import styles from "./styles";
 import AppInfo from "./AppInfo";
 import AppStepperFormSkeleton from "../AppStepperFormSkeleton";
 import CmdLineOrderForm from "./CmdLineOrderForm";
+import CompletionHelp from "./CompletionHelp";
 import GroupPropertyForm from "./GroupPropertyForm";
-import ParamGroups from "./ParamGroups";
 import ParametersPreview from "./ParametersPreview";
+import ParamGroups from "./ParamGroups";
 import ParamPropertyForm from "./ParamPropertyForm";
 
 import AppStepper, { StepperSkeleton } from "../AppStepper";
 import AppStepDisplay, { BottomNavigationSkeleton } from "../AppStepDisplay";
 
-import { getAppEditPath } from "../utils";
+import { getAppEditPath, getAppLaunchPath } from "../utils";
 
 import BackButton from "components/utils/BackButton";
 import SaveButton from "components/utils/SaveButton";
@@ -76,7 +77,7 @@ const StepperNavigation = (props) => {
     const { t } = useTranslation("common");
 
     return (
-        <ButtonGroup fullWidth variant="contained" color="primary">
+        <ButtonGroup fullWidth color="primary">
             <Button
                 id={buildID(baseId, ids.BUTTONS.BACK)}
                 disabled={backDisabled}
@@ -108,6 +109,8 @@ const AppEditor = (props) => {
     } = props;
 
     const [activeStep, setActiveStep] = React.useState(0);
+    const [exitOnSave, setExitOnSave] = React.useState(false);
+    const [launchOnSave, setLaunchOnSave] = React.useState(false);
     const [editGroupField, setEditGroupField] = React.useState();
     const [editParamField, setEditParamField] = React.useState();
     const [scrollToField, setScrollToField] = React.useState();
@@ -148,6 +151,14 @@ const AppEditor = (props) => {
     const router = useRouter();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+
+    const onExit = () => router.back();
+
+    const onLaunch = (app) =>
+        app.id && router.push(getAppLaunchPath(app.system_id, app.id));
+
+    const onRedirectToEditPage = (app) =>
+        app.id && router.replace(getAppEditPath(app.system_id, app.id));
 
     const [saveApp] = useMutation(
         ({ app }) => {
@@ -195,12 +206,20 @@ const AppEditor = (props) => {
         helpText: null,
         errorText: null,
     };
+    const stepCompletion = {
+        label: t("completionStepLabel"),
+        contentLabel: t("completionStepLabel"),
+        helpText: t("stepHelpCompletion"),
+        errorText: null,
+    };
 
     const steps = [stepAppInfo, stepParameters, stepPreview];
 
     if (!cosmeticOnly) {
         steps.push(stepCmdLineOrder);
     }
+
+    steps.push(stepCompletion);
 
     const activeStepInfo = steps[activeStep];
 
@@ -211,7 +230,9 @@ const AppEditor = (props) => {
     ) : (
         <Formik
             initialValues={initAppValues(appDescription)}
-            initialTouched={{ editorSteps: [false, false, false, false] }}
+            initialTouched={{
+                editorSteps: [false, false, false, false, false],
+            }}
             validate={(values) => {
                 const errors = {};
                 const editorStepErrors = [];
@@ -237,27 +258,39 @@ const AppEditor = (props) => {
                 const app = formatSubmission(values);
 
                 const onSuccess = (app) => {
-                    if (!values.id) {
+                    if (exitOnSave) {
+                        onExit();
+                    } else if (launchOnSave) {
+                        onLaunch(app);
+                    } else if (!values.id) {
                         // A new app was saved, so update address to new URL
-                        router.replace(getAppEditPath(app.system_id, app.id));
+                        onRedirectToEditPage(app);
                     }
 
                     // Note that enableReinitialize should not be used when
                     // using resetForm with new values.
                     actions.resetForm({
                         values: initAppValues(app),
-                        touched: { editorSteps: [true, true, true, true] },
+                        touched: {
+                            editorSteps: [true, true, true, true, true],
+                        },
                     });
 
                     announce({
                         text: t("appSaved"),
                         variant: SUCCESS,
                     });
+
+                    setExitOnSave(false);
+                    setLaunchOnSave(false);
                 };
 
                 const onError = (errorMessage) => {
                     showErrorAnnouncer(t("appSaveErr"), errorMessage);
+
                     actions.setSubmitting(false);
+                    setExitOnSave(false);
+                    setLaunchOnSave(false);
                 };
 
                 saveApp({ app, onSuccess, onError });
@@ -273,11 +306,19 @@ const AppEditor = (props) => {
                 errors,
                 values,
             }) => {
-                const saveDisabled = isSubmitting || !dirty || errors.error;
+                const hasErrors = errors.error;
+                const saveDisabled = isSubmitting || !dirty || hasErrors;
 
                 const stepCompleted = (stepIndex) => {
+                    const stepTouched = touched.editorSteps[stepIndex];
+
+                    // special check for final step
+                    if (stepIndex === steps.length - 1) {
+                        return stepTouched && !hasErrors && !dirty;
+                    }
+
                     return (
-                        touched.editorSteps[stepIndex] &&
+                        stepTouched &&
                         !(errors.editorSteps && errors.editorSteps[stepIndex])
                     );
                 };
@@ -324,7 +365,7 @@ const AppEditor = (props) => {
                             alignItems="flex-start"
                             wrap="nowrap"
                         >
-                            <BackButton />
+                            <BackButton dirty={dirty} />
                             <Typography variant="h6">
                                 {t(values.id ? "editApp" : "createApp", {
                                     name: values.name,
@@ -472,6 +513,24 @@ const AppEditor = (props) => {
                                     toolName={values.tools[0]?.name}
                                     groups={values.groups}
                                     setFieldValue={setFieldValue}
+                                />
+                            ) : activeStepInfo === stepCompletion ? (
+                                <CompletionHelp
+                                    baseId={baseId}
+                                    app={values}
+                                    dirty={dirty}
+                                    hasErrors={hasErrors}
+                                    saveDisabled={saveDisabled}
+                                    onExit={onExit}
+                                    onLaunch={() => onLaunch(values)}
+                                    onSaveAndExit={(event) => {
+                                        setExitOnSave(true);
+                                        handleSubmit(event);
+                                    }}
+                                    onSaveAndLaunch={(event) => {
+                                        setLaunchOnSave(true);
+                                        handleSubmit(event);
+                                    }}
                                 />
                             ) : null}
                         </AppStepDisplay>

@@ -120,7 +120,7 @@ const initAppValues = (app) => {
         // The editorSteps array is only required for preserving touched state
         // after any onSubmit errors:
         // https://github.com/formium/formik/issues/445#issuecomment-366952762
-        editorSteps: [null, null, null, null],
+        editorSteps: [null, null, null, null, null],
     };
 };
 

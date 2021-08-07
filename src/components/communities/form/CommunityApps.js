@@ -106,6 +106,7 @@ function CommunityApps(props) {
                 <Toolbar>
                     <GlobalSearchField
                         outlined
+                        hideDropDown={true}
                         singleSearchOption={true}
                         selectedFilter={SearchConstants.APPS}
                         onShowDetailedSearch={(query) =>

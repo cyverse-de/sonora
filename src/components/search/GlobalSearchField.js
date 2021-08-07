@@ -328,6 +328,7 @@ function GlobalSearchField(props) {
         onShowDetailedSearch,
         onOptionSelected,
         outlined,
+        hideDropDown = false,
     } = props;
 
     const { t } = useTranslation("common");
@@ -819,31 +820,33 @@ function GlobalSearchField(props) {
                 clearOnEscape={true}
                 clearOnBlur={false}
             />
-            <TextField
-                id={searchFilterId}
-                select
-                size="small"
-                value={filter}
-                onChange={handleFilterChange}
-                className={classes.searchFilter}
-                variant={isMobile ? "outlined" : "standard"}
-                InputProps={{
-                    disableUnderline: true,
-                }}
-            >
-                {filterOptions.map((option) => (
-                    <MenuItem
-                        id={buildID(
-                            searchFilterId,
-                            ids.SEARCH_FILTER_MI[option.toUpperCase()]
-                        )}
-                        value={option}
-                        key={option}
-                    >
-                        {t(option.toLowerCase())}
-                    </MenuItem>
-                ))}
-            </TextField>
+            {!hideDropDown && (
+                <TextField
+                    id={searchFilterId}
+                    select
+                    size="small"
+                    value={filter}
+                    onChange={handleFilterChange}
+                    className={classes.searchFilter}
+                    variant={isMobile ? "outlined" : "standard"}
+                    InputProps={{
+                        disableUnderline: true,
+                    }}
+                >
+                    {filterOptions.map((option) => (
+                        <MenuItem
+                            id={buildID(
+                                searchFilterId,
+                                ids.SEARCH_FILTER_MI[option.toUpperCase()]
+                            )}
+                            value={option}
+                            key={option}
+                        >
+                            {t(option.toLowerCase())}
+                        </MenuItem>
+                    ))}
+                </TextField>
+            )}
         </>
     );
 }

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
@@ -251,6 +251,9 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
         getPublicSavedLaunches
     );
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const infoTypes = useQuery(INFO_TYPES_QUERY_KEY, getInfoTypes);
 
     const handleDelete = async (mappingName) => {
@@ -261,20 +264,20 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
 
     const [deleteEntry] = useMutation(handleDelete, {
         onSuccess: () =>
-            queryCache.invalidateQueries(DEFAULTS_MAPPING_QUERY_KEY),
+            queryClient.invalidateQueries(DEFAULTS_MAPPING_QUERY_KEY),
         onError: (error) =>
             showErrorAnnouncer(t("deleteMappingEntryError"), error),
     });
 
     const [updateMapping] = useMutation(updateDefaultsMapping, {
         onSuccess: () =>
-            queryCache.invalidateQueries(DEFAULTS_MAPPING_QUERY_KEY),
+            queryClient.invalidateQueries(DEFAULTS_MAPPING_QUERY_KEY),
         onError: (error) => showErrorAnnouncer(t("updateMappingError"), error),
     });
 
     const [createMapping] = useMutation(createDefaultsMapping, {
         onSuccess: () =>
-            queryCache.invalidateQueries(DEFAULTS_MAPPING_QUERY_KEY),
+            queryClient.invalidateQueries(DEFAULTS_MAPPING_QUERY_KEY),
         onError: (error) => showErrorAnnouncer(t("createMappingError"), error),
     });
 

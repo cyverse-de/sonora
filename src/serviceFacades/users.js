@@ -1,5 +1,5 @@
 import callApi from "../common/callApi";
-import { useQuery, useMutation, queryCache } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 const BOOTSTRAP_KEY = "bootstrap";
 
@@ -155,10 +155,11 @@ function usePortalStatus(userId, onError) {
  * @param {Function} onError - Callback function to use when query failed.
  */
 function useSavePreferences(onSuccessCallback, onError) {
+    const queryClient = useQueryClient();
     return useMutation(savePreferences, {
         onSuccess: (updatedPref) => {
             //update preference in cache
-            queryCache.setQueryData(BOOTSTRAP_KEY, (bootstrapData) => {
+            queryClient.setQueryData(BOOTSTRAP_KEY, (bootstrapData) => {
                 if (
                     bootstrapData &&
                     updatedPref &&

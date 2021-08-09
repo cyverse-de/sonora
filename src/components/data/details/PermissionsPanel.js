@@ -162,7 +162,7 @@ function PermissionsTabPanel(props) {
         },
     });
 
-    const [updatePermissions] = useMutation(dataSharing, {
+    const { updatePermissions } = useMutation(dataSharing, {
         onSuccess: (resp, { currentPermission, newPermissionValue }) => {
             const userPerm = resp?.sharing?.find(
                 (item) => item.user === currentPermission.user

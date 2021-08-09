@@ -1,6 +1,6 @@
 import React from "react";
 
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import {
     listFullInstantLaunches,
@@ -152,9 +152,12 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
         listInstantLaunchesByMetadata
     );
 
-    const [addToDash] = useMutation(addToDashboardHandler, {
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
+    const { addToDash } = useMutation(addToDashboardHandler, {
         onSuccess: () => {
-            queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+            queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
             announce({
                 text: t("addedToDashboard"),
                 variant: SUCCESS,
@@ -165,9 +168,9 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
         },
     });
 
-    const [removeFromDash] = useMutation(removeFromDashboardHandler, {
+    const { removeFromDash } = useMutation(removeFromDashboardHandler, {
         onSuccess: () => {
-            queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+            queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
             announce({
                 text: t("removedFromDashboard"),
                 variant: SUCCESS,
@@ -178,10 +181,10 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
         },
     });
 
-    const [deleteIL] = useMutation(deleteInstantLaunchHandler, {
+    const { deleteIL } = useMutation(deleteInstantLaunchHandler, {
         onSuccess: () => {
-            queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
-            queryCache.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
+            queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+            queryClient.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
             announce({
                 text: t("deletedInstantLaunch"),
                 variant: SUCCESS,

@@ -15,7 +15,7 @@ import {
     APP_CATEGORIES_QUERY_KEY,
 } from "serviceFacades/apps";
 
-import { queryCache, useQuery } from "react-query";
+import { useQueryClient, useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
@@ -88,6 +88,9 @@ function AppNavigation(props) {
         APP_CATEGORIES_QUERY_KEY,
         userProfile?.id,
     ]);
+
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
 
     const appNavId = buildID(baseId, ids.APPS_NAVIGATION);
 
@@ -179,7 +182,7 @@ function AppNavigation(props) {
 
     useEffect(() => {
         if (!categories || categories.length === 0) {
-            const cacheCat = queryCache.getQueryData(categoryQueryKey);
+            const cacheCat = queryClient.getQueryData(categoryQueryKey);
             if (cacheCat) {
                 preProcessData(cacheCat);
             }

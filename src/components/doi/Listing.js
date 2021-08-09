@@ -5,7 +5,7 @@
  *
  */
 import React, { useState, useEffect } from "react";
-import { useQuery, queryCache, useMutation } from "react-query";
+import { useQuery, useQueryClient, useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
@@ -51,6 +51,9 @@ function Listing(props) {
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
     const [confirmDOIOpen, setConfirmDOIOpen] = useState(false);
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const { isFetching, error } = useQuery({
         queryKey: [
             DOI_LISTING_QUERY_KEY,
@@ -77,7 +80,7 @@ function Listing(props) {
             );
     };
 
-    let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
+    let infoTypesCache = queryClient.getQueryData(INFO_TYPES_QUERY_KEY);
 
     useEffect(() => {
         if (!infoTypesCache || infoTypesCache.length === 0) {
@@ -103,7 +106,7 @@ function Listing(props) {
         },
     });
 
-    const [createDOI, { isLoading: createDOILoading }] = useMutation(
+    const { createDOI, isLoading: createDOILoading } = useMutation(
         adminCreateDOI,
         {
             onSuccess: () => {
@@ -111,7 +114,7 @@ function Listing(props) {
                     text: t("createDoiSuccess"),
                     variant: SUCCESS,
                 });
-                queryCache.invalidateQueries(DOI_LISTING_QUERY_KEY);
+                queryClient.invalidateQueries(DOI_LISTING_QUERY_KEY);
             },
             onError: (error) => {
                 showErrorAnnouncer(t("createDoiError"), error);

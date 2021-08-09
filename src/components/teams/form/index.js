@@ -106,7 +106,7 @@ function TeamForm(props) {
     });
 
     // Updates only team name and description, then calls updateTeamMemberStatsMutation
-    const [updateTeamMutation, { status: updateTeamStatus }] = useMutation(
+    const { updateTeamMutation, status: updateTeamStatus } = useMutation(
         updateTeam,
         {
             onSuccess: (resp, variables) => {
@@ -127,7 +127,7 @@ function TeamForm(props) {
 
     // Creates the team name, description, and initial public privilege
     // then calls updateTeamMemberStatsMutation
-    const [createTeamMutation, { status: createTeamStatus }] = useMutation(
+    const { createTeamMutation, status: createTeamStatus } = useMutation(
         createTeam,
         {
             onSuccess: (resp, { newPrivileges }) => {

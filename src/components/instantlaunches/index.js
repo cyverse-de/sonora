@@ -119,7 +119,7 @@ const InstantLaunchButton = ({
         }
     }, [ilUrl]);
 
-    const [launch] = useMutation(instantlyLaunch, {
+    const { launch } = useMutation(instantlyLaunch, {
         onSuccess: (listing) => {
             if (listing.analyses.length > 0) {
                 const analysis = listing.analyses[0];

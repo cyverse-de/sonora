@@ -6,7 +6,7 @@
  **/
 import React from "react";
 
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import constants from "../../../constants";
 
@@ -52,6 +52,8 @@ const NotificationView = (props) => {
     ] = React.useState(false);
 
     const { t } = useTranslation("notifications");
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
 
     const { isFetching, error } = useQuery({
         queryKey: notificationsKey,
@@ -99,7 +101,7 @@ const NotificationView = (props) => {
         );
     }, [notifications, selected, setMarkAsSeenEnabled]);
 
-    const [markSeenMutation] = useMutation(markSeen, {
+    const { markSeenMutation } = useMutation(markSeen, {
         onSuccess: () => {
             // TODO update unseen count somehow
         },
@@ -111,14 +113,14 @@ const NotificationView = (props) => {
                 error
             );
 
-            queryCache.invalidateQueries(notificationsKey);
+            queryClient.invalidateQueries(notificationsKey);
         },
     });
 
     const [deleteNotificationsMutation, { isLoading: deleteLoading }] =
         useMutation(deleteNotifications, {
             onSuccess: () => {
-                queryCache.invalidateQueries(NOTIFICATIONS_MESSAGES_QUERY_KEY);
+                queryClient.invalidateQueries(NOTIFICATIONS_MESSAGES_QUERY_KEY);
                 setSelected([]);
             },
             onError: (error) => {
@@ -143,7 +145,7 @@ const NotificationView = (props) => {
 
         setMarkAsSeenEnabled(false);
         setNotifications(newPage);
-        queryCache.setQueryData(notificationsKey, newPage);
+        queryClient.setQueryData(notificationsKey, newPage);
     };
 
     const handleDeleteClick = () => {
@@ -155,7 +157,7 @@ const NotificationView = (props) => {
     };
 
     const onRefreshClicked = () => {
-        queryCache.invalidateQueries(notificationsKey);
+        queryClient.invalidateQueries(notificationsKey);
     };
 
     const baseId = buildID(baseDebugId, ids.NOTIFICATION_VIEW);

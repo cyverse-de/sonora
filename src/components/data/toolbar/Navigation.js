@@ -21,7 +21,7 @@ import buildID from "components/utils/DebugIDUtil";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
-import { queryCache, useQuery } from "react-query";
+import { useQueryClient, useQuery } from "react-query";
 
 import HomeIcon from "@material-ui/icons/Home";
 import FolderSharedIcon from "@material-ui/icons/FolderShared";
@@ -336,6 +336,9 @@ function Navigation(props) {
         irodsTrashPath,
     ]);
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const preProcessData = (respData) => {
         if (respData) {
             const respRoots = respData.roots;
@@ -456,7 +459,7 @@ function Navigation(props) {
     };
 
     if (dataRoots.length === 0) {
-        const cacheRoots = queryCache.getQueryData(rootsQueryKeyArray);
+        const cacheRoots = queryClient.getQueryData(rootsQueryKeyArray);
         if (cacheRoots) {
             preProcessData(cacheRoots);
         }

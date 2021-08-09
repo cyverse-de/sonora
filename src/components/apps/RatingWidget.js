@@ -5,7 +5,7 @@
  */
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import Rate from "components/rating/Rate";
 
@@ -18,6 +18,8 @@ import { Grid, Typography } from "@material-ui/core";
 export default function RatingWidget(props) {
     const { appId, systemId, appName } = props;
     const { t } = useTranslation("apps");
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
 
     const [ratingMutationError, setRatingMutationError] = useState(null);
     const [selectedApp, setSelectedApp] = useState(null);
@@ -38,9 +40,9 @@ export default function RatingWidget(props) {
         },
     });
 
-    const [rating, { status: ratingMutationStatus }] = useMutation(rateApp, {
+    const { rating, status: ratingMutationStatus } = useMutation(rateApp, {
         onSuccess: () => {
-            queryCache.invalidateQueries([
+            queryClient.invalidateQueries([
                 APP_BY_ID_QUERY_KEY,
                 { systemId, appId },
             ]);

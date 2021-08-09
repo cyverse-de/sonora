@@ -91,7 +91,7 @@ export default function TextViewer(props) {
         },
     });
 
-    const [setDiskResourceMetadata] = useMutation(setFilesystemMetadata, {
+    const { setDiskResourceMetadata } = useMutation(setFilesystemMetadata, {
         onSuccess: (resp) => {
             console.log(resp); // background optional call. No need to notify user.
         },

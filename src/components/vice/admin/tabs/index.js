@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { useMutation, queryCache } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 import { useTranslation } from "i18n";
 
@@ -113,20 +113,23 @@ const VICEAdminTabs = ({ data = {} }) => {
     const tabID = (name) => buildID(ids.ROOT, "admin", "tabs", name);
     const tabPanelID = (name) => buildID(ids.ROOT, "admin", "tab-panels", name);
 
-    const [mutantExit] = useMutation(exit, {
-        onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
+    const { mutantExit } = useMutation(exit, {
+        onSuccess: () => queryClient.invalidateQueries(VICE_ADMIN_QUERY_KEY),
     });
-    const [mutantSaveAndExit] = useMutation(saveAndExit, {
-        onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
+    const { mutantSaveAndExit } = useMutation(saveAndExit, {
+        onSuccess: () => queryClient.invalidateQueries(VICE_ADMIN_QUERY_KEY),
     });
-    const [mutantExtendTimeLimit] = useMutation(extendTimeLimit, {
-        onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
+    const { mutantExtendTimeLimit } = useMutation(extendTimeLimit, {
+        onSuccess: () => queryClient.invalidateQueries(VICE_ADMIN_QUERY_KEY),
     });
-    const [mutantUploadOutputs] = useMutation(saveOutputFiles, {
-        onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
+    const { mutantUploadOutputs } = useMutation(saveOutputFiles, {
+        onSuccess: () => queryClient.invalidateQueries(VICE_ADMIN_QUERY_KEY),
     });
-    const [mutantDownloadInputs] = useMutation(downloadInputFiles, {
-        onSuccess: () => queryCache.invalidateQueries(VICE_ADMIN_QUERY_KEY),
+    const { mutantDownloadInputs } = useMutation(downloadInputFiles, {
+        onSuccess: () => queryClient.invalidateQueries(VICE_ADMIN_QUERY_KEY),
     });
 
     const [analysisRows, setAnalysisRows] = useState([]);

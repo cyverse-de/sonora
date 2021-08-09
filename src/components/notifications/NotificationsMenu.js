@@ -88,7 +88,7 @@ function NotificationsMenu(props) {
         },
     });
 
-    const [markAllSeenMutation] = useMutation(markAllSeen, {
+    const { markAllSeenMutation } = useMutation(markAllSeen, {
         onSuccess: () => {
             setAllNotificationsSeen();
         },

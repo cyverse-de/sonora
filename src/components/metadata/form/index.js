@@ -349,7 +349,7 @@ const MetadataForm = ({
     const [saveFileError, setSaveFileError] = React.useState(null);
     const [copyMetadataError, setCopyMetadataError] = React.useState(null);
 
-    const [setDiskResourceMetadata] = useMutation(
+    const { setDiskResourceMetadata } = useMutation(
         ({ metadata }) =>
             setFilesystemMetadata({ dataId: targetResource.id, metadata }),
         {
@@ -362,7 +362,7 @@ const MetadataForm = ({
         }
     );
 
-    const [saveMetadataToFile, { isLoading: fileSaveLoading }] = useMutation(
+    const { saveMetadataToFile, isLoading: fileSaveLoading } = useMutation(
         ({ dest, recursive }) =>
             saveFilesystemMetadata({
                 dataId: targetResource.id,
@@ -390,7 +390,7 @@ const MetadataForm = ({
         }
     );
 
-    const [doCopyMetadata, { isLoading: copyLoading }] = useMutation(
+    const { doCopyMetadata, isLoading: copyLoading } = useMutation(
         copyMetadata,
         {
             onSuccess: () => {

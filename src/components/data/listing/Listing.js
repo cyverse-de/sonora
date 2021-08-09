@@ -63,7 +63,7 @@ import buildID from "components/utils/DebugIDUtil";
 import { useTranslation } from "i18n";
 import { useBagAddItems } from "serviceFacades/bags";
 
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import { Button, Typography, useTheme } from "@material-ui/core";
 import DEDialog from "components/utils/DEDialog";
@@ -137,6 +137,9 @@ function Listing(props) {
 
     const uploadDispatch = useUploadTrackingDispatch();
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const trackAllUploads = (uploadFiles) => {
         uploadFiles.forEach((aFile) => {
             trackUpload(aFile.value, path, uploadDispatch);
@@ -203,7 +206,7 @@ function Listing(props) {
     });
 
     const refreshListing = () =>
-        queryCache.invalidateQueries(
+        queryClient.invalidateQueries(
             [
                 DATA_LISTING_QUERY_KEY,
                 path,
@@ -216,7 +219,7 @@ function Listing(props) {
             { force: true }
         );
 
-    const [removeResources, { status: removeResourceStatus }] = useMutation(
+    const { removeResources, status: removeResourceStatus } = useMutation(
         deleteResources,
         {
             onSuccess: () => {
@@ -230,7 +233,7 @@ function Listing(props) {
             },
         }
     );
-    const [requestDOI, { status: requestDOIStatus }] = useMutation(
+    const { requestDOI, status: requestDOIStatus } = useMutation(
         createDOIRequest,
         {
             onSuccess: (resp) => {
@@ -243,22 +246,19 @@ function Listing(props) {
             },
         }
     );
-    const [doEmptyTrash, { status: emptyTrashStatus }] = useMutation(
-        emptyTrash,
-        {
-            onSuccess: () => {
-                announce({
-                    text: t("asyncDataEmptyTrashPending"),
-                    variant: INFO,
-                });
-            },
-            onError: (e) => {
-                showErrorAnnouncer(t("emptyTrashError"), e);
-            },
-        }
-    );
+    const { doEmptyTrash, status: emptyTrashStatus } = useMutation(emptyTrash, {
+        onSuccess: () => {
+            announce({
+                text: t("asyncDataEmptyTrashPending"),
+                variant: INFO,
+            });
+        },
+        onError: (e) => {
+            showErrorAnnouncer(t("emptyTrashError"), e);
+        },
+    });
 
-    const [doRestore, { status: restoreStatus }] = useMutation(restore, {
+    const { doRestore, status: restoreStatus } = useMutation(restore, {
         onSuccess: () => {
             announce({
                 text: t("asyncDataRestorePending"),
@@ -318,7 +318,7 @@ function Listing(props) {
         }
     }, [erroredUploadCount, t, viewUploadQueue]);
 
-    let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
+    let infoTypesCache = queryClient.getQueryData(INFO_TYPES_QUERY_KEY);
 
     useEffect(() => {
         if (!infoTypesCache || infoTypesCache.length === 0) {
@@ -511,7 +511,7 @@ function Listing(props) {
     };
 
     const onRefreshSelected = () => {
-        queryCache.invalidateQueries(DATA_LISTING_QUERY_KEY);
+        queryClient.invalidateQueries(DATA_LISTING_QUERY_KEY);
     };
 
     const addItemsToBag = useBagAddItems({
@@ -533,7 +533,7 @@ function Listing(props) {
     const sharingData = formatSharedData(getSelectedResources());
 
     if (!infoTypes || infoTypes.length === 0) {
-        const infoTypesCache = queryCache.getQueryData("dataFetchInfoTypes");
+        const infoTypesCache = queryClient.getQueryData("dataFetchInfoTypes");
         if (infoTypesCache) {
             setInfoTypes(infoTypesCache.types);
         }

@@ -21,7 +21,7 @@ import {
 import { Link } from "@material-ui/icons";
 
 import { useTranslation } from "i18n";
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import ids from "../ids";
 import styles from "../styles";
@@ -62,6 +62,9 @@ function DetailsTabPanel(props) {
         resource?.type
     )[1];
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const resourcePath = resource.path;
 
     const fetchDetailsKey = [DATA_DETAILS_QUERY_KEY, { paths: [resourcePath] }];
@@ -83,10 +86,10 @@ function DetailsTabPanel(props) {
         },
     });
 
-    const [changeInfoType, { status: updateInfoTypeStatus }] = useMutation(
+    const { changeInfoType, status: updateInfoTypeStatus } = useMutation(
         updateInfoType,
         {
-            onSuccess: () => queryCache.invalidateQueries(fetchDetailsKey),
+            onSuccess: () => queryClient.invalidateQueries(fetchDetailsKey),
             onError: (e) => {
                 setErrorMessage(t("updateInfoTypeError"));
                 setErrorObject(e);

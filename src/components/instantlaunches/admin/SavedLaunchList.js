@@ -1,6 +1,6 @@
 import React from "react";
 
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
@@ -48,11 +48,13 @@ const SavedLaunchList = ({ showErrorAnnouncer }) => {
         getPublicSavedLaunches
     );
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
     const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
 
-    const [promote] = useMutation(addInstantLaunch, {
+    const { promote } = useMutation(addInstantLaunch, {
         onSuccess: () => {
-            queryCache.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
+            queryClient.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
             announce({
                 text: t("createdInstantLaunch"),
                 variant: SUCCESS,

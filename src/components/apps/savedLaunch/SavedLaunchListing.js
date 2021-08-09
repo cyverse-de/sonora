@@ -8,7 +8,7 @@
 
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
-import { queryCache, useQuery, useMutation } from "react-query";
+import { useQueryClient, useQuery, useMutation } from "react-query";
 import Link from "next/link";
 
 import ids from "../ids";
@@ -180,6 +180,9 @@ function ListSavedLaunches(props) {
 
     const userName = userProfile?.id;
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const {
         data: savedLaunches,
         error,
@@ -196,9 +199,9 @@ function ListSavedLaunches(props) {
         }
     };
 
-    const [deleteSavedLaunchMutation] = useMutation(deleteSavedLaunch, {
+    const { deleteSavedLaunchMutation } = useMutation(deleteSavedLaunch, {
         onSuccess: (resp, { onSuccess }) => {
-            queryCache.invalidateQueries([SAVED_LAUNCH_LISTING, { appId }]);
+            queryClient.invalidateQueries([SAVED_LAUNCH_LISTING, { appId }]);
         },
         onError: setDeleteError,
     });
@@ -282,10 +285,10 @@ function ListSavedLaunches(props) {
                             const onDelete =
                                 userName === getUserName(savedLaunch.creator)
                                     ? (event) =>
-                                          deleteSavedLaunchHandler(
-                                              event,
-                                              savedLaunch
-                                          )
+                                        deleteSavedLaunchHandler(
+                                            event,
+                                            savedLaunch
+                                        )
                                     : undefined;
                             if (is_public) {
                                 return (

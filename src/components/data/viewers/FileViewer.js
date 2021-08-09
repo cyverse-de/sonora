@@ -13,7 +13,7 @@ import { useConfig } from "contexts/config";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
 
-import { queryCache, useQuery } from "react-query";
+import { useQueryClient, useQuery } from "react-query";
 
 import NavigationConstants from "common/NavigationConstants";
 import infoTypes from "components/models/InfoTypes";
@@ -88,6 +88,15 @@ export default function FileViewer(props) {
 
     const fileName = parseNameFromPath(path);
     const manifestKey = [FETCH_FILE_MANIFEST_QUERY_KEY, path];
+
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
+    const refreshViewer = (key) =>
+        queryClient.invalidateQueries(key, {
+            exact: true,
+            refetchInactive: true,
+        });
 
     const { isFetching, error: manifestError } = useFileManifest(
         manifestKey,
@@ -390,7 +399,7 @@ export default function FileViewer(props) {
                     createFileType={createFileType}
                     onSaveComplete={() => {
                         if (editable) {
-                            queryCache.invalidateQueries(readChunkKey, [
+                            queryClient.invalidateQueries(readChunkKey, [
                                 READ_RAW_CHUNK_QUERY_KEY,
                                 {
                                     path,

@@ -40,7 +40,7 @@ function JoinTeamDialog(props) {
     const baseId = ids.JOIN_TEAM.DIALOG;
     const teamShortName = groupShortName(teamName);
 
-    const [requestJoinTeamMutation, { status: joinTeamStatus }] = useMutation(
+    const { requestJoinTeamMutation, status: joinTeamStatus } = useMutation(
         requestJoinTeam,
         {
             onSuccess: (data, { resetForm }) => {

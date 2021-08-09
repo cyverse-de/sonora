@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 
 import { useTranslation } from "i18n";
-import { useQuery, useMutation, queryCache } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 import { formatSubmission, mapPropsToValues } from "./formatters";
 
@@ -75,7 +75,9 @@ function EditToolDialog(props) {
     const maxMemory = resourceConfigs?.max_memory_limit;
     const maxDiskSpace = resourceConfigs?.max_disk_limit;
 
-    const toolTypesCache = queryCache.getQueryData(TOOL_TYPES_QUERY_KEY);
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+    const toolTypesCache = queryClient.getQueryData(TOOL_TYPES_QUERY_KEY);
 
     const preProcessToolTypes = React.useCallback(
         (data) => {
@@ -121,7 +123,7 @@ function EditToolDialog(props) {
         },
     });
 
-    const [addNewTool, { status: newToolStatus }] = useMutation(
+    const { addNewTool, status: newToolStatus } = useMutation(
         ({ submission }) =>
             isAdmin ? adminAddTool(submission) : addTool(submission),
         {
@@ -129,7 +131,7 @@ function EditToolDialog(props) {
                 announce({
                     text: t("toolAdded"),
                 });
-                queryCache.invalidateQueries(TOOLS_QUERY_KEY);
+                queryClient.invalidateQueries(TOOLS_QUERY_KEY);
                 setAddToolError(null);
                 onClose();
             },
@@ -137,7 +139,7 @@ function EditToolDialog(props) {
         }
     );
 
-    const [updateCurrentTool, { status: updateToolStatus }] = useMutation(
+    const { updateCurrentTool, status: updateToolStatus } = useMutation(
         ({ submission }) =>
             isAdmin ? adminUpdateTool(submission) : updateTool(submission),
         {
@@ -145,7 +147,7 @@ function EditToolDialog(props) {
                 announce({
                     text: t("toolUpdated"),
                 });
-                queryCache.invalidateQueries(TOOLS_QUERY_KEY);
+                queryClient.invalidateQueries(TOOLS_QUERY_KEY);
                 setUpdateToolError(null);
                 onClose();
             },

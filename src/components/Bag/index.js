@@ -317,7 +317,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         isLoading,
         error,
     } = facade.useBag({
-        enabled: userProfile,
+        enabled: !!userProfile,
         onSuccess: convertItems,
     });
 

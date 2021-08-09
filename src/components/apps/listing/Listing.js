@@ -45,7 +45,7 @@ import {
     getCollectionApps,
 } from "serviceFacades/groups";
 
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 import { canShare } from "../utils";
 
 import Sharing from "components/sharing";
@@ -74,7 +74,6 @@ function Listing(props) {
         searchTerm,
         adminOwnershipFilter,
     } = props;
-
     const { t } = useTranslation(["apps", "common"]);
     const [isGridView, setGridView] = useState(false);
     const [userProfile] = useUserProfile();
@@ -105,6 +104,9 @@ function Listing(props) {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [selectCollectionDlgOpen, setSelectCollectionDlgOpen] =
         useState(false);
+
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
 
     const sharingApps = formatSharedApps(getSelectedApps());
 
@@ -213,20 +215,24 @@ function Listing(props) {
                     appFilter: filter,
                 },
             ],
-            queryFn: getCollectionApps,
-            config: {
-                enabled: category.id === constants.MY_COLLECTIONS,
-                onSuccess: (resp) => {
-                    trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
-                        systemId: selectedSystemId,
-                        appId: selectedAppId,
-                    });
-                    setData(resp);
-                },
+            queryFn: () => getCollectionApps({
+                name: category.fullCollectionName,
+                sortField: orderBy,
+                sortDir: order,
+                appFilter: filter,
+            }),
+            enabled: category.id === constants.MY_COLLECTIONS,
+            onSuccess: (resp) => {
+                trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
+                    systemId: selectedSystemId,
+                    appId: selectedAppId,
+                });
+                setData(resp);
             },
+
         });
 
-    const [deleteAppMutation, { isLoading: deleteLoading }] = useMutation(
+    const { deleteAppMutation, isLoading: deleteLoading } = useMutation(
         deleteApp,
         {
             onSuccess: () => {
@@ -238,13 +244,13 @@ function Listing(props) {
                 setSelected([]);
 
                 if (selectedSystemId && selectedAppId) {
-                    queryCache.invalidateQueries([
+                    queryClient.invalidateQueries([
                         APP_BY_ID_QUERY_KEY,
                         { systemId: selectedSystemId, appId: selectedAppId },
                     ]);
                 }
 
-                queryCache.invalidateQueries(APPS_IN_CATEGORY_QUERY_KEY);
+                queryClient.invalidateQueries(APPS_IN_CATEGORY_QUERY_KEY);
             },
             onError: (error) => {
                 showErrorAnnouncer(t("appDeleteError"), error);
@@ -267,8 +273,8 @@ function Listing(props) {
         const selApps = getSelectedApps();
         setAddToBagEnabled(
             selApps &&
-                selected.length > 0 &&
-                selApps?.filter((app) => app.is_public).length === 0
+            selected.length > 0 &&
+            selApps?.filter((app) => app.is_public).length === 0
         );
     }, [getSelectedApps, selected, selectedApp]);
 

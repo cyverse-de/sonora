@@ -5,7 +5,7 @@
  */
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
-import { useQuery, useMutation, queryCache } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { Field, Form, Formik } from "formik";
 
 import constants from "../../constants";
@@ -49,6 +49,10 @@ export default function UpdateRequestDialog(props) {
     const theme = useTheme();
     const { t } = useTranslation("util");
     const baseId = ids.UPDATE_REQUEST_DIALOG;
+
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const { isFetching: isDOIRequestFetching, error: doiRequestFetchError } =
         useQuery({
             queryKey: [REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
@@ -73,7 +77,7 @@ export default function UpdateRequestDialog(props) {
             },
         });
 
-    const [updateRequest, { status: updateRequestStatus }] = useMutation(
+    const { updateRequest, status: updateRequestStatus } = useMutation(
         requestType === RequestType.TOOL
             ? adminUpdateToolRequest
             : adminUpdateDOIRequestStatus,
@@ -82,7 +86,7 @@ export default function UpdateRequestDialog(props) {
                 announce({
                     text: t("requestUpdateSuccess"),
                 });
-                queryCache.invalidateQueries(DOI_LISTING_QUERY_KEY);
+                queryClient.invalidateQueries(DOI_LISTING_QUERY_KEY);
                 setUpdateRequestError(null);
                 onClose();
             },

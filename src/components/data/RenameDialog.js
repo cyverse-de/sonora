@@ -42,7 +42,7 @@ function RenameDialog(props) {
     const baseId = ids.RENAME_DLG;
     const { t } = useTranslation("data");
 
-    const [resourceRename, { status: renameStatus }] = useMutation(rename, {
+    const { resourceRename, status: renameStatus } = useMutation(rename, {
         onSuccess: (data, { resetForm }) => {
             setRenameError(null);
             announce({

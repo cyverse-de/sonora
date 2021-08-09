@@ -74,9 +74,9 @@ const JobLimits = ({ showErrorAnnouncer }) => {
     // We're using a mutation instead of a query here because of a bug in
     // how react-query handles the 'enabled' flag in the config. It's fixed
     // in the latest version, but that version makes backwards-breaking changes
-    // to the queryCache.refetchQueries() call that breaks most pages. The
+    // to the queryClient.refetchQueries() call that breaks most pages. The
     // upgrade to react-query will need to happen in another PR.
-    const [getJobLimit] = useMutation(getUserJobLimit, {
+    const { getJobLimit } = useMutation(getUserJobLimit, {
         onSuccess: (data) => {
             setPreviousUsername(username); // set the displayed username.
             setCurrentLimit(data?.concurrent_jobs); // set the displayed limit.
@@ -88,7 +88,7 @@ const JobLimits = ({ showErrorAnnouncer }) => {
         },
     });
 
-    const [setLimitMutation] = useMutation(setUserJobLimit, {
+    const { setLimitMutation } = useMutation(setUserJobLimit, {
         onSuccess: () => {
             getJobLimit({ username });
             setUsername("");

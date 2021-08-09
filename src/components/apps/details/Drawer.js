@@ -8,7 +8,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import ToolsUsedPanel from "./ToolUsedPanel";
 import AppFavorite from "../AppFavorite";
@@ -100,6 +100,9 @@ function DetailsHeader({
     const { t } = useTranslation("apps");
     const [link, setLink] = useState("");
     const [open, setOpen] = useState(false);
+
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         const host = getHost();
@@ -206,6 +209,9 @@ function DetailsDrawer(props) {
     const detailsTabId = buildID(drawerId, ids.DETAILS_TAB);
     const toolInfoTabId = buildID(drawerId, ids.TOOLS_INFO_TAB);
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const { isFetching: appByIdStatus, error: appByIdError } = useQuery({
         queryKey: [APP_BY_ID_QUERY_KEY, { systemId, appId }],
         queryFn: getAppById,
@@ -237,9 +243,9 @@ function DetailsDrawer(props) {
         },
     });
 
-    const [favorite, { status: favMutationStatus }] = useMutation(appFavorite, {
+    const { favorite, status: favMutationStatus } = useMutation(appFavorite, {
         onSuccess: () => {
-            queryCache.invalidateQueries([
+            queryClient.invalidateQueries([
                 APP_BY_ID_QUERY_KEY,
                 { systemId, appId },
             ]);
@@ -252,9 +258,9 @@ function DetailsDrawer(props) {
         },
     });
 
-    const [rating, { status: ratingMutationStatus }] = useMutation(rateApp, {
+    const { rating, status: ratingMutationStatus } = useMutation(rateApp, {
         onSuccess: () =>
-            queryCache.invalidateQueries([
+            queryClient.invalidateQueries([
                 APP_BY_ID_QUERY_KEY,
                 { systemId, appId },
             ]),

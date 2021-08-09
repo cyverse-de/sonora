@@ -40,7 +40,7 @@ function CreateFolderDialog(props) {
     const baseId = ids.CREATE_DLG;
     const { t } = useTranslation("data");
 
-    const [createNewFolder, { status: createFolderStatus }] = useMutation(
+    const { createNewFolder, status: createFolderStatus } = useMutation(
         createFolder,
         {
             onSuccess: (data, { resetForm }) => {

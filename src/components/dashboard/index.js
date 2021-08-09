@@ -106,7 +106,7 @@ const Dashboard = (props) => {
 
     const bootstrapInfo = useBootstrapInfo()[0];
 
-    const [mutatePreferences] = useSavePreferences(
+    const { mutatePreferences } = useSavePreferences(
         (resp) => {
             announce({
                 text: i18nIntro("dismissPrompt"),

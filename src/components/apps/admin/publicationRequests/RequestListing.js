@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
-import { useQuery, useMutation, queryCache } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 import buildID from "components/utils/DebugIDUtil";
 import EmptyTable from "components/table/EmptyTable";
@@ -77,6 +77,8 @@ function ToolsUsed(props) {
     const { tools, appName } = props;
     const [toolsDialogOpen, setToolsDialogOpen] = useState(false);
     const { t } = useTranslation("tools");
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
     return (
         <React.Fragment>
             <Button color="primary" onClick={() => setToolsDialogOpen(true)}>
@@ -154,11 +156,11 @@ function AppPublicationRequests(props) {
         },
     });
 
-    const [doAdminAppPublish, { status: appPublishStatus }] = useMutation(
+    const { doAdminAppPublish, status: appPublishStatus } = useMutation(
         adminPublishApp,
         {
             onSuccess: (data) => {
-                queryCache.invalidateQueries(
+                queryClient.invalidateQueries(
                     APP_PUBLICATION_REQUESTS_QUERY_KEY
                 );
                 setError(null);

@@ -10,7 +10,7 @@ import React, { useEffect } from "react";
 
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import NavigationConstants from "common/NavigationConstants";
 import { useUserProfile } from "contexts/userProfile";
@@ -51,6 +51,9 @@ function ReferenceGenomes(props) {
     const [selectedReferenceGenome, setSelectedReferenceGenome] =
         React.useState(null);
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const { isFetching, error, data } = useQuery({
         queryKey: [ADMIN_REFERENCE_GENOMES_QUERY_KEY, { deleted: true }],
         queryFn: getReferenceGenomes,
@@ -59,7 +62,7 @@ function ReferenceGenomes(props) {
         },
     });
 
-    const [mutateGenome, { isFetching: genomeMutationStatus }] = useMutation(
+    const { mutateGenome, isFetching: genomeMutationStatus } = useMutation(
         saveReferenceGenome,
         {
             onSuccess: (updatedGenome) => {
@@ -68,7 +71,9 @@ function ReferenceGenomes(props) {
                     text: t("updateSuccess"),
                     variant: SUCCESS,
                 });
-                queryCache.invalidateQueries(ADMIN_REFERENCE_GENOMES_QUERY_KEY);
+                queryClient.invalidateQueries(
+                    ADMIN_REFERENCE_GENOMES_QUERY_KEY
+                );
             },
             onError: (e) => {
                 showErrorAnnouncer(t("updateFailed"), e);
@@ -76,7 +81,7 @@ function ReferenceGenomes(props) {
         }
     );
 
-    const [createGenome, { isFetching: genomeCreationStatus }] = useMutation(
+    const { createGenome, isFetching: genomeCreationStatus } = useMutation(
         createReferenceGenome,
         {
             onSuccess: (createdGenome) => {
@@ -85,7 +90,9 @@ function ReferenceGenomes(props) {
                     text: t("createSuccess"),
                     variant: SUCCESS,
                 });
-                queryCache.invalidateQueries(ADMIN_REFERENCE_GENOMES_QUERY_KEY);
+                queryClient.invalidateQueries(
+                    ADMIN_REFERENCE_GENOMES_QUERY_KEY
+                );
             },
             onError: (e) => {
                 showErrorAnnouncer(t("createFailed"), e);

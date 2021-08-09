@@ -119,7 +119,7 @@ function PublicLinks(props) {
         },
     });
 
-    const [saveTextAsFile, { status: fileSaveStatus }] = useMutation(
+    const { saveTextAsFile, status: fileSaveStatus } = useMutation(
         uploadTextAsFile,
         {
             onSuccess: (resp) => {

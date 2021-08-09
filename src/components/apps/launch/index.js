@@ -42,7 +42,7 @@ const Launch = ({ app, launchError, viceQuota, runningJobs, loading }) => {
     const { t } = useTranslation("vice");
     const defaultOutputDir = useDefaultOutputDir();
 
-    const [submitAnalysisMutation] = useMutation(
+    const { submitAnalysisMutation } = useMutation(
         ({ submission }) => submitAnalysis(submission),
         {
             onSuccess: (resp, { onSuccess }) => {
@@ -57,7 +57,7 @@ const Launch = ({ app, launchError, viceQuota, runningJobs, loading }) => {
         }
     );
 
-    const [addSavedLaunchMutation] = useMutation(
+    const { addSavedLaunchMutation } = useMutation(
         ({ savedLaunch }) => addSavedLaunch(savedLaunch),
         {
             onSuccess: (resp, { onSuccess }) => {

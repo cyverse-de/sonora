@@ -7,7 +7,7 @@
  */
 import React, { useEffect, useState } from "react";
 
-import { useMutation, queryCache, useQuery } from "react-query";
+import { useMutation, useQueryClient, useQuery } from "react-query";
 import { useTranslation } from "i18n";
 import { NavigationParams } from "common/NavigationConstants";
 
@@ -127,7 +127,10 @@ function ViewerToolbar(props) {
     const classes = useStyles();
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-    let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
+    let infoTypesCache = queryClient.getQueryData(INFO_TYPES_QUERY_KEY);
 
     useEffect(() => {
         if (!infoTypesCache || infoTypesCache.length === 0) {
@@ -160,7 +163,7 @@ function ViewerToolbar(props) {
         },
     });
 
-    const [saveTextAsFile, { isLoading: fileSaveLoading }] = useMutation(
+    const { saveTextAsFile, isLoading: fileSaveLoading } = useMutation(
         uploadTextAsFile,
         {
             onSuccess: (resp) => {

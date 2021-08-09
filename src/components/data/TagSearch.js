@@ -18,7 +18,7 @@ import {
 } from "@material-ui/core";
 import { HighlightOff } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 import { useTranslation } from "react-i18next";
 
 import ids from "./ids";
@@ -53,6 +53,9 @@ function TagSearch(props) {
     const [errorObject, setErrorObject] = useState(null);
     const [userProfile] = useUserProfile();
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const { isFetching: isFetchingTags } = useQuery({
         queryKey: fetchTagsQueryKey,
         queryFn: getTagsForResource,
@@ -81,10 +84,10 @@ function TagSearch(props) {
         },
     });
 
-    const [removeTag, { status: tagDetachStatus }] = useMutation(
+    const { removeTag, status: tagDetachStatus } = useMutation(
         detachTagsFromResource,
         {
-            onSuccess: () => queryCache.invalidateQueries(fetchTagsQueryKey),
+            onSuccess: () => queryClient.invalidateQueries(fetchTagsQueryKey),
             onError: (e) => {
                 setErrorMessage(t("modifyTagsError"));
                 setErrorObject(e);
@@ -96,7 +99,7 @@ function TagSearch(props) {
         removeTag({ tagIds: [selectedTag.id], resourceId: resource.id });
     };
 
-    const [createTag, { status: tagCreationStatus }] = useMutation(
+    const { createTag, status: tagCreationStatus } = useMutation(
         createUserTag,
         {
             onSuccess: (resp, variables) => {
@@ -114,12 +117,12 @@ function TagSearch(props) {
         }
     );
 
-    const [attachTagToResource, { status: tagAttachStatus }] = useMutation(
+    const { attachTagToResource, status: tagAttachStatus } = useMutation(
         attachTagsToResource,
         {
             onSuccess: () => {
                 setSearchTerm(null);
-                return queryCache.invalidateQueries(fetchTagsQueryKey);
+                return queryClient.invalidateQueries(fetchTagsQueryKey);
             },
             onError: (e) => {
                 setErrorMessage(t("modifyTagsError"));

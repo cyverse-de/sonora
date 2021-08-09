@@ -199,7 +199,7 @@ function Sharing(props) {
         onClose();
     };
 
-    const [sendSharingUpdates, { isLoading: isSaving }] = useMutation(
+    const { sendSharingUpdates, isLoading: isSaving } = useMutation(
         doSharingUpdates,
         {
             onSuccess: (results) => {

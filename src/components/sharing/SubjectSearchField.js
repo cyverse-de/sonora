@@ -41,7 +41,7 @@ import {
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import ids from "./ids";
 import {
@@ -83,6 +83,9 @@ function SubjectSearchField(props) {
     const [recentContacts, setRecentContacts] = useState(null);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
 
     const { status: subjectSearchStatus } = useQuery({
         queryKey: { searchTerm },
@@ -127,19 +130,19 @@ function SubjectSearchField(props) {
         setOptions([...(recentContacts || []), ...(searchResults || [])]);
     }, [recentContacts, searchResults]);
 
-    const [addRecentContactMutation, { status: addRecentContactStatus }] =
+    const { addRecentContactMutation, status: addRecentContactStatus } =
         useMutation(addRecentContacts, {
             onSuccess: () =>
-                queryCache.invalidateQueries([RECENT_CONTACTS_QUERY]),
+                queryClient.invalidateQueries([RECENT_CONTACTS_QUERY]),
             onError: (error) => {
                 showErrorAnnouncer(t("addRecentContactError"), error);
             },
         });
 
-    const [removeRecentContactMutation, { status: removeRecentContactStatus }] =
+    const { removeRecentContactMutation, status: removeRecentContactStatus } =
         useMutation(removeRecentContacts, {
             onSuccess: () =>
-                queryCache.invalidateQueries([RECENT_CONTACTS_QUERY]),
+                queryClient.invalidateQueries([RECENT_CONTACTS_QUERY]),
             onError: (error) => {
                 showErrorAnnouncer(t("removeRecentContactError"), error);
             },

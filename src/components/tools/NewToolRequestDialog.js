@@ -30,7 +30,7 @@ export default function NewToolRequestDialog(props) {
     const { t: i18nUtil } = useTranslation("util");
     const baseId = ids.TOOL_REQUEST.DIALOG;
 
-    const [submitNewToolRequest, { status: submitRequestStatus }] = useMutation(
+    const { submitNewToolRequest, status: submitRequestStatus } = useMutation(
         ({ submission }) => toolRequest(submission),
         {
             onSuccess: (data) => {

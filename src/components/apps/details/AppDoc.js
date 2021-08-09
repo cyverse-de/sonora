@@ -229,7 +229,7 @@ function AppDoc(props) {
         },
     });
 
-    const [mutateDoc, { status: docMutationStatus }] = useMutation(saveAppDoc, {
+    const { mutateDoc, status: docMutationStatus } = useMutation(saveAppDoc, {
         onSuccess: () => {
             setDirty(false);
             setMode(VIEW_MODE);

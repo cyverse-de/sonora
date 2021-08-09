@@ -8,7 +8,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import { Form, Formik } from "formik";
-import { useQuery, queryCache, useMutation } from "react-query";
+import { useQuery, useQueryClient, useMutation } from "react-query";
 import { useRouter } from "next/router";
 
 import { useTranslation } from "i18n";
@@ -100,10 +100,15 @@ function Preferences(props) {
 
     const classes = useStyles();
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     //get from cache if not fetch now.
-    const prefCache = queryCache.getQueryData(BOOTSTRAP_KEY);
-    const webhookTypesCache = queryCache.getQueryData(WEBHOOKS_TYPES_QUERY_KEY);
-    const webhookTopicsCache = queryCache.getQueryData(
+    const prefCache = queryClient.getQueryData(BOOTSTRAP_KEY);
+    const webhookTypesCache = queryClient.getQueryData(
+        WEBHOOKS_TYPES_QUERY_KEY
+    );
+    const webhookTopicsCache = queryClient.getQueryData(
         WEBHOOKS_TOPICS_QUERY_KEY
     );
 
@@ -198,14 +203,14 @@ function Preferences(props) {
                     text: t("prefSaveSuccess"),
                     variant: SUCCESS,
                 });
-                queryCache.invalidateQueries(BOOTSTRAP_KEY);
+                queryClient.invalidateQueries(BOOTSTRAP_KEY);
             },
             (e) => {
                 showErrorAnnouncer(t("savePrefError"), e);
             }
         );
 
-    const [resetHPCToken, { status: resetTokenStatus }] = useMutation(
+    const { resetHPCToken, status: resetTokenStatus } = useMutation(
         resetToken,
         {
             onSuccess: () => {

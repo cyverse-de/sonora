@@ -398,7 +398,7 @@ function getCollectionFollowers(key, { name }) {
     });
 }
 
-function getCollectionApps(key, { name, sortField, sortDir, appFilter }) {
+function getCollectionApps({ name, sortField, sortDir, appFilter }) {
     const params = {
         "sort-field": sortField || "name",
         "sort-dir": sortDir?.toUpperCase() || "ASC",

@@ -31,8 +31,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import getConfig from "next/config";
 
-import { ReactQueryDevtools } from "react-query-devtools";
-import { ReactQueryConfigProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -114,8 +114,11 @@ function MyApp({ Component, pageProps }) {
         : NavigationConstants.DASHBOARD;
     const [unReadCount, setUnReadCount] = useState(0);
 
+    const queryClient = new QueryClient();
     const queryConfig = {
-        queries: { refetchOnWindowFocus: false, retry: false },
+        defaultOptions: {
+            queries: { refetchOnWindowFocus: false, retry: false },
+        },
     };
 
     useEffect(() => {
@@ -253,7 +256,7 @@ function MyApp({ Component, pageProps }) {
         <ThemeProvider theme={theme}>
             <UserProfileProvider>
                 <UploadTrackingProvider>
-                    <ReactQueryConfigProvider config={queryConfig}>
+                    <QueryClientProvider client={queryClient}>
                         <CssBaseline />
                         <NotificationsProvider>
                             <ConfigProvider>
@@ -280,7 +283,7 @@ function MyApp({ Component, pageProps }) {
                                 </BootstrapInfoProvider>
                             </ConfigProvider>
                         </NotificationsProvider>
-                    </ReactQueryConfigProvider>
+                    </QueryClientProvider>
                 </UploadTrackingProvider>
             </UserProfileProvider>
         </ThemeProvider>

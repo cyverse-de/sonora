@@ -161,7 +161,7 @@ export default function PublishAppDialog(props) {
     const parentId = ids.PUBLISH_DLG;
     const [error, setError] = React.useState(null);
 
-    const [requestAppPublication, { status: requestStatus }] = useMutation(
+    const { requestAppPublication, status: requestStatus } = useMutation(
         requestToPublishApp,
         {
             onSuccess: () => {

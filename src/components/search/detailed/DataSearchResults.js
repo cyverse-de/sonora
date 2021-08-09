@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { useQuery, queryCache } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import Link from "next/link";
 import { useTranslation } from "i18n";
 
@@ -91,7 +91,9 @@ function DataSearchResults(props) {
     const { t: dataI18n } = useTranslation("data");
     const dataRecordFields = dataFields(dataI18n);
 
-    let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+    let infoTypesCache = queryClient.getQueryData(INFO_TYPES_QUERY_KEY);
 
     useEffect(() => {
         if (!infoTypesCache || infoTypesCache.length === 0) {

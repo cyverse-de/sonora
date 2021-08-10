@@ -113,6 +113,7 @@ function CommunityApps(props) {
                             setSearchTerm(query?.searchTerm)
                         }
                         onOptionSelected={onAddApp}
+                        placeholder={t("searchApps")}
                     />
                 </Toolbar>
             )}

@@ -27,6 +27,7 @@
     "retagApps": "Re-tag Apps",
     "retagAppsMessage": "{{name}} currently has apps tagged to it. Renaming the community will cause all the currently tagged apps to be re-tagged to the community with the new name.  Do you wish to continue?",
     "retagAppsTitle": "Rename community and re-tag associated apps?",
+    "searchApps": "Search to add apps",
     "unfollow": "Unfollow",
     "unfollowCommunityError": "Failed to unfollow {{ name }}. Please try again.",
     "unfollowCommunitySuccess": "Successfully unfollowed {{ name }}",

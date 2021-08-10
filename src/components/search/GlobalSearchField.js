@@ -329,6 +329,7 @@ function GlobalSearchField(props) {
         onOptionSelected,
         outlined,
         hideDropDown = false,
+        placeholder,
     } = props;
 
     const { t } = useTranslation("common");
@@ -744,6 +745,7 @@ function GlobalSearchField(props) {
             id={buildID(ids.SEARCH, ids.SEARCH_INPUT_FILED)}
             {...params}
             className={classes.input}
+            placeholder={placeholder}
             variant={isMobile || outlined ? "outlined" : "standard"}
             InputProps={{
                 ...params.InputProps,

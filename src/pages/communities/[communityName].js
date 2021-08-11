@@ -9,7 +9,7 @@ import React from "react";
 import { useRouter } from "next/router";
 
 import CommunityForm from "components/communities/form";
-import NavigationConstants from "../../common/NavigationConstants";
+import NavigationConstants from "common/NavigationConstants";
 
 export default function EditCommunity() {
     const router = useRouter();

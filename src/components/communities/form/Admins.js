@@ -42,8 +42,7 @@ function Admins(props) {
     const adminList = getIn(values, name);
 
     const adminExists = (subject) => {
-        const exists = adminList.filter((admin) => admin.id === subject.id);
-        return exists?.length > 0;
+        return adminList.find((admin) => admin.id === subject.id);
     };
 
     const addAdmin = (subject) => {

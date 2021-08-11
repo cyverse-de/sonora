@@ -1,27 +1,28 @@
 /**
  * @author aramsey
  *
- * These are all the form fields for the form used for editing or creating teams.
+ * These are all the form fields for the form used for editing or creating
+ * communities.
  * This also has a submission error message that displays above and below
  * the form when an error occurs.
  */
 import React from "react";
 
-import buildID from "components/utils/DebugIDUtil";
-import FormMultilineTextField from "components/forms/FormMultilineTextField";
-import FormTextField from "components/forms/FormTextField";
-
 import { Field, FieldArray } from "formik";
 
-import Admins from "./Admins";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
+import FormTextField from "components/forms/FormTextField";
 import { validateGroupName } from "components/teams/util";
+import buildID from "components/utils/DebugIDUtil";
+
+import Admins from "./Admins";
+import CommunityApps from "./CommunityApps";
 import ids from "../ids";
 import { useTranslation } from "i18n";
-import CommunityApps from "./CommunityApps";
 
 function FormFields(props) {
-    const { parentId, isAdmin, queryError } = props;
+    const { parentId, isAdmin, queryError, loading } = props;
     const { t } = useTranslation("communities");
 
     return (
@@ -66,6 +67,7 @@ function FormFields(props) {
                 {(props) => (
                     <CommunityApps
                         {...props}
+                        loading={loading}
                         isAdmin={isAdmin}
                         parentId={parentId}
                     />

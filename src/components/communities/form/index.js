@@ -1,17 +1,23 @@
+/**
+ * @author aramsey
+ *
+ * The top-level component for creating/editing communities
+ */
 import React, { useState } from "react";
 
-import announce from "components/announcer/CyVerseAnnouncer";
-import { INFO } from "components/announcer/AnnouncerConstants";
 import { makeStyles, Paper, Table } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { Formik } from "formik";
 import { useMutation, useQuery } from "react-query";
 
-import isQueryLoading from "components/utils/isQueryLoading";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { INFO } from "components/announcer/AnnouncerConstants";
+import { ERROR_CODES, getErrorCode } from "components/error/errorCode";
 import TableLoading from "components/table/TableLoading";
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
+import isQueryLoading from "components/utils/isQueryLoading";
+import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
-import FormFields from "./FormFields";
-import { useTranslation } from "i18n";
 import {
     COMMUNITY_DETAILS_QUERY,
     createCommunity,
@@ -22,12 +28,12 @@ import {
     updateCommunityDetails,
     updateCommunityNameDesc,
 } from "serviceFacades/groups";
+
+import FormFields from "./FormFields";
+import { useTranslation } from "i18n";
+import ids from "../ids";
 import styles from "../styles";
 import CommunityToolbar from "./Toolbar";
-import { useConfig } from "../../../contexts/config";
-import ConfirmationDialog from "../../utils/ConfirmationDialog";
-import ids from "../ids";
-import { ERROR_CODES, getErrorCode } from "../../error/errorCode";
 
 const useStyles = makeStyles(styles);
 
@@ -91,6 +97,7 @@ function CommunitiesForm(props) {
                     }),
                     variant: INFO,
                 });
+                goBackToCommunityList();
             },
             onError: (error) => {
                 setQueryError({
@@ -113,6 +120,7 @@ function CommunitiesForm(props) {
                     }),
                     variant: INFO,
                 });
+                goBackToCommunityList();
             },
             onError: (error) => {
                 setQueryError({
@@ -155,6 +163,7 @@ function CommunitiesForm(props) {
         onSuccess: (resp, { newAdmins, newApps, attr }) => {
             updateCommunityDetailsMutation({
                 name: resp?.name,
+                fullName: resp?.display_name,
                 oldAdmins: admins,
                 oldApps: apps,
                 newAdmins,
@@ -190,9 +199,11 @@ function CommunitiesForm(props) {
     const [createCommunityMutation, { status: createCommunityStatus }] =
         useMutation(createCommunity, {
             onSuccess: (resp, { newAdmins, newApps, attr }) => {
+                setCommunity(resp);
                 setCommunityNameSaved(true);
                 updateCommunityDetailsMutation({
                     name: resp?.name,
+                    fullName: resp?.display_name,
                     oldAdmins: admins,
                     oldApps: apps,
                     newAdmins,
@@ -319,6 +330,7 @@ function CommunitiesForm(props) {
                                 parentId={parentId}
                                 isAdmin={isAdmin || isCreatingCommunity}
                                 queryError={queryError}
+                                loading={loading}
                             />
                         )}
                     </Paper>

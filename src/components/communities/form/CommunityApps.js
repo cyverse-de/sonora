@@ -31,6 +31,7 @@ function CommunityApps(props) {
         remove,
         form: { values },
         name,
+        loading,
     } = props;
     const appList = getIn(values, name);
     const { t } = useTranslation(["communities", "sharing"]);
@@ -101,24 +102,26 @@ function CommunityApps(props) {
             defaultExpanded={true}
             parentId={baseId}
         >
-            <Typography>{t("noExternalAppsNote")}</Typography>
             {isAdmin && (
-                <Toolbar>
-                    <GlobalSearchField
-                        outlined
-                        hideDropDown={true}
-                        singleSearchOption={true}
-                        selectedFilter={SearchConstants.APPS}
-                        onShowDetailedSearch={(query) =>
-                            setSearchTerm(query?.searchTerm)
-                        }
-                        onOptionSelected={onAddApp}
-                        placeholder={t("searchApps")}
-                    />
-                </Toolbar>
+                <>
+                    <Typography>{t("noExternalAppsNote")}</Typography>
+                    <Toolbar>
+                        <GlobalSearchField
+                            outlined
+                            hideDropDown={true}
+                            singleSearchOption={true}
+                            selectedFilter={SearchConstants.APPS}
+                            onShowDetailedSearch={(query) =>
+                                setSearchTerm(query?.searchTerm)
+                            }
+                            onOptionSelected={onAddApp}
+                            placeholder={t("searchApps")}
+                        />
+                    </Toolbar>
+                </>
             )}
             <TableView
-                loading={false}
+                loading={loading}
                 listing={{ apps: sortedApps }}
                 baseId={baseId}
                 order={viewSettings.order}
@@ -132,7 +135,7 @@ function CommunityApps(props) {
                 handleRequestSort={handleRequestSort}
             />
             <AppSearchDrawer
-                open={searchTerm.length > 0}
+                open={searchTerm?.length > 0}
                 onConfirm={(apps) => {
                     onAddApps(apps);
                     setSearchTerm("");

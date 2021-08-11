@@ -79,6 +79,7 @@ function CommunityToolbar(props) {
                     id={buildID(toolbarId, ids.BUTTONS.CREATE_BTN)}
                     onClick={onCreateCommunitySelected}
                     startIcon={<Add />}
+                    classes={{ root: classes.button }}
                 >
                     {t("createCommunity")}
                 </Button>

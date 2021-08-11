@@ -9,8 +9,6 @@
 
 import React, { useState } from "react";
 
-import buildID from "components/utils/DebugIDUtil";
-import DotMenu from "components/dotMenu/DotMenu";
 import {
     Button,
     Hidden,
@@ -22,14 +20,15 @@ import {
 } from "@material-ui/core";
 import { Delete, EmojiPeople, ExitToApp, Save } from "@material-ui/icons";
 
-import { groupShortName } from "components/teams/util";
+import DotMenu from "components/dotMenu/DotMenu";
 import BackButton from "components/utils/BackButton";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
+import buildID from "components/utils/DebugIDUtil";
 import DeleteButton from "components/utils/DeleteButton";
+
 import { useTranslation } from "i18n";
 import ids from "../ids";
 import styles from "../styles";
-
 const useStyles = makeStyles(styles);
 
 function EditCommunityToolbar(props) {
@@ -52,7 +51,6 @@ function EditCommunityToolbar(props) {
     const [followCommunityDlgOpen, setFollowCommunityDlgOpen] = useState(false);
 
     const baseId = buildID(parentId, ids.TOOLBAR);
-    const communityShortName = groupShortName(communityName);
     const isCreatingCommunity = !communityName;
 
     const unfollowEnabled = !isAdmin && isFollower;
@@ -175,7 +173,7 @@ function EditCommunityToolbar(props) {
                     onUnfollowSelected();
                 }}
                 title={t("unfollowCommunityTitle", {
-                    name: communityShortName,
+                    name: communityName,
                 })}
                 contentText={t("unfollowCommunityText")}
                 confirmButtonText={t("unfollow")}
@@ -188,7 +186,7 @@ function EditCommunityToolbar(props) {
                     setDeleteCommunityDlgOpen(false);
                     onDeleteCommunitySelected();
                 }}
-                title={t("deleteCommunityTitle", { name: communityShortName })}
+                title={t("deleteCommunityTitle", { name: communityName })}
                 contentText={t("deleteCommunityText")}
                 confirmButtonText={t("common:delete")}
             />
@@ -200,7 +198,7 @@ function EditCommunityToolbar(props) {
                     setFollowCommunityDlgOpen(false);
                     onFollowSelected();
                 }}
-                title={t("followCommunityTitle", { name: communityShortName })}
+                title={t("followCommunityTitle", { name: communityName })}
                 contentText={t("followCommunityText")}
                 confirmButtonText={t("follow")}
             />

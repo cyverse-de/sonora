@@ -4,7 +4,7 @@
     "communityAdmins": "Community Admins",
     "communityApps": "Community Apps",
     "communityName": "Community Name",
-    "createCommunity": "Create Community",
+    "createCommunity": "Community",
     "createCommunityFail": "Failed to create community. Please try again.",
     "deleteCommunityError": "Failed to delete {{ name }}. Please try again.",
     "deleteCommunitySuccess": "Successfully deleted {{ name }}",

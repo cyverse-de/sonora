@@ -27,18 +27,16 @@ import { replaceNamedPathSegments } from "../../common/functions";
 export const handler = ({ method, pathname, headers }) => {
     return async (req, res) => {
         const accessToken = req?.kauth?.grant?.access_token;
-        call(
-            {
-                method,
-                pathname,
-                headers,
-                query: req.query,
-                params: req.params,
-                userID: accessToken?.content?.preferred_username,
-                accessToken: accessToken?.token,
-            },
-            req
-        )
+        call({
+            method,
+            pathname,
+            headers,
+            query: req.query,
+            params: req.params,
+            userID: accessToken?.content?.preferred_username,
+            accessToken: accessToken?.token,
+            data: req?.body,
+        })
             .then((apiResponse) => {
                 res.set(apiResponse.headers);
                 res.status(apiResponse.status);
@@ -74,13 +72,19 @@ export const handler = ({ method, pathname, headers }) => {
  * @param {Object} request.params - The named path segments
  * @param {Object} request.userID - The user ID to include in the Terrain request.
  * @param {Object} request.accessToken - The access token to use in the Terrain request.
- * @param {Object} inStream - The ReadableStream to use as the body of the Terrain request.
+ * @param {Object} request.data = The request body, if provided.
  * @returns {Promise}
  */
-export const call = (
-    { method, pathname, headers, query, params, userID, accessToken },
-    inStream
-) => {
+export const call = ({
+    method,
+    pathname,
+    headers,
+    query,
+    params,
+    userID,
+    accessToken,
+    data,
+}) => {
     const apiURL = new URL(terrainURL);
 
     let updatedPathName = replaceNamedPathSegments(params, pathname);
@@ -90,7 +94,9 @@ export const call = (
         apiURL.search = querystring.stringify(query);
     }
 
-    logger.info(`TERRAIN ${userID} ${method} ${apiURL.href}`);
+    logger.info(
+        `TERRAIN ${userID} ${method} ${apiURL.href} ${JSON.stringify(data)}`
+    );
 
     let requestOptions = {
         method: method,
@@ -98,11 +104,8 @@ export const call = (
         withCredentials: true,
         headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
         maxRedirects: 0,
+        data,
     };
-
-    if (inStream) {
-        requestOptions.data = inStream;
-    }
 
     if (headers) {
         requestOptions.headers = {

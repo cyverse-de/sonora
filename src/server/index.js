@@ -83,6 +83,7 @@ app.prepare()
         logger.info("configuring the express logging middleware");
         server.use(errorLogger);
         server.use(requestLogger);
+        server.use(express.json());
 
         logger.info("DEBUG: adding middleware to log cookies");
         server.use(authn.logSessionCookie);

@@ -27,6 +27,7 @@ import RowDotMenu from "./RowDotMenu";
 
 import AppStatusIcon from "../AppStatusIcon";
 import AppName from "../AppName";
+import { AppActionCell } from "components/search/detailed/AppSearchResults";
 import DETableHead from "components/table/DETableHead";
 import TableLoading from "components/table/TableLoading";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
@@ -34,7 +35,7 @@ import { DERow } from "components/table/DERow";
 import DeleteButton from "components/utils/DeleteButton";
 import appFields from "../appFields";
 
-function getTableColumns(enableDelete, enableMenu, t) {
+function getTableColumns(enableDelete, enableMenu, enableActionCell, t) {
     const fields = appFields(t);
     let tableColumns = [
         {
@@ -71,6 +72,14 @@ function getTableColumns(enableDelete, enableMenu, t) {
             align: "right",
         },
     ];
+
+    if (enableActionCell) {
+        tableColumns.push({
+            name: "",
+            enableSorting: false,
+            key: "actions",
+        });
+    }
 
     if (enableDelete) {
         tableColumns.push({
@@ -117,12 +126,18 @@ function TableView(props) {
         enableSorting = true,
         enableSelection = true,
         enableDelete = false,
+        enableActionCell = false,
         isAdminView,
         searchTerm,
     } = props;
     const { t } = useTranslation("apps");
     const apps = listing?.apps;
-    const columnData = getTableColumns(enableDelete, enableMenu, t);
+    const columnData = getTableColumns(
+        enableDelete,
+        enableMenu,
+        enableActionCell,
+        t
+    );
     const tableId = buildID(baseId, ids.LISTING_TABLE);
 
     if (error) {
@@ -292,16 +307,27 @@ function TableView(props) {
                                             >
                                                 {app.system_id}
                                             </TableCell>
+                                            {enableActionCell && (
+                                                <TableCell
+                                                    align="right"
+                                                    padding="none"
+                                                >
+                                                    <AppActionCell
+                                                        baseId={rowId}
+                                                        onDetailsSelected={
+                                                            onDetailsSelected
+                                                        }
+                                                        app={app}
+                                                    />
+                                                </TableCell>
+                                            )}
                                             {enableDelete && (
                                                 <TableCell
                                                     align="right"
                                                     padding="none"
                                                 >
                                                     <DeleteButton
-                                                        baseId={buildID(
-                                                            tableId,
-                                                            appName
-                                                        )}
+                                                        baseId={rowId}
                                                         component="IconButton"
                                                         onClick={() => {
                                                             onDeleteSelected &&
@@ -352,4 +378,5 @@ function TableView(props) {
         </PageWrapper>
     );
 }
+
 export default TableView;

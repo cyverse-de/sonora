@@ -42,24 +42,27 @@ function RenameDialog(props) {
     const baseId = ids.RENAME_DLG;
     const { t } = useTranslation("data");
 
-    const { resourceRename, status: renameStatus } = useMutation(rename, {
-        onSuccess: (data, { resetForm }) => {
-            setRenameError(null);
-            announce({
-                text: t("asyncRenamePending"),
-                variant: INFO,
-            });
-            resetForm();
-            onRenamed();
-        },
-        onError: (error) => {
-            const text =
-                getErrorCode(error) === ERROR_CODES.ERR_EXISTS
-                    ? t("resourceExists", { path: getParentPath(path) })
-                    : t("renameFail");
-            setRenameError(text);
-        },
-    });
+    const { mutate: resourceRename, status: renameStatus } = useMutation(
+        rename,
+        {
+            onSuccess: (data, { resetForm }) => {
+                setRenameError(null);
+                announce({
+                    text: t("asyncRenamePending"),
+                    variant: INFO,
+                });
+                resetForm();
+                onRenamed();
+            },
+            onError: (error) => {
+                const text =
+                    getErrorCode(error) === ERROR_CODES.ERR_EXISTS
+                        ? t("resourceExists", { path: getParentPath(path) })
+                        : t("renameFail");
+                setRenameError(text);
+            },
+        }
+    );
 
     const handleRename = ({ name }, { resetForm }) => {
         const newPath = `${getParentPath(path)}/${name}`;

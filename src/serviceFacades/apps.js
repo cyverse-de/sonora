@@ -39,7 +39,7 @@ const getAppTypeFilter = (appTypeFilter) => {
     return typeFilter;
 };
 
-function getApps(key, { rowsPerPage, orderBy, order, page, appTypeFilter }) {
+function getApps({ rowsPerPage, orderBy, order, page, appTypeFilter }) {
     return callApi({
         endpoint: `/api/apps?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
             rowsPerPage * page
@@ -48,14 +48,14 @@ function getApps(key, { rowsPerPage, orderBy, order, page, appTypeFilter }) {
     });
 }
 
-function getAppById(key, { systemId, appId }) {
+function getAppById({ systemId, appId }) {
     return callApi({
         endpoint: `/api/apps/${systemId}/${appId}/listing`,
         method: "GET",
     });
 }
 
-function getPrivateCategories(key, userId) {
+function getPrivateCategories(userId) {
     return userId
         ? callApi({
               endpoint: "/api/apps/categories?public=false",
@@ -98,19 +98,16 @@ function getPrivateCategories(key, userId) {
           });
 }
 
-function getAppsInCategory(
-    key,
-    {
-        systemId,
-        categoryId,
-        rowsPerPage,
-        orderBy,
-        order,
-        page,
-        appTypeFilter,
-        userId,
-    }
-) {
+function getAppsInCategory({
+    systemId,
+    categoryId,
+    rowsPerPage,
+    orderBy,
+    order,
+    page,
+    appTypeFilter,
+    userId,
+}) {
     return userId
         ? callApi({
               endpoint: `/api/apps/categories/${systemId}/${categoryId}?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
@@ -147,7 +144,7 @@ function deleteApp({ systemId, appId }) {
     });
 }
 
-function getAppDescription(_, { systemId, appId }) {
+function getAppDescription({ systemId, appId }) {
     return callApi({
         endpoint: `/api/apps/${systemId}/${appId}`,
         method: "GET",
@@ -177,7 +174,7 @@ function copyApp({ systemId, appId }) {
     });
 }
 
-function getAppDetails(key, { systemId, appId }) {
+function getAppDetails({ systemId, appId }) {
     return callApi({
         endpoint: `/api/apps/${systemId}/${appId}/details`,
         method: "GET",
@@ -215,7 +212,7 @@ function rateApp({ systemId, appId, rating }) {
     }
 }
 
-function searchApps(key, { search, rowsPerPage, orderBy, order, page }) {
+function searchApps({ search, rowsPerPage, orderBy, order, page }) {
     return callApi({
         endpoint: `/api/apps?search=${search}&limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
             rowsPerPage * page
@@ -253,7 +250,7 @@ function getAppPermissions({ apps }) {
     });
 }
 
-function getAppDoc(key, { systemId, appId }) {
+function getAppDoc({ systemId, appId }) {
     return callApi({
         endpoint: `/api/apps/${systemId}/${appId}/documentation`,
         method: "GET",
@@ -268,14 +265,14 @@ function saveAppDoc({ systemId, appId, documentation }) {
     });
 }
 
-function getAppTasks(_, { systemId, appId }) {
+function getAppTasks({ systemId, appId }) {
     return callApi({
         endpoint: `/api/apps/${systemId}/${appId}/tasks`,
         method: "GET",
     });
 }
 
-function getAppUI(_, { systemId, appId }) {
+function getAppUI({ systemId, appId }) {
     return callApi({
         endpoint: `/api/apps/${systemId}/${appId}/ui`,
         method: "GET",
@@ -283,18 +280,15 @@ function getAppUI(_, { systemId, appId }) {
 }
 
 // start of admin end-points
-function getAppsForAdmin(
-    key,
-    {
-        rowsPerPage,
-        orderBy,
-        order,
-        page,
-        appTypeFilter,
-        searchTerm,
-        adminOwnershipFilter,
-    }
-) {
+function getAppsForAdmin({
+    rowsPerPage,
+    orderBy,
+    order,
+    page,
+    appTypeFilter,
+    searchTerm,
+    adminOwnershipFilter,
+}) {
     // Determine if the request is supposed to be ordered.
     const isOrdered = order && orderBy;
 
@@ -331,7 +325,7 @@ function getAppsForAdmin(
     });
 }
 
-function getAppDetailsForAdmin(key, { systemId, appId }) {
+function getAppDetailsForAdmin({ systemId, appId }) {
     return callApi({
         endpoint: `/api/admin/apps/${systemId}/${appId}/details`,
         method: "GET",
@@ -370,7 +364,7 @@ function adminUpdateAppDoc({ systemId, appId, doc }) {
     });
 }
 
-function adminGetAppAVUs(key, { appId }) {
+function adminGetAppAVUs({ appId }) {
     return callApi({
         endpoint: `/api/admin/apps/${appId}/metadata`,
         method: "GET",
@@ -456,7 +450,7 @@ function requestToPublishApp({ systemId, appId, request }) {
     });
 }
 
-function getAppPublicationRequests(key) {
+function getAppPublicationRequests() {
     return callApi({
         endpoint: `/api/admin/apps/publication-requests`,
         method: "GET",

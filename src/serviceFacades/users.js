@@ -16,7 +16,7 @@ const WEBHOOKS_TOPICS_QUERY_KEY = "fetchHookTopics";
 const WEBHOOK_TEST_KEY = "testWebhook";
 const USER_PORTAL_QUERY_KEY = "fetchUserPortalStatus";
 
-const getUserInfo = (key, { userIds }) => {
+const getUserInfo = ({ userIds }) => {
     const userQuery = userIds.join("&username=");
 
     return callApi({
@@ -32,7 +32,7 @@ function getUserProfile() {
     });
 }
 
-function bootstrap(key) {
+function bootstrap() {
     return callApi({
         endpoint: `/api/bootstrap`,
         method: "GET",
@@ -115,17 +115,15 @@ function useBootStrap(enabled, onSuccess, onError) {
     return useQuery({
         queryKey: BOOTSTRAP_KEY,
         queryFn: bootstrap,
-        config: {
-            enabled,
-            onSuccess,
-            onError,
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            retry: 3,
-            //copied from react-query doc. Add exponential delay for retry.
-            retryDelay: (attempt) =>
-                Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000),
-        },
+        enabled,
+        onSuccess,
+        onError,
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        retry: 3,
+        //copied from react-query doc. Add exponential delay for retry.
+        retryDelay: (attempt) =>
+            Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000),
     });
 }
 
@@ -139,13 +137,11 @@ function getUserPortalStatus(key, userId) {
 function usePortalStatus(userId, onError) {
     return useQuery({
         queryKey: [USER_PORTAL_QUERY_KEY, userId],
-        queryFn: getUserPortalStatus,
-        config: {
-            enabled: userId,
-            onError,
-            staleTime: Infinity,
-            cacheTime: Infinity,
-        },
+        queryFn: () => getUserPortalStatus(userId),
+        enabled: !!userId,
+        onError,
+        staleTime: Infinity,
+        cacheTime: Infinity,
     });
 }
 
@@ -154,8 +150,7 @@ function usePortalStatus(userId, onError) {
  * @param {Function} onSuccessCallback - Callback function to use when query succeeds.
  * @param {Function} onError - Callback function to use when query failed.
  */
-function useSavePreferences(onSuccessCallback, onError) {
-    const queryClient = useQueryClient();
+function useSavePreferences(queryClient, onSuccessCallback, onError) {
     return useMutation(savePreferences, {
         onSuccess: (updatedPref) => {
             //update preference in cache

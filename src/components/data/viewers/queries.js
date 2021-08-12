@@ -18,11 +18,9 @@ import { uploadTextAsFile } from "serviceFacades/fileio";
 function useFileManifest(queryKey, enabled, onSuccess) {
     return useQuery({
         queryKey,
-        queryFn: fileManifest,
-        config: {
-            enabled,
-            onSuccess,
-        },
+        queryFn: () => fileManifest(queryKey[1]),
+        enabled,
+        onSuccess,
     });
 }
 

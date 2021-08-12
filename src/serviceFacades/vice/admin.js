@@ -5,7 +5,7 @@ import constants from "../../constants";
 export const VICE_ADMIN_QUERY_KEY = "fetchViceAdmin";
 export const ASYNC_DATA_QUERY_KEY = "fetchAsyncData";
 
-export const asyncData = (_key, externalID) =>
+export const asyncData = (externalID) =>
     callApi({
         endpoint: `/api/admin/vice/async-data?external-id=${externalID}`,
         method: "GET",

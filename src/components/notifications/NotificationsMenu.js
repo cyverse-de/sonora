@@ -72,23 +72,28 @@ function NotificationsMenu(props) {
                 offset: NOTIFICATION_MENU_OFFSET,
             },
         ],
-        queryFn: getNotifications,
-        config: {
-            onSuccess: (results) => {
-                setNotifications(results?.messages);
-                if (results?.unseen_total > 0) {
-                    setUnSeenCount(results?.unseen_total);
-                }
-                setErrorObject(null);
-            },
-            onError: (e) => {
-                setErrorObject(e);
-            },
-            retry: 3,
+        queryFn: () =>
+            getNotifications({
+                orderBy: NOTIFICATION_MENU_SORT_FIELD,
+                order: NOTIFICATION_MENU_SORT_ORDER,
+                limit: NOTIFICATION_MENU_LIMIT,
+                offset: NOTIFICATION_MENU_OFFSET,
+            }),
+
+        onSuccess: (results) => {
+            setNotifications(results?.messages);
+            if (results?.unseen_total > 0) {
+                setUnSeenCount(results?.unseen_total);
+            }
+            setErrorObject(null);
         },
+        onError: (e) => {
+            setErrorObject(e);
+        },
+        retry: 3,
     });
 
-    const { markAllSeenMutation } = useMutation(markAllSeen, {
+    const { mutate: markAllSeenMutation } = useMutation(markAllSeen, {
         onSuccess: () => {
             setAllNotificationsSeen();
         },

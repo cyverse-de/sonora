@@ -61,12 +61,14 @@ export default function AdminAppDetailsDialog(props) {
                 appId: app?.id,
             },
         ],
-        queryFn: getAppDetailsForAdmin,
-        config: {
-            enabled: !!app,
-            onSuccess: setDetails,
-            onError: setDetailsError,
-        },
+        queryFn: () =>
+            getAppDetailsForAdmin({
+                systemId: app?.system_id,
+                appId: app?.id,
+            }),
+        enabled: !!app,
+        onSuccess: setDetails,
+        onError: setDetailsError,
     });
 
     const { isFetching: avusFetching } = useQuery({
@@ -76,15 +78,16 @@ export default function AdminAppDetailsDialog(props) {
                 appId: app?.id,
             },
         ],
-        queryFn: adminGetAppAVUs,
-        config: {
-            enabled: !!app,
-            onSuccess: (metadata) => setAVUs(metadata?.avus),
-            onError: setAUVsError,
-        },
+        queryFn: () =>
+            adminGetAppAVUs({
+                appId: app?.id,
+            }),
+        enabled: !!app,
+        onSuccess: (metadata) => setAVUs(metadata?.avus),
+        onError: setAUVsError,
     });
 
-    const { adminMutateAppMetadata, status: metadataUpdateStatus } =
+    const { mutate: adminMutateAppMetadata, status: metadataUpdateStatus } =
         useMutation(adminUpdateAppMetadata, {
             onSuccess: (data) => {
                 queryClient.invalidateQueries(ADMIN_APPS_QUERY_KEY);
@@ -93,7 +96,7 @@ export default function AdminAppDetailsDialog(props) {
             onError: setUpdateAppError,
         });
 
-    const { adminMutateApp, status: allUpdatesStatus } = useMutation(
+    const { mutate: adminMutateApp, status: allUpdatesStatus } = useMutation(
         adminUpdateApp,
         {
             onSuccess: (data, { app, avus, values }) => {

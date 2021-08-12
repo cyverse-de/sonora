@@ -123,20 +123,16 @@ function DetailsDrawer(props) {
 
     const { isFetching: isInfoFetching, error: infoFetchError } = useQuery({
         queryKey: infoKey,
-        queryFn: getAnalysisHistory,
-        config: {
-            enabled: infoKeyQueryEnabled,
-            onSuccess: setHistory,
-        },
+        queryFn: () => getAnalysisHistory(infoKey[1]),
+        enabled: infoKeyQueryEnabled,
+        onSuccess: setHistory,
     });
 
     const { isFetching: isParamsFetching, error: paramsFetchError } = useQuery({
         queryKey: paramKey,
-        queryFn: getAnalysisParameters,
-        config: {
-            enabled: paramKeyQueryEnabled,
-            onSuccess: preProcessData,
-        },
+        queryFn: () => getAnalysisParameters([paramKey[1]]),
+        enabled: paramKeyQueryEnabled,
+        onSuccess: preProcessData,
     });
 
     useEffect(() => {

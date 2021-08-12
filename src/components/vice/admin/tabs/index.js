@@ -116,19 +116,19 @@ const VICEAdminTabs = ({ data = {} }) => {
     // Get QueryClient from the context
     const queryClient = useQueryClient();
 
-    const { mutantExit } = useMutation(exit, {
+    const { mutate: mutantExit } = useMutation(exit, {
         onSuccess: () => queryClient.invalidateQueries(VICE_ADMIN_QUERY_KEY),
     });
-    const { mutantSaveAndExit } = useMutation(saveAndExit, {
+    const { mutate: mutantSaveAndExit } = useMutation(saveAndExit, {
         onSuccess: () => queryClient.invalidateQueries(VICE_ADMIN_QUERY_KEY),
     });
-    const { mutantExtendTimeLimit } = useMutation(extendTimeLimit, {
+    const { mutate: mutantExtendTimeLimit } = useMutation(extendTimeLimit, {
         onSuccess: () => queryClient.invalidateQueries(VICE_ADMIN_QUERY_KEY),
     });
-    const { mutantUploadOutputs } = useMutation(saveOutputFiles, {
+    const { mutate: mutantUploadOutputs } = useMutation(saveOutputFiles, {
         onSuccess: () => queryClient.invalidateQueries(VICE_ADMIN_QUERY_KEY),
     });
-    const { mutantDownloadInputs } = useMutation(downloadInputFiles, {
+    const { mutate: mutantDownloadInputs } = useMutation(downloadInputFiles, {
         onSuccess: () => queryClient.invalidateQueries(VICE_ADMIN_QUERY_KEY),
     });
 

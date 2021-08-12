@@ -189,7 +189,7 @@ function ListSavedLaunches(props) {
         isFetching,
     } = useQuery({
         queryKey: [SAVED_LAUNCH_LISTING, { appId }],
-        queryFn: listSavedLaunches,
+        queryFn: () => listSavedLaunches({ appId }),
     });
 
     const savedLaunchClickHandler = (event, savedLaunch) => {
@@ -199,12 +199,18 @@ function ListSavedLaunches(props) {
         }
     };
 
-    const { deleteSavedLaunchMutation } = useMutation(deleteSavedLaunch, {
-        onSuccess: (resp, { onSuccess }) => {
-            queryClient.invalidateQueries([SAVED_LAUNCH_LISTING, { appId }]);
-        },
-        onError: setDeleteError,
-    });
+    const { mutate: deleteSavedLaunchMutation } = useMutation(
+        deleteSavedLaunch,
+        {
+            onSuccess: (resp, { onSuccess }) => {
+                queryClient.invalidateQueries([
+                    SAVED_LAUNCH_LISTING,
+                    { appId },
+                ]);
+            },
+            onError: setDeleteError,
+        }
+    );
 
     const embedCodeClickHandler = () => {
         const shareUrl = getShareUrl(selected.id);

@@ -196,8 +196,9 @@ function Preferences(props) {
         setBootstrapError
     );
 
-    const [mutatePreferences, { status: prefMutationStatus }] =
+    const { mutate: mutatePreferences, status: prefMutationStatus } =
         useSavePreferences(
+            queryClient,
             (updatedPref) => {
                 announce({
                     text: t("prefSaveSuccess"),
@@ -210,7 +211,7 @@ function Preferences(props) {
             }
         );
 
-    const { resetHPCToken, status: resetTokenStatus } = useMutation(
+    const { mutate: resetHPCToken, status: resetTokenStatus } = useMutation(
         resetToken,
         {
             onSuccess: () => {
@@ -247,21 +248,21 @@ function Preferences(props) {
 
     const { isFetching: isFetchingStat } = useQuery({
         queryKey: fetchDetailsKey,
-        queryFn: getResourceDetails,
-        config: {
-            enabled: fetchDetailsQueryEnabled,
-            onSuccess: (resp) => {
-                const details = resp?.paths[defaultOutputFolder];
-                if (!isWritable(details?.permission)) {
-                    setOutputFolderValidationError(
-                        t("permissionSelectErrorMessage")
-                    );
-                } else {
-                    setDefaultOutputFolderDetails(details);
-                    setOutputFolderValidationError(null);
-                }
-            },
+        queryFn: () => getResourceDetails(fetchDetailsKey[1]),
+
+        enabled: fetchDetailsQueryEnabled,
+        onSuccess: (resp) => {
+            const details = resp?.paths[defaultOutputFolder];
+            if (!isWritable(details?.permission)) {
+                setOutputFolderValidationError(
+                    t("permissionSelectErrorMessage")
+                );
+            } else {
+                setDefaultOutputFolderDetails(details);
+                setOutputFolderValidationError(null);
+            }
         },
+
         onError: (e) => {
             setOutputFolderValidationError(t("permissionSelectErrorMessage"));
         },

@@ -19,11 +19,10 @@ export const HT_ANALYSIS_PATH_LIST = "ht-analysis-path-list";
 
 /**
  * Get details on data resources
- * @param key - Query key for react-query
  * @param paths - An array of strings which are resource paths
  * @returns {Promise<any>}
  */
-export const getResourceDetails = (key, { paths }) => {
+export const getResourceDetails = ({ paths }) => {
     return callApi({
         endpoint: "/api/filesystem/stat",
         method: "POST",
@@ -33,11 +32,10 @@ export const getResourceDetails = (key, { paths }) => {
 
 /**
  * Get permissions for data resources
- * @param key - Query key for react-query
  * @param paths - An array of strings which are resource paths
  * @returns {Promise<any>}
  */
-export const getResourcePermissions = (key, { paths }) => {
+export const getResourcePermissions = ({ paths }) => {
     return callApi({
         endpoint: "/api/filesystem/user-permissions",
         method: "POST",
@@ -64,7 +62,6 @@ export const updateInfoType = ({ path, infoType }) => {
 
 /**
  * Get a paged directory listing
- * @param key - Query key for react-query
  * @param path - The resource path
  * @param rowsPerPage - The number of rows per page
  * @param orderBy - A column to order items by
@@ -72,14 +69,7 @@ export const updateInfoType = ({ path, infoType }) => {
  * @param page - The page number or offset
  * @returns {Promise<any>}
  */
-export const getPagedListing = (
-    key,
-    path,
-    rowsPerPage,
-    orderBy,
-    order,
-    page
-) => {
+export const getPagedListing = (path, rowsPerPage, orderBy, order, page) => {
     return callApi({
         endpoint: `/api/filesystem/paged-directory?path=${encodeURIComponent(
             path
@@ -93,7 +83,7 @@ export const getPagedListing = (
  * Get the list of directory roots available to a user
  * @returns {Promise<any>}
  */
-export const getFilesystemRoots = (key, userId, homePath, trashPath) => {
+export const getFilesystemRoots = (userId, homePath, trashPath) => {
     return userId
         ? callApi({
               endpoint: `/api/filesystem/root`,
@@ -182,7 +172,7 @@ export const rename = ({ dest, source }) => {
  *
  * @returns {Promise<*>}
  */
-export const searchData = (key, { query }) => {
+export const searchData = ({ query }) => {
     return callApi({
         endpoint: "/api/filesystem/search",
         method: "POST",
@@ -217,10 +207,9 @@ export const searchDataInfinite = (
 
 /**
  * Get file manifest
- * @param {*} key - react-query key
  * @param {object} param - parameters for fetching manifest
  */
-export const fileManifest = (key, path) => {
+export const fileManifest = (path) => {
     return callApi({
         endpoint: `/api/filesystem/file/manifest?path=${encodeURIComponent(
             path
@@ -231,15 +220,10 @@ export const fileManifest = (key, path) => {
 
 /**
  * Read a chunk of a file
- * @param {*} key - react-query key
  * @param {*} param - parameters for reading the file chunk
  * @param {*} page - file seek position
  */
-export const readFileChunk = (
-    key,
-    { path, chunkSize, separator },
-    page = 0
-) => {
+export const readFileChunk = ({ path, chunkSize, separator }, page = 0) => {
     const body = {};
     body.path = path;
     body["chunk-size"] = `${chunkSize}`;
@@ -262,7 +246,7 @@ export const readFileChunk = (
     }
 };
 
-export const getPublicLinks = (key, paths) => {
+export const getPublicLinks = (paths) => {
     return callApi({
         endpoint: "/api/filesystem/anon-files",
         method: "POST",
@@ -272,7 +256,7 @@ export const getPublicLinks = (key, paths) => {
     });
 };
 
-export const refreshCache = (key, { paths }) => {
+export const refreshCache = ({ paths }) => {
     return (
         paths &&
         paths.length > 0 &&

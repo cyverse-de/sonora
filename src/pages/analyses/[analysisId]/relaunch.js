@@ -49,27 +49,22 @@ const Relaunch = () => {
 
     const { status: relaunchStatus } = useQuery({
         queryKey: relaunchKey,
-        queryFn: getAnalysisRelaunchInfo,
-        config: {
-            enabled: relaunchQueryEnabled,
-            onSuccess: (resp) => {
-                if (resp?.limitChecks?.canRun || !userProfile?.id) {
-                    setApp(resp);
-                } else {
-                    setRelaunchError(
-                        resp?.limitChecks?.results[0]?.reasonCodes[0]
-                    );
-                    setViceQuota(
-                        resp?.limitChecks?.results[0]?.additionalInfo?.maxJobs
-                    );
-                    setRunningJobs(
-                        resp?.limitChecks?.results[0]?.additionalInfo
-                            ?.runningJobs
-                    );
-                }
-            },
-            onError: setRelaunchError,
+        queryFn: () => getAnalysisRelaunchInfo(relaunchKey[1]),
+        enabled: relaunchQueryEnabled,
+        onSuccess: (resp) => {
+            if (resp?.limitChecks?.canRun || !userProfile?.id) {
+                setApp(resp);
+            } else {
+                setRelaunchError(resp?.limitChecks?.results[0]?.reasonCodes[0]);
+                setViceQuota(
+                    resp?.limitChecks?.results[0]?.additionalInfo?.maxJobs
+                );
+                setRunningJobs(
+                    resp?.limitChecks?.results[0]?.additionalInfo?.runningJobs
+                );
+            }
         },
+        onError: setRelaunchError,
     });
 
     const loading = relaunchStatus === constants.LOADING;

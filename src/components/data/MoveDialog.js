@@ -45,7 +45,7 @@ function MoveDialog(props) {
     const { t } = useTranslation("data");
     const { t: i18nCommon } = useTranslation("common");
 
-    const { resourcesMove, status } = useMutation(move, {
+    const { mutate: resourcesMove, status } = useMutation(move, {
         onSuccess: (data) => {
             announce({
                 text: t("asyncMovePending"),

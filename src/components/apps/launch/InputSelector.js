@@ -101,7 +101,7 @@ const InputSelector = ({
     const bootstrapInfo = useBootstrapInfo()[0];
 
     //update last folder used.
-    const [mutatePreferences] = useSavePreferences(null, (e) => {
+    const { mutate: mutatePreferences } = useSavePreferences(null, (e) => {
         showErrorAnnouncer(prefI18n("savePrefError"), e);
     });
 

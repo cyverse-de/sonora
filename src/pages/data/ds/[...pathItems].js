@@ -137,14 +137,12 @@ export default function DataStore() {
 
     const { isFetching: detailsLoading } = useQuery({
         queryKey: [DATA_DETAILS_FROM_PAGE_QUERY_KEY, { paths: [resourcePath] }],
-        queryFn: getResourceDetails,
-        config: {
-            enabled: (viewMetadata || isFile) && !createFileType,
-            onSuccess: (resp) => {
-                setDetails(resp?.paths[resourcePath]);
-            },
-            onError: setErrorObject,
+        queryFn: () => getResourceDetails({ paths: [resourcePath] }),
+        enabled: (viewMetadata || isFile) && !createFileType,
+        onSuccess: (resp) => {
+            setDetails(resp?.paths[resourcePath]);
         },
+        onError: setErrorObject,
     });
 
     if (viewMetadata) {

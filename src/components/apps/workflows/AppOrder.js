@@ -200,11 +200,9 @@ const AppStep = (props) => {
 
     const { data: tasksData } = useQuery({
         queryKey: [APP_TASKS_QUERY_KEY, { systemId, appId }],
-        queryFn: getAppTasks,
-        config: {
-            enabled: systemId && appId && !step.task,
-            onError: onLoadError,
-        },
+        queryFn: () => getAppTasks({ systemId, appId }),
+        enabled: systemId && appId && !step.task,
+        onError: onLoadError,
     });
 
     React.useEffect(() => {

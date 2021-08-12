@@ -57,16 +57,15 @@ const NotificationView = (props) => {
 
     const { isFetching, error } = useQuery({
         queryKey: notificationsKey,
-        queryFn: getNotifications,
-        config: {
-            enabled: notificationsMessagesQueryEnabled,
-            onSuccess: (resp) => {
-                trackIntercomEvent(
-                    IntercomEvents.VIEWED_NOTIFICATIONS,
-                    notificationsKey[1]
-                );
-                setNotifications(resp);
-            },
+        queryFn: () => getNotifications(notificationsKey[1]),
+
+        enabled: notificationsMessagesQueryEnabled,
+        onSuccess: (resp) => {
+            trackIntercomEvent(
+                IntercomEvents.VIEWED_NOTIFICATIONS,
+                notificationsKey[1]
+            );
+            setNotifications(resp);
         },
     });
 
@@ -101,7 +100,7 @@ const NotificationView = (props) => {
         );
     }, [notifications, selected, setMarkAsSeenEnabled]);
 
-    const { markSeenMutation } = useMutation(markSeen, {
+    const { mutate: markSeenMutation } = useMutation(markSeen, {
         onSuccess: () => {
             // TODO update unseen count somehow
         },
@@ -117,7 +116,7 @@ const NotificationView = (props) => {
         },
     });
 
-    const [deleteNotificationsMutation, { isLoading: deleteLoading }] =
+    const { mutate: deleteNotificationsMutation, isLoading: deleteLoading } =
         useMutation(deleteNotifications, {
             onSuccess: () => {
                 queryClient.invalidateQueries(NOTIFICATIONS_MESSAGES_QUERY_KEY);

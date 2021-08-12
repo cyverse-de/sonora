@@ -74,31 +74,32 @@ export default function TextViewer(props) {
 
     const { isFetching: isFetchingMetadata } = useQuery({
         queryKey: [FILESYSTEM_METADATA_QUERY_KEY, { dataId: resourceId }],
-        queryFn: getFilesystemMetadata,
-        config: {
-            enabled: !!resourceId,
-            onSuccess: (metadata) => {
-                const { avus } = metadata;
-                const fileTypeAvu = avus?.find(
-                    (avu) => avu.attr === viewerConstants.IPC_VIEWER_TYPE
-                );
-                if (fileTypeAvu) {
-                    setDetectedMode(fileTypeAvu.value);
-                }
-            },
-            onError: (error) =>
-                console.log("Unable to fetch metadata for viewer. " + error), // fail silently.
+        queryFn: () => getFilesystemMetadata({ dataId: resourceId }),
+        enabled: !!resourceId,
+        onSuccess: (metadata) => {
+            const { avus } = metadata;
+            const fileTypeAvu = avus?.find(
+                (avu) => avu.attr === viewerConstants.IPC_VIEWER_TYPE
+            );
+            if (fileTypeAvu) {
+                setDetectedMode(fileTypeAvu.value);
+            }
         },
+        onError: (error) =>
+            console.log("Unable to fetch metadata for viewer. " + error), // fail silently.
     });
 
-    const { setDiskResourceMetadata } = useMutation(setFilesystemMetadata, {
-        onSuccess: (resp) => {
-            console.log(resp); // background optional call. No need to notify user.
-        },
-        onError: (error) => {
-            console.log(error); // fail silently.
-        },
-    });
+    const { mutate: setDiskResourceMetadata } = useMutation(
+        setFilesystemMetadata,
+        {
+            onSuccess: (resp) => {
+                console.log(resp); // background optional call. No need to notify user.
+            },
+            onError: (error) => {
+                console.log(error); // fail silently.
+            },
+        }
+    );
 
     const updateNewFileMetadata = (details) => {
         const metadata = {

@@ -64,22 +64,18 @@ function ViceLoading(props) {
 
     const { error: statusError } = useQuery({
         queryKey: [VICE_LOADING_STATUS_QUERY, { accessUrl }],
-        queryFn: getLoadingStatus,
-        config: {
-            enabled: !!accessUrl && !ready,
-            onSuccess: setData,
-            refetchInterval: 5000,
-        },
+        queryFn: () => getLoadingStatus({ accessUrl }),
+        enabled: !!accessUrl && !ready,
+        onSuccess: setData,
+        refetchInterval: 5000,
     });
 
     const { error: urlReadyError } = useQuery({
         queryKey: [VICE_LOADING_URL_READY, { accessUrl }],
-        queryFn: getUrlReady,
-        config: {
-            enabled: progress.percent === 100 && !ready,
-            onSuccess: (resp) => setReady(resp.ready),
-            refetchInterval: 5000,
-        },
+        queryFn: () => getUrlReady({ accessUrl }),
+        enabled: progress.percent === 100 && !ready,
+        onSuccess: (resp) => setReady(resp.ready),
+        refetchInterval: 5000,
     });
 
     useEffect(() => {

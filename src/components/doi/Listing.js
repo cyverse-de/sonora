@@ -59,11 +59,10 @@ function Listing(props) {
             DOI_LISTING_QUERY_KEY,
             { order, orderBy, page, rowsPerPage },
         ],
-        queryFn: adminGetDOIRequests,
-        config: {
-            enabled: true,
-            onSuccess: setData,
-        },
+        queryFn: () =>
+            adminGetDOIRequests({ order, orderBy, page, rowsPerPage }),
+        enabled: true,
+        onSuccess: setData,
     });
 
     const handleRequestSort = (event, property) => {
@@ -95,18 +94,16 @@ function Listing(props) {
     useQuery({
         queryKey: INFO_TYPES_QUERY_KEY,
         queryFn: getInfoTypes,
-        config: {
-            enabled: infoTypesQueryEnabled,
-            onSuccess: (resp) => setInfoTypes(resp.types),
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            onError: (e) => {
-                showErrorAnnouncer(dataI18n("infoTypeFetchError"), e);
-            },
+        enabled: infoTypesQueryEnabled,
+        onSuccess: (resp) => setInfoTypes(resp.types),
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        onError: (e) => {
+            showErrorAnnouncer(dataI18n("infoTypeFetchError"), e);
         },
     });
 
-    const { createDOI, isLoading: createDOILoading } = useMutation(
+    const { mutate: createDOI, isLoading: createDOILoading } = useMutation(
         adminCreateDOI,
         {
             onSuccess: () => {

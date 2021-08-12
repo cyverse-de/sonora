@@ -11,7 +11,7 @@ export const ADMIN_REFERENCE_GENOMES_QUERY_KEY = "adminReferenceGenomesKey";
  *
  * @returns {Promise<any>}
  */
-export const getReferenceGenomes = (key, { deleted }) => {
+export const getReferenceGenomes = ({ deleted }) => {
     return callApi({
         endpoint: `/api/reference-genomes?deleted=${deleted}`,
     });

@@ -107,20 +107,17 @@ function EditToolDialog(props) {
     const { isFetching: isToolTypeFetching, error: toolTypeError } = useQuery({
         queryKey: TOOL_TYPES_QUERY_KEY,
         queryFn: getToolTypes,
-        config: {
-            enabled: toolTypeQueryEnabled,
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            onSuccess: preProcessToolTypes,
-        },
+        enabled: toolTypeQueryEnabled,
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        onSuccess: preProcessToolTypes,
     });
+
     const { isFetching: isToolFetching, error: toolFetchError } = useQuery({
         queryKey: [TOOL_DETAILS_QUERY_KEY, { id: tool?.id, isAdmin }],
-        queryFn: getToolDetails,
-        config: {
-            enabled: tool && open,
-            onSuccess: setSelectedTool,
-        },
+        queryFn: () => getToolDetails({ id: tool?.id, isAdmin }),
+        enabled: tool && open,
+        onSuccess: setSelectedTool,
     });
 
     const { addNewTool, status: newToolStatus } = useMutation(

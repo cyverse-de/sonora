@@ -56,15 +56,12 @@ function ReferenceGenomes(props) {
 
     const { isFetching, error, data } = useQuery({
         queryKey: [ADMIN_REFERENCE_GENOMES_QUERY_KEY, { deleted: true }],
-        queryFn: getReferenceGenomes,
-        config: {
-            enabled: true,
-        },
+        queryFn: () => getReferenceGenomes({ deleted: true }),
+        enabled: true,
     });
 
-    const { mutateGenome, isFetching: genomeMutationStatus } = useMutation(
-        saveReferenceGenome,
-        {
+    const { mutate: mutateGenome, isFetching: genomeMutationStatus } =
+        useMutation(saveReferenceGenome, {
             onSuccess: (updatedGenome) => {
                 setEditDialogOpen(false);
                 announce({
@@ -78,12 +75,10 @@ function ReferenceGenomes(props) {
             onError: (e) => {
                 showErrorAnnouncer(t("updateFailed"), e);
             },
-        }
-    );
+        });
 
-    const { createGenome, isFetching: genomeCreationStatus } = useMutation(
-        createReferenceGenome,
-        {
+    const { mutate: createGenome, isFetching: genomeCreationStatus } =
+        useMutation(createReferenceGenome, {
             onSuccess: (createdGenome) => {
                 setEditDialogOpen(false);
                 announce({
@@ -97,8 +92,7 @@ function ReferenceGenomes(props) {
             onError: (e) => {
                 showErrorAnnouncer(t("createFailed"), e);
             },
-        }
-    );
+        });
 
     const dataMemo = React.useMemo(() => data?.genomes, [data]);
 

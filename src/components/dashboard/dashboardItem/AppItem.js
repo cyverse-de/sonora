@@ -47,7 +47,7 @@ class AppItem extends ItemBase {
         // Get QueryClient from the context
         const queryClient = useQueryClient();
 
-        const { favorite } = useMutation(appFavorite, {
+        const { mutate: favorite } = useMutation(appFavorite, {
             onSuccess: () => {
                 queryClient.invalidateQueries([
                     APP_BY_ID_QUERY_KEY,

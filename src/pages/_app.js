@@ -114,13 +114,11 @@ function MyApp({ Component, pageProps }) {
         : NavigationConstants.DASHBOARD;
     const [unReadCount, setUnReadCount] = useState(0);
 
-    const queryClient = new QueryClient();
-    const queryConfig = {
+    const queryClient = new QueryClient({
         defaultOptions: {
             queries: { refetchOnWindowFocus: false, retry: false },
         },
-    };
-
+    });
     useEffect(() => {
         const analytics_id = publicRuntimeConfig.ANALYTICS_ID;
         const handleRouteChange = (url) => {

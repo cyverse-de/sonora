@@ -56,24 +56,20 @@ export default function UpdateRequestDialog(props) {
     const { isFetching: isDOIRequestFetching, error: doiRequestFetchError } =
         useQuery({
             queryKey: [REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
-            queryFn: adminGetRequestDetails,
-            config: {
-                enabled: requestId && open && requestType === RequestType.DOI,
-                onSuccess: (data) => {
-                    setRequestDetails(data);
-                },
+            queryFn: () => adminGetRequestDetails({ id: requestId }),
+            enabled: requestId && open && requestType === RequestType.DOI,
+            onSuccess: (data) => {
+                setRequestDetails(data);
             },
         });
 
     const { isFetching: isToolRequestFetching, error: toolRequestFetchError } =
         useQuery({
             queryKey: [ADMIN_TOOL_REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
-            queryFn: getAdminToolRequestDetails,
-            config: {
-                enabled: requestId && open && requestType === RequestType.TOOL,
-                onSuccess: (resp) => {
-                    setRequestDetails(resp);
-                },
+            queryFn: () => getAdminToolRequestDetails({ id: requestId }),
+            enabled: requestId && open && requestType === RequestType.TOOL,
+            onSuccess: (resp) => {
+                setRequestDetails(resp);
             },
         });
 

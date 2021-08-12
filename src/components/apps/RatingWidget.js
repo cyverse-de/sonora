@@ -31,26 +31,27 @@ export default function RatingWidget(props) {
 
     const { isFetching: isAppFetching, error: appByIdError } = useQuery({
         queryKey: [APP_BY_ID_QUERY_KEY, { systemId, appId }],
-        queryFn: getAppById,
-        config: {
-            enabled: appId != null && systemId !== null,
-            onSuccess: (result) => {
-                setSelectedApp(result?.apps[0]);
-            },
+        queryFn: () => getAppById({ systemId, appId }),
+        enabled: appId != null && systemId !== null,
+        onSuccess: (result) => {
+            setSelectedApp(result?.apps[0]);
         },
     });
 
-    const { rating, status: ratingMutationStatus } = useMutation(rateApp, {
-        onSuccess: () => {
-            queryClient.invalidateQueries([
-                APP_BY_ID_QUERY_KEY,
-                { systemId, appId },
-            ]);
-        },
-        onError: (e) => {
-            setRatingMutationError(e);
-        },
-    });
+    const { mutate: rating, status: ratingMutationStatus } = useMutation(
+        rateApp,
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries([
+                    APP_BY_ID_QUERY_KEY,
+                    { systemId, appId },
+                ]);
+            },
+            onError: (e) => {
+                setRatingMutationError(e);
+            },
+        }
+    );
 
     const onRatingChange = (event, value) => {
         rating({

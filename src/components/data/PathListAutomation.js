@@ -86,19 +86,17 @@ export default function PathListAutomation(props) {
     const { isFetching } = useQuery({
         queryKey: INFO_TYPES_QUERY_KEY,
         queryFn: getInfoTypes,
-        config: {
-            enabled: infoTypesQueryEnabled,
-            onSuccess: (resp) => {
-                setInfoTypeError(null);
-                setInfoTypes(resp.types);
-            },
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            onError: setInfoTypeError,
+        enabled: infoTypesQueryEnabled,
+        onSuccess: (resp) => {
+            setInfoTypeError(null);
+            setInfoTypes(resp.types);
         },
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        onError: setInfoTypeError,
     });
 
-    const { createPathListFile, status } = useMutation(
+    const { mutate: createPathListFile, status } = useMutation(
         ({ submission }) => pathListCreator(submission),
         {
             onSuccess: (data) => {

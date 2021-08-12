@@ -97,14 +97,14 @@ export const resetInstantLaunchMetadata = (id, avuList) => {
     });
 };
 
-export const listInstantLaunchesByMetadata = (key, queryKey, queryValue) =>
+export const listInstantLaunchesByMetadata = (queryKey, queryValue) =>
     callApi({
         endpoint: `/api/admin/instantlaunches/metadata/full`,
         method: "GET",
         params: { attribute: queryKey, value: queryValue, unit: "" },
     });
 
-export const getPublicSavedLaunches = (key) =>
+export const getPublicSavedLaunches = () =>
     callApi({
         endpoint: "/api/instantlaunches/quicklaunches/public",
         method: "GET",

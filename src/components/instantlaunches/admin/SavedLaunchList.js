@@ -52,7 +52,7 @@ const SavedLaunchList = ({ showErrorAnnouncer }) => {
     const queryClient = useQueryClient();
     const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
 
-    const { promote } = useMutation(addInstantLaunch, {
+    const { mutate: promote } = useMutation(addInstantLaunch, {
         onSuccess: () => {
             queryClient.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
             announce({

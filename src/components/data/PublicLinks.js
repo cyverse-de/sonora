@@ -83,43 +83,39 @@ function PublicLinks(props) {
 
     const { isFetching, error } = useQuery({
         queryKey: [PUBLIC_LINKS_QUERY_KEY, paths],
-        queryFn: getPublicLinks,
-        config: {
-            enabled: paths && paths.length > 0,
-            onSuccess: (resp) => {
-                const pathsWithLink = resp?.paths;
-                let parsedLinks = "";
-                pathsWithLink &&
-                    paths.forEach((path) => {
-                        parsedLinks = parsedLinks.concat(
-                            `${pathsWithLink[path]}\n`
-                        );
-                    });
-                setLinks(parsedLinks);
-            },
+        queryFn: () => getPublicLinks(paths),
+        enabled: paths && paths.length > 0,
+        onSuccess: (resp) => {
+            const pathsWithLink = resp?.paths;
+            let parsedLinks = "";
+            pathsWithLink &&
+                paths.forEach((path) => {
+                    parsedLinks = parsedLinks.concat(
+                        `${pathsWithLink[path]}\n`
+                    );
+                });
+            setLinks(parsedLinks);
         },
     });
 
     useQuery({
         queryKey: refreshCacheKey,
-        queryFn: refreshCache,
-        config: {
-            enabled: refreshCacheEnabled,
-            onSuccess: (resp) => {
-                setRefreshCacheEnabled(false);
-                setErrorMsg(null);
-                announce({
-                    text: t("refreshCacheSuccess"),
-                    variant: INFO,
-                });
-            },
-            onError: (err) => {
-                setErrorMsg(err.toString());
-            },
+        queryFn: () => refreshCache(refreshCacheKey[1]),
+        enabled: refreshCacheEnabled,
+        onSuccess: (resp) => {
+            setRefreshCacheEnabled(false);
+            setErrorMsg(null);
+            announce({
+                text: t("refreshCacheSuccess"),
+                variant: INFO,
+            });
+        },
+        onError: (err) => {
+            setErrorMsg(err.toString());
         },
     });
 
-    const { saveTextAsFile, status: fileSaveStatus } = useMutation(
+    const { mutate: saveTextAsFile, status: fileSaveStatus } = useMutation(
         uploadTextAsFile,
         {
             onSuccess: (resp) => {

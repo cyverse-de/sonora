@@ -97,21 +97,19 @@ const MetadataFormListing = (props) => {
 
     const { isFetching, error: fetchError } = useQuery({
         queryKey: [FILESYSTEM_METADATA_QUERY_KEY, { dataId }],
-        queryFn: getFilesystemMetadata,
-        config: {
-            enabled: !!dataId,
-            onSuccess: (metadata) => {
-                trackIntercomEvent(IntercomEvents.VIEWED_METADATA, {
-                    path: targetResource?.path,
-                    id: targetResource?.id,
-                });
-                setTabIndex(0);
-                setIrodsAVUsSelected([]);
+        queryFn: () => getFilesystemMetadata({ dataId }),
+        enabled: !!dataId,
+        onSuccess: (metadata) => {
+            trackIntercomEvent(IntercomEvents.VIEWED_METADATA, {
+                path: targetResource?.path,
+                id: targetResource?.id,
+            });
+            setTabIndex(0);
+            setIrodsAVUsSelected([]);
 
-                const { avus, "irods-avus": irodsAVUs } = metadata;
+            const { avus, "irods-avus": irodsAVUs } = metadata;
 
-                resetForm({ values: { avus, "irods-avus": irodsAVUs } });
-            },
+            resetForm({ values: { avus, "irods-avus": irodsAVUs } });
         },
     });
 
@@ -349,7 +347,7 @@ const MetadataForm = ({
     const [saveFileError, setSaveFileError] = React.useState(null);
     const [copyMetadataError, setCopyMetadataError] = React.useState(null);
 
-    const { setDiskResourceMetadata } = useMutation(
+    const { mutate: setDiskResourceMetadata } = useMutation(
         ({ metadata }) =>
             setFilesystemMetadata({ dataId: targetResource.id, metadata }),
         {
@@ -362,35 +360,36 @@ const MetadataForm = ({
         }
     );
 
-    const { saveMetadataToFile, isLoading: fileSaveLoading } = useMutation(
-        ({ dest, recursive }) =>
-            saveFilesystemMetadata({
-                dataId: targetResource.id,
-                dest,
-                recursive,
-            }),
-        {
-            onSuccess: () => {
-                setSaveAsDialogOpen(false);
-                announce({
-                    text: t("metadataSaved"),
-                    variant: SUCCESS,
-                });
-            },
-            onError: (error, { dest }) => {
-                const errMsg =
-                    getErrorCode(error) === ERROR_CODES.ERR_EXISTS
-                        ? t("data:fileExists", {
-                              path: getParentPath(dest),
-                          })
-                        : t("data:fileSaveError");
+    const { mutate: saveMetadataToFile, isLoading: fileSaveLoading } =
+        useMutation(
+            ({ dest, recursive }) =>
+                saveFilesystemMetadata({
+                    dataId: targetResource.id,
+                    dest,
+                    recursive,
+                }),
+            {
+                onSuccess: () => {
+                    setSaveAsDialogOpen(false);
+                    announce({
+                        text: t("metadataSaved"),
+                        variant: SUCCESS,
+                    });
+                },
+                onError: (error, { dest }) => {
+                    const errMsg =
+                        getErrorCode(error) === ERROR_CODES.ERR_EXISTS
+                            ? t("data:fileExists", {
+                                  path: getParentPath(dest),
+                              })
+                            : t("data:fileSaveError");
 
-                setSaveFileError(errMsg);
-            },
-        }
-    );
+                    setSaveFileError(errMsg);
+                },
+            }
+        );
 
-    const { doCopyMetadata, isLoading: copyLoading } = useMutation(
+    const { mutate: doCopyMetadata, isLoading: copyLoading } = useMutation(
         copyMetadata,
         {
             onSuccess: () => {

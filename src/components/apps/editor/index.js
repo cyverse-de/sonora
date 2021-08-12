@@ -223,7 +223,6 @@ const AppEditor = (props) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
-
     const onExit = () => router.back();
 
     const onLaunch = (app) =>
@@ -233,7 +232,6 @@ const AppEditor = (props) => {
         app.id && router.replace(getAppEditPath(app.system_id, app.id));
 
     const { mutate: saveApp } = useMutation(
-
         ({ app }) => {
             const { system_id: systemId, id: appId } = app;
 

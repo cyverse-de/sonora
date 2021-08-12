@@ -28,7 +28,7 @@ function copyPipeline({ appId }) {
     });
 }
 
-function getPipelineUI(_, { appId }) {
+function getPipelineUI({ appId }) {
     return callApi({
         endpoint: `/api/apps/pipelines/${appId}/ui`,
         method: "GET",

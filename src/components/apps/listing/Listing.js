@@ -125,32 +125,40 @@ function Listing(props) {
                     userId: userProfile?.id,
                 },
             ],
-            queryFn: getAppsInCategory,
-            config: {
-                enabled:
-                    // Disable the query if the category ID is fake and the user is
-                    // logged in.  The Navigation component should update the ID to
-                    // the real ID.
-                    category?.system_id &&
-                    category?.id &&
-                    (!userProfile?.id ||
-                        ![
-                            constants.APPS_UNDER_DEV,
-                            constants.FAV_APPS,
-                        ].includes(category?.id)),
-                onSuccess: (resp) => {
-                    trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
-                        systemId: category?.system_id,
-                        rowsPerPage,
-                        orderBy,
-                        order,
-                        appTypeFilter: filter?.value,
-                        page,
-                        categoryId: category?.id,
-                        userId: userProfile?.id,
-                    });
-                    setData(resp);
-                },
+            queryFn: () =>
+                getAppsInCategory({
+                    systemId: category?.system_id,
+                    rowsPerPage,
+                    orderBy,
+                    order,
+                    appTypeFilter: filter?.value,
+                    page,
+                    categoryId: category?.id,
+                    userId: userProfile?.id,
+                }),
+
+            enabled:
+                // Disable the query if the category ID is fake and the user is
+                // logged in.  The Navigation component should update the ID to
+                // the real ID.
+                category?.system_id &&
+                category?.id &&
+                (!userProfile?.id ||
+                    ![constants.APPS_UNDER_DEV, constants.FAV_APPS].includes(
+                        category?.id
+                    )),
+            onSuccess: (resp) => {
+                trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
+                    systemId: category?.system_id,
+                    rowsPerPage,
+                    orderBy,
+                    order,
+                    appTypeFilter: filter?.value,
+                    page,
+                    categoryId: category?.id,
+                    userId: userProfile?.id,
+                });
+                setData(resp);
             },
         });
 
@@ -167,22 +175,38 @@ function Listing(props) {
                 adminOwnershipFilter: adminOwnershipFilter?.value,
             },
         ],
-        queryFn: isAdminView ? getAppsForAdmin : getApps,
-        config: {
-            enabled:
-                category?.name === constants.BROWSE_ALL_APPS || isAdminView,
-            onSuccess: (resp) => {
-                trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
-                    rowsPerPage,
-                    orderBy,
-                    order,
-                    page,
-                    appTypeFilter: filter?.value,
-                    searchTerm,
-                    adminOwnershipFilter: adminOwnershipFilter?.value,
-                });
-                setData(resp);
-            },
+        queryFn: isAdminView
+            ? getAppsForAdmin({
+                  rowsPerPage,
+                  orderBy,
+                  order,
+                  page,
+                  appTypeFilter: filter?.value,
+                  searchTerm,
+                  adminOwnershipFilter: adminOwnershipFilter?.value,
+              })
+            : getApps({
+                  rowsPerPage,
+                  orderBy,
+                  order,
+                  page,
+                  appTypeFilter: filter?.value,
+                  searchTerm,
+                  adminOwnershipFilter: adminOwnershipFilter?.value,
+              }),
+
+        enabled: category?.name === constants.BROWSE_ALL_APPS || isAdminView,
+        onSuccess: (resp) => {
+            trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
+                rowsPerPage,
+                orderBy,
+                order,
+                page,
+                appTypeFilter: filter?.value,
+                searchTerm,
+                adminOwnershipFilter: adminOwnershipFilter?.value,
+            });
+            setData(resp);
         },
     });
 
@@ -191,16 +215,15 @@ function Listing(props) {
             APP_BY_ID_QUERY_KEY,
             { systemId: selectedSystemId, appId: selectedAppId },
         ],
-        queryFn: getAppById,
-        config: {
-            enabled: selectedSystemId && selectedAppId,
-            onSuccess: (resp) => {
-                trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
-                    systemId: selectedSystemId,
-                    appId: selectedAppId,
-                });
-                setData(resp);
-            },
+        queryFn: () =>
+            getAppById({ systemId: selectedSystemId, appId: selectedAppId }),
+        enabled: selectedSystemId && selectedAppId,
+        onSuccess: (resp) => {
+            trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
+                systemId: selectedSystemId,
+                appId: selectedAppId,
+            });
+            setData(resp);
         },
     });
 

@@ -138,10 +138,12 @@ export default function FileViewer(props) {
             READ_RAW_CHUNK_QUERY_KEY,
             { path, chunkSize: viewerConstants.DEFAULT_PAGE_SIZE },
         ],
-        queryFn: readFileChunk,
-        config: {
-            enabled: readChunkRawQueryEnabled,
-        },
+        queryFn: () =>
+            readFileChunk({
+                path,
+                chunkSize: viewerConstants.DEFAULT_PAGE_SIZE,
+            }),
+        enabled: readChunkRawQueryEnabled,
     });
 
     const getColumnDelimiter = (infoType) => {

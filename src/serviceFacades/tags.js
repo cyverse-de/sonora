@@ -18,7 +18,7 @@ export const getTagSuggestions = ({ searchTerm, searchLimit = 10 }) => {
  * @param resourceId The UUID of a resource
  * @returns {Promise<any>}
  */
-export const getTagsForResource = (key, { resourceId }) => {
+export const getTagsForResource = ({ resourceId }) => {
     return callApi({
         endpoint: `/api/filesystem/entry/${resourceId}/tags`,
     });

@@ -44,11 +44,9 @@ function useDataSearch(dataSearchKey, enabled, onSuccess) {
 function useAppsSearch(appsSearchKey, enabled, onSuccess) {
     return useQuery({
         queryKey: appsSearchKey,
-        queryFn: searchApps,
-        config: {
-            enabled,
-            onSuccess,
-        },
+        queryFn: () => searchApps(appsSearchKey[1]),
+        enabled,
+        onSuccess,
     });
 }
 
@@ -75,11 +73,9 @@ function useAnalysesSearch(analysesSearchKey, enabled, onSuccess) {
 function useTeamsSearch(key, enabled, onSuccess) {
     return useQuery({
         queryKey: key,
-        queryFn: searchTeams,
-        config: {
-            enabled,
-            onSuccess,
-        },
+        queryFn: () => searchTeams(key[1]),
+        enabled,
+        onSuccess,
     });
 }
 

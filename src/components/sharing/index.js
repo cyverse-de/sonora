@@ -82,39 +82,35 @@ function Sharing(props) {
 
     const { isFetching: fetchPermissions } = useQuery({
         queryKey: [GET_PERMISSIONS_QUERY_KEY, { resources }],
-        queryFn: getPermissions,
-        config: {
-            enabled: open && resources !== null,
-            onSuccess: (results) => {
-                setPermissions(results);
-                setUserIdList(getUserSet(results));
-            },
-            onError: (error) => {
-                setErrorDetails({
-                    message: tSharing("fetchPermissionsError"),
-                    error,
-                });
-            },
+        queryFn: () => getPermissions({ resources }),
+        enabled: open && resources !== null,
+        onSuccess: (results) => {
+            setPermissions(results);
+            setUserIdList(getUserSet(results));
+        },
+        onError: (error) => {
+            setErrorDetails({
+                message: tSharing("fetchPermissionsError"),
+                error,
+            });
         },
     });
 
     const { isFetching: fetchUserInfo } = useQuery({
         queryKey: [USER_INFO_QUERY_KEY, { userIds: userIdList }],
-        queryFn: getUserInfo,
-        config: {
-            enabled: userIdList && userIdList.length > 0,
-            onSuccess: (results) => {
-                const userMap = getUserMap(permissions, results, resourceTotal);
+        queryFn: () => getUserInfo({ userIds: userIdList }),
+        enabled: userIdList && userIdList.length > 0,
+        onSuccess: (results) => {
+            const userMap = getUserMap(permissions, results, resourceTotal);
 
-                setUserMap(userMap);
-                setOriginalUsers(userMap);
-            },
-            onError: (error) => {
-                setErrorDetails({
-                    message: tSharing("fetchUserInfoError"),
-                    error,
-                });
-            },
+            setUserMap(userMap);
+            setOriginalUsers(userMap);
+        },
+        onError: (error) => {
+            setErrorDetails({
+                message: tSharing("fetchUserInfoError"),
+                error,
+            });
         },
     });
 
@@ -199,7 +195,7 @@ function Sharing(props) {
         onClose();
     };
 
-    const { sendSharingUpdates, isLoading: isSaving } = useMutation(
+    const { mutate: sendSharingUpdates, isLoading: isSaving } = useMutation(
         doSharingUpdates,
         {
             onSuccess: (results) => {

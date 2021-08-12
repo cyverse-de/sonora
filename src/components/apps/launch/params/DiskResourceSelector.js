@@ -37,19 +37,17 @@ export default function DiskResourceSelector({ param, ...props }) {
 
     const { isFetching: isFetchingStat } = useQuery({
         queryKey: [DATA_DETAILS_QUERY_KEY, { paths: [value] }],
-        queryFn: getResourceDetails,
-        config: {
-            enabled: value,
-            onSuccess: () => {
+        queryFn: () => getResourceDetails({ paths: [value] }),
+        enabled: value,
+        onSuccess: () => {
+            setStatError(null);
+        },
+        onError: (error) => {
+            if (ERROR_CODES.ERR_DOES_NOT_EXIST === getErrorCode(error)) {
+                setStatError(t("errorResourceDoesNotExist"));
+            } else {
                 setStatError(null);
-            },
-            onError: (error) => {
-                if (ERROR_CODES.ERR_DOES_NOT_EXIST === getErrorCode(error)) {
-                    setStatError(t("errorResourceDoesNotExist"));
-                } else {
-                    setStatError(null);
-                }
-            },
+            }
         },
     });
 

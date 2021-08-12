@@ -6,7 +6,7 @@ import callApi from "../common/callApi";
 const NOTIFICATIONS_MESSAGES_QUERY_KEY = "fetchNotificationsMessagesKey";
 const NOTIFICATIONS_MARK_ALL_SEEN_KEY = "markAllSeenKey";
 
-function getNotifications(key, { filter, orderBy, order, limit, offset }) {
+function getNotifications({ filter, orderBy, order, limit, offset }) {
     return callApi({
         endpoint: "/api/notifications/messages",
         method: "GET",

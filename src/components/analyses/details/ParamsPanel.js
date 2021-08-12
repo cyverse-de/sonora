@@ -68,24 +68,20 @@ function InputParameterValue(props) {
 
     const { isFetching: isFetchingStat } = useQuery({
         queryKey: [DATA_DETAILS_QUERY_KEY, { paths: [path] }],
-        queryFn: getResourceDetails,
-        config: {
-            enabled: path,
-            onSuccess: () => {
-                setStatError(null);
+        queryFn: () => getResourceDetails({ paths: [path] }),
+        enabled: path,
+        onSuccess: () => {
+            setStatError(null);
+            setOtherError(null);
+        },
+        onError: (error) => {
+            if (ERROR_CODES.ERR_DOES_NOT_EXIST === getErrorCode(error)) {
+                setStatError(t("errorInputDoesNotExist", { path: linkTarget }));
                 setOtherError(null);
-            },
-            onError: (error) => {
-                if (ERROR_CODES.ERR_DOES_NOT_EXIST === getErrorCode(error)) {
-                    setStatError(
-                        t("errorInputDoesNotExist", { path: linkTarget })
-                    );
-                    setOtherError(null);
-                } else {
-                    setStatError(null);
-                    setOtherError(error);
-                }
-            },
+            } else {
+                setStatError(null);
+                setOtherError(error);
+            }
         },
     });
 

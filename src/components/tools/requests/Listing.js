@@ -29,11 +29,9 @@ function Listing(props) {
 
     const { isFetching, error } = useQuery({
         queryKey: [ADMIN_TOOL_REQUESTS_QUERY_KEY, { order, orderBy }],
-        queryFn: getAdminToolRequests,
-        config: {
-            enabled: true,
-            onSuccess: setData,
-        },
+        queryFn: () => getAdminToolRequests({ order, orderBy }),
+        enabled: true,
+        onSuccess: setData,
     });
 
     const handleRequestSort = (event, property) => {

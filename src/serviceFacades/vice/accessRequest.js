@@ -12,7 +12,7 @@ function requestAccess(request) {
     });
 }
 
-function adminRequestListing(key, { showAllRequests }) {
+function adminRequestListing({ showAllRequests }) {
     return callApi({
         endpoint: `/api/admin/requests?include-completed=${showAllRequests}&request-type=vice`,
         method: "GET",

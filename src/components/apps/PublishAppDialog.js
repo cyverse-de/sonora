@@ -161,9 +161,8 @@ export default function PublishAppDialog(props) {
     const parentId = ids.PUBLISH_DLG;
     const [error, setError] = React.useState(null);
 
-    const { requestAppPublication, status: requestStatus } = useMutation(
-        requestToPublishApp,
-        {
+    const { mutate: requestAppPublication, status: requestStatus } =
+        useMutation(requestToPublishApp, {
             onSuccess: () => {
                 announce({
                     text: t("publicationRequestSuccess", {
@@ -174,8 +173,7 @@ export default function PublishAppDialog(props) {
                 handleClose();
             },
             onError: setError,
-        }
-    );
+        });
 
     const handleSubmit = (values) => {
         const documentation = formatAppDoc(

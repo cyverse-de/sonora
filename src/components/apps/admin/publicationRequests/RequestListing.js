@@ -142,21 +142,21 @@ function AppPublicationRequests(props) {
     const [requests, setRequests] = React.useState();
     const [error, setError] = React.useState();
 
+    const queryClient = useQueryClient();
+
     const { isFetching: isRequestsFetching } = useQuery({
         queryKey: APP_PUBLICATION_REQUESTS_QUERY_KEY,
         queryFn: getAppPublicationRequests,
-        config: {
-            enabled: true,
-            onSuccess: (resp) => {
-                setRequests(resp?.publication_requests);
-                setError(null);
-            },
-            onError: (error) =>
-                setError({ msg: t("appPubRequestsFetchError"), error }),
+        enabled: true,
+        onSuccess: (resp) => {
+            setRequests(resp?.publication_requests);
+            setError(null);
         },
+        onError: (error) =>
+            setError({ msg: t("appPubRequestsFetchError"), error }),
     });
 
-    const { doAdminAppPublish, status: appPublishStatus } = useMutation(
+    const { mutate: doAdminAppPublish, status: appPublishStatus } = useMutation(
         adminPublishApp,
         {
             onSuccess: (data) => {

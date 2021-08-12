@@ -149,22 +149,16 @@ function Listing(props) {
 
     const { isFetching, error } = useQuery({
         queryKey: analysesKey,
-        queryFn: getAnalyses,
-        config: {
-            enabled: analysesListingQueryEnabled,
-            onSuccess: (resp) => {
-                trackIntercomEvent(
-                    IntercomEvents.VIEWED_ANALYSES,
-                    analysesKey[1]
-                );
-                setData(resp);
-            },
+        queryFn: () => getAnalyses(analysesKey[1]),
+        enabled: analysesListingQueryEnabled,
+        onSuccess: (resp) => {
+            trackIntercomEvent(IntercomEvents.VIEWED_ANALYSES, analysesKey[1]);
+            setData(resp);
         },
     });
 
-    const { deleteAnalysesMutation, isLoading: deleteLoading } = useMutation(
-        deleteAnalyses,
-        {
+    const { mutate: deleteAnalysesMutation, isLoading: deleteLoading } =
+        useMutation(deleteAnalyses, {
             onSuccess: () => {
                 setSelected([]);
                 queryClient.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
@@ -172,10 +166,9 @@ function Listing(props) {
             onError: (error) => {
                 showErrorAnnouncer(t("analysesDeleteError"), error);
             },
-        }
-    );
+        });
 
-    const { relaunchAnalysesMutation, isLoading: relaunchLoading } =
+    const { mutate: relaunchAnalysesMutation, isLoading: relaunchLoading } =
         useMutation(relaunchAnalyses, {
             onSuccess: () =>
                 queryClient.invalidateQueries(ANALYSES_LISTING_QUERY_KEY),
@@ -185,7 +178,7 @@ function Listing(props) {
         });
 
     const {
-        renameAnalysisMutation,
+        mutate: renameAnalysisMutation,
         isLoading: renameLoading,
         error: renameError,
     } = useMutation(renameAnalysis, {
@@ -205,7 +198,7 @@ function Listing(props) {
     });
 
     const {
-        analysisCommentMutation,
+        mutate: analysisCommentMutation,
         isLoading: commentLoading,
         error: commentError,
     } = useMutation(updateAnalysisComment, {
@@ -226,9 +219,8 @@ function Listing(props) {
         },
     });
 
-    const { analysesCancelMutation, isLoading: cancelLoading } = useMutation(
-        cancelAnalyses,
-        {
+    const { mutate: analysesCancelMutation, isLoading: cancelLoading } =
+        useMutation(cancelAnalyses, {
             onSuccess: (analyses, { job_status }) => {
                 trackIntercomEvent(IntercomEvents.ANALYSIS_CANCELLED, analyses);
                 announce({
@@ -265,12 +257,10 @@ function Listing(props) {
                     queryClient.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
                 }
             },
-        }
-    );
+        });
 
-    const { shareAnalysesMutation, isLoading: shareLoading } = useMutation(
-        submitAnalysisSupportRequest,
-        {
+    const { mutate: shareAnalysesMutation, isLoading: shareLoading } =
+        useMutation(submitAnalysisSupportRequest, {
             onSuccess: (responses) => {
                 setShareWithSupportAnalysis(null);
                 announce({
@@ -281,8 +271,7 @@ function Listing(props) {
             onError: (error) => {
                 showErrorAnnouncer(t("statusHelpShareError"), error);
             },
-        }
-    );
+        });
 
     const { isFetching: isFetchingTimeLimit } = useQuery({
         queryKey: [VICE_TIME_LIMIT_QUERY_KEY, selected[0]],
@@ -301,9 +290,8 @@ function Listing(props) {
         },
     });
 
-    const { doTimeLimitExtension, isLoading: extensionLoading } = useMutation(
-        extendVICEAnalysisTimeLimit,
-        {
+    const { mutate: doTimeLimitExtension, isLoading: extensionLoading } =
+        useMutation(extendVICEAnalysisTimeLimit, {
             onSuccess: (resp) => {
                 setConfirmExtendTimeLimitDlgOpen(false);
                 setTimeLimit(null);
@@ -319,8 +307,7 @@ function Listing(props) {
             onError: (error) => {
                 showErrorAnnouncer(t("analysesRelaunchError"), error);
             },
-        }
-    );
+        });
 
     const addItemsToBag = useBagAddItems({
         handleError: (error) => {

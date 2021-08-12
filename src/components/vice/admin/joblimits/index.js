@@ -76,7 +76,7 @@ const JobLimits = ({ showErrorAnnouncer }) => {
     // in the latest version, but that version makes backwards-breaking changes
     // to the queryClient.refetchQueries() call that breaks most pages. The
     // upgrade to react-query will need to happen in another PR.
-    const { getJobLimit } = useMutation(getUserJobLimit, {
+    const { mutate: getJobLimit } = useMutation(getUserJobLimit, {
         onSuccess: (data) => {
             setPreviousUsername(username); // set the displayed username.
             setCurrentLimit(data?.concurrent_jobs); // set the displayed limit.
@@ -88,7 +88,7 @@ const JobLimits = ({ showErrorAnnouncer }) => {
         },
     });
 
-    const { setLimitMutation } = useMutation(setUserJobLimit, {
+    const { mutate: setLimitMutation } = useMutation(setUserJobLimit, {
         onSuccess: () => {
             getJobLimit({ username });
             setUsername("");

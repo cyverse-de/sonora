@@ -9,14 +9,14 @@ export function extractSubdomain(urlWithSubdomain) {
     return url?.split("/")?.pop()?.split(".")?.shift();
 }
 
-function getLoadingStatus(key, { accessUrl }) {
+function getLoadingStatus({ accessUrl }) {
     const subdomain = extractSubdomain(accessUrl);
     return callApi({
         endpoint: `/api/vice/${subdomain}/description`,
     });
 }
 
-function getUrlReady(key, { accessUrl }) {
+function getUrlReady({ accessUrl }) {
     const subdomain = extractSubdomain(accessUrl);
     return callApi({
         endpoint: `/api/vice/${subdomain}/url-ready`,

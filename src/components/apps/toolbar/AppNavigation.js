@@ -161,15 +161,13 @@ function AppNavigation(props) {
 
     const { isFetching } = useQuery({
         queryKey: categoryQueryKey,
-        queryFn: getPrivateCategories,
-        config: {
-            onSuccess: preProcessData,
-            onError: (e) => {
-                handleAppNavError(e);
-            },
-            staleTime: Infinity,
-            cacheTime: Infinity,
+        queryFn: () => getPrivateCategories(categoryQueryKey[1]),
+        onSuccess: preProcessData,
+        onError: (e) => {
+            handleAppNavError(e);
         },
+        staleTime: Infinity,
+        cacheTime: Infinity,
     });
 
     useEffect(() => {
@@ -187,7 +185,7 @@ function AppNavigation(props) {
                 preProcessData(cacheCat);
             }
         }
-    }, [categoryQueryKey, preProcessData, categories]);
+    }, [categoryQueryKey, preProcessData, categories, queryClient]);
 
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);

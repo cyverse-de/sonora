@@ -120,13 +120,11 @@ function Listing(props) {
     // Fetches tool listings from the API.
     const { isFetching, error } = useQuery({
         queryKey: toolsKey,
-        queryFn: getTools,
-        config: {
-            enabled: toolsListingQueryEnabled,
-            onSuccess: (resp) => {
-                trackIntercomEvent(IntercomEvents.VIEWED_TOOLS, toolsKey[1]);
-                setData(resp);
-            },
+        queryFn: () => getTools(toolsKey[1]),
+        enabled: toolsListingQueryEnabled,
+        onSuccess: (resp) => {
+            trackIntercomEvent(IntercomEvents.VIEWED_TOOLS, toolsKey[1]);
+            setData(resp);
         },
     });
 

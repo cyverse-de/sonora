@@ -172,7 +172,6 @@ const WorkflowEditor = (props) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
-
     const onExit = () => router.back();
 
     const onLaunch = (workflow) =>
@@ -184,7 +183,6 @@ const WorkflowEditor = (props) => {
         router.replace(getAppEditPath(workflow.system_id, workflow.id));
 
     const { mutate: savePipeline } = useMutation(
-
         ({ workflow }) => {
             const { id: appId } = workflow;
             const request = { appId, workflow };

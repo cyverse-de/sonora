@@ -75,7 +75,12 @@ function OAuthCodeHandler(props) {
                 stateId,
             },
         ],
-        queryFn: doOAuthCallback,
+        queryFn: () =>
+            doOAuthCallback({
+                apiName,
+                code,
+                stateId,
+            }),
     });
 
     if (isFetching || isFetchingCategories) {

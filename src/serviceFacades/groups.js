@@ -35,7 +35,7 @@ function responseHasFailures(response) {
     return hasFailures?.length > 0;
 }
 
-function getMyTeams(key, { userId }) {
+function getMyTeams({ userId }) {
     return callApi({
         endpoint: "/api/teams",
         method: "GET",
@@ -46,7 +46,7 @@ function getMyTeams(key, { userId }) {
     });
 }
 
-function getAllTeams(key) {
+function getAllTeams() {
     return callApi({
         endpoint: "/api/teams",
         method: "GET",
@@ -56,7 +56,7 @@ function getAllTeams(key) {
     });
 }
 
-function searchTeams(key, { searchTerm }) {
+function searchTeams({ searchTerm }) {
     return callApi({
         endpoint: "/api/teams",
         method: "GET",
@@ -88,7 +88,7 @@ function getTeamMembers(key, { name }) {
     });
 }
 
-function getTeamDetails(key, { name }) {
+function getTeamDetails({ name }) {
     return Promise.all([
         listSingleTeam(LIST_SINGLE_TEAM_QUERY, { name }),
         getTeamPrivileges(TEAM_PRIVILEGES_QUERY, { name }),
@@ -352,7 +352,7 @@ function removeRecentContacts({ members }) {
     });
 }
 
-function getMyCollections(key, { userId }) {
+function getMyCollections({ userId }) {
     return callApi({
         endpoint: "/api/communities",
         method: "GET",

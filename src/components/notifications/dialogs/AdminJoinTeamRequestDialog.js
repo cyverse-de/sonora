@@ -258,9 +258,8 @@ function AdminJoinTeamRequestDialog(props) {
         setRequestChoice(event.target.value);
     };
 
-    const { denyRequestMutation, status: denyRequestStatus } = useMutation(
-        denyRequestJoinTeam,
-        {
+    const { mutate: denyRequestMutation, status: denyRequestStatus } =
+        useMutation(denyRequestJoinTeam, {
             onSuccess: handleClose,
             onError: (error) => {
                 setMutationError({
@@ -268,10 +267,9 @@ function AdminJoinTeamRequestDialog(props) {
                     object: error,
                 });
             },
-        }
-    );
+        });
 
-    const { approveRequestMutation, status: approveRequestStatus } =
+    const { mutate: approveRequestMutation, status: approveRequestStatus } =
         useMutation(approveRequestJoinTeam, {
             onSuccess: handleClose,
             onError: (error) => {

@@ -42,39 +42,33 @@ export default function AppEdit() {
 
     const { isFetching: appInfoLoading } = useQuery({
         queryKey: [APP_BY_ID_QUERY_KEY, { systemId, appId }],
-        queryFn: getAppById,
-        config: {
-            enabled: userProfile?.id && systemId && appId,
-            onSuccess: (result) => {
-                setAppListingInfo(result?.apps[0]);
-            },
-            onError: setLoadingError,
+        queryFn: () => getAppById({ systemId, appId }),
+        enabled: userProfile?.id && systemId && appId,
+        onSuccess: (result) => {
+            setAppListingInfo(result?.apps[0]);
         },
+        onError: setLoadingError,
     });
 
     const { isFetching: appUILoading } = useQuery({
         queryKey: [APP_UI_QUERY_KEY, { systemId, appId }],
-        queryFn: getAppUI,
-        config: {
-            enabled:
-                userProfile?.id &&
-                systemId &&
-                appId &&
-                appListingInfo &&
-                !isWorkflow,
-            onSuccess: setApp,
-            onError: setLoadingError,
-        },
+        queryFn: () => getAppUI({ systemId, appId }),
+        enabled:
+            userProfile?.id &&
+            systemId &&
+            appId &&
+            appListingInfo &&
+            !isWorkflow,
+        onSuccess: setApp,
+        onError: setLoadingError,
     });
 
     const { isFetching: workflowUILoading } = useQuery({
         queryKey: [PIPELINE_UI_QUERY_KEY, { appId }],
-        queryFn: getPipelineUI,
-        config: {
-            enabled: userProfile?.id && appId && isWorkflow,
-            onSuccess: setWorkflowDescription,
-            onError: setLoadingError,
-        },
+        queryFn: () => getPipelineUI({ appId }),
+        enabled: userProfile?.id && appId && isWorkflow,
+        onSuccess: setWorkflowDescription,
+        onError: setLoadingError,
     });
 
     React.useEffect(() => {

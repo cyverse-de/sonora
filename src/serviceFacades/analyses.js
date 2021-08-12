@@ -11,7 +11,7 @@ const ANALYSIS_RELAUNCH_QUERY_KEY = "fetchAnalysisRelaunchKey";
 const ANALYSES_SEARCH_QUERY_KEY = "searchAnalysesKey";
 const VICE_TIME_LIMIT_QUERY_KEY = "fetchVICETimeLimit";
 
-function getAnalyses(key, { rowsPerPage, orderBy, order, page, filter }) {
+function getAnalyses({ rowsPerPage, orderBy, order, page, filter }) {
     const params = {};
 
     if (rowsPerPage) {
@@ -85,21 +85,21 @@ function updateAnalysisComment({ id, description }) {
     });
 }
 
-function getAnalysisHistory(key, { id }) {
+function getAnalysisHistory({ id }) {
     return callApi({
         endpoint: `/api/analyses/${id}/history`,
         method: "GET",
     });
 }
 
-function getAnalysisParameters(key, { id }) {
+function getAnalysisParameters({ id }) {
     return callApi({
         endpoint: `/api/analyses/${id}/parameters`,
         method: "GET",
     });
 }
 
-function getAnalysisRelaunchInfo(key, { id }) {
+function getAnalysisRelaunchInfo({ id }) {
     return callApi({
         endpoint: `/api/analyses/${id}/relaunch-info`,
         method: "GET",
@@ -174,13 +174,12 @@ const RUNNING_VICE_JOBS_QUERY_KEY = [
 function useRunningViceJobs({ enabled, onSuccess, onError, ...rest }) {
     return useQuery({
         queryKey: RUNNING_VICE_JOBS_QUERY_KEY,
-        queryFn: getAnalyses,
-        config: {
-            enabled,
-            onSuccess,
-            onError,
-            ...rest,
-        },
+        queryFn: () =>
+            getAnalyses({ filter: JSON.stringify(runningViceJobsFilter) }),
+        enabled,
+        onSuccess,
+        onError,
+        ...rest,
     });
 }
 

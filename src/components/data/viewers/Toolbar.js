@@ -152,18 +152,16 @@ function ViewerToolbar(props) {
     useQuery({
         queryKey: INFO_TYPES_QUERY_KEY,
         queryFn: getInfoTypes,
-        config: {
-            enabled: infoTypesQueryEnabled,
-            onSuccess: (resp) => setInfoTypes(resp.types),
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            onError: (e) => {
-                showErrorAnnouncer(t("infoTypeFetchError"), e);
-            },
+        enabled: infoTypesQueryEnabled,
+        onSuccess: (resp) => setInfoTypes(resp.types),
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        onError: (e) => {
+            showErrorAnnouncer(t("infoTypeFetchError"), e);
         },
     });
 
-    const { saveTextAsFile, isLoading: fileSaveLoading } = useMutation(
+    const { mutate: saveTextAsFile, isLoading: fileSaveLoading } = useMutation(
         uploadTextAsFile,
         {
             onSuccess: (resp) => {

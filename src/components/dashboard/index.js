@@ -125,7 +125,7 @@ const Dashboard = (props) => {
 
     const { status, data, error } = useQuery(
         [DASHBOARD_QUERY_KEY, { limit: constants.SECTION_ITEM_LIMIT }],
-        getDashboard
+        () => getDashboard({ limit: constants.SECTION_ITEM_LIMIT })
     );
     const isLoading = status === "loading";
     const hasErrored = status === "error";

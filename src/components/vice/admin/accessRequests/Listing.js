@@ -73,11 +73,9 @@ function Listing(props) {
 
     const { isFetching, error: listingError } = useQuery({
         queryKey: [ADMIN_ACCESS_REQUEST_LISTING_QUERY_KEY, { showAllRequests }],
-        queryFn: adminRequestListing,
-        config: {
-            enabled: true,
-            onSuccess: setData,
-        },
+        queryFn: () => adminRequestListing({ showAllRequests }),
+        enabled: true,
+        onSuccess: setData,
     });
 
     const { setLimitMutation, isLoading: limitLoading } = useMutation(

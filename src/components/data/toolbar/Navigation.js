@@ -394,16 +394,14 @@ function Navigation(props) {
 
     const { error } = useQuery({
         queryKey: rootsQueryKeyArray,
-        queryFn: getFilesystemRoots,
-        config: {
-            enabled: true,
-            onSuccess: preProcessData,
-            onError: (e) => {
-                handleDataNavError(e);
-            },
-            staleTime: Infinity,
-            cacheTime: Infinity,
+        queryFn: () => getFilesystemRoots(rootsQueryKeyArray[1]),
+        enabled: true,
+        onSuccess: preProcessData,
+        onError: (e) => {
+            handleDataNavError(e);
         },
+        staleTime: Infinity,
+        cacheTime: Infinity,
     });
 
     useEffect(() => {

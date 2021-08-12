@@ -262,20 +262,20 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
         return await updateDefaultsMapping(newMapping);
     };
 
-    const [deleteEntry] = useMutation(handleDelete, {
+    const { mutate: deleteEntry } = useMutation(handleDelete, {
         onSuccess: () =>
             queryClient.invalidateQueries(DEFAULTS_MAPPING_QUERY_KEY),
         onError: (error) =>
             showErrorAnnouncer(t("deleteMappingEntryError"), error),
     });
 
-    const [updateMapping] = useMutation(updateDefaultsMapping, {
+    const { mutate: updateMapping } = useMutation(updateDefaultsMapping, {
         onSuccess: () =>
             queryClient.invalidateQueries(DEFAULTS_MAPPING_QUERY_KEY),
         onError: (error) => showErrorAnnouncer(t("updateMappingError"), error),
     });
 
-    const [createMapping] = useMutation(createDefaultsMapping, {
+    const { mutate: createMapping } = useMutation(createDefaultsMapping, {
         onSuccess: () =>
             queryClient.invalidateQueries(DEFAULTS_MAPPING_QUERY_KEY),
         onError: (error) => showErrorAnnouncer(t("createMappingError"), error),

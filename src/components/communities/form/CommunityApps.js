@@ -11,6 +11,7 @@ import { getIn } from "formik";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { ERROR } from "components/announcer/AnnouncerConstants";
+import AppDetails from "components/apps/details/Drawer";
 import TableView from "components/apps/listing/TableView";
 import GlobalSearchField from "components/search/GlobalSearchField";
 import SearchConstants from "components/search/constants";
@@ -41,6 +42,7 @@ function CommunityApps(props) {
         order: constants.SORT_ASCENDING,
         orderBy: "name",
     });
+    const [detailsApp, setDetailsApp] = useState(null);
 
     const baseId = buildID(parentId, ids.APP_LIST);
 
@@ -69,6 +71,10 @@ function CommunityApps(props) {
     const onDeleteSelected = (app) => {
         const index = appList.findIndex((item) => item.id === app.id);
         remove(index);
+    };
+
+    const onDetailsSelected = (app) => {
+        setDetailsApp(app);
     };
 
     const validateAppSelection = (apps) => {
@@ -131,7 +137,9 @@ function CommunityApps(props) {
                 enableSelection={false}
                 enableDelete={isAdmin}
                 isAdminView={false}
+                enableActionCell={true}
                 onDeleteSelected={onDeleteSelected}
+                onDetailsSelected={onDetailsSelected}
                 handleRequestSort={handleRequestSort}
             />
             <AppSearchDrawer
@@ -143,6 +151,13 @@ function CommunityApps(props) {
                 onClose={() => setSearchTerm("")}
                 searchTerm={searchTerm}
                 validateSelection={validateAppSelection}
+            />
+            <AppDetails
+                open={!!detailsApp}
+                appId={detailsApp?.id}
+                systemId={detailsApp?.system_id}
+                baseId={baseId}
+                onClose={() => setDetailsApp(null)}
             />
         </SimpleExpansionPanel>
     );

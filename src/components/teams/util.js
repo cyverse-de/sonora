@@ -46,9 +46,9 @@ export const userIsMember = (userId, privileges) => {
     );
 };
 
-export function validateGroupName(value, t) {
+export function validateGroupName(value, t, { emptyNameKey, invalidNameKey }) {
     if (!value || value.length < 1) {
-        return t("emptyTeamName");
+        return t(emptyNameKey);
     }
 
     const restrictedRegex = new RegExp(
@@ -57,7 +57,7 @@ export function validateGroupName(value, t) {
     );
     const invalid = value.match(restrictedRegex);
     if (invalid) {
-        return t("invalidTeamName", {
+        return t(invalidNameKey, {
             invalidCharList: RESTRICTED_GROUP_NAME_CHARS,
             invalidChars: invalid.join(""),
         });

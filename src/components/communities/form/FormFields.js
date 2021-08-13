@@ -40,7 +40,12 @@ function FormFields(props) {
                 InputProps={{
                     readOnly: !isAdmin,
                 }}
-                validate={(value) => validateGroupName(value, t)}
+                validate={(value) =>
+                    validateGroupName(value, t, {
+                        emptyNameKey: "emptyCommunityName",
+                        invalidNameKey: "invalidCommunityName",
+                    })
+                }
                 component={FormTextField}
             />
             <Field

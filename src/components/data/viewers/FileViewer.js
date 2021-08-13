@@ -34,7 +34,7 @@ import DocumentViewer from "./DocumentViewer";
 import ids from "./ids";
 import ImageViewer from "./ImageViewer";
 import PathListViewer from "./PathListViewer";
-import { refreshViewer, useFileManifest, useReadChunk } from "./queries";
+import { useFileManifest, useReadChunk } from "./queries";
 import StructuredTextViewer from "./StructuredTextViewer";
 import { CODE_MIRROR_MODES } from "./Editor";
 import { flattenStructureData } from "./utils";

@@ -95,7 +95,7 @@ function TagSearch(props) {
         removeTag({ tagIds: [selectedTag.id], resourceId: resource.id });
     };
 
-    const { mutate: reateTag, status: tagCreationStatus } = useMutation(
+    const { mutate: createTag, status: tagCreationStatus } = useMutation(
         createUserTag,
         {
             onSuccess: (resp, variables) => {

@@ -77,8 +77,7 @@ function ToolsUsed(props) {
     const { tools, appName } = props;
     const [toolsDialogOpen, setToolsDialogOpen] = useState(false);
     const { t } = useTranslation("tools");
-    // Get QueryClient from the context
-    const queryClient = useQueryClient();
+
     return (
         <React.Fragment>
             <Button color="primary" onClick={() => setToolsDialogOpen(true)}>

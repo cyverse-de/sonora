@@ -1,5 +1,5 @@
 import callApi from "../common/callApi";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation } from "react-query";
 
 const BOOTSTRAP_KEY = "bootstrap";
 

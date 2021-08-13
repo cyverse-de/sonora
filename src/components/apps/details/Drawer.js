@@ -101,9 +101,6 @@ function DetailsHeader({
     const [link, setLink] = useState("");
     const [open, setOpen] = useState(false);
 
-    // Get QueryClient from the context
-    const queryClient = useQueryClient();
-
     useEffect(() => {
         const host = getHost();
         const partialLink = getAppListingLinkRefs(systemId, appId)[1];

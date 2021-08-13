@@ -88,11 +88,8 @@ const MetadataTemplateListing = (props) => {
     const { isFetching, error: fetchError } = useQuery({
         queryKey: FILESYSTEM_METADATA_TEMPLATE_LISTING_QUERY_KEY,
         queryFn: getFilesystemMetadataTemplateListing,
-        config: {
-            enabled: true,
-            onSuccess: ({ metadata_templates }) =>
-                setTemplates(metadata_templates),
-        },
+        enabled: true,
+        onSuccess: ({ metadata_templates }) => setTemplates(metadata_templates),
     });
 
     const dialogID = buildID(baseId, ids.DIALOG);

@@ -104,9 +104,8 @@ function TeamForm(props) {
     });
 
     // Updates only team name and description, then calls updateTeamMemberStatsMutation
-    const { mutate: updateTeamMutation, status: updateTeamStatus } = useMutation(
-        updateTeam,
-        {
+    const { mutate: updateTeamMutation, status: updateTeamStatus } =
+        useMutation(updateTeam, {
             onSuccess: (resp, variables) => {
                 setTeamNameSaved(true);
                 updateTeamMemberStatsMutation({
@@ -120,14 +119,12 @@ function TeamForm(props) {
                     object: error,
                 });
             },
-        }
-    );
+        });
 
     // Creates the team name, description, and initial public privilege
     // then calls updateTeamMemberStatsMutation
-    const { mutate: createTeamMutation, status: createTeamStatus } = useMutation(
-        createTeam,
-        {
+    const { mutate: createTeamMutation, status: createTeamStatus } =
+        useMutation(createTeam, {
             onSuccess: (resp, { newPrivileges }) => {
                 trackIntercomEvent(IntercomEvents.CREATED_NEW_TEAM, resp);
                 setTeamNameSaved(true);
@@ -142,14 +139,13 @@ function TeamForm(props) {
                     object: error,
                 });
             },
-        }
-    );
+        });
 
     // Updates privileges and memberships
     const {
         mutate: updateTeamMemberStatsMutation,
-         status: updateTeamMemberStatsStatus ,
-} = useMutation(
+        status: updateTeamMemberStatsStatus,
+    } = useMutation(
         (variables) =>
             updateTeamMemberStats({
                 ...variables,
@@ -168,7 +164,7 @@ function TeamForm(props) {
         }
     );
 
-const { mutate: leaveTeamMutation, status: leaveTeamStatus } = useMutation(
+    const { mutate: leaveTeamMutation, status: leaveTeamStatus } = useMutation(
         leaveTeam,
         {
             onSuccess: goBackToTeamView,
@@ -181,9 +177,8 @@ const { mutate: leaveTeamMutation, status: leaveTeamStatus } = useMutation(
         }
     );
 
-const { mutate: deleteTeamMutation, status: deleteTeamStatus } = useMutation(
-        deleteTeam,
-        {
+    const { mutate: deleteTeamMutation, status: deleteTeamStatus } =
+        useMutation(deleteTeam, {
             onSuccess: (resp) => {
                 trackIntercomEvent(IntercomEvents.DELETED_TEAM, resp);
                 goBackToTeamView();
@@ -194,8 +189,7 @@ const { mutate: deleteTeamMutation, status: deleteTeamStatus } = useMutation(
                     object: error,
                 });
             },
-        }
-    );
+        });
 
     const loading = isQueryLoading([
         fetchingTeamDetails,

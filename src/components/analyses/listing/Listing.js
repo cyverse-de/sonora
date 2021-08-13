@@ -275,18 +275,16 @@ function Listing(props) {
 
     const { isFetching: isFetchingTimeLimit } = useQuery({
         queryKey: [VICE_TIME_LIMIT_QUERY_KEY, selected[0]],
-        queryFn: getTimeLimitForVICEAnalysis,
-        config: {
-            enabled: timeLimitQueryEnabled,
-            onSuccess: (resp) => {
-                //convert the response from seconds to milliseconds
-                setTimeLimit({
-                    [selected[0]]: formatDate(resp?.time_limit * 1000),
-                });
-            },
-            onError: (error) => {
-                showErrorAnnouncer(t("timeLimitError"), error);
-            },
+        queryFn: () => getTimeLimitForVICEAnalysis(selected[0]),
+        enabled: timeLimitQueryEnabled,
+        onSuccess: (resp) => {
+            //convert the response from seconds to milliseconds
+            setTimeLimit({
+                [selected[0]]: formatDate(resp?.time_limit * 1000),
+            });
+        },
+        onError: (error) => {
+            showErrorAnnouncer(t("timeLimitError"), error);
         },
     });
 

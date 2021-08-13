@@ -182,7 +182,7 @@ function AppDoc(props) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
-    const enabled = appId != null && systemId !== null;
+    const enabled = !!appId && !!systemId;
     const docBaseId = ids.DOCUMENTATION_DLG;
 
     const handleClose = () => {

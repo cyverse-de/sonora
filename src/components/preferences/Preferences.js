@@ -231,18 +231,17 @@ function Preferences(props) {
     const { isFetching: isFetchingURIs } = useQuery({
         queryKey: REDIRECT_URI_QUERY_KEY,
         queryFn: getRedirectURIs,
-        config: {
-            enabled: fetchRedirectURIsQueryEnabled,
-            onSuccess: (resp) => {
-                setFetchRedirectURIsQueryEnabled(false);
-                const redirectUrl = resp[constants.AGAVE_SYSTEM_ID];
-                if (redirectUrl) {
-                    setHPCAuthUrl(redirectUrl);
-                }
-            },
-            onError: (e) => {
-                showErrorAnnouncer(t("redirectError"), e);
-            },
+
+        enabled: fetchRedirectURIsQueryEnabled,
+        onSuccess: (resp) => {
+            setFetchRedirectURIsQueryEnabled(false);
+            const redirectUrl = resp[constants.AGAVE_SYSTEM_ID];
+            if (redirectUrl) {
+                setHPCAuthUrl(redirectUrl);
+            }
+        },
+        onError: (e) => {
+            showErrorAnnouncer(t("redirectError"), e);
         },
     });
 
@@ -271,25 +270,21 @@ function Preferences(props) {
     const { isFetching: isFetchingHookTypes } = useQuery({
         queryKey: WEBHOOKS_TYPES_QUERY_KEY,
         queryFn: getWebhookTypes,
-        config: {
-            enabled: webhookTypesQueryEnabled,
-            onSuccess: (data) => setWebhookTypes(data?.webhooktypes),
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            onError: (e) => showErrorAnnouncer(t("hookTypesFetchError"), e),
-        },
+        enabled: webhookTypesQueryEnabled,
+        onSuccess: (data) => setWebhookTypes(data?.webhooktypes),
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        onError: (e) => showErrorAnnouncer(t("hookTypesFetchError"), e),
     });
 
     const { isFetching: isFetchingHookTopics } = useQuery({
         queryKey: WEBHOOKS_TOPICS_QUERY_KEY,
         queryFn: getWebhookTopics,
-        config: {
-            enabled: webhookTopicsQueryEnabled,
-            onSuccess: (data) => setWebhookTopics(data?.topics),
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            onError: (e) => showErrorAnnouncer(t("hookTopicsFetchError"), e),
-        },
+        enabled: webhookTopicsQueryEnabled,
+        onSuccess: (data) => setWebhookTopics(data?.topics),
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        onError: (e) => showErrorAnnouncer(t("hookTopicsFetchError"), e),
     });
 
     const handleSubmit = (values) => {

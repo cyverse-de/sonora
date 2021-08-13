@@ -98,7 +98,7 @@ function updateWebhooks(webhooks) {
     });
 }
 
-function testWebhook(key, { url }) {
+function testWebhook({ url }) {
     return callApi({
         endpoint: `/api/testWebhook?url=${url}`,
         method: "GET",

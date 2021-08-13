@@ -114,21 +114,19 @@ function PermissionsTabPanel(props) {
 
     const { isFetching: fetchUserInfoStatus } = useQuery({
         queryKey: fetchUserInfoKey,
-        queryFn: getUserInfo,
-        config: {
-            enabled: fetchUserInfoQueryEnabled,
-            onSuccess: (userInfos) => {
-                const mergedInfo = mergeUsersWithPerms(
-                    userlessPermissions,
-                    userInfos
-                );
-                setPermissions(mergedInfo);
-                setFetchUserInfoQueryEnabled(false);
-            },
-            onError: (e) => {
-                setErrorMessage(t("fetchPermissionsError"));
-                setErrorObject(e);
-            },
+        queryFn: () => getUserInfo(fetchUserInfoKey[1]),
+        enabled: fetchUserInfoQueryEnabled,
+        onSuccess: (userInfos) => {
+            const mergedInfo = mergeUsersWithPerms(
+                userlessPermissions,
+                userInfos
+            );
+            setPermissions(mergedInfo);
+            setFetchUserInfoQueryEnabled(false);
+        },
+        onError: (e) => {
+            setErrorMessage(t("fetchPermissionsError"));
+            setErrorObject(e);
         },
     });
 

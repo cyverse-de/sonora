@@ -116,11 +116,11 @@ function EditToolDialog(props) {
     const { isFetching: isToolFetching, error: toolFetchError } = useQuery({
         queryKey: [TOOL_DETAILS_QUERY_KEY, { id: tool?.id, isAdmin }],
         queryFn: () => getToolDetails({ id: tool?.id, isAdmin }),
-        enabled: tool && open,
+        enabled: !!tool && !!open,
         onSuccess: setSelectedTool,
     });
 
-    const { addNewTool, status: newToolStatus } = useMutation(
+    const { mutate: addNewTool, status: newToolStatus } = useMutation(
         ({ submission }) =>
             isAdmin ? adminAddTool(submission) : addTool(submission),
         {
@@ -136,7 +136,7 @@ function EditToolDialog(props) {
         }
     );
 
-    const { updateCurrentTool, status: updateToolStatus } = useMutation(
+    const { mutate: updateCurrentTool, status: updateToolStatus } = useMutation(
         ({ submission }) =>
             isAdmin ? adminUpdateTool(submission) : updateTool(submission),
         {

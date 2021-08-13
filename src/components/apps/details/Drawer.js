@@ -216,7 +216,7 @@ function DetailsDrawer(props) {
         queryKey: [APP_BY_ID_QUERY_KEY, { systemId, appId }],
         queryFn: () => getAppById({ systemId, appId }),
 
-        enabled: appId != null && systemId !== null,
+        enabled: !!appId && !!systemId,
         onSuccess: (result) => {
             setSelectedApp(result?.apps[0]);
         },
@@ -236,7 +236,7 @@ function DetailsDrawer(props) {
                 appId,
             }),
 
-        enabled: appId != null && systemId !== null,
+        enabled: !!appId && !!systemId,
         onSuccess: setDetails,
         onError: (e) => {
             setDetailsError(e);

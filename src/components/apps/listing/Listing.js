@@ -141,9 +141,10 @@ function Listing(props) {
                 // Disable the query if the category ID is fake and the user is
                 // logged in.  The Navigation component should update the ID to
                 // the real ID.
-                category?.system_id &&
-                category?.id &&
-                (!userProfile?.id ||
+                !!category?.system_id &&
+                !!category?.id &&
+                (userProfile === undefined ||
+                    userProfile === null ||
                     ![constants.APPS_UNDER_DEV, constants.FAV_APPS].includes(
                         category?.id
                     )),
@@ -175,25 +176,27 @@ function Listing(props) {
                 adminOwnershipFilter: adminOwnershipFilter?.value,
             },
         ],
-        queryFn: isAdminView
-            ? getAppsForAdmin({
-                  rowsPerPage,
-                  orderBy,
-                  order,
-                  page,
-                  appTypeFilter: filter?.value,
-                  searchTerm,
-                  adminOwnershipFilter: adminOwnershipFilter?.value,
-              })
-            : getApps({
-                  rowsPerPage,
-                  orderBy,
-                  order,
-                  page,
-                  appTypeFilter: filter?.value,
-                  searchTerm,
-                  adminOwnershipFilter: adminOwnershipFilter?.value,
-              }),
+        queryFn: () => {
+            if (isAdminView) {
+                return getAppsForAdmin({
+                    rowsPerPage,
+                    orderBy,
+                    order,
+                    page,
+                    appTypeFilter: filter?.value,
+                    searchTerm,
+                    adminOwnershipFilter: adminOwnershipFilter?.value,
+                });
+            } else {
+                return getApps({
+                    rowsPerPage,
+                    orderBy,
+                    order,
+                    page,
+                    appTypeFilter: filter?.value,
+                });
+            }
+        },
 
         enabled: category?.name === constants.BROWSE_ALL_APPS || isAdminView,
         onSuccess: (resp) => {
@@ -217,7 +220,7 @@ function Listing(props) {
         ],
         queryFn: () =>
             getAppById({ systemId: selectedSystemId, appId: selectedAppId }),
-        enabled: selectedSystemId && selectedAppId,
+        enabled: !!selectedSystemId && !!selectedAppId,
         onSuccess: (resp) => {
             trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
                 systemId: selectedSystemId,

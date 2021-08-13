@@ -20,7 +20,7 @@ import {
     useBootstrapInfo,
 } from "../src/contexts/bootstrap";
 
-import { ReactQueryConfigProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { i18n } from "../src/i18n";
 import { I18nextProvider } from "react-i18next";
 
@@ -57,9 +57,11 @@ function MockConfig() {
     return <div />;
 }
 
-const queryConfig = {
-    queries: { refetchOnWindowFocus: false, retry: false },
-};
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: { refetchOnWindowFocus: false, retry: false },
+    },
+});
 
 addDecorator((storyFn, context) => withConsole()(storyFn)(context));
 addDecorator(
@@ -77,7 +79,7 @@ export const decorators = [
             <ConfigProvider>
                 <MockConfig />
                 <UserProfileProvider>
-                    <ReactQueryConfigProvider config={queryConfig}>
+                    <QueryClientProvider client={queryClient}>
                         <MockUserProfile />
                         <BootstrapInfoProvider>
                             <MockBootstrapInfo />
@@ -88,7 +90,7 @@ export const decorators = [
                             </React.Suspense>
                             <CyVerseAnnouncer />
                         </BootstrapInfoProvider>
-                    </ReactQueryConfigProvider>
+                    </QueryClientProvider>
                 </UserProfileProvider>
             </ConfigProvider>
         </ThemeProvider>

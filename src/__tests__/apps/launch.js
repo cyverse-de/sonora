@@ -19,6 +19,8 @@ import { I18nProviderWrapper } from "../../i18n";
 import { BootstrapInfoProvider } from "contexts/bootstrap";
 import { ConfigProvider } from "contexts/config";
 import { UserProfileProvider } from "contexts/userProfile";
+import { RQWrapper } from "../../__mocks__/RQWrapper";
+
 beforeEach(() => {
     mockAxios.reset();
 });
@@ -28,13 +30,15 @@ afterEach(() => {
 });
 
 const TestProviderWrapper = ({ children }) => (
-    <I18nProviderWrapper>
-        <ConfigProvider>
-            <UserProfileProvider>
-                <BootstrapInfoProvider>{children}</BootstrapInfoProvider>
-            </UserProfileProvider>
-        </ConfigProvider>
-    </I18nProviderWrapper>
+    <RQWrapper>
+        <I18nProviderWrapper>
+            <ConfigProvider>
+                <UserProfileProvider>
+                    <BootstrapInfoProvider>{children}</BootstrapInfoProvider>
+                </UserProfileProvider>
+            </ConfigProvider>
+        </I18nProviderWrapper>
+    </RQWrapper>
 );
 
 test("App Launch DEWordCount renders", () => {

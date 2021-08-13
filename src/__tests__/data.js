@@ -6,40 +6,49 @@ import { PathListFileViewerTest } from "../../stories/data/viewers/PathListViewe
 import { PlainTextFileViewerTest } from "../../stories/data/viewers/TextViewer.stories";
 import { I18nProviderWrapper } from "../i18n";
 import { ConfigProvider } from "../contexts/config";
+import { RQWrapper } from "../__mocks__/RQWrapper";
 
 beforeAll(async () => {
     await preloadAll();
 });
 
 const TestProviderWrapper = ({ children }) => (
-    <I18nProviderWrapper>
-        <ConfigProvider>{children}</ConfigProvider>
-    </I18nProviderWrapper>
+    <RQWrapper>
+        <I18nProviderWrapper>
+            <ConfigProvider>{children}</ConfigProvider>
+        </I18nProviderWrapper>
+    </RQWrapper>
 );
 
 test("Data Table View renders", () => {
     const component = renderer.create(
-        <TestProviderWrapper>
-            <DataTableViewTest />
-        </TestProviderWrapper>
+        <RQWrapper>
+            <TestProviderWrapper>
+                <DataTableViewTest />
+            </TestProviderWrapper>
+        </RQWrapper>
     );
     component.unmount();
 });
 
 test("Path List File Viewer renders", () => {
     const component = renderer.create(
-        <TestProviderWrapper>
-            <PathListFileViewerTest />
-        </TestProviderWrapper>
+        <RQWrapper>
+            <TestProviderWrapper>
+                <PathListFileViewerTest />
+            </TestProviderWrapper>
+        </RQWrapper>
     );
     component.unmount();
 });
 
 test("Plain text File Viewer renders", () => {
     const component = renderer.create(
-        <TestProviderWrapper>
-            <PlainTextFileViewerTest />
-        </TestProviderWrapper>
+        <RQWrapper>
+            <TestProviderWrapper>
+                <PlainTextFileViewerTest />
+            </TestProviderWrapper>
+        </RQWrapper>
     );
     component.unmount();
 });

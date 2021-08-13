@@ -10,6 +10,7 @@ import {
     ToolListingTest,
 } from "../../stories/tools/Listing.stories";
 import { mockAxios } from "../../stories/axiosMock";
+import { RQWrapper } from "../__mocks__/RQWrapper";
 
 beforeEach(() => {
     mockAxios.reset();
@@ -21,33 +22,39 @@ afterEach(() => {
 
 test("Tool Table View renders", () => {
     const component = renderer.create(
-        <ConfigProvider>
-            <UserProfileProvider>
-                <ToolListingTest />
-            </UserProfileProvider>
-        </ConfigProvider>
+        <RQWrapper>
+            <ConfigProvider>
+                <UserProfileProvider>
+                    <ToolListingTest />
+                </UserProfileProvider>
+            </ConfigProvider>
+        </RQWrapper>
     );
     component.unmount();
 });
 
 test("Tool Table View renders without tools", () => {
     const component = renderer.create(
-        <ConfigProvider>
-            <UserProfileProvider>
-                <EmptyToolListingTest />
-            </UserProfileProvider>
-        </ConfigProvider>
+        <RQWrapper>
+            <ConfigProvider>
+                <UserProfileProvider>
+                    <EmptyToolListingTest />
+                </UserProfileProvider>
+            </ConfigProvider>
+        </RQWrapper>
     );
     component.unmount();
 });
 
 test("Errored Tool Listing renders", () => {
     const component = renderer.create(
-        <ConfigProvider>
-            <UserProfileProvider>
-                <ErroredListingTest />
-            </UserProfileProvider>
-        </ConfigProvider>
+        <RQWrapper>
+            <ConfigProvider>
+                <UserProfileProvider>
+                    <ErroredListingTest />
+                </UserProfileProvider>
+            </ConfigProvider>
+        </RQWrapper>
     );
     component.unmount();
 });

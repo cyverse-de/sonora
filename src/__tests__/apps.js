@@ -7,6 +7,7 @@ import { AppsListingTest } from "../../stories/apps/Listing.stories";
 import { I18nProviderWrapper } from "../i18n";
 import { UserProfileProvider } from "contexts/userProfile";
 import { ConfigProvider } from "contexts/config";
+import { RQWrapper } from "../__mocks__/RQWrapper";
 
 beforeEach(() => {
     mockAxios.reset();
@@ -18,22 +19,26 @@ afterEach(() => {
 
 test("App Table view renders", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <UserProfileProvider>
-                <ConfigProvider>
-                    <AppsTableViewTest />
-                </ConfigProvider>
-            </UserProfileProvider>
-        </I18nProviderWrapper>
+        <RQWrapper>
+            <I18nProviderWrapper>
+                <UserProfileProvider>
+                    <ConfigProvider>
+                        <AppsTableViewTest />
+                    </ConfigProvider>
+                </UserProfileProvider>
+            </I18nProviderWrapper>
+        </RQWrapper>
     );
     component.unmount();
 });
 
 test("App Listing view", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <AppsListingTest />
-        </I18nProviderWrapper>
+        <RQWrapper>
+            <I18nProviderWrapper>
+                <AppsListingTest />
+            </I18nProviderWrapper>
+        </RQWrapper>
     );
     component.unmount();
 });

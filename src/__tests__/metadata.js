@@ -7,6 +7,7 @@ import { I18nProviderWrapper } from "../i18n";
 import { ConfigProvider } from "../contexts/config";
 import { BootstrapInfoProvider } from "../contexts/bootstrap";
 import { UserProfileProvider } from "../contexts/userProfile";
+import { RQWrapper } from "../__mocks__/RQWrapper";
 
 import {
     MetadataView,
@@ -16,47 +17,57 @@ import {
 } from "../../stories/metadata/MetadataForm.stories";
 
 const TestProviderWrapper = ({ children }) => (
-    <I18nProviderWrapper>
-        <ConfigProvider>
-            <UserProfileProvider>
-                <BootstrapInfoProvider>{children}</BootstrapInfoProvider>
-            </UserProfileProvider>
-        </ConfigProvider>
-    </I18nProviderWrapper>
+    <RQWrapper>
+        <I18nProviderWrapper>
+            <ConfigProvider>
+                <UserProfileProvider>
+                    <BootstrapInfoProvider>{children}</BootstrapInfoProvider>
+                </UserProfileProvider>
+            </ConfigProvider>
+        </I18nProviderWrapper>
+    </RQWrapper>
 );
 
 test("MetadataView renders", () => {
     const component = renderer.create(
-        <TestProviderWrapper>
-            <MetadataView />
-        </TestProviderWrapper>
+        <RQWrapper>
+            <TestProviderWrapper>
+                <MetadataView />
+            </TestProviderWrapper>
+        </RQWrapper>
     );
     component.unmount();
 });
 
 test("ReadOnlyMetadata renders", () => {
     const component = renderer.create(
-        <TestProviderWrapper>
-            <ReadOnlyMetadata />
-        </TestProviderWrapper>
+        <RQWrapper>
+            <TestProviderWrapper>
+                <ReadOnlyMetadata />
+            </TestProviderWrapper>
+        </RQWrapper>
     );
     component.unmount();
 });
 
 test("DataCiteMetadataView renders", () => {
     const component = renderer.create(
-        <TestProviderWrapper>
-            <DataCiteMetadataView />
-        </TestProviderWrapper>
+        <RQWrapper>
+            <TestProviderWrapper>
+                <DataCiteMetadataView />
+            </TestProviderWrapper>
+        </RQWrapper>
     );
     component.unmount();
 });
 
 test("EmptyMetadata renders", () => {
     const component = renderer.create(
-        <TestProviderWrapper>
-            <EmptyMetadata />
-        </TestProviderWrapper>
+        <RQWrapper>
+            <TestProviderWrapper>
+                <EmptyMetadata />
+            </TestProviderWrapper>
+        </RQWrapper>
     );
     component.unmount();
 });

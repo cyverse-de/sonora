@@ -7,6 +7,7 @@ import { UserProfileProvider } from "contexts/userProfile";
 import { I18nProviderWrapper } from "i18n";
 import { getAllPrivileges, getPrivilegeUpdates } from "components/teams/util";
 import Privilege from "components/models/Privilege";
+import { RQWrapper } from "../__mocks__/RQWrapper";
 
 beforeEach(() => {
     mockAxios.reset();
@@ -21,22 +22,26 @@ const GrouperAdminId = "de_grouper";
 
 test("Team view renders", () => {
     const component = renderer.create(
-        <UserProfileProvider>
-            <I18nProviderWrapper>
-                <View />
-            </I18nProviderWrapper>
-        </UserProfileProvider>
+        <RQWrapper>
+            <UserProfileProvider>
+                <I18nProviderWrapper>
+                    <View />
+                </I18nProviderWrapper>
+            </UserProfileProvider>
+        </RQWrapper>
     );
     component.unmount();
 });
 
 test("Team search results renders", () => {
     const component = renderer.create(
-        <UserProfileProvider>
-            <I18nProviderWrapper>
-                <SearchResults />
-            </I18nProviderWrapper>
-        </UserProfileProvider>
+        <RQWrapper>
+            <UserProfileProvider>
+                <I18nProviderWrapper>
+                    <SearchResults />
+                </I18nProviderWrapper>
+            </UserProfileProvider>
+        </RQWrapper>
     );
     component.unmount();
 });

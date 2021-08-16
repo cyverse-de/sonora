@@ -69,7 +69,7 @@ function InputParameterValue(props) {
     const { isFetching: isFetchingStat } = useQuery({
         queryKey: [DATA_DETAILS_QUERY_KEY, { paths: [path] }],
         queryFn: () => getResourceDetails({ paths: [path] }),
-        enabled: path,
+        enabled: !!path,
         onSuccess: () => {
             setStatError(null);
             setOtherError(null);

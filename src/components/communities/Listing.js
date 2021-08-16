@@ -69,7 +69,7 @@ function Listing(props) {
     const { isFetching: fetchMyCommunities, error: myCommunitiesError } =
         useQuery({
             queryKey: [MY_COMMUNITIES_QUERY, { userId: userProfile?.id }],
-            enabled: userProfile?.id,
+            enabled: !!userProfile?.id,
             queryFn: () => getMyCommunities({ userId: userProfile?.id }),
             onSuccess: (results) => {
                 setData(results.groups);

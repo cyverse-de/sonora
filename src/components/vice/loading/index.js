@@ -101,15 +101,15 @@ function ViceLoading(props) {
         const servicesDone = services?.length > 0;
         const ingressesDone = ingresses?.length > 0;
         const pod = pods?.[0];
-        const hasPods =
-            pod?.containerStatuses?.length > 0 &&
-            pod?.initContainerStatuses?.length > 0;
+        const hasPods = pod?.containerStatuses?.length > 0;
 
         const {
             done: fileTransferDone,
             hasError: fileTransferError,
             restartCount: fileTransferRestartCount,
+            image: fileTransferImage,
         } = getContainerDetails(pods, config?.vice?.initContainerName);
+        const usingCSIDriver = fileTransferImage == null;
         const { done: inputFilesPodDone, hasError: inputFilesPodError } =
             getContainerDetails(pods, config?.vice?.inputFilesContainerName);
         const { done: viceProxyPodDone, hasError: viceProxyPodError } =
@@ -174,7 +174,7 @@ function ViceLoading(props) {
             return;
         }
 
-        if (!fileTransferDone) {
+        if (!usingCSIDriver && !fileTransferDone) {
             setTimerName(null);
 
             setProgress({

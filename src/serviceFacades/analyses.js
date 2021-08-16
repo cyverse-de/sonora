@@ -112,14 +112,16 @@ function getAnalysisRelaunchInfo({ id }) {
  * @param {object} param - parameters for searching analyses.
  * @param {integer} page - the page to retrieve. The last parameter must be the page number as required by react-query useInfiniteQuery.
  */
-function searchAnalysesInfinite(
-    key,
-    { rowsPerPage, orderBy, order, filter },
-    page = 0
-) {
+function searchAnalysesInfinite({
+    rowsPerPage,
+    orderBy,
+    order,
+    filter,
+    pageParam,
+}) {
     return callApi({
         endpoint: `/api/analyses?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
-            rowsPerPage * page
+            rowsPerPage * pageParam
         }&filter=${filter}`,
         method: "GET",
     });

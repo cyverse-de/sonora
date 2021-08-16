@@ -61,21 +61,27 @@ export default function AnalysesSearchResults(props) {
     const [orderBy, setOrderBy] = useState(analysisRecordFields.START_DATE.key);
     const [selectedAnalysis, setSelectedAnalysis] = useState();
 
-    const { status, data, isFetchingMore, fetchMore, canFetchMore, error } =
-        useAnalysesSearchInfinite(
-            analysesSearchKey,
-            analysesSearchQueryEnabled,
-            (lastGroup, allGroups) => {
-                const totalPages = Math.ceil(
-                    lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
-                );
-                if (allGroups.length < totalPages) {
-                    return allGroups.length;
-                } else {
-                    return false;
-                }
+    const {
+        status,
+        data,
+        isFetchingNextPage,
+        fetchNextPage,
+        hasNextPage,
+        error,
+    } = useAnalysesSearchInfinite(
+        analysesSearchKey,
+        analysesSearchQueryEnabled,
+        (lastGroup, allGroups) => {
+            const totalPages = Math.ceil(
+                lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
+            );
+            if (allGroups.length < totalPages) {
+                return allGroups.length;
+            } else {
+                return false;
             }
-        );
+        }
+    );
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
@@ -97,10 +103,10 @@ export default function AnalysesSearchResults(props) {
     useEffect(() => {
         trackIntercomEvent(IntercomEvents.SEARCHED_ANALYSES, {
             search: searchTerm,
-            total: data?.length ? data[0].total : 0,
+            total: data?.pages.length ? data.pages[0].total : 0,
         });
-        if (data && data.length > 0) {
-            updateResultCount(data[0].total);
+        if (data && data.pages.length > 0) {
+            updateResultCount(data.pages[0].total);
         }
     }, [data, searchTerm, updateResultCount]);
 
@@ -156,14 +162,16 @@ export default function AnalysesSearchResults(props) {
     }
     if (
         status !== constants.LOADING &&
-        (!data || data.length === 0 || data[0]?.analyses.length === 0)
+        (!data ||
+            data.pages.length === 0 ||
+            data.pages[0].analyses.length === 0)
     ) {
         return <Typography>{t("noResults")}</Typography>;
     }
 
     let flatData = [];
-    if (data && data.length > 0) {
-        data.forEach((page) => {
+    if (data && data.pages[0].analyses.length > 0) {
+        data.pages.forEach((page) => {
             flatData = [...flatData, ...page.analyses];
         });
     }
@@ -175,9 +183,9 @@ export default function AnalysesSearchResults(props) {
                 data={flatData}
                 baseId={baseId}
                 loading={status === constants.LOADING}
-                fetchMore={fetchMore}
-                isFetchingMore={isFetchingMore}
-                canFetchMore={canFetchMore}
+                fetchMore={fetchNextPage}
+                isFetchingMore={isFetchingNextPage}
+                canFetchMore={hasNextPage}
                 initialSortBy={[
                     {
                         id: analysisRecordFields.START_DATE.key,

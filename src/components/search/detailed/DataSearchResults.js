@@ -117,21 +117,27 @@ function DataSearchResults(props) {
         },
     });
 
-    const { status, data, isFetchingMore, fetchMore, canFetchMore, error } =
-        useDataSearchInfinite(
-            dataSearchKey,
-            dataSearchQueryEnabled,
-            (lastGroup, allGroups) => {
-                const totalPages = Math.ceil(
-                    lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
-                );
-                if (allGroups.length < totalPages) {
-                    return allGroups.length;
-                } else {
-                    return false;
-                }
+    const {
+        status,
+        data,
+        isFetchingNextPage,
+        fetchNextPage,
+        hasNextPage,
+        error,
+    } = useDataSearchInfinite(
+        dataSearchKey,
+        dataSearchQueryEnabled,
+        (lastGroup, allGroups) => {
+            const totalPages = Math.ceil(
+                lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
+            );
+            if (allGroups.length < totalPages) {
+                return allGroups.length;
+            } else {
+                return false;
             }
-        );
+        }
+    );
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
@@ -152,10 +158,10 @@ function DataSearchResults(props) {
     useEffect(() => {
         trackIntercomEvent(IntercomEvents.SEARCHED_DATA, {
             search: searchTerm,
-            total: data?.length ? data[0].total : 0,
+            total: data?.pages[0] ? data.pages[0].total : 0,
         });
-        if (data && data.length > 0) {
-            updateResultCount(data[0].total);
+        if (data && data.pages.length > 0) {
+            updateResultCount(data.pages[0].total);
         }
     }, [data, searchTerm, updateResultCount]);
 
@@ -274,14 +280,14 @@ function DataSearchResults(props) {
     }
     if (
         status !== constants.LOADING &&
-        (!data || data.length === 0 || data[0]?.hits.length === 0)
+        (!data || data.pages.length === 0 || data.pages[0]?.hits.length === 0)
     ) {
         return <Typography>{t("noResults")}</Typography>;
     }
 
     let flatData = [];
-    if (data && data.length > 0) {
-        data.forEach((page) => {
+    if (data && data.pages[0].hits.length > 0) {
+        data.pages.forEach((page) => {
             flatData = [...flatData, ...page.hits];
         });
     }
@@ -293,9 +299,9 @@ function DataSearchResults(props) {
                 data={flatData}
                 baseId={baseId}
                 loading={status === constants.LOADING}
-                fetchMore={fetchMore}
-                isFetchingMore={isFetchingMore}
-                canFetchMore={canFetchMore}
+                fetchMore={fetchNextPage}
+                isFetchingMore={isFetchingNextPage}
+                canFetchMore={hasNextPage}
                 initialSortBy={[
                     {
                         id: "_source." + sortField,

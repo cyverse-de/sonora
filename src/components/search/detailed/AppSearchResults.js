@@ -93,21 +93,27 @@ export default function AppSearchResults(props) {
     const appRecordFields = appFields(appsI18n);
     const [order, setOrder] = useState(constants.SORT_ASCENDING);
     const [orderBy, setOrderBy] = useState(appRecordFields.NAME.key);
-    const { status, data, isFetchingMore, fetchMore, canFetchMore, error } =
-        useAppsSearchInfinite(
-            appsSearchKey,
-            appsSearchQueryEnabled,
-            (lastGroup, allGroups) => {
-                const totalPages = Math.ceil(
-                    lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
-                );
-                if (allGroups.length < totalPages) {
-                    return allGroups.length;
-                } else {
-                    return false;
-                }
+    const {
+        status,
+        data,
+        isFetchingNextPage,
+        fetchNextPage,
+        hasNextPage,
+        error,
+    } = useAppsSearchInfinite(
+        appsSearchKey,
+        appsSearchQueryEnabled,
+        (lastGroup, allGroups) => {
+            const totalPages = Math.ceil(
+                lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
+            );
+            if (allGroups.length < totalPages) {
+                return allGroups.length;
+            } else {
+                return false;
             }
-        );
+        }
+    );
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
@@ -129,11 +135,11 @@ export default function AppSearchResults(props) {
     useEffect(() => {
         trackIntercomEvent(IntercomEvents.SEARCHED_APPS, {
             search: searchTerm,
-            total: data?.length ? data[0].total : 0,
+            total: data?.pages.length ? data.pages[0].total : 0,
         });
-        if (data && data.length > 0) {
-            updateResultCount && updateResultCount(data[0].total);
-            const flat = data.map((page) => page.apps).flat();
+        if (data && data.pages.length > 0) {
+            updateResultCount && updateResultCount(data.pages[0].total);
+            const flat = data.pages.map((page) => page.apps).flat();
             setFlatData(flat);
         }
     }, [data, searchTerm, updateResultCount]);
@@ -196,7 +202,7 @@ export default function AppSearchResults(props) {
     }
     if (
         status !== constants.LOADING &&
-        (!data || data.length === 0 || data[0].apps.length === 0)
+        (!data || data.pages.length === 0 || data.pages[0].apps.length === 0)
     ) {
         return <Typography>{t("noResults")}</Typography>;
     }
@@ -210,9 +216,9 @@ export default function AppSearchResults(props) {
                 data={flatData}
                 baseId={baseId}
                 loading={status === constants.LOADING}
-                fetchMore={fetchMore}
-                isFetchingMore={isFetchingMore}
-                canFetchMore={canFetchMore}
+                fetchMore={fetchNextPage}
+                isFetchingMore={isFetchingNextPage}
+                canFetchMore={hasNextPage}
                 initialSortBy={[
                     { id: orderBy, desc: order === constants.SORT_DESCENDING },
                 ]}

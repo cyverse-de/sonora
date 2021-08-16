@@ -227,14 +227,16 @@ function searchApps({ search, rowsPerPage, orderBy, order, page }) {
  * @param {object} param - parameters for searching apps.
  * @param {integer} page - the page to retrieve. The last parameter must be the page number as required by react-query useInfiniteQuery.
  */
-function searchAppsInfiniteQuery(
-    key,
-    { search, rowsPerPage, orderBy, order },
-    page = 0
-) {
+function searchAppsInfiniteQuery({
+    search,
+    rowsPerPage,
+    orderBy,
+    order,
+    pageParam,
+}) {
     return callApi({
         endpoint: `/api/apps?search=${search}&limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
-            rowsPerPage * page
+            rowsPerPage * pageParam
         }`,
         method: "GET",
     });

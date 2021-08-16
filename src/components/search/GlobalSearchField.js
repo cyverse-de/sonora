@@ -579,7 +579,8 @@ function GlobalSearchField(props) {
         ]);
 
         setTeamSearchKey([SEARCH_TEAMS_QUERY, { searchTerm }]);
-
+        const isLoggedIn =
+            userProfile?.id !== null && userProfile?.id !== undefined;
         switch (filter) {
             case searchConstants.DATA:
                 setDataSearchQueryEnabled(true);
@@ -598,7 +599,7 @@ function GlobalSearchField(props) {
             case searchConstants.ANALYSES:
                 setDataSearchQueryEnabled(false);
                 setAppsSearchQueryEnabled(false);
-                setAnalysesSearchQueryEnabled(userProfile?.id);
+                setAnalysesSearchQueryEnabled(isLoggedIn);
                 setTeamSearchQueryEnabled(false);
                 break;
 
@@ -606,14 +607,14 @@ function GlobalSearchField(props) {
                 setDataSearchQueryEnabled(false);
                 setAppsSearchQueryEnabled(false);
                 setAnalysesSearchQueryEnabled(false);
-                setTeamSearchQueryEnabled(userProfile?.id);
+                setTeamSearchQueryEnabled(isLoggedIn);
                 break;
 
             default:
                 setDataSearchQueryEnabled(true);
                 setAppsSearchQueryEnabled(true);
-                setAnalysesSearchQueryEnabled(userProfile?.id);
-                setTeamSearchQueryEnabled(userProfile?.id);
+                setAnalysesSearchQueryEnabled(isLoggedIn);
+                setTeamSearchQueryEnabled(isLoggedIn);
         }
     }, [
         analysesI18n,

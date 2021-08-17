@@ -53,7 +53,7 @@ import {
     useMediaQuery,
 } from "@material-ui/core";
 
-import { ArrowBack, ArrowForward } from "@material-ui/icons";
+import { ArrowBack, ArrowForward, PlayArrow } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
@@ -64,10 +64,16 @@ const StepperNavigation = (props) => {
         nextDisabled,
         handleBack,
         handleNext,
+        dirty,
         loading,
+        showLastStepActions,
+        onSaveAndExit,
+        onSaveAndLaunch,
+        onExit,
+        onLaunch,
     } = props;
 
-    const { t } = useTranslation("common");
+    const { t } = useTranslation(["workflows", "common"]);
 
     return loading ? (
         <StepperNavSkeleton />
@@ -79,16 +85,58 @@ const StepperNavigation = (props) => {
                 startIcon={<ArrowBack />}
                 onClick={handleBack}
             >
-                {t("back")}
+                {t("common:back")}
             </Button>
-            <Button
-                id={buildID(baseId, ids.BUTTONS.NEXT)}
-                disabled={nextDisabled}
-                endIcon={<ArrowForward />}
-                onClick={handleNext}
-            >
-                {t("next")}
-            </Button>
+            {dirty && showLastStepActions && (
+                <Button
+                    id={buildID(baseId, ids.BUTTONS.BACK)}
+                    variant="contained"
+                    startIcon={<ArrowBack />}
+                    onClick={onSaveAndExit}
+                >
+                    {t("saveAndExit")}
+                </Button>
+            )}
+            {dirty && showLastStepActions && (
+                <Button
+                    id={buildID(baseId, ids.BUTTONS.LAUNCH_BTN)}
+                    variant="contained"
+                    endIcon={<PlayArrow />}
+                    onClick={onSaveAndLaunch}
+                >
+                    {t("saveAndLaunch")}
+                </Button>
+            )}
+            {!dirty && showLastStepActions && (
+                <Button
+                    id={buildID(baseId, ids.BUTTONS.BACK)}
+                    variant="contained"
+                    startIcon={<ArrowBack />}
+                    onClick={onExit}
+                >
+                    {t("exitEditor")}
+                </Button>
+            )}
+            {!dirty && showLastStepActions && (
+                <Button
+                    id={buildID(baseId, ids.BUTTONS.LAUNCH_BTN)}
+                    variant="contained"
+                    endIcon={<PlayArrow />}
+                    onClick={onLaunch}
+                >
+                    {t("launchWorkflow")}
+                </Button>
+            )}
+            {!showLastStepActions && (
+                <Button
+                    id={buildID(baseId, ids.BUTTONS.NEXT)}
+                    disabled={nextDisabled}
+                    endIcon={<ArrowForward />}
+                    onClick={handleNext}
+                >
+                    {t("common:next")}
+                </Button>
+            )}
         </ButtonGroup>
     );
 };
@@ -448,6 +496,20 @@ const WorkflowEditor = (props) => {
                                         handleBack={handleBack}
                                         handleNext={handleNext}
                                         loading={stepperLoading}
+                                        dirty={dirty}
+                                        showLastStepActions={
+                                            isLastStep() && !hasErrors
+                                        }
+                                        onExit={onExit}
+                                        onLaunch={() => onLaunch(values)}
+                                        onSaveAndExit={(event) => {
+                                            setExitOnSave(true);
+                                            handleSubmit(event);
+                                        }}
+                                        onSaveAndLaunch={(event) => {
+                                            setLaunchOnSave(true);
+                                            handleSubmit(event);
+                                        }}
                                     />
                                 )
                             }
@@ -467,20 +529,8 @@ const WorkflowEditor = (props) => {
                                 />
                             ) : activeStepInfo === stepCompletion ? (
                                 <CompletionHelp
-                                    baseId={baseId}
                                     dirty={dirty}
                                     hasErrors={hasErrors}
-                                    saveDisabled={saveDisabled}
-                                    onExit={onExit}
-                                    onLaunch={() => onLaunch(values)}
-                                    onSaveAndExit={(event) => {
-                                        setExitOnSave(true);
-                                        handleSubmit(event);
-                                    }}
-                                    onSaveAndLaunch={(event) => {
-                                        setLaunchOnSave(true);
-                                        handleSubmit(event);
-                                    }}
                                 />
                             ) : null}
                         </AppStepDisplay>

@@ -7,8 +7,10 @@
     "createWorkflow": "Create Workflow: {{name}}",
     "disabledAppsNotAllowed": "Disabled apps can't be included in a workflow.",
     "editWorkflow": "Edit Workflow: {{name}}",
+    "exitEditor": "Exit Editor",
     "formHasErrors": "One or more steps has an error that must be addressed before the workflow can be saved.",
     "formNotSaved": "You have unsaved changes. If you navigate away from the workflow editor, your unsaved changes will be lost.",
+    "launchWorkflow": "Launch Workflow",
     "mapOutputsToInputs": "Match Outputs to Inputs",
     "outputMappingLabel": "Step {{step}}: {{label}}",
     "outputsLabel": "Output(s)",
@@ -25,6 +27,6 @@
     "workflowDeprecatedTasksWarning": "This workflow contains 1 or more apps that use deprecated tools. You can still edit and use this private workflow, but you will have to replace these apps with a newer version before this workflow can be made public.",
     "workflowInfo": "Workflow Information",
     "workflowSaved": "Workflow Saved",
-    "workflowSavedSuggestions": "The workflow is saved, so you can test it out by <launch>launching the workflow</launch>, or you can <back>exit the editor now</back>.",
+    "workflowSavedSuggestions": "The workflow is saved, so you can test it out by launching the workflow, or you can exit the editor now.",
     "workflowSaveErr": "Unable to save workflow. Please try again."
 }

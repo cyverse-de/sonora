@@ -55,7 +55,7 @@ import {
     useMediaQuery,
 } from "@material-ui/core";
 
-import { ArrowBack, ArrowForward } from "@material-ui/icons";
+import { ArrowBack, ArrowForward, PlayArrow } from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
@@ -71,10 +71,34 @@ const displayStepError = (stepIndex, errors, touched) => {
 };
 
 const StepperNavigation = (props) => {
-    const { baseId, backDisabled, nextDisabled, handleBack, handleNext } =
-        props;
+    const {
+        baseId,
+        backDisabled,
+        nextDisabled,
+        handleBack,
+        handleNext,
+        dirty,
+        hasTool,
+        showLastStepActions,
+        onExit,
+        onLaunch,
+        onSaveAndExit,
+        onSaveAndLaunch,
+    } = props;
 
-    const { t } = useTranslation("common");
+    const { t } = useTranslation(["app_editor", "common"]);
+
+    const showSaveAndExit = showLastStepActions && dirty;
+    const showSaveAndLaunch = showLastStepActions && dirty && hasTool;
+    const showExit = showLastStepActions && !dirty;
+    const showLaunch = showLastStepActions && !dirty && hasTool;
+
+    const showNext = !(
+        showSaveAndExit ||
+        showSaveAndLaunch ||
+        showExit ||
+        showLaunch
+    );
 
     return (
         <ButtonGroup fullWidth color="primary">
@@ -84,16 +108,58 @@ const StepperNavigation = (props) => {
                 startIcon={<ArrowBack />}
                 onClick={handleBack}
             >
-                {t("back")}
+                {t("common:back")}
             </Button>
-            <Button
-                id={buildID(baseId, ids.BUTTONS.NEXT)}
-                disabled={nextDisabled}
-                endIcon={<ArrowForward />}
-                onClick={handleNext}
-            >
-                {t("next")}
-            </Button>
+            {showSaveAndExit && (
+                <Button
+                    id={buildID(baseId, ids.BUTTONS.BACK)}
+                    variant="contained"
+                    startIcon={<ArrowBack />}
+                    onClick={onSaveAndExit}
+                >
+                    {t("saveAndExit")}
+                </Button>
+            )}
+            {showSaveAndLaunch && (
+                <Button
+                    id={buildID(baseId, ids.BUTTONS.LAUNCH_BTN)}
+                    variant="contained"
+                    endIcon={<PlayArrow />}
+                    onClick={onSaveAndLaunch}
+                >
+                    {t("saveAndLaunch")}
+                </Button>
+            )}
+            {showExit && (
+                <Button
+                    id={buildID(baseId, ids.BUTTONS.BACK)}
+                    variant="contained"
+                    startIcon={<ArrowBack />}
+                    onClick={onExit}
+                >
+                    {t("exitEditor")}
+                </Button>
+            )}
+            {showLaunch && (
+                <Button
+                    id={buildID(baseId, ids.BUTTONS.LAUNCH_BTN)}
+                    variant="contained"
+                    endIcon={<PlayArrow />}
+                    onClick={onLaunch}
+                >
+                    {t("launchApp")}
+                </Button>
+            )}
+            {showNext && (
+                <Button
+                    id={buildID(baseId, ids.BUTTONS.NEXT)}
+                    disabled={nextDisabled}
+                    endIcon={<ArrowForward />}
+                    onClick={handleNext}
+                >
+                    {t("common:next")}
+                </Button>
+            )}
         </ButtonGroup>
     );
 };
@@ -306,6 +372,7 @@ const AppEditor = (props) => {
                 errors,
                 values,
             }) => {
+                const hasTool = values.tools && values.tools[0];
                 const hasErrors = errors.error;
                 const saveDisabled = isSubmitting || !dirty || hasErrors;
 
@@ -353,8 +420,12 @@ const AppEditor = (props) => {
 
                 const handleStep = (step) => () => {
                     setActiveStep(step);
+                    setEditGroupField(null);
+                    setEditParamField(null);
                     handleStepVisited();
                 };
+
+                const showLastStepActions = isLastStep() && !hasErrors;
 
                 return (
                     <Paper className={classes.formContainer}>
@@ -435,6 +506,7 @@ const AppEditor = (props) => {
                                         nextDisabled={isLastStep()}
                                         handleBack={handleBack}
                                         handleNext={handleNext}
+                                        showLastStepActions={false}
                                     />
                                 )
                             }
@@ -454,6 +526,21 @@ const AppEditor = (props) => {
                                             nextDisabled={isLastStep()}
                                             handleBack={handleBack}
                                             handleNext={handleNext}
+                                            dirty={dirty}
+                                            hasTool={hasTool}
+                                            showLastStepActions={
+                                                showLastStepActions
+                                            }
+                                            onExit={onExit}
+                                            onLaunch={() => onLaunch(values)}
+                                            onSaveAndExit={(event) => {
+                                                setExitOnSave(true);
+                                                handleSubmit(event);
+                                            }}
+                                            onSaveAndLaunch={(event) => {
+                                                setLaunchOnSave(true);
+                                                handleSubmit(event);
+                                            }}
                                         />
                                     )
                                 )
@@ -516,21 +603,9 @@ const AppEditor = (props) => {
                                 />
                             ) : activeStepInfo === stepCompletion ? (
                                 <CompletionHelp
-                                    baseId={baseId}
-                                    app={values}
                                     dirty={dirty}
                                     hasErrors={hasErrors}
-                                    saveDisabled={saveDisabled}
-                                    onExit={onExit}
-                                    onLaunch={() => onLaunch(values)}
-                                    onSaveAndExit={(event) => {
-                                        setExitOnSave(true);
-                                        handleSubmit(event);
-                                    }}
-                                    onSaveAndLaunch={(event) => {
-                                        setLaunchOnSave(true);
-                                        handleSubmit(event);
-                                    }}
+                                    hasTool={hasTool}
                                 />
                             ) : null}
                         </AppStepDisplay>

@@ -21,6 +21,7 @@ export default {
         CLOSE_BTN: "closeBtn",
         DELETE_BTN: "delete",
         EDIT_BTN: "editBtn",
+        LAUNCH_BTN: "launchBtn",
         MOVE_UP_BTN: "moveUpBtn",
         MOVE_DOWN_BTN: "moveDownBtn",
         NAV_TOP: "navTop",

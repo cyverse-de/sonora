@@ -234,7 +234,9 @@ export const instantlyLaunch = async ({
 
         // We'll need to get the saved launch info from the API since it contains the
         // submission, which isn't provided from the data window.
-        savedLaunchPromise = getSavedLaunch(savedLaunchId).catch((e) => console.log(e));
+        savedLaunchPromise = getSavedLaunch(savedLaunchId).catch((e) =>
+            console.log(e)
+        );
     } else {
         // The dashboard logic.
         // The saved launch ID is a top-level property of the object passed in.
@@ -250,7 +252,9 @@ export const instantlyLaunch = async ({
     // Contains the Promises that resolve to the data needed to perform a job submission.
     const promiseList = [
         savedLaunchPromise,
-        getAppInfo(null, { launchId: savedLaunchId }).catch((e) => console.log(e)),
+        getAppInfo(null, { launchId: savedLaunchId }).catch((e) =>
+            console.log(e)
+        ),
     ];
 
     return await Promise.all(promiseList)

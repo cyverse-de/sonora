@@ -97,7 +97,8 @@ export default function Launch() {
     });
 
     const loading =
-        appStatus === constants.LOADING || savedLaunchStatus === constants.LOADING;
+        appStatus === constants.LOADING ||
+        savedLaunchStatus === constants.LOADING;
 
     return (
         <AppLaunch

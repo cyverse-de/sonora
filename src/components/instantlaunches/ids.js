@@ -2,7 +2,7 @@ export default {
     BASE: "instantlaunches",
     LIST: "list",
     MAPPING: "mapping",
-    QL: "quicklaunches",
+    SAVED_LAUNCHES: "savedLaunches",
     CREATE: "create",
     DIALOG: "dialog",
     CLOSE: "close",

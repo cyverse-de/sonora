@@ -33,7 +33,7 @@ export default {
         DOCUMENTATION: "documentation",
         EXPAND: "expand",
         HELPER_TEXT: "helper-text",
-        SAVE_AS_QUICK_LAUNCH: "saveQuickLaunch",
+        SAVE_AS_SAVED_LAUNCH: "saveSavedLaunch",
         SHOW_ALL_PARAMETERS: "showAllParameters",
         SUBMIT: "submit",
         STEP: "stepButton",

@@ -3,7 +3,7 @@
  *
  * The App Launch form for collecting analysis info, resource requirements,
  * and app parameter values. Also performs form validation and builds the final
- * config for the analyses submission endpoint, or for saving as a Quick Launch.
+ * config for the analyses submission endpoint, or for saving as a Saved Launch.
  */
 import React from "react";
 
@@ -17,7 +17,7 @@ import GlobalConstants from "../../../constants";
 import AppStepper, { StepperSkeleton } from "../AppStepper";
 import AppStepDisplay, { BottomNavigationSkeleton } from "../AppStepDisplay";
 
-import CreateQuickLaunchDialog from "../quickLaunch/CreateQuickLaunchDialog";
+import CreateSavedLaunchDialog from "../savedLaunch/CreateSavedLaunchDialog";
 
 import { formatSubmission, initAppLaunchValues } from "./formatters";
 import ids from "./ids";
@@ -49,11 +49,11 @@ const StepperNavigation = (props) => {
         nextDisabled,
         showBackButton = true,
         showNextButton = true,
-        showSaveQuickLaunchButton,
+        showSavedLaunchButton,
         showSubmitButton,
         handleBack,
         handleNext,
-        handleSaveQuickLaunch,
+        handleSaveSavedLaunch,
         handleSubmit,
     } = props;
 
@@ -79,13 +79,13 @@ const StepperNavigation = (props) => {
                     {t("back")}
                 </Button>
             )}
-            {showSaveQuickLaunchButton && (
+            {showSavedLaunchButton && (
                 <Button
-                    id={buildID(formId, ids.BUTTONS.SAVE_AS_QUICK_LAUNCH)}
+                    id={buildID(formId, ids.BUTTONS.SAVE_AS_SAVED_LAUNCH)}
                     startIcon={<Save />}
-                    onClick={handleSaveQuickLaunch}
+                    onClick={handleSaveSavedLaunch}
                 >
-                    {t("saveAsQuickLaunch")}
+                    {t("saveAsSavedLaunch")}
                 </Button>
             )}
             {showSubmitButton && (
@@ -149,9 +149,9 @@ const AppLaunchForm = (props) => {
 
     const [reviewShowAll, setReviewShowAll] = React.useState(true);
 
-    const [quickLaunchDialogOpen, setQuickLaunchDialogOpen] =
+    const [savedLaunchDialogOpen, setSavedLaunchDialogOpen] =
         React.useState(false);
-    const [quickLaunchSubmission, setQuickLaunchSubmission] =
+    const [savedLaunchSubmission, setSavedLaunchSubmission] =
         React.useState(null);
 
     const theme = useTheme();
@@ -163,7 +163,7 @@ const AppLaunchForm = (props) => {
         defaultMaxMemory,
         defaultMaxDiskSpace,
         defaultOutputDir,
-        saveQuickLaunch,
+        saveSavedLaunch,
         submitAnalysis,
         app: { id: app_id, name: appName, app_type, groups, requirements },
     } = props;
@@ -201,7 +201,7 @@ const AppLaunchForm = (props) => {
         contentLabel:
             app_type === GlobalConstants.APP_TYPE_EXTERNAL
                 ? t("reviewAndLaunch")
-                : t("launchOrSaveAsQL"),
+                : t("launchOrSaveAsSavedLaunch"),
     };
 
     const steps = [stepAnalysisInfo];
@@ -216,13 +216,13 @@ const AppLaunchForm = (props) => {
 
     steps.push(stepReviewAndLaunch);
 
-    const handleSaveQuickLaunch = (quickLaunch, onSuccess, onError) => {
-        saveQuickLaunch(
-            quickLaunch,
+    const handleSaveSavedLaunch = (savedLaunch, onSuccess, onError) => {
+        saveSavedLaunch(
+            savedLaunch,
             () => {
                 onSuccess();
-                setQuickLaunchDialogOpen(false);
-                setQuickLaunchSubmission(null);
+                setSavedLaunchDialogOpen(false);
+                setSavedLaunchSubmission(null);
             },
             onError
         );
@@ -343,7 +343,7 @@ const AppLaunchForm = (props) => {
                                             showBackButton={!isMobile}
                                             showNextButton={!isMobile}
                                             showSubmitButton={false}
-                                            showSaveQuickLaunchButton={false}
+                                            showSavedLaunchButton={false}
                                             handleBack={handleBack}
                                             handleNext={handleNext}
                                         />
@@ -361,7 +361,7 @@ const AppLaunchForm = (props) => {
                                                 !(isMobile || isLastStep())
                                             }
                                             showSubmitButton={isLastStep()}
-                                            showSaveQuickLaunchButton={
+                                            showSavedLaunchButton={
                                                 isLastStep() &&
                                                 app_type !==
                                                     GlobalConstants.APP_TYPE_EXTERNAL
@@ -369,9 +369,9 @@ const AppLaunchForm = (props) => {
                                             handleBack={handleBack}
                                             handleNext={handleNext}
                                             handleSubmit={handleSubmit}
-                                            handleSaveQuickLaunch={() => {
-                                                setQuickLaunchDialogOpen(true);
-                                                setQuickLaunchSubmission(
+                                            handleSaveSavedLaunch={() => {
+                                                setSavedLaunchDialogOpen(true);
+                                                setSavedLaunchSubmission(
                                                     formatSubmission(
                                                         defaultOutputDir,
                                                         values
@@ -444,27 +444,27 @@ const AppLaunchForm = (props) => {
                 }}
             </Formik>
 
-            <CreateQuickLaunchDialog
+            <CreateSavedLaunchDialog
                 appName={appName}
-                dialogOpen={quickLaunchDialogOpen}
+                dialogOpen={savedLaunchDialogOpen}
                 onHide={() => {
-                    setQuickLaunchDialogOpen(false);
-                    setQuickLaunchSubmission(null);
+                    setSavedLaunchDialogOpen(false);
+                    setSavedLaunchSubmission(null);
                 }}
-                createQuickLaunch={(
+                createSavedLaunch={(
                     name,
                     description,
                     is_public,
                     onSuccess,
                     onError
                 ) => {
-                    handleSaveQuickLaunch(
+                    handleSaveSavedLaunch(
                         {
                             name,
                             description,
                             is_public,
                             app_id,
-                            submission: quickLaunchSubmission,
+                            submission: savedLaunchSubmission,
                         },
                         onSuccess,
                         onError

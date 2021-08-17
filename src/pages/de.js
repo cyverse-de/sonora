@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import {
     getAppLaunchPath,
     getListingPath,
-    getQuickLaunchPath,
+    getSavedLaunchPath,
 } from "components/apps/utils";
 import { getFolderPage } from "components/data/utils";
 import systemId from "components/models/systemId";
@@ -50,7 +50,7 @@ export default function DeLegacyRedirector() {
             break;
 
         case "quick-launch":
-            redirectPath = getQuickLaunchPath(
+            redirectPath = getSavedLaunchPath(
                 query["system-id"] || systemId.de,
                 query["app-id"],
                 query["quick-launch-id"]

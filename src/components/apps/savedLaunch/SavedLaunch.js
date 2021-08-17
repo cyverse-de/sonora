@@ -16,7 +16,7 @@ const styles1 = (theme) => ({
     },
 });
 
-const QuickLaunch = React.forwardRef((props, ref) => {
+const SavedLaunch = React.forwardRef((props, ref) => {
     const {
         id,
         handleClick,
@@ -46,11 +46,11 @@ const QuickLaunch = React.forwardRef((props, ref) => {
     );
 });
 
-QuickLaunch.defaultProps = {
+SavedLaunch.defaultProps = {
     clickable: true,
 };
 
-QuickLaunch.propTypes = {
+SavedLaunch.propTypes = {
     id: PropTypes.string.isRequired,
     clickable: PropTypes.bool,
     label: PropTypes.string.isRequired,
@@ -61,4 +61,4 @@ QuickLaunch.propTypes = {
     classes: PropTypes.object,
 };
 
-export default withStyles(styles1)(QuickLaunch);
+export default withStyles(styles1)(SavedLaunch);

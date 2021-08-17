@@ -20,7 +20,7 @@ import DeleteMenuItem from "../menuItems/DeleteMenuItem";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DocMenuItem from "../menuItems/DocMenuItem";
 import EditMenuItem from "../menuItems/EditMenuItem";
-import QLMenuItem from "../menuItems/QLMenuItem";
+import SavedLaunchMenuItem from "../menuItems/SavedLaunchMenuItem";
 import PublishMenuItem from "../menuItems/PublishMenuItem";
 import CopyLinkMenuItem from "components/utils/CopyLinkMenuItem";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
@@ -40,7 +40,7 @@ function RowDotMenu(props) {
         setSharingDlgOpen,
         onDetailsSelected,
         onDocSelected,
-        onQLSelected,
+        onSavedLaunchSelected,
         isAdminView,
     } = props;
 
@@ -117,11 +117,11 @@ function RowDotMenu(props) {
                             onClose={onClose}
                             onDocSelected={onDocSelected}
                         />,
-                        <QLMenuItem
-                            key={buildID(baseId, ids.QL_MENU_ITEM)}
+                        <SavedLaunchMenuItem
+                            key={buildID(baseId, ids.SAVED_LAUNCH_MENU_ITEM)}
                             baseId={baseId}
                             onClose={onClose}
-                            onQLSelected={onQLSelected}
+                            onSavedLaunchSelected={onSavedLaunchSelected}
                         />,
                         <CopyLinkMenuItem
                             key={buildID(baseId, utilIds.COPY_LINK_MENU_ITEM)}

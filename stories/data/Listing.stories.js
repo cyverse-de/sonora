@@ -12,8 +12,8 @@ import {
 import {
     instantLaunchMapping,
     instantLaunchAppInfo,
-    instantLaunchQuickLaunch,
-    instantLaunchGlobalQuickLaunches,
+    instantLaunchSavedLaunch,
+    instantLaunchGlobalSavedLaunches,
     instantLaunchSubmissionResponse,
 } from "./DataMocksInstantLaunch";
 
@@ -64,11 +64,11 @@ export const DataListingTest = () => {
 
     mockAxios
         .onGet(/\/api\/quicklaunches\/defaults\/global.*/)
-        .reply(200, instantLaunchGlobalQuickLaunches);
+        .reply(200, instantLaunchGlobalSavedLaunches);
 
     mockAxios
         .onGet(/\/api\/quicklaunches\/a4b1f851-80c0-415d-ba3c-6663432e4f7e.*/)
-        .reply(200, instantLaunchQuickLaunch);
+        .reply(200, instantLaunchSavedLaunch);
 
     mockAxios
         .onPost(/\/api\/analyses.*/)

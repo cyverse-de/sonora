@@ -1,6 +1,6 @@
 import React from "react";
 
-import QuickLaunchList from "components/instantlaunches/admin/QuickLaunchList";
+import SavedLaunchList from "components/instantlaunches/admin/SavedLaunchList";
 
 import { mockAxios } from "../../axiosMock";
 
@@ -8,13 +8,13 @@ import {
     testData,
     testGlobalQLs,
     testInstantLaunches,
-} from "./QuickLaunchListData";
+} from "./SavedLaunchListData";
 
 export default {
-    title: "Instant Launches / admin / Quick Launch List",
+    title: "Instant Launches / admin / Saved Launch List",
 };
 
-export const QuickLaunchListTest = () => {
+export const SavedLaunchListTest = () => {
     mockAxios
         .onGet("/api/quicklaunches/defaults/global")
         .reply(200, testGlobalQLs);
@@ -28,5 +28,5 @@ export const QuickLaunchListTest = () => {
 
     mockAxios.onPut("/api/instantlaunches").reply(200, {});
 
-    return <QuickLaunchList />;
+    return <SavedLaunchList />;
 };

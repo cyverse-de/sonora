@@ -51,7 +51,7 @@ import { useTranslation } from "i18n";
 
 import { shortenUsername } from "../functions";
 
-import QuickLaunchList from "./QuickLaunchList";
+import SavedLaunchList from "./SavedLaunchList";
 
 /**
  * Checks if the instant launch associated with 'id' is in
@@ -128,7 +128,7 @@ const CreationDialog = ({ t, open, onClose }) => {
                 </Button>
             }
         >
-            <QuickLaunchList />
+            <SavedLaunchList />
         </DEDialog>
     );
 };

@@ -95,7 +95,7 @@ export const instantLaunchAppInfo = {
     ],
 };
 
-export const instantLaunchQuickLaunch = {
+export const instantLaunchSavedLaunch = {
     id: "a4b1f851-80c0-415d-ba3c-6663432e4f7e",
     name: "wregglej-test-2",
     description: "",
@@ -121,7 +121,7 @@ export const instantLaunchQuickLaunch = {
     },
 };
 
-export const instantLaunchGlobalQuickLaunches = [
+export const instantLaunchGlobalSavedLaunches = [
     {
         id: "9d016298-5150-447b-8bfe-29af368ac3f9",
         app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",

@@ -17,7 +17,7 @@ import {
     makeStyles,
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
-import ListQuickLaunches from "./QuickLaunchListing";
+import ListSavedLaunches from "./SavedLaunchListing";
 
 const useStyles = makeStyles((theme) => ({
     closeButton: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function QuickLaunchDialog(props) {
+export default function SavedLaunchDialog(props) {
     const { baseDebugId, appName, appId, systemId, open, onClose } = props;
     const { t } = useTranslation("apps");
 
@@ -34,7 +34,7 @@ export default function QuickLaunchDialog(props) {
     return (
         <Dialog open={open}>
             <DialogTitle>
-                {t("quickLaunch")} - {appName}
+                {t("savedLaunch")} - {appName}
                 <IconButton
                     className={classes.closeButton}
                     aria-label={t("cancelLabel")}
@@ -47,7 +47,7 @@ export default function QuickLaunchDialog(props) {
                 </IconButton>
             </DialogTitle>
             <DialogContent id={buildID(baseDebugId, ids.DIALOG)}>
-                <ListQuickLaunches
+                <ListSavedLaunches
                     appId={appId}
                     systemId={systemId}
                     baseDebugId={baseDebugId}

@@ -4,7 +4,7 @@ import { useTranslation } from "i18n";
 import GridLoading from "components/utils/GridLoading";
 import ErrorTypography from "components/error/ErrorTypography";
 import DEErrorDialog from "components/error/DEErrorDialog";
-import ListQuickLaunches from "components/apps/quickLaunch/QuickLaunchListing";
+import ListSavedLaunches from "components/apps/savedLaunch/SavedLaunchListing";
 
 import GridLabelValue from "components/utils/GridLabelValue";
 
@@ -130,10 +130,10 @@ function DetailsPanel(props) {
                             )}
                         </GridLabelValue>
                         <GridLabelValue
-                            label={t("quickLaunch")}
+                            label={t("savedLaunch")}
                         ></GridLabelValue>
                     </Grid>
-                    <ListQuickLaunches
+                    <ListSavedLaunches
                         appId={details.id}
                         systemId={details["system_id"]}
                         baseDebugId={baseId}

@@ -2,7 +2,7 @@ import micromatch from "micromatch";
 
 import callApi from "common/callApi";
 
-import { getAppInfo, getQuickLaunch } from "serviceFacades/quickLaunches";
+import { getAppInfo, getSavedLaunch } from "serviceFacades/savedLaunches";
 import { submitAnalysis, getAnalysis } from "serviceFacades/analyses";
 
 import launchConstants from "components/models/AppParamTypes";
@@ -10,7 +10,7 @@ import launchConstants from "components/models/AppParamTypes";
 export const DEFAULTS_MAPPING_QUERY_KEY = "fetchDefaultsMappings";
 export const ALL_INSTANT_LAUNCHES_KEY = "allInstantLaunches";
 export const DASHBOARD_INSTANT_LAUNCHES_KEY = "dashboardInstantLaunches";
-export const LIST_PUBLIC_QUICK_LAUNCHES_KEY = "listPublicQuickLaunches";
+export const LIST_PUBLIC_SAVED_LAUNCHES_KEY = "listPublicSavedLaunches";
 
 export const getDefaultsMapping = () =>
     callApi({
@@ -104,7 +104,7 @@ export const listInstantLaunchesByMetadata = (key, queryKey, queryValue) =>
         params: { attribute: queryKey, value: queryValue, unit: "" },
     });
 
-export const getPublicQuicklaunches = (key) =>
+export const getPublicSavedLaunches = (key) =>
     callApi({
         endpoint: "/api/instantlaunches/quicklaunches/public",
         method: "GET",
@@ -118,15 +118,15 @@ const inputParamTypes = [
 
 /**
  * Determine whether an instant launch can be included in the dashboard. Basically
- * means that the default quick launch for it can't include any unset required inputs.
+ * means that the default saved launch for it can't include any unset required inputs.
  *
  * @param {Object} instantlaunch - An instant launch, as returned by the full instant launches listing.
- * @param {String} instantlaunch.quick_launch_id - The UUID for the default quick launch.
+ * @param {String} instantlaunch.quick_launch_id - The UUID for the default saved launch.
  * @returns {Boolean} - True if can be included, false otherwise.
  */
 export const validateForDashboard = async ({ quick_launch_id, submission }) => {
-    return await getAppInfo(null, { qId: quick_launch_id }).then((app) => {
-        // Get all of the input parmeters in the app that are required.
+    return await getAppInfo(null, { launchId: quick_launch_id }).then((app) => {
+        // Get all of the input parameters in the app that are required.
         const requiredAppInputs = app.groups
             .map((group) => group.parameters || [])
             .flat()
@@ -220,37 +220,37 @@ export const instantlyLaunch = async ({
     resource,
     output_dir,
 }) => {
-    let qID; // The quick launch ID, used to get app information.
-    let qlp; // The promise used to get quick launch information.
+    let savedLaunchId; // The saved launch ID, used to get app information.
+    let savedLaunchPromise; // The promise used to get saved launch information.
 
     // The format of the instantLaunch object passed in by the data window is a bit different
     // than the format passed in by the dashboard, so a bit of normalization needs to take
     // place.
     if (instantLaunch.hasOwnProperty("default")) {
         // The data window logic.
-        // The quick launch ID is buried in the "default" map of the object passed in
+        // The saved launch ID is buried in the "default" map of the object passed in
         // from the data window.
-        qID = instantLaunch.default["quick_launch_id"];
+        savedLaunchId = instantLaunch.default["quick_launch_id"];
 
-        // We'll need to get the quick launch info from the API since it contains the
+        // We'll need to get the saved launch info from the API since it contains the
         // submission, which isn't provided from the data window.
-        qlp = getQuickLaunch(qID).catch((e) => console.log(e));
+        savedLaunchPromise = getSavedLaunch(savedLaunchId).catch((e) => console.log(e));
     } else {
         // The dashboard logic.
-        // The quick launch ID is a top-level property of the object passed in.
-        qID = instantLaunch.quick_launch_id;
+        // The saved launch ID is a top-level property of the object passed in.
+        savedLaunchId = instantLaunch.quick_launch_id;
 
         // Wrap the instant launch object in a promise so we don't have to branch logic
         // farther down.
-        qlp = new Promise((resolve, reject) => {
+        savedLaunchPromise = new Promise((resolve, reject) => {
             resolve(instantLaunch);
         });
     }
 
     // Contains the Promises that resolve to the data needed to perform a job submission.
     const promiseList = [
-        qlp,
-        getAppInfo(null, { qId: qID }).catch((e) => console.log(e)),
+        savedLaunchPromise,
+        getAppInfo(null, { launchId: savedLaunchId }).catch((e) => console.log(e)),
     ];
 
     return await Promise.all(promiseList)
@@ -317,7 +317,7 @@ export const instantlyLaunch = async ({
  * Returns an Array tuple containing the instant launch object and the name of the
  * first pattern that the resource matched.
  *
- * @param {Object} defaults - The return value of serviceFacads/instantlaunches/getDefaultsMapping.
+ * @param {Object} defaults - The return value of serviceFacades/instantlaunches/getDefaultsMapping.
  * @param {Object} resource - Object representing a potential input. Needs at least label and infoType fields.
  */
 export const defaultInstantLaunch = (defaults = {}, resource) => {

@@ -15,9 +15,9 @@ import {
 } from "serviceFacades/apps";
 
 import {
-    QUICK_LAUNCH_APP_INFO,
+    SAVED_LAUNCH_APP_INFO,
     getAppInfo,
-} from "serviceFacades/quickLaunches";
+} from "serviceFacades/savedLaunches";
 
 import AppLaunch from "components/apps/launch";
 import { useUserProfile } from "contexts/userProfile";
@@ -28,8 +28,8 @@ export default function Launch() {
     const [appDescriptionQueryEnabled, setAppDescriptionQueryEnabled] =
         React.useState(false);
     const [
-        quickLaunchAppDescriptionQueryEnabled,
-        setQuickLaunchAppDescriptionQueryEnabled,
+        savedLaunchAppDescriptionQueryEnabled,
+        setSavedLaunchAppDescriptionQueryEnabled,
     ] = React.useState(false);
     const [app, setApp] = React.useState(null);
     const [launchError, setLaunchError] = React.useState(null);
@@ -37,19 +37,19 @@ export default function Launch() {
     const [runningJobs, setRunningJobs] = React.useState();
 
     const router = useRouter();
-    const { systemId, appId, "quick-launch-id": qId } = router.query;
+    const { systemId, appId, "quick-launch-id": launchId } = router.query;
 
     React.useEffect(() => {
         const hasIds = !!(systemId && appId);
 
         setAppDescriptionQueryEnabled(hasIds);
 
-        if (qId) {
-            setQuickLaunchAppDescriptionQueryEnabled(true);
+        if (launchId) {
+            setSavedLaunchAppDescriptionQueryEnabled(true);
             setAppDescriptionQueryEnabled(false);
-            setAppKey([QUICK_LAUNCH_APP_INFO, { qId }]);
+            setAppKey([SAVED_LAUNCH_APP_INFO, { launchId }]);
         } else if (hasIds) {
-            setQuickLaunchAppDescriptionQueryEnabled(false);
+            setSavedLaunchAppDescriptionQueryEnabled(false);
             setAppDescriptionQueryEnabled(true);
             setAppKey([
                 APP_DESCRIPTION_QUERY_KEY,
@@ -59,7 +59,7 @@ export default function Launch() {
                 },
             ]);
         }
-    }, [systemId, appId, qId, setAppDescriptionQueryEnabled]);
+    }, [systemId, appId, launchId, setAppDescriptionQueryEnabled]);
 
     const { status: appStatus } = useQuery({
         queryKey: appKey,
@@ -86,18 +86,18 @@ export default function Launch() {
         },
     });
 
-    const { status: qLaunchStatus } = useQuery({
+    const { status: savedLaunchStatus } = useQuery({
         queryKey: appKey,
         queryFn: getAppInfo,
         config: {
-            enabled: quickLaunchAppDescriptionQueryEnabled,
+            enabled: savedLaunchAppDescriptionQueryEnabled,
             onSuccess: setApp,
             onError: setLaunchError,
         },
     });
 
     const loading =
-        appStatus === constants.LOADING || qLaunchStatus === constants.LOADING;
+        appStatus === constants.LOADING || savedLaunchStatus === constants.LOADING;
 
     return (
         <AppLaunch

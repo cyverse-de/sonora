@@ -34,8 +34,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function CreateQuickLaunchDialog(props) {
-    const { baseDebugId, appName, dialogOpen, createQuickLaunch, onHide } =
+function CreateSavedLaunchDialog(props) {
+    const { baseDebugId, appName, dialogOpen, createSavedLaunch, onHide } =
         props;
     const { t } = useTranslation("apps");
     const [saveError, setSaveError] = React.useState(null);
@@ -48,14 +48,14 @@ function CreateQuickLaunchDialog(props) {
 
         const { name, description, is_public } = values;
 
-        createQuickLaunch(
+        createSavedLaunch(
             name,
             description,
             is_public,
             () => {
                 actions.setSubmitting(false);
                 announce({
-                    text: t("quickLaunchCreateSuccess", { name }),
+                    text: t("savedLaunchCreateSuccess", { name }),
                 });
                 onHide();
             },
@@ -88,19 +88,19 @@ function CreateQuickLaunchDialog(props) {
                     <Form>
                         <DialogContent>
                             <Field
-                                id={buildID(baseDebugId, ids.QUICK_LAUNCH.NAME)}
+                                id={buildID(baseDebugId, ids.SAVED_LAUNCH.NAME)}
                                 name="name"
-                                label={t("quickLaunchNameLabel")}
+                                label={t("savedLaunchNameLabel")}
                                 required={true}
                                 component={FormTextField}
                             />
 
-                            <Tooltip title={t("publicQLTooltip")}>
+                            <Tooltip title={t("publicSavedLaunchTooltip")}>
                                 <div>
                                     <Field
                                         id={buildID(
                                             baseDebugId,
-                                            ids.QUICK_LAUNCH.PUBLIC
+                                            ids.SAVED_LAUNCH.PUBLIC
                                         )}
                                         name="is_public"
                                         label={t("publicLabel")}
@@ -122,7 +122,7 @@ function CreateQuickLaunchDialog(props) {
                             <Button
                                 id={buildID(
                                     baseDebugId,
-                                    ids.QUICK_LAUNCH.CANCEL
+                                    ids.SAVED_LAUNCH.CANCEL
                                 )}
                                 color="primary"
                                 disabled={isSubmitting}
@@ -133,14 +133,14 @@ function CreateQuickLaunchDialog(props) {
                             <Button
                                 id={buildID(
                                     baseDebugId,
-                                    ids.QUICK_LAUNCH.CREATE
+                                    ids.SAVED_LAUNCH.CREATE
                                 )}
                                 variant="contained"
                                 color="primary"
                                 type="submit"
                                 disabled={isSubmitting}
                             >
-                                {t("createQuickLaunchLabel")}
+                                {t("createSavedLaunchLabel")}
                             </Button>
                         </DialogActions>
                     </Form>
@@ -150,4 +150,4 @@ function CreateQuickLaunchDialog(props) {
     );
 }
 
-export default CreateQuickLaunchDialog;
+export default CreateSavedLaunchDialog;

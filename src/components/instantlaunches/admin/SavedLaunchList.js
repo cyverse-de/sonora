@@ -8,8 +8,8 @@ import { Button } from "@material-ui/core";
 
 import {
     ALL_INSTANT_LAUNCHES_KEY,
-    LIST_PUBLIC_QUICK_LAUNCHES_KEY,
-    getPublicQuicklaunches,
+    LIST_PUBLIC_SAVED_LAUNCHES_KEY,
+    getPublicSavedLaunches,
     listFullInstantLaunches,
     addInstantLaunch,
 } from "serviceFacades/instantlaunches";
@@ -39,13 +39,13 @@ import ids from "components/instantlaunches/ids";
 
 import { shortenUsername, isInInstantLaunch } from "../functions";
 
-const QuickLaunchList = ({ showErrorAnnouncer }) => {
-    const baseID = buildID(ids.BASE, ids.QL, ids.LIST);
+const SavedLaunchList = ({ showErrorAnnouncer }) => {
+    const baseID = buildID(ids.BASE, ids.SAVED_LAUNCHES, ids.LIST);
     const { t } = useTranslation(["instantlaunches", "common"]);
 
-    const allQL = useQuery(
-        LIST_PUBLIC_QUICK_LAUNCHES_KEY,
-        getPublicQuicklaunches
+    const allSavedLaunches = useQuery(
+        LIST_PUBLIC_SAVED_LAUNCHES_KEY,
+        getPublicSavedLaunches
     );
 
     const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
@@ -62,8 +62,8 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
             showErrorAnnouncer(t("instantLaunchCreationError"), error),
     });
 
-    const isLoading = allQL.isLoading || allILs.isLoading;
-    const isError = allQL.isError || allILs.isError;
+    const isLoading = allSavedLaunches.isLoading || allILs.isLoading;
+    const isError = allSavedLaunches.isError || allILs.isError;
 
     return (
         <div>
@@ -77,7 +77,7 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
                 />
             ) : isError ? (
                 <WrappedErrorHandler
-                    errorObject={allQL.error || allILs.error}
+                    errorObject={allSavedLaunches.error || allILs.error}
                     baseId={baseID}
                 />
             ) : (
@@ -85,13 +85,13 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
                     <Table id={buildID(baseID, ids.TABLE)}>
                         <TableHead>
                             <TableRow>
-                                <TableCell>{t("quickLaunch")}</TableCell>
+                                <TableCell>{t("savedLaunch")}</TableCell>
                                 <TableCell>{t("createdBy")}</TableCell>
                                 <TableCell></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {allQL.data.map((row, index) => {
+                            {allSavedLaunches.data.map((row, index) => {
                                 const rowID = buildID(
                                     baseID,
                                     ids.TABLE,
@@ -152,4 +152,4 @@ const QuickLaunchList = ({ showErrorAnnouncer }) => {
     );
 };
 
-export default withErrorAnnouncer(QuickLaunchList);
+export default withErrorAnnouncer(SavedLaunchList);

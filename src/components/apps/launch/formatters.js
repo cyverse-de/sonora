@@ -155,7 +155,7 @@ const initGroupValues = (groups) =>
  * @param {Object[]} formValues.requirements
  * @param {Object[]} formValues.groups
  *
- * @returns The formatted submission for launching or saving as a quick launch.
+ * @returns The formatted submission for launching or saving as a saved launch.
  */
 const formatSubmission = (
     defaultOutputDir,

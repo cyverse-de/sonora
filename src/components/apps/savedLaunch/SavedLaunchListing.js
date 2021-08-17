@@ -2,7 +2,7 @@
  *
  * @author sriram
  *
- * List Quick Launches
+ * List Saved Launches
  *
  */
 
@@ -13,9 +13,9 @@ import Link from "next/link";
 
 import ids from "../ids";
 import constants from "../constants";
-import QuickLaunch from "./QuickLaunch";
+import SavedLaunch from "./SavedLaunch";
 
-import { getQuickLaunchPath } from "components/apps/utils";
+import { getSavedLaunchPath } from "components/apps/utils";
 import { getHost } from "components/utils/getHost";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import GridLoading from "components/utils/GridLoading";
@@ -24,10 +24,10 @@ import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialo
 import NavigationConstants from "common/NavigationConstants";
 
 import {
-    QUICK_LAUNCH_LISTING,
-    listQuickLaunches,
-    deleteQuickLaunch,
-} from "serviceFacades/quickLaunches";
+    SAVED_LAUNCH_LISTING,
+    listSavedLaunches,
+    deleteSavedLaunch,
+} from "serviceFacades/savedLaunches";
 import { useUserProfile } from "contexts/userProfile";
 
 import buildID from "components/utils/DebugIDUtil";
@@ -49,10 +49,10 @@ import Play from "@material-ui/icons/PlayArrow";
 import Share from "@material-ui/icons/Share";
 import CloseIcon from "@material-ui/icons/Close";
 
-function QuickLaunchChipLink(props) {
+function SavedLaunchChipLink(props) {
     const {
         id,
-        qid,
+        launchId,
         label,
         isPublic,
         handleClick,
@@ -60,11 +60,11 @@ function QuickLaunchChipLink(props) {
         systemId,
         appId,
     } = props;
-    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch?quick-launch-id=${qid}`;
-    const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?quick-launch-id=${qid}`;
+    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch?quick-launch-id=${launchId}`;
+    const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?quick-launch-id=${launchId}`;
     return (
         <Link href={href} as={as} passHref>
-            <QuickLaunch
+            <SavedLaunch
                 id={id}
                 label={label}
                 isPublic={isPublic}
@@ -75,18 +75,18 @@ function QuickLaunchChipLink(props) {
     );
 }
 
-function QuickLaunchButtonLink(props) {
-    const { id, onClick, systemId, appId, qid } = props;
+function SavedLaunchButtonLink(props) {
+    const { id, onClick, systemId, appId, launchId } = props;
     const { t } = useTranslation("apps");
-    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch?quick-launch-id=${qid}`;
-    const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?quick-launch-id=${qid}`;
+    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch?quick-launch-id=${launchId}`;
+    const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?quick-launch-id=${launchId}`;
     return (
         <Link href={href} as={as} passHref>
             <IconButton
                 id={id}
                 fontSize="small"
                 onClick={onClick}
-                title={t("qLaunchToolTip")}
+                title={t("savedLaunchToolTip")}
             >
                 <Play color="primary" />
             </IconButton>
@@ -96,7 +96,7 @@ function QuickLaunchButtonLink(props) {
 
 function ActionsPopper(props) {
     const {
-        quickLaunch,
+        savedLaunch,
         anchorEl,
         embedCodeClickHandler,
         shareClickHandler,
@@ -108,7 +108,7 @@ function ActionsPopper(props) {
 
     const { t } = useTranslation("apps");
 
-    if (quickLaunch) {
+    if (savedLaunch) {
         return (
             <Popover
                 open={Boolean(anchorEl)}
@@ -124,35 +124,35 @@ function ActionsPopper(props) {
                 }}
             >
                 <Paper>
-                    <QuickLaunchButtonLink
+                    <SavedLaunchButtonLink
                         id={buildID(
                             baseDebugId,
-                            ids.QUICK_LAUNCH.USE_QUICK_LAUNCH
+                            ids.SAVED_LAUNCH.USE_SAVED_LAUNCH
                         )}
                         fontSize="small"
-                        qid={quickLaunch.id}
+                        launchId={savedLaunch.id}
                         appId={appId}
                         systemId={systemId}
                     />
                     <IconButton
                         id={buildID(
                             baseDebugId,
-                            ids.QUICK_LAUNCH.EMBED_QUICK_LAUNCH
+                            ids.SAVED_LAUNCH.EMBED_SAVED_LAUNCH
                         )}
                         fontSize="small"
                         onClick={embedCodeClickHandler}
-                        title={t("qLaunchEmbedToolTip")}
+                        title={t("savedLaunchEmbedToolTip")}
                     >
                         <Code color="primary" />
                     </IconButton>
                     <IconButton
                         id={buildID(
                             baseDebugId,
-                            ids.QUICK_LAUNCH.SHARE_QUICK_LAUNCH
+                            ids.SAVED_LAUNCH.SHARE_SAVED_LAUNCH
                         )}
                         fontSize="small"
                         onClick={shareClickHandler}
-                        title={t("qLaunchShareToolTip")}
+                        title={t("savedLaunchShareToolTip")}
                     >
                         <Share color="primary" />
                     </IconButton>
@@ -164,13 +164,13 @@ function ActionsPopper(props) {
     }
 }
 
-function ListQuickLaunches(props) {
+function ListSavedLaunches(props) {
     const { appId, systemId, baseDebugId } = props;
     const { t } = useTranslation("apps");
     const theme = useTheme();
     const [userProfile] = useUserProfile();
     const [embedCode, setEmbedCode] = useState("");
-    const [qLaunchUrl, setQLaunchUrl] = useState("");
+    const [savedLaunchUrl, setSavedLaunchUrl] = useState("");
     const [embedDialogOpen, setEmbedDialogOpen] = useState(false);
     const [shareDialogOpen, setShareDialogOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -181,24 +181,24 @@ function ListQuickLaunches(props) {
     const userName = userProfile?.id;
 
     const {
-        data: quickLaunches,
+        data: savedLaunches,
         error,
         isFetching,
     } = useQuery({
-        queryKey: [QUICK_LAUNCH_LISTING, { appId }],
-        queryFn: listQuickLaunches,
+        queryKey: [SAVED_LAUNCH_LISTING, { appId }],
+        queryFn: listSavedLaunches,
     });
 
-    const quickLaunchClickHandler = (event, qLaunch) => {
-        setSelected(qLaunch);
-        if (qLaunch.is_public) {
+    const savedLaunchClickHandler = (event, savedLaunch) => {
+        setSelected(savedLaunch);
+        if (savedLaunch.is_public) {
             setAnchorEl(event.currentTarget);
         }
     };
 
-    const [deleteQuickLaunchMutation] = useMutation(deleteQuickLaunch, {
+    const [deleteSavedLaunchMutation] = useMutation(deleteSavedLaunch, {
         onSuccess: (resp, { onSuccess }) => {
-            queryCache.invalidateQueries([QUICK_LAUNCH_LISTING, { appId }]);
+            queryCache.invalidateQueries([SAVED_LAUNCH_LISTING, { appId }]);
         },
         onError: setDeleteError,
     });
@@ -206,7 +206,7 @@ function ListQuickLaunches(props) {
     const embedCodeClickHandler = () => {
         const shareUrl = getShareUrl(selected.id);
         const host = getHost();
-        const imgSrc = `${host}/${constants.QUICK_LAUNCH_EMBED_ICON}`;
+        const imgSrc = `${host}/${constants.SAVED_LAUNCH_EMBED_ICON}`;
 
         const embed = `<a href="${shareUrl}" target="_blank" rel="noopener noreferrer"><img src="${imgSrc}"></a>`;
 
@@ -217,13 +217,13 @@ function ListQuickLaunches(props) {
 
     const shareClickHandler = () => {
         setAnchorEl(null);
-        setQLaunchUrl(getShareUrl(selected.id));
+        setSavedLaunchUrl(getShareUrl(selected.id));
         setShareDialogOpen(true);
     };
 
     const getShareUrl = () => {
         const host = getHost();
-        const url = `${host}${getQuickLaunchPath(
+        const url = `${host}${getSavedLaunchPath(
             systemId,
             appId,
             selected?.id
@@ -231,8 +231,8 @@ function ListQuickLaunches(props) {
         return url;
     };
 
-    const deleteQuickLaunchHandler = (event, qLaunch) => {
-        setSelected(qLaunch);
+    const deleteSavedLaunchHandler = (event, savedLaunch) => {
+        setSelected(savedLaunch);
         setDeleteConfirmOpen(true);
     };
 
@@ -240,7 +240,7 @@ function ListQuickLaunches(props) {
         return (
             <ErrorTypographyWithDialog
                 baseId={baseDebugId}
-                errorMessage={t("quickLaunchError")}
+                errorMessage={t("savedLaunchError")}
                 errorObject={error}
             />
         );
@@ -250,24 +250,24 @@ function ListQuickLaunches(props) {
         return <GridLoading rows={3} baseId={baseDebugId} />;
     }
 
-    if (!quickLaunches || quickLaunches.length === 0) {
+    if (!savedLaunches || savedLaunches.length === 0) {
         if (systemId !== constants.AGAVE) {
             const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch`;
             const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch`;
             return (
                 <React.Fragment>
                     <Typography variant="subtitle2">
-                        {t("noQuickLaunches")}
+                        {t("noSavedLaunches")}
                     </Typography>
                     <Link href={href} as={as} passHref>
-                        <MuiLink>{t("createQuickLaunchLabel")}</MuiLink>
+                        <MuiLink>{t("createSavedLaunchLabel")}</MuiLink>
                     </Link>
                 </React.Fragment>
             );
         } else {
             return (
                 <Typography variant="subtitle2">
-                    {t("quickLaunchNotSupportedMessage")}
+                    {t("savedLaunchNotSupportedMessage")}
                 </Typography>
             );
         }
@@ -276,28 +276,28 @@ function ListQuickLaunches(props) {
             <React.Fragment>
                 <Paper style={{ padding: theme.spacing(0.5) }} id={baseDebugId}>
                     <Grid container spacing={1}>
-                        {quickLaunches.map((qLaunch, index) => {
-                            const id = buildID(baseDebugId, qLaunch.id);
-                            const is_public = qLaunch.is_public;
+                        {savedLaunches.map((savedLaunch, index) => {
+                            const id = buildID(baseDebugId, savedLaunch.id);
+                            const is_public = savedLaunch.is_public;
                             const onDelete =
-                                userName === getUserName(qLaunch.creator)
+                                userName === getUserName(savedLaunch.creator)
                                     ? (event) =>
-                                          deleteQuickLaunchHandler(
+                                          deleteSavedLaunchHandler(
                                               event,
-                                              qLaunch
+                                              savedLaunch
                                           )
                                     : undefined;
                             if (is_public) {
                                 return (
                                     <Grid item key={index}>
-                                        <QuickLaunch
+                                        <SavedLaunch
                                             id={id}
-                                            label={qLaunch.name}
+                                            label={savedLaunch.name}
                                             isPublic={is_public}
                                             handleClick={(event) =>
-                                                quickLaunchClickHandler(
+                                                savedLaunchClickHandler(
                                                     event,
-                                                    qLaunch
+                                                    savedLaunch
                                                 )
                                             }
                                             handleDelete={onDelete}
@@ -307,15 +307,15 @@ function ListQuickLaunches(props) {
                             } else {
                                 return (
                                     <Grid item key={index}>
-                                        <QuickLaunchChipLink
+                                        <SavedLaunchChipLink
                                             id={id}
-                                            qid={qLaunch.id}
-                                            label={qLaunch.name}
+                                            launchId={savedLaunch.id}
+                                            label={savedLaunch.name}
                                             isPublic={is_public}
                                             handleClick={(event) =>
-                                                quickLaunchClickHandler(
+                                                savedLaunchClickHandler(
                                                     event,
-                                                    qLaunch
+                                                    savedLaunch
                                                 )
                                             }
                                             handleDelete={onDelete}
@@ -330,7 +330,7 @@ function ListQuickLaunches(props) {
                     {deleteError && (
                         <ErrorTypographyWithDialog
                             baseId={baseDebugId}
-                            errorMessage={t("quickLaunchDeleteError")}
+                            errorMessage={t("savedLaunchDeleteError")}
                             errorObject={deleteError}
                         />
                     )}
@@ -341,7 +341,7 @@ function ListQuickLaunches(props) {
                     embedCodeClickHandler={embedCodeClickHandler}
                     shareClickHandler={shareClickHandler}
                     onActionPopperClose={() => setAnchorEl(null)}
-                    quickLaunch={selected}
+                    savedLaunch={selected}
                     appId={appId}
                     systemId={systemId}
                 />
@@ -365,7 +365,7 @@ function ListQuickLaunches(props) {
                         <CopyTextArea
                             debugIdPrefix={buildID(
                                 baseDebugId,
-                                ids.QUICK_LAUNCH.EMBED_QUICK_LAUNCH
+                                ids.SAVED_LAUNCH.EMBED_SAVED_LAUNCH
                             )}
                             text={embedCode}
                             multiline={true}
@@ -392,9 +392,9 @@ function ListQuickLaunches(props) {
                         <CopyTextArea
                             debugIdPrefix={buildID(
                                 baseDebugId,
-                                ids.QUICK_LAUNCH.SHARE_QUICK_LAUNCH
+                                ids.SAVED_LAUNCH.SHARE_SAVED_LAUNCH
                             )}
-                            text={qLaunchUrl}
+                            text={savedLaunchUrl}
                             multiline={true}
                         />
                     </DialogContent>
@@ -403,12 +403,12 @@ function ListQuickLaunches(props) {
                     baseId={baseDebugId}
                     title={t("deleteLbl")}
                     okLabel={t("deleteLbl")}
-                    contentText={t("quickLaunchDeleteConfirmation")}
+                    contentText={t("savedLaunchDeleteConfirmation")}
                     open={deleteConfirmOpen}
                     onClose={() => setDeleteConfirmOpen(false)}
                     onConfirm={() => {
                         setDeleteConfirmOpen(false);
-                        deleteQuickLaunchMutation(selected?.id);
+                        deleteSavedLaunchMutation(selected?.id);
                     }}
                 />
             </React.Fragment>
@@ -416,4 +416,4 @@ function ListQuickLaunches(props) {
     }
 }
 
-export default ListQuickLaunches;
+export default ListSavedLaunches;

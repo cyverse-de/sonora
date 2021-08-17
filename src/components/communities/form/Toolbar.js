@@ -41,6 +41,7 @@ function EditCommunityToolbar(props) {
         onFollowSelected,
         communityName,
         handleSubmit,
+        dirty,
     } = props;
     const { t } = useTranslation(["communities", "common"]);
     const classes = useStyles();
@@ -59,7 +60,7 @@ function EditCommunityToolbar(props) {
 
     return (
         <Toolbar variant="dense">
-            <BackButton />
+            <BackButton dirty={dirty} />
             {isAdmin && (
                 <Button
                     type="submit"
@@ -122,6 +123,7 @@ function EditCommunityToolbar(props) {
                         unfollowEnabled && (
                             <MenuItem
                                 key={buildID(baseId, ids.BUTTONS.UNFOLLOW_MI)}
+                                id={buildID(baseId, ids.BUTTONS.UNFOLLOW_MI)}
                                 onClick={() => {
                                     onClose();
                                     setUnfollowCommunityDlgOpen(true);
@@ -136,6 +138,7 @@ function EditCommunityToolbar(props) {
                         followEnabled && (
                             <MenuItem
                                 key={buildID(baseId, ids.BUTTONS.FOLLOW_MI)}
+                                id={buildID(baseId, ids.BUTTONS.FOLLOW_MI)}
                                 onClick={() => {
                                     onClose();
                                     setFollowCommunityDlgOpen(true);
@@ -150,6 +153,7 @@ function EditCommunityToolbar(props) {
                         deleteEnabled && (
                             <MenuItem
                                 key={buildID(baseId, ids.BUTTONS.DELETE_MI)}
+                                id={buildID(baseId, ids.BUTTONS.DELETE_MI)}
                                 onClick={() => {
                                     onClose();
                                     setDeleteCommunityDlgOpen(true);

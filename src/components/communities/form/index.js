@@ -292,7 +292,7 @@ function CommunitiesForm(props) {
             }
             onSubmit={handleSubmit}
         >
-            {({ handleSubmit, setFieldValue }) => (
+            {({ handleSubmit, setFieldValue, dirty }) => (
                 <>
                     <CommunityToolbar
                         parentId={parentId}
@@ -300,6 +300,7 @@ function CommunitiesForm(props) {
                         isFollower={isFollower}
                         communityName={communityName}
                         handleSubmit={handleSubmit}
+                        dirty={dirty}
                         onFollowSelected={() =>
                             followMutation({ communityName })
                         }

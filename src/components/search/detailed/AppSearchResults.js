@@ -46,6 +46,36 @@ function Name(props) {
     );
 }
 
+export function AppActionCell(props) {
+    const { app, baseId, onDetailsSelected } = props;
+    const partialLink = getAppListingLinkRefs(app?.system_id, app?.id)[1];
+    const { t } = useTranslation("common");
+    return (
+        <Grid container spacing={1}>
+            <Grid item>
+                <IconButton
+                    id={buildID(baseId, ids.DETAILS_BUTTON)}
+                    onClick={() => onDetailsSelected(app)}
+                    size="small"
+                    color="primary"
+                >
+                    <Info fontSize="small" />
+                </IconButton>
+            </Grid>
+            <Grid item>
+                <CopyLinkButton
+                    baseId={baseId}
+                    onCopyLinkSelected={() => {
+                        const link = `${getHost()}${partialLink}`;
+                        const copyPromise = copyStringToClipboard(link);
+                        copyLinkToClipboardHandler(t, copyPromise);
+                    }}
+                />
+            </Grid>
+        </Grid>
+    );
+}
+
 export default function AppSearchResults(props) {
     const {
         searchTerm,
@@ -132,39 +162,13 @@ export default function AppSearchResults(props) {
                 Header: "",
                 accessor: "actions",
                 Cell: ({ row }) => {
-                    const original = row?.original;
-                    const partialLink = getAppListingLinkRefs(
-                        original?.system_id,
-                        original?.id
-                    )[1];
-                    const { t } = useTranslation("common");
+                    const app = row?.original;
                     return (
-                        <Grid container spacing={1}>
-                            <Grid item>
-                                <IconButton
-                                    id={buildID(baseId, ids.DETAILS_BUTTON)}
-                                    onClick={() => setDetailsApp(original)}
-                                    size="small"
-                                    color="primary"
-                                >
-                                    <Info fontSize="small" />
-                                </IconButton>
-                            </Grid>
-                            <Grid item>
-                                <CopyLinkButton
-                                    baseId={baseId}
-                                    onCopyLinkSelected={() => {
-                                        const link = `${getHost()}${partialLink}`;
-                                        const copyPromise =
-                                            copyStringToClipboard(link);
-                                        copyLinkToClipboardHandler(
-                                            t,
-                                            copyPromise
-                                        );
-                                    }}
-                                />
-                            </Grid>
-                        </Grid>
+                        <AppActionCell
+                            baseId={baseId}
+                            app={app}
+                            onDetailsSelected={setDetailsApp}
+                        />
                     );
                 },
                 disableSortBy: true,

@@ -22,6 +22,11 @@ const RECENT_CONTACTS_LIST_NAME = "default"; // `default` collaborator list
 
 const MY_COMMUNITIES_QUERY = "fetchMyCommunities";
 const ALL_COMMUNITIES_QUERY = "fetchAllCommunities";
+const COMMUNITY_INFO_QUERY = "fetchCommunityInfo";
+const COMMUNITY_ADMINS_QUERY = "fetchCommunityAdmins";
+const COMMUNITY_FOLLOWERS_QUERY = "fetchCommunityFollowers";
+const COMMUNITY_APPS_QUERY = "fetchCommunityApps";
+const COMMUNITY_DETAILS_QUERY = "fetchCommunityDetails";
 
 // Checks if a grouper member update response returned 200, but with `success`
 // set to false on any of the updates
@@ -364,6 +369,277 @@ function getAllCommunities(key) {
     });
 }
 
+function getCommunityInfo(key, { name }) {
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(name)}`,
+        method: "GET",
+    });
+}
+
+function getCommunityAdmins(key, { name }) {
+    /**
+     * The members endpoint only returns the user ID and source_id.  We'll take
+     * this response and ask the user-info endpoint to give us more detailed
+     * info
+     */
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(name)}/admins`,
+        method: "GET",
+    }).then((resp) => {
+        const userIds = resp?.members?.map((member) => member.id);
+        return getUserInfo(USER_INFO_QUERY_KEY, { userIds });
+    });
+}
+
+function getCommunityFollowers(key, { name }) {
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(name)}/members`,
+        method: "GET",
+    });
+}
+
+function getCommunityApps(key, { name, sortField, sortDir, appFilter }) {
+    const params = {
+        "sort-field": sortField || "name",
+        "sort-dir": sortDir?.toUpperCase() || "ASC",
+    };
+    if (appFilter) {
+        params["app-type"] = appFilter;
+    }
+
+    return callApi({
+        endpoint: `/api/apps/communities/${encodeURIComponent(name)}/apps`,
+        method: "GET",
+        params,
+    });
+}
+
+function getCommunityDetails(
+    key,
+    { name, fullName, userId, sortField, sortDir, appFilter }
+) {
+    return Promise.all([
+        getCommunityInfo(COMMUNITY_INFO_QUERY, { name }),
+        getCommunityAdmins(COMMUNITY_ADMINS_QUERY, { name }),
+        getCommunityFollowers(COMMUNITY_FOLLOWERS_QUERY, { name }),
+        getCommunityApps(COMMUNITY_APPS_QUERY, {
+            name: fullName,
+            sortField,
+            sortDir,
+            appFilter,
+        }),
+    ]).then((resp) => {
+        if (resp) {
+            const community = resp[0];
+
+            const adminObj = resp[1];
+            const admins = Object.values(adminObj);
+            const isAdmin = !!adminObj[userId];
+
+            const followers = resp[2];
+            const isFollower = !!followers?.members?.find(
+                (member) => member.id === userId
+            );
+
+            const apps = resp[3];
+            return { community, isAdmin, admins, isFollower, apps };
+        }
+    });
+}
+
+function followCommunity({ communityName }) {
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(communityName)}/join`,
+        method: "POST",
+    }).then((resp) => {
+        const hasFailures = responseHasFailures(resp);
+        if (hasFailures) {
+            throw new Error("Failed to follow community");
+        } else {
+            return resp;
+        }
+    });
+}
+
+function unfollowCommunity({ communityName }) {
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(communityName)}/leave`,
+        method: "POST",
+    }).then((resp) => {
+        const hasFailures = responseHasFailures(resp);
+        if (hasFailures) {
+            throw new Error("Failed to unfollow community");
+        } else {
+            return resp;
+        }
+    });
+}
+
+function deleteCommunity({ communityName }) {
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(communityName)}`,
+        method: "DELETE",
+    });
+}
+
+function createCommunity({ name, description }) {
+    return callApi({
+        endpoint: "/api/communities",
+        method: "POST",
+        body: {
+            name,
+            description,
+        },
+    });
+}
+
+function updateCommunityNameDesc({
+    originalName,
+    name,
+    description,
+    retagApps,
+}) {
+    const params = {
+        "retag-apps": retagApps,
+    };
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(originalName)}`,
+        method: "PATCH",
+        params,
+        body: {
+            name,
+            description,
+        },
+    });
+}
+
+function addCommunityAdmins({ name, adminIds }) {
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(name)}/admins`,
+        method: "POST",
+        body: {
+            members: adminIds,
+        },
+    }).then((resp) => {
+        const hasFailures = responseHasFailures(resp);
+        if (hasFailures) {
+            throw new Error("Failed to add a community admin");
+        } else {
+            return resp;
+        }
+    });
+}
+
+function removeCommunityAdmins({ name, adminIds }) {
+    return callApi({
+        endpoint: `/api/communities/${encodeURIComponent(name)}/admins/deleter`,
+        method: "POST",
+        body: {
+            members: adminIds,
+        },
+    }).then((resp) => {
+        const hasFailures = responseHasFailures(resp);
+        if (hasFailures) {
+            throw new Error("Failed to remove a community admin");
+        } else {
+            return resp;
+        }
+    });
+}
+
+function addAppToCommunity({ avu, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${appId}/communities`,
+        method: "POST",
+        body: {
+            avus: [avu],
+        },
+    });
+}
+
+function addAppsToCommunity({ name, apps, attr }) {
+    const avu = {
+        attr,
+        value: name,
+        unit: "",
+    };
+
+    return Promise.all(apps.map((appId) => addAppToCommunity({ avu, appId })));
+}
+
+function removeAppFromCommunity({ avu, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${appId}/communities`,
+        method: "DELETE",
+        body: {
+            avus: [avu],
+        },
+    });
+}
+
+function removeAppsFromCommunity({ name, apps, attr }) {
+    const avu = {
+        attr,
+        value: name,
+        unit: "",
+    };
+
+    return Promise.all(
+        apps.map((appId) => removeAppFromCommunity({ avu, appId }))
+    );
+}
+
+function updateCommunityDetails({
+    name,
+    fullName,
+    oldAdmins,
+    newAdmins,
+    oldApps,
+    newApps,
+    attr,
+}) {
+    const oldAdminIds = oldAdmins.map((admin) => admin.id);
+    const newAdminIds = newAdmins.map((admin) => admin.id);
+    const oldAppIds = oldApps.map((app) => app.id);
+    const newAppIds = newApps.map((app) => app.id);
+
+    const addAdminIds = newAdminIds.filter(
+        (adminId) => !oldAdminIds.includes(adminId)
+    );
+    const removeAdminIds = oldAdminIds.filter(
+        (adminId) => !newAdminIds.includes(adminId)
+    );
+    const addAppIds = newAppIds.filter((id) => !oldAppIds.includes(id));
+    const removeAppIds = oldAppIds.filter((id) => !newAppIds.includes(id));
+
+    let promises = [];
+
+    if (addAdminIds.length > 0) {
+        promises.push(addCommunityAdmins({ name, adminIds: addAdminIds }));
+    }
+    if (removeAdminIds.length > 0) {
+        promises.push(
+            removeCommunityAdmins({ name, adminIds: removeAdminIds })
+        );
+    }
+    if (addAppIds.length > 0) {
+        promises.push(
+            addAppsToCommunity({ name: fullName, apps: addAppIds, attr })
+        );
+    }
+    if (removeAppIds.length > 0) {
+        promises.push(
+            removeAppsFromCommunity({
+                name: fullName,
+                apps: removeAppIds,
+                attr,
+            })
+        );
+    }
+
+    return Promise.all(promises);
+}
+
 export {
     MY_TEAMS_QUERY,
     ALL_TEAMS_QUERY,
@@ -373,6 +649,7 @@ export {
     RECENT_CONTACTS_LIST_NAME,
     MY_COMMUNITIES_QUERY,
     ALL_COMMUNITIES_QUERY,
+    COMMUNITY_DETAILS_QUERY,
     getMyTeams,
     getAllTeams,
     searchTeams,
@@ -390,4 +667,13 @@ export {
     removeRecentContacts,
     getMyCommunities,
     getAllCommunities,
+    getCommunityDetails,
+    followCommunity,
+    unfollowCommunity,
+    deleteCommunity,
+    createCommunity,
+    updateCommunityNameDesc,
+    addCommunityAdmins,
+    removeCommunityAdmins,
+    updateCommunityDetails,
 };

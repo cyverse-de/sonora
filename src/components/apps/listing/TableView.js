@@ -27,13 +27,15 @@ import RowDotMenu from "./RowDotMenu";
 
 import AppStatusIcon from "../AppStatusIcon";
 import AppName from "../AppName";
+import { AppActionCell } from "components/search/detailed/AppSearchResults";
 import DETableHead from "components/table/DETableHead";
 import TableLoading from "components/table/TableLoading";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 import { DERow } from "components/table/DERow";
+import DeleteButton from "components/utils/DeleteButton";
 import appFields from "../appFields";
 
-function getTableColumns(enableDelete, enableMenu, t) {
+function getTableColumns(enableDelete, enableMenu, enableActionCell, t) {
     const fields = appFields(t);
     let tableColumns = [
         {
@@ -70,6 +72,14 @@ function getTableColumns(enableDelete, enableMenu, t) {
             align: "right",
         },
     ];
+
+    if (enableActionCell) {
+        tableColumns.push({
+            name: "",
+            enableSorting: false,
+            key: "actions",
+        });
+    }
 
     if (enableDelete) {
         tableColumns.push({
@@ -111,16 +121,23 @@ function TableView(props) {
         setSharingDlgOpen,
         onDocSelected,
         onQLSelected,
+        onDeleteSelected,
         enableMenu = true,
         enableSorting = true,
         enableSelection = true,
         enableDelete = false,
+        enableActionCell = false,
         isAdminView,
-        searchTerm
+        searchTerm,
     } = props;
     const { t } = useTranslation("apps");
     const apps = listing?.apps;
-    const columnData = getTableColumns(enableDelete, enableMenu, t);
+    const columnData = getTableColumns(
+        enableDelete,
+        enableMenu,
+        enableActionCell,
+        t
+    );
     const tableId = buildID(baseId, ids.LISTING_TABLE);
 
     if (error) {
@@ -138,7 +155,7 @@ function TableView(props) {
                 >
                     <DETableHead
                         selectable={enableSelection}
-                        numSelected={selected.length}
+                        numSelected={selected?.length}
                         rowsInPage={listing?.apps ? listing.apps.length : 0}
                         order={order}
                         orderBy={orderBy}
@@ -177,7 +194,7 @@ function TableView(props) {
                                     const appId = app.id;
                                     const appName = app.name;
                                     const isSelected =
-                                        selected.indexOf(appId) !== -1;
+                                        selected?.indexOf(appId) !== -1;
                                     const rowId = buildID(
                                         baseId,
                                         tableId,
@@ -290,6 +307,37 @@ function TableView(props) {
                                             >
                                                 {app.system_id}
                                             </TableCell>
+                                            {enableActionCell && (
+                                                <TableCell
+                                                    align="right"
+                                                    padding="none"
+                                                >
+                                                    <AppActionCell
+                                                        baseId={rowId}
+                                                        onDetailsSelected={
+                                                            onDetailsSelected
+                                                        }
+                                                        app={app}
+                                                    />
+                                                </TableCell>
+                                            )}
+                                            {enableDelete && (
+                                                <TableCell
+                                                    align="right"
+                                                    padding="none"
+                                                >
+                                                    <DeleteButton
+                                                        baseId={rowId}
+                                                        component="IconButton"
+                                                        onClick={() => {
+                                                            onDeleteSelected &&
+                                                                onDeleteSelected(
+                                                                    app
+                                                                );
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                            )}
                                             {enableMenu && (
                                                 <TableCell align="right">
                                                     <RowDotMenu
@@ -330,4 +378,5 @@ function TableView(props) {
         </PageWrapper>
     );
 }
+
 export default TableView;

@@ -21,13 +21,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DeleteButton(props) {
-    const { baseId, ariaLabel, component = "Button", ...rest } = props;
+    const {
+        baseId,
+        ariaLabel,
+        component = "Button",
+        children,
+        ...rest
+    } = props;
     const { t } = useTranslation("common");
 
     const classes = useStyles();
 
     const isButton = component === "Button";
     const Component = isButton ? Button : IconButton;
+    const showStartIcon = isButton && children;
+    const showChildIcon = !isButton || !showStartIcon;
 
     return (
         <Component
@@ -35,9 +43,11 @@ function DeleteButton(props) {
             aria-label={ariaLabel || t("delete")}
             className={isButton ? classes.deleteBtn : null}
             classes={!isButton ? { root: classes.deleteBtn } : null}
+            {...(showStartIcon && { startIcon: <Delete /> })}
             {...rest}
         >
-            <Delete />
+            {showChildIcon && <Delete />}
+            {children}
         </Component>
     );
 }

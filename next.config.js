@@ -73,5 +73,6 @@ module.exports = withBundleAnalyzer({
         GROUPER_ALL_USERS: config.get("grouper.allUsers"),
         GROUPER_ADMIN: config.get("grouper.admin"),
         LEGACY_DE_URL: config.get("legacy_de_url"),
+        COMMUNITY_ATTR: config.get("metadata.community_attr"),
     },
 });

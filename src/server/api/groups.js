@@ -236,5 +236,136 @@ export default function groupsRouter() {
         })
     );
 
+    logger.info("adding the GET /communities/:name handler");
+    api.get(
+        "/communities/:name",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/communities/:name",
+        })
+    );
+
+    logger.info("adding the GET /communities/:name/admins handler");
+    api.get(
+        "/communities/:name/admins",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/communities/:name/admins",
+        })
+    );
+
+    logger.info("adding the GET /communities/:name/members handler");
+    api.get(
+        "/communities/:name/members",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/communities/:name/members",
+        })
+    );
+
+    logger.info("adding the GET /apps/communities/:name/apps handler");
+    api.get(
+        "/apps/communities/:name/apps",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/communities/:name/apps",
+        })
+    );
+
+    logger.info("adding the POST /api/communities/:name/join handler");
+    api.post(
+        "/communities/:name/join",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/communities/:name/join",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /api/communities/:name/leave handler");
+    api.post(
+        "/communities/:name/leave",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/communities/:name/leave",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the DELETE /api/communities/:name handler");
+    api.delete(
+        "/communities/:name",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/communities/:name",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /communities handler");
+    api.post(
+        "/communities",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/communities",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the PATCH /communities/:name handler");
+    api.patch(
+        "/communities/:name",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/communities/:name",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /communities/:name/admins handler");
+    api.post(
+        "/communities/:name/admins",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/communities/:name/admins",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /communities/:name/admins/deleter handler");
+    api.post(
+        "/communities/:name/admins/deleter",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/communities/:name/admins/deleter",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

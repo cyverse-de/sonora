@@ -1,4 +1,19 @@
 export const GROUP_ID = "1448e0f77d794bc9965dea4bf8eddecb";
+
+export const ipcdevUserInfo = {
+    ipcdev: {
+        institution: "iPlant Collaborative",
+        description: "Ipc Dev",
+        email: "core-sw@iplantcollaborative.org",
+        first_name: "Ipc",
+        name: "Ipc Dev",
+        id: "ipcdev",
+        last_name: "Dev",
+        source_id: "ldap",
+        display_name: "Ipc Dev",
+    },
+};
+
 export const userInfoResp = {
     batman: {
         email: "batman@iplantcollaborative.org",

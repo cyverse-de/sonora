@@ -1,4 +1,10 @@
 const styles = (theme) => ({
+    button: {
+        [theme.breakpoints.up("sm")]: {
+            margin: theme.spacing(1),
+        },
+    },
+
     divider: {
         flexGrow: 1,
     },
@@ -6,6 +12,10 @@ const styles = (theme) => ({
     filter: {
         width: 200,
         marginRight: theme.spacing(2),
+    },
+
+    paper: {
+        padding: theme.spacing(1),
     },
 });
 

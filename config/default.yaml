@@ -86,3 +86,6 @@ unleash:
     api_url: http://unleash:4242/api
     client_secret: null
     maintenance_flag: DE-Maintenance
+
+metadata:
+    community_attr: cyverse-community

@@ -46,6 +46,32 @@ export default function appsRouter() {
         })
     );
 
+    logger.info("adding the DELETE /apps/:appId/communities handler");
+    api.delete(
+        "/apps/:appId/communities",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/apps/:appId/communities",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the POST /apps/:appId/communities handler");
+    api.post(
+        "/apps/:appId/communities",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/apps/:appId/communities",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the POST /apps/:systemId handler");
     api.post(
         "/apps/:systemId",

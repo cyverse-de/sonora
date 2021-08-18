@@ -23,6 +23,7 @@ import {
     getMyCommunities,
     MY_COMMUNITIES_QUERY,
 } from "serviceFacades/groups";
+import DELink from "../utils/DELink";
 
 function Columns(t) {
     return {
@@ -32,7 +33,7 @@ function Columns(t) {
 }
 
 function Listing(props) {
-    const { parentId, filter } = props;
+    const { parentId, filter, onCommunitySelected } = props;
 
     const { t } = useTranslation(["communities", "search"]);
     const [data, setData] = useState([]);
@@ -46,13 +47,24 @@ function Listing(props) {
             {
                 Header: COMMUNITY_COLUMNS.NAME.fieldName,
                 accessor: COMMUNITY_COLUMNS.NAME.key,
+                Cell: ({ row, value }) => {
+                    const community = row.original;
+                    const rowId = buildID(tableId, community.id);
+                    return (
+                        <DELink
+                            id={buildID(rowId, ids.COMMUNITY_LINK)}
+                            onClick={() => onCommunitySelected(community.name)}
+                            text={value}
+                        />
+                    );
+                },
             },
             {
                 Header: COMMUNITY_COLUMNS.DESCRIPTION.fieldName,
                 accessor: COMMUNITY_COLUMNS.DESCRIPTION.key,
             },
         ];
-    }, [COMMUNITY_COLUMNS]);
+    }, [COMMUNITY_COLUMNS, onCommunitySelected, tableId]);
 
     const { isFetching: fetchMyCommunities, error: myCommunitiesError } =
         useQuery({

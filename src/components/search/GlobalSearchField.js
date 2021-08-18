@@ -327,6 +327,9 @@ function GlobalSearchField(props) {
         singleSearchOption = false,
         onShowDetailedSearch,
         onOptionSelected,
+        outlined,
+        hideDropDown = false,
+        placeholder,
     } = props;
 
     const { t } = useTranslation("common");
@@ -742,7 +745,8 @@ function GlobalSearchField(props) {
             id={buildID(ids.SEARCH, ids.SEARCH_INPUT_FILED)}
             {...params}
             className={classes.input}
-            variant={isMobile ? "outlined" : "standard"}
+            placeholder={placeholder}
+            variant={isMobile || outlined ? "outlined" : "standard"}
             InputProps={{
                 ...params.InputProps,
                 disableUnderline: true,
@@ -818,31 +822,33 @@ function GlobalSearchField(props) {
                 clearOnEscape={true}
                 clearOnBlur={false}
             />
-            <TextField
-                id={searchFilterId}
-                select
-                size="small"
-                value={filter}
-                onChange={handleFilterChange}
-                className={classes.searchFilter}
-                variant={isMobile ? "outlined" : "standard"}
-                InputProps={{
-                    disableUnderline: true,
-                }}
-            >
-                {filterOptions.map((option) => (
-                    <MenuItem
-                        id={buildID(
-                            searchFilterId,
-                            ids.SEARCH_FILTER_MI[option.toUpperCase()]
-                        )}
-                        value={option}
-                        key={option}
-                    >
-                        {t(option.toLowerCase())}
-                    </MenuItem>
-                ))}
-            </TextField>
+            {!hideDropDown && (
+                <TextField
+                    id={searchFilterId}
+                    select
+                    size="small"
+                    value={filter}
+                    onChange={handleFilterChange}
+                    className={classes.searchFilter}
+                    variant={isMobile ? "outlined" : "standard"}
+                    InputProps={{
+                        disableUnderline: true,
+                    }}
+                >
+                    {filterOptions.map((option) => (
+                        <MenuItem
+                            id={buildID(
+                                searchFilterId,
+                                ids.SEARCH_FILTER_MI[option.toUpperCase()]
+                            )}
+                            value={option}
+                            key={option}
+                        >
+                            {t(option.toLowerCase())}
+                        </MenuItem>
+                    ))}
+                </TextField>
+            )}
         </>
     );
 }

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
-import { useTranslation } from "i18n";
-import { Trans } from "react-i18next";
+import { formatDistanceToNow } from "date-fns";
+import { Trans, useTranslation } from "i18n";
 import ReactPlayer from "react-player/youtube";
 
 import {
@@ -10,13 +10,14 @@ import {
     CardContent,
     CardHeader,
     Link,
+    Tooltip,
     Typography,
     useMediaQuery,
-    Tooltip,
     useTheme,
 } from "@material-ui/core";
 
 import buildID from "components/utils/DebugIDUtil";
+import { isTerminated } from "components/analyses/utils";
 
 import ids from "../ids";
 import * as constants from "../constants";
@@ -43,6 +44,45 @@ const DashboardLink = ({ target, kind, children }) => {
         </Link>
     );
 };
+
+function AnalysisSubheader(props) {
+    const { analysis, date: formattedDate } = props;
+    const { t } = useTranslation(["dashboard", "apps"]);
+    const terminated = isTerminated(analysis);
+
+    const [runningTime, setRunningTime] = useState(null);
+
+    useEffect(() => {
+        const handleUpdateRunningTime = () => {
+            setRunningTime(formatDistanceToNow(new Date(analysis.start_date)));
+        };
+
+        let interval;
+        if (!terminated) {
+            interval = setInterval(handleUpdateRunningTime, 60000);
+            handleUpdateRunningTime();
+        }
+
+        return () => clearInterval(interval);
+    }, [analysis, terminated]);
+
+    return (
+        <Trans
+            t={t}
+            i18nKey={
+                terminated
+                    ? "analysisOrigination"
+                    : "analysisRunningOrigination"
+            }
+            values={{
+                status: analysis.status,
+                date: formattedDate,
+                runningTime,
+            }}
+            components={{ bold: <strong /> }}
+        />
+    );
+}
 
 /**
  * An item in the dashboard.
@@ -97,11 +137,9 @@ const DashboardItem = ({ item }) => {
                 }}
                 subheader={
                     item.kind === constants.KIND_ANALYSES ? (
-                        <Trans
-                            t={t}
-                            i18nKey={"analysisOrigination"}
-                            values={{ status: item.content.status, date: date }}
-                            components={{ bold: <strong /> }}
+                        <AnalysisSubheader
+                            analysis={item.content}
+                            date={date}
                         />
                     ) : (
                         t("origination", {

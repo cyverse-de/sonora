@@ -13,7 +13,6 @@ import {
     Typography,
     useMediaQuery,
     Tooltip,
-    MenuItem,
     useTheme,
 } from "@material-ui/core";
 
@@ -211,22 +210,6 @@ export const ItemAction = ({ children, tooltipKey, ariaLabel }) => {
     return (
         <Tooltip title={t(tooltipKey)} aria-label={ariaLabel}>
             <div>{children}</div>
-        </Tooltip>
-    );
-};
-
-export const MenuAction = ({
-    children,
-    ariaLabel,
-    handleClick,
-    tooltipKey,
-}) => {
-    const { t } = useTranslation(["dashboard", "apps"]);
-    return (
-        <Tooltip title={t(tooltipKey)}>
-            <MenuItem onClick={handleClick} aria-label={ariaLabel}>
-                {children}
-            </MenuItem>
         </Tooltip>
     );
 };

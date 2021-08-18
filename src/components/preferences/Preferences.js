@@ -198,7 +198,8 @@ function Preferences(props) {
 
     const { mutate: mutatePreferences, status: prefMutationStatus } =
         useSavePreferences(
-            queryClient,
+            bootstrapInfo,
+            setBootstrapInfo,
             (updatedPref) => {
                 announce({
                     text: t("prefSaveSuccess"),

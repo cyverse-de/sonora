@@ -9,7 +9,7 @@ import React, { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
 
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
 import { Typography } from "@material-ui/core";
@@ -103,12 +103,10 @@ const Dashboard = (props) => {
     const { t: i18nIntro } = useTranslation("intro");
     const [userProfile] = useUserProfile();
 
-    const bootstrapInfo = useBootstrapInfo()[0];
-    // Get QueryClient from the context
-    const queryClient = useQueryClient();
-
+    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
     const { mutatePreferences } = useSavePreferences(
-        queryClient,
+        bootstrapInfo,
+        setBootstrapInfo,
         (resp) => {
             announce({
                 text: i18nIntro("dismissPrompt"),

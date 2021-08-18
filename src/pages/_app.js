@@ -254,7 +254,10 @@ function MyApp({ Component, pageProps }) {
         <ThemeProvider theme={theme}>
             <UserProfileProvider>
                 <UploadTrackingProvider>
-                    <QueryClientProvider client={queryClient}>
+                    <QueryClientProvider
+                        client={queryClient}
+                        contextSharing={true}
+                    >
                         <CssBaseline />
                         <NotificationsProvider>
                             <ConfigProvider>

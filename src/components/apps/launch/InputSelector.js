@@ -6,7 +6,6 @@
 import React from "react";
 
 import { useTranslation } from "i18n";
-import { useQueryClient } from "react-query";
 
 import {
     getParentPath,
@@ -99,13 +98,12 @@ const InputSelector = ({
     const { t } = useTranslation("launch");
     const { t: prefI18n } = useTranslation("preferences");
     const { setFieldValue } = form;
-    const bootstrapInfo = useBootstrapInfo()[0];
-    // Get QueryClient from the context
-    const queryClient = useQueryClient();
+    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
 
     //update last folder used.
     const { mutate: mutatePreferences } = useSavePreferences(
-        queryClient,
+        bootstrapInfo,
+        setBootstrapInfo,
         null,
         (e) => {
             showErrorAnnouncer(prefI18n("savePrefError"), e);

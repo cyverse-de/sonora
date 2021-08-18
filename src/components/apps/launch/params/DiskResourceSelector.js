@@ -38,7 +38,7 @@ export default function DiskResourceSelector({ param, ...props }) {
     const { isFetching: isFetchingStat } = useQuery({
         queryKey: [DATA_DETAILS_QUERY_KEY, { paths: [value] }],
         queryFn: () => getResourceDetails({ paths: [value] }),
-        enabled: value,
+        enabled: !!value,
         onSuccess: () => {
             setStatError(null);
         },

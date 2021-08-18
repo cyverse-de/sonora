@@ -150,26 +150,24 @@ function usePortalStatus(userId, onError) {
  * @param {Function} onSuccessCallback - Callback function to use when query succeeds.
  * @param {Function} onError - Callback function to use when query failed.
  */
-function useSavePreferences(queryClient, onSuccessCallback, onError) {
+function useSavePreferences(
+    bootstrapInfo,
+    setBootstrapInfo,
+    onSuccessCallback,
+    onError
+) {
     return useMutation(savePreferences, {
         onSuccess: (updatedPref) => {
             //update preference in cache
-            queryClient.setQueryData(BOOTSTRAP_KEY, (bootstrapData) => {
-                if (
-                    bootstrapData &&
-                    updatedPref &&
-                    updatedPref[0].preferences
-                ) {
-                    const updatePref = updatedPref[0].preferences;
-                    const updatedBootstrap = {
-                        ...bootstrapData,
-                        preferences: { ...updatePref },
-                    };
-                    return updatedBootstrap;
-                } else {
-                    return bootstrapData;
-                }
-            });
+            if (updatedPref && updatedPref[0].preferences) {
+                const updatePref = updatedPref[0].preferences;
+                const updatedBootstrap = {
+                    ...bootstrapInfo,
+                    preferences: { ...updatePref },
+                };
+                setBootstrapInfo(updatedBootstrap);
+            }
+
             if (onSuccessCallback) {
                 onSuccessCallback(updatedPref);
             }

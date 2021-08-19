@@ -28,13 +28,17 @@ function useFileManifest(queryKey, enabled, onSuccess) {
  * Get a chunk from the file
  * @param {*} queryKey - The query key to be used.
  * @param {*} enabled  - Enable / disable query.
- * @param {*} getFetchMore - Function to be used when more data needs to be loaded.
+ * @param {*} getNextPageParam - Function to be used when more data needs to be loaded.
  */
-function useReadChunk(queryKey, enabled, getFetchMore) {
-    return useInfiniteQuery(queryKey, readFileChunk, {
-        enabled,
-        getFetchMore,
-    });
+function useReadChunk(queryKey, enabled, getNextPageParam) {
+    return useInfiniteQuery(
+        queryKey,
+        ({ pageParam = 0 }) => readFileChunk({ ...queryKey[1], pageParam }),
+        {
+            enabled,
+            getNextPageParam,
+        }
+    );
 }
 
 /**

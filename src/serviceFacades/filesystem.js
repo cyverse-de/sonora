@@ -226,12 +226,17 @@ export const fileManifest = (path) => {
  * @param {*} param - parameters for reading the file chunk
  * @param {*} page - file seek position
  */
-export const readFileChunk = ({ path, chunkSize, separator }, page = 0) => {
+export const readFileChunk = ({
+    path,
+    chunkSize,
+    separator,
+    pageParam = 0,
+}) => {
     const body = {};
     body.path = path;
     body["chunk-size"] = `${chunkSize}`;
     if (separator) {
-        body.page = page + 1;
+        body.page = pageParam + 1;
         body.separator = encodeURIComponent(separator);
         return callApi({
             endpoint: "/api/filesystem/read-csv-chunk",
@@ -239,7 +244,7 @@ export const readFileChunk = ({ path, chunkSize, separator }, page = 0) => {
             body,
         });
     } else {
-        const pos = page * viewerConstants.DEFAULT_PAGE_SIZE;
+        const pos = pageParam * viewerConstants.DEFAULT_PAGE_SIZE;
         body.position = `${pos}`;
         return callApi({
             endpoint: "/api/filesystem/read-chunk",

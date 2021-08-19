@@ -110,9 +110,9 @@ export default function FileViewer(props) {
     const {
         status,
         data,
-        isFetchingMore,
-        fetchMore,
-        canFetchMore,
+        isFetchingNextPage,
+        fetchNextPage,
+        hasNextPage,
         error: chunkError,
     } = useReadChunk(
         readChunkKey,
@@ -332,7 +332,7 @@ export default function FileViewer(props) {
         viewerType !== VIEWER_TYPE.DOCUMENT &&
         viewerType !== VIEWER_TYPE.VIDEO &&
         !createFileType &&
-        (!memoizedData || memoizedData.length === 0)
+        (!memoizedData || memoizedData.pages.length === 0)
     ) {
         return <Typography>{t("noContent")}</Typography>;
     }
@@ -344,8 +344,8 @@ export default function FileViewer(props) {
                 variant="outlined"
                 color="primary"
                 style={{ flex: 1 }}
-                onClick={() => fetchMore()}
-                disabled={!canFetchMore || isFetchingMore}
+                onClick={() => fetchNextPage()}
+                disabled={!hasNextPage || isFetchingNextPage}
             >
                 {t("loadMore")}
             </Button>
@@ -357,7 +357,7 @@ export default function FileViewer(props) {
         if (createFileType) {
             flatData = "";
         } else {
-            memoizedData.forEach((page) => {
+            memoizedData.pages.forEach((page) => {
                 flatData = flatData.concat(page.chunk);
             });
         }
@@ -370,7 +370,7 @@ export default function FileViewer(props) {
                     fileName={fileName}
                     resourceId={resourceId}
                     data={flatData}
-                    loading={isFetchingMore}
+                    loading={isFetchingNextPage}
                     handlePathChange={handlePathChange}
                     onRefresh={() => refreshViewer(manifestKey)}
                     editable={editable || !!createFileType}
@@ -393,7 +393,7 @@ export default function FileViewer(props) {
                         createFileType ? [] : flattenStructureData(memoizedData)
                     }
                     rawData={rawData?.chunk || ""}
-                    loading={isFetchingMore}
+                    loading={isFetchingNextPage}
                     handlePathChange={handlePathChange}
                     onRefresh={() => refreshViewer(manifestKey)}
                     editable={editable || !!createFileType}
@@ -401,14 +401,7 @@ export default function FileViewer(props) {
                     createFileType={createFileType}
                     onSaveComplete={() => {
                         if (editable) {
-                            queryClient.invalidateQueries(readChunkKey, [
-                                READ_RAW_CHUNK_QUERY_KEY,
-                                {
-                                    path,
-                                    chunkSize:
-                                        viewerConstants.DEFAULT_PAGE_SIZE,
-                                },
-                            ]);
+                            queryClient.invalidateQueries(readChunkKey);
                         }
                     }}
                 />
@@ -466,7 +459,7 @@ export default function FileViewer(props) {
                     fileName={fileName}
                     resourceId={resourceId}
                     data={dataToView}
-                    loading={isFetchingMore}
+                    loading={isFetchingNextPage}
                     handlePathChange={handlePathChange}
                     onRefresh={() => refreshViewer(manifestKey)}
                     onNewFileSaved={onNewFileSaved}

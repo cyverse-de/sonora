@@ -66,9 +66,11 @@ function getColumns(data, firstRowHeader, pathLabel) {
 
 function flattenStructureData(data) {
     let flatData = [];
-    data.forEach((page) => {
-        flatData = [...flatData, ...page.csv];
-    });
+    if (data?.pages.length > 0) {
+        data.pages.forEach((page) => {
+            flatData = [...flatData, ...page.csv];
+        });
+    }
     return flatData;
 }
 export { LINE_NUMBER_ACCESSOR, getColumns, flattenStructureData };

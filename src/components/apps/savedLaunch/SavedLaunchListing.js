@@ -60,8 +60,8 @@ function SavedLaunchChipLink(props) {
         systemId,
         appId,
     } = props;
-    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch?quick-launch-id=${launchId}`;
-    const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?quick-launch-id=${launchId}`;
+    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch?saved-launch-id=${launchId}`;
+    const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?saved-launch-id=${launchId}`;
     return (
         <Link href={href} as={as} passHref>
             <SavedLaunch
@@ -78,8 +78,8 @@ function SavedLaunchChipLink(props) {
 function SavedLaunchButtonLink(props) {
     const { id, onClick, systemId, appId, launchId } = props;
     const { t } = useTranslation("apps");
-    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch?quick-launch-id=${launchId}`;
-    const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?quick-launch-id=${launchId}`;
+    const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch?saved-launch-id=${launchId}`;
+    const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?saved-launch-id=${launchId}`;
     return (
         <Link href={href} as={as} passHref>
             <IconButton

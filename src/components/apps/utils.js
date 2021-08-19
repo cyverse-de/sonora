@@ -45,7 +45,7 @@ export const getAppLaunchPath = (systemId, appId) =>
  * the given IDs.
  */
 export const getSavedLaunchPath = (systemId, appId, launchId) =>
-    `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?quick-launch-id=${launchId}`;
+    `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?saved-launch-id=${launchId}`;
 
 /**
  * Builds a path to the App Editor for the app with the given IDs.

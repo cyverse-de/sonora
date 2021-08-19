@@ -37,7 +37,9 @@ export default function Launch() {
     const [runningJobs, setRunningJobs] = React.useState();
 
     const router = useRouter();
-    const { systemId, appId, "quick-launch-id": launchId } = router.query;
+    const { systemId, appId } = router.query;
+    const launchId =
+        router.query["saved-launch-id"] || router.query["quick-launch-id"];
 
     React.useEffect(() => {
         const hasIds = !!(systemId && appId);

@@ -136,7 +136,7 @@ const Launch = ({ app, launchError, viceQuota, runningJobs, loading }) => {
                 setSubmissionError(null);
                 submitAnalysisMutation({ submission, onSuccess, onError });
             }}
-            saveSavedLaunch={(savedLaunch, onSuccess, onError) => {
+            createSavedLaunch={(savedLaunch, onSuccess, onError) => {
                 setSubmissionError(null);
                 addSavedLaunchMutation({ savedLaunch, onSuccess, onError });
             }}

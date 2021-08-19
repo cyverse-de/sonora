@@ -2,7 +2,7 @@ import React from "react";
 
 import constants from "../../../src/constants";
 
-import { saveSavedLaunch, submitAnalysis } from "./constants";
+import { createSavedLaunch, submitAnalysis } from "./constants";
 
 import AppLaunchStoryBase from "./AppLaunchStoryBase";
 import WordCountApp from "./data/WordCountApp";
@@ -66,7 +66,7 @@ export const DEWordCount = ({
             }}
             saveSavedLaunch={(submission, onSuccess, onError) => {
                 setAppError(null);
-                saveSavedLaunch(
+                createSavedLaunch(
                     submission,
                     submissionOnSuccess(onSuccess, onError),
                     submissionOnError(onError)

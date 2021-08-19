@@ -6,7 +6,7 @@ import AppLaunchWizard from "../../../src/components/apps/launch/AppLaunchWizard
 import {
     ANALYSIS_OUTPUT_DIR,
     STARTING_PATH,
-    saveSavedLaunch,
+    createSavedLaunch,
     submitAnalysis,
 } from "./constants";
 
@@ -42,7 +42,7 @@ export default (props) => {
             notify={false}
             defaultOutputDir={ANALYSIS_OUTPUT_DIR}
             startingPath={STARTING_PATH}
-            saveSavedLaunch={saveSavedLaunch}
+            createSavedLaunch={createSavedLaunch}
             submitAnalysis={submitAnalysis}
             {...props}
         />

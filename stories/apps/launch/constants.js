@@ -8,4 +8,4 @@ export const submitAnalysis = (submission, onSuccess, onError) => {
     }, 1000);
 };
 
-export const saveSavedLaunch = submitAnalysis;
+export const createSavedLaunch = submitAnalysis;

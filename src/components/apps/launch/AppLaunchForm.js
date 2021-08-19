@@ -53,7 +53,7 @@ const StepperNavigation = (props) => {
         showSubmitButton,
         handleBack,
         handleNext,
-        handleSaveSavedLaunch,
+        handleCreateSavedLaunch,
         handleSubmit,
     } = props;
 
@@ -83,7 +83,7 @@ const StepperNavigation = (props) => {
                 <Button
                     id={buildID(formId, ids.BUTTONS.SAVE_AS_SAVED_LAUNCH)}
                     startIcon={<Save />}
-                    onClick={handleSaveSavedLaunch}
+                    onClick={handleCreateSavedLaunch}
                 >
                     {t("saveAsSavedLaunch")}
                 </Button>
@@ -163,7 +163,7 @@ const AppLaunchForm = (props) => {
         defaultMaxMemory,
         defaultMaxDiskSpace,
         defaultOutputDir,
-        saveSavedLaunch,
+        createSavedLaunch,
         submitAnalysis,
         app: { id: app_id, name: appName, app_type, groups, requirements },
     } = props;
@@ -216,8 +216,8 @@ const AppLaunchForm = (props) => {
 
     steps.push(stepReviewAndLaunch);
 
-    const handleSaveSavedLaunch = (savedLaunch, onSuccess, onError) => {
-        saveSavedLaunch(
+    const handleSaveLaunch = (savedLaunch, onSuccess, onError) => {
+        createSavedLaunch(
             savedLaunch,
             () => {
                 onSuccess();
@@ -369,7 +369,7 @@ const AppLaunchForm = (props) => {
                                             handleBack={handleBack}
                                             handleNext={handleNext}
                                             handleSubmit={handleSubmit}
-                                            handleSaveSavedLaunch={() => {
+                                            handleCreateSavedLaunch={() => {
                                                 setSavedLaunchDialogOpen(true);
                                                 setSavedLaunchSubmission(
                                                     formatSubmission(
@@ -458,7 +458,7 @@ const AppLaunchForm = (props) => {
                     onSuccess,
                     onError
                 ) => {
-                    handleSaveSavedLaunch(
+                    handleSaveLaunch(
                         {
                             name,
                             description,

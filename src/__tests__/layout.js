@@ -6,6 +6,7 @@ import { I18nProviderWrapper } from "../i18n";
 import { ConfigProvider } from "../contexts/config";
 import { BootstrapInfoProvider } from "contexts/bootstrap";
 import { RQWrapper } from "../__mocks__/RQWrapper";
+import { BagInfoProvider } from "../contexts/bagInfo";
 beforeAll(async () => {
     await preloadAll();
 });
@@ -16,7 +17,9 @@ test("App Bar renders", () => {
             <I18nProviderWrapper>
                 <BootstrapInfoProvider>
                     <ConfigProvider>
-                        <AppBarTest />
+                        <BagInfoProvider>
+                            <AppBarTest />
+                        </BagInfoProvider>
                     </ConfigProvider>
                 </BootstrapInfoProvider>
             </I18nProviderWrapper>

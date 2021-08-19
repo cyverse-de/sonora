@@ -8,6 +8,7 @@ import { I18nProviderWrapper } from "../i18n";
 import { UserProfileProvider } from "contexts/userProfile";
 import { ConfigProvider } from "contexts/config";
 import { RQWrapper } from "../__mocks__/RQWrapper";
+import { BagInfoProvider } from "../contexts/bagInfo";
 
 beforeEach(() => {
     mockAxios.reset();
@@ -36,7 +37,9 @@ test("App Listing view", () => {
     const component = TestRenderer.create(
         <RQWrapper>
             <I18nProviderWrapper>
-                <AppsListingTest />
+                <BagInfoProvider>
+                    <AppsListingTest />
+                </BagInfoProvider>
             </I18nProviderWrapper>
         </RQWrapper>
     );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 
+import { useQuery } from "react-query";
 import dynamic from "next/dynamic";
 
 import {
@@ -30,13 +31,13 @@ import {
     Delete,
     GetApp,
     People,
-    Clear,
     ClearAll,
     Close,
     ShoppingBasket as ShoppingBasketIcon,
 } from "@material-ui/icons";
 
 import buildID from "components/utils/DebugIDUtil";
+import DeleteButton from "components/utils/DeleteButton";
 
 import constants from "./constants";
 
@@ -47,15 +48,11 @@ import * as facade from "../../serviceFacades/bags";
 import { Skeleton } from "@material-ui/lab";
 import { TYPE as SHARING_TYPE } from "components/sharing/constants";
 
-import {
-    createNewBagItem,
-    FILE_TYPE,
-    FOLDER_TYPE,
-    ANALYSIS_TYPE,
-    APP_TYPE,
-} from "./classes";
+import { FILE_TYPE, FOLDER_TYPE, ANALYSIS_TYPE, APP_TYPE } from "./classes";
 import { useTranslation } from "i18n";
 import { useUserProfile } from "contexts/userProfile";
+import { useBagInfo } from "contexts/bagInfo";
+import { formatBagItems } from "./util";
 
 const SharingView = dynamic(() => import("components/sharing"));
 
@@ -202,13 +199,10 @@ export const BagUI = ({ removeItem, allItems, isLoading, fullScreen }) => {
                                         classes={{ root: classes.itemText }}
                                     />
                                     <ListItemSecondaryAction>
-                                        <IconButton
-                                            edge="end"
-                                            aria-label={t("delete")}
-                                            id={buildID(
-                                                itemID,
-                                                constants.DELETE
-                                            )}
+                                        <DeleteButton
+                                            ariaLabel={t("delete")}
+                                            baseId={itemID}
+                                            component="IconButton"
                                             onClick={(event) => {
                                                 event.stopPropagation();
                                                 event.preventDefault();
@@ -216,7 +210,7 @@ export const BagUI = ({ removeItem, allItems, isLoading, fullScreen }) => {
                                             }}
                                         >
                                             <Delete />
-                                        </IconButton>
+                                        </DeleteButton>
                                     </ListItemSecondaryAction>
                                 </ListItem>
                             );
@@ -241,27 +235,13 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
     const { t } = useTranslation(["bags", "common"]);
     const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
+    const [bagInfo, setBagInfo] = useBagInfo();
     const [badgeCount, setBadgeCount] = useState(0);
-    const [allItems, setAllItems] = useState([]);
-
     const [bagDlgOpen, setBagDlgOpen] = useState(false);
     const [downloadDlgOpen, setDownloadDlgOpen] = useState(false);
     const [sharingOpen, setSharingOpen] = useState(false);
-    const [sharingResources, setSharingResources] = useState(
-        defaultSharingResources()
-    );
-    const [downloadPaths, setDownloadPaths] = useState([]);
 
     const [userProfile] = useUserProfile();
-
-    if (!menuIconClass) {
-        menuIconClass = classes.menuIcon;
-    }
-
-    const hasSharingResources = () =>
-        Object.entries(sharingResources)
-            .map(([_key, value]) => value.length)
-            .reduce((acc, curr) => acc + curr) > 0;
 
     // Convert the items into a map that the sharing dialog understands.
     const sharingReducer = useCallback((acc, curr) => {
@@ -286,39 +266,17 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         return acc;
     }, []);
 
-    const convertItems = useCallback(
-        (data) => {
-            let converted = [];
-
-            if (data?.contents?.items) {
-                converted = data.contents.items.map((item) =>
-                    createNewBagItem(item)
-                );
-            }
-
-            setAllItems(converted);
-
-            setSharingResources(
-                converted.reduce(sharingReducer, defaultSharingResources())
-            );
-
-            setDownloadPaths(
-                converted
-                    .filter((item) => item.downloadable)
-                    .map((item) => item.path)
-            );
-        },
-        [sharingReducer]
-    );
+    if (!menuIconClass) {
+        menuIconClass = classes.menuIcon;
+    }
 
     const {
         isError: hasErrored,
-        data,
         isLoading,
         error,
-    } = facade.useBag({
+    } = useQuery(facade.DEFAULT_BAG_QUERY_KEY, facade.getDefaultBag, {
         enabled: !!userProfile,
-        onSuccess: convertItems,
+        onSuccess: setBagInfo,
     });
 
     const removeItem = facade.useBagRemoveItem({
@@ -340,12 +298,8 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
     }, [hasErrored, error, showErrorAnnouncer, t]);
 
     useEffect(() => {
-        convertItems(data);
-    }, [data, convertItems]);
-
-    useEffect(() => {
-        setBadgeCount(allItems.length);
-    }, [allItems, setBadgeCount]);
+        setBadgeCount(bagInfo?.contents?.items?.length);
+    }, [bagInfo, setBadgeCount]);
 
     const handleSharingClick = (event) => {
         event.preventDefault();
@@ -376,6 +330,19 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         setDownloadDlgOpen(true);
         setBagDlgOpen(false);
     };
+
+    const allItems = formatBagItems(bagInfo);
+    const sharingResources = allItems?.reduce(
+        sharingReducer,
+        defaultSharingResources()
+    );
+    const downloadPaths = allItems
+        ?.filter((item) => item.downloadable)
+        .map((item) => item.path);
+    const hasSharingResources = () =>
+        Object.entries(sharingResources)
+            .map(([_key, value]) => value.length)
+            .reduce((acc, curr) => acc + curr) > 0;
 
     const dialogID = buildID(constants.BASEID, constants.DIALOG);
     return (
@@ -435,7 +402,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                 </DialogTitle>
 
                 <DialogContent dividers>
-                    {allItems.length > 0 ? (
+                    {allItems?.length > 0 ? (
                         <BagUI
                             allItems={allItems}
                             isLoading={isLoading}
@@ -456,7 +423,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                     )}
                 </DialogContent>
 
-                {allItems.length > 0 && (
+                {allItems?.length > 0 && (
                     <DialogActions>
                         {fullScreen ? (
                             <IconButton
@@ -474,7 +441,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                                 variant="contained"
                                 color="default"
                                 className={classes.button}
-                                startIcon={<Clear />}
+                                startIcon={<ClearAll />}
                                 size="small"
                                 onClick={() => clearAll()}
                                 id={buildID(

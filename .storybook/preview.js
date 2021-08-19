@@ -9,6 +9,7 @@ import { AXIOS_DELAY } from "../stories/axiosMock";
 import testConfig from "../stories/configMock";
 import userProfileMock from "../stories/userProfileMock";
 import MockBootstrap from "../stories/preferences/MockBootstrap";
+import bagInfoMock from "../stories/bagInfoMock";
 
 import { ConfigProvider, useConfig } from "../src/contexts/config";
 import {
@@ -19,6 +20,8 @@ import {
     BootstrapInfoProvider,
     useBootstrapInfo,
 } from "../src/contexts/bootstrap";
+
+import { BagInfoProvider, useBagInfo } from "../src/contexts/bagInfo";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 import { i18n } from "../src/i18n";
@@ -57,6 +60,15 @@ function MockConfig() {
     return <div />;
 }
 
+function MockBagInfo() {
+    const setBagInfo = useBagInfo()[1];
+    React.useEffect(() => {
+        setBagInfo(bagInfoMock);
+    }, [setBagInfo]);
+
+    return <div />;
+}
+
 const queryClient = new QueryClient({
     defaultOptions: {
         queries: { refetchOnWindowFocus: false, retry: false },
@@ -83,11 +95,16 @@ export const decorators = [
                         <MockUserProfile />
                         <BootstrapInfoProvider>
                             <MockBootstrapInfo />
+
                             <React.Suspense fallback={"Loading i18n..."}>
                                 <I18nextProvider i18n={i18n}>
-                                    {Story()}
+                                    <BagInfoProvider>
+                                        <MockBagInfo />
+                                        {Story()}
+                                    </BagInfoProvider>
                                 </I18nextProvider>
                             </React.Suspense>
+
                             <CyVerseAnnouncer />
                         </BootstrapInfoProvider>
                     </QueryClientProvider>

@@ -22,6 +22,7 @@ import { UploadTrackingProvider } from "contexts/uploadTracking";
 import { UserProfileProvider } from "contexts/userProfile";
 import { NotificationsProvider } from "contexts/pushNotifications";
 import { BootstrapInfoProvider } from "contexts/bootstrap";
+import { BagInfoProvider } from "contexts/bagInfo";
 
 import PageWrapper from "components/layout/PageWrapper";
 import useComponentHeight from "components/utils/useComponentHeight";
@@ -262,25 +263,27 @@ function MyApp({ Component, pageProps }) {
                         <NotificationsProvider>
                             <ConfigProvider>
                                 <BootstrapInfoProvider>
-                                    <DEAppBar
-                                        setAppBarRef={setAppBarRef}
-                                        activeView={pathname}
-                                        intercomUnreadCount={unReadCount}
-                                        clientConfig={config}
-                                    >
-                                        <Head>
-                                            <title>{t("deTitle")}</title>
-                                        </Head>
-                                        <ReactQueryDevtools
-                                            initialIsOpen={false}
-                                        />
-                                        <PageWrapper
-                                            appBarHeight={appBarHeight}
+                                    <BagInfoProvider>
+                                        <DEAppBar
+                                            setAppBarRef={setAppBarRef}
+                                            activeView={pathname}
+                                            intercomUnreadCount={unReadCount}
+                                            clientConfig={config}
                                         >
-                                            <Component {...pageProps} />
-                                        </PageWrapper>
-                                        <UploadManager />
-                                    </DEAppBar>
+                                            <Head>
+                                                <title>{t("deTitle")}</title>
+                                            </Head>
+                                            <ReactQueryDevtools
+                                                initialIsOpen={false}
+                                            />
+                                            <PageWrapper
+                                                appBarHeight={appBarHeight}
+                                            >
+                                                <Component {...pageProps} />
+                                            </PageWrapper>
+                                            <UploadManager />
+                                        </DEAppBar>
+                                    </BagInfoProvider>
                                 </BootstrapInfoProvider>
                             </ConfigProvider>
                         </NotificationsProvider>

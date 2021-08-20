@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import clsx from "clsx";
-import { formatDistanceToNow } from "date-fns";
 import { Trans, useTranslation } from "i18n";
 import ReactPlayer from "react-player/youtube";
 
@@ -16,8 +15,8 @@ import {
     useTheme,
 } from "@material-ui/core";
 
+import useAnalysisRunTime from "components/analyses/useAnalysisRunTime";
 import buildID from "components/utils/DebugIDUtil";
-import { isTerminated } from "components/analyses/utils";
 
 import ids from "../ids";
 import * as constants from "../constants";
@@ -48,36 +47,20 @@ const DashboardLink = ({ target, kind, children }) => {
 function AnalysisSubheader(props) {
     const { analysis, date: formattedDate } = props;
     const { t } = useTranslation(["dashboard", "apps"]);
-    const terminated = isTerminated(analysis);
-
-    const [runningTime, setRunningTime] = useState(null);
-
-    useEffect(() => {
-        const handleUpdateRunningTime = () => {
-            setRunningTime(formatDistanceToNow(new Date(analysis.start_date)));
-        };
-
-        let interval;
-        if (!terminated) {
-            interval = setInterval(handleUpdateRunningTime, 60000);
-            handleUpdateRunningTime();
-        }
-
-        return () => clearInterval(interval);
-    }, [analysis, terminated]);
+    const { elapsedTime } = useAnalysisRunTime(analysis);
 
     return (
         <Trans
             t={t}
             i18nKey={
-                terminated
-                    ? "analysisOrigination"
-                    : "analysisRunningOrigination"
+                elapsedTime
+                    ? "analysisRunningOrigination"
+                    : "analysisOrigination"
             }
             values={{
                 status: analysis.status,
                 date: formattedDate,
-                runningTime,
+                runningTime: elapsedTime,
             }}
             components={{ bold: <strong /> }}
         />

@@ -1,7 +1,7 @@
 export const testData = [
     {
         id: "2421c19e-ad85-4217-a21f-e0832f824171",
-        name: "sample-quicklaunch",
+        name: "sample-savedlaunch",
         description: "",
         creator: "ipcdev@iplantcollaborative.org",
         app_id: "34f2c392-9a8a-11e8-9c8e-008cfa5ae621",
@@ -139,8 +139,8 @@ export const testFullInstantLaunchList = {
         {
             id: "2A05CA56-CC62-406A-AB34-0870F3644E0C",
             quick_launch_id: "2421c19e-ad85-4217-a21f-e0832f824171",
-            name: "sample-quicklaunch",
-            quick_launch_name: "sample-quicklaunch",
+            name: "sample-savedlaunch",
+            quick_launch_name: "sample-savedlaunch",
             quick_launch_description: "",
             quick_launch_creator: "ipcdev@iplantcollaborative.org",
             added_by: "ipcdev@siplantcollaborative.org",

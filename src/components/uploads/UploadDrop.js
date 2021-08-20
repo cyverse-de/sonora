@@ -99,8 +99,7 @@ export const processSelectedFiles = async (itemList, itemsFn) => {
     const allItems = convertDTIL(itemList);
 
     // Get all of the files split out into their own list.
-    const fileItems = allItems
-        .map((i) => ({ kind: KindFile, value: i }));
+    const fileItems = allItems.map((i) => ({ kind: KindFile, value: i }));
 
     // Set the new value of uploadItems, which should trigger a re-render.
     return itemsFn(fileItems);

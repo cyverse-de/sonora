@@ -6,7 +6,7 @@ import AppLaunchWizard from "../../../src/components/apps/launch/AppLaunchWizard
 import {
     ANALYSIS_OUTPUT_DIR,
     STARTING_PATH,
-    saveQuickLaunch,
+    createSavedLaunch,
     submitAnalysis,
 } from "./constants";
 
@@ -14,7 +14,7 @@ import {
     appDetails,
     listingById,
     appDocumentation,
-    quickLaunches,
+    savedLaunches,
 } from "../AppMocks";
 
 import { initMockAxiosFileFolderSelector } from "../../data/DataMocks";
@@ -36,13 +36,13 @@ export default (props) => {
 
     mockAxios
         .onGet(`/api/quicklaunches/apps/${app?.system_id}`)
-        .reply(200, quickLaunches);
+        .reply(200, savedLaunches);
     return (
         <AppLaunchWizard
             notify={false}
             defaultOutputDir={ANALYSIS_OUTPUT_DIR}
             startingPath={STARTING_PATH}
-            saveQuickLaunch={saveQuickLaunch}
+            createSavedLaunch={createSavedLaunch}
             submitAnalysis={submitAnalysis}
             {...props}
         />

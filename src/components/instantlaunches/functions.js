@@ -12,7 +12,7 @@ export const shortenUsername = (username) => {
     return username;
 };
 
-export const isInInstantLaunch = (qlID, instantlaunches) => {
+export const isInInstantLaunch = (savedLaunchId, instantlaunches) => {
     const ilIDs = instantlaunches.map((il) => il.quick_launch_id);
-    return ilIDs.includes(qlID);
+    return ilIDs.includes(savedLaunchId);
 };

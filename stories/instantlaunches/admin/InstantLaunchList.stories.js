@@ -8,7 +8,7 @@ import {
     testGlobalQLs,
     testFullInstantLaunchList,
     testInstantLaunchesDashboard,
-} from "./QuickLaunchListData";
+} from "./SavedLaunchListData";
 
 export default {
     title: "Instant Launches / admin / Instant Launch List",

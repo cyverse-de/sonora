@@ -13,7 +13,7 @@ import ids from "../ids";
 import CreateAppMenuItem from "../menuItems/CreateAppMenuItem";
 import CreateWorkflowMenuItem from "../menuItems/CreateWorkflowMenuItem";
 import DocMenuItem from "../menuItems/DocMenuItem";
-import QLMenuItem from "../menuItems/QLMenuItem";
+import SavedLaunchMenuItem from "../menuItems/SavedLaunchMenuItem";
 
 import shareIds from "components/sharing/ids";
 import NavigationConstants from "common/NavigationConstants";
@@ -125,8 +125,8 @@ function AppsDotMenu(props) {
                     />
                 ),
                 detailsEnabled && (
-                    <QLMenuItem
-                        key={buildID(baseId, ids.QL_MENU_ITEM)}
+                    <SavedLaunchMenuItem
+                        key={buildID(baseId, ids.SAVED_LAUNCH_MENU_ITEM)}
                         baseId={baseId}
                         onClose={onClose}
                         onQLSelected={onQLSelected}

@@ -1,9 +1,9 @@
 import React from "react";
 
-import CreateQuickLaunchDialog from "../../../src/components/apps/quickLaunch/CreateQuickLaunchDialog";
+import CreateSavedLaunchDialog from "../../../src/components/apps/savedLaunch/CreateSavedLaunchDialog";
 
 export const CreateDialog = () => {
-    const createQuickLaunch = (
+    const createdSavedLaunch = (
         name,
         description,
         isPublic,
@@ -11,23 +11,23 @@ export const CreateDialog = () => {
         onError
     ) => {
         setTimeout(() => {
-            console.log("Create Quick Launch", name, description, isPublic);
+            console.log("Create Saved Launch", name, description, isPublic);
             onError("save success!");
         }, 1000);
     };
 
     const onHide = () => {
-        console.log("Close Quick Launch Dialog");
+        console.log("Close Saved Launch Dialog");
     };
 
     return (
-        <CreateQuickLaunchDialog
+        <CreateSavedLaunchDialog
             appName="All new word count"
             dialogOpen={true}
-            createQuickLaunch={createQuickLaunch}
+            createSavedLaunch={createdSavedLaunch}
             onHide={onHide}
         />
     );
 };
 
-export default { title: "Apps / Quick Launch / Create" };
+export default { title: "Apps / Saved Launch / Create" };

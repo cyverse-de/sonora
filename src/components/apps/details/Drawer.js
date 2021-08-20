@@ -1,7 +1,7 @@
 /**
  * @author sriram
  *
- * A drawer that display tabs with various information such as description, rating, documentation, quick launches about an app.
+ * A drawer that display tabs with various information such as description, rating, documentation, saved launches about an app.
  *
  */
 

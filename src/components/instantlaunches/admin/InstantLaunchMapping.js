@@ -8,8 +8,8 @@ import {
     createDefaultsMapping,
     ALL_INSTANT_LAUNCHES_KEY,
     DEFAULTS_MAPPING_QUERY_KEY,
-    LIST_PUBLIC_QUICK_LAUNCHES_KEY,
-    getPublicQuicklaunches,
+    LIST_PUBLIC_SAVED_LAUNCHES_KEY,
+    getPublicSavedLaunches,
     getDefaultsMapping,
     listFullInstantLaunches,
     updateDefaultsMapping,
@@ -247,8 +247,8 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
     );
 
     const allQL = useQuery(
-        LIST_PUBLIC_QUICK_LAUNCHES_KEY,
-        getPublicQuicklaunches
+        LIST_PUBLIC_SAVED_LAUNCHES_KEY,
+        getPublicSavedLaunches
     );
 
     const infoTypes = useQuery(INFO_TYPES_QUERY_KEY, getInfoTypes);
@@ -397,7 +397,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                                     <TableCell>{t("common:name")}</TableCell>
                                     <TableCell>{t("patternKind")}</TableCell>
                                     <TableCell>{t("pattern")}</TableCell>
-                                    <TableCell>{t("quickLaunch")}</TableCell>
+                                    <TableCell>{t("savedLaunch")}</TableCell>
                                     <TableCell></TableCell>
                                 </TableRow>
                             </TableHead>

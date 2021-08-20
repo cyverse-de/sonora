@@ -47,7 +47,7 @@ import { canShare } from "../utils";
 import Sharing from "components/sharing";
 import { formatSharedApps } from "components/sharing/util";
 import AppDoc from "components/apps/details/AppDoc";
-import QuickLaunchDialog from "../quickLaunch/QuickLaunchDialog";
+import SavedLaunchDialog from "../savedLaunch/SavedLaunchDialog";
 import { useUserProfile } from "contexts/userProfile";
 import AdminAppDetailsDialog from "../admin/details/AdminAppDetails";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
@@ -96,7 +96,7 @@ function Listing(props) {
 
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
     const [docDlgOpen, setDocDlgOpen] = useState(false);
-    const [qlDlgOpen, setQLDlgOpen] = useState(false);
+    const [savedLaunchDlgOpen, setSavedLaunchDlgOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     const sharingApps = formatSharedApps(getSelectedApps());
@@ -526,7 +526,7 @@ function Listing(props) {
                 selectedApps={getSelectedApps()}
                 setSharingDlgOpen={setSharingDlgOpen}
                 onDocSelected={() => setDocDlgOpen(true)}
-                onQLSelected={() => setQLDlgOpen(true)}
+                onSavedLaunchSelected={() => setSavedLaunchDlgOpen(true)}
                 isAdminView={isAdminView}
                 handleSearch={handleSearch}
                 searchTerm={searchTerm}
@@ -563,7 +563,7 @@ function Listing(props) {
                 onDetailsSelected={onDetailsSelected}
                 setSharingDlgOpen={setSharingDlgOpen}
                 onDocSelected={() => setDocDlgOpen(true)}
-                onQLSelected={() => setQLDlgOpen(true)}
+                onSavedLaunchSelected={() => setSavedLaunchDlgOpen(true)}
                 isAdminView={isAdminView}
                 searchTerm={searchTerm}
             />
@@ -615,13 +615,13 @@ function Listing(props) {
                 name={selectedApp?.name}
                 onClose={() => setDocDlgOpen(false)}
             />
-            <QuickLaunchDialog
-                baseDebugId={buildID(baseId, ids.APP_QUICK_LAUNCH)}
+            <SavedLaunchDialog
+                baseDebugId={buildID(baseId, ids.APP_SAVED_LAUNCH)}
                 appName={selectedApp?.name}
                 appId={selectedApp?.id}
                 systemId={selectedApp?.system_id}
-                open={qlDlgOpen}
-                onClose={() => setQLDlgOpen(false)}
+                open={savedLaunchDlgOpen}
+                onClose={() => setSavedLaunchDlgOpen(false)}
             />
 
             <ConfirmationDialog

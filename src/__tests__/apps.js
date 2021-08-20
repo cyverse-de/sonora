@@ -1,7 +1,6 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 
-import { AppTiles } from "../../stories/apps/AppTile.stories";
 import { AppsTableViewTest } from "../../stories/apps/TableView.stories";
 import { mockAxios } from "../../stories/axiosMock";
 import { AppsListingTest } from "../../stories/apps/Listing.stories";
@@ -15,19 +14,6 @@ beforeEach(() => {
 
 afterEach(() => {
     mockAxios.reset();
-});
-
-test("App Tile renders", () => {
-    const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <UserProfileProvider>
-                <ConfigProvider>
-                    <AppTiles />
-                </ConfigProvider>
-            </UserProfileProvider>
-        </I18nProviderWrapper>
-    );
-    component.unmount();
 });
 
 test("App Table view renders", () => {

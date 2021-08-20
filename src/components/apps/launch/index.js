@@ -18,7 +18,7 @@ import { useConfig } from "contexts/config";
 import { useBootstrapInfo } from "contexts/bootstrap";
 
 import { submitAnalysis } from "serviceFacades/analyses";
-import { addQuickLaunch } from "serviceFacades/quickLaunches";
+import { addSavedLaunch } from "serviceFacades/savedLaunches";
 
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
@@ -57,8 +57,8 @@ const Launch = ({ app, launchError, viceQuota, runningJobs, loading }) => {
         }
     );
 
-    const [addQuickLaunchMutation] = useMutation(
-        ({ quickLaunch }) => addQuickLaunch(quickLaunch),
+    const [addSavedLaunchMutation] = useMutation(
+        ({ savedLaunch }) => addSavedLaunch(savedLaunch),
         {
             onSuccess: (resp, { onSuccess }) => {
                 // TODO route to app details or QL listing page?
@@ -136,9 +136,9 @@ const Launch = ({ app, launchError, viceQuota, runningJobs, loading }) => {
                 setSubmissionError(null);
                 submitAnalysisMutation({ submission, onSuccess, onError });
             }}
-            saveQuickLaunch={(quickLaunch, onSuccess, onError) => {
+            createSavedLaunch={(savedLaunch, onSuccess, onError) => {
                 setSubmissionError(null);
-                addQuickLaunchMutation({ quickLaunch, onSuccess, onError });
+                addSavedLaunchMutation({ savedLaunch, onSuccess, onError });
             }}
         />
     );

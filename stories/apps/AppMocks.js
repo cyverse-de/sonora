@@ -749,11 +749,11 @@ export const appDocumentation = {
     created_by: "rwalls@iplantcollaborative.org",
     modified_by: "rwalls@iplantcollaborative.org",
 };
-export const quickLaunches = [
+export const savedLaunches = [
     {
         id: "1",
-        name: "Qlaunch1",
-        description: "This is my first quick launch",
+        name: "SavedLaunch1",
+        description: "This is my first saved launch",
         creator: "sriram@iplantcollaborative.org",
         app_id: "456",
         is_public: false,
@@ -784,8 +784,8 @@ export const quickLaunches = [
     },
     {
         id: "2",
-        name: "Qlaunch2",
-        description: "This is my second quick launch",
+        name: "SavedLaunch2",
+        description: "This is my second saved launch",
         creator: "ipctest@iplantcollaborative.org",
         app_id: "456",
         is_public: true,
@@ -816,8 +816,8 @@ export const quickLaunches = [
     },
     {
         id: "3",
-        name: "Qlaunch3",
-        description: "This is my third quick launch",
+        name: "SavedLaunch3",
+        description: "This is my third saved launch",
         creator: "sriram@iplantcollaborative.org",
         app_id: "456",
         is_public: true,
@@ -848,8 +848,8 @@ export const quickLaunches = [
     },
     {
         id: "4",
-        name: "Qlaunch4",
-        description: "This is my fourth quick launch",
+        name: "SavedLaunch4",
+        description: "This is my fourth saved launch",
         creator: "ipcdev@iplantcollaborative.org",
         app_id: "456",
         is_public: false,

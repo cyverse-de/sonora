@@ -120,7 +120,7 @@ function TableView(props) {
         onDetailsSelected,
         setSharingDlgOpen,
         onDocSelected,
-        onQLSelected,
+        onSavedLaunchSelected,
         onDeleteSelected,
         enableMenu = true,
         enableSorting = true,
@@ -359,8 +359,8 @@ function TableView(props) {
                                                         onDocSelected={
                                                             onDocSelected
                                                         }
-                                                        onQLSelected={
-                                                            onQLSelected
+                                                        onSavedLaunchSelected={
+                                                            onSavedLaunchSelected
                                                         }
                                                         isAdminView={
                                                             isAdminView

@@ -1,7 +1,7 @@
 /**
  * @author aramsey
  *
- * The toolbar displayed when viewing communities
+ * The toolbar displayed when viewing collections
  */
 
 import React, { useState } from "react";
@@ -24,17 +24,17 @@ import { Add, Help } from "@material-ui/icons";
 
 import ids from "./ids";
 import styles from "./styles";
-import { COMMUNITY_FILTER } from "./index";
+import { COLLECTION_FILTER } from "./index";
 import { useTranslation } from "i18n";
 
 import DEDialog from "../utils/DEDialog";
 
 const useStyles = makeStyles(styles);
 
-function CommunityToolbar(props) {
-    const { parentId, filter, setFilter, onCreateCommunitySelected } = props;
+function CollectionToolbar(props) {
+    const { parentId, filter, setFilter, onCreateCollectionSelected } = props;
     const classes = useStyles();
-    const { t } = useTranslation(["communities", "common"]);
+    const { t } = useTranslation(["collections", "common"]);
 
     const [helpDlgOpen, setHelpDlgOpen] = useState(false);
 
@@ -48,7 +48,7 @@ function CommunityToolbar(props) {
     return (
         <Toolbar id={toolbarId} variant="dense">
             <TextField
-                id={buildID(toolbarId, ids.COMMUNITY_FILTER)}
+                id={buildID(toolbarId, ids.COLLECTION_FILTER)}
                 label={t("view")}
                 value={filter}
                 onChange={onFilterChange}
@@ -57,18 +57,18 @@ function CommunityToolbar(props) {
                 margin="dense"
             >
                 <MenuItem
-                    value={COMMUNITY_FILTER.ALL_COMMUNITIES}
-                    key={COMMUNITY_FILTER.ALL_COMMUNITIES}
+                    value={COLLECTION_FILTER.ALL_COLLECTIONS}
+                    key={COLLECTION_FILTER.ALL_COLLECTIONS}
                     id={buildID()}
                 >
-                    {t("allCommunities")}
+                    {t("allCollections")}
                 </MenuItem>
                 <MenuItem
-                    value={COMMUNITY_FILTER.MY_COMMUNITIES}
-                    key={COMMUNITY_FILTER.MY_COMMUNITIES}
+                    value={COLLECTION_FILTER.MY_COLLECTIONS}
+                    key={COLLECTION_FILTER.MY_COLLECTIONS}
                     id={buildID()}
                 >
-                    {t("myCommunities")}
+                    {t("myCollections")}
                 </MenuItem>
             </TextField>
             <div className={classes.divider} />
@@ -77,11 +77,11 @@ function CommunityToolbar(props) {
                     color="primary"
                     variant="outlined"
                     id={buildID(toolbarId, ids.BUTTONS.CREATE_BTN)}
-                    onClick={onCreateCommunitySelected}
+                    onClick={onCreateCollectionSelected}
                     startIcon={<Add />}
                     classes={{ root: classes.button }}
                 >
-                    {t("createCommunity")}
+                    {t("createCollection")}
                 </Button>
             </Hidden>
             <Hidden xsDown>
@@ -104,13 +104,13 @@ function CommunityToolbar(props) {
                             id={buildID(dotMenuId, ids.BUTTONS.CREATE_MI)}
                             onClick={() => {
                                 onClose();
-                                onCreateCommunitySelected();
+                                onCreateCollectionSelected();
                             }}
                         >
                             <ListItemIcon>
                                 <Add fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText primary={t("createCommunity")} />
+                            <ListItemText primary={t("createCollection")} />
                         </MenuItem>,
                         <MenuItem
                             key={buildID(dotMenuId, ids.BUTTONS.HELP_MI)}
@@ -142,4 +142,4 @@ function CommunityToolbar(props) {
     );
 }
 
-export default CommunityToolbar;
+export default CollectionToolbar;

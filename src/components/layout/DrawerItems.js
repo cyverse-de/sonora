@@ -24,7 +24,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { Web } from "@material-ui/icons";
 import { openInteractiveUrl } from "../analyses/utils";
-import { CommunityIcon } from "../communities/Icons";
+import { CollectionIcon } from "../collections/Icons";
 
 function DrawerItems(props) {
     const {
@@ -118,10 +118,10 @@ function DrawerItems(props) {
                 open={open}
             />
             <DrawerItem
-                title={t("communities")}
-                id={ids.COMMUNITIES_MI}
-                icon={CommunityIcon}
-                thisView={NavigationConstants.COMMUNITIES}
+                title={t("collections")}
+                id={ids.COLLECTIONS_MI}
+                icon={CollectionIcon}
+                thisView={NavigationConstants.COLLECTIONS}
                 activeView={activeView}
                 toggleDrawer={toggleDrawer}
                 open={open}

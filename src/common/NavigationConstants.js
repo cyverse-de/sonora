@@ -6,7 +6,7 @@ export default {
     ADMIN: "admin",
     ANALYSES: "analyses",
     APPS: "apps",
-    COMMUNITIES: "communities",
+    COLLECTIONS: "collections",
     DASHBOARD: "dashboard",
     DATA: "data",
     DETAILS: "details",

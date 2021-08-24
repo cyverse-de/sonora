@@ -1,11 +1,11 @@
 /**
  * @author aramsey
  *
- * A component that allows a user to view/edit the community admins
+ * A component that allows a user to view/edit the collection admins
  *
- * Note that an admin can never remove themselves from a community. This is
+ * Note that an admin can never remove themselves from a collection. This is
  * to prevent an admin from accidentally losing the ability to modify their
- * own community
+ * own collection
  */
 
 import React, { useMemo } from "react";
@@ -34,7 +34,7 @@ function Admins(props) {
         form: { values },
         name,
     } = props;
-    const { t } = useTranslation(["communities", "sharing"]);
+    const { t } = useTranslation(["collections", "sharing"]);
 
     const [userProfile] = useUserProfile();
     const username = userProfile?.id;
@@ -104,7 +104,7 @@ function Admins(props) {
         <SimpleExpansionPanel
             header={
                 <FormControlLabel
-                    aria-label={t("communityAdmins")}
+                    aria-label={t("collectionAdmins")}
                     onClick={(event) => event.stopPropagation()}
                     onFocus={(event) => event.stopPropagation()}
                     labelPlacement="start"
@@ -116,7 +116,7 @@ function Admins(props) {
                             color="secondary"
                         />
                     }
-                    label={t("communityAdmins")}
+                    label={t("collectionAdmins")}
                 />
             }
             defaultExpanded={true}

@@ -2,7 +2,7 @@
  * @author aramsey
  *
  * These are all the form fields for the form used for editing or creating
- * communities.
+ * collections.
  * This also has a submission error message that displays above and below
  * the form when an error occurs.
  */
@@ -17,13 +17,13 @@ import { validateGroupName } from "components/teams/util";
 import buildID from "components/utils/DebugIDUtil";
 
 import Admins from "./Admins";
-import CommunityApps from "./CommunityApps";
+import CollectionApps from "./CollectionApps";
 import ids from "../ids";
 import { useTranslation } from "i18n";
 
 function FormFields(props) {
     const { parentId, isAdmin, queryError, loading } = props;
-    const { t } = useTranslation("communities");
+    const { t } = useTranslation("collections");
 
     return (
         <>
@@ -35,15 +35,15 @@ function FormFields(props) {
             )}
             <Field
                 name="name"
-                label={t("communityName")}
+                label={t("collectionName")}
                 id={buildID(parentId, ids.NAME)}
                 InputProps={{
                     readOnly: !isAdmin,
                 }}
                 validate={(value) =>
                     validateGroupName(value, t, {
-                        emptyNameKey: "emptyCommunityName",
-                        invalidNameKey: "invalidCommunityName",
+                        emptyNameKey: "emptyCollectionName",
+                        invalidNameKey: "invalidCollectionName",
                     })
                 }
                 component={FormTextField}
@@ -70,7 +70,7 @@ function FormFields(props) {
             )}
             <FieldArray name="apps">
                 {(props) => (
-                    <CommunityApps
+                    <CollectionApps
                         {...props}
                         loading={loading}
                         isAdmin={isAdmin}

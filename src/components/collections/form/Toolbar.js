@@ -1,10 +1,10 @@
 /**
  * @author aramsey
  *
- * A toolbar that displays above the form for editing communities
+ * A toolbar that displays above the form for editing collections
  *
  * This toolbar contains buttons for saving, deleting, and unfollowing a
- * community
+ * collection
  */
 
 import React, { useState } from "react";
@@ -31,32 +31,34 @@ import ids from "../ids";
 import styles from "../styles";
 const useStyles = makeStyles(styles);
 
-function EditCommunityToolbar(props) {
+function EditCollectionToolbar(props) {
     const {
         parentId,
         isAdmin,
         isFollower,
         onUnfollowSelected,
-        onDeleteCommunitySelected,
+        onDeleteCollectionSelected,
         onFollowSelected,
-        communityName,
+        collectionName,
         handleSubmit,
         dirty,
     } = props;
-    const { t } = useTranslation(["communities", "common"]);
+    const { t } = useTranslation(["collections", "common"]);
     const classes = useStyles();
 
-    const [unfollowCommunityDlgOpen, setUnfollowCommunityDlgOpen] =
+    const [unfollowCollectionDlgOpen, setUnfollowCollectionDlgOpen] =
         useState(false);
-    const [deleteCommunityDlgOpen, setDeleteCommunityDlgOpen] = useState(false);
-    const [followCommunityDlgOpen, setFollowCommunityDlgOpen] = useState(false);
+    const [deleteCollectionDlgOpen, setDeleteCollectionDlgOpen] =
+        useState(false);
+    const [followCollectionDlgOpen, setFollowCollectionDlgOpen] =
+        useState(false);
 
     const baseId = buildID(parentId, ids.TOOLBAR);
-    const isCreatingCommunity = !communityName;
+    const isCreatingCollection = !collectionName;
 
     const unfollowEnabled = !isAdmin && isFollower;
     const followEnabled = !isAdmin && !isFollower;
-    const deleteEnabled = isAdmin && !isCreatingCommunity;
+    const deleteEnabled = isAdmin && !isCreatingCollection;
 
     return (
         <Toolbar variant="dense">
@@ -84,7 +86,7 @@ function EditCommunityToolbar(props) {
                         className={classes.button}
                         startIcon={<ExitToApp />}
                         onClick={() => {
-                            setUnfollowCommunityDlgOpen(true);
+                            setUnfollowCollectionDlgOpen(true);
                         }}
                     >
                         {t("unfollow")}
@@ -98,7 +100,7 @@ function EditCommunityToolbar(props) {
                         className={classes.button}
                         startIcon={<EmojiPeople />}
                         onClick={() => {
-                            setFollowCommunityDlgOpen(true);
+                            setFollowCollectionDlgOpen(true);
                         }}
                     >
                         {t("follow")}
@@ -109,7 +111,7 @@ function EditCommunityToolbar(props) {
                         baseId={baseId}
                         variant="outlined"
                         onClick={() => {
-                            setDeleteCommunityDlgOpen(true);
+                            setDeleteCollectionDlgOpen(true);
                         }}
                     >
                         {t("common:delete")}
@@ -126,7 +128,7 @@ function EditCommunityToolbar(props) {
                                 id={buildID(baseId, ids.BUTTONS.UNFOLLOW_MI)}
                                 onClick={() => {
                                     onClose();
-                                    setUnfollowCommunityDlgOpen(true);
+                                    setUnfollowCollectionDlgOpen(true);
                                 }}
                             >
                                 <ListItemIcon>
@@ -141,7 +143,7 @@ function EditCommunityToolbar(props) {
                                 id={buildID(baseId, ids.BUTTONS.FOLLOW_MI)}
                                 onClick={() => {
                                     onClose();
-                                    setFollowCommunityDlgOpen(true);
+                                    setFollowCollectionDlgOpen(true);
                                 }}
                             >
                                 <ListItemIcon>
@@ -156,7 +158,7 @@ function EditCommunityToolbar(props) {
                                 id={buildID(baseId, ids.BUTTONS.DELETE_MI)}
                                 onClick={() => {
                                     onClose();
-                                    setDeleteCommunityDlgOpen(true);
+                                    setDeleteCollectionDlgOpen(true);
                                 }}
                             >
                                 <ListItemIcon>
@@ -169,45 +171,45 @@ function EditCommunityToolbar(props) {
                 />
             </Hidden>
             <ConfirmationDialog
-                baseId={ids.UNFOLLOW_COMMUNITY_DLG}
-                open={unfollowCommunityDlgOpen}
-                onClose={() => setUnfollowCommunityDlgOpen(false)}
+                baseId={ids.UNFOLLOW_COLLECTION_DLG}
+                open={unfollowCollectionDlgOpen}
+                onClose={() => setUnfollowCollectionDlgOpen(false)}
                 onConfirm={() => {
-                    setUnfollowCommunityDlgOpen(false);
+                    setUnfollowCollectionDlgOpen(false);
                     onUnfollowSelected();
                 }}
-                title={t("unfollowCommunityTitle", {
-                    name: communityName,
+                title={t("unfollowCollectionTitle", {
+                    name: collectionName,
                 })}
-                contentText={t("unfollowCommunityText")}
+                contentText={t("unfollowCollectionText")}
                 confirmButtonText={t("unfollow")}
             />
             <ConfirmationDialog
-                baseId={ids.DELETE_COMMUNITY_DLG}
-                open={deleteCommunityDlgOpen}
-                onClose={() => setDeleteCommunityDlgOpen(false)}
+                baseId={ids.DELETE_COLLECTION_DLG}
+                open={deleteCollectionDlgOpen}
+                onClose={() => setDeleteCollectionDlgOpen(false)}
                 onConfirm={() => {
-                    setDeleteCommunityDlgOpen(false);
-                    onDeleteCommunitySelected();
+                    setDeleteCollectionDlgOpen(false);
+                    onDeleteCollectionSelected();
                 }}
-                title={t("deleteCommunityTitle", { name: communityName })}
-                contentText={t("deleteCommunityText")}
+                title={t("deleteCollectionTitle", { name: collectionName })}
+                contentText={t("deleteCollectionText")}
                 confirmButtonText={t("common:delete")}
             />
             <ConfirmationDialog
-                baseId={ids.FOLLOW_COMMUNITY_DLG}
-                open={followCommunityDlgOpen}
-                onClose={() => setFollowCommunityDlgOpen(false)}
+                baseId={ids.FOLLOW_COLLECTION_DLG}
+                open={followCollectionDlgOpen}
+                onClose={() => setFollowCollectionDlgOpen(false)}
                 onConfirm={() => {
-                    setFollowCommunityDlgOpen(false);
+                    setFollowCollectionDlgOpen(false);
                     onFollowSelected();
                 }}
-                title={t("followCommunityTitle", { name: communityName })}
-                contentText={t("followCommunityText")}
+                title={t("followCollectionTitle", { name: collectionName })}
+                contentText={t("followCollectionText")}
                 confirmButtonText={t("follow")}
             />
         </Toolbar>
     );
 }
 
-export default EditCommunityToolbar;
+export default EditCollectionToolbar;

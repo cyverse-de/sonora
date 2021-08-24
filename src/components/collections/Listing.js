@@ -1,8 +1,8 @@
 /**
  * @author aramsey
  *
- * A component that displays either the list of all communities or only
- * communities they are currently following
+ * A component that displays either the list of all collections or only
+ * collections they are currently following
  */
 
 import React, { useMemo, useState } from "react";
@@ -16,12 +16,12 @@ import isQueryLoading from "components/utils/isQueryLoading";
 import { useUserProfile } from "contexts/userProfile";
 import { useTranslation } from "i18n";
 import ids from "./ids";
-import { COMMUNITY_FILTER } from "./index";
+import { COLLECTION_FILTER } from "./index";
 import {
-    ALL_COMMUNITIES_QUERY,
-    getAllCommunities,
-    getMyCommunities,
-    MY_COMMUNITIES_QUERY,
+    ALL_COLLECTIONS_QUERY,
+    getAllCollections,
+    getMyCollections,
+    MY_COLLECTIONS_QUERY,
 } from "serviceFacades/groups";
 import DELink from "../utils/DELink";
 
@@ -33,67 +33,69 @@ function Columns(t) {
 }
 
 function Listing(props) {
-    const { parentId, filter, onCommunitySelected } = props;
+    const { parentId, filter, onCollectionSelected } = props;
 
-    const { t } = useTranslation(["communities", "search"]);
+    const { t } = useTranslation(["collections", "search"]);
     const [data, setData] = useState([]);
     const [userProfile] = useUserProfile();
 
     const tableId = buildID(parentId, ids.TABLE);
-    const COMMUNITY_COLUMNS = Columns(t);
+    const COLLECTION_COLUMNS = Columns(t);
 
     const columns = useMemo(() => {
         return [
             {
-                Header: COMMUNITY_COLUMNS.NAME.fieldName,
-                accessor: COMMUNITY_COLUMNS.NAME.key,
+                Header: COLLECTION_COLUMNS.NAME.fieldName,
+                accessor: COLLECTION_COLUMNS.NAME.key,
                 Cell: ({ row, value }) => {
-                    const community = row.original;
-                    const rowId = buildID(tableId, community.id);
+                    const collection = row.original;
+                    const rowId = buildID(tableId, collection.id);
                     return (
                         <DELink
-                            id={buildID(rowId, ids.COMMUNITY_LINK)}
-                            onClick={() => onCommunitySelected(community.name)}
+                            id={buildID(rowId, ids.COLLECTION_LINK)}
+                            onClick={() =>
+                                onCollectionSelected(collection.name)
+                            }
                             text={value}
                         />
                     );
                 },
             },
             {
-                Header: COMMUNITY_COLUMNS.DESCRIPTION.fieldName,
-                accessor: COMMUNITY_COLUMNS.DESCRIPTION.key,
+                Header: COLLECTION_COLUMNS.DESCRIPTION.fieldName,
+                accessor: COLLECTION_COLUMNS.DESCRIPTION.key,
             },
         ];
-    }, [COMMUNITY_COLUMNS, onCommunitySelected, tableId]);
+    }, [COLLECTION_COLUMNS, onCollectionSelected, tableId]);
 
-    const { isFetching: fetchMyCommunities, error: myCommunitiesError } =
+    const { isFetching: fetchMyCollections, error: myCollectionsError } =
         useQuery({
-            queryKey: [MY_COMMUNITIES_QUERY, { userId: userProfile?.id }],
+            queryKey: [MY_COLLECTIONS_QUERY, { userId: userProfile?.id }],
             enabled: userProfile?.id,
-            queryFn: getMyCommunities,
+            queryFn: getMyCollections,
             config: {
-                enabled: COMMUNITY_FILTER.MY_COMMUNITIES === filter,
+                enabled: COLLECTION_FILTER.MY_COLLECTIONS === filter,
                 onSuccess: (results) => {
                     setData(results.groups);
                 },
             },
         });
 
-    const { isFetching: fetchAllCommunities, error: allCommunitiesError } =
+    const { isFetching: fetchAllCollections, error: allCollectionsError } =
         useQuery({
-            queryKey: [ALL_COMMUNITIES_QUERY],
-            queryFn: getAllCommunities,
+            queryKey: [ALL_COLLECTIONS_QUERY],
+            queryFn: getAllCollections,
             config: {
-                enabled: COMMUNITY_FILTER.ALL_COMMUNITIES === filter,
+                enabled: COLLECTION_FILTER.ALL_COLLECTIONS === filter,
                 onSuccess: (results) => {
                     setData(results.groups);
                 },
             },
         });
 
-    const loading = isQueryLoading([fetchMyCommunities, fetchAllCommunities]);
+    const loading = isQueryLoading([fetchMyCollections, fetchAllCollections]);
 
-    const error = allCommunitiesError || myCommunitiesError;
+    const error = allCollectionsError || myCollectionsError;
 
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={parentId} />;
@@ -105,7 +107,7 @@ function Listing(props) {
             columns={columns}
             data={data}
             loading={loading}
-            emptyDataMessage={t("noCommunities")}
+            emptyDataMessage={t("noCollections")}
             sortable
         />
     );

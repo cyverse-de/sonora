@@ -1,7 +1,7 @@
 /**
  * @author aramsey
  *
- * The top-level component for creating/editing communities
+ * The top-level component for creating/editing collections
  */
 import React, { useState } from "react";
 
@@ -19,59 +19,59 @@ import isQueryLoading from "components/utils/isQueryLoading";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import {
-    COMMUNITY_DETAILS_QUERY,
-    createCommunity,
-    deleteCommunity,
-    followCommunity,
-    getCommunityDetails,
-    unfollowCommunity,
-    updateCommunityDetails,
-    updateCommunityNameDesc,
+    COLLECTION_DETAILS_QUERY,
+    createCollection,
+    deleteCollection,
+    followCollection,
+    getCollectionDetails,
+    unfollowCollection,
+    updateCollectionDetails,
+    updateCollectionNameDesc,
 } from "serviceFacades/groups";
 
 import FormFields from "./FormFields";
 import { useTranslation } from "i18n";
 import ids from "../ids";
 import styles from "../styles";
-import CommunityToolbar from "./Toolbar";
+import CollectionToolbar from "./Toolbar";
 
 const useStyles = makeStyles(styles);
 
-function CommunitiesForm(props) {
-    const { parentId, communityName, goBackToCommunityList } = props;
-    const { t } = useTranslation(["communities", "common"]);
+function CollectionsForm(props) {
+    const { parentId, collectionName, goBackToCollectionList } = props;
+    const { t } = useTranslation(["collections", "common"]);
     const classes = useStyles();
     const [config] = useConfig();
 
     const [userProfile] = useUserProfile();
-    const [community, setCommunity] = useState(null);
+    const [collection, setCollection] = useState(null);
     const [isAdmin, setAdmin] = useState(false);
     const [admins, setAdmins] = useState([]);
     const [isFollower, setFollower] = useState(false);
     const [apps, setApps] = useState([]);
     const [queryError, setQueryError] = useState(null);
-    const [communityNameSaved, setCommunityNameSaved] = useState(false);
+    const [collectionNameSaved, setCollectionNameSaved] = useState(false);
     const [showRetagAppsDlg, setShowRetagAppsDlg] = useState(false);
 
-    const isCreatingCommunity = !communityName;
+    const isCreatingCollection = !collectionName;
 
-    const { isFetching: fetchingCommunityDetails } = useQuery({
+    const { isFetching: fetchingCollectionDetails } = useQuery({
         queryKey: [
-            COMMUNITY_DETAILS_QUERY,
+            COLLECTION_DETAILS_QUERY,
             {
-                name: communityName,
-                fullName: community?.display_name,
+                name: collectionName,
+                fullName: collection?.display_name,
                 userId: userProfile?.id,
             },
         ],
-        queryFn: getCommunityDetails,
+        queryFn: getCollectionDetails,
         config: {
-            enabled: !isCreatingCommunity,
+            enabled: !isCreatingCollection,
             onSuccess: (results) => {
                 if (results) {
-                    const { community, isAdmin, admins, isFollower, apps } =
+                    const { collection, isAdmin, admins, isFollower, apps } =
                         results;
-                    setCommunity(community);
+                    setCollection(collection);
                     setAdmin(isAdmin);
                     setAdmins(admins);
                     setFollower(isFollower);
@@ -80,7 +80,7 @@ function CommunitiesForm(props) {
             },
             onError: (error) => {
                 setQueryError({
-                    message: t("getCommunityFail"),
+                    message: t("getCollectionFail"),
                     object: error,
                 });
             },
@@ -88,21 +88,21 @@ function CommunitiesForm(props) {
     });
 
     const [followMutation, { status: followStatus }] = useMutation(
-        followCommunity,
+        followCollection,
         {
             onSuccess: (resp) => {
                 announce({
-                    text: t("followCommunitySuccess", {
-                        name: communityName,
+                    text: t("followCollectionSuccess", {
+                        name: collectionName,
                     }),
                     variant: INFO,
                 });
-                goBackToCommunityList();
+                goBackToCollectionList();
             },
             onError: (error) => {
                 setQueryError({
-                    message: t("followCommunityError", {
-                        name: communityName,
+                    message: t("followCollectionError", {
+                        name: collectionName,
                     }),
                     object: error,
                 });
@@ -111,21 +111,21 @@ function CommunitiesForm(props) {
     );
 
     const [unfollowMutation, { status: unfollowStatus }] = useMutation(
-        unfollowCommunity,
+        unfollowCollection,
         {
             onSuccess: () => {
                 announce({
-                    text: t("unfollowCommunitySuccess", {
-                        name: communityName,
+                    text: t("unfollowCollectionSuccess", {
+                        name: collectionName,
                     }),
                     variant: INFO,
                 });
-                goBackToCommunityList();
+                goBackToCollectionList();
             },
             onError: (error) => {
                 setQueryError({
-                    message: t("unfollowCommunityError", {
-                        name: communityName,
+                    message: t("unfollowCollectionError", {
+                        name: collectionName,
                     }),
                     object: error,
                 });
@@ -134,21 +134,21 @@ function CommunitiesForm(props) {
     );
 
     const [deleteMutation, { status: deleteStatus }] = useMutation(
-        deleteCommunity,
+        deleteCollection,
         {
             onSuccess: () => {
                 announce({
-                    text: t("deleteCommunitySuccess", {
-                        name: communityName,
+                    text: t("deleteCollectionSuccess", {
+                        name: collectionName,
                     }),
                     variant: INFO,
                 });
-                goBackToCommunityList();
+                goBackToCollectionList();
             },
             onError: (error) => {
                 setQueryError({
-                    message: t("deleteCommunityError", {
-                        name: communityName,
+                    message: t("deleteCollectionError", {
+                        name: collectionName,
                     }),
                     object: error,
                 });
@@ -157,11 +157,11 @@ function CommunitiesForm(props) {
     );
 
     const [
-        updateCommunityNameDescMutation,
-        { status: updateCommunityNameDescStatus },
-    ] = useMutation(updateCommunityNameDesc, {
+        updateCollectionNameDescMutation,
+        { status: updateCollectionNameDescStatus },
+    ] = useMutation(updateCollectionNameDesc, {
         onSuccess: (resp, { newAdmins, newApps, attr }) => {
-            updateCommunityDetailsMutation({
+            updateCollectionDetailsMutation({
                 name: resp?.name,
                 fullName: resp?.display_name,
                 oldAdmins: admins,
@@ -178,30 +178,32 @@ function CommunitiesForm(props) {
                 setShowRetagAppsDlg(true);
             } else {
                 setQueryError({
-                    message: t("updateCommunityNameDescError"),
+                    message: t("updateCollectionNameDescError"),
                     object: error,
                 });
             }
         },
     });
 
-    const [updateCommunityDetailsMutation, { status: updateCommunityStatus }] =
-        useMutation(updateCommunityDetails, {
-            onSuccess: goBackToCommunityList,
-            onError: (error) => {
-                setQueryError({
-                    message: t("updateCommunityDetailsFail"),
-                    object: error,
-                });
-            },
-        });
+    const [
+        updateCollectionDetailsMutation,
+        { status: updateCollectionStatus },
+    ] = useMutation(updateCollectionDetails, {
+        onSuccess: goBackToCollectionList,
+        onError: (error) => {
+            setQueryError({
+                message: t("updateCollectionDetailsFail"),
+                object: error,
+            });
+        },
+    });
 
-    const [createCommunityMutation, { status: createCommunityStatus }] =
-        useMutation(createCommunity, {
+    const [createCollectionMutation, { status: createCollectionStatus }] =
+        useMutation(createCollection, {
             onSuccess: (resp, { newAdmins, newApps, attr }) => {
-                setCommunity(resp);
-                setCommunityNameSaved(true);
-                updateCommunityDetailsMutation({
+                setCollection(resp);
+                setCollectionNameSaved(true);
+                updateCollectionDetailsMutation({
                     name: resp?.name,
                     fullName: resp?.display_name,
                     oldAdmins: admins,
@@ -213,20 +215,20 @@ function CommunitiesForm(props) {
             },
             onError: (error) => {
                 setQueryError({
-                    message: t("createCommunityFail"),
+                    message: t("createCollectionFail"),
                     object: error,
                 });
             },
         });
 
     const loading = isQueryLoading([
-        fetchingCommunityDetails,
+        fetchingCollectionDetails,
         followStatus,
         unfollowStatus,
         deleteStatus,
-        createCommunityStatus,
-        updateCommunityNameDescStatus,
-        updateCommunityStatus,
+        createCollectionStatus,
+        updateCollectionNameDescStatus,
+        updateCollectionStatus,
     ]);
 
     const handleSubmit = (values) => {
@@ -243,17 +245,17 @@ function CommunitiesForm(props) {
         setQueryError(null);
 
         const mutation =
-            isCreatingCommunity && !communityNameSaved
-                ? createCommunityMutation
-                : communityName !== newName ||
-                  community?.description !== newDescription
-                ? updateCommunityNameDescMutation
-                : updateCommunityDetailsMutation;
+            isCreatingCollection && !collectionNameSaved
+                ? createCollectionMutation
+                : collectionName !== newName ||
+                  collection?.description !== newDescription
+                ? updateCollectionNameDescMutation
+                : updateCollectionDetailsMutation;
 
         mutation({
-            originalName: communityName,
-            originalDescription: community?.description,
-            fullName: community?.display_name,
+            originalName: collectionName,
+            originalDescription: collection?.description,
+            fullName: collection?.display_name,
             name: newName,
             description: newDescription,
             oldAdmins: admins,
@@ -269,7 +271,7 @@ function CommunitiesForm(props) {
         <Formik
             enableReinitialize
             initialValues={
-                isCreatingCommunity
+                isCreatingCollection
                     ? {
                           name: "",
                           description: "",
@@ -283,8 +285,8 @@ function CommunitiesForm(props) {
                           retagApps: null,
                       }
                     : {
-                          name: communityName || "",
-                          description: community?.description || "",
+                          name: collectionName || "",
+                          description: collection?.description || "",
                           admins: admins,
                           apps: apps,
                           retagApps: null,
@@ -294,21 +296,21 @@ function CommunitiesForm(props) {
         >
             {({ handleSubmit, setFieldValue, dirty }) => (
                 <>
-                    <CommunityToolbar
+                    <CollectionToolbar
                         parentId={parentId}
-                        isAdmin={isAdmin || isCreatingCommunity}
+                        isAdmin={isAdmin || isCreatingCollection}
                         isFollower={isFollower}
-                        communityName={communityName}
+                        collectionName={collectionName}
                         handleSubmit={handleSubmit}
                         dirty={dirty}
                         onFollowSelected={() =>
-                            followMutation({ communityName })
+                            followMutation({ collectionName })
                         }
                         onUnfollowSelected={() =>
-                            unfollowMutation({ communityName })
+                            unfollowMutation({ collectionName })
                         }
-                        onDeleteCommunitySelected={() =>
-                            deleteMutation({ communityName })
+                        onDeleteCollectionSelected={() =>
+                            deleteMutation({ collectionName })
                         }
                     />
                     <Paper
@@ -329,7 +331,7 @@ function CommunitiesForm(props) {
                         {!loading && (
                             <FormFields
                                 parentId={parentId}
-                                isAdmin={isAdmin || isCreatingCommunity}
+                                isAdmin={isAdmin || isCreatingCollection}
                                 queryError={queryError}
                                 loading={loading}
                             />
@@ -346,7 +348,7 @@ function CommunitiesForm(props) {
                         }}
                         title={t("retagAppsTitle")}
                         contentText={t("retagAppsMessage", {
-                            name: communityName,
+                            name: collectionName,
                         })}
                     />
                 </>
@@ -355,4 +357,4 @@ function CommunitiesForm(props) {
     );
 }
 
-export default CommunitiesForm;
+export default CollectionsForm;

@@ -20,13 +20,13 @@ const LIST_SINGLE_TEAM_QUERY = "fetchSingleTeam";
 const RECENT_CONTACTS_QUERY = "fetchRecentContactsList";
 const RECENT_CONTACTS_LIST_NAME = "default"; // `default` collaborator list
 
-const MY_COMMUNITIES_QUERY = "fetchMyCommunities";
-const ALL_COMMUNITIES_QUERY = "fetchAllCommunities";
-const COMMUNITY_INFO_QUERY = "fetchCommunityInfo";
-const COMMUNITY_ADMINS_QUERY = "fetchCommunityAdmins";
-const COMMUNITY_FOLLOWERS_QUERY = "fetchCommunityFollowers";
-const COMMUNITY_APPS_QUERY = "fetchCommunityApps";
-const COMMUNITY_DETAILS_QUERY = "fetchCommunityDetails";
+const MY_COLLECTIONS_QUERY = "fetchMyCollections";
+const ALL_COLLECTIONS_QUERY = "fetchAllCollections";
+const COLLECTION_INFO_QUERY = "fetchCollectionInfo";
+const COLLECTION_ADMINS_QUERY = "fetchCollectionAdmins";
+const COLLECTION_FOLLOWERS_QUERY = "fetchCollectionFollowers";
+const COLLECTION_APPS_QUERY = "fetchCollectionApps";
+const COLLECTION_DETAILS_QUERY = "fetchCollectionDetails";
 
 // Checks if a grouper member update response returned 200, but with `success`
 // set to false on any of the updates
@@ -352,7 +352,7 @@ function removeRecentContacts({ members }) {
     });
 }
 
-function getMyCommunities(key, { userId }) {
+function getMyCollections(key, { userId }) {
     return callApi({
         endpoint: "/api/communities",
         method: "GET",
@@ -362,21 +362,21 @@ function getMyCommunities(key, { userId }) {
     });
 }
 
-function getAllCommunities(key) {
+function getAllCollections(key) {
     return callApi({
         endpoint: "/api/communities",
         method: "GET",
     });
 }
 
-function getCommunityInfo(key, { name }) {
+function getCollectionInfo(key, { name }) {
     return callApi({
         endpoint: `/api/communities/${encodeURIComponent(name)}`,
         method: "GET",
     });
 }
 
-function getCommunityAdmins(key, { name }) {
+function getCollectionAdmins(key, { name }) {
     /**
      * The members endpoint only returns the user ID and source_id.  We'll take
      * this response and ask the user-info endpoint to give us more detailed
@@ -391,14 +391,14 @@ function getCommunityAdmins(key, { name }) {
     });
 }
 
-function getCommunityFollowers(key, { name }) {
+function getCollectionFollowers(key, { name }) {
     return callApi({
         endpoint: `/api/communities/${encodeURIComponent(name)}/members`,
         method: "GET",
     });
 }
 
-function getCommunityApps(key, { name, sortField, sortDir, appFilter }) {
+function getCollectionApps(key, { name, sortField, sortDir, appFilter }) {
     const params = {
         "sort-field": sortField || "name",
         "sort-dir": sortDir?.toUpperCase() || "ASC",
@@ -414,15 +414,15 @@ function getCommunityApps(key, { name, sortField, sortDir, appFilter }) {
     });
 }
 
-function getCommunityDetails(
+function getCollectionDetails(
     key,
     { name, fullName, userId, sortField, sortDir, appFilter }
 ) {
     return Promise.all([
-        getCommunityInfo(COMMUNITY_INFO_QUERY, { name }),
-        getCommunityAdmins(COMMUNITY_ADMINS_QUERY, { name }),
-        getCommunityFollowers(COMMUNITY_FOLLOWERS_QUERY, { name }),
-        getCommunityApps(COMMUNITY_APPS_QUERY, {
+        getCollectionInfo(COLLECTION_INFO_QUERY, { name }),
+        getCollectionAdmins(COLLECTION_ADMINS_QUERY, { name }),
+        getCollectionFollowers(COLLECTION_FOLLOWERS_QUERY, { name }),
+        getCollectionApps(COLLECTION_APPS_QUERY, {
             name: fullName,
             sortField,
             sortDir,
@@ -430,7 +430,7 @@ function getCommunityDetails(
         }),
     ]).then((resp) => {
         if (resp) {
-            const community = resp[0];
+            const collection = resp[0];
 
             const adminObj = resp[1];
             const admins = Object.values(adminObj);
@@ -442,47 +442,49 @@ function getCommunityDetails(
             );
 
             const apps = resp[3];
-            return { community, isAdmin, admins, isFollower, apps };
+            return { collection, isAdmin, admins, isFollower, apps };
         }
     });
 }
 
-function followCommunity({ communityName }) {
+function followCollection({ collectionName }) {
     return callApi({
-        endpoint: `/api/communities/${encodeURIComponent(communityName)}/join`,
+        endpoint: `/api/communities/${encodeURIComponent(collectionName)}/join`,
         method: "POST",
     }).then((resp) => {
         const hasFailures = responseHasFailures(resp);
         if (hasFailures) {
-            throw new Error("Failed to follow community");
+            throw new Error("Failed to follow collection");
         } else {
             return resp;
         }
     });
 }
 
-function unfollowCommunity({ communityName }) {
+function unfollowCollection({ collectionName }) {
     return callApi({
-        endpoint: `/api/communities/${encodeURIComponent(communityName)}/leave`,
+        endpoint: `/api/communities/${encodeURIComponent(
+            collectionName
+        )}/leave`,
         method: "POST",
     }).then((resp) => {
         const hasFailures = responseHasFailures(resp);
         if (hasFailures) {
-            throw new Error("Failed to unfollow community");
+            throw new Error("Failed to unfollow collection");
         } else {
             return resp;
         }
     });
 }
 
-function deleteCommunity({ communityName }) {
+function deleteCollection({ collectionName }) {
     return callApi({
-        endpoint: `/api/communities/${encodeURIComponent(communityName)}`,
+        endpoint: `/api/communities/${encodeURIComponent(collectionName)}`,
         method: "DELETE",
     });
 }
 
-function createCommunity({ name, description }) {
+function createCollection({ name, description }) {
     return callApi({
         endpoint: "/api/communities",
         method: "POST",
@@ -493,7 +495,7 @@ function createCommunity({ name, description }) {
     });
 }
 
-function updateCommunityNameDesc({
+function updateCollectionNameDesc({
     originalName,
     name,
     description,
@@ -513,7 +515,7 @@ function updateCommunityNameDesc({
     });
 }
 
-function addCommunityAdmins({ name, adminIds }) {
+function addCollectionAdmins({ name, adminIds }) {
     return callApi({
         endpoint: `/api/communities/${encodeURIComponent(name)}/admins`,
         method: "POST",
@@ -523,14 +525,14 @@ function addCommunityAdmins({ name, adminIds }) {
     }).then((resp) => {
         const hasFailures = responseHasFailures(resp);
         if (hasFailures) {
-            throw new Error("Failed to add a community admin");
+            throw new Error("Failed to add a collection admin");
         } else {
             return resp;
         }
     });
 }
 
-function removeCommunityAdmins({ name, adminIds }) {
+function removeCollectionAdmins({ name, adminIds }) {
     return callApi({
         endpoint: `/api/communities/${encodeURIComponent(name)}/admins/deleter`,
         method: "POST",
@@ -540,14 +542,14 @@ function removeCommunityAdmins({ name, adminIds }) {
     }).then((resp) => {
         const hasFailures = responseHasFailures(resp);
         if (hasFailures) {
-            throw new Error("Failed to remove a community admin");
+            throw new Error("Failed to remove a collection admin");
         } else {
             return resp;
         }
     });
 }
 
-function addAppToCommunity({ avu, appId }) {
+function addAppToCollection({ avu, appId }) {
     return callApi({
         endpoint: `/api/apps/${appId}/communities`,
         method: "POST",
@@ -557,17 +559,17 @@ function addAppToCommunity({ avu, appId }) {
     });
 }
 
-function addAppsToCommunity({ name, apps, attr }) {
+function addAppsToCollection({ name, apps, attr }) {
     const avu = {
         attr,
         value: name,
         unit: "",
     };
 
-    return Promise.all(apps.map((appId) => addAppToCommunity({ avu, appId })));
+    return Promise.all(apps.map((appId) => addAppToCollection({ avu, appId })));
 }
 
-function removeAppFromCommunity({ avu, appId }) {
+function removeAppFromCollection({ avu, appId }) {
     return callApi({
         endpoint: `/api/apps/${appId}/communities`,
         method: "DELETE",
@@ -577,7 +579,7 @@ function removeAppFromCommunity({ avu, appId }) {
     });
 }
 
-function removeAppsFromCommunity({ name, apps, attr }) {
+function removeAppsFromCollection({ name, apps, attr }) {
     const avu = {
         attr,
         value: name,
@@ -585,11 +587,11 @@ function removeAppsFromCommunity({ name, apps, attr }) {
     };
 
     return Promise.all(
-        apps.map((appId) => removeAppFromCommunity({ avu, appId }))
+        apps.map((appId) => removeAppFromCollection({ avu, appId }))
     );
 }
 
-function updateCommunityDetails({
+function updateCollectionDetails({
     name,
     fullName,
     oldAdmins,
@@ -615,21 +617,21 @@ function updateCommunityDetails({
     let promises = [];
 
     if (addAdminIds.length > 0) {
-        promises.push(addCommunityAdmins({ name, adminIds: addAdminIds }));
+        promises.push(addCollectionAdmins({ name, adminIds: addAdminIds }));
     }
     if (removeAdminIds.length > 0) {
         promises.push(
-            removeCommunityAdmins({ name, adminIds: removeAdminIds })
+            removeCollectionAdmins({ name, adminIds: removeAdminIds })
         );
     }
     if (addAppIds.length > 0) {
         promises.push(
-            addAppsToCommunity({ name: fullName, apps: addAppIds, attr })
+            addAppsToCollection({ name: fullName, apps: addAppIds, attr })
         );
     }
     if (removeAppIds.length > 0) {
         promises.push(
-            removeAppsFromCommunity({
+            removeAppsFromCollection({
                 name: fullName,
                 apps: removeAppIds,
                 attr,
@@ -647,9 +649,9 @@ export {
     TEAM_DETAILS_QUERY,
     RECENT_CONTACTS_QUERY,
     RECENT_CONTACTS_LIST_NAME,
-    MY_COMMUNITIES_QUERY,
-    ALL_COMMUNITIES_QUERY,
-    COMMUNITY_DETAILS_QUERY,
+    MY_COLLECTIONS_QUERY,
+    ALL_COLLECTIONS_QUERY,
+    COLLECTION_DETAILS_QUERY,
     getMyTeams,
     getAllTeams,
     searchTeams,
@@ -665,15 +667,15 @@ export {
     fetchRecentContactsList,
     addRecentContacts,
     removeRecentContacts,
-    getMyCommunities,
-    getAllCommunities,
-    getCommunityDetails,
-    followCommunity,
-    unfollowCommunity,
-    deleteCommunity,
-    createCommunity,
-    updateCommunityNameDesc,
-    addCommunityAdmins,
-    removeCommunityAdmins,
-    updateCommunityDetails,
+    getMyCollections,
+    getAllCollections,
+    getCollectionDetails,
+    followCollection,
+    unfollowCollection,
+    deleteCollection,
+    createCollection,
+    updateCollectionNameDesc,
+    addCollectionAdmins,
+    removeCollectionAdmins,
+    updateCollectionDetails,
 };

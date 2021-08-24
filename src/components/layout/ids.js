@@ -11,7 +11,7 @@ export default {
     APP_BAR_BASE: "appBar",
     AVATAR: "avatar",
     CLOSE_BTN: "closeBtn",
-    COMMUNITIES_MI: "communitiesMenuItem",
+    COLLECTIONS_MI: "collectionsMenuItem",
     DASHBOARD_BTN: "dashboardButton",
     DASHBOARD_MI: "dashboardMenuItem",
     DATA_BTN: "dataButton",

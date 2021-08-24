@@ -1,47 +1,47 @@
 import { ipcdevUserInfo, userInfoResp } from "../UserInfoMocks";
 
-export const devCommunity = {
+export const devCollection = {
     description: "Testing notifications",
-    name: "Dev Test Community",
+    name: "Dev Test Collection",
     type: "group",
     member: false,
-    extension: "Dev Test Community",
+    extension: "Dev Test Collection",
     id: "4b4795cc99da45f188172a6e7f425644",
-    display_extension: "Dev Test Community",
-    display_name: "iplant:de:qa:communities:Dev Test Community",
+    display_extension: "Dev Test Collection",
+    display_name: "iplant:de:qa:communities:Dev Test Collection",
     privileges: ["optin", "read"],
     id_index: "13207",
 };
 
-export const myCommunityList = {
+export const myCollectionList = {
     groups: [
-        { ...devCommunity },
+        { ...devCollection },
         {
             description: "The best, obviously",
-            name: "Best Community",
+            name: "Best Collection",
             type: "group",
             member: true,
-            extension: "Best Community",
+            extension: "Best Collection",
             id: "4509683a8b964019b4b8c3c5b80ada3c",
-            display_extension: "Best Community",
-            display_name: "iplant:de:qa:communities:Best Community",
+            display_extension: "Best Collection",
+            display_name: "iplant:de:qa:communities:Best Collection",
             privileges: ["admin", "read", "optout"],
             id_index: "11920",
         },
         {
-            description: "Dev Community",
-            name: "DevCommunity",
+            description: "Dev Collection",
+            name: "DevCollection",
             type: "group",
             member: false,
-            extension: "DevCommunity",
+            extension: "DevCollection",
             id: "d4083572ab76436c87736f1b301d17c0",
-            display_extension: "DevCommunity",
-            display_name: "iplant:de:qa:communities:DevCommunity",
+            display_extension: "DevCollection",
+            display_name: "iplant:de:qa:communities:DevCollection",
             privileges: ["read", "optout"],
             id_index: "11913",
         },
         {
-            description: "App Community",
+            description: "App Collection",
             name: "Last Wednesday Society",
             type: "group",
             member: false,
@@ -88,7 +88,7 @@ export const myCommunityList = {
             id_index: "12132",
         },
         {
-            description: "Test App Community",
+            description: "Test App Collection",
             name: "Rename Me",
             type: "group",
             member: false,
@@ -101,7 +101,7 @@ export const myCommunityList = {
         },
         {
             description:
-                "Because I was unable to join any extant communities. :D",
+                "Because I was unable to join any extant collections. :D",
             name: "Sarah",
             type: "group",
             member: true,
@@ -113,13 +113,13 @@ export const myCommunityList = {
             id_index: "12125",
         },
         {
-            name: "TestCommunityApps",
+            name: "TestCollectionApps",
             type: "group",
             member: false,
-            extension: "TestCommunityApps",
+            extension: "TestCollectionApps",
             id: "a1f90925e74b471e80aa371a0b4f335c",
-            display_extension: "TestCommunityApps",
-            display_name: "iplant:de:qa:communities:TestCommunityApps",
+            display_extension: "TestCollectionApps",
+            display_name: "iplant:de:qa:communities:TestCollectionApps",
             privileges: ["optin", "read"],
             id_index: "12764",
         },
@@ -136,13 +136,13 @@ export const myCommunityList = {
             id_index: "12885",
         },
         {
-            name: "reactcommunity",
+            name: "reactcollection",
             type: "group",
             member: false,
-            extension: "reactcommunity",
+            extension: "reactcollection",
             id: "6c2f130098704119a17fb53c57649818",
-            display_extension: "reactcommunity",
-            display_name: "iplant:de:qa:communities:reactcommunity",
+            display_extension: "reactcollection",
+            display_name: "iplant:de:qa:communities:reactcollection",
             privileges: ["optin", "read"],
             id_index: "12765",
         },
@@ -184,7 +184,7 @@ export const myCommunityList = {
     ],
 };
 
-export const communityAdmins = (includeSelf) => {
+export const collectionAdmins = (includeSelf) => {
     let baseMembers = [userInfoResp.batman, userInfoResp.alfred];
     if (includeSelf) {
         baseMembers.push(ipcdevUserInfo.ipcdev);
@@ -194,7 +194,7 @@ export const communityAdmins = (includeSelf) => {
     };
 };
 
-export const communityAdminsInfo = (includeSelf) => {
+export const collectionAdminsInfo = (includeSelf) => {
     let baseResp = {
         batman: userInfoResp.batman,
         alfred: userInfoResp.alfred,
@@ -208,11 +208,11 @@ export const communityAdminsInfo = (includeSelf) => {
     return baseResp;
 };
 
-export const communityFollowers = {
+export const collectionFollowers = {
     members: [userInfoResp.robin, userInfoResp.catwoman],
 };
 
-export const communityApps = {
+export const collectionApps = {
     apps: [
         {
             integration_date: "2016-01-22T00:24:54.000Z",
@@ -361,10 +361,10 @@ export const communityApps = {
     ],
 };
 
-export const updateCommunityNameDescMock = {
-    name: "Another Community",
+export const updateCollectionNameDescMock = {
+    name: "Another Collection",
     description: "some new desc",
-    display_extension: "Another Community",
-    display_name: "iplant:de:qa:communities:Another Community",
+    display_extension: "Another Collection",
+    display_name: "iplant:de:qa:communities:Another Collection",
     id: "abf19937340e4611839f50bc81d880c3",
 };

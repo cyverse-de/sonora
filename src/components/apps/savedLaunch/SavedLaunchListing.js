@@ -291,10 +291,10 @@ function ListSavedLaunches(props) {
                             const onDelete =
                                 userName === getUserName(savedLaunch.creator)
                                     ? (event) =>
-                                        deleteSavedLaunchHandler(
-                                            event,
-                                            savedLaunch
-                                        )
+                                          deleteSavedLaunchHandler(
+                                              event,
+                                              savedLaunch
+                                          )
                                     : undefined;
                             if (is_public) {
                                 return (

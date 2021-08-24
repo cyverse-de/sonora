@@ -65,7 +65,6 @@ const StepperNavigation = (props) => {
         <ButtonGroup
             fullWidth
             orientation={isMobile ? "vertical" : "horizontal"}
-            variant="contained"
             color="primary"
             size={isMobile ? "small" : "large"}
         >
@@ -82,6 +81,7 @@ const StepperNavigation = (props) => {
             {showSavedLaunchButton && (
                 <Button
                     id={buildID(formId, ids.BUTTONS.SAVE_AS_SAVED_LAUNCH)}
+                    variant="contained"
                     startIcon={<Save />}
                     onClick={handleCreateSavedLaunch}
                 >
@@ -91,6 +91,7 @@ const StepperNavigation = (props) => {
             {showSubmitButton && (
                 <Button
                     id={buildID(formId, ids.BUTTONS.SUBMIT)}
+                    variant="contained"
                     startIcon={<PlayArrow />}
                     onClick={(event) => handleSubmit(event)}
                 >
@@ -260,8 +261,15 @@ const AppLaunchForm = (props) => {
                     isSubmitting,
                 }) => {
                     const stepCompleted = (stepIndex) => {
+                        const stepTouched = touched.launchSteps[stepIndex];
+
+                        // special check for final step
+                        if (stepIndex === steps.length - 1) {
+                            return stepTouched && !errors.launchSteps;
+                        }
+
                         return (
-                            touched.launchSteps[stepIndex] &&
+                            stepTouched &&
                             !(
                                 errors.launchSteps &&
                                 errors.launchSteps[stepIndex]

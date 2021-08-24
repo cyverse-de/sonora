@@ -13,6 +13,7 @@ import { useTranslation } from "i18n";
 
 import AppOrder from "./AppOrder";
 import InputOutputMapping from "./InputOutputMapping";
+import CompletionHelp from "./CompletionHelp";
 import WorkflowInfo from "./WorkflowInfo";
 
 import ids from "./ids";
@@ -26,7 +27,7 @@ import AppStepDisplay, {
     BottomNavigationSkeleton as StepperNavSkeleton,
 } from "../AppStepDisplay";
 
-import { getAppEditPath } from "components/apps/utils";
+import { getAppEditPath, getAppLaunchPath } from "components/apps/utils";
 
 import BackButton from "components/utils/BackButton";
 import SaveButton from "components/utils/SaveButton";
@@ -52,7 +53,12 @@ import {
     useMediaQuery,
 } from "@material-ui/core";
 
-import { ArrowBack, ArrowForward } from "@material-ui/icons";
+import {
+    ArrowBack,
+    ArrowForward,
+    ExitToApp,
+    PlayArrow,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
@@ -63,31 +69,79 @@ const StepperNavigation = (props) => {
         nextDisabled,
         handleBack,
         handleNext,
+        dirty,
         loading,
+        showLastStepActions,
+        onSaveAndExit,
+        onSaveAndLaunch,
+        onExit,
+        onLaunch,
     } = props;
 
-    const { t } = useTranslation("common");
+    const { t } = useTranslation(["workflows", "common"]);
 
     return loading ? (
         <StepperNavSkeleton />
     ) : (
-        <ButtonGroup fullWidth variant="contained" color="primary">
+        <ButtonGroup fullWidth color="primary">
             <Button
                 id={buildID(baseId, ids.BUTTONS.BACK)}
                 disabled={backDisabled}
                 startIcon={<ArrowBack />}
                 onClick={handleBack}
             >
-                {t("back")}
+                {t("common:back")}
             </Button>
-            <Button
-                id={buildID(baseId, ids.BUTTONS.NEXT)}
-                disabled={nextDisabled}
-                endIcon={<ArrowForward />}
-                onClick={handleNext}
-            >
-                {t("next")}
-            </Button>
+            {dirty && showLastStepActions && (
+                <Button
+                    id={buildID(baseId, ids.BUTTONS.BACK)}
+                    variant="contained"
+                    startIcon={<ExitToApp />}
+                    onClick={onSaveAndExit}
+                >
+                    {t("saveAndExit")}
+                </Button>
+            )}
+            {dirty && showLastStepActions && (
+                <Button
+                    id={buildID(baseId, ids.BUTTONS.LAUNCH_BTN)}
+                    variant="contained"
+                    startIcon={<PlayArrow />}
+                    onClick={onSaveAndLaunch}
+                >
+                    {t("saveAndLaunch")}
+                </Button>
+            )}
+            {!dirty && showLastStepActions && (
+                <Button
+                    id={buildID(baseId, ids.BUTTONS.BACK)}
+                    variant="contained"
+                    startIcon={<ExitToApp />}
+                    onClick={onExit}
+                >
+                    {t("exitEditor")}
+                </Button>
+            )}
+            {!dirty && showLastStepActions && (
+                <Button
+                    id={buildID(baseId, ids.BUTTONS.LAUNCH_BTN)}
+                    variant="contained"
+                    startIcon={<PlayArrow />}
+                    onClick={onLaunch}
+                >
+                    {t("launchWorkflow")}
+                </Button>
+            )}
+            {!showLastStepActions && (
+                <Button
+                    id={buildID(baseId, ids.BUTTONS.NEXT)}
+                    disabled={nextDisabled}
+                    endIcon={<ArrowForward />}
+                    onClick={handleNext}
+                >
+                    {t("common:next")}
+                </Button>
+            )}
         </ButtonGroup>
     );
 };
@@ -102,6 +156,8 @@ const WorkflowEditor = (props) => {
     } = props;
 
     const [activeStep, setActiveStep] = React.useState(0);
+    const [exitOnSave, setExitOnSave] = React.useState(false);
+    const [launchOnSave, setLaunchOnSave] = React.useState(false);
 
     const stepperRef = React.useRef(null);
     const [stepperHeight, setStepperRef] = useComponentHeight();
@@ -115,6 +171,16 @@ const WorkflowEditor = (props) => {
     const router = useRouter();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+
+    const onExit = () => router.back();
+
+    const onLaunch = (workflow) =>
+        workflow.id &&
+        router.push(getAppLaunchPath(workflow.system_id, workflow.id));
+
+    const onRedirectToEditPage = (workflow) =>
+        workflow.id &&
+        router.replace(getAppEditPath(workflow.system_id, workflow.id));
 
     const [savePipeline] = useMutation(
         ({ workflow }) => {
@@ -151,8 +217,19 @@ const WorkflowEditor = (props) => {
         helpText: t("stepHelpMapping"),
         errorText: t("stepErrorMapping"),
     };
+    const stepCompletion = {
+        label: t("completionStepLabel"),
+        contentLabel: t("completionStepLabel"),
+        helpText: t("stepHelpCompletion"),
+        errorText: null,
+    };
 
-    const workflowSteps = [stepAppInfo, stepOrderApps, stepIOMapping];
+    const workflowSteps = [
+        stepAppInfo,
+        stepOrderApps,
+        stepIOMapping,
+        stepCompletion,
+    ];
 
     const activeStepInfo = workflowSteps[activeStep];
 
@@ -169,7 +246,7 @@ const WorkflowEditor = (props) => {
     return (
         <Formik
             initialValues={initWorkflowValues(appDescription)}
-            initialTouched={{ workflowSteps: [false, false, false] }}
+            initialTouched={{ workflowSteps: [false, false, false, false] }}
             validate={(values) => {
                 const errors = {};
                 const workflowSteps = [];
@@ -217,29 +294,37 @@ const WorkflowEditor = (props) => {
                 const workflow = formatWorkflowSubmission(values);
 
                 const onSuccess = (workflow) => {
-                    if (!values.id) {
+                    if (exitOnSave) {
+                        onExit();
+                    } else if (launchOnSave) {
+                        onLaunch(workflow);
+                    } else if (!values.id) {
                         // A new workflow was saved, so redirect to new URL
-                        router.replace(
-                            getAppEditPath(workflow.system_id, workflow.id)
-                        );
+                        onRedirectToEditPage(workflow);
                     }
 
                     // Note that enableReinitialize should not be used when
                     // using resetForm with new values.
                     actions.resetForm({
                         values: initWorkflowValues(workflow),
-                        touched: { workflowSteps: [true, true, true] },
+                        touched: { workflowSteps: [true, true, true, true] },
                     });
 
                     announce({
                         text: t("workflowSaved"),
                         variant: SUCCESS,
                     });
+
+                    setExitOnSave(false);
+                    setLaunchOnSave(false);
                 };
 
                 const onError = (errorMessage) => {
                     showErrorAnnouncer(t("workflowSaveErr"), errorMessage);
+
                     actions.setSubmitting(false);
+                    setExitOnSave(false);
+                    setLaunchOnSave(false);
                 };
 
                 savePipeline({ workflow, onSuccess, onError });
@@ -255,7 +340,8 @@ const WorkflowEditor = (props) => {
                 errors,
                 values,
             }) => {
-                const saveDisabled = isSubmitting || !dirty || errors.error;
+                const hasErrors = errors.error;
+                const saveDisabled = isSubmitting || !dirty || hasErrors;
                 const stepperLoading =
                     isSubmitting || values.steps?.find((step) => !step.task);
                 const hasDeprecatedStep = values.steps?.find(
@@ -263,8 +349,15 @@ const WorkflowEditor = (props) => {
                 );
 
                 const stepCompleted = (stepIndex) => {
+                    const stepTouched = touched.workflowSteps[stepIndex];
+
+                    // special check for final step
+                    if (stepIndex === workflowSteps.length - 1) {
+                        return stepTouched && !hasErrors && !dirty;
+                    }
+
                     return (
-                        touched.workflowSteps[stepIndex] &&
+                        stepTouched &&
                         !(
                             errors.workflowSteps &&
                             errors.workflowSteps[stepIndex]
@@ -324,11 +417,11 @@ const WorkflowEditor = (props) => {
                     <Paper className={classes.formContainer}>
                         <Grid
                             container
-                            justify="space-between"
+                            justifyContent="space-between"
                             alignItems="flex-start"
                             wrap="nowrap"
                         >
-                            <BackButton />
+                            <BackButton dirty={dirty} />
                             <Typography variant="h6">
                                 {t(
                                     values.id
@@ -408,6 +501,20 @@ const WorkflowEditor = (props) => {
                                         handleBack={handleBack}
                                         handleNext={handleNext}
                                         loading={stepperLoading}
+                                        dirty={dirty}
+                                        showLastStepActions={
+                                            isLastStep() && !hasErrors
+                                        }
+                                        onExit={onExit}
+                                        onLaunch={() => onLaunch(values)}
+                                        onSaveAndExit={(event) => {
+                                            setExitOnSave(true);
+                                            handleSubmit(event);
+                                        }}
+                                        onSaveAndLaunch={(event) => {
+                                            setLaunchOnSave(true);
+                                            handleSubmit(event);
+                                        }}
                                     />
                                 )
                             }
@@ -424,6 +531,11 @@ const WorkflowEditor = (props) => {
                                 <InputOutputMapping
                                     baseId={baseId}
                                     steps={values.steps}
+                                />
+                            ) : activeStepInfo === stepCompletion ? (
+                                <CompletionHelp
+                                    dirty={dirty}
+                                    hasErrors={hasErrors}
                                 />
                             ) : null}
                         </AppStepDisplay>

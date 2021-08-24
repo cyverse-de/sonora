@@ -53,7 +53,12 @@ import {
     useMediaQuery,
 } from "@material-ui/core";
 
-import { ArrowBack, ArrowForward, PlayArrow } from "@material-ui/icons";
+import {
+    ArrowBack,
+    ArrowForward,
+    ExitToApp,
+    PlayArrow,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles(styles);
 
@@ -91,7 +96,7 @@ const StepperNavigation = (props) => {
                 <Button
                     id={buildID(baseId, ids.BUTTONS.BACK)}
                     variant="contained"
-                    startIcon={<ArrowBack />}
+                    startIcon={<ExitToApp />}
                     onClick={onSaveAndExit}
                 >
                     {t("saveAndExit")}
@@ -101,7 +106,7 @@ const StepperNavigation = (props) => {
                 <Button
                     id={buildID(baseId, ids.BUTTONS.LAUNCH_BTN)}
                     variant="contained"
-                    endIcon={<PlayArrow />}
+                    startIcon={<PlayArrow />}
                     onClick={onSaveAndLaunch}
                 >
                     {t("saveAndLaunch")}
@@ -111,7 +116,7 @@ const StepperNavigation = (props) => {
                 <Button
                     id={buildID(baseId, ids.BUTTONS.BACK)}
                     variant="contained"
-                    startIcon={<ArrowBack />}
+                    startIcon={<ExitToApp />}
                     onClick={onExit}
                 >
                     {t("exitEditor")}
@@ -121,7 +126,7 @@ const StepperNavigation = (props) => {
                 <Button
                     id={buildID(baseId, ids.BUTTONS.LAUNCH_BTN)}
                     variant="contained"
-                    endIcon={<PlayArrow />}
+                    startIcon={<PlayArrow />}
                     onClick={onLaunch}
                 >
                     {t("launchWorkflow")}

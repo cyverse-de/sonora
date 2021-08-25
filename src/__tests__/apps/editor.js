@@ -1,6 +1,6 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
-
+import { RQWrapper } from "../../__mocks__/RQWrapper";
 import { mockAxios } from "../../../stories/axiosMock";
 import {
     NewApp,
@@ -19,18 +19,22 @@ afterEach(() => {
 
 test("New App renders", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <NewApp />
-        </I18nProviderWrapper>
+        <RQWrapper>
+            <I18nProviderWrapper>
+                <NewApp />
+            </I18nProviderWrapper>
+        </RQWrapper>
     );
     component.unmount();
 });
 
 test("Kitchen Sink Editor renders", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <KitchenSinkEditor />
-        </I18nProviderWrapper>
+        <RQWrapper>
+            <I18nProviderWrapper>
+                <KitchenSinkEditor />
+            </I18nProviderWrapper>
+        </RQWrapper>
     );
     component.unmount();
 });

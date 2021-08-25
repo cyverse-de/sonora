@@ -7,7 +7,6 @@ import {
     PUBLIC_TEAM_PRIVILEGE,
 } from "../components/teams/util";
 import { getUserInfo } from "./users";
-import { USER_INFO_QUERY_KEY } from "./filesystem";
 
 const MY_TEAMS_QUERY = "fetchMyTeams";
 const ALL_TEAMS_QUERY = "fetchAllTeams";
@@ -20,13 +19,9 @@ const LIST_SINGLE_TEAM_QUERY = "fetchSingleTeam";
 const RECENT_CONTACTS_QUERY = "fetchRecentContactsList";
 const RECENT_CONTACTS_LIST_NAME = "default"; // `default` collaborator list
 
-const MY_COLLECTIONS_QUERY = "fetchMyCollections";
-const ALL_COLLECTIONS_QUERY = "fetchAllCollections";
-const COLLECTION_INFO_QUERY = "fetchCollectionInfo";
-const COLLECTION_ADMINS_QUERY = "fetchCollectionAdmins";
-const COLLECTION_FOLLOWERS_QUERY = "fetchCollectionFollowers";
-const COLLECTION_APPS_QUERY = "fetchCollectionApps";
-const COLLECTION_DETAILS_QUERY = "fetchCollectionDetails";
+const MY_COMMUNITIES_QUERY = "fetchMyCommunities";
+const ALL_COMMUNITIES_QUERY = "fetchAllCommunities";
+const COMMUNITY_DETAILS_QUERY = "fetchCommunityDetails";
 
 // Checks if a grouper member update response returned 200, but with `success`
 // set to false on any of the updates
@@ -67,21 +62,21 @@ function searchTeams({ searchTerm }) {
     });
 }
 
-function listSingleTeam(key, { name }) {
+function listSingleTeam({ name }) {
     return callApi({
         endpoint: `/api/teams/${encodeURIComponent(name)}`,
         method: "GET",
     });
 }
 
-function getTeamPrivileges(key, { name }) {
+function getTeamPrivileges({ name }) {
     return callApi({
         endpoint: `/api/teams/${encodeURIComponent(name)}/privileges`,
         method: "GET",
     });
 }
 
-function getTeamMembers(key, { name }) {
+function getTeamMembers({ name }) {
     return callApi({
         endpoint: `/api/teams/${encodeURIComponent(name)}/members`,
         method: "GET",
@@ -310,7 +305,7 @@ function fetchRecentContactsList() {
         endpoint: `/api/collaborator-lists/${RECENT_CONTACTS_LIST_NAME}/members`,
     }).then((resp) => {
         const userIds = resp?.members?.map((member) => member.id);
-        return getUserInfo(USER_INFO_QUERY_KEY, { userIds });
+        return getUserInfo({ userIds });
     });
 }
 
@@ -362,21 +357,33 @@ function getMyCollections({ userId }) {
     });
 }
 
+<<<<<<< HEAD
 function getAllCollections(key) {
+=======
+function getAllCommunities() {
+>>>>>>> 1fff9106 (Update react-query syntax for communities.)
     return callApi({
         endpoint: "/api/communities",
         method: "GET",
     });
 }
 
+<<<<<<< HEAD
 function getCollectionInfo(key, { name }) {
+=======
+function getCommunityInfo({ name }) {
+>>>>>>> 1fff9106 (Update react-query syntax for communities.)
     return callApi({
         endpoint: `/api/communities/${encodeURIComponent(name)}`,
         method: "GET",
     });
 }
 
+<<<<<<< HEAD
 function getCollectionAdmins(key, { name }) {
+=======
+function getCommunityAdmins({ name }) {
+>>>>>>> 1fff9106 (Update react-query syntax for communities.)
     /**
      * The members endpoint only returns the user ID and source_id.  We'll take
      * this response and ask the user-info endpoint to give us more detailed
@@ -387,18 +394,26 @@ function getCollectionAdmins(key, { name }) {
         method: "GET",
     }).then((resp) => {
         const userIds = resp?.members?.map((member) => member.id);
-        return getUserInfo(USER_INFO_QUERY_KEY, { userIds });
+        return getUserInfo({ userIds });
     });
 }
 
+<<<<<<< HEAD
 function getCollectionFollowers(key, { name }) {
+=======
+function getCommunityFollowers({ name }) {
+>>>>>>> 1fff9106 (Update react-query syntax for communities.)
     return callApi({
         endpoint: `/api/communities/${encodeURIComponent(name)}/members`,
         method: "GET",
     });
 }
 
+<<<<<<< HEAD
 function getCollectionApps({ name, sortField, sortDir, appFilter }) {
+=======
+function getCommunityApps({ name, sortField, sortDir, appFilter }) {
+>>>>>>> 1fff9106 (Update react-query syntax for communities.)
     const params = {
         "sort-field": sortField || "name",
         "sort-dir": sortDir?.toUpperCase() || "ASC",
@@ -414,6 +429,7 @@ function getCollectionApps({ name, sortField, sortDir, appFilter }) {
     });
 }
 
+<<<<<<< HEAD
 function getCollectionDetails(
     key,
     { name, fullName, userId, sortField, sortDir, appFilter }
@@ -423,6 +439,21 @@ function getCollectionDetails(
         getCollectionAdmins(COLLECTION_ADMINS_QUERY, { name }),
         getCollectionFollowers(COLLECTION_FOLLOWERS_QUERY, { name }),
         getCollectionApps(COLLECTION_APPS_QUERY, {
+=======
+function getCommunityDetails({
+    name,
+    fullName,
+    userId,
+    sortField,
+    sortDir,
+    appFilter,
+}) {
+    return Promise.all([
+        getCommunityInfo({ name }),
+        getCommunityAdmins({ name }),
+        getCommunityFollowers({ name }),
+        getCommunityApps({
+>>>>>>> 1fff9106 (Update react-query syntax for communities.)
             name: fullName,
             sortField,
             sortDir,

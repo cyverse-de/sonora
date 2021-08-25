@@ -72,26 +72,28 @@ function CollectionsForm(props) {
                 userId: userProfile?.id,
             },
         ],
-        queryFn: getCollectionDetails,
-        config: {
-            enabled: !isCreatingCollection,
-            onSuccess: (results) => {
-                if (results) {
-                    const { collection, isAdmin, admins, isFollower, apps } =
-                        results;
-                    setCollection(collection);
-                    setAdmin(isAdmin);
-                    setAdmins(admins);
-                    setFollower(isFollower);
-                    setApps(apps?.apps);
-                }
-            },
-            onError: (error) => {
-                setQueryError({
-                    message: t("getCollectionFail"),
-                    object: error,
-                });
-            },
+        queryFn: () => getCollectionDetails({
+            name: collectionName,
+            fullName: collection?.display_name,
+            userId: userProfile?.id,
+        }),
+        enabled: !isCreatingCollection,
+        onSuccess: (results) => {
+            if (results) {
+                const { collection, isAdmin, admins, isFollower, apps } =
+                    results;
+                setCollection(collection);
+                setAdmin(isAdmin);
+                setAdmins(admins);
+                setFollower(isFollower);
+                setApps(apps?.apps);
+            }
+        },
+        onError: (error) => {
+            setQueryError({
+                message: t("getCollectionFail"),
+                object: error,
+            });
         },
     });
 
@@ -119,7 +121,7 @@ function CollectionsForm(props) {
         }
     );
 
-    const [unfollowMutation, { status: unfollowStatus }] = useMutation(
+    const { mutate: unfollowMutation, status: unfollowStatus } = useMutation(
         unfollowCollection,
         {
             onSuccess: () => {
@@ -143,7 +145,7 @@ function CollectionsForm(props) {
         }
     );
 
-    const [deleteMutation, { status: deleteStatus }] = useMutation(
+    const { mutate: deleteMutation, status: deleteStatus } = useMutation(
         deleteCollection,
         {
             onSuccess: () => {
@@ -167,52 +169,53 @@ function CollectionsForm(props) {
         }
     );
 
-    const [
-        updateCollectionNameDescMutation,
-        { status: updateCollectionNameDescStatus },
-    ] = useMutation(updateCollectionNameDesc, {
-        onSuccess: (resp, { newAdmins, newApps, attr }) => {
-            updateCollectionDetailsMutation({
-                name: resp?.name,
-                fullName: resp?.display_name,
-                oldAdmins: admins,
-                oldApps: apps,
-                newAdmins,
-                newApps,
-                attr,
-            });
-        },
-        onError: (error) => {
-            const errorCode = getErrorCode(error);
+    const {
+        mutate: updateCollectionNameDescMutation,
+        status: updateCollectionNameDescStatus
+    }
+        = useMutation(updateCollectionNameDesc, {
+            onSuccess: (resp, { newAdmins, newApps, attr }) => {
+                updateCollectionDetailsMutation({
+                    name: resp?.name,
+                    fullName: resp?.display_name,
+                    oldAdmins: admins,
+                    oldApps: apps,
+                    newAdmins,
+                    newApps,
+                    attr,
+                });
+            },
+            onError: (error) => {
+                const errorCode = getErrorCode(error);
 
-            if (errorCode === ERROR_CODES.ERR_EXISTS) {
-                setShowRetagAppsDlg(true);
-            } else {
+                if (errorCode === ERROR_CODES.ERR_EXISTS) {
+                    setShowRetagAppsDlg(true);
+                } else {
+                    setQueryError({
+                        message: t("updateCollectionNameDescError"),
+                        object: error,
+                    });
+                }
+            },
+        });
+
+    const {
+        mutate: updateCollectionDetailsMutation,
+        status: updateCollectionStatus }
+        = useMutation(updateCollectionDetails, {
+            onSuccess: () => {
+                resetMyCollectionsCache();
+                goBackToCollectionList();
+            },
+            onError: (error) => {
                 setQueryError({
-                    message: t("updateCollectionNameDescError"),
+                    message: t("updateCollectionDetailsFail"),
                     object: error,
                 });
-            }
-        },
-    });
+            },
+        });
 
-    const [
-        updateCollectionDetailsMutation,
-        { status: updateCollectionStatus },
-    ] = useMutation(updateCollectionDetails, {
-        onSuccess: () => {
-            resetMyCollectionsCache();
-            goBackToCollectionList();
-        },
-        onError: (error) => {
-            setQueryError({
-                message: t("updateCollectionDetailsFail"),
-                object: error,
-            });
-        },
-    });
-
-    const [createCollectionMutation, { status: createCollectionStatus }] =
+    const { mutate: createCollectionMutation, status: createCollectionStatus } =
         useMutation(createCollection, {
             onSuccess: (resp, { newAdmins, newApps, attr }) => {
                 setCollection(resp);
@@ -262,9 +265,9 @@ function CollectionsForm(props) {
             isCreatingCollection && !collectionNameSaved
                 ? createCollectionMutation
                 : collectionName !== newName ||
-                  collection?.description !== newDescription
-                ? updateCollectionNameDescMutation
-                : updateCollectionDetailsMutation;
+                    collection?.description !== newDescription
+                    ? updateCollectionNameDescMutation
+                    : updateCollectionDetailsMutation;
 
         mutation({
             originalName: collectionName,
@@ -287,24 +290,24 @@ function CollectionsForm(props) {
             initialValues={
                 isCreatingCollection
                     ? {
-                          name: "",
-                          description: "",
-                          admins: [
-                              {
-                                  ...userProfile?.attributes,
-                                  id: userProfile?.id,
-                              },
-                          ],
-                          apps: apps,
-                          retagApps: null,
-                      }
+                        name: "",
+                        description: "",
+                        admins: [
+                            {
+                                ...userProfile?.attributes,
+                                id: userProfile?.id,
+                            },
+                        ],
+                        apps: apps,
+                        retagApps: null,
+                    }
                     : {
-                          name: collectionName || "",
-                          description: collection?.description || "",
-                          admins: admins,
-                          apps: apps,
-                          retagApps: null,
-                      }
+                        name: collectionName || "",
+                        description: collection?.description || "",
+                        admins: admins,
+                        apps: apps,
+                        retagApps: null,
+                    }
             }
             onSubmit={handleSubmit}
         >

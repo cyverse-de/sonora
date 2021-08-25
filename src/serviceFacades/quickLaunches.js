@@ -25,10 +25,9 @@ function addQuickLaunch(quickLaunch) {
 
 /**
  * List all quick launches for the selected app
- * @param {string} key
  * @param {object} param1
  */
-function listQuickLaunches(key, { appId }) {
+function listQuickLaunches({ appId }) {
     return callApi({
         endpoint: `/api/quicklaunches/apps/${appId}`,
         method: "GET",

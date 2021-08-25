@@ -178,7 +178,6 @@ function Listing(props) {
                 page,
                 uploadsCompleted
             ),
-
         enabled: !!path,
         onSuccess: (respData) => {
             trackIntercomEvent(IntercomEvents.VIEWED_FOLDER, {

@@ -30,9 +30,8 @@ export default function NewToolRequestDialog(props) {
     const { t: i18nUtil } = useTranslation("util");
     const baseId = ids.TOOL_REQUEST.DIALOG;
 
-    const { submitNewToolRequest, status: submitRequestStatus } = useMutation(
-        ({ submission }) => toolRequest(submission),
-        {
+    const { mutate: submitNewToolRequest, status: submitRequestStatus } =
+        useMutation(({ submission }) => toolRequest(submission), {
             onSuccess: (data) => {
                 announce({
                     text: t("toolRequestSuccess"),
@@ -40,8 +39,7 @@ export default function NewToolRequestDialog(props) {
                 onClose();
             },
             onError: setRequestError,
-        }
-    );
+        });
 
     const handleSubmit = (values, { props }) => {
         const submission = { ...values };

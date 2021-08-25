@@ -100,8 +100,6 @@ export default function AdminAppDetailsDialog(props) {
         adminUpdateApp,
         {
             onSuccess: (data, { app, avus, values }) => {
-                // queryClient.invalidateQueries(ADMIN_APPS_QUERY_KEY);
-                // handleClose();
                 adminMutateAppMetadata({ app, avus, values });
             },
             onError: setUpdateAppError,

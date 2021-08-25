@@ -78,7 +78,7 @@ function Listing(props) {
         onSuccess: setData,
     });
 
-    const { setLimitMutation, isLoading: limitLoading } = useMutation(
+    const { mutate: setLimitMutation, isLoading: limitLoading } = useMutation(
         setUserJobLimit,
         {
             onSuccess: (resp) => {
@@ -99,7 +99,7 @@ function Listing(props) {
         }
     );
 
-    const { updateRequest, isLoading: updateLoading } = useMutation(
+    const { mutate: updateRequest, isLoading: updateLoading } = useMutation(
         adminUpdateRequestStatus,
         {
             onSuccess: () => {

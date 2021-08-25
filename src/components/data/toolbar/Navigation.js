@@ -331,9 +331,11 @@ function Navigation(props) {
     const irodsTrashPath = config?.irods?.trash_path;
     const [rootsQueryKeyArray, setRootsQueryKeyArray] = useState([
         DATA_ROOTS_QUERY_KEY,
-        userProfile?.id,
-        irodsHomePath,
-        irodsTrashPath,
+        {
+            userId: userProfile?.id,
+            homePath: irodsHomePath,
+            trashPath: irodsTrashPath,
+        },
     ]);
 
     // Get QueryClient from the context
@@ -386,9 +388,11 @@ function Navigation(props) {
     useEffect(() => {
         setRootsQueryKeyArray([
             DATA_ROOTS_QUERY_KEY,
-            userProfile?.id,
-            irodsHomePath,
-            irodsTrashPath,
+            {
+                userId: userProfile?.id,
+                homePath: irodsHomePath,
+                trashPath: irodsTrashPath,
+            },
         ]);
     }, [userProfile, irodsHomePath, irodsTrashPath]);
 

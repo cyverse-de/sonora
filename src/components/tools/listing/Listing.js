@@ -59,22 +59,25 @@ function Listing(props) {
     // Get QueryClient from the context
     const queryClient = useQueryClient();
 
-    const { removeTools, status: deleteStatus } = useMutation(deleteTools, {
-        onSuccess: () => {
-            announce({
-                text: t("toolDeleted"),
-            });
-            //reset selection to avoid stale selected state
-            setSelected([]);
-            queryClient.invalidateQueries(toolsKey);
-        },
-        onError: (e) => {
-            showErrorAnnouncer(t("toolDeleteError"), e);
-            //reset selection to avoid stale selected state
-            setSelected([]);
-            queryClient.invalidateQueries(toolsKey);
-        },
-    });
+    const { mutate: removeTools, status: deleteStatus } = useMutation(
+        deleteTools,
+        {
+            onSuccess: () => {
+                announce({
+                    text: t("toolDeleted"),
+                });
+                //reset selection to avoid stale selected state
+                setSelected([]);
+                queryClient.invalidateQueries(toolsKey);
+            },
+            onError: (e) => {
+                showErrorAnnouncer(t("toolDeleteError"), e);
+                //reset selection to avoid stale selected state
+                setSelected([]);
+                queryClient.invalidateQueries(toolsKey);
+            },
+        }
+    );
 
     useEffect(() => {
         let displayAll = null;

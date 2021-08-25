@@ -73,7 +73,7 @@ export default function UpdateRequestDialog(props) {
             },
         });
 
-    const { updateRequest, status: updateRequestStatus } = useMutation(
+    const { mutate: updateRequest, status: updateRequestStatus } = useMutation(
         requestType === RequestType.TOOL
             ? adminUpdateToolRequest
             : adminUpdateDOIRequestStatus,

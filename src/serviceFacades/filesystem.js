@@ -83,7 +83,7 @@ export const getPagedListing = (path, rowsPerPage, orderBy, order, page) => {
  * Get the list of directory roots available to a user
  * @returns {Promise<any>}
  */
-export const getFilesystemRoots = (userId, homePath, trashPath) => {
+export const getFilesystemRoots = ({ userId, homePath, trashPath }) => {
     return userId
         ? callApi({
               endpoint: `/api/filesystem/root`,

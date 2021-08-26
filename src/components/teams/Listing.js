@@ -141,7 +141,7 @@ function Listing(props) {
 
     const { isFetching: fetchAllTeams, error: allTeamsError } = useQuery({
         queryKey: [ALL_TEAMS_QUERY, userProfile?.id],
-        queryFn: () => getAllTeams(),
+        queryFn: getAllTeams,
         enabled: TEAM_FILTER.ALL_TEAMS === teamFilter && !searchTerm,
         onSuccess: (results) => {
             trackIntercomEvent(IntercomEvents.VIEWED_ALL_TEAMS);

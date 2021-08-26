@@ -27,12 +27,11 @@ export const deleteDefaultBag = (key) =>
     });
 
 export const useBagRemoveItems = (
-    { handleError, handleSuccess, handleSettled } = {
+    { handleError, handleSuccess } = {
         handleError: (error) => {
             console.log(`error from useBagRemoveItems: ${error.message}`);
         },
         handleSuccess: null,
-        handleSettled: null,
     }
 ) => {
     const setBagInfo = useBagInfo()[1];
@@ -52,18 +51,16 @@ export const useBagRemoveItems = (
 };
 
 export const useBagRemoveItem = (
-    { handleError, handleSuccess, handleSettled } = {
+    { handleError, handleSuccess } = {
         handleError: (error) => {
             console.log(`error from useBagRemoveItem: ${error.message}`);
         },
         handleSuccess: null,
-        handleSettled: null,
     }
 ) => {
     const [bagInfo, setBagInfo] = useBagInfo();
     const successFn = (data, variables) => {
         setBagInfo(data);
-
         if (handleSuccess) {
             handleSuccess(data, variables);
         }
@@ -90,12 +87,11 @@ export const useBagRemoveItem = (
 };
 
 export const useBagAddItem = (
-    { handleError, handleSuccess, handleSettled } = {
+    { handleError, handleSuccess } = {
         handleError: (error) => {
             console.log(`error from useBagAddItem: ${error.message}`);
         },
         handleSuccess: null,
-        handleSettled: null,
     }
 ) => {
     const [bagInfo, setBagInfo] = useBagInfo();
@@ -128,12 +124,11 @@ export const useBagAddItem = (
 };
 
 export const useBagAddItems = (
-    { handleError, handleSuccess, handleSettled } = {
+    { handleError, handleSuccess } = {
         handleError: (error) => {
             console.log(`error from useBagAddItems: ${error.message}`);
         },
         handleSuccess: null,
-        handleSettled: null,
     }
 ) => {
     const [bagInfo, setBagInfo] = useBagInfo();

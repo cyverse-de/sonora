@@ -143,8 +143,7 @@ function Listing(props) {
                 // the real ID.
                 !!category?.system_id &&
                 !!category?.id &&
-                (userProfile === undefined ||
-                    userProfile === null ||
+                (!userProfile?.id ||
                     ![constants.APPS_UNDER_DEV, constants.FAV_APPS].includes(
                         category?.id
                     )),

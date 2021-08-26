@@ -104,7 +104,7 @@ const Dashboard = (props) => {
     const [userProfile] = useUserProfile();
 
     const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
-    const { mutatePreferences } = useSavePreferences(
+    const { mutate: mutatePreferences } = useSavePreferences(
         bootstrapInfo,
         setBootstrapInfo,
         (resp) => {

@@ -125,7 +125,7 @@ const inputParamTypes = [
  * @returns {Boolean} - True if can be included, false otherwise.
  */
 export const validateForDashboard = async ({ quick_launch_id, submission }) => {
-    return await getAppInfo(null, { launchId: quick_launch_id }).then((app) => {
+    return await getAppInfo({ launchId: quick_launch_id }).then((app) => {
         // Get all of the input parameters in the app that are required.
         const requiredAppInputs = app.groups
             .map((group) => group.parameters || [])
@@ -252,9 +252,7 @@ export const instantlyLaunch = async ({
     // Contains the Promises that resolve to the data needed to perform a job submission.
     const promiseList = [
         savedLaunchPromise,
-        getAppInfo(null, { launchId: savedLaunchId }).catch((e) =>
-            console.log(e)
-        ),
+        getAppInfo({ launchId: savedLaunchId }).catch((e) => console.log(e)),
     ];
 
     return await Promise.all(promiseList)

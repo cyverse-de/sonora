@@ -30,44 +30,36 @@ const TestProviderWrapper = ({ children }) => (
 
 test("MetadataView renders", () => {
     const component = renderer.create(
-        <RQWrapper>
-            <TestProviderWrapper>
-                <MetadataView />
-            </TestProviderWrapper>
-        </RQWrapper>
+        <TestProviderWrapper>
+            <MetadataView />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("ReadOnlyMetadata renders", () => {
     const component = renderer.create(
-        <RQWrapper>
-            <TestProviderWrapper>
-                <ReadOnlyMetadata />
-            </TestProviderWrapper>
-        </RQWrapper>
+        <TestProviderWrapper>
+            <ReadOnlyMetadata />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("DataCiteMetadataView renders", () => {
     const component = renderer.create(
-        <RQWrapper>
-            <TestProviderWrapper>
-                <DataCiteMetadataView />
-            </TestProviderWrapper>
-        </RQWrapper>
+        <TestProviderWrapper>
+            <DataCiteMetadataView />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("EmptyMetadata renders", () => {
     const component = renderer.create(
-        <RQWrapper>
-            <TestProviderWrapper>
-                <EmptyMetadata />
-            </TestProviderWrapper>
-        </RQWrapper>
+        <TestProviderWrapper>
+            <EmptyMetadata />
+        </TestProviderWrapper>
     );
     component.unmount();
 });

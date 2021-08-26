@@ -90,7 +90,7 @@ function SubjectSearchField(props) {
     const { status: subjectSearchStatus } = useQuery({
         queryKey: { searchTerm },
         queryFn: () => searchSubjects({ searchTerm }),
-        enabled: searchTerm && searchTerm.length > 2,
+        enabled: !!(searchTerm && searchTerm.length > 2),
         onSuccess: (resp) => {
             // Remove recent contacts list (default collab list) from search results
             // so user doesn't share with everyone they've ever shared with

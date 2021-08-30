@@ -404,7 +404,7 @@ function getCollectionApps(key, { name, sortField, sortDir, appFilter }) {
         "sort-dir": sortDir?.toUpperCase() || "ASC",
     };
     if (appFilter) {
-        params["app-type"] = appFilter;
+        params["app-type"] = appFilter.value;
     }
 
     return callApi({
@@ -652,6 +652,7 @@ export {
     MY_COLLECTIONS_QUERY,
     ALL_COLLECTIONS_QUERY,
     COLLECTION_DETAILS_QUERY,
+    COLLECTION_APPS_QUERY,
     getMyTeams,
     getAllTeams,
     searchTeams,
@@ -678,4 +679,5 @@ export {
     addCollectionAdmins,
     removeCollectionAdmins,
     updateCollectionDetails,
+    getCollectionApps,
 };

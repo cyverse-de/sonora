@@ -19,6 +19,7 @@ export default {
     HPC: "High-Performance Computing",
     BROWSE_ALL_APPS: "Browse All Apps",
     BROWSE_ALL_APPS_ID: "pppppppp-pppp-pppp-pppp-pppppppppppp",
+    MY_COLLECTIONS: "My Collections",
     APP_TYPE_EXTERNAL: "External",
     LOADING: "loading",
     NOTIFICATION_WS: "/websocket/notifications",

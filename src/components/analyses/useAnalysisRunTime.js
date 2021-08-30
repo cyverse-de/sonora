@@ -34,7 +34,7 @@ function useAnalysisRunTime(
         queryKey: [ANALYSIS_HISTORY_QUERY_KEY, { id: analysis?.id }],
         queryFn: getAnalysisHistory,
         config: {
-            enabled: !!isRunning,
+            enabled: isRunning,
             onSuccess: (resp) => {
                 // Make sure we're looking at the correct step
                 // (e.g. step_type === "Interactive" or step_number === 1)
@@ -44,7 +44,7 @@ function useAnalysisRunTime(
                     (update) => update.status === analysisStatus.RUNNING
                 );
                 // Record the timestamp
-                setRunningStart(parseInt(runningUpdate.timestamp));
+                setRunningStart(parseInt(runningUpdate?.timestamp || 0));
             },
         },
     });

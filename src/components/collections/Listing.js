@@ -67,9 +67,7 @@ function Listing(props) {
                     return (
                         <DELink
                             id={buildID(rowId, ids.COLLECTION_LINK)}
-                            onClick={() =>
-                                onCollectionSelected(collection.name)
-                            }
+                            onClick={() => onCollectionSelected(collection)}
                             text={value}
                         />
                     );

@@ -12,7 +12,8 @@ import NavigationConstants from "../../common/NavigationConstants";
 export default function Collections() {
     const router = useRouter();
 
-    const onCollectionSelected = (collectionName) => {
+    const onCollectionSelected = (collection) => {
+        const collectionName = collection.name;
         router.push(
             `${NavigationConstants.COLLECTIONS}/${encodeURIComponent(
                 collectionName

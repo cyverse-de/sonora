@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import { makeStyles, Paper, Table } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { Formik } from "formik";
-import { useMutation, useQuery } from "react-query";
+import { queryCache, useMutation, useQuery } from "react-query";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { INFO } from "components/announcer/AnnouncerConstants";
@@ -24,6 +24,7 @@ import {
     deleteCollection,
     followCollection,
     getCollectionDetails,
+    MY_COLLECTIONS_QUERY,
     unfollowCollection,
     updateCollectionDetails,
     updateCollectionNameDesc,
@@ -54,6 +55,13 @@ function CollectionsForm(props) {
     const [showRetagAppsDlg, setShowRetagAppsDlg] = useState(false);
 
     const isCreatingCollection = !collectionName;
+
+    const resetMyCollectionsCache = () => {
+        queryCache.setQueryData(
+            [MY_COLLECTIONS_QUERY, { userId: userProfile?.id }],
+            null
+        );
+    };
 
     const { isFetching: fetchingCollectionDetails } = useQuery({
         queryKey: [
@@ -97,6 +105,7 @@ function CollectionsForm(props) {
                     }),
                     variant: INFO,
                 });
+                resetMyCollectionsCache();
                 goBackToCollectionList();
             },
             onError: (error) => {
@@ -120,6 +129,7 @@ function CollectionsForm(props) {
                     }),
                     variant: INFO,
                 });
+                resetMyCollectionsCache();
                 goBackToCollectionList();
             },
             onError: (error) => {
@@ -143,6 +153,7 @@ function CollectionsForm(props) {
                     }),
                     variant: INFO,
                 });
+                resetMyCollectionsCache();
                 goBackToCollectionList();
             },
             onError: (error) => {
@@ -189,7 +200,10 @@ function CollectionsForm(props) {
         updateCollectionDetailsMutation,
         { status: updateCollectionStatus },
     ] = useMutation(updateCollectionDetails, {
-        onSuccess: goBackToCollectionList,
+        onSuccess: () => {
+            resetMyCollectionsCache();
+            goBackToCollectionList();
+        },
         onError: (error) => {
             setQueryError({
                 message: t("updateCollectionDetailsFail"),

@@ -5,10 +5,10 @@
  * collections they are currently following
  */
 
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { useQuery } from "react-query";
+import { queryCache, useQuery } from "react-query";
 
 import BasicTable from "components/table/BasicTable";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
@@ -36,11 +36,25 @@ function Listing(props) {
     const { parentId, filter, onCollectionSelected } = props;
 
     const { t } = useTranslation(["collections", "search"]);
-    const [data, setData] = useState([]);
+    const [data, setData] = useState(null);
     const [userProfile] = useUserProfile();
 
     const tableId = buildID(parentId, ids.TABLE);
     const COLLECTION_COLUMNS = Columns(t);
+
+    const myCollectionsCache = queryCache.getQueryData([
+        MY_COLLECTIONS_QUERY,
+        { userId: userProfile?.id },
+    ]);
+
+    useEffect(() => {
+        if (
+            myCollectionsCache &&
+            (!data || COLLECTION_FILTER.MY_COLLECTIONS === filter)
+        ) {
+            setData(myCollectionsCache.groups);
+        }
+    }, [data, filter, myCollectionsCache]);
 
     const columns = useMemo(() => {
         return [
@@ -71,10 +85,11 @@ function Listing(props) {
     const { isFetching: fetchMyCollections, error: myCollectionsError } =
         useQuery({
             queryKey: [MY_COLLECTIONS_QUERY, { userId: userProfile?.id }],
-            enabled: userProfile?.id,
             queryFn: getMyCollections,
             config: {
-                enabled: COLLECTION_FILTER.MY_COLLECTIONS === filter,
+                enabled:
+                    !myCollectionsCache &&
+                    COLLECTION_FILTER.MY_COLLECTIONS === filter,
                 onSuccess: (results) => {
                     setData(results.groups);
                 },
@@ -105,7 +120,7 @@ function Listing(props) {
         <BasicTable
             baseId={tableId}
             columns={columns}
-            data={data}
+            data={data || []}
             loading={loading}
             emptyDataMessage={t("noCollections")}
             sortable

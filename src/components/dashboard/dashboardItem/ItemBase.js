@@ -17,6 +17,7 @@ import {
 
 import useAnalysisRunTime from "components/analyses/useAnalysisRunTime";
 import buildID from "components/utils/DebugIDUtil";
+import analysisStatus from "components/models/analysisStatus";
 
 import ids from "../ids";
 import * as constants from "../constants";
@@ -48,6 +49,17 @@ function AnalysisSubheader(props) {
     const { analysis, date: formattedDate } = props;
     const { t } = useTranslation(["dashboard", "apps"]);
     const { elapsedTime } = useAnalysisRunTime(analysis);
+    const theme = useTheme();
+
+    const status = analysis.status;
+    const statusColor =
+        status === analysisStatus.COMPLETED
+            ? theme.palette.primary.main
+            : status === analysisStatus.RUNNING
+            ? theme.palette.success.main
+            : status === analysisStatus.FAILED
+            ? theme.palette.error.main
+            : null;
 
     return (
         <Trans
@@ -58,11 +70,14 @@ function AnalysisSubheader(props) {
                     : "analysisOrigination"
             }
             values={{
-                status: analysis.status,
+                status,
                 date: formattedDate,
                 runningTime: elapsedTime,
             }}
-            components={{ bold: <strong /> }}
+            components={{
+                bold: <strong />,
+                status: <span style={{ color: statusColor }} />,
+            }}
         />
     );
 }

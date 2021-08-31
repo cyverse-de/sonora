@@ -43,7 +43,7 @@ export default function AppEdit() {
     const { isFetching: appInfoLoading } = useQuery({
         queryKey: [APP_BY_ID_QUERY_KEY, { systemId, appId }],
         queryFn: () => getAppById({ systemId, appId }),
-        enabled: userProfile?.id && systemId && appId,
+        enabled: !!(userProfile?.id && systemId && appId),
         onSuccess: (result) => {
             setAppListingInfo(result?.apps[0]);
         },
@@ -53,12 +53,13 @@ export default function AppEdit() {
     const { isFetching: appUILoading } = useQuery({
         queryKey: [APP_UI_QUERY_KEY, { systemId, appId }],
         queryFn: () => getAppUI({ systemId, appId }),
-        enabled:
+        enabled: !!(
             userProfile?.id &&
             systemId &&
             appId &&
             appListingInfo &&
-            !isWorkflow,
+            !isWorkflow
+        ),
         onSuccess: setApp,
         onError: setLoadingError,
     });
@@ -66,7 +67,7 @@ export default function AppEdit() {
     const { isFetching: workflowUILoading } = useQuery({
         queryKey: [PIPELINE_UI_QUERY_KEY, { appId }],
         queryFn: () => getPipelineUI({ appId }),
-        enabled: userProfile?.id && appId && isWorkflow,
+        enabled: !!(userProfile?.id && appId && isWorkflow),
         onSuccess: setWorkflowDescription,
         onError: setLoadingError,
     });

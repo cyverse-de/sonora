@@ -124,7 +124,7 @@ export const useBagAddItem = (
 };
 
 export const useBagAddItems = (
-    { handleError, handleSuccess } = {
+    { handleError, handleSuccess, handleSettled } = {
         handleError: (error) => {
             console.log(`error from useBagAddItems: ${error.message}`);
         },
@@ -140,9 +140,16 @@ export const useBagAddItems = (
         }
     };
 
+    const settledFn = () => {
+        if (handleSettled) {
+            handleSettled();
+        }
+    };
+
     const { mutate } = useMutation(updateDefaultBag, {
         onSuccess: successFn,
         onError: handleError,
+        onSettled: settledFn,
     });
 
     return async (items) => {

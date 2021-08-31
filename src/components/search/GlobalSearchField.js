@@ -579,7 +579,7 @@ function GlobalSearchField(props) {
         ]);
 
         setTeamSearchKey([SEARCH_TEAMS_QUERY, { searchTerm }]);
-        const isLoggedIn = userProfile?.id;
+        const isLoggedIn = !!userProfile?.id;
         switch (filter) {
             case searchConstants.DATA:
                 setDataSearchQueryEnabled(true);

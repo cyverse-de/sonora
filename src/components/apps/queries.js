@@ -46,7 +46,7 @@ export function sortReferenceGenomes(genomes) {
 export function useReferenceGenomes(enabled, onSuccess, onError) {
     return useQuery({
         queryKey: REFERENCE_GENOMES_QUERY_KEY,
-        queryFn: getReferenceGenomes,
+        queryFn: () => getReferenceGenomes({ deleted: false }),
         enabled,
         staleTime: Infinity,
         cacheTime: Infinity,

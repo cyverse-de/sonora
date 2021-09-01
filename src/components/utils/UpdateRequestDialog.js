@@ -57,7 +57,7 @@ export default function UpdateRequestDialog(props) {
         useQuery({
             queryKey: [REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
             queryFn: () => adminGetRequestDetails({ id: requestId }),
-            enabled: requestId && open && requestType === RequestType.DOI,
+            enabled: !!requestId && open && requestType === RequestType.DOI,
             onSuccess: (data) => {
                 setRequestDetails(data);
             },
@@ -67,7 +67,7 @@ export default function UpdateRequestDialog(props) {
         useQuery({
             queryKey: [ADMIN_TOOL_REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
             queryFn: () => getAdminToolRequestDetails({ id: requestId }),
-            enabled: requestId && open && requestType === RequestType.TOOL,
+            enabled: !!requestId && open && requestType === RequestType.TOOL,
             onSuccess: (resp) => {
                 setRequestDetails(resp);
             },

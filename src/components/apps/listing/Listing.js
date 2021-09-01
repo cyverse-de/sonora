@@ -290,7 +290,7 @@ function Listing(props) {
     }, [data, setAgaveAuthDialogOpen]);
 
     useEffect(() => {
-        const enabled = selected && selected.length === 1;
+        const enabled = !!selected && selected.length === 1;
         setDetailsEnabled(enabled);
     }, [selected]);
 

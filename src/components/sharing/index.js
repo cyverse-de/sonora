@@ -99,7 +99,7 @@ function Sharing(props) {
     const { isFetching: fetchUserInfo } = useQuery({
         queryKey: [USER_INFO_QUERY_KEY, { userIds: userIdList }],
         queryFn: () => getUserInfo({ userIds: userIdList }),
-        enabled: userIdList && userIdList.length > 0,
+        enabled: !!userIdList && userIdList.length > 0,
         onSuccess: (results) => {
             const userMap = getUserMap(permissions, results, resourceTotal);
 

@@ -32,7 +32,7 @@ export default function RatingWidget(props) {
     const { isFetching: isAppFetching, error: appByIdError } = useQuery({
         queryKey: [APP_BY_ID_QUERY_KEY, { systemId, appId }],
         queryFn: () => getAppById({ systemId, appId }),
-        enabled: appId != null && systemId !== null,
+        enabled: !!appId && !!systemId,
         onSuccess: (result) => {
             setSelectedApp(result?.apps[0]);
         },

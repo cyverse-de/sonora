@@ -130,7 +130,7 @@ function DetailsDrawer(props) {
 
     const { isFetching: isParamsFetching, error: paramsFetchError } = useQuery({
         queryKey: paramKey,
-        queryFn: () => getAnalysisParameters([paramKey[1]]),
+        queryFn: () => getAnalysisParameters(paramKey[1]),
         enabled: paramKeyQueryEnabled,
         onSuccess: preProcessData,
     });

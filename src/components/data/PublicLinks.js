@@ -84,7 +84,7 @@ function PublicLinks(props) {
     const { isFetching, error } = useQuery({
         queryKey: [PUBLIC_LINKS_QUERY_KEY, paths],
         queryFn: () => getPublicLinks(paths),
-        enabled: paths && paths.length > 0,
+        enabled: !!paths && paths.length > 0,
         onSuccess: (resp) => {
             const pathsWithLink = resp?.paths;
             let parsedLinks = "";

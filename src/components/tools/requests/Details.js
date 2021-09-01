@@ -42,7 +42,7 @@ function DetailsDialog(props) {
         useQuery({
             queryKey: [ADMIN_TOOL_REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
             queryFn: () => getAdminToolRequestDetails({ id: requestId }),
-            enabled: requestId && open,
+            enabled: !!requestId && open,
             onSuccess: setDetails,
         });
 

@@ -116,7 +116,7 @@ function EditToolDialog(props) {
     const { isFetching: isToolFetching, error: toolFetchError } = useQuery({
         queryKey: [TOOL_DETAILS_QUERY_KEY, { id: tool?.id, isAdmin }],
         queryFn: () => getToolDetails({ id: tool?.id, isAdmin }),
-        enabled: !!tool && !!open,
+        enabled: !!tool && open,
         onSuccess: setSelectedTool,
     });
 

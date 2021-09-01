@@ -1,7 +1,7 @@
 /**
  * @author aramsey
  *
- * A component that allows a user to view/edit the community apps
+ * A component that allows a user to view/edit the collection apps
  */
 
 import React, { useEffect, useState } from "react";
@@ -24,7 +24,7 @@ import constants from "constants.js";
 import { useTranslation } from "i18n";
 import ids from "../ids";
 
-function CommunityApps(props) {
+function CollectionApps(props) {
     const {
         parentId,
         isAdmin,
@@ -35,7 +35,7 @@ function CommunityApps(props) {
         loading,
     } = props;
     const appList = getIn(values, name);
-    const { t } = useTranslation(["communities", "sharing"]);
+    const { t } = useTranslation(["collections", "sharing"]);
     const [sortedApps, setSortedApps] = useState(appList);
     const [searchTerm, setSearchTerm] = useState("");
     const [viewSettings, setViewSettings] = useState({
@@ -104,7 +104,7 @@ function CommunityApps(props) {
 
     return (
         <SimpleExpansionPanel
-            header={t("communityApps")}
+            header={t("collectionApps")}
             defaultExpanded={true}
             parentId={baseId}
         >
@@ -163,4 +163,4 @@ function CommunityApps(props) {
     );
 }
 
-export default CommunityApps;
+export default CollectionApps;

@@ -1,6 +1,7 @@
 {
     "addToCalendarAria": "add to calendar",
-    "analysisOrigination": "<bold>{{status}}</bold> - {{date}}",
+    "analysisOrigination": "<status><bold>{{status}}</bold></status> - {{date}}",
+    "analysisRunningOrigination": "<status><bold>{{status}}</bold></status> - {{runningTime}} ({{date}})",
     "banner": "Banner",
     "by": "By",
     "changeSettings": "Change Settings",

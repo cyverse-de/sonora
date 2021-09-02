@@ -114,12 +114,15 @@ function MyApp({ Component, pageProps }) {
         ? router.pathname.split(constants.PATH_SEPARATOR)[1]
         : NavigationConstants.DASHBOARD;
     const [unReadCount, setUnReadCount] = useState(0);
+    const [queryClient] = React.useState(
+        () =>
+            new QueryClient({
+                defaultOptions: {
+                    queries: { refetchOnWindowFocus: false, retry: false },
+                },
+            })
+    );
 
-    const queryClient = new QueryClient({
-        defaultOptions: {
-            queries: { refetchOnWindowFocus: false, retry: false },
-        },
-    });
     useEffect(() => {
         const analytics_id = publicRuntimeConfig.ANALYTICS_ID;
         const handleRouteChange = (url) => {

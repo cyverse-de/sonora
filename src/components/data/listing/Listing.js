@@ -159,7 +159,11 @@ function Listing(props) {
         [data.listing, selected]
     );
 
-    const { error, isFetching } = useQuery({
+    const {
+        error,
+        isFetching,
+        refetch: refetchListing,
+    } = useQuery({
         queryKey: [
             DATA_LISTING_QUERY_KEY,
             path,
@@ -208,20 +212,6 @@ function Listing(props) {
             setInstantLaunchDefaultsMapping(respData?.mapping || {});
         },
     });
-
-    const refreshListing = () =>
-        queryClient.invalidateQueries(
-            [
-                DATA_LISTING_QUERY_KEY,
-                path,
-                rowsPerPage,
-                orderBy,
-                order,
-                page,
-                uploadsCompleted,
-            ],
-            { force: true }
-        );
 
     const { mutate: removeResources, status: removeResourceStatus } =
         useMutation(deleteResources, {
@@ -513,10 +503,6 @@ function Listing(props) {
         setDetailsResource(resource);
     };
 
-    const onRefreshSelected = () => {
-        queryClient.invalidateQueries(DATA_LISTING_QUERY_KEY);
-    };
-
     const addItemsToBag = useBagAddItems({
         handleError: (error) => {
             showErrorAnnouncer(t("addToBagError"), error);
@@ -591,7 +577,7 @@ function Listing(props) {
                     getSelectedResources={getSelectedResources}
                     handlePathChange={onPathChange}
                     permission={data?.permission}
-                    refreshListing={refreshListing}
+                    refreshListing={refetchListing}
                     isGridView={isGridView}
                     toggleDisplay={toggleDisplay}
                     onMetadataSelected={onMetadataSelected}
@@ -617,7 +603,7 @@ function Listing(props) {
                     onRequestDOISelected={() =>
                         setConfirmDOIRequestDialogOpen(true)
                     }
-                    onRefreshSelected={onRefreshSelected}
+                    onRefreshSelected={refetchListing}
                     onRenameSelected={onRenameClicked}
                     onMoveSelected={onMoveSelected}
                 />

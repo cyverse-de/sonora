@@ -211,7 +211,7 @@ function Listing(props) {
                 page,
                 uploadsCompleted,
             ],
-            { force: true }
+            { exact: true }
         );
 
     const { defaultsMappingError, isFetchingDefaultsMapping } = useQuery({

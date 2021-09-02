@@ -159,11 +159,7 @@ function Listing(props) {
         [data.listing, selected]
     );
 
-    const {
-        error,
-        isFetching,
-        refetch: refetchListing,
-    } = useQuery({
+    const { error, isFetching } = useQuery({
         queryKey: [
             DATA_LISTING_QUERY_KEY,
             path,
@@ -203,6 +199,20 @@ function Listing(props) {
             });
         },
     });
+
+    const refreshListing = () =>
+        queryClient.invalidateQueries(
+            [
+                DATA_LISTING_QUERY_KEY,
+                path,
+                rowsPerPage,
+                orderBy,
+                order,
+                page,
+                uploadsCompleted,
+            ],
+            { force: true }
+        );
 
     const { defaultsMappingError, isFetchingDefaultsMapping } = useQuery({
         queryKey: [DEFAULTS_MAPPING_QUERY_KEY],
@@ -577,7 +587,7 @@ function Listing(props) {
                     getSelectedResources={getSelectedResources}
                     handlePathChange={onPathChange}
                     permission={data?.permission}
-                    refreshListing={refetchListing}
+                    refreshListing={refreshListing}
                     isGridView={isGridView}
                     toggleDisplay={toggleDisplay}
                     onMetadataSelected={onMetadataSelected}
@@ -603,7 +613,7 @@ function Listing(props) {
                     onRequestDOISelected={() =>
                         setConfirmDOIRequestDialogOpen(true)
                     }
-                    onRefreshSelected={refetchListing}
+                    onRefreshSelected={refreshListing}
                     onRenameSelected={onRenameClicked}
                     onMoveSelected={onMoveSelected}
                 />

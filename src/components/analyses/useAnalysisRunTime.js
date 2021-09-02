@@ -1,7 +1,8 @@
 /**
  * @author aramsey
  *
- * A hook to return how long an analysis has been running.
+ * A hook to return how long an analysis has been running, or the total time
+ * the analysis ran if it has completed.
  *
  * The run time is based off the analysis history's first recorded Running update
  * for a specified step. You can specify the step by providing a function to filter
@@ -12,7 +13,7 @@
 
 import { useEffect, useState } from "react";
 
-import { formatDistanceToNow } from "date-fns";
+import { formatDistance, formatDistanceToNow } from "date-fns";
 import { useQuery } from "react-query";
 
 import analysisStatus from "components/models/analysisStatus";
@@ -26,15 +27,17 @@ function useAnalysisRunTime(
     stepFilterFn = (step) => step.step_number === 1
 ) {
     const isRunning = analysis?.status === analysisStatus.RUNNING;
+    const isComplete = analysis?.status === analysisStatus.COMPLETED;
 
     const [runningStart, setRunningStart] = useState(0);
     const [elapsedTime, setElapsedTime] = useState(null);
+    const [totalRunTime, setTotalRunTime] = useState(null);
 
     useQuery({
         queryKey: [ANALYSIS_HISTORY_QUERY_KEY, { id: analysis?.id }],
         queryFn: getAnalysisHistory,
         config: {
-            enabled: isRunning,
+            enabled: isRunning || isComplete,
             onSuccess: (resp) => {
                 // Make sure we're looking at the correct step
                 // (e.g. step_type === "Interactive" or step_number === 1)
@@ -55,15 +58,22 @@ function useAnalysisRunTime(
         };
 
         let interval;
-        if (runningStart) {
+        if (isRunning && runningStart) {
             interval = setInterval(handleUpdateRunningTime, 60000);
             handleUpdateRunningTime();
         }
 
-        return () => clearInterval(interval);
-    }, [analysis, runningStart]);
+        const endDate = analysis?.end_date;
+        if (isComplete && runningStart && endDate) {
+            setTotalRunTime(
+                formatDistance(new Date(runningStart), new Date(endDate))
+            );
+        }
 
-    return { elapsedTime, runningStart };
+        return () => clearInterval(interval);
+    }, [analysis, isComplete, isRunning, runningStart]);
+
+    return { elapsedTime, runningStart, totalRunTime };
 }
 
 export default useAnalysisRunTime;

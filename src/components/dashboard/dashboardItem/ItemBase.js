@@ -48,7 +48,7 @@ const DashboardLink = ({ target, kind, children }) => {
 function AnalysisSubheader(props) {
     const { analysis, date: formattedDate } = props;
     const { t } = useTranslation(["dashboard", "apps"]);
-    const { elapsedTime } = useAnalysisRunTime(analysis);
+    const { elapsedTime, totalRunTime } = useAnalysisRunTime(analysis);
     const theme = useTheme();
 
     const status = analysis.status;
@@ -65,7 +65,9 @@ function AnalysisSubheader(props) {
         <Trans
             t={t}
             i18nKey={
-                elapsedTime
+                totalRunTime
+                    ? "analysisCompletedOrigination"
+                    : elapsedTime
                     ? "analysisRunningOrigination"
                     : "analysisOrigination"
             }
@@ -73,6 +75,7 @@ function AnalysisSubheader(props) {
                 status,
                 date: formattedDate,
                 runningTime: elapsedTime,
+                totalRunTime,
             }}
             components={{
                 bold: <strong />,

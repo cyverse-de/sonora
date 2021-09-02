@@ -11,10 +11,7 @@ import { getUserInfo } from "./users";
 const MY_TEAMS_QUERY = "fetchMyTeams";
 const ALL_TEAMS_QUERY = "fetchAllTeams";
 const SEARCH_TEAMS_QUERY = "searchAllTeams";
-const TEAM_PRIVILEGES_QUERY = "fetchTeamPrivileges";
-const TEAM_MEMBERS_QUERY = "fetchTeamMembers";
 const TEAM_DETAILS_QUERY = "fetchTeamDetails";
-const LIST_SINGLE_TEAM_QUERY = "fetchSingleTeam";
 
 const RECENT_CONTACTS_QUERY = "fetchRecentContactsList";
 const RECENT_CONTACTS_LIST_NAME = "default"; // `default` collaborator list
@@ -85,9 +82,9 @@ function getTeamMembers({ name }) {
 
 function getTeamDetails({ name }) {
     return Promise.all([
-        listSingleTeam(LIST_SINGLE_TEAM_QUERY, { name }),
-        getTeamPrivileges(TEAM_PRIVILEGES_QUERY, { name }),
-        getTeamMembers(TEAM_MEMBERS_QUERY, { name }),
+        listSingleTeam({ name }),
+        getTeamPrivileges({ name }),
+        getTeamMembers({ name }),
     ]);
 }
 

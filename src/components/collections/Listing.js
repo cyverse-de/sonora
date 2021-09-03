@@ -8,7 +8,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { queryCache, useQuery } from "react-query";
+import { useQueryClient, useQuery } from "react-query";
 
 import BasicTable from "components/table/BasicTable";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
@@ -42,7 +42,9 @@ function Listing(props) {
     const tableId = buildID(parentId, ids.TABLE);
     const COLLECTION_COLUMNS = Columns(t);
 
-    const myCollectionsCache = queryCache.getQueryData([
+    const queryClient = useQueryClient();
+
+    const myCollectionsCache = queryClient.getQueryData([
         MY_COLLECTIONS_QUERY,
         { userId: userProfile?.id },
     ]);
@@ -83,14 +85,12 @@ function Listing(props) {
     const { isFetching: fetchMyCollections, error: myCollectionsError } =
         useQuery({
             queryKey: [MY_COLLECTIONS_QUERY, { userId: userProfile?.id }],
-            queryFn: getMyCollections,
-            config: {
-                enabled:
-                    !myCollectionsCache &&
-                    COLLECTION_FILTER.MY_COLLECTIONS === filter,
-                onSuccess: (results) => {
-                    setData(results.groups);
-                },
+            queryFn: () => getMyCollections({ userId: userProfile?.id }),
+            enabled:
+                !myCollectionsCache &&
+                COLLECTION_FILTER.MY_COLLECTIONS === filter,
+            onSuccess: (results) => {
+                setData(results.groups);
             },
         });
 
@@ -98,11 +98,9 @@ function Listing(props) {
         useQuery({
             queryKey: [ALL_COLLECTIONS_QUERY],
             queryFn: getAllCollections,
-            config: {
-                enabled: COLLECTION_FILTER.ALL_COLLECTIONS === filter,
-                onSuccess: (results) => {
-                    setData(results.groups);
-                },
+            enabled: COLLECTION_FILTER.ALL_COLLECTIONS === filter,
+            onSuccess: (results) => {
+                setData(results.groups);
             },
         });
 

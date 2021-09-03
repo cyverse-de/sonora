@@ -72,11 +72,12 @@ function CollectionsForm(props) {
                 userId: userProfile?.id,
             },
         ],
-        queryFn: () => getCollectionDetails({
-            name: collectionName,
-            fullName: collection?.display_name,
-            userId: userProfile?.id,
-        }),
+        queryFn: () =>
+            getCollectionDetails({
+                name: collectionName,
+                fullName: collection?.display_name,
+                userId: userProfile?.id,
+            }),
         enabled: !isCreatingCollection,
         onSuccess: (results) => {
             if (results) {
@@ -97,7 +98,7 @@ function CollectionsForm(props) {
         },
     });
 
-    const [followMutation, { status: followStatus }] = useMutation(
+    const { mutate: followMutation, status: followStatus } = useMutation(
         followCollection,
         {
             onSuccess: (resp) => {
@@ -171,49 +172,48 @@ function CollectionsForm(props) {
 
     const {
         mutate: updateCollectionNameDescMutation,
-        status: updateCollectionNameDescStatus
-    }
-        = useMutation(updateCollectionNameDesc, {
-            onSuccess: (resp, { newAdmins, newApps, attr }) => {
-                updateCollectionDetailsMutation({
-                    name: resp?.name,
-                    fullName: resp?.display_name,
-                    oldAdmins: admins,
-                    oldApps: apps,
-                    newAdmins,
-                    newApps,
-                    attr,
-                });
-            },
-            onError: (error) => {
-                const errorCode = getErrorCode(error);
+        status: updateCollectionNameDescStatus,
+    } = useMutation(updateCollectionNameDesc, {
+        onSuccess: (resp, { newAdmins, newApps, attr }) => {
+            updateCollectionDetailsMutation({
+                name: resp?.name,
+                fullName: resp?.display_name,
+                oldAdmins: admins,
+                oldApps: apps,
+                newAdmins,
+                newApps,
+                attr,
+            });
+        },
+        onError: (error) => {
+            const errorCode = getErrorCode(error);
 
-                if (errorCode === ERROR_CODES.ERR_EXISTS) {
-                    setShowRetagAppsDlg(true);
-                } else {
-                    setQueryError({
-                        message: t("updateCollectionNameDescError"),
-                        object: error,
-                    });
-                }
-            },
-        });
+            if (errorCode === ERROR_CODES.ERR_EXISTS) {
+                setShowRetagAppsDlg(true);
+            } else {
+                setQueryError({
+                    message: t("updateCollectionNameDescError"),
+                    object: error,
+                });
+            }
+        },
+    });
 
     const {
         mutate: updateCollectionDetailsMutation,
-        status: updateCollectionStatus }
-        = useMutation(updateCollectionDetails, {
-            onSuccess: () => {
-                resetMyCollectionsCache();
-                goBackToCollectionList();
-            },
-            onError: (error) => {
-                setQueryError({
-                    message: t("updateCollectionDetailsFail"),
-                    object: error,
-                });
-            },
-        });
+        status: updateCollectionStatus,
+    } = useMutation(updateCollectionDetails, {
+        onSuccess: () => {
+            resetMyCollectionsCache();
+            goBackToCollectionList();
+        },
+        onError: (error) => {
+            setQueryError({
+                message: t("updateCollectionDetailsFail"),
+                object: error,
+            });
+        },
+    });
 
     const { mutate: createCollectionMutation, status: createCollectionStatus } =
         useMutation(createCollection, {
@@ -265,9 +265,9 @@ function CollectionsForm(props) {
             isCreatingCollection && !collectionNameSaved
                 ? createCollectionMutation
                 : collectionName !== newName ||
-                    collection?.description !== newDescription
-                    ? updateCollectionNameDescMutation
-                    : updateCollectionDetailsMutation;
+                  collection?.description !== newDescription
+                ? updateCollectionNameDescMutation
+                : updateCollectionDetailsMutation;
 
         mutation({
             originalName: collectionName,
@@ -290,24 +290,24 @@ function CollectionsForm(props) {
             initialValues={
                 isCreatingCollection
                     ? {
-                        name: "",
-                        description: "",
-                        admins: [
-                            {
-                                ...userProfile?.attributes,
-                                id: userProfile?.id,
-                            },
-                        ],
-                        apps: apps,
-                        retagApps: null,
-                    }
+                          name: "",
+                          description: "",
+                          admins: [
+                              {
+                                  ...userProfile?.attributes,
+                                  id: userProfile?.id,
+                              },
+                          ],
+                          apps: apps,
+                          retagApps: null,
+                      }
                     : {
-                        name: collectionName || "",
-                        description: collection?.description || "",
-                        admins: admins,
-                        apps: apps,
-                        retagApps: null,
-                    }
+                          name: collectionName || "",
+                          description: collection?.description || "",
+                          admins: admins,
+                          apps: apps,
+                          retagApps: null,
+                      }
             }
             onSubmit={handleSubmit}
         >

@@ -240,12 +240,13 @@ function Listing(props) {
                     appFilter: filter,
                 },
             ],
-            queryFn: () => getCollectionApps({
-                name: category.fullCollectionName,
-                sortField: orderBy,
-                sortDir: order,
-                appFilter: filter,
-            }),
+            queryFn: () =>
+                getCollectionApps({
+                    name: category.fullCollectionName,
+                    sortField: orderBy,
+                    sortDir: order,
+                    appFilter: filter,
+                }),
             enabled: category.id === constants.MY_COLLECTIONS,
             onSuccess: (resp) => {
                 trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
@@ -254,7 +255,6 @@ function Listing(props) {
                 });
                 setData(resp);
             },
-
         });
 
     const { deleteAppMutation, isLoading: deleteLoading } = useMutation(
@@ -298,8 +298,8 @@ function Listing(props) {
         const selApps = getSelectedApps();
         setAddToBagEnabled(
             selApps &&
-            selected.length > 0 &&
-            selApps?.filter((app) => app.is_public).length === 0
+                selected.length > 0 &&
+                selApps?.filter((app) => app.is_public).length === 0
         );
     }, [getSelectedApps, selected, selectedApp]);
 

@@ -16,9 +16,10 @@ const TEAM_DETAILS_QUERY = "fetchTeamDetails";
 const RECENT_CONTACTS_QUERY = "fetchRecentContactsList";
 const RECENT_CONTACTS_LIST_NAME = "default"; // `default` collaborator list
 
-const MY_COMMUNITIES_QUERY = "fetchMyCommunities";
-const ALL_COMMUNITIES_QUERY = "fetchAllCommunities";
-const COMMUNITY_DETAILS_QUERY = "fetchCommunityDetails";
+const MY_COLLECTIONS_QUERY = "fetchMyCollections";
+const ALL_COLLECTIONS_QUERY = "fetchAllCollections";
+const COLLECTION_APPS_QUERY = "fetchCollectionApps";
+const COLLECTION_DETAILS_QUERY = "fetchCollectionDetails";
 
 // Checks if a grouper member update response returned 200, but with `success`
 // set to false on any of the updates
@@ -354,33 +355,21 @@ function getMyCollections({ userId }) {
     });
 }
 
-<<<<<<< HEAD
-function getAllCollections(key) {
-=======
-function getAllCommunities() {
->>>>>>> 1fff9106 (Update react-query syntax for communities.)
+function getAllCollections() {
     return callApi({
         endpoint: "/api/communities",
         method: "GET",
     });
 }
 
-<<<<<<< HEAD
-function getCollectionInfo(key, { name }) {
-=======
-function getCommunityInfo({ name }) {
->>>>>>> 1fff9106 (Update react-query syntax for communities.)
+function getCollectionInfo({ name }) {
     return callApi({
         endpoint: `/api/communities/${encodeURIComponent(name)}`,
         method: "GET",
     });
 }
 
-<<<<<<< HEAD
-function getCollectionAdmins(key, { name }) {
-=======
-function getCommunityAdmins({ name }) {
->>>>>>> 1fff9106 (Update react-query syntax for communities.)
+function getCollectionAdmins({ name }) {
     /**
      * The members endpoint only returns the user ID and source_id.  We'll take
      * this response and ask the user-info endpoint to give us more detailed
@@ -395,22 +384,14 @@ function getCommunityAdmins({ name }) {
     });
 }
 
-<<<<<<< HEAD
-function getCollectionFollowers(key, { name }) {
-=======
-function getCommunityFollowers({ name }) {
->>>>>>> 1fff9106 (Update react-query syntax for communities.)
+function getCollectionFollowers({ name }) {
     return callApi({
         endpoint: `/api/communities/${encodeURIComponent(name)}/members`,
         method: "GET",
     });
 }
 
-<<<<<<< HEAD
 function getCollectionApps({ name, sortField, sortDir, appFilter }) {
-=======
-function getCommunityApps({ name, sortField, sortDir, appFilter }) {
->>>>>>> 1fff9106 (Update react-query syntax for communities.)
     const params = {
         "sort-field": sortField || "name",
         "sort-dir": sortDir?.toUpperCase() || "ASC",
@@ -426,18 +407,7 @@ function getCommunityApps({ name, sortField, sortDir, appFilter }) {
     });
 }
 
-<<<<<<< HEAD
-function getCollectionDetails(
-    key,
-    { name, fullName, userId, sortField, sortDir, appFilter }
-) {
-    return Promise.all([
-        getCollectionInfo(COLLECTION_INFO_QUERY, { name }),
-        getCollectionAdmins(COLLECTION_ADMINS_QUERY, { name }),
-        getCollectionFollowers(COLLECTION_FOLLOWERS_QUERY, { name }),
-        getCollectionApps(COLLECTION_APPS_QUERY, {
-=======
-function getCommunityDetails({
+function getCollectionDetails({
     name,
     fullName,
     userId,
@@ -446,11 +416,10 @@ function getCommunityDetails({
     appFilter,
 }) {
     return Promise.all([
-        getCommunityInfo({ name }),
-        getCommunityAdmins({ name }),
-        getCommunityFollowers({ name }),
-        getCommunityApps({
->>>>>>> 1fff9106 (Update react-query syntax for communities.)
+        getCollectionInfo({ name }),
+        getCollectionAdmins({ name }),
+        getCollectionFollowers({ name }),
+        getCollectionApps({
             name: fullName,
             sortField,
             sortDir,

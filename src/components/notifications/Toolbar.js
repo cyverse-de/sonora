@@ -65,7 +65,7 @@ const NotificationToolbar = (props) => {
                         id={buildID(filterId, key)}
                         value={NotificationCategory[key]}
                     >
-                        {NotificationCategory[key]}
+                        {t(key.toLowerCase())}
                     </MenuItem>
                 ))}
             </TextField>

@@ -17,7 +17,7 @@ const NotificationCategory = {
 };
 
 export const notificationTypeToCategory = (type) => {
-    return NotificationCategory[type?.replace(/\s/g, "_").toUpperCase()];
+    return type?.replace(/\s/g, "_");
 };
 
 export default NotificationCategory;

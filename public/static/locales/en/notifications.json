@@ -1,12 +1,17 @@
 {
     "addMemberFail": "Failed to add {{0}} to {{1}}. Please try again.",
     "admin": "Admin",
+    "all": "All",
+    "analysis": "Analysis",
     "approveBtnText": "Approve",
     "approveRequestFailed": "Failed to approve request to join team.  Please try again.",
+    "apps": "Apps",
     "arialApproveOrDeny": "Approve or Deny",
     "cancelBtnText": "Cancel",
     "category": "Category",
+    "community": "Collection",
     "created_date": "Created Date",
+    "data": "Data",
     "denyAdminLabel": "Message from the team admin",
     "denyBtnText": "Deny",
     "denyDetailsHeader": "Request to Join Team Denied",
@@ -27,8 +32,10 @@
     "markSeen": "Mark as Seen",
     "message": "Message",
     "name": "Name",
+    "new": "New",
     "noNotifications": "No notifications to display.",
     "okBtnText": "OK",
+    "permanent_id_request": "Permanent ID Request",
     "read": "Member",
     "refresh": "Refresh",
     "requesterEmailLabel": "Email",
@@ -36,5 +43,7 @@
     "requesterNameLabel": "Name",
     "setPrivilegesHeading": "Set Privileges",
     "setPrivilegesText": "Please select which team privileges you would like to assign to {{name}} within {{team}}",
-    "teamLabel": "Team"
+    "team": "Team",
+    "teamLabel": "Team",
+    "tool_request": "Tool Request"
 }

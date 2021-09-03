@@ -239,8 +239,10 @@ const TableView = (props) => {
                                             </TableCell>
                                             <TableCell className={className}>
                                                 <Typography>
-                                                    {notificationTypeToCategory(
-                                                        n.type
+                                                    {t(
+                                                        notificationTypeToCategory(
+                                                            n.type
+                                                        )
                                                     )}
                                                 </Typography>
                                             </TableCell>

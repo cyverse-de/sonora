@@ -32,6 +32,7 @@
     "retagAppsMessage": "{{name}} currently has apps associated with it. Renaming the $t(featureName) will cause all the currently tagged apps to be re-tagged with the new $t(featureName) name.  Do you wish to continue?",
     "retagAppsTitle": "Rename $t(featureName) and re-tag associated apps?",
     "searchApps": "Search to add apps",
+    "selectCollectionTitle": "Select a Collection",
     "unfollow": "Unfollow",
     "unfollowCollectionError": "Failed to unfollow {{ name }}. Please try again.",
     "unfollowCollectionSuccess": "Successfully unfollowed {{ name }}",

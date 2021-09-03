@@ -117,4 +117,5 @@ export default {
         LICENSE_TYPE: "licenseType",
         LICENSE_LINK: "licenseLink",
     },
+    SELECT_COLLECTION_DLG: "selectCollectionDlg",
 };

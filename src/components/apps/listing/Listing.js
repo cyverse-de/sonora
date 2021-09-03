@@ -40,6 +40,10 @@ import {
     APPS_IN_CATEGORY_QUERY_KEY,
     ADMIN_APPS_QUERY_KEY,
 } from "serviceFacades/apps";
+import {
+    COLLECTION_APPS_QUERY,
+    getCollectionApps,
+} from "serviceFacades/groups";
 
 import { queryCache, useMutation, useQuery } from "react-query";
 import { canShare } from "../utils";
@@ -51,6 +55,7 @@ import SavedLaunchDialog from "../savedLaunch/SavedLaunchDialog";
 import { useUserProfile } from "contexts/userProfile";
 import AdminAppDetailsDialog from "../admin/details/AdminAppDetails";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
+import SelectCollectionDialog from "../SelectCollectionDialog";
 
 function Listing(props) {
     const {
@@ -98,6 +103,8 @@ function Listing(props) {
     const [docDlgOpen, setDocDlgOpen] = useState(false);
     const [savedLaunchDlgOpen, setSavedLaunchDlgOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [selectCollectionDlgOpen, setSelectCollectionDlgOpen] =
+        useState(false);
 
     const sharingApps = formatSharedApps(getSelectedApps());
 
@@ -194,6 +201,30 @@ function Listing(props) {
             },
         },
     });
+
+    const { isFetching: appsInCollectionStatus, error: appsInCollectionError } =
+        useQuery({
+            queryKey: [
+                COLLECTION_APPS_QUERY,
+                {
+                    name: category.fullCollectionName,
+                    sortField: orderBy,
+                    sortDir: order,
+                    appFilter: filter,
+                },
+            ],
+            queryFn: getCollectionApps,
+            config: {
+                enabled: category.id === constants.MY_COLLECTIONS,
+                onSuccess: (resp) => {
+                    trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
+                        systemId: selectedSystemId,
+                        appId: selectedAppId,
+                    });
+                    setData(resp);
+                },
+            },
+        });
 
     const [deleteAppMutation, { isLoading: deleteLoading }] = useMutation(
         deleteApp,
@@ -365,25 +396,29 @@ function Listing(props) {
 
     const handleCategoryChange = useCallback(
         (category) => {
-            let toFilter = filter;
-            if (
-                category.system_id?.toLowerCase() ===
-                appType.agave.value.toLowerCase()
-            ) {
-                toFilter = null;
+            if (category.id === constants.MY_COLLECTIONS) {
+                setSelectCollectionDlgOpen(true);
+            } else {
+                let toFilter = filter;
+                if (
+                    category.system_id?.toLowerCase() ===
+                    appType.agave.value.toLowerCase()
+                ) {
+                    toFilter = null;
+                }
+                setSelected([]);
+                onRouteToListing &&
+                    onRouteToListing(
+                        order,
+                        orderBy,
+                        0,
+                        rowsPerPage,
+                        toFilter ? JSON.stringify(filter) : null,
+                        JSON.stringify(category),
+                        searchTerm,
+                        JSON.stringify(adminOwnershipFilter)
+                    );
             }
-            setSelected([]);
-            onRouteToListing &&
-                onRouteToListing(
-                    order,
-                    orderBy,
-                    0,
-                    rowsPerPage,
-                    toFilter ? JSON.stringify(filter) : null,
-                    JSON.stringify(category),
-                    searchTerm,
-                    JSON.stringify(adminOwnershipFilter)
-                );
         },
         [
             adminOwnershipFilter,
@@ -395,6 +430,27 @@ function Listing(props) {
             searchTerm,
         ]
     );
+
+    const onCollectionSelected = (collection) => {
+        setSelectCollectionDlgOpen(false);
+        let newCategory = {
+            id: constants.MY_COLLECTIONS,
+            name: collection.name,
+            fullCollectionName: collection.display_name,
+        };
+        setSelected([]);
+        onRouteToListing &&
+            onRouteToListing(
+                order,
+                orderBy,
+                0,
+                rowsPerPage,
+                JSON.stringify(filter),
+                JSON.stringify(newCategory),
+                searchTerm,
+                JSON.stringify(adminOwnershipFilter)
+            );
+    };
 
     const handleFilterChange = (filter) => {
         setSelected([]);
@@ -541,13 +597,15 @@ function Listing(props) {
                     allAppsStatus ||
                     categoryStatus ||
                     deleteLoading ||
-                    appByIdStatus
+                    appByIdStatus ||
+                    appsInCollectionStatus
                 }
                 error={
                     appsInCategoryError ||
                     listingError ||
                     navError ||
-                    appByIdError
+                    appByIdError ||
+                    appsInCollectionError
                 }
                 listing={data}
                 baseId={baseId}
@@ -633,6 +691,12 @@ function Listing(props) {
                 contentText={t("appDeleteWarning", {
                     appName: selectedApp?.name,
                 })}
+            />
+
+            <SelectCollectionDialog
+                open={selectCollectionDlgOpen}
+                onClose={() => setSelectCollectionDlgOpen(false)}
+                onCollectionSelected={onCollectionSelected}
             />
         </>
     );

@@ -41,6 +41,7 @@ import {
     Storage as StorageIcon,
 } from "@material-ui/icons";
 import { useUserProfile } from "../../../contexts/userProfile";
+import { CollectionIcon } from "components/collections/Icons";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
@@ -97,11 +98,19 @@ function AppNavigation(props) {
     iconMap.set(constants.MY_PUBLIC_APPS, <GroupWorkIcon />);
     iconMap.set(constants.BROWSE_ALL_APPS, <AppsIcon />);
     iconMap.set(constants.HPC, <StorageIcon />);
+    iconMap.set(constants.MY_COLLECTIONS, <CollectionIcon />);
 
     const allAppsCategory = useCallback(() => {
         return {
             name: constants.BROWSE_ALL_APPS,
             id: constants.BROWSE_ALL_APPS_ID,
+        };
+    }, []);
+
+    const myCollectionsCategory = useCallback(() => {
+        return {
+            name: constants.MY_COLLECTIONS,
+            id: constants.MY_COLLECTIONS,
         };
     }, []);
 
@@ -118,6 +127,7 @@ function AppNavigation(props) {
             if (hpcCat) {
                 categoryList = categoryList.concat(hpcCat);
             }
+            categoryList = categoryList.concat(myCollectionsCategory());
             categoryList = categoryList.concat(allAppsCategory());
             setCategories(categoryList);
             handleAppNavError(null);
@@ -137,11 +147,12 @@ function AppNavigation(props) {
             }
         },
         [
+            myCollectionsCategory,
             allAppsCategory,
             handleAppNavError,
-            setCategories,
+            selectedCategory.id,
+            selectedCategory.name,
             handleCategoryChange,
-            selectedCategory,
         ]
     );
 
@@ -262,4 +273,5 @@ function AppNavigation(props) {
         </>
     );
 }
+
 export default AppNavigation;

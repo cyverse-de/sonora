@@ -5,8 +5,8 @@
  */
 
 import React from "react";
-import { ViewList } from "@material-ui/icons";
+import { AccountBalance } from "@material-ui/icons";
 
 export function CollectionIcon(props) {
-    return <ViewList {...props} />;
+    return <AccountBalance {...props} />;
 }

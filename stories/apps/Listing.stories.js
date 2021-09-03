@@ -14,6 +14,7 @@ import Listing from "components/apps/listing/Listing";
 
 import { UploadTrackingProvider } from "contexts/uploadTracking";
 import { UserProfileProvider, useUserProfile } from "contexts/userProfile";
+import { myCollectionList } from "../collections/CollectionMocks";
 
 export default {
     title: "Apps / Listing",
@@ -37,6 +38,7 @@ function ListingTest(props) {
         console.log("Delete App", config.url);
         return [200];
     });
+    mockAxios.onGet("/api/communities").reply(200, myCollectionList);
 
     const { t } = useTranslation("apps");
     const fields = appFields(t);

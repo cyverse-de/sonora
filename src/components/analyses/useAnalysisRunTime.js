@@ -21,13 +21,14 @@ import {
     ANALYSIS_HISTORY_QUERY_KEY,
     getAnalysisHistory,
 } from "serviceFacades/analyses";
+import { isTerminated } from "./utils";
 
 function useAnalysisRunTime(
     analysis,
     stepFilterFn = (step) => step.step_number === 1
 ) {
     const isRunning = analysis?.status === analysisStatus.RUNNING;
-    const isComplete = analysis?.status === analysisStatus.COMPLETED;
+    const isComplete = isTerminated(analysis);
 
     const [runningStart, setRunningStart] = useState(0);
     const [elapsedTime, setElapsedTime] = useState(null);

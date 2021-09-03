@@ -33,6 +33,7 @@
     "dataRootsMenuAriaLabel": "Data root",
     "dataRootsMenuItemAriaControl": "Data root menu item",
     "dataSignIn": "Please sign in to browse data",
+    "defaultMappingError": "Unable to fetch default mappings.",
     "delete": "Delete",
     "deleteConfirmation": "Do you wish to permanently delete the selected item(s)?",
     "deleteResourceError": "Unable to delete selected item(s). Please try again.",

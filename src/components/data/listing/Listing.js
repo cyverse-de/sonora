@@ -214,12 +214,15 @@ function Listing(props) {
             { exact: true }
         );
 
-    const { defaultsMappingError, isFetchingDefaultsMapping } = useQuery({
+    const { isFetching: isFetchingDefaultsMapping } = useQuery({
         queryKey: [DEFAULTS_MAPPING_QUERY_KEY],
         queryFn: getDefaultsMapping,
         enabled: true,
         onSuccess: (respData) => {
             setInstantLaunchDefaultsMapping(respData?.mapping || {});
+        },
+        onError: (e) => {
+            showErrorAnnouncer(t("defaultMappingError"), e);
         },
     });
 
@@ -620,7 +623,7 @@ function Listing(props) {
                 {!isGridView && (
                     <TableView
                         loading={isLoading}
-                        error={error || navError || defaultsMappingError}
+                        error={error || navError}
                         path={path}
                         handlePathChange={onPathChange}
                         listing={data?.listing}

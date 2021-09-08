@@ -42,7 +42,7 @@ const DownloadLinksDialog = ({
     paths = [],
     open = false,
     fullScreen = false,
-    onClose = () => { },
+    onClose = () => {},
 }) => {
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);

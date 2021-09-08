@@ -5,7 +5,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
 import { Field, Form, Formik } from "formik";
-import { useQuery, useMutation, queryCache } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 import ids from "../../ids";
 import constants from "../../../../constants";
@@ -50,6 +50,9 @@ export default function AdminAppDetailsDialog(props) {
     const [details, setDetails] = useState(null);
     const [avus, setAVUs] = useState(null);
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const { isFetching: detailsFetching } = useQuery({
         queryKey: [
             ADMIN_APP_DETAILS_QUERY_KEY,
@@ -58,12 +61,14 @@ export default function AdminAppDetailsDialog(props) {
                 appId: app?.id,
             },
         ],
-        queryFn: getAppDetailsForAdmin,
-        config: {
-            enabled: !!app,
-            onSuccess: setDetails,
-            onError: setDetailsError,
-        },
+        queryFn: () =>
+            getAppDetailsForAdmin({
+                systemId: app?.system_id,
+                appId: app?.id,
+            }),
+        enabled: !!app,
+        onSuccess: setDetails,
+        onError: setDetailsError,
     });
 
     const { isFetching: avusFetching } = useQuery({
@@ -73,29 +78,28 @@ export default function AdminAppDetailsDialog(props) {
                 appId: app?.id,
             },
         ],
-        queryFn: adminGetAppAVUs,
-        config: {
-            enabled: !!app,
-            onSuccess: (metadata) => setAVUs(metadata?.avus),
-            onError: setAUVsError,
-        },
+        queryFn: () =>
+            adminGetAppAVUs({
+                appId: app?.id,
+            }),
+        enabled: !!app,
+        onSuccess: (metadata) => setAVUs(metadata?.avus),
+        onError: setAUVsError,
     });
 
-    const [adminMutateAppMetadata, { status: metadataUpdateStatus }] =
+    const { mutate: adminMutateAppMetadata, status: metadataUpdateStatus } =
         useMutation(adminUpdateAppMetadata, {
             onSuccess: (data) => {
-                queryCache.invalidateQueries(ADMIN_APPS_QUERY_KEY);
+                queryClient.invalidateQueries(ADMIN_APPS_QUERY_KEY);
                 handleClose();
             },
             onError: setUpdateAppError,
         });
 
-    const [adminMutateApp, { status: allUpdatesStatus }] = useMutation(
+    const { mutate: adminMutateApp, status: allUpdatesStatus } = useMutation(
         adminUpdateApp,
         {
             onSuccess: (data, { app, avus, values }) => {
-                // queryCache.invalidateQueries(ADMIN_APPS_QUERY_KEY);
-                // handleClose();
                 adminMutateAppMetadata({ app, avus, values });
             },
             onError: setUpdateAppError,

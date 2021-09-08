@@ -24,10 +24,9 @@ function addSavedLaunch(savedLaunch) {
 
 /**
  * List all saved launches for the selected app
- * @param {string} key
  * @param {object} app
  */
-function listSavedLaunches(key, { appId }) {
+function listSavedLaunches({ appId }) {
     return callApi({
         endpoint: `/api/quicklaunches/apps/${appId}`,
         method: "GET",
@@ -76,10 +75,9 @@ function getSavedLaunch(launchId) {
 /**
  * Get app launch information for selected saved launch
  *
- * @param {*} key
  * @param {*} param1
  */
-function getAppInfo(key, { launchId }) {
+function getAppInfo({ launchId }) {
     return callApi({
         endpoint: `/api/quicklaunches/${launchId}/app-info`,
         method: "GET",

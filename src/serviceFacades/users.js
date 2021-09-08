@@ -1,5 +1,5 @@
 import callApi from "../common/callApi";
-import { useQuery, useMutation, queryCache } from "react-query";
+import { useQuery, useMutation } from "react-query";
 
 const BOOTSTRAP_KEY = "bootstrap";
 
@@ -16,7 +16,7 @@ const WEBHOOKS_TOPICS_QUERY_KEY = "fetchHookTopics";
 const WEBHOOK_TEST_KEY = "testWebhook";
 const USER_PORTAL_QUERY_KEY = "fetchUserPortalStatus";
 
-const getUserInfo = (key, { userIds }) => {
+const getUserInfo = ({ userIds }) => {
     const userQuery = userIds.join("&username=");
 
     return callApi({
@@ -32,7 +32,7 @@ function getUserProfile() {
     });
 }
 
-function bootstrap(key) {
+function bootstrap() {
     return callApi({
         endpoint: `/api/bootstrap`,
         method: "GET",
@@ -98,7 +98,7 @@ function updateWebhooks(webhooks) {
     });
 }
 
-function testWebhook(key, { url }) {
+function testWebhook({ url }) {
     return callApi({
         endpoint: `/api/testWebhook?url=${url}`,
         method: "GET",
@@ -115,17 +115,15 @@ function useBootStrap(enabled, onSuccess, onError) {
     return useQuery({
         queryKey: BOOTSTRAP_KEY,
         queryFn: bootstrap,
-        config: {
-            enabled,
-            onSuccess,
-            onError,
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            retry: 3,
-            //copied from react-query doc. Add exponential delay for retry.
-            retryDelay: (attempt) =>
-                Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000),
-        },
+        enabled,
+        onSuccess,
+        onError,
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        retry: 3,
+        //copied from react-query doc. Add exponential delay for retry.
+        retryDelay: (attempt) =>
+            Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000),
     });
 }
 
@@ -139,13 +137,11 @@ function getUserPortalStatus(key, userId) {
 function usePortalStatus(userId, onError) {
     return useQuery({
         queryKey: [USER_PORTAL_QUERY_KEY, userId],
-        queryFn: getUserPortalStatus,
-        config: {
-            enabled: userId,
-            onError,
-            staleTime: Infinity,
-            cacheTime: Infinity,
-        },
+        queryFn: () => getUserPortalStatus(userId),
+        enabled: !!userId,
+        onError,
+        staleTime: Infinity,
+        cacheTime: Infinity,
     });
 }
 
@@ -154,26 +150,24 @@ function usePortalStatus(userId, onError) {
  * @param {Function} onSuccessCallback - Callback function to use when query succeeds.
  * @param {Function} onError - Callback function to use when query failed.
  */
-function useSavePreferences(onSuccessCallback, onError) {
+function useSavePreferences(
+    bootstrapInfo,
+    setBootstrapInfo,
+    onSuccessCallback,
+    onError
+) {
     return useMutation(savePreferences, {
         onSuccess: (updatedPref) => {
             //update preference in cache
-            queryCache.setQueryData(BOOTSTRAP_KEY, (bootstrapData) => {
-                if (
-                    bootstrapData &&
-                    updatedPref &&
-                    updatedPref[0].preferences
-                ) {
-                    const updatePref = updatedPref[0].preferences;
-                    const updatedBootstrap = {
-                        ...bootstrapData,
-                        preferences: { ...updatePref },
-                    };
-                    return updatedBootstrap;
-                } else {
-                    return bootstrapData;
-                }
-            });
+            if (updatedPref && updatedPref[0].preferences) {
+                const updatePref = updatedPref[0].preferences;
+                const updatedBootstrap = {
+                    ...bootstrapInfo,
+                    preferences: { ...updatePref },
+                };
+                setBootstrapInfo(updatedBootstrap);
+            }
+
             if (onSuccessCallback) {
                 onSuccessCallback(updatedPref);
             }

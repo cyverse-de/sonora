@@ -63,7 +63,7 @@ import buildID from "components/utils/DebugIDUtil";
 import { useTranslation } from "i18n";
 import { useBagAddItems } from "serviceFacades/bags";
 
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import { Button, Typography, useTheme } from "@material-ui/core";
 import DEDialog from "components/utils/DEDialog";
@@ -137,6 +137,9 @@ function Listing(props) {
 
     const uploadDispatch = useUploadTrackingDispatch();
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const trackAllUploads = (uploadFiles) => {
         uploadFiles.forEach((aFile) => {
             trackUpload(aFile.value, path, uploadDispatch);
@@ -166,44 +169,39 @@ function Listing(props) {
             page,
             uploadsCompleted,
         ],
-        queryFn: getPagedListing,
-        config: {
-            enabled: !!path,
-            onSuccess: (respData) => {
-                trackIntercomEvent(IntercomEvents.VIEWED_FOLDER, {
-                    path,
-                });
-                setData({
-                    total: respData?.total,
-                    permission: respData?.permission,
-                    listing: [
-                        ...respData?.folders.map((f) => ({
-                            ...f,
-                            type: ResourceTypes.FOLDER,
-                        })),
-                        ...respData?.files.map((f) => ({
-                            ...f,
-                            type: ResourceTypes.FILE,
-                        })),
-                    ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
-                });
-            },
-        },
-    });
-
-    const { defaultsMappingError, isFetchingDefaultsMapping } = useQuery({
-        queryKey: [DEFAULTS_MAPPING_QUERY_KEY],
-        queryFn: getDefaultsMapping,
-        config: {
-            enabled: true,
-            onSuccess: (respData) => {
-                setInstantLaunchDefaultsMapping(respData?.mapping || {});
-            },
+        queryFn: () =>
+            getPagedListing(
+                path,
+                rowsPerPage,
+                orderBy,
+                order,
+                page,
+                uploadsCompleted
+            ),
+        enabled: !!path,
+        onSuccess: (respData) => {
+            trackIntercomEvent(IntercomEvents.VIEWED_FOLDER, {
+                path,
+            });
+            setData({
+                total: respData?.total,
+                permission: respData?.permission,
+                listing: [
+                    ...respData?.folders.map((f) => ({
+                        ...f,
+                        type: ResourceTypes.FOLDER,
+                    })),
+                    ...respData?.files.map((f) => ({
+                        ...f,
+                        type: ResourceTypes.FILE,
+                    })),
+                ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
+            });
         },
     });
 
     const refreshListing = () =>
-        queryCache.invalidateQueries(
+        queryClient.invalidateQueries(
             [
                 DATA_LISTING_QUERY_KEY,
                 path,
@@ -213,12 +211,23 @@ function Listing(props) {
                 page,
                 uploadsCompleted,
             ],
-            { force: true }
+            { exact: true }
         );
 
-    const [removeResources, { status: removeResourceStatus }] = useMutation(
-        deleteResources,
-        {
+    const { isFetching: isFetchingDefaultsMapping } = useQuery({
+        queryKey: [DEFAULTS_MAPPING_QUERY_KEY],
+        queryFn: getDefaultsMapping,
+        enabled: true,
+        onSuccess: (respData) => {
+            setInstantLaunchDefaultsMapping(respData?.mapping || {});
+        },
+        onError: (e) => {
+            showErrorAnnouncer(t("defaultMappingError"), e);
+        },
+    });
+
+    const { mutate: removeResources, status: removeResourceStatus } =
+        useMutation(deleteResources, {
             onSuccess: () => {
                 announce({
                     text: t("asyncDataDeletePending"),
@@ -228,9 +237,8 @@ function Listing(props) {
             onError: (e) => {
                 showErrorAnnouncer(t("deleteResourceError"), e);
             },
-        }
-    );
-    const [requestDOI, { status: requestDOIStatus }] = useMutation(
+        });
+    const { mutate: requestDOI, status: requestDOIStatus } = useMutation(
         createDOIRequest,
         {
             onSuccess: (resp) => {
@@ -243,7 +251,7 @@ function Listing(props) {
             },
         }
     );
-    const [doEmptyTrash, { status: emptyTrashStatus }] = useMutation(
+    const { mutate: doEmptyTrash, status: emptyTrashStatus } = useMutation(
         emptyTrash,
         {
             onSuccess: () => {
@@ -258,7 +266,7 @@ function Listing(props) {
         }
     );
 
-    const [doRestore, { status: restoreStatus }] = useMutation(restore, {
+    const { mutate: doRestore, status: restoreStatus } = useMutation(restore, {
         onSuccess: () => {
             announce({
                 text: t("asyncDataRestorePending"),
@@ -318,7 +326,7 @@ function Listing(props) {
         }
     }, [erroredUploadCount, t, viewUploadQueue]);
 
-    let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
+    let infoTypesCache = queryClient.getQueryData(INFO_TYPES_QUERY_KEY);
 
     useEffect(() => {
         if (!infoTypesCache || infoTypesCache.length === 0) {
@@ -333,14 +341,12 @@ function Listing(props) {
     useQuery({
         queryKey: INFO_TYPES_QUERY_KEY,
         queryFn: getInfoTypes,
-        config: {
-            enabled: infoTypesQueryEnabled,
-            onSuccess: (resp) => setInfoTypes(resp.types),
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            onError: (e) => {
-                showErrorAnnouncer(t("infoTypeFetchError"), e);
-            },
+        enabled: infoTypesQueryEnabled,
+        onSuccess: (resp) => setInfoTypes(resp.types),
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        onError: (e) => {
+            showErrorAnnouncer(t("infoTypeFetchError"), e);
         },
     });
 
@@ -510,10 +516,6 @@ function Listing(props) {
         setDetailsResource(resource);
     };
 
-    const onRefreshSelected = () => {
-        queryCache.invalidateQueries(DATA_LISTING_QUERY_KEY);
-    };
-
     const addItemsToBag = useBagAddItems({
         handleError: (error) => {
             showErrorAnnouncer(t("addToBagError"), error);
@@ -533,7 +535,7 @@ function Listing(props) {
     const sharingData = formatSharedData(getSelectedResources());
 
     if (!infoTypes || infoTypes.length === 0) {
-        const infoTypesCache = queryCache.getQueryData("dataFetchInfoTypes");
+        const infoTypesCache = queryClient.getQueryData("dataFetchInfoTypes");
         if (infoTypesCache) {
             setInfoTypes(infoTypesCache.types);
         }
@@ -614,14 +616,14 @@ function Listing(props) {
                     onRequestDOISelected={() =>
                         setConfirmDOIRequestDialogOpen(true)
                     }
-                    onRefreshSelected={onRefreshSelected}
+                    onRefreshSelected={refreshListing}
                     onRenameSelected={onRenameClicked}
                     onMoveSelected={onMoveSelected}
                 />
                 {!isGridView && (
                     <TableView
                         loading={isLoading}
-                        error={error || navError || defaultsMappingError}
+                        error={error || navError}
                         path={path}
                         handlePathChange={onPathChange}
                         listing={data?.listing}

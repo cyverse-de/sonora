@@ -114,55 +114,51 @@ function PermissionsTabPanel(props) {
 
     const { isFetching: fetchUserInfoStatus } = useQuery({
         queryKey: fetchUserInfoKey,
-        queryFn: getUserInfo,
-        config: {
-            enabled: fetchUserInfoQueryEnabled,
-            onSuccess: (userInfos) => {
-                const mergedInfo = mergeUsersWithPerms(
-                    userlessPermissions,
-                    userInfos
-                );
-                setPermissions(mergedInfo);
-                setFetchUserInfoQueryEnabled(false);
-            },
-            onError: (e) => {
-                setErrorMessage(t("fetchPermissionsError"));
-                setErrorObject(e);
-            },
+        queryFn: () => getUserInfo(fetchUserInfoKey[1]),
+        enabled: fetchUserInfoQueryEnabled,
+        onSuccess: (userInfos) => {
+            const mergedInfo = mergeUsersWithPerms(
+                userlessPermissions,
+                userInfos
+            );
+            setPermissions(mergedInfo);
+            setFetchUserInfoQueryEnabled(false);
+        },
+        onError: (e) => {
+            setErrorMessage(t("fetchPermissionsError"));
+            setErrorObject(e);
         },
     });
 
     const { isFetching: fetchResourcePermissionsStatus } = useQuery({
         queryKey: fetchResourcePermissionsKey,
-        queryFn: getResourcePermissions,
-        config: {
-            enabled: fetchResourcePermissionsQueryEnabled,
-            onSuccess: (permissionResp) => {
-                const userlessPermissions =
-                    permissionResp?.paths[0]["user-permissions"];
-                if (userlessPermissions && userlessPermissions.length > 0) {
-                    const userIds = new Set(
-                        userlessPermissions.map((item) => item.user)
-                    );
-                    setUserlessPermissions(userlessPermissions);
-                    setFetchUserInfoKey([
-                        USER_INFO_QUERY_KEY,
-                        { userIds: [...userIds] },
-                    ]);
-                    setFetchUserInfoQueryEnabled(true);
-                } else {
-                    setPermissions([]);
-                }
-                setFetchResourcePermissionsQueryEnabled(false);
-            },
-            onError: (e) => {
-                setErrorMessage(t("fetchPermissionsError"));
-                setErrorObject(e);
-            },
+        queryFn: () => getResourcePermissions(fetchResourcePermissionsKey[1]),
+        enabled: fetchResourcePermissionsQueryEnabled,
+        onSuccess: (permissionResp) => {
+            const userlessPermissions =
+                permissionResp?.paths[0]["user-permissions"];
+            if (userlessPermissions && userlessPermissions.length > 0) {
+                const userIds = new Set(
+                    userlessPermissions.map((item) => item.user)
+                );
+                setUserlessPermissions(userlessPermissions);
+                setFetchUserInfoKey([
+                    USER_INFO_QUERY_KEY,
+                    { userIds: [...userIds] },
+                ]);
+                setFetchUserInfoQueryEnabled(true);
+            } else {
+                setPermissions([]);
+            }
+            setFetchResourcePermissionsQueryEnabled(false);
+        },
+        onError: (e) => {
+            setErrorMessage(t("fetchPermissionsError"));
+            setErrorObject(e);
         },
     });
 
-    const [updatePermissions] = useMutation(dataSharing, {
+    const { mutate: updatePermissions } = useMutation(dataSharing, {
         onSuccess: (resp, { currentPermission, newPermissionValue }) => {
             const userPerm = resp?.sharing?.find(
                 (item) => item.user === currentPermission.user

@@ -47,19 +47,17 @@ export default function Webhooks(props) {
 
     const { isFetching: isTesting } = useQuery({
         queryKey: testKey,
-        queryFn: testWebhook,
-        config: {
-            enabled: enableTest,
-            onSuccess: (resp) => {
-                setEnableTest(false);
-                setTestError(null);
-                setTestSuccess(true);
-            },
-            onError: (e) => {
-                setEnableTest(false);
-                setTestError(e);
-                setTestSuccess(false);
-            },
+        queryFn: () => testWebhook({ url: values?.webhook?.url }),
+        enabled: enableTest,
+        onSuccess: (resp) => {
+            setEnableTest(false);
+            setTestError(null);
+            setTestSuccess(true);
+        },
+        onError: (e) => {
+            setEnableTest(false);
+            setTestError(e);
+            setTestSuccess(false);
         },
     });
 

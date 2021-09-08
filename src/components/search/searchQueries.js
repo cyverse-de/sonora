@@ -24,11 +24,9 @@ import { searchTeams } from "../../serviceFacades/groups";
 function useDataSearch(dataSearchKey, enabled, onSuccess) {
     return useQuery({
         queryKey: dataSearchKey,
-        queryFn: searchData,
-        config: {
-            enabled,
-            onSuccess,
-        },
+        queryFn: () => searchData(dataSearchKey[1]),
+        enabled,
+        onSuccess,
     });
 }
 
@@ -44,11 +42,9 @@ function useDataSearch(dataSearchKey, enabled, onSuccess) {
 function useAppsSearch(appsSearchKey, enabled, onSuccess) {
     return useQuery({
         queryKey: appsSearchKey,
-        queryFn: searchApps,
-        config: {
-            enabled,
-            onSuccess,
-        },
+        queryFn: () => searchApps(appsSearchKey[1]),
+        enabled,
+        onSuccess,
     });
 }
 
@@ -64,22 +60,18 @@ function useAppsSearch(appsSearchKey, enabled, onSuccess) {
 function useAnalysesSearch(analysesSearchKey, enabled, onSuccess) {
     return useQuery({
         queryKey: analysesSearchKey,
-        queryFn: getAnalyses,
-        config: {
-            enabled,
-            onSuccess,
-        },
+        queryFn: () => getAnalyses(analysesSearchKey[1]),
+        enabled,
+        onSuccess,
     });
 }
 
 function useTeamsSearch(key, enabled, onSuccess) {
     return useQuery({
         queryKey: key,
-        queryFn: searchTeams,
-        config: {
-            enabled,
-            onSuccess,
-        },
+        queryFn: () => searchTeams(key[1]),
+        enabled,
+        onSuccess,
     });
 }
 
@@ -87,15 +79,24 @@ function useTeamsSearch(key, enabled, onSuccess) {
  * Analyses infinite load search query
  * @param {object} analysesSearchKey - The query key to be used.
  * @param {boolean} enabled - Enable / disable query.
- * @param {function} getFetchMore - Function to be used when more data needs to be loaded.
+ * @param {function} getNextPageParam - Function to be used when more data needs to be loaded.
  *
  * @returns {function}
  */
-function useAnalysesSearchInfinite(analysesSearchKey, enabled, getFetchMore) {
-    return useInfiniteQuery(analysesSearchKey, searchAnalysesInfinite, {
-        enabled,
-        getFetchMore,
-    });
+function useAnalysesSearchInfinite(
+    analysesSearchKey,
+    enabled,
+    getNextPageParam
+) {
+    return useInfiniteQuery(
+        analysesSearchKey,
+        ({ pageParam = 0 }) =>
+            searchAnalysesInfinite({ ...analysesSearchKey[1], pageParam }),
+        {
+            enabled,
+            getNextPageParam,
+        }
+    );
 }
 
 /**
@@ -104,13 +105,18 @@ function useAnalysesSearchInfinite(analysesSearchKey, enabled, getFetchMore) {
  *
  * @param {object} dataSearchKey - The query key to be used.
  * @param {boolean} enabled - Enable / disable query.
- * @param {function} getFetchMore - Function to be used when more data needs to be loaded.
+ * @param {function} getNextPageParam - Function to be used when more data needs to be loaded.
  */
-function useDataSearchInfinite(dataSearchKey, enabled, getFetchMore) {
-    return useInfiniteQuery(dataSearchKey, searchDataInfinite, {
-        enabled,
-        getFetchMore,
-    });
+function useDataSearchInfinite(dataSearchKey, enabled, getNextPageParam) {
+    return useInfiniteQuery(
+        dataSearchKey,
+        ({ pageParam = 0 }) =>
+            searchDataInfinite({ ...dataSearchKey[1], pageParam }),
+        {
+            enabled,
+            getNextPageParam,
+        }
+    );
 }
 
 /**
@@ -118,13 +124,18 @@ function useDataSearchInfinite(dataSearchKey, enabled, getFetchMore) {
  *
  * @param {*} appsSearchKey - The query key to be used.
  * @param {*} enabled - Enable / disable query.
- * @param {*} getFetchMore - Function to be used when more data needs to be loaded.
+ * @param {*} getNextPageParam - Function to be used when more data needs to be loaded.
  */
-function useAppsSearchInfinite(appsSearchKey, enabled, getFetchMore) {
-    return useInfiniteQuery(appsSearchKey, searchAppsInfiniteQuery, {
-        enabled,
-        getFetchMore,
-    });
+function useAppsSearchInfinite(appsSearchKey, enabled, getNextPageParam) {
+    return useInfiniteQuery(
+        appsSearchKey,
+        ({ pageParam = 0 }) =>
+            searchAppsInfiniteQuery({ ...appsSearchKey[1], pageParam }),
+        {
+            enabled,
+            getNextPageParam,
+        }
+    );
 }
 
 export {

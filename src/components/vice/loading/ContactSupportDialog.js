@@ -51,7 +51,7 @@ function ContactSupportDialog(props) {
         setComment(event.target.value);
     };
 
-    const [sendSupportEmailMutation, { isLoading }] = useMutation(
+    const { mutate: sendSupportEmailMutation, isLoading } = useMutation(
         sendSupportEmail,
         {
             onSuccess: onClose,

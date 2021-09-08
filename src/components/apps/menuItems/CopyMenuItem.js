@@ -35,7 +35,7 @@ function CopyMenuItem(props) {
 
     const isWorkflow = app?.step_count > 1;
 
-    const [onCopyApp, { isLoading }] = useMutation(
+    const { mutate: onCopyApp, isLoading } = useMutation(
         (ids) => (isWorkflow ? copyPipeline(ids) : copyApp(ids)),
         {
             onSuccess: (appCopy) => {

@@ -8,7 +8,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import ToolsUsedPanel from "./ToolUsedPanel";
 import AppFavorite from "../AppFavorite";
@@ -206,14 +206,16 @@ function DetailsDrawer(props) {
     const detailsTabId = buildID(drawerId, ids.DETAILS_TAB);
     const toolInfoTabId = buildID(drawerId, ids.TOOLS_INFO_TAB);
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const { isFetching: appByIdStatus, error: appByIdError } = useQuery({
         queryKey: [APP_BY_ID_QUERY_KEY, { systemId, appId }],
-        queryFn: getAppById,
-        config: {
-            enabled: appId != null && systemId !== null,
-            onSuccess: (result) => {
-                setSelectedApp(result?.apps[0]);
-            },
+        queryFn: () => getAppById({ systemId, appId }),
+
+        enabled: !!appId && !!systemId,
+        onSuccess: (result) => {
+            setSelectedApp(result?.apps[0]);
         },
     });
 
@@ -225,45 +227,54 @@ function DetailsDrawer(props) {
                 appId,
             },
         ],
-        queryFn: getAppDetails,
-        config: {
-            enabled: appId != null && systemId !== null,
-            onSuccess: setDetails,
-            onError: (e) => {
-                setDetailsError(e);
-                setFavMutationError(null);
-                setRatingMutationError(null);
-            },
-        },
-    });
+        queryFn: () =>
+            getAppDetails({
+                systemId,
+                appId,
+            }),
 
-    const [favorite, { status: favMutationStatus }] = useMutation(appFavorite, {
-        onSuccess: () => {
-            queryCache.invalidateQueries([
-                APP_BY_ID_QUERY_KEY,
-                { systemId, appId },
-            ]);
-            onFavoriteUpdated && onFavoriteUpdated(selectedApp.is_favorite);
-        },
+        enabled: !!appId && !!systemId,
+        onSuccess: setDetails,
         onError: (e) => {
-            setFavMutationError(e);
-            setDetailsError(null);
+            setDetailsError(e);
+            setFavMutationError(null);
             setRatingMutationError(null);
         },
     });
 
-    const [rating, { status: ratingMutationStatus }] = useMutation(rateApp, {
-        onSuccess: () =>
-            queryCache.invalidateQueries([
-                APP_BY_ID_QUERY_KEY,
-                { systemId, appId },
-            ]),
-        onError: (e) => {
-            setRatingMutationError(e);
-            setDetailsError(null);
-            setFavMutationError(null);
-        },
-    });
+    const { mutate: favorite, status: favMutationStatus } = useMutation(
+        appFavorite,
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries([
+                    APP_BY_ID_QUERY_KEY,
+                    { systemId, appId },
+                ]);
+                onFavoriteUpdated && onFavoriteUpdated(selectedApp.is_favorite);
+            },
+            onError: (e) => {
+                setFavMutationError(e);
+                setDetailsError(null);
+                setRatingMutationError(null);
+            },
+        }
+    );
+
+    const { mutate: rating, status: ratingMutationStatus } = useMutation(
+        rateApp,
+        {
+            onSuccess: () =>
+                queryClient.invalidateQueries([
+                    APP_BY_ID_QUERY_KEY,
+                    { systemId, appId },
+                ]),
+            onError: (e) => {
+                setRatingMutationError(e);
+                setDetailsError(null);
+                setFavMutationError(null);
+            },
+        }
+    );
 
     const onFavoriteClick = () => {
         favorite({

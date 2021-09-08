@@ -132,11 +132,10 @@ function DEAppBar(props) {
     useQuery({
         queryKey: USER_PROFILE_QUERY_KEY,
         queryFn: getUserProfile,
-        config: {
-            enabled: profileRefetchInterval != null,
-            onSuccess: updateUserProfile,
-            refetchInterval: profileRefetchInterval,
-        },
+
+        enabled: profileRefetchInterval != null,
+        onSuccess: updateUserProfile,
+        refetchInterval: profileRefetchInterval,
     });
 
     useEffect(() => {
@@ -234,7 +233,7 @@ function DEAppBar(props) {
     // This query is cached because after logging in we'll update the list based on the
     // incoming notifications instead of re-running this query
     const { isFetching: isFetchingRunningVice } = useRunningViceJobs({
-        enabled: userProfile?.id,
+        enabled: !!userProfile?.id,
         onSuccess: (resp) => setRunningViceJobs(resp?.analyses),
         staleTime: Infinity,
         cacheTime: Infinity,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { queryCache, useMutation } from "react-query";
+import { useQueryClient, useMutation } from "react-query";
 
 import Link from "next/link";
 
@@ -43,9 +43,13 @@ class AppItem extends ItemBase {
         // Functions to buildID keys and links.
         const baseId = `${constants.KIND_APPS}-${app.system_id}-${app.id}`;
         const buildKey = (keyType) => `${baseId}-${keyType}`;
-        const [favorite] = useMutation(appFavorite, {
+
+        // Get QueryClient from the context
+        const queryClient = useQueryClient();
+
+        const { mutate: favorite } = useMutation(appFavorite, {
             onSuccess: () => {
-                queryCache.invalidateQueries([
+                queryClient.invalidateQueries([
                     APP_BY_ID_QUERY_KEY,
                     { systemId: app.system_id, appId: app.id },
                 ]);

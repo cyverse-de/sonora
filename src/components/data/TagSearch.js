@@ -18,7 +18,7 @@ import {
 } from "@material-ui/core";
 import { HighlightOff } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 import { useTranslation } from "react-i18next";
 
 import ids from "./ids";
@@ -53,38 +53,37 @@ function TagSearch(props) {
     const [errorObject, setErrorObject] = useState(null);
     const [userProfile] = useUserProfile();
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const { isFetching: isFetchingTags } = useQuery({
         queryKey: fetchTagsQueryKey,
-        queryFn: getTagsForResource,
-        config: {
-            onSuccess: (resp) => setSelectedTags(resp.tags),
-            onError: (e) => {
-                setErrorObject(e);
-                const status = e?.response?.status;
-                setErrorMessage(
-                    status === 401
-                        ? t("tagsSignInError")
-                        : t("fetchTagSuggestionsError")
-                );
-            },
+        queryFn: () => getTagsForResource(fetchTagsQueryKey[1]),
+        onSuccess: (resp) => setSelectedTags(resp.tags),
+        onError: (e) => {
+            setErrorObject(e);
+            const status = e?.response?.status;
+            setErrorMessage(
+                status === 401
+                    ? t("tagsSignInError")
+                    : t("fetchTagSuggestionsError")
+            );
         },
     });
 
     const { status: tagSuggestionStatus } = useQuery({
         queryKey: { searchTerm },
-        queryFn: getTagSuggestions,
-        config: {
-            enabled: userProfile?.id,
-            onSuccess: (resp) => {
-                setOptions(resp.tags);
-            },
+        queryFn: () => getTagSuggestions({ searchTerm }),
+        enabled: !!userProfile?.id,
+        onSuccess: (resp) => {
+            setOptions(resp.tags);
         },
     });
 
-    const [removeTag, { status: tagDetachStatus }] = useMutation(
+    const { mutate: removeTag, status: tagDetachStatus } = useMutation(
         detachTagsFromResource,
         {
-            onSuccess: () => queryCache.invalidateQueries(fetchTagsQueryKey),
+            onSuccess: () => queryClient.invalidateQueries(fetchTagsQueryKey),
             onError: (e) => {
                 setErrorMessage(t("modifyTagsError"));
                 setErrorObject(e);
@@ -96,7 +95,7 @@ function TagSearch(props) {
         removeTag({ tagIds: [selectedTag.id], resourceId: resource.id });
     };
 
-    const [createTag, { status: tagCreationStatus }] = useMutation(
+    const { mutate: createTag, status: tagCreationStatus } = useMutation(
         createUserTag,
         {
             onSuccess: (resp, variables) => {
@@ -114,19 +113,17 @@ function TagSearch(props) {
         }
     );
 
-    const [attachTagToResource, { status: tagAttachStatus }] = useMutation(
-        attachTagsToResource,
-        {
+    const { mutate: attachTagToResource, status: tagAttachStatus } =
+        useMutation(attachTagsToResource, {
             onSuccess: () => {
                 setSearchTerm(null);
-                return queryCache.invalidateQueries(fetchTagsQueryKey);
+                return queryClient.invalidateQueries(fetchTagsQueryKey);
             },
             onError: (e) => {
                 setErrorMessage(t("modifyTagsError"));
                 setErrorObject(e);
             },
-        }
-    );
+        });
 
     const onTagSelected = (event, selectedTag) => {
         if (selectedTag) {

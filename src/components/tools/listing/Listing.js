@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useQuery, useMutation, queryCache } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useTranslation } from "i18n";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
@@ -56,22 +56,28 @@ function Listing(props) {
 
     const [deleteConfirm, setDeleteConfirm] = useState(false);
 
-    const [removeTools, { status: deleteStatus }] = useMutation(deleteTools, {
-        onSuccess: () => {
-            announce({
-                text: t("toolDeleted"),
-            });
-            //reset selection to avoid stale selected state
-            setSelected([]);
-            queryCache.invalidateQueries(toolsKey);
-        },
-        onError: (e) => {
-            showErrorAnnouncer(t("toolDeleteError"), e);
-            //reset selection to avoid stale selected state
-            setSelected([]);
-            queryCache.invalidateQueries(toolsKey);
-        },
-    });
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
+    const { mutate: removeTools, status: deleteStatus } = useMutation(
+        deleteTools,
+        {
+            onSuccess: () => {
+                announce({
+                    text: t("toolDeleted"),
+                });
+                //reset selection to avoid stale selected state
+                setSelected([]);
+                queryClient.invalidateQueries(toolsKey);
+            },
+            onError: (e) => {
+                showErrorAnnouncer(t("toolDeleteError"), e);
+                //reset selection to avoid stale selected state
+                setSelected([]);
+                queryClient.invalidateQueries(toolsKey);
+            },
+        }
+    );
 
     useEffect(() => {
         let displayAll = null;
@@ -117,13 +123,11 @@ function Listing(props) {
     // Fetches tool listings from the API.
     const { isFetching, error } = useQuery({
         queryKey: toolsKey,
-        queryFn: getTools,
-        config: {
-            enabled: toolsListingQueryEnabled,
-            onSuccess: (resp) => {
-                trackIntercomEvent(IntercomEvents.VIEWED_TOOLS, toolsKey[1]);
-                setData(resp);
-            },
+        queryFn: () => getTools(toolsKey[1]),
+        enabled: toolsListingQueryEnabled,
+        onSuccess: (resp) => {
+            trackIntercomEvent(IntercomEvents.VIEWED_TOOLS, toolsKey[1]);
+            setData(resp);
         },
     });
 

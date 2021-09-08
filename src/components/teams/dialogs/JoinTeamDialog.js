@@ -40,9 +40,8 @@ function JoinTeamDialog(props) {
     const baseId = ids.JOIN_TEAM.DIALOG;
     const teamShortName = groupShortName(teamName);
 
-    const [requestJoinTeamMutation, { status: joinTeamStatus }] = useMutation(
-        requestJoinTeam,
-        {
+    const { mutate: requestJoinTeamMutation, status: joinTeamStatus } =
+        useMutation(requestJoinTeam, {
             onSuccess: (data, { resetForm }) => {
                 trackIntercomEvent(IntercomEvents.REQUESTED_JOIN_TEAM, data);
                 resetForm();
@@ -51,8 +50,7 @@ function JoinTeamDialog(props) {
             onError: (error) => {
                 setJoinError({ message: t("joinTeamError"), object: error });
             },
-        }
-    );
+        });
 
     const handleSubmit = ({ message }, { resetForm }) => {
         setJoinError(null);

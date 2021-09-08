@@ -7,7 +7,7 @@
  */
 
 import React from "react";
-import { useQuery, queryCache, useMutation } from "react-query";
+import { useQuery, useQueryClient, useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
 import buildID from "components/utils/DebugIDUtil";
@@ -56,6 +56,9 @@ function Listing(props) {
     const [deniedMsg, setDeniedMsg] = React.useState();
     const [deniedMsgDialogOpen, setDeniedMsgDialogOpen] = React.useState(false);
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const handleRequestFilterChange = (event) => {
         setShowAllRequests(event.target.checked);
     };
@@ -70,14 +73,12 @@ function Listing(props) {
 
     const { isFetching, error: listingError } = useQuery({
         queryKey: [ADMIN_ACCESS_REQUEST_LISTING_QUERY_KEY, { showAllRequests }],
-        queryFn: adminRequestListing,
-        config: {
-            enabled: true,
-            onSuccess: setData,
-        },
+        queryFn: () => adminRequestListing({ showAllRequests }),
+        enabled: true,
+        onSuccess: setData,
     });
 
-    const [setLimitMutation, { isLoading: limitLoading }] = useMutation(
+    const { mutate: setLimitMutation, isLoading: limitLoading } = useMutation(
         setUserJobLimit,
         {
             onSuccess: (resp) => {
@@ -98,11 +99,11 @@ function Listing(props) {
         }
     );
 
-    const [updateRequest, { isLoading: updateLoading }] = useMutation(
+    const { mutate: updateRequest, isLoading: updateLoading } = useMutation(
         adminUpdateRequestStatus,
         {
             onSuccess: () => {
-                queryCache.invalidateQueries(
+                queryClient.invalidateQueries(
                     ADMIN_ACCESS_REQUEST_LISTING_QUERY_KEY
                 );
             },

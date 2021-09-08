@@ -10,7 +10,6 @@ import dynamic from "next/dynamic";
 import clsx from "clsx";
 
 import { useQuery } from "react-query";
-
 import { useTranslation } from "i18n";
 
 import { Typography } from "@material-ui/core";
@@ -104,9 +103,10 @@ const Dashboard = (props) => {
     const { t: i18nIntro } = useTranslation("intro");
     const [userProfile] = useUserProfile();
 
-    const bootstrapInfo = useBootstrapInfo()[0];
-
-    const [mutatePreferences] = useSavePreferences(
+    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
+    const { mutate: mutatePreferences } = useSavePreferences(
+        bootstrapInfo,
+        setBootstrapInfo,
         (resp) => {
             announce({
                 text: i18nIntro("dismissPrompt"),
@@ -125,7 +125,7 @@ const Dashboard = (props) => {
 
     const { status, data, error } = useQuery(
         [DASHBOARD_QUERY_KEY, { limit: constants.SECTION_ITEM_LIMIT }],
-        getDashboard
+        () => getDashboard({ limit: constants.SECTION_ITEM_LIMIT })
     );
     const isLoading = status === "loading";
     const hasErrored = status === "error";

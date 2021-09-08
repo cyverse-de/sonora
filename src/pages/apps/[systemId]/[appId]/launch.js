@@ -65,37 +65,30 @@ export default function Launch() {
 
     const { status: appStatus } = useQuery({
         queryKey: appKey,
-        queryFn: getAppDescription,
-        config: {
-            enabled: appDescriptionQueryEnabled,
-            onSuccess: (resp) => {
-                if (resp?.limitChecks?.canRun || !userProfile?.id) {
-                    setApp(resp);
-                } else {
-                    setLaunchError(
-                        resp?.limitChecks?.results[0]?.reasonCodes[0]
-                    );
-                    setViceQuota(
-                        resp?.limitChecks?.results[0]?.additionalInfo?.maxJobs
-                    );
-                    setRunningJobs(
-                        resp?.limitChecks?.results[0]?.additionalInfo
-                            ?.runningJobs
-                    );
-                }
-            },
-            onError: setLaunchError,
+        queryFn: () => getAppDescription(appKey[1]),
+        enabled: appDescriptionQueryEnabled,
+        onSuccess: (resp) => {
+            if (resp?.limitChecks?.canRun || !userProfile?.id) {
+                setApp(resp);
+            } else {
+                setLaunchError(resp?.limitChecks?.results[0]?.reasonCodes[0]);
+                setViceQuota(
+                    resp?.limitChecks?.results[0]?.additionalInfo?.maxJobs
+                );
+                setRunningJobs(
+                    resp?.limitChecks?.results[0]?.additionalInfo?.runningJobs
+                );
+            }
         },
+        onError: setLaunchError,
     });
 
     const { status: savedLaunchStatus } = useQuery({
         queryKey: appKey,
-        queryFn: getAppInfo,
-        config: {
-            enabled: savedLaunchAppDescriptionQueryEnabled,
-            onSuccess: setApp,
-            onError: setLaunchError,
-        },
+        queryFn: () => getAppInfo(appKey[1]),
+        enabled: savedLaunchAppDescriptionQueryEnabled,
+        onSuccess: setApp,
+        onError: setLaunchError,
     });
 
     const loading =

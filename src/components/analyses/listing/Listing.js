@@ -6,7 +6,7 @@
  */
 import React, { useCallback, useEffect, useState } from "react";
 
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
@@ -129,6 +129,9 @@ function Listing(props) {
     const [timeLimitQueryEnabled, setTimeLimitQueryEnabled] = useState(false);
     const [timeLimit, setTimeLimit] = useState();
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     /**
      * There is a small gap between when the user click on the Extend button / menu item
      * and the time loading mask appears because the getTimeLimitForVICEAnalysis query is
@@ -146,45 +149,39 @@ function Listing(props) {
 
     const { isFetching, error } = useQuery({
         queryKey: analysesKey,
-        queryFn: getAnalyses,
-        config: {
-            enabled: analysesListingQueryEnabled,
-            onSuccess: (resp) => {
-                trackIntercomEvent(
-                    IntercomEvents.VIEWED_ANALYSES,
-                    analysesKey[1]
-                );
-                setData(resp);
-            },
+        queryFn: () => getAnalyses(analysesKey[1]),
+        enabled: analysesListingQueryEnabled,
+        onSuccess: (resp) => {
+            trackIntercomEvent(IntercomEvents.VIEWED_ANALYSES, analysesKey[1]);
+            setData(resp);
         },
     });
 
-    const [deleteAnalysesMutation, { isLoading: deleteLoading }] = useMutation(
-        deleteAnalyses,
-        {
+    const { mutate: deleteAnalysesMutation, isLoading: deleteLoading } =
+        useMutation(deleteAnalyses, {
             onSuccess: () => {
                 setSelected([]);
-                queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
+                queryClient.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
             },
             onError: (error) => {
                 showErrorAnnouncer(t("analysesDeleteError"), error);
             },
-        }
-    );
+        });
 
-    const [relaunchAnalysesMutation, { isLoading: relaunchLoading }] =
+    const { mutate: relaunchAnalysesMutation, isLoading: relaunchLoading } =
         useMutation(relaunchAnalyses, {
             onSuccess: () =>
-                queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY),
+                queryClient.invalidateQueries(ANALYSES_LISTING_QUERY_KEY),
             onError: (error) => {
                 showErrorAnnouncer(t("analysesRelaunchError"), error);
             },
         });
 
-    const [
-        renameAnalysisMutation,
-        { isLoading: renameLoading, error: renameError },
-    ] = useMutation(renameAnalysis, {
+    const {
+        mutate: renameAnalysisMutation,
+        isLoading: renameLoading,
+        error: renameError,
+    } = useMutation(renameAnalysis, {
         onSuccess: (analysis) => {
             setRenameDialogOpen(false);
 
@@ -196,14 +193,15 @@ function Listing(props) {
             };
 
             setData(newPage);
-            queryCache.setQueryData(analysesKey, newPage);
+            queryClient.setQueryData(analysesKey, newPage);
         },
     });
 
-    const [
-        analysisCommentMutation,
-        { isLoading: commentLoading, error: commentError },
-    ] = useMutation(updateAnalysisComment, {
+    const {
+        mutate: analysisCommentMutation,
+        isLoading: commentLoading,
+        error: commentError,
+    } = useMutation(updateAnalysisComment, {
         onSuccess: (analysis) => {
             setCommentDialogOpen(false);
 
@@ -217,13 +215,12 @@ function Listing(props) {
             };
 
             setData(newPage);
-            queryCache.setQueryData(analysesKey, newPage);
+            queryClient.setQueryData(analysesKey, newPage);
         },
     });
 
-    const [analysesCancelMutation, { isLoading: cancelLoading }] = useMutation(
-        cancelAnalyses,
-        {
+    const { mutate: analysesCancelMutation, isLoading: cancelLoading } =
+        useMutation(cancelAnalyses, {
             onSuccess: (analyses, { job_status }) => {
                 trackIntercomEvent(IntercomEvents.ANALYSIS_CANCELLED, analyses);
                 announce({
@@ -248,7 +245,7 @@ function Listing(props) {
                 };
 
                 setData(newPage);
-                queryCache.setQueryData(analysesKey, newPage);
+                queryClient.setQueryData(analysesKey, newPage);
             },
             onError: (error) => {
                 showErrorAnnouncer(
@@ -257,15 +254,13 @@ function Listing(props) {
                 );
                 if (selected.length > 1) {
                     // Some analyses may have been successfully canceled.
-                    queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
+                    queryClient.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
                 }
             },
-        }
-    );
+        });
 
-    const [shareAnalysesMutation, { isLoading: shareLoading }] = useMutation(
-        submitAnalysisSupportRequest,
-        {
+    const { mutate: shareAnalysesMutation, isLoading: shareLoading } =
+        useMutation(submitAnalysisSupportRequest, {
             onSuccess: (responses) => {
                 setShareWithSupportAnalysis(null);
                 announce({
@@ -276,29 +271,25 @@ function Listing(props) {
             onError: (error) => {
                 showErrorAnnouncer(t("statusHelpShareError"), error);
             },
-        }
-    );
+        });
 
     const { isFetching: isFetchingTimeLimit } = useQuery({
         queryKey: [VICE_TIME_LIMIT_QUERY_KEY, selected[0]],
-        queryFn: getTimeLimitForVICEAnalysis,
-        config: {
-            enabled: timeLimitQueryEnabled,
-            onSuccess: (resp) => {
-                //convert the response from seconds to milliseconds
-                setTimeLimit({
-                    [selected[0]]: formatDate(resp?.time_limit * 1000),
-                });
-            },
-            onError: (error) => {
-                showErrorAnnouncer(t("timeLimitError"), error);
-            },
+        queryFn: () => getTimeLimitForVICEAnalysis(selected[0]),
+        enabled: timeLimitQueryEnabled,
+        onSuccess: (resp) => {
+            //convert the response from seconds to milliseconds
+            setTimeLimit({
+                [selected[0]]: formatDate(resp?.time_limit * 1000),
+            });
+        },
+        onError: (error) => {
+            showErrorAnnouncer(t("timeLimitError"), error);
         },
     });
 
-    const [doTimeLimitExtension, { isLoading: extensionLoading }] = useMutation(
-        extendVICEAnalysisTimeLimit,
-        {
+    const { mutate: doTimeLimitExtension, isLoading: extensionLoading } =
+        useMutation(extendVICEAnalysisTimeLimit, {
             onSuccess: (resp) => {
                 setConfirmExtendTimeLimitDlgOpen(false);
                 setTimeLimit(null);
@@ -314,8 +305,7 @@ function Listing(props) {
             onError: (error) => {
                 showErrorAnnouncer(t("analysesRelaunchError"), error);
             },
-        }
-    );
+        });
 
     const addItemsToBag = useBagAddItems({
         handleError: (error) => {
@@ -708,7 +698,7 @@ function Listing(props) {
     const sharingEnabled = canShare(getSelectedAnalyses());
 
     const onRefreshSelected = () => {
-        queryCache.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
+        queryClient.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
     };
 
     const isLoading = isQueryLoading([

@@ -22,6 +22,7 @@ import { UploadTrackingProvider } from "contexts/uploadTracking";
 import { UserProfileProvider } from "contexts/userProfile";
 import { NotificationsProvider } from "contexts/pushNotifications";
 import { BootstrapInfoProvider } from "contexts/bootstrap";
+import { BagInfoProvider } from "contexts/bagInfo";
 
 import PageWrapper from "components/layout/PageWrapper";
 import useComponentHeight from "components/utils/useComponentHeight";
@@ -31,8 +32,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import getConfig from "next/config";
 
-import { ReactQueryDevtools } from "react-query-devtools";
-import { ReactQueryConfigProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 import { ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -113,10 +114,14 @@ function MyApp({ Component, pageProps }) {
         ? router.pathname.split(constants.PATH_SEPARATOR)[1]
         : NavigationConstants.DASHBOARD;
     const [unReadCount, setUnReadCount] = useState(0);
-
-    const queryConfig = {
-        queries: { refetchOnWindowFocus: false, retry: false },
-    };
+    const [queryClient] = React.useState(
+        () =>
+            new QueryClient({
+                defaultOptions: {
+                    queries: { refetchOnWindowFocus: false, retry: false },
+                },
+            })
+    );
 
     useEffect(() => {
         const analytics_id = publicRuntimeConfig.ANALYTICS_ID;
@@ -253,34 +258,39 @@ function MyApp({ Component, pageProps }) {
         <ThemeProvider theme={theme}>
             <UserProfileProvider>
                 <UploadTrackingProvider>
-                    <ReactQueryConfigProvider config={queryConfig}>
+                    <QueryClientProvider
+                        client={queryClient}
+                        contextSharing={true}
+                    >
                         <CssBaseline />
                         <NotificationsProvider>
                             <ConfigProvider>
                                 <BootstrapInfoProvider>
-                                    <DEAppBar
-                                        setAppBarRef={setAppBarRef}
-                                        activeView={pathname}
-                                        intercomUnreadCount={unReadCount}
-                                        clientConfig={config}
-                                    >
-                                        <Head>
-                                            <title>{t("deTitle")}</title>
-                                        </Head>
-                                        <ReactQueryDevtools
-                                            initialIsOpen={false}
-                                        />
-                                        <PageWrapper
-                                            appBarHeight={appBarHeight}
+                                    <BagInfoProvider>
+                                        <DEAppBar
+                                            setAppBarRef={setAppBarRef}
+                                            activeView={pathname}
+                                            intercomUnreadCount={unReadCount}
+                                            clientConfig={config}
                                         >
-                                            <Component {...pageProps} />
-                                        </PageWrapper>
-                                        <UploadManager />
-                                    </DEAppBar>
+                                            <Head>
+                                                <title>{t("deTitle")}</title>
+                                            </Head>
+                                            <ReactQueryDevtools
+                                                initialIsOpen={false}
+                                            />
+                                            <PageWrapper
+                                                appBarHeight={appBarHeight}
+                                            >
+                                                <Component {...pageProps} />
+                                            </PageWrapper>
+                                            <UploadManager />
+                                        </DEAppBar>
+                                    </BagInfoProvider>
                                 </BootstrapInfoProvider>
                             </ConfigProvider>
                         </NotificationsProvider>
-                    </ReactQueryConfigProvider>
+                    </QueryClientProvider>
                 </UploadTrackingProvider>
             </UserProfileProvider>
         </ThemeProvider>

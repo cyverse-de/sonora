@@ -42,15 +42,18 @@ export default function Feedback(props) {
 
     const baseId = ids.FEEDBACK_DLG;
 
-    const [sendFeedback, { status: feedbackStatus }] = useMutation(feedback, {
-        onSuccess: () => {
-            announce({
-                text: i18nHelp("feedback_success"),
-                variant: SUCCESS,
-            });
-        },
-        onError: setError,
-    });
+    const { mutate: sendFeedback, status: feedbackStatus } = useMutation(
+        feedback,
+        {
+            onSuccess: () => {
+                announce({
+                    text: i18nHelp("feedback_success"),
+                    variant: SUCCESS,
+                });
+            },
+            onError: setError,
+        }
+    );
 
     const onSubmit = (values) => {
         const submission = {

@@ -56,13 +56,11 @@ function OAuthCodeHandler(props) {
 
     const { isFetching: isFetchingCategories } = useQuery({
         queryKey: [APP_CATEGORIES_QUERY_KEY, userProfile?.id],
-        queryFn: getPrivateCategories,
-        config: {
-            enabled: userProfile?.id,
-            onSuccess: determineListingUrl,
-            staleTime: Infinity,
-            cacheTime: Infinity,
-        },
+        queryFn: () => getPrivateCategories(userProfile?.id),
+        enabled: !!userProfile?.id,
+        onSuccess: determineListingUrl,
+        staleTime: Infinity,
+        cacheTime: Infinity,
     });
 
     // Call the API's callback endpoint.
@@ -75,7 +73,12 @@ function OAuthCodeHandler(props) {
                 stateId,
             },
         ],
-        queryFn: doOAuthCallback,
+        queryFn: () =>
+            doOAuthCallback({
+                apiName,
+                code,
+                stateId,
+            }),
     });
 
     if (isFetching || isFetchingCategories) {

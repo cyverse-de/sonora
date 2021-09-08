@@ -8,7 +8,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import { Form, Formik } from "formik";
-import { useQuery, queryCache, useMutation } from "react-query";
+import { useQuery, useQueryClient, useMutation } from "react-query";
 import { useRouter } from "next/router";
 
 import { useTranslation } from "i18n";
@@ -100,10 +100,15 @@ function Preferences(props) {
 
     const classes = useStyles();
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     //get from cache if not fetch now.
-    const prefCache = queryCache.getQueryData(BOOTSTRAP_KEY);
-    const webhookTypesCache = queryCache.getQueryData(WEBHOOKS_TYPES_QUERY_KEY);
-    const webhookTopicsCache = queryCache.getQueryData(
+    const prefCache = queryClient.getQueryData(BOOTSTRAP_KEY);
+    const webhookTypesCache = queryClient.getQueryData(
+        WEBHOOKS_TYPES_QUERY_KEY
+    );
+    const webhookTopicsCache = queryClient.getQueryData(
         WEBHOOKS_TOPICS_QUERY_KEY
     );
 
@@ -191,21 +196,23 @@ function Preferences(props) {
         setBootstrapError
     );
 
-    const [mutatePreferences, { status: prefMutationStatus }] =
+    const { mutate: mutatePreferences, status: prefMutationStatus } =
         useSavePreferences(
+            bootstrapInfo,
+            setBootstrapInfo,
             (updatedPref) => {
                 announce({
                     text: t("prefSaveSuccess"),
                     variant: SUCCESS,
                 });
-                queryCache.invalidateQueries(BOOTSTRAP_KEY);
+                queryClient.invalidateQueries(BOOTSTRAP_KEY);
             },
             (e) => {
                 showErrorAnnouncer(t("savePrefError"), e);
             }
         );
 
-    const [resetHPCToken, { status: resetTokenStatus }] = useMutation(
+    const { mutate: resetHPCToken, status: resetTokenStatus } = useMutation(
         resetToken,
         {
             onSuccess: () => {
@@ -225,38 +232,37 @@ function Preferences(props) {
     const { isFetching: isFetchingURIs } = useQuery({
         queryKey: REDIRECT_URI_QUERY_KEY,
         queryFn: getRedirectURIs,
-        config: {
-            enabled: fetchRedirectURIsQueryEnabled,
-            onSuccess: (resp) => {
-                setFetchRedirectURIsQueryEnabled(false);
-                const redirectUrl = resp[constants.AGAVE_SYSTEM_ID];
-                if (redirectUrl) {
-                    setHPCAuthUrl(redirectUrl);
-                }
-            },
-            onError: (e) => {
-                showErrorAnnouncer(t("redirectError"), e);
-            },
+
+        enabled: fetchRedirectURIsQueryEnabled,
+        onSuccess: (resp) => {
+            setFetchRedirectURIsQueryEnabled(false);
+            const redirectUrl = resp[constants.AGAVE_SYSTEM_ID];
+            if (redirectUrl) {
+                setHPCAuthUrl(redirectUrl);
+            }
+        },
+        onError: (e) => {
+            showErrorAnnouncer(t("redirectError"), e);
         },
     });
 
     const { isFetching: isFetchingStat } = useQuery({
         queryKey: fetchDetailsKey,
-        queryFn: getResourceDetails,
-        config: {
-            enabled: fetchDetailsQueryEnabled,
-            onSuccess: (resp) => {
-                const details = resp?.paths[defaultOutputFolder];
-                if (!isWritable(details?.permission)) {
-                    setOutputFolderValidationError(
-                        t("permissionSelectErrorMessage")
-                    );
-                } else {
-                    setDefaultOutputFolderDetails(details);
-                    setOutputFolderValidationError(null);
-                }
-            },
+        queryFn: () => getResourceDetails(fetchDetailsKey[1]),
+
+        enabled: fetchDetailsQueryEnabled,
+        onSuccess: (resp) => {
+            const details = resp?.paths[defaultOutputFolder];
+            if (!isWritable(details?.permission)) {
+                setOutputFolderValidationError(
+                    t("permissionSelectErrorMessage")
+                );
+            } else {
+                setDefaultOutputFolderDetails(details);
+                setOutputFolderValidationError(null);
+            }
         },
+
         onError: (e) => {
             setOutputFolderValidationError(t("permissionSelectErrorMessage"));
         },
@@ -265,25 +271,21 @@ function Preferences(props) {
     const { isFetching: isFetchingHookTypes } = useQuery({
         queryKey: WEBHOOKS_TYPES_QUERY_KEY,
         queryFn: getWebhookTypes,
-        config: {
-            enabled: webhookTypesQueryEnabled,
-            onSuccess: (data) => setWebhookTypes(data?.webhooktypes),
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            onError: (e) => showErrorAnnouncer(t("hookTypesFetchError"), e),
-        },
+        enabled: webhookTypesQueryEnabled,
+        onSuccess: (data) => setWebhookTypes(data?.webhooktypes),
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        onError: (e) => showErrorAnnouncer(t("hookTypesFetchError"), e),
     });
 
     const { isFetching: isFetchingHookTopics } = useQuery({
         queryKey: WEBHOOKS_TOPICS_QUERY_KEY,
         queryFn: getWebhookTopics,
-        config: {
-            enabled: webhookTopicsQueryEnabled,
-            onSuccess: (data) => setWebhookTopics(data?.topics),
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            onError: (e) => showErrorAnnouncer(t("hookTopicsFetchError"), e),
-        },
+        enabled: webhookTopicsQueryEnabled,
+        onSuccess: (data) => setWebhookTopics(data?.topics),
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        onError: (e) => showErrorAnnouncer(t("hookTopicsFetchError"), e),
     });
 
     const handleSubmit = (values) => {

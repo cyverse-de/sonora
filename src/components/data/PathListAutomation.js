@@ -7,7 +7,7 @@
  */
 import React, { useEffect, useState } from "react";
 
-import { queryCache, useQuery } from "react-query";
+import { useQueryClient, useQuery } from "react-query";
 import { Field, Form, Formik } from "formik";
 import { useTranslation } from "i18n";
 import { Trans } from "react-i18next";
@@ -78,24 +78,25 @@ export default function PathListAutomation(props) {
     const { t } = useTranslation("data");
     const { t: i18nCommon } = useTranslation("common");
 
-    let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
+    let infoTypesCache = queryClient.getQueryData(INFO_TYPES_QUERY_KEY);
 
     const { isFetching } = useQuery({
         queryKey: INFO_TYPES_QUERY_KEY,
         queryFn: getInfoTypes,
-        config: {
-            enabled: infoTypesQueryEnabled,
-            onSuccess: (resp) => {
-                setInfoTypeError(null);
-                setInfoTypes(resp.types);
-            },
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            onError: setInfoTypeError,
+        enabled: infoTypesQueryEnabled,
+        onSuccess: (resp) => {
+            setInfoTypeError(null);
+            setInfoTypes(resp.types);
         },
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        onError: setInfoTypeError,
     });
 
-    const [createPathListFile, { status }] = useMutation(
+    const { mutate: createPathListFile, status } = useMutation(
         ({ submission }) => pathListCreator(submission),
         {
             onSuccess: (data) => {

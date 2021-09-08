@@ -40,7 +40,7 @@ export default function ApplyBulkMetadataDialog(props) {
     const [error, setError] = React.useState();
 
     const baseId = ids.BULK_METADATA_DIALOG;
-    const [applyMetadata, { status: bulkStatus }] = useMutation(
+    const { mutate: applyMetadata, status: bulkStatus } = useMutation(
         applyBulkMetadataFromFile,
         {
             onSuccess: () => {

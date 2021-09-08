@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
-import { useQuery, useMutation, queryCache } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 import buildID from "components/utils/DebugIDUtil";
 import EmptyTable from "components/table/EmptyTable";
@@ -77,6 +77,7 @@ function ToolsUsed(props) {
     const { tools, appName } = props;
     const [toolsDialogOpen, setToolsDialogOpen] = useState(false);
     const { t } = useTranslation("tools");
+
     return (
         <React.Fragment>
             <Button color="primary" onClick={() => setToolsDialogOpen(true)}>
@@ -140,25 +141,25 @@ function AppPublicationRequests(props) {
     const [requests, setRequests] = React.useState();
     const [error, setError] = React.useState();
 
+    const queryClient = useQueryClient();
+
     const { isFetching: isRequestsFetching } = useQuery({
         queryKey: APP_PUBLICATION_REQUESTS_QUERY_KEY,
         queryFn: getAppPublicationRequests,
-        config: {
-            enabled: true,
-            onSuccess: (resp) => {
-                setRequests(resp?.publication_requests);
-                setError(null);
-            },
-            onError: (error) =>
-                setError({ msg: t("appPubRequestsFetchError"), error }),
+        enabled: true,
+        onSuccess: (resp) => {
+            setRequests(resp?.publication_requests);
+            setError(null);
         },
+        onError: (error) =>
+            setError({ msg: t("appPubRequestsFetchError"), error }),
     });
 
-    const [doAdminAppPublish, { status: appPublishStatus }] = useMutation(
+    const { mutate: doAdminAppPublish, status: appPublishStatus } = useMutation(
         adminPublishApp,
         {
             onSuccess: (data) => {
-                queryCache.invalidateQueries(
+                queryClient.invalidateQueries(
                     APP_PUBLICATION_REQUESTS_QUERY_KEY
                 );
                 setError(null);

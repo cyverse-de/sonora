@@ -7,24 +7,17 @@ import {
     PUBLIC_TEAM_PRIVILEGE,
 } from "../components/teams/util";
 import { getUserInfo } from "./users";
-import { USER_INFO_QUERY_KEY } from "./filesystem";
 
 const MY_TEAMS_QUERY = "fetchMyTeams";
 const ALL_TEAMS_QUERY = "fetchAllTeams";
 const SEARCH_TEAMS_QUERY = "searchAllTeams";
-const TEAM_PRIVILEGES_QUERY = "fetchTeamPrivileges";
-const TEAM_MEMBERS_QUERY = "fetchTeamMembers";
 const TEAM_DETAILS_QUERY = "fetchTeamDetails";
-const LIST_SINGLE_TEAM_QUERY = "fetchSingleTeam";
 
 const RECENT_CONTACTS_QUERY = "fetchRecentContactsList";
 const RECENT_CONTACTS_LIST_NAME = "default"; // `default` collaborator list
 
 const MY_COLLECTIONS_QUERY = "fetchMyCollections";
 const ALL_COLLECTIONS_QUERY = "fetchAllCollections";
-const COLLECTION_INFO_QUERY = "fetchCollectionInfo";
-const COLLECTION_ADMINS_QUERY = "fetchCollectionAdmins";
-const COLLECTION_FOLLOWERS_QUERY = "fetchCollectionFollowers";
 const COLLECTION_APPS_QUERY = "fetchCollectionApps";
 const COLLECTION_DETAILS_QUERY = "fetchCollectionDetails";
 
@@ -35,7 +28,7 @@ function responseHasFailures(response) {
     return hasFailures?.length > 0;
 }
 
-function getMyTeams(key, { userId }) {
+function getMyTeams({ userId }) {
     return callApi({
         endpoint: "/api/teams",
         method: "GET",
@@ -46,7 +39,7 @@ function getMyTeams(key, { userId }) {
     });
 }
 
-function getAllTeams(key) {
+function getAllTeams() {
     return callApi({
         endpoint: "/api/teams",
         method: "GET",
@@ -56,7 +49,7 @@ function getAllTeams(key) {
     });
 }
 
-function searchTeams(key, { searchTerm }) {
+function searchTeams({ searchTerm }) {
     return callApi({
         endpoint: "/api/teams",
         method: "GET",
@@ -67,32 +60,32 @@ function searchTeams(key, { searchTerm }) {
     });
 }
 
-function listSingleTeam(key, { name }) {
+function listSingleTeam({ name }) {
     return callApi({
         endpoint: `/api/teams/${encodeURIComponent(name)}`,
         method: "GET",
     });
 }
 
-function getTeamPrivileges(key, { name }) {
+function getTeamPrivileges({ name }) {
     return callApi({
         endpoint: `/api/teams/${encodeURIComponent(name)}/privileges`,
         method: "GET",
     });
 }
 
-function getTeamMembers(key, { name }) {
+function getTeamMembers({ name }) {
     return callApi({
         endpoint: `/api/teams/${encodeURIComponent(name)}/members`,
         method: "GET",
     });
 }
 
-function getTeamDetails(key, { name }) {
+function getTeamDetails({ name }) {
     return Promise.all([
-        listSingleTeam(LIST_SINGLE_TEAM_QUERY, { name }),
-        getTeamPrivileges(TEAM_PRIVILEGES_QUERY, { name }),
-        getTeamMembers(TEAM_MEMBERS_QUERY, { name }),
+        listSingleTeam({ name }),
+        getTeamPrivileges({ name }),
+        getTeamMembers({ name }),
     ]);
 }
 
@@ -310,7 +303,7 @@ function fetchRecentContactsList() {
         endpoint: `/api/collaborator-lists/${RECENT_CONTACTS_LIST_NAME}/members`,
     }).then((resp) => {
         const userIds = resp?.members?.map((member) => member.id);
-        return getUserInfo(USER_INFO_QUERY_KEY, { userIds });
+        return getUserInfo({ userIds });
     });
 }
 
@@ -352,7 +345,7 @@ function removeRecentContacts({ members }) {
     });
 }
 
-function getMyCollections(key, { userId }) {
+function getMyCollections({ userId }) {
     return callApi({
         endpoint: "/api/communities",
         method: "GET",
@@ -362,21 +355,21 @@ function getMyCollections(key, { userId }) {
     });
 }
 
-function getAllCollections(key) {
+function getAllCollections() {
     return callApi({
         endpoint: "/api/communities",
         method: "GET",
     });
 }
 
-function getCollectionInfo(key, { name }) {
+function getCollectionInfo({ name }) {
     return callApi({
         endpoint: `/api/communities/${encodeURIComponent(name)}`,
         method: "GET",
     });
 }
 
-function getCollectionAdmins(key, { name }) {
+function getCollectionAdmins({ name }) {
     /**
      * The members endpoint only returns the user ID and source_id.  We'll take
      * this response and ask the user-info endpoint to give us more detailed
@@ -387,18 +380,18 @@ function getCollectionAdmins(key, { name }) {
         method: "GET",
     }).then((resp) => {
         const userIds = resp?.members?.map((member) => member.id);
-        return getUserInfo(USER_INFO_QUERY_KEY, { userIds });
+        return getUserInfo({ userIds });
     });
 }
 
-function getCollectionFollowers(key, { name }) {
+function getCollectionFollowers({ name }) {
     return callApi({
         endpoint: `/api/communities/${encodeURIComponent(name)}/members`,
         method: "GET",
     });
 }
 
-function getCollectionApps(key, { name, sortField, sortDir, appFilter }) {
+function getCollectionApps({ name, sortField, sortDir, appFilter }) {
     const params = {
         "sort-field": sortField || "name",
         "sort-dir": sortDir?.toUpperCase() || "ASC",
@@ -414,15 +407,19 @@ function getCollectionApps(key, { name, sortField, sortDir, appFilter }) {
     });
 }
 
-function getCollectionDetails(
-    key,
-    { name, fullName, userId, sortField, sortDir, appFilter }
-) {
+function getCollectionDetails({
+    name,
+    fullName,
+    userId,
+    sortField,
+    sortDir,
+    appFilter,
+}) {
     return Promise.all([
-        getCollectionInfo(COLLECTION_INFO_QUERY, { name }),
-        getCollectionAdmins(COLLECTION_ADMINS_QUERY, { name }),
-        getCollectionFollowers(COLLECTION_FOLLOWERS_QUERY, { name }),
-        getCollectionApps(COLLECTION_APPS_QUERY, {
+        getCollectionInfo({ name }),
+        getCollectionAdmins({ name }),
+        getCollectionFollowers({ name }),
+        getCollectionApps({
             name: fullName,
             sortField,
             sortDir,

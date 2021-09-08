@@ -4,7 +4,7 @@ import { mockAxios } from "../../stories/axiosMock";
 import TestRenderer from "react-test-renderer";
 import { AnalysesTableViewTest } from "../../stories/analyses/TableView.stories";
 import { I18nProviderWrapper } from "../i18n";
-
+import { RQWrapper } from "../__mocks__/RQWrapper";
 beforeEach(() => {
     mockAxios.reset();
 });
@@ -15,9 +15,11 @@ afterEach(() => {
 
 test("renders Analyses Listing Table without crashing", () => {
     const component = TestRenderer.create(
-        <I18nProviderWrapper>
-            <AnalysesTableViewTest />
-        </I18nProviderWrapper>
+        <RQWrapper>
+            <I18nProviderWrapper>
+                <AnalysesTableViewTest />
+            </I18nProviderWrapper>
+        </RQWrapper>
     );
     component.unmount();
 });

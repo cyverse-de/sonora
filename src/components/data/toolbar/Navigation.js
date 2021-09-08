@@ -21,7 +21,7 @@ import buildID from "components/utils/DebugIDUtil";
 
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
-import { queryCache, useQuery } from "react-query";
+import { useQueryClient, useQuery } from "react-query";
 
 import HomeIcon from "@material-ui/icons/Home";
 import FolderSharedIcon from "@material-ui/icons/FolderShared";
@@ -331,10 +331,15 @@ function Navigation(props) {
     const irodsTrashPath = config?.irods?.trash_path;
     const [rootsQueryKeyArray, setRootsQueryKeyArray] = useState([
         DATA_ROOTS_QUERY_KEY,
-        userProfile?.id,
-        irodsHomePath,
-        irodsTrashPath,
+        {
+            userId: userProfile?.id,
+            homePath: irodsHomePath,
+            trashPath: irodsTrashPath,
+        },
     ]);
+
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
 
     const preProcessData = (respData) => {
         if (respData) {
@@ -383,24 +388,24 @@ function Navigation(props) {
     useEffect(() => {
         setRootsQueryKeyArray([
             DATA_ROOTS_QUERY_KEY,
-            userProfile?.id,
-            irodsHomePath,
-            irodsTrashPath,
+            {
+                userId: userProfile?.id,
+                homePath: irodsHomePath,
+                trashPath: irodsTrashPath,
+            },
         ]);
     }, [userProfile, irodsHomePath, irodsTrashPath]);
 
     const { error } = useQuery({
         queryKey: rootsQueryKeyArray,
-        queryFn: getFilesystemRoots,
-        config: {
-            enabled: true,
-            onSuccess: preProcessData,
-            onError: (e) => {
-                handleDataNavError(e);
-            },
-            staleTime: Infinity,
-            cacheTime: Infinity,
+        queryFn: () => getFilesystemRoots(rootsQueryKeyArray[1]),
+        enabled: true,
+        onSuccess: preProcessData,
+        onError: (e) => {
+            handleDataNavError(e);
         },
+        staleTime: Infinity,
+        cacheTime: Infinity,
     });
 
     useEffect(() => {
@@ -456,7 +461,7 @@ function Navigation(props) {
     };
 
     if (dataRoots.length === 0) {
-        const cacheRoots = queryCache.getQueryData(rootsQueryKeyArray);
+        const cacheRoots = queryClient.getQueryData(rootsQueryKeyArray);
         if (cacheRoots) {
             preProcessData(cacheRoots);
         }

@@ -231,7 +231,7 @@ const AppEditor = (props) => {
     const onRedirectToEditPage = (app) =>
         app.id && router.replace(getAppEditPath(app.system_id, app.id));
 
-    const [saveApp] = useMutation(
+    const { mutate: saveApp } = useMutation(
         ({ app }) => {
             const { system_id: systemId, id: appId } = app;
 

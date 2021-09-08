@@ -5,7 +5,7 @@
  *
  */
 import React, { useState } from "react";
-import { useQuery, queryCache } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 
 import globalConstants from "../../../constants";
 import TableView from "components/tools/requests/TableView";
@@ -24,13 +24,14 @@ function Listing(props) {
     const [selected, setSelected] = useState();
     const [updateDialogOpen, setUpdateDialogOpen] = useState();
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const { isFetching, error } = useQuery({
         queryKey: [ADMIN_TOOL_REQUESTS_QUERY_KEY, { order, orderBy }],
-        queryFn: getAdminToolRequests,
-        config: {
-            enabled: true,
-            onSuccess: setData,
-        },
+        queryFn: () => getAdminToolRequests({ order, orderBy }),
+        enabled: true,
+        onSuccess: setData,
     });
 
     const handleRequestSort = (event, property) => {
@@ -73,7 +74,9 @@ function Listing(props) {
                 open={updateDialogOpen}
                 onClose={() => {
                     setUpdateDialogOpen(false);
-                    queryCache.invalidateQueries(ADMIN_TOOL_REQUESTS_QUERY_KEY);
+                    queryClient.invalidateQueries(
+                        ADMIN_TOOL_REQUESTS_QUERY_KEY
+                    );
                 }}
                 requestId={selected}
             />

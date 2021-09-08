@@ -15,7 +15,7 @@ import {
     APP_CATEGORIES_QUERY_KEY,
 } from "serviceFacades/apps";
 
-import { queryCache, useQuery } from "react-query";
+import { useQueryClient, useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
@@ -89,6 +89,9 @@ function AppNavigation(props) {
         userProfile?.id,
     ]);
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const appNavId = buildID(baseId, ids.APPS_NAVIGATION);
 
     const iconMap = new Map();
@@ -158,15 +161,13 @@ function AppNavigation(props) {
 
     const { isFetching } = useQuery({
         queryKey: categoryQueryKey,
-        queryFn: getPrivateCategories,
-        config: {
-            onSuccess: preProcessData,
-            onError: (e) => {
-                handleAppNavError(e);
-            },
-            staleTime: Infinity,
-            cacheTime: Infinity,
+        queryFn: () => getPrivateCategories(categoryQueryKey[1]),
+        onSuccess: preProcessData,
+        onError: (e) => {
+            handleAppNavError(e);
         },
+        staleTime: Infinity,
+        cacheTime: Infinity,
     });
 
     useEffect(() => {
@@ -179,12 +180,12 @@ function AppNavigation(props) {
 
     useEffect(() => {
         if (!categories || categories.length === 0) {
-            const cacheCat = queryCache.getQueryData(categoryQueryKey);
+            const cacheCat = queryClient.getQueryData(categoryQueryKey);
             if (cacheCat) {
                 preProcessData(cacheCat);
             }
         }
-    }, [categoryQueryKey, preProcessData, categories]);
+    }, [categoryQueryKey, preProcessData, categories, queryClient]);
 
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);

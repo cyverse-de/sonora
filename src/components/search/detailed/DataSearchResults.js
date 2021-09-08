@@ -7,7 +7,7 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { useQuery, queryCache } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import Link from "next/link";
 import { useTranslation } from "i18n";
 
@@ -91,7 +91,9 @@ function DataSearchResults(props) {
     const { t: dataI18n } = useTranslation("data");
     const dataRecordFields = dataFields(dataI18n);
 
-    let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+    let infoTypesCache = queryClient.getQueryData(INFO_TYPES_QUERY_KEY);
 
     useEffect(() => {
         if (!infoTypesCache || infoTypesCache.length === 0) {
@@ -106,32 +108,36 @@ function DataSearchResults(props) {
     useQuery({
         queryKey: INFO_TYPES_QUERY_KEY,
         queryFn: getInfoTypes,
-        config: {
-            enabled: infoTypesQueryEnabled,
-            onSuccess: (resp) => setInfoTypes(resp.types),
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            onError: (e) => {
-                showErrorAnnouncer(dataI18n("infoTypeFetchError"), e);
-            },
+        enabled: infoTypesQueryEnabled,
+        onSuccess: (resp) => setInfoTypes(resp.types),
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        onError: (e) => {
+            showErrorAnnouncer(dataI18n("infoTypeFetchError"), e);
         },
     });
 
-    const { status, data, isFetchingMore, fetchMore, canFetchMore, error } =
-        useDataSearchInfinite(
-            dataSearchKey,
-            dataSearchQueryEnabled,
-            (lastGroup, allGroups) => {
-                const totalPages = Math.ceil(
-                    lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
-                );
-                if (allGroups.length < totalPages) {
-                    return allGroups.length;
-                } else {
-                    return false;
-                }
+    const {
+        status,
+        data,
+        isFetchingNextPage,
+        fetchNextPage,
+        hasNextPage,
+        error,
+    } = useDataSearchInfinite(
+        dataSearchKey,
+        dataSearchQueryEnabled,
+        (lastGroup, allGroups) => {
+            const totalPages = Math.ceil(
+                lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
+            );
+            if (allGroups.length < totalPages) {
+                return allGroups.length;
+            } else {
+                return false;
             }
-        );
+        }
+    );
 
     useEffect(() => {
         if (searchTerm && searchTerm.length > 2) {
@@ -152,10 +158,10 @@ function DataSearchResults(props) {
     useEffect(() => {
         trackIntercomEvent(IntercomEvents.SEARCHED_DATA, {
             search: searchTerm,
-            total: data?.length ? data[0].total : 0,
+            total: data?.pages[0] ? data.pages[0].total : 0,
         });
-        if (data && data.length > 0) {
-            updateResultCount(data[0].total);
+        if (data && data.pages.length > 0) {
+            updateResultCount(data.pages[0].total);
         }
     }, [data, searchTerm, updateResultCount]);
 
@@ -274,14 +280,14 @@ function DataSearchResults(props) {
     }
     if (
         status !== constants.LOADING &&
-        (!data || data.length === 0 || data[0]?.hits.length === 0)
+        (!data || data.pages.length === 0 || data.pages[0]?.hits.length === 0)
     ) {
         return <Typography>{t("noResults")}</Typography>;
     }
 
     let flatData = [];
-    if (data && data.length > 0) {
-        data.forEach((page) => {
+    if (data && data.pages[0].hits.length > 0) {
+        data.pages.forEach((page) => {
             flatData = [...flatData, ...page.hits];
         });
     }
@@ -293,9 +299,9 @@ function DataSearchResults(props) {
                 data={flatData}
                 baseId={baseId}
                 loading={status === constants.LOADING}
-                fetchMore={fetchMore}
-                isFetchingMore={isFetchingMore}
-                canFetchMore={canFetchMore}
+                fetchMore={fetchNextPage}
+                isFetchingMore={isFetchingNextPage}
+                canFetchMore={hasNextPage}
                 initialSortBy={[
                     {
                         id: "_source." + sortField,

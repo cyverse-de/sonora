@@ -10,7 +10,7 @@ import React, { useEffect } from "react";
 
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import NavigationConstants from "common/NavigationConstants";
 import { useUserProfile } from "contexts/userProfile";
@@ -51,47 +51,48 @@ function ReferenceGenomes(props) {
     const [selectedReferenceGenome, setSelectedReferenceGenome] =
         React.useState(null);
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const { isFetching, error, data } = useQuery({
         queryKey: [ADMIN_REFERENCE_GENOMES_QUERY_KEY, { deleted: true }],
-        queryFn: getReferenceGenomes,
-        config: {
-            enabled: true,
-        },
+        queryFn: () => getReferenceGenomes({ deleted: true }),
+        enabled: true,
     });
 
-    const [mutateGenome, { isFetching: genomeMutationStatus }] = useMutation(
-        saveReferenceGenome,
-        {
+    const { mutate: mutateGenome, isFetching: genomeMutationStatus } =
+        useMutation(saveReferenceGenome, {
             onSuccess: (updatedGenome) => {
                 setEditDialogOpen(false);
                 announce({
                     text: t("updateSuccess"),
                     variant: SUCCESS,
                 });
-                queryCache.invalidateQueries(ADMIN_REFERENCE_GENOMES_QUERY_KEY);
+                queryClient.invalidateQueries(
+                    ADMIN_REFERENCE_GENOMES_QUERY_KEY
+                );
             },
             onError: (e) => {
                 showErrorAnnouncer(t("updateFailed"), e);
             },
-        }
-    );
+        });
 
-    const [createGenome, { isFetching: genomeCreationStatus }] = useMutation(
-        createReferenceGenome,
-        {
+    const { mutate: createGenome, isFetching: genomeCreationStatus } =
+        useMutation(createReferenceGenome, {
             onSuccess: (createdGenome) => {
                 setEditDialogOpen(false);
                 announce({
                     text: t("createSuccess"),
                     variant: SUCCESS,
                 });
-                queryCache.invalidateQueries(ADMIN_REFERENCE_GENOMES_QUERY_KEY);
+                queryClient.invalidateQueries(
+                    ADMIN_REFERENCE_GENOMES_QUERY_KEY
+                );
             },
             onError: (e) => {
                 showErrorAnnouncer(t("createFailed"), e);
             },
-        }
-    );
+        });
 
     const dataMemo = React.useMemo(() => data?.genomes, [data]);
 

@@ -6,7 +6,7 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "i18n";
-import { queryCache } from "react-query";
+import { useQueryClient } from "react-query";
 import Link from "next/link";
 
 import {
@@ -360,8 +360,11 @@ function GlobalSearchField(props) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     //get bootstrap from cache.
-    const bootstrapCache = queryCache.getQueryData(BOOTSTRAP_KEY);
+    const bootstrapCache = queryClient.getQueryData(BOOTSTRAP_KEY);
     let userHomeDir = bootstrapCache?.data_info.user_home_path;
     if (userHomeDir) {
         userHomeDir = userHomeDir + "/";
@@ -576,7 +579,7 @@ function GlobalSearchField(props) {
         ]);
 
         setTeamSearchKey([SEARCH_TEAMS_QUERY, { searchTerm }]);
-
+        const isLoggedIn = !!userProfile?.id;
         switch (filter) {
             case searchConstants.DATA:
                 setDataSearchQueryEnabled(true);
@@ -595,7 +598,7 @@ function GlobalSearchField(props) {
             case searchConstants.ANALYSES:
                 setDataSearchQueryEnabled(false);
                 setAppsSearchQueryEnabled(false);
-                setAnalysesSearchQueryEnabled(userProfile?.id);
+                setAnalysesSearchQueryEnabled(isLoggedIn);
                 setTeamSearchQueryEnabled(false);
                 break;
 
@@ -603,14 +606,14 @@ function GlobalSearchField(props) {
                 setDataSearchQueryEnabled(false);
                 setAppsSearchQueryEnabled(false);
                 setAnalysesSearchQueryEnabled(false);
-                setTeamSearchQueryEnabled(userProfile?.id);
+                setTeamSearchQueryEnabled(isLoggedIn);
                 break;
 
             default:
                 setDataSearchQueryEnabled(true);
                 setAppsSearchQueryEnabled(true);
-                setAnalysesSearchQueryEnabled(userProfile?.id);
-                setTeamSearchQueryEnabled(userProfile?.id);
+                setAnalysesSearchQueryEnabled(isLoggedIn);
+                setTeamSearchQueryEnabled(isLoggedIn);
         }
     }, [
         analysesI18n,

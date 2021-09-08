@@ -72,30 +72,33 @@ function CollectionsForm(props) {
                 userId: userProfile?.id,
             },
         ],
-        queryFn: getCollectionDetails,
-        config: {
-            enabled: !isCreatingCollection,
-            onSuccess: (results) => {
-                if (results) {
-                    const { collection, isAdmin, admins, isFollower, apps } =
-                        results;
-                    setCollection(collection);
-                    setAdmin(isAdmin);
-                    setAdmins(admins);
-                    setFollower(isFollower);
-                    setApps(apps?.apps);
-                }
-            },
-            onError: (error) => {
-                setQueryError({
-                    message: t("getCollectionFail"),
-                    object: error,
-                });
-            },
+        queryFn: () =>
+            getCollectionDetails({
+                name: collectionName,
+                fullName: collection?.display_name,
+                userId: userProfile?.id,
+            }),
+        enabled: !isCreatingCollection,
+        onSuccess: (results) => {
+            if (results) {
+                const { collection, isAdmin, admins, isFollower, apps } =
+                    results;
+                setCollection(collection);
+                setAdmin(isAdmin);
+                setAdmins(admins);
+                setFollower(isFollower);
+                setApps(apps?.apps);
+            }
+        },
+        onError: (error) => {
+            setQueryError({
+                message: t("getCollectionFail"),
+                object: error,
+            });
         },
     });
 
-    const [followMutation, { status: followStatus }] = useMutation(
+    const { mutate: followMutation, status: followStatus } = useMutation(
         followCollection,
         {
             onSuccess: (resp) => {
@@ -119,7 +122,7 @@ function CollectionsForm(props) {
         }
     );
 
-    const [unfollowMutation, { status: unfollowStatus }] = useMutation(
+    const { mutate: unfollowMutation, status: unfollowStatus } = useMutation(
         unfollowCollection,
         {
             onSuccess: () => {
@@ -143,7 +146,7 @@ function CollectionsForm(props) {
         }
     );
 
-    const [deleteMutation, { status: deleteStatus }] = useMutation(
+    const { mutate: deleteMutation, status: deleteStatus } = useMutation(
         deleteCollection,
         {
             onSuccess: () => {
@@ -167,10 +170,10 @@ function CollectionsForm(props) {
         }
     );
 
-    const [
-        updateCollectionNameDescMutation,
-        { status: updateCollectionNameDescStatus },
-    ] = useMutation(updateCollectionNameDesc, {
+    const {
+        mutate: updateCollectionNameDescMutation,
+        status: updateCollectionNameDescStatus,
+    } = useMutation(updateCollectionNameDesc, {
         onSuccess: (resp, { newAdmins, newApps, attr }) => {
             updateCollectionDetailsMutation({
                 name: resp?.name,
@@ -196,10 +199,10 @@ function CollectionsForm(props) {
         },
     });
 
-    const [
-        updateCollectionDetailsMutation,
-        { status: updateCollectionStatus },
-    ] = useMutation(updateCollectionDetails, {
+    const {
+        mutate: updateCollectionDetailsMutation,
+        status: updateCollectionStatus,
+    } = useMutation(updateCollectionDetails, {
         onSuccess: () => {
             resetMyCollectionsCache();
             goBackToCollectionList();
@@ -212,7 +215,7 @@ function CollectionsForm(props) {
         },
     });
 
-    const [createCollectionMutation, { status: createCollectionStatus }] =
+    const { mutate: createCollectionMutation, status: createCollectionStatus } =
         useMutation(createCollection, {
             onSuccess: (resp, { newAdmins, newApps, attr }) => {
                 setCollection(resp);

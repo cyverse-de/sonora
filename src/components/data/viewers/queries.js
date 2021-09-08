@@ -5,12 +5,7 @@
  *
  */
 
-import {
-    queryCache,
-    useQuery,
-    useInfiniteQuery,
-    useMutation,
-} from "react-query";
+import { useQuery, useInfiniteQuery, useMutation } from "react-query";
 import { fileManifest, readFileChunk } from "serviceFacades/filesystem";
 import { uploadTextAsFile } from "serviceFacades/fileio";
 
@@ -23,11 +18,9 @@ import { uploadTextAsFile } from "serviceFacades/fileio";
 function useFileManifest(queryKey, enabled, onSuccess) {
     return useQuery({
         queryKey,
-        queryFn: fileManifest,
-        config: {
-            enabled,
-            onSuccess,
-        },
+        queryFn: () => fileManifest(queryKey[1]),
+        enabled,
+        onSuccess,
     });
 }
 
@@ -35,13 +28,17 @@ function useFileManifest(queryKey, enabled, onSuccess) {
  * Get a chunk from the file
  * @param {*} queryKey - The query key to be used.
  * @param {*} enabled  - Enable / disable query.
- * @param {*} getFetchMore - Function to be used when more data needs to be loaded.
+ * @param {*} getNextPageParam - Function to be used when more data needs to be loaded.
  */
-function useReadChunk(queryKey, enabled, getFetchMore) {
-    return useInfiniteQuery(queryKey, readFileChunk, {
-        enabled,
-        getFetchMore,
-    });
+function useReadChunk(queryKey, enabled, getNextPageParam) {
+    return useInfiniteQuery(
+        queryKey,
+        ({ pageParam = 0 }) => readFileChunk({ ...queryKey[1], pageParam }),
+        {
+            enabled,
+            getNextPageParam,
+        }
+    );
 }
 
 /**
@@ -55,13 +52,4 @@ function useSaveTextAsFile(onSuccess, onError) {
     return useMutation(uploadTextAsFile, { onSuccess, onError });
 }
 
-/**
- * Invalidate and refetch viewer manifest and chunk
- *
- * @param {*} key - The query key to be used.
- */
-function refreshViewer(key) {
-    queryCache.invalidateQueries(key, { exact: true, refetchInactive: true });
-}
-
-export { refreshViewer, useFileManifest, useReadChunk, useSaveTextAsFile };
+export { useFileManifest, useReadChunk, useSaveTextAsFile };

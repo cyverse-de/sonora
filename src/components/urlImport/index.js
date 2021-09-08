@@ -130,7 +130,7 @@ const URLImportTextField = (props) => {
 
     const { path, successCallback, errorCallback } = props;
 
-    const [importUrl, { status }] = useMutation(uploadByUrl, {
+    const { mutate: importUrl, status } = useMutation(uploadByUrl, {
         onSuccess: (resp) => {
             trackIntercomEvent(IntercomEvents.URL_IMPORT_SUBMITTED, resp);
             successCallback(t("fileImportSubmitted"));

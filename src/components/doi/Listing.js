@@ -5,7 +5,7 @@
  *
  */
 import React, { useState, useEffect } from "react";
-import { useQuery, queryCache, useMutation } from "react-query";
+import { useQuery, useQueryClient, useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
@@ -51,16 +51,18 @@ function Listing(props) {
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
     const [confirmDOIOpen, setConfirmDOIOpen] = useState(false);
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const { isFetching, error } = useQuery({
         queryKey: [
             DOI_LISTING_QUERY_KEY,
             { order, orderBy, page, rowsPerPage },
         ],
-        queryFn: adminGetDOIRequests,
-        config: {
-            enabled: true,
-            onSuccess: setData,
-        },
+        queryFn: () =>
+            adminGetDOIRequests({ order, orderBy, page, rowsPerPage }),
+        enabled: true,
+        onSuccess: setData,
     });
 
     const handleRequestSort = (event, property) => {
@@ -77,7 +79,7 @@ function Listing(props) {
             );
     };
 
-    let infoTypesCache = queryCache.getQueryData(INFO_TYPES_QUERY_KEY);
+    let infoTypesCache = queryClient.getQueryData(INFO_TYPES_QUERY_KEY);
 
     useEffect(() => {
         if (!infoTypesCache || infoTypesCache.length === 0) {
@@ -92,18 +94,16 @@ function Listing(props) {
     useQuery({
         queryKey: INFO_TYPES_QUERY_KEY,
         queryFn: getInfoTypes,
-        config: {
-            enabled: infoTypesQueryEnabled,
-            onSuccess: (resp) => setInfoTypes(resp.types),
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            onError: (e) => {
-                showErrorAnnouncer(dataI18n("infoTypeFetchError"), e);
-            },
+        enabled: infoTypesQueryEnabled,
+        onSuccess: (resp) => setInfoTypes(resp.types),
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        onError: (e) => {
+            showErrorAnnouncer(dataI18n("infoTypeFetchError"), e);
         },
     });
 
-    const [createDOI, { isLoading: createDOILoading }] = useMutation(
+    const { mutate: createDOI, isLoading: createDOILoading } = useMutation(
         adminCreateDOI,
         {
             onSuccess: () => {
@@ -111,7 +111,7 @@ function Listing(props) {
                     text: t("createDoiSuccess"),
                     variant: SUCCESS,
                 });
-                queryCache.invalidateQueries(DOI_LISTING_QUERY_KEY);
+                queryClient.invalidateQueries(DOI_LISTING_QUERY_KEY);
             },
             onError: (error) => {
                 showErrorAnnouncer(t("createDoiError"), error);

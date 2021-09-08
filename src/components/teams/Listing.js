@@ -131,25 +131,21 @@ function Listing(props) {
 
     const { isFetching: fetchMyTeams, error: myTeamsError } = useQuery({
         queryKey: [MY_TEAMS_QUERY, { userId: userProfile?.id }],
-        queryFn: getMyTeams,
-        config: {
-            enabled: TEAM_FILTER.MY_TEAMS === teamFilter && !searchTerm,
-            onSuccess: (results) => {
-                trackIntercomEvent(IntercomEvents.VIEWED_MY_TEAMS);
-                setData(results.groups);
-            },
+        queryFn: () => getMyTeams({ userId: userProfile?.id }),
+        enabled: TEAM_FILTER.MY_TEAMS === teamFilter && !searchTerm,
+        onSuccess: (results) => {
+            trackIntercomEvent(IntercomEvents.VIEWED_MY_TEAMS);
+            setData(results.groups);
         },
     });
 
     const { isFetching: fetchAllTeams, error: allTeamsError } = useQuery({
         queryKey: [ALL_TEAMS_QUERY, userProfile?.id],
         queryFn: getAllTeams,
-        config: {
-            enabled: TEAM_FILTER.ALL_TEAMS === teamFilter && !searchTerm,
-            onSuccess: (results) => {
-                trackIntercomEvent(IntercomEvents.VIEWED_ALL_TEAMS);
-                setData(results.groups);
-            },
+        enabled: TEAM_FILTER.ALL_TEAMS === teamFilter && !searchTerm,
+        onSuccess: (results) => {
+            trackIntercomEvent(IntercomEvents.VIEWED_ALL_TEAMS);
+            setData(results.groups);
         },
     });
 

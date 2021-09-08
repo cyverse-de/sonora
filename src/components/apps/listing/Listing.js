@@ -45,7 +45,7 @@ import {
     getCollectionApps,
 } from "serviceFacades/groups";
 
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 import { canShare } from "../utils";
 
 import Sharing from "components/sharing";
@@ -74,7 +74,6 @@ function Listing(props) {
         searchTerm,
         adminOwnershipFilter,
     } = props;
-
     const { t } = useTranslation(["apps", "common"]);
     const [isGridView, setGridView] = useState(false);
     const [userProfile] = useUserProfile();
@@ -106,6 +105,9 @@ function Listing(props) {
     const [selectCollectionDlgOpen, setSelectCollectionDlgOpen] =
         useState(false);
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const sharingApps = formatSharedApps(getSelectedApps());
 
     const { isFetching: appInCategoryStatus, error: appsInCategoryError } =
@@ -123,32 +125,40 @@ function Listing(props) {
                     userId: userProfile?.id,
                 },
             ],
-            queryFn: getAppsInCategory,
-            config: {
-                enabled:
-                    // Disable the query if the category ID is fake and the user is
-                    // logged in.  The Navigation component should update the ID to
-                    // the real ID.
-                    category?.system_id &&
-                    category?.id &&
-                    (!userProfile?.id ||
-                        ![
-                            constants.APPS_UNDER_DEV,
-                            constants.FAV_APPS,
-                        ].includes(category?.id)),
-                onSuccess: (resp) => {
-                    trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
-                        systemId: category?.system_id,
-                        rowsPerPage,
-                        orderBy,
-                        order,
-                        appTypeFilter: filter?.value,
-                        page,
-                        categoryId: category?.id,
-                        userId: userProfile?.id,
-                    });
-                    setData(resp);
-                },
+            queryFn: () =>
+                getAppsInCategory({
+                    systemId: category?.system_id,
+                    rowsPerPage,
+                    orderBy,
+                    order,
+                    appTypeFilter: filter?.value,
+                    page,
+                    categoryId: category?.id,
+                    userId: userProfile?.id,
+                }),
+
+            enabled:
+                // Disable the query if the category ID is fake and the user is
+                // logged in.  The Navigation component should update the ID to
+                // the real ID.
+                !!category?.system_id &&
+                !!category?.id &&
+                (!userProfile?.id ||
+                    ![constants.APPS_UNDER_DEV, constants.FAV_APPS].includes(
+                        category?.id
+                    )),
+            onSuccess: (resp) => {
+                trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
+                    systemId: category?.system_id,
+                    rowsPerPage,
+                    orderBy,
+                    order,
+                    appTypeFilter: filter?.value,
+                    page,
+                    categoryId: category?.id,
+                    userId: userProfile?.id,
+                });
+                setData(resp);
             },
         });
 
@@ -165,12 +175,9 @@ function Listing(props) {
                 adminOwnershipFilter: adminOwnershipFilter?.value,
             },
         ],
-        queryFn: isAdminView ? getAppsForAdmin : getApps,
-        config: {
-            enabled:
-                category?.name === constants.BROWSE_ALL_APPS || isAdminView,
-            onSuccess: (resp) => {
-                trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
+        queryFn: () => {
+            if (isAdminView) {
+                return getAppsForAdmin({
                     rowsPerPage,
                     orderBy,
                     order,
@@ -179,8 +186,29 @@ function Listing(props) {
                     searchTerm,
                     adminOwnershipFilter: adminOwnershipFilter?.value,
                 });
-                setData(resp);
-            },
+            } else {
+                return getApps({
+                    rowsPerPage,
+                    orderBy,
+                    order,
+                    page,
+                    appTypeFilter: filter?.value,
+                });
+            }
+        },
+
+        enabled: category?.name === constants.BROWSE_ALL_APPS || isAdminView,
+        onSuccess: (resp) => {
+            trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
+                rowsPerPage,
+                orderBy,
+                order,
+                page,
+                appTypeFilter: filter?.value,
+                searchTerm,
+                adminOwnershipFilter: adminOwnershipFilter?.value,
+            });
+            setData(resp);
         },
     });
 
@@ -189,16 +217,15 @@ function Listing(props) {
             APP_BY_ID_QUERY_KEY,
             { systemId: selectedSystemId, appId: selectedAppId },
         ],
-        queryFn: getAppById,
-        config: {
-            enabled: selectedSystemId && selectedAppId,
-            onSuccess: (resp) => {
-                trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
-                    systemId: selectedSystemId,
-                    appId: selectedAppId,
-                });
-                setData(resp);
-            },
+        queryFn: () =>
+            getAppById({ systemId: selectedSystemId, appId: selectedAppId }),
+        enabled: !!selectedSystemId && !!selectedAppId,
+        onSuccess: (resp) => {
+            trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
+                systemId: selectedSystemId,
+                appId: selectedAppId,
+            });
+            setData(resp);
         },
     });
 
@@ -213,20 +240,24 @@ function Listing(props) {
                     appFilter: filter,
                 },
             ],
-            queryFn: getCollectionApps,
-            config: {
-                enabled: category.id === constants.MY_COLLECTIONS,
-                onSuccess: (resp) => {
-                    trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
-                        systemId: selectedSystemId,
-                        appId: selectedAppId,
-                    });
-                    setData(resp);
-                },
+            queryFn: () =>
+                getCollectionApps({
+                    name: category.fullCollectionName,
+                    sortField: orderBy,
+                    sortDir: order,
+                    appFilter: filter,
+                }),
+            enabled: category.id === constants.MY_COLLECTIONS,
+            onSuccess: (resp) => {
+                trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
+                    systemId: selectedSystemId,
+                    appId: selectedAppId,
+                });
+                setData(resp);
             },
         });
 
-    const [deleteAppMutation, { isLoading: deleteLoading }] = useMutation(
+    const { deleteAppMutation, isLoading: deleteLoading } = useMutation(
         deleteApp,
         {
             onSuccess: () => {
@@ -238,13 +269,13 @@ function Listing(props) {
                 setSelected([]);
 
                 if (selectedSystemId && selectedAppId) {
-                    queryCache.invalidateQueries([
+                    queryClient.invalidateQueries([
                         APP_BY_ID_QUERY_KEY,
                         { systemId: selectedSystemId, appId: selectedAppId },
                     ]);
                 }
 
-                queryCache.invalidateQueries(APPS_IN_CATEGORY_QUERY_KEY);
+                queryClient.invalidateQueries(APPS_IN_CATEGORY_QUERY_KEY);
             },
             onError: (error) => {
                 showErrorAnnouncer(t("appDeleteError"), error);
@@ -259,7 +290,7 @@ function Listing(props) {
     }, [data, setAgaveAuthDialogOpen]);
 
     useEffect(() => {
-        const enabled = selected && selected.length === 1;
+        const enabled = !!selected && selected.length === 1;
         setDetailsEnabled(enabled);
     }, [selected]);
 

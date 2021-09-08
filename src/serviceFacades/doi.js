@@ -2,7 +2,7 @@ import callApi from "../common/callApi";
 const DOI_LISTING_QUERY_KEY = "fetchDOIListing";
 const REQUEST_DETAILS_QUERY_KEY = "fetchRequestDetails";
 
-function adminGetDOIRequests(key, { rowsPerPage, orderBy, order, page }) {
+function adminGetDOIRequests({ rowsPerPage, orderBy, order, page }) {
     return callApi({
         endpoint: "/api/admin/permanent-id-requests",
         params: {
@@ -15,7 +15,7 @@ function adminGetDOIRequests(key, { rowsPerPage, orderBy, order, page }) {
     });
 }
 
-function adminGetRequestDetails(key, { id }) {
+function adminGetRequestDetails({ id }) {
     return callApi({
         endpoint: `/api/admin/permanent-id-requests/${id}`,
         method: "GET",

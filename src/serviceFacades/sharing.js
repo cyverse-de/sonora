@@ -2,7 +2,7 @@ import callApi from "../common/callApi";
 
 import Permissions from "../components/models/Permissions";
 
-import { getResourcePermissions, RESOURCE_PERMISSIONS_KEY } from "./filesystem";
+import { getResourcePermissions } from "./filesystem";
 import { getAppPermissions } from "./apps";
 import { getAnalysisPermissions } from "./analyses";
 import { getToolPermissions } from "./tools";
@@ -174,7 +174,7 @@ const getToolIds = ({ tools }) => {
     return tools ? tools.map((resource) => resource.id) : null;
 };
 
-export const getPermissions = (key, { resources }) => {
+export const getPermissions = ({ resources }) => {
     const paths = getPaths(resources);
     const apps = getAppIds(resources);
     const analyses = getAnalysisIds(resources);
@@ -182,9 +182,7 @@ export const getPermissions = (key, { resources }) => {
 
     let permissionPromises = [];
     if (paths && paths.length > 0) {
-        permissionPromises.push(
-            getResourcePermissions(RESOURCE_PERMISSIONS_KEY, { paths })
-        );
+        permissionPromises.push(getResourcePermissions({ paths }));
     }
     if (apps && apps.length > 0) {
         permissionPromises.push(getAppPermissions({ apps }));

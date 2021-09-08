@@ -29,7 +29,7 @@ export default function AccessRequestDialog(props) {
     const { t } = useTranslation("vice");
     const { t: i18nCommon } = useTranslation("common");
 
-    const [submitRequest, { status }] = useMutation(requestAccess, {
+    const { mutate: submitRequest, status } = useMutation(requestAccess, {
         onSuccess: (data) => {
             announce({
                 text: t("requestSubmitted"),

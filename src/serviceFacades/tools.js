@@ -27,18 +27,15 @@ const ADMIN_TOOL_REQUEST_DETAILS_QUERY_KEY = "fetchAdminToolRequestDetails";
  * @param {string} _ - the string component of the query key
  * @param {ToolListingParams} queryParams - the listing parameters
  */
-function getTools(
-    _,
-    {
-        order,
-        orderBy,
-        page,
-        rowsPerPage,
-        displayAll,
-        searchTerm,
-        isAdmin = false,
-    }
-) {
+function getTools({
+    order,
+    orderBy,
+    page,
+    rowsPerPage,
+    displayAll,
+    searchTerm,
+    isAdmin = false,
+}) {
     // Determine if the request is supposed to be ordered.
     const isOrdered = order && orderBy;
 
@@ -84,21 +81,21 @@ function getToolPermissions({ tools }) {
     });
 }
 
-function getToolDetails(_, { id, isAdmin = false }) {
+function getToolDetails({ id, isAdmin = false }) {
     return callApi({
         endpoint: isAdmin ? `/api/admin/tools/${id}` : `/api/tools/${id}`,
         method: "GET",
     });
 }
 
-function getAppsUsed(_, { id }) {
+function getAppsUsed({ id }) {
     return callApi({
         endpoint: `/api/tools/${id}/apps`,
         method: "GET",
     });
 }
 
-function getToolTypes(_) {
+function getToolTypes() {
     return callApi({
         endpoint: "/api/apps/elements/tool-types",
         method: "GET",
@@ -160,7 +157,7 @@ function deleteTools({ ids: toolIds }) {
     );
 }
 
-function getAdminToolRequests(_, { order, orderBy }) {
+function getAdminToolRequests({ order, orderBy }) {
     const isOrdered = order && orderBy;
     const params = {};
     if (isOrdered) {
@@ -175,7 +172,7 @@ function getAdminToolRequests(_, { order, orderBy }) {
     });
 }
 
-function getAdminToolRequestDetails(_, { id }) {
+function getAdminToolRequestDetails({ id }) {
     return callApi({
         endpoint: `/api/admin/tool-requests/${id}`,
         method: "GET",

@@ -68,6 +68,8 @@ export default function Apps() {
             orderBy={selectedOrderBy}
             filter={selectedFilter}
             category={selectedCategory}
+            isAdminView={false}
+            searchTerm=""
         />
     );
 }

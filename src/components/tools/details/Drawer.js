@@ -78,20 +78,16 @@ function DetailsDrawer(props) {
 
     const { isFetching: isInfoFetching, error: infoFetchError } = useQuery({
         queryKey: [TOOL_DETAILS_QUERY_KEY, { id: selectedTool?.id }],
-        queryFn: getToolDetails,
-        config: {
-            enabled: !!selectedTool,
-            onSuccess: setDetails,
-        },
+        queryFn: () => getToolDetails({ id: selectedTool?.id }),
+        enabled: !!selectedTool,
+        onSuccess: setDetails,
     });
 
     const { isFetching: isAppsFetching, error: appsFetchError } = useQuery({
         queryKey: [APPS_USING_QUERY_KEY, { id: selectedTool?.id }],
-        queryFn: getAppsUsed,
-        config: {
-            enabled: !!selectedTool,
-            onSuccess: setApps,
-        },
+        queryFn: () => getAppsUsed({ id: selectedTool?.id }),
+        enabled: !!selectedTool,
+        onSuccess: setApps,
     });
 
     const onTabSelectionChange = (event, selectedTab) => {

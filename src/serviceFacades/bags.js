@@ -1,12 +1,12 @@
-import { useMutation, useQuery, useQueryCache } from "react-query";
-
+import { useMutation } from "react-query";
+import { useBagInfo } from "contexts/bagInfo";
 import callAPI from "../common/callApi";
 
 export const DEFAULT_BAG_QUERY_KEY = "getDefaultBag";
 export const DEFAULT_BAG_MUTATION_KEY = "mutateDefaultBag";
 export const DEFAULT_BAG_DELETE_KEY = "deleteDefaultBag";
 
-export const getDefaultBag = (key) =>
+export const getDefaultBag = () =>
     callAPI({
         endpoint: "/api/bags/default",
         method: "GET",
@@ -26,89 +26,53 @@ export const deleteDefaultBag = (key) =>
         method: "DELETE",
     });
 
-export const useBag = (opts = {}) => {
-    return useQuery(DEFAULT_BAG_QUERY_KEY, getDefaultBag, {
-        initialStale: true,
-        initialData: {
-            contents: { items: [] },
-        },
-        ...opts,
-    });
-};
-
 export const useBagRemoveItems = (
-    { handleError, handleSuccess, handleSettled } = {
+    { handleError, handleSuccess } = {
         handleError: (error) => {
             console.log(`error from useBagRemoveItems: ${error.message}`);
         },
         handleSuccess: null,
-        handleSettled: null,
     }
 ) => {
-    const queryCache = useQueryCache();
-
+    const setBagInfo = useBagInfo()[1];
     const successFn = (data, variables) => {
-        queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, {
-            contents: { items: [] },
-        });
-
+        setBagInfo(data);
         if (handleSuccess) {
             handleSuccess(data, variables);
         }
     };
 
-    const settledFn = () => {
-        queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
-
-        if (handleSettled) {
-            handleSettled();
-        }
-    };
-
-    const [mutate] = useMutation(deleteDefaultBag, {
+    const { mutate } = useMutation(deleteDefaultBag, {
         onSuccess: successFn,
         onError: handleError,
-        onSettled: settledFn,
     });
 
     return async () => await mutate();
 };
 
 export const useBagRemoveItem = (
-    { handleError, handleSuccess, handleSettled } = {
+    { handleError, handleSuccess } = {
         handleError: (error) => {
             console.log(`error from useBagRemoveItem: ${error.message}`);
         },
         handleSuccess: null,
-        handleSettled: null,
     }
 ) => {
-    const queryCache = useQueryCache();
-
+    const [bagInfo, setBagInfo] = useBagInfo();
     const successFn = (data, variables) => {
-        queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, data);
-
+        setBagInfo(data);
         if (handleSuccess) {
             handleSuccess(data, variables);
         }
     };
 
-    const settledFn = () => {
-        queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
-
-        if (handleSettled) {
-            handleSettled();
-        }
-    };
-
-    const [mutate] = useMutation(updateDefaultBag, {
+    const { mutate } = useMutation(updateDefaultBag, {
         onSuccess: successFn,
         onError: handleError,
-        onSettled: settledFn,
     });
 
     return async (item) => {
-        let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY);
+        let data = bagInfo;
 
         if (!data?.contents?.items) {
             data.contents.items = [];
@@ -123,40 +87,29 @@ export const useBagRemoveItem = (
 };
 
 export const useBagAddItem = (
-    { handleError, handleSuccess, handleSettled } = {
+    { handleError, handleSuccess } = {
         handleError: (error) => {
             console.log(`error from useBagAddItem: ${error.message}`);
         },
         handleSuccess: null,
-        handleSettled: null,
     }
 ) => {
-    const queryCache = useQueryCache();
-
+    const [bagInfo, setBagInfo] = useBagInfo();
     const successFn = (data, variables) => {
-        queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, data);
+        setBagInfo(data);
 
         if (handleSuccess) {
             handleSuccess(data, variables);
         }
     };
 
-    const settledFn = () => {
-        queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
-
-        if (handleSettled) {
-            handleSettled();
-        }
-    };
-
-    const [mutate] = useMutation(updateDefaultBag, {
+    const { mutate } = useMutation(updateDefaultBag, {
         onSuccess: successFn,
         onError: handleError,
-        onSettled: settledFn,
     });
 
     return async (item) => {
-        let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY);
+        let data = bagInfo;
 
         if (!data.contents.items) {
             data.contents.items = [];
@@ -176,13 +129,11 @@ export const useBagAddItems = (
             console.log(`error from useBagAddItems: ${error.message}`);
         },
         handleSuccess: null,
-        handleSettled: null,
     }
 ) => {
-    const queryCache = useQueryCache();
-
+    const [bagInfo, setBagInfo] = useBagInfo();
     const successFn = (data, variables) => {
-        queryCache.setQueryData(DEFAULT_BAG_QUERY_KEY, data);
+        setBagInfo(data);
 
         if (handleSuccess) {
             handleSuccess(data, variables);
@@ -190,21 +141,19 @@ export const useBagAddItems = (
     };
 
     const settledFn = () => {
-        queryCache.invalidateQueries(DEFAULT_BAG_QUERY_KEY);
-
         if (handleSettled) {
             handleSettled();
         }
     };
 
-    const [mutate] = useMutation(updateDefaultBag, {
+    const { mutate } = useMutation(updateDefaultBag, {
         onSuccess: successFn,
         onError: handleError,
         onSettled: settledFn,
     });
 
     return async (items) => {
-        let data = queryCache.getQueryData(DEFAULT_BAG_QUERY_KEY) || {
+        let data = bagInfo || {
             contents: { items: [] },
         };
 

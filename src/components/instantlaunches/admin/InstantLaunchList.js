@@ -1,6 +1,6 @@
 import React from "react";
 
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import {
     listFullInstantLaunches,
@@ -149,12 +149,15 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
     const dashboardILs = useQuery(
         [DASHBOARD_INSTANT_LAUNCHES_KEY, "ui_location", "dashboard"],
-        listInstantLaunchesByMetadata
+        () => listInstantLaunchesByMetadata("ui_location", "dashboard")
     );
 
-    const [addToDash] = useMutation(addToDashboardHandler, {
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
+    const { mutate: addToDash } = useMutation(addToDashboardHandler, {
         onSuccess: () => {
-            queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+            queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
             announce({
                 text: t("addedToDashboard"),
                 variant: SUCCESS,
@@ -165,9 +168,9 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
         },
     });
 
-    const [removeFromDash] = useMutation(removeFromDashboardHandler, {
+    const { mutate: removeFromDash } = useMutation(removeFromDashboardHandler, {
         onSuccess: () => {
-            queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+            queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
             announce({
                 text: t("removedFromDashboard"),
                 variant: SUCCESS,
@@ -178,10 +181,10 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
         },
     });
 
-    const [deleteIL] = useMutation(deleteInstantLaunchHandler, {
+    const { mutate: deleteIL } = useMutation(deleteInstantLaunchHandler, {
         onSuccess: () => {
-            queryCache.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
-            queryCache.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
+            queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+            queryClient.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
             announce({
                 text: t("deletedInstantLaunch"),
                 variant: SUCCESS,

@@ -182,7 +182,7 @@ function AppDoc(props) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
-    const enabled = appId != null && systemId !== null;
+    const enabled = !!appId && !!systemId;
     const docBaseId = ids.DOCUMENTATION_DLG;
 
     const handleClose = () => {
@@ -201,16 +201,19 @@ function AppDoc(props) {
                 appId,
             },
         ],
-        queryFn: getAppDoc,
-        config: {
-            enabled,
-            onSuccess: (doc) => {
-                setDocumentation(doc.documentation);
-                setReferences(doc.references);
-                setError(false);
-            },
-            onError: setError,
+        queryFn: () =>
+            getAppDoc({
+                systemId,
+                appId,
+            }),
+
+        enabled,
+        onSuccess: (doc) => {
+            setDocumentation(doc.documentation);
+            setReferences(doc.references);
+            setError(false);
         },
+        onError: setError,
     });
 
     const { isFetching: detailsStatus } = useQuery({
@@ -221,22 +224,27 @@ function AppDoc(props) {
                 appId,
             },
         ],
-        queryFn: getAppDetails,
-        config: {
-            enabled,
-            onSuccess: setDetails,
-            onError: setDetailsError,
-        },
+        queryFn: () =>
+            getAppDetails({
+                systemId,
+                appId,
+            }),
+        enabled,
+        onSuccess: setDetails,
+        onError: setDetailsError,
     });
 
-    const [mutateDoc, { status: docMutationStatus }] = useMutation(saveAppDoc, {
-        onSuccess: () => {
-            setDirty(false);
-            setMode(VIEW_MODE);
-            setSaveError(null);
-        },
-        onError: setSaveError,
-    });
+    const { mutate: mutateDoc, status: docMutationStatus } = useMutation(
+        saveAppDoc,
+        {
+            onSuccess: () => {
+                setDirty(false);
+                setMode(VIEW_MODE);
+                setSaveError(null);
+            },
+            onError: setSaveError,
+        }
+    );
 
     useEffect(() => {
         if (userProfile?.attributes?.email === details?.integrator_email) {

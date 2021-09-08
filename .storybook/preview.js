@@ -9,6 +9,7 @@ import { AXIOS_DELAY } from "../stories/axiosMock";
 import testConfig from "../stories/configMock";
 import userProfileMock from "../stories/userProfileMock";
 import MockBootstrap from "../stories/preferences/MockBootstrap";
+import bagInfoMock from "../stories/bagInfoMock";
 
 import { ConfigProvider, useConfig } from "../src/contexts/config";
 import {
@@ -20,7 +21,9 @@ import {
     useBootstrapInfo,
 } from "../src/contexts/bootstrap";
 
-import { ReactQueryConfigProvider } from "react-query";
+import { BagInfoProvider, useBagInfo } from "../src/contexts/bagInfo";
+
+import { QueryClient, QueryClientProvider } from "react-query";
 import { i18n } from "../src/i18n";
 import { I18nextProvider } from "react-i18next";
 
@@ -57,9 +60,20 @@ function MockConfig() {
     return <div />;
 }
 
-const queryConfig = {
-    queries: { refetchOnWindowFocus: false, retry: false },
-};
+function MockBagInfo() {
+    const setBagInfo = useBagInfo()[1];
+    React.useEffect(() => {
+        setBagInfo(bagInfoMock);
+    }, [setBagInfo]);
+
+    return <div />;
+}
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: { refetchOnWindowFocus: false, retry: false },
+    },
+});
 
 addDecorator((storyFn, context) => withConsole()(storyFn)(context));
 addDecorator(
@@ -77,18 +91,23 @@ export const decorators = [
             <ConfigProvider>
                 <MockConfig />
                 <UserProfileProvider>
-                    <ReactQueryConfigProvider config={queryConfig}>
+                    <QueryClientProvider client={queryClient}>
                         <MockUserProfile />
                         <BootstrapInfoProvider>
                             <MockBootstrapInfo />
+
                             <React.Suspense fallback={"Loading i18n..."}>
                                 <I18nextProvider i18n={i18n}>
-                                    {Story()}
+                                    <BagInfoProvider>
+                                        <MockBagInfo />
+                                        {Story()}
+                                    </BagInfoProvider>
                                 </I18nextProvider>
                             </React.Suspense>
+
                             <CyVerseAnnouncer />
                         </BootstrapInfoProvider>
-                    </ReactQueryConfigProvider>
+                    </QueryClientProvider>
                 </UserProfileProvider>
             </ConfigProvider>
         </ThemeProvider>

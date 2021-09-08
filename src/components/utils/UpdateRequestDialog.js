@@ -5,7 +5,7 @@
  */
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
-import { useQuery, useMutation, queryCache } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { Field, Form, Formik } from "formik";
 
 import constants from "../../constants";
@@ -49,31 +49,31 @@ export default function UpdateRequestDialog(props) {
     const theme = useTheme();
     const { t } = useTranslation("util");
     const baseId = ids.UPDATE_REQUEST_DIALOG;
+
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const { isFetching: isDOIRequestFetching, error: doiRequestFetchError } =
         useQuery({
             queryKey: [REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
-            queryFn: adminGetRequestDetails,
-            config: {
-                enabled: requestId && open && requestType === RequestType.DOI,
-                onSuccess: (data) => {
-                    setRequestDetails(data);
-                },
+            queryFn: () => adminGetRequestDetails({ id: requestId }),
+            enabled: !!requestId && open && requestType === RequestType.DOI,
+            onSuccess: (data) => {
+                setRequestDetails(data);
             },
         });
 
     const { isFetching: isToolRequestFetching, error: toolRequestFetchError } =
         useQuery({
             queryKey: [ADMIN_TOOL_REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
-            queryFn: getAdminToolRequestDetails,
-            config: {
-                enabled: requestId && open && requestType === RequestType.TOOL,
-                onSuccess: (resp) => {
-                    setRequestDetails(resp);
-                },
+            queryFn: () => getAdminToolRequestDetails({ id: requestId }),
+            enabled: !!requestId && open && requestType === RequestType.TOOL,
+            onSuccess: (resp) => {
+                setRequestDetails(resp);
             },
         });
 
-    const [updateRequest, { status: updateRequestStatus }] = useMutation(
+    const { mutate: updateRequest, status: updateRequestStatus } = useMutation(
         requestType === RequestType.TOOL
             ? adminUpdateToolRequest
             : adminUpdateDOIRequestStatus,
@@ -82,7 +82,7 @@ export default function UpdateRequestDialog(props) {
                 announce({
                     text: t("requestUpdateSuccess"),
                 });
-                queryCache.invalidateQueries(DOI_LISTING_QUERY_KEY);
+                queryClient.invalidateQueries(DOI_LISTING_QUERY_KEY);
                 setUpdateRequestError(null);
                 onClose();
             },

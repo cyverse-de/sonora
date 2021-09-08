@@ -566,13 +566,12 @@ const MetadataTemplateView = (props) => {
 
     const { isFetching } = useQuery({
         queryKey: [FILESYSTEM_METADATA_TEMPLATE_QUERY_KEY, templateId],
-        queryFn: getFilesystemMetadataTemplate,
-        config: {
-            enabled: !!templateId,
-            onSuccess: setTemplate,
-            onError: (error) =>
-                showErrorAnnouncer(t("errMetadataTemplateLoad"), error),
-        },
+        queryFn: () => getFilesystemMetadataTemplate(templateId),
+
+        enabled: !!templateId,
+        onSuccess: setTemplate,
+        onError: (error) =>
+            showErrorAnnouncer(t("errMetadataTemplateLoad"), error),
     });
 
     useQuery({
@@ -582,13 +581,14 @@ const MetadataTemplateView = (props) => {
                 searchTerm: uatSearch.inputValue,
             },
         ],
-        queryFn: searchUnifiedAstronomyThesaurus,
-        config: {
-            enabled: !!uatSearch?.inputValue,
-            onSuccess: uatSearch?.callback,
-            onError: (error) => {
-                showErrorAnnouncer(t("uatSearchError"), error);
-            },
+        queryFn: () =>
+            searchUnifiedAstronomyThesaurus({
+                searchTerm: uatSearch.inputValue,
+            }),
+        enabled: !!uatSearch?.inputValue,
+        onSuccess: uatSearch?.callback,
+        onError: (error) => {
+            showErrorAnnouncer(t("uatSearchError"), error);
         },
     });
 
@@ -600,13 +600,15 @@ const MetadataTemplateView = (props) => {
                 searchTerm: olsSearch.inputValue,
             },
         ],
-        queryFn: searchOntologyLookupService,
-        config: {
-            enabled: !!olsSearch?.inputValue,
-            onSuccess: olsSearch?.callback,
-            onError: (error) => {
-                showErrorAnnouncer(t("olsSearchError"), error);
-            },
+        queryFn: () =>
+            searchOntologyLookupService({
+                ...olsSearch.loaderSettings,
+                searchTerm: olsSearch.inputValue,
+            }),
+        enabled: !!olsSearch?.inputValue,
+        onSuccess: olsSearch?.callback,
+        onError: (error) => {
+            showErrorAnnouncer(t("olsSearchError"), error);
         },
     });
 

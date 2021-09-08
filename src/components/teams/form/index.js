@@ -68,47 +68,44 @@ function TeamForm(props) {
 
     const { isFetching: fetchingTeamDetails } = useQuery({
         queryKey: [TEAM_DETAILS_QUERY, { name: teamName }],
-        queryFn: getTeamDetails,
-        config: {
-            enabled: !isCreatingTeam,
-            onSuccess: (results) => {
-                if (results) {
-                    const team = results[0];
-                    const privileges = results[1].privileges;
-                    const members = results[2].members;
+        queryFn: () => getTeamDetails({ name: teamName }),
+        enabled: !isCreatingTeam,
+        onSuccess: (results) => {
+            if (results) {
+                const team = results[0];
+                const privileges = results[1].privileges;
+                const members = results[2].members;
 
-                    const privilegeMap = getAllPrivileges(
-                        privileges,
-                        members,
-                        GROUPER_ALL_USERS_ID,
-                        GROUPER_ADMIN_ID
-                    );
-                    const memberPrivileges = Object.values(privilegeMap);
+                const privilegeMap = getAllPrivileges(
+                    privileges,
+                    members,
+                    GROUPER_ALL_USERS_ID,
+                    GROUPER_ADMIN_ID
+                );
+                const memberPrivileges = Object.values(privilegeMap);
 
-                    setTeam(team);
-                    setSelfPrivilege(privilegeMap[userProfile?.id]);
-                    setWasPublicTeam(!!privilegeMap[GROUPER_ALL_USERS_ID]);
-                    setPrivileges(
-                        memberPrivileges.filter(
-                            (privilege) =>
-                                privilege.subject.id !== GROUPER_ALL_USERS_ID
-                        )
-                    );
-                }
-            },
-            onError: (error) => {
-                setSaveError({
-                    message: t("getTeamFail"),
-                    object: error,
-                });
-            },
+                setTeam(team);
+                setSelfPrivilege(privilegeMap[userProfile?.id]);
+                setWasPublicTeam(!!privilegeMap[GROUPER_ALL_USERS_ID]);
+                setPrivileges(
+                    memberPrivileges.filter(
+                        (privilege) =>
+                            privilege.subject.id !== GROUPER_ALL_USERS_ID
+                    )
+                );
+            }
+        },
+        onError: (error) => {
+            setSaveError({
+                message: t("getTeamFail"),
+                object: error,
+            });
         },
     });
 
     // Updates only team name and description, then calls updateTeamMemberStatsMutation
-    const [updateTeamMutation, { status: updateTeamStatus }] = useMutation(
-        updateTeam,
-        {
+    const { mutate: updateTeamMutation, status: updateTeamStatus } =
+        useMutation(updateTeam, {
             onSuccess: (resp, variables) => {
                 setTeamNameSaved(true);
                 updateTeamMemberStatsMutation({
@@ -122,14 +119,12 @@ function TeamForm(props) {
                     object: error,
                 });
             },
-        }
-    );
+        });
 
     // Creates the team name, description, and initial public privilege
     // then calls updateTeamMemberStatsMutation
-    const [createTeamMutation, { status: createTeamStatus }] = useMutation(
-        createTeam,
-        {
+    const { mutate: createTeamMutation, status: createTeamStatus } =
+        useMutation(createTeam, {
             onSuccess: (resp, { newPrivileges }) => {
                 trackIntercomEvent(IntercomEvents.CREATED_NEW_TEAM, resp);
                 setTeamNameSaved(true);
@@ -144,14 +139,13 @@ function TeamForm(props) {
                     object: error,
                 });
             },
-        }
-    );
+        });
 
     // Updates privileges and memberships
-    const [
-        updateTeamMemberStatsMutation,
-        { status: updateTeamMemberStatsStatus },
-    ] = useMutation(
+    const {
+        mutate: updateTeamMemberStatsMutation,
+        status: updateTeamMemberStatsStatus,
+    } = useMutation(
         (variables) =>
             updateTeamMemberStats({
                 ...variables,
@@ -170,7 +164,7 @@ function TeamForm(props) {
         }
     );
 
-    const [leaveTeamMutation, { status: leaveTeamStatus }] = useMutation(
+    const { mutate: leaveTeamMutation, status: leaveTeamStatus } = useMutation(
         leaveTeam,
         {
             onSuccess: goBackToTeamView,
@@ -183,9 +177,8 @@ function TeamForm(props) {
         }
     );
 
-    const [deleteTeamMutation, { status: deleteTeamStatus }] = useMutation(
-        deleteTeam,
-        {
+    const { mutate: deleteTeamMutation, status: deleteTeamStatus } =
+        useMutation(deleteTeam, {
             onSuccess: (resp) => {
                 trackIntercomEvent(IntercomEvents.DELETED_TEAM, resp);
                 goBackToTeamView();
@@ -196,8 +189,7 @@ function TeamForm(props) {
                     object: error,
                 });
             },
-        }
-    );
+        });
 
     const loading = isQueryLoading([
         fetchingTeamDetails,

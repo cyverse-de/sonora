@@ -21,7 +21,7 @@ import {
 import { Link } from "@material-ui/icons";
 
 import { useTranslation } from "i18n";
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import ids from "../ids";
 import styles from "../styles";
@@ -62,37 +62,36 @@ function DetailsTabPanel(props) {
         resource?.type
     )[1];
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const resourcePath = resource.path;
 
     const fetchDetailsKey = [DATA_DETAILS_QUERY_KEY, { paths: [resourcePath] }];
 
     const { isFetching } = useQuery({
         queryKey: fetchDetailsKey,
-        queryFn: getResourceDetails,
-        config: {
-            enabled: true,
-            onSuccess: (resp) => {
-                const details = resp?.paths[resourcePath];
-                setDetails(details);
-                setSelfPermission(details?.permission);
-            },
-            onError: (e) => {
-                setErrorMessage(t("detailsError"));
-                setErrorObject(e);
-            },
+        queryFn: () => getResourceDetails(fetchDetailsKey[1]),
+        enabled: true,
+        onSuccess: (resp) => {
+            const details = resp?.paths[resourcePath];
+            setDetails(details);
+            setSelfPermission(details?.permission);
+        },
+        onError: (e) => {
+            setErrorMessage(t("detailsError"));
+            setErrorObject(e);
         },
     });
 
-    const [changeInfoType, { status: updateInfoTypeStatus }] = useMutation(
-        updateInfoType,
-        {
-            onSuccess: () => queryCache.invalidateQueries(fetchDetailsKey),
+    const { mutate: changeInfoType, status: updateInfoTypeStatus } =
+        useMutation(updateInfoType, {
+            onSuccess: () => queryClient.invalidateQueries(fetchDetailsKey),
             onError: (e) => {
                 setErrorMessage(t("updateInfoTypeError"));
                 setErrorObject(e);
             },
-        }
-    );
+        });
 
     const onInfoTypeChange = (event) => {
         const type = event.target.value;

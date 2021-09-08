@@ -53,9 +53,8 @@ const ActionButtons = ({
 
     const externalID = row.original.externalID;
 
-    const { status, data, error } = useQuery(
-        ["async-data", externalID],
-        asyncData
+    const { status, data, error } = useQuery(["async-data", externalID], () =>
+        asyncData(externalID)
     );
 
     const isLoading = status === "loading";

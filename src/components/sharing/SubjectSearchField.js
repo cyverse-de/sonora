@@ -41,7 +41,7 @@ import {
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import ids from "./ids";
 import {
@@ -84,42 +84,41 @@ function SubjectSearchField(props) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+    // Get QueryClient from the context
+    const queryClient = useQueryClient();
+
     const { status: subjectSearchStatus } = useQuery({
         queryKey: { searchTerm },
-        queryFn: searchSubjects,
-        config: {
-            enabled: searchTerm && searchTerm.length > 2,
-            onSuccess: (resp) => {
-                // Remove recent contacts list (default collab list) from search results
-                // so user doesn't share with everyone they've ever shared with
-                const subjects = resp?.subjects
-                    .filter(
-                        (subject) =>
-                            groupName(subject) !== RECENT_CONTACTS_LIST_NAME
-                    )
-                    .map((subject) => {
-                        return { ...subject, grouping: t("searchResults") };
-                    });
-                setSearchResults(subjects);
-            },
+        queryFn: () => searchSubjects({ searchTerm }),
+        enabled: !!(searchTerm && searchTerm.length > 2),
+        onSuccess: (resp) => {
+            // Remove recent contacts list (default collab list) from search results
+            // so user doesn't share with everyone they've ever shared with
+            const subjects = resp?.subjects
+                .filter(
+                    (subject) =>
+                        groupName(subject) !== RECENT_CONTACTS_LIST_NAME
+                )
+                .map((subject) => {
+                    return { ...subject, grouping: t("searchResults") };
+                });
+            setSearchResults(subjects);
         },
     });
 
     const { status: recentContactsStatus } = useQuery({
         queryKey: [RECENT_CONTACTS_QUERY],
         queryFn: fetchRecentContactsList,
-        config: {
-            onSuccess: (resp) => {
-                const members = Object.values(resp);
-                const contacts = members.map((member) => {
-                    return {
-                        ...member,
-                        grouping: t("recentContacts"),
-                        recentContact: true,
-                    };
-                });
-                setRecentContacts(contacts);
-            },
+        onSuccess: (resp) => {
+            const members = Object.values(resp);
+            const contacts = members.map((member) => {
+                return {
+                    ...member,
+                    grouping: t("recentContacts"),
+                    recentContact: true,
+                };
+            });
+            setRecentContacts(contacts);
         },
     });
 
@@ -127,23 +126,24 @@ function SubjectSearchField(props) {
         setOptions([...(recentContacts || []), ...(searchResults || [])]);
     }, [recentContacts, searchResults]);
 
-    const [addRecentContactMutation, { status: addRecentContactStatus }] =
+    const { mutate: addRecentContactMutation, status: addRecentContactStatus } =
         useMutation(addRecentContacts, {
             onSuccess: () =>
-                queryCache.invalidateQueries([RECENT_CONTACTS_QUERY]),
+                queryClient.invalidateQueries([RECENT_CONTACTS_QUERY]),
             onError: (error) => {
                 showErrorAnnouncer(t("addRecentContactError"), error);
             },
         });
 
-    const [removeRecentContactMutation, { status: removeRecentContactStatus }] =
-        useMutation(removeRecentContacts, {
-            onSuccess: () =>
-                queryCache.invalidateQueries([RECENT_CONTACTS_QUERY]),
-            onError: (error) => {
-                showErrorAnnouncer(t("removeRecentContactError"), error);
-            },
-        });
+    const {
+        mutate: removeRecentContactMutation,
+        status: removeRecentContactStatus,
+    } = useMutation(removeRecentContacts, {
+        onSuccess: () => queryClient.invalidateQueries([RECENT_CONTACTS_QUERY]),
+        onError: (error) => {
+            showErrorAnnouncer(t("removeRecentContactError"), error);
+        },
+    });
 
     const onUserAdded = () => {
         setSearchTerm(null);

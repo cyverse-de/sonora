@@ -41,11 +41,9 @@ function DetailsDialog(props) {
     const { isFetching: isDetailsFetching, error: detailsFetchError } =
         useQuery({
             queryKey: [ADMIN_TOOL_REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
-            queryFn: getAdminToolRequestDetails,
-            config: {
-                enabled: requestId && open,
-                onSuccess: setDetails,
-            },
+            queryFn: () => getAdminToolRequestDetails({ id: requestId }),
+            enabled: !!requestId && open,
+            onSuccess: setDetails,
         });
 
     return (

@@ -25,7 +25,7 @@ export default function VideoViewer(props) {
     const [url, setUrl] = useState("");
 
     useEffect(() => {
-        setUrl(`${getHost()}/api/download?path=${path}`);
+        setUrl(`${getHost()}/api/download?path=${encodeURIComponent(path)}`);
     }, [path]);
 
     if (url) {

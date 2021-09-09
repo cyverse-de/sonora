@@ -53,7 +53,7 @@ export const startUpload = (
         })
     );
 
-    const endpoint = `/api/upload?dest=${destinationPath}`;
+    const endpoint = `/api/upload?dest=${encodeURIComponent(destinationPath)}`;
     const method = "POST";
 
     fetch(endpoint, {

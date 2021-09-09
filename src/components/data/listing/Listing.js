@@ -359,7 +359,9 @@ function Listing(props) {
             const selRes = getSelectedResources();
             selRes.forEach((res) => {
                 window.open(
-                    `${getHost()}/api/download?path=${res.path}`,
+                    `${getHost()}/api/download?path=${encodeURIComponent(
+                        res.path
+                    )}`,
                     "_blank"
                 );
             });

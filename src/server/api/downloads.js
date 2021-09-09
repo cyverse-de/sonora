@@ -97,6 +97,7 @@ const doDownloadFromTerrain = (userID, accessToken, apiURL) => {
             Authorization: `Bearer ${accessToken.token}`,
             Accept: "application/octet-stream",
         },
+        disableUrlEncoding: true,
     };
     return request(requestOptions).on("error", function (err) {
         logger.error(err);

@@ -1,6 +1,6 @@
 import React from "react";
 
-import DownloadLinksDialog from "components/Bag/downloads";
+import DownloadLinksDialog from "components/bags/downloads";
 
 export default {
     title: "Bags / Downloads",

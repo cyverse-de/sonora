@@ -13,7 +13,7 @@ import { useQuery } from "react-query";
 import clsx from "clsx";
 
 import NavigationConstants from "common/NavigationConstants";
-import Bag from "components/Bag";
+import Bag from "components/bags";
 import searchConstants from "components/search/constants";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";

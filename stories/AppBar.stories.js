@@ -10,7 +10,7 @@ import {
     FOLDER_TYPE,
     ANALYSIS_TYPE,
     APP_TYPE,
-} from "../src/components/Bag";
+} from "../src/components/bags";
 import { runningViceJobs } from "./analyses/AnalysesMocks";
 
 const mockUser = {

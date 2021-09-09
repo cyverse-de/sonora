@@ -20,7 +20,7 @@ import buildID from "components/utils/DebugIDUtil";
 import { useTranslation } from "i18n";
 
 import { getHost } from "components/utils/getHost";
-import constants from "components/Bag/constants";
+import constants from "components/bags/constants";
 
 const useStyles = makeStyles((theme) => ({
     closeButton: {

@@ -7,7 +7,7 @@ import Bag, {
     FOLDER_TYPE,
     ANALYSIS_TYPE,
     APP_TYPE,
-} from "../../src/components/Bag";
+} from "../../src/components/bags";
 
 export default {
     title: "Bags / Bag",

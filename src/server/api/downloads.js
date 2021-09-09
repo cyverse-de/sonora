@@ -33,7 +33,7 @@ const handler = async (req, res) => {
         return;
     }
 
-    const filePath = req?.query?.path;
+    const filePath = encodeURIComponent(req?.query?.path);
     const attachment = req?.query?.attachment || 0;
     const url = req?.query?.url;
 

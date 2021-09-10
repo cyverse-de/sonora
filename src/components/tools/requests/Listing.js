@@ -22,7 +22,7 @@ function Listing(props) {
 
     const [data, setData] = useState(null);
     const [selected, setSelected] = useState();
-    const [updateDialogOpen, setUpdateDialogOpen] = useState();
+    const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();

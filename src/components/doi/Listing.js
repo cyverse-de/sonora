@@ -45,7 +45,7 @@ function Listing(props) {
     const { t } = useTranslation("doi");
     const [data, setData] = useState(null);
     const [selected, setSelected] = useState();
-    const [updateDialogOpen, setUpdateDialogOpen] = useState();
+    const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
     const [selectedFolder, setSelectedFolder] = useState();
     const [infoTypes, setInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
@@ -148,7 +148,11 @@ function Listing(props) {
 
     const onViewMetaData = (id) => {
         const selFolder = getSelectedRequest(id)?.folder;
-        onRouteToMetadataView(selFolder?.path);
+        if (selFolder?.path) {
+            onRouteToMetadataView(selFolder.path);
+        } else {
+            showErrorAnnouncer(t("metadataError"), null);
+        }
     };
 
     return (

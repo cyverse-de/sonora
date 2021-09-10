@@ -39,6 +39,7 @@ export default function DOIToolbar(props) {
         onCreateDOIClick,
     } = props;
     const { t } = useTranslation("doi");
+    const { t: i18nUtil } = useTranslation("util");
     const classes = useStyles();
     const toolbarId = buildID(baseId, ids.toolbarId);
     const theme = useTheme();
@@ -59,7 +60,7 @@ export default function DOIToolbar(props) {
                             className={classes.toolbarItems}
                             onClick={onUpdateClick}
                         >
-                            {t("updateRequest")}
+                            {i18nUtil("updateRequest")}
                         </Button>
                         <Button
                             id={buildID(toolbarId, ids.VIEW_METADATA_BTN)}

@@ -46,6 +46,8 @@ export default function UpdateRequestDialog(props) {
     const { open, onClose, requestId, requestType } = props;
     const [requestDetails, setRequestDetails] = useState();
     const [updateRequestError, setUpdateRequestError] = useState();
+    const [toolRequestFetchError, setToolRequestFetchError] = useState();
+    const [doiRequestFetchError, setDoiRequestFetchError] = useState();
     const theme = useTheme();
     const { t } = useTranslation("util");
     const baseId = ids.UPDATE_REQUEST_DIALOG;
@@ -53,25 +55,31 @@ export default function UpdateRequestDialog(props) {
     // Get QueryClient from the context
     const queryClient = useQueryClient();
 
-    const { isFetching: isDOIRequestFetching, error: doiRequestFetchError } =
-        useQuery({
-            queryKey: [REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
-            queryFn: () => adminGetRequestDetails({ id: requestId }),
-            enabled: !!requestId && open && requestType === RequestType.DOI,
-            onSuccess: (data) => {
-                setRequestDetails(data);
-            },
-        });
+    const { isFetching: isDOIRequestFetching } = useQuery({
+        queryKey: [REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
+        queryFn: () => adminGetRequestDetails({ id: requestId }),
+        enabled: !!requestId && open && requestType === RequestType.DOI,
+        error: setDoiRequestFetchError,
+        onSuccess: (data) => {
+            setUpdateRequestError(null);
+            setRequestDetails(data);
+            setDoiRequestFetchError(null);
+            setToolRequestFetchError(null);
+        },
+    });
 
-    const { isFetching: isToolRequestFetching, error: toolRequestFetchError } =
-        useQuery({
-            queryKey: [ADMIN_TOOL_REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
-            queryFn: () => getAdminToolRequestDetails({ id: requestId }),
-            enabled: !!requestId && open && requestType === RequestType.TOOL,
-            onSuccess: (resp) => {
-                setRequestDetails(resp);
-            },
-        });
+    const { isFetching: isToolRequestFetching } = useQuery({
+        queryKey: [ADMIN_TOOL_REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
+        queryFn: () => getAdminToolRequestDetails({ id: requestId }),
+        enabled: !!requestId && open && requestType === RequestType.TOOL,
+        error: setToolRequestFetchError,
+        onSuccess: (resp) => {
+            setUpdateRequestError(null);
+            setRequestDetails(resp);
+            setDoiRequestFetchError(null);
+            setToolRequestFetchError(null);
+        },
+    });
 
     const { mutate: updateRequest, status: updateRequestStatus } = useMutation(
         requestType === RequestType.TOOL

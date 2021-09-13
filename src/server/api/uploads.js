@@ -64,6 +64,7 @@ const doUploadToTerrain = (userID, accessToken, destination) => {
         headers: {
             Authorization: `Bearer ${accessToken.token}`,
         },
+        disableUrlEncoding: true,
     };
 
     logger.info(`TERRAIN ${userID} POST ${apiURL.href}`);

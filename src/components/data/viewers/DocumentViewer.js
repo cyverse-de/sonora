@@ -21,7 +21,9 @@ export default function DocumentViewer(props) {
     const { t } = useTranslation("data");
     useEffect(() => {
         window.open(
-            `${getHost()}/api/download?path=${path}&attachment=0&url=display-download`,
+            `${getHost()}/api/download?path=${encodeURIComponent(
+                path
+            )}&attachment=0&url=display-download`,
             "_blank"
         );
     }, [path]);

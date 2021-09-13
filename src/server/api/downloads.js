@@ -33,7 +33,7 @@ const handler = async (req, res) => {
         return;
     }
 
-    const filePath = req?.query?.path;
+    const filePath = encodeURIComponent(req?.query?.path);
     const attachment = req?.query?.attachment || 0;
     const url = req?.query?.url;
 
@@ -97,6 +97,7 @@ const doDownloadFromTerrain = (userID, accessToken, apiURL) => {
             Authorization: `Bearer ${accessToken.token}`,
             Accept: "application/octet-stream",
         },
+        disableUrlEncoding: true,
     };
     return request(requestOptions).on("error", function (err) {
         logger.error(err);

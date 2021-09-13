@@ -99,7 +99,9 @@ const DownloadLinksDialog = ({
                                     download={path.substring(
                                         path.lastIndexOf("/") + 1
                                     )}
-                                    href={`${getHost()}/api/download?path=${path}`}
+                                    href={`${getHost()}/api/download?path=${encodeURIComponent(
+                                        path
+                                    )}`}
                                 >
                                     {path}
                                 </a>

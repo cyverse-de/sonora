@@ -144,7 +144,10 @@ function ViewerToolbar(props) {
 
     useEffect(() => {
         if (download) {
-            window.open(`${getHost()}/api/download?path=${path}`, "_blank");
+            window.open(
+                `${getHost()}/api/download?path=${encodeURIComponent(path)}`,
+                "_blank"
+            );
             setDownload(false);
         }
     }, [path, download]);

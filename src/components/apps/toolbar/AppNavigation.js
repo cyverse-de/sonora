@@ -39,6 +39,7 @@ import {
     GroupWork as GroupWorkIcon,
     Lock as LockIcon,
     Storage as StorageIcon,
+    VerifiedUser as ShieldIcon,
 } from "@material-ui/icons";
 import { useUserProfile } from "../../../contexts/userProfile";
 import { CollectionIcon } from "components/collections/Icons";
@@ -102,6 +103,7 @@ function AppNavigation(props) {
     iconMap.set(constants.BROWSE_ALL_APPS, <AppsIcon />);
     iconMap.set(constants.HPC, <StorageIcon />);
     iconMap.set(constants.MY_COLLECTIONS, <CollectionIcon />);
+    iconMap.set(constants.FEATURED_APPS, <ShieldIcon />);
 
     const allAppsCategory = useCallback(() => {
         return {

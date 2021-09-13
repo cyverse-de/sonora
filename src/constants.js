@@ -16,6 +16,7 @@ export default {
     APPS_UNDER_DEV: "Apps under development",
     FAV_APPS: "Favorite Apps",
     MY_PUBLIC_APPS: "My public apps",
+    FEATURED_APPS: "Featured Apps",
     HPC: "High-Performance Computing",
     BROWSE_ALL_APPS: "Browse All Apps",
     BROWSE_ALL_APPS_ID: "pppppppp-pppp-pppp-pppp-pppppppppppp",

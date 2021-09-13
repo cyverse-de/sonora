@@ -87,6 +87,11 @@ function getPrivateCategories(userId) {
                               id: "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee",
                               name: constants.APPS_SHARED_WITH_ME,
                           },
+                          {
+                              system_id: "de",
+                              id: "cccccccc-cccc-cccc-cccc-cccccccccccc",
+                              name: constants.FEATURED_APPS,
+                          },
                       ],
                   },
                   {

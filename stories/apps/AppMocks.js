@@ -36,6 +36,13 @@ export const categories = {
                     total: 18,
                     is_public: false,
                 },
+                {
+                    system_id: "de",
+                    id: "cccccccc-cccc-cccc-cccc-cccccccccccc",
+                    name: "Featured Apps",
+                    total: 7,
+                    is_public: false,
+                },
             ],
         },
     ],

@@ -59,7 +59,7 @@ export default function UpdateRequestDialog(props) {
         queryKey: [REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
         queryFn: () => adminGetRequestDetails({ id: requestId }),
         enabled: !!requestId && open && requestType === RequestType.DOI,
-        error: setDoiRequestFetchError,
+        onError: setDoiRequestFetchError,
         onSuccess: (data) => {
             setUpdateRequestError(null);
             setRequestDetails(data);
@@ -72,7 +72,7 @@ export default function UpdateRequestDialog(props) {
         queryKey: [ADMIN_TOOL_REQUEST_DETAILS_QUERY_KEY, { id: requestId }],
         queryFn: () => getAdminToolRequestDetails({ id: requestId }),
         enabled: !!requestId && open && requestType === RequestType.TOOL,
-        error: setToolRequestFetchError,
+        onError: setToolRequestFetchError,
         onSuccess: (resp) => {
             setUpdateRequestError(null);
             setRequestDetails(resp);

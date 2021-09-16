@@ -63,6 +63,7 @@ import { TeamIcon } from "../teams/Icons";
 import { useUserProfile } from "../../contexts/userProfile";
 import { getTeamLinkRefs } from "../teams/util";
 import { trackIntercomEvent } from "common/intercom";
+import { useConfig } from "contexts/config";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -333,6 +334,7 @@ function GlobalSearchField(props) {
     } = props;
 
     const { t } = useTranslation("common");
+    const [config] = useConfig();
     const { t: appsI18n } = useTranslation("apps");
     const { t: analysesI18n } = useTranslation("analyses");
     const { t: i18NSearch } = useTranslation("search");
@@ -548,11 +550,13 @@ function GlobalSearchField(props) {
         const dataQuery = getDataSimpleSearchQuery(
             searchTerm,
             userHomeDir,
+            config?.irods?.community_path,
             searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
             searchConstants.GLOBAL_SEARCH_PAGE,
             "label",
             "ascending"
         );
+
         setDataSearchKey([DATA_SEARCH_QUERY_KEY, { query: dataQuery }]);
 
         setAppsSearchKey([
@@ -618,6 +622,7 @@ function GlobalSearchField(props) {
     }, [
         analysesI18n,
         appRecordFields.NAME.key,
+        config,
         filter,
         searchTerm,
         t,

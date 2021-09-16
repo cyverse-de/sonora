@@ -4,13 +4,16 @@ import { SearchField } from "../../stories/search/GlobalSearchField.stories";
 import { I18nProviderWrapper } from "../i18n";
 import { UserProfileProvider } from "../contexts/userProfile";
 import { RQWrapper } from "../__mocks__/RQWrapper";
+import { ConfigProvider } from "contexts/config";
 
 test("Search field renders", () => {
     const component = renderer.create(
         <RQWrapper>
             <I18nProviderWrapper>
                 <UserProfileProvider>
-                    <SearchField />
+                    <ConfigProvider>
+                        <SearchField />
+                    </ConfigProvider>
                 </UserProfileProvider>
             </I18nProviderWrapper>
         </RQWrapper>

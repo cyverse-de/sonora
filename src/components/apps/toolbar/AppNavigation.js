@@ -201,6 +201,10 @@ function AppNavigation(props) {
         setAnchorEl(null);
     };
 
+    const categoryI18nName = (name) => {
+        return name.toLowerCase().replaceAll(" ", "_");
+    };
+
     if (!categories || categories.length === 0 || !selectedCategory) {
         return null;
     }
@@ -229,7 +233,7 @@ function AppNavigation(props) {
                         )}
                         primary={
                             <Typography className={classes.selectedCategory}>
-                                {selectedCategory.name}
+                                {t(categoryI18nName(selectedCategory.name))}
                             </Typography>
                         }
                     />
@@ -266,7 +270,7 @@ function AppNavigation(props) {
                         </ListItemIcon>
                         <ListItemText>
                             <Typography className={classes.listItemText}>
-                                {menuItem.name}
+                                {t(categoryI18nName(menuItem.name))}
                             </Typography>
                         </ListItemText>
                     </ListItem>

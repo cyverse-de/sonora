@@ -127,6 +127,13 @@ function getAppsInCategory({
           });
 }
 
+function getFeaturedApps() {
+    return callApi({
+        endpoint: "/api/apps/categories/featured",
+        method: "GET",
+    })
+}
+
 function getAppElementInfoTypes(_) {
     return callApi({
         endpoint: "/api/apps/elements/info-types",

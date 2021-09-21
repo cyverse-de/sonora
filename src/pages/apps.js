@@ -17,6 +17,7 @@ import constants from "../constants";
 import appFields from "components/apps/appFields";
 import { getListingPath } from "components/apps/utils";
 import Listing from "components/apps/listing/Listing";
+import systemId from "components/models/systemId";
 
 export default function Apps() {
     const router = useRouter();
@@ -39,8 +40,9 @@ export default function Apps() {
     const selectedCategory = query.selectedCategory
         ? JSON.parse(query.selectedCategory)
         : {
-              name: constants.BROWSE_ALL_APPS,
-              id: constants.BROWSE_ALL_APPS_ID,
+              system_id: systemId.de,
+              name: constants.FEATURED_APPS,
+              id: constants.FEATURED_APPS_ID,
           };
 
     const onRouteToListing = useCallback(

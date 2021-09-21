@@ -20,6 +20,7 @@ export default {
     HPC: "High-Performance Computing",
     BROWSE_ALL_APPS: "Browse All Apps",
     BROWSE_ALL_APPS_ID: "pppppppp-pppp-pppp-pppp-pppppppppppp",
+    FEATURED_APPS_ID: "cccccccc-cccc-cccc-cccc-cccccccccccc",
     MY_COLLECTIONS: "My Collections",
     APP_TYPE_EXTERNAL: "External",
     LOADING: "loading",

@@ -113,6 +113,10 @@ function getAppsInCategory({
     appTypeFilter,
     userId,
 }) {
+    if (categoryId === constants.FEATURED_APPS_ID) {
+        return getFeaturedApps();
+    }
+
     return userId
         ? callApi({
               endpoint: `/api/apps/categories/${systemId}/${categoryId}?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
@@ -131,7 +135,7 @@ function getFeaturedApps() {
     return callApi({
         endpoint: "/api/apps/categories/featured",
         method: "GET",
-    })
+    });
 }
 
 function getAppElementInfoTypes(_) {

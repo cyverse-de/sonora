@@ -2,6 +2,7 @@ export const getDataSimpleSearchQuery = (
     searchTerm,
     userHomeDir,
     communityDataDir,
+    isDetailed = false,
     rowsPerPage,
     offset,
     sortField,
@@ -13,10 +14,12 @@ export const getDataSimpleSearchQuery = (
     const pathPrefix = userHomeDir ? userHomeDir : communityDataDir;
     return {
         query: {
-            all: searchClauses.concat({
-                type: "path",
-                args: { prefix: pathPrefix },
-            }),
+            all: !isDetailed
+                ? searchClauses.concat({
+                      type: "path",
+                      args: { prefix: pathPrefix },
+                  })
+                : searchClauses,
         },
         size: rowsPerPage,
         from: offset,

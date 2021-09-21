@@ -149,6 +149,7 @@ function DataSearchResults(props) {
                     searchTerm,
                     userHomeDir: "",
                     communityDataDir: config?.irods.community_path,
+                    isDetailed: true,
                     rowsPerPage: searchConstants.DETAILED_SEARCH_PAGE_SIZE,
                     sortField: sortField,
                     sortDir: sortOrder,

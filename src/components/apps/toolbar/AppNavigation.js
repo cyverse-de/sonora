@@ -153,8 +153,7 @@ function AppNavigation(props) {
             myCollectionsCategory,
             allAppsCategory,
             handleAppNavError,
-            selectedCategory.id,
-            selectedCategory.name,
+            selectedCategory,
             handleCategoryChange,
         ]
     );

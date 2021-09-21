@@ -578,6 +578,7 @@ function GlobalSearchField(props) {
             userHomeDir,
             config?.irods?.community_path,
             false,
+            userProfile,
             searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
             searchConstants.GLOBAL_SEARCH_PAGE,
             "label",

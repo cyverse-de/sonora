@@ -117,7 +117,7 @@ function Preferences(props) {
             let pref = respData.preferences;
             setDefaultOutputFolder(
                 pref?.default_output_folder?.path ||
-                    pref?.system_default_output_dir?.path
+                pref?.system_default_output_dir?.path
             );
             setBootstrapQueryEnabled(false);
             setBootstrapInfo(respData);
@@ -300,9 +300,9 @@ function Preferences(props) {
                 updatedPref.default_output_folder = defaultOutputFolderDetails;
                 delete updatedPref.webhook;
 
-                let updatedWebhook = {};
+                let updatedWebhook;
 
-                if (values?.webhook) {
+                if (values?.webhook?.url) {
                     const hook = values.webhook;
                     const selTopics = webhookTopics
                         .map((topic) => {
@@ -383,8 +383,17 @@ function Preferences(props) {
             </>
         );
     }
-    const validateShortCuts = (values, props) => {
+    const validate = (values, props) => {
         const errors = {};
+
+        if (values?.webhook?.url) {
+            const type = values?.webhook?.type?.type;
+            if (type === null || type === undefined || type === '') {
+                errors["webhook.type.type"] =
+                    t("webhookTypeError");
+            }
+        }
+
         let kbMap = new Map();
         kbMap.set(
             prefConstants.keys.APPS_KB_SC,
@@ -407,8 +416,6 @@ function Preferences(props) {
                 if (key1 !== key2) {
                     if (kbMap.get(key1) === kbMap.get(key2)) {
                         errors[key2] = t("duplicateShortcutError");
-                    } else if (!kbMap.get(key1)) {
-                        errors[key1] = t("requiredShortcutError");
                     }
                 }
             }
@@ -470,7 +477,7 @@ function Preferences(props) {
                     initialValues={mapPropsToValues(bootstrapInfo)}
                     onSubmit={handleSubmit}
                     enableReinitialize
-                    validate={validateShortCuts}
+                    validate={validate}
                 >
                     {(props) => (
                         <Form

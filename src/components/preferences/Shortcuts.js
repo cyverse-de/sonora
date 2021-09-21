@@ -49,7 +49,6 @@ function Shortcuts(props) {
                             className={classes.shortcutField}
                             inputProps={{ maxLength: 1 }}
                             variant="standard"
-                            required={true}
                         />
                     </>
                 </GridLabelValue>
@@ -68,7 +67,6 @@ function Shortcuts(props) {
                             className={classes.shortcutField}
                             inputProps={{ maxLength: 1 }}
                             variant="standard"
-                            required={true}
                         />
                     </>
                 </GridLabelValue>
@@ -87,7 +85,6 @@ function Shortcuts(props) {
                             className={classes.shortcutField}
                             inputProps={{ maxLength: 1 }}
                             variant="standard"
-                            required={true}
                         />
                     </>
                 </GridLabelValue>
@@ -109,7 +106,6 @@ function Shortcuts(props) {
                             className={classes.shortcutField}
                             inputProps={{ maxLength: 1 }}
                             variant="standard"
-                            required={true}
                         />
                     </>
                 </GridLabelValue>

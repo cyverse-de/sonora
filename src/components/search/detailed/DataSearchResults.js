@@ -160,7 +160,7 @@ function DataSearchResults(props) {
             ]);
             setDataSearchQueryEnabled(true);
         }
-    }, [searchTerm, config, sortField, sortOrder]);
+    }, [searchTerm, config, sortField, sortOrder, userProfile]);
 
     useEffect(() => {
         trackIntercomEvent(IntercomEvents.SEARCHED_DATA, {

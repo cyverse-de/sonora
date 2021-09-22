@@ -36,20 +36,18 @@ function useAnalysisRunTime(
 
     useQuery({
         queryKey: [ANALYSIS_HISTORY_QUERY_KEY, { id: analysis?.id }],
-        queryFn: getAnalysisHistory,
-        config: {
-            enabled: isRunning || isComplete,
-            onSuccess: (resp) => {
-                // Make sure we're looking at the correct step
-                // (e.g. step_type === "Interactive" or step_number === 1)
-                const step = resp?.steps?.find(stepFilterFn);
-                // Find the first Running update
-                const runningUpdate = step?.updates?.find(
-                    (update) => update.status === analysisStatus.RUNNING
-                );
-                // Record the timestamp
-                setRunningStart(parseInt(runningUpdate?.timestamp || 0));
-            },
+        queryFn: () => getAnalysisHistory({ id: analysis?.id }),
+        enabled: isRunning || isComplete,
+        onSuccess: (resp) => {
+            // Make sure we're looking at the correct step
+            // (e.g. step_type === "Interactive" or step_number === 1)
+            const step = resp?.steps?.find(stepFilterFn);
+            // Find the first Running update
+            const runningUpdate = step?.updates?.find(
+                (update) => update.status === analysisStatus.RUNNING
+            );
+            // Record the timestamp
+            setRunningStart(parseInt(runningUpdate?.timestamp || 0));
         },
     });
 

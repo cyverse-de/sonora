@@ -87,6 +87,11 @@ function getPrivateCategories(userId) {
                               id: "eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee",
                               name: constants.APPS_SHARED_WITH_ME,
                           },
+                          {
+                              system_id: "de",
+                              id: "cccccccc-cccc-cccc-cccc-cccccccccccc",
+                              name: constants.FEATURED_APPS,
+                          },
                       ],
                   },
                   {
@@ -108,6 +113,10 @@ function getAppsInCategory({
     appTypeFilter,
     userId,
 }) {
+    if (categoryId === constants.FEATURED_APPS_ID) {
+        return getFeaturedApps();
+    }
+
     return userId
         ? callApi({
               endpoint: `/api/apps/categories/${systemId}/${categoryId}?limit=${rowsPerPage}&sort-field=${orderBy}&sort-dir=${order.toUpperCase()}&offset=${
@@ -120,6 +129,13 @@ function getAppsInCategory({
                   status: 401,
               },
           });
+}
+
+function getFeaturedApps() {
+    return callApi({
+        endpoint: "/api/apps/categories/featured",
+        method: "GET",
+    });
 }
 
 function getAppElementInfoTypes(_) {

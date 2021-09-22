@@ -85,6 +85,16 @@ export default function appsRouter() {
         })
     );
 
+    logger.info("adding the GET /apps/categories/featured handler");
+    api.get(
+        "/apps/categories/featured",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/categories/featured",
+        })
+    );
+
     logger.info(
         "adding the GET /apps/categories/:systemId/:categoryId handler"
     );

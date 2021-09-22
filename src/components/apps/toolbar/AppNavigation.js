@@ -39,6 +39,7 @@ import {
     GroupWork as GroupWorkIcon,
     Lock as LockIcon,
     Storage as StorageIcon,
+    VerifiedUser as ShieldIcon,
 } from "@material-ui/icons";
 import { useUserProfile } from "../../../contexts/userProfile";
 import { CollectionIcon } from "components/collections/Icons";
@@ -102,6 +103,7 @@ function AppNavigation(props) {
     iconMap.set(constants.BROWSE_ALL_APPS, <AppsIcon />);
     iconMap.set(constants.HPC, <StorageIcon />);
     iconMap.set(constants.MY_COLLECTIONS, <CollectionIcon />);
+    iconMap.set(constants.FEATURED_APPS, <ShieldIcon />);
 
     const allAppsCategory = useCallback(() => {
         return {
@@ -199,6 +201,10 @@ function AppNavigation(props) {
         setAnchorEl(null);
     };
 
+    const categoryI18nName = (name) => {
+        return name.toLowerCase().replaceAll(" ", "_");
+    };
+
     if (!categories || categories.length === 0 || !selectedCategory) {
         return null;
     }
@@ -227,7 +233,7 @@ function AppNavigation(props) {
                         )}
                         primary={
                             <Typography className={classes.selectedCategory}>
-                                {selectedCategory.name}
+                                {t(categoryI18nName(selectedCategory.name))}
                             </Typography>
                         }
                     />
@@ -264,7 +270,7 @@ function AppNavigation(props) {
                         </ListItemIcon>
                         <ListItemText>
                             <Typography className={classes.listItemText}>
-                                {menuItem.name}
+                                {t(categoryI18nName(menuItem.name))}
                             </Typography>
                         </ListItemText>
                     </ListItem>

@@ -20,6 +20,7 @@ import prefConstants from "./constants";
 import General from "./General";
 import Shortcuts from "./Shortcuts";
 import styles from "./styles";
+import Webhooks from "./Webhooks";
 import { isWritable } from "../data/utils";
 
 import { useBootstrapInfo } from "contexts/bootstrap";
@@ -385,15 +386,12 @@ function Preferences(props) {
     }
     const validate = (values, props) => {
         const errors = {};
-
         if (values?.webhook?.url) {
             const type = values?.webhook?.type?.type;
             if (type === null || type === undefined || type === '') {
-                errors["webhook.type.type"] =
-                    t("webhookTypeError");
+                errors["webhook.type.type"] =  t("webhookTypeError");
             }
         }
-
         let kbMap = new Map();
         kbMap.set(
             prefConstants.keys.APPS_KB_SC,
@@ -414,7 +412,7 @@ function Preferences(props) {
         for (let [key1] of kbMap) {
             for (let [key2] of kbMap) {
                 if (key1 !== key2) {
-                    if (kbMap.get(key1) === kbMap.get(key2)) {
+                    if (kbMap.get(key1) && kbMap.get(key1) === kbMap.get(key2)) {
                         errors[key2] = t("duplicateShortcutError");
                     }
                 }
@@ -534,10 +532,13 @@ function Preferences(props) {
                                 }
                                 requireAgaveAuth={requireAgaveAuth}
                                 resetHPCToken={resetHPCToken}
+                            />
+                            <Divider className={classes.dividers} />
+                            <Webhooks
+                                baseId={buildID(baseId, ids.WEBHOOK_PREF)}
                                 webhookTopics={webhookTopics}
                                 webhookTypes={webhookTypes}
-                                values={props.values}
-                            />
+                                values={props.values} />
                             <Divider className={classes.dividers} />
                             <Shortcuts
                                 baseId={buildID(baseId, ids.KB_SHORTCUTS)}

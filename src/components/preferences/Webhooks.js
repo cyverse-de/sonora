@@ -14,6 +14,7 @@ import { useQuery } from "react-query";
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
 import FormSwitch from "components/forms/FormSwitch";
+import FormSelectField from "components/forms/FormSelectField";
 
 import { testWebhook, WEBHOOK_TEST_KEY } from "serviceFacades/users";
 
@@ -41,6 +42,7 @@ export default function Webhooks(props) {
     const classes = useStyles();
     const theme = useTheme();
     const [enableTest, setEnableTest] = React.useState(false);
+    const [enableTestButton, setEnableTestButton] = React.useState(false);
     const [testKey, setTestKey] = React.useState(WEBHOOK_TEST_KEY);
     const [testError, setTestError] = React.useState();
     const [testSuccess, setTestSuccess] = React.useState(false);
@@ -60,6 +62,12 @@ export default function Webhooks(props) {
             setTestSuccess(false);
         },
     });
+
+    React.useEffect(() => {
+        const hasURL = values?.webhook?.url ? true : false;
+        setEnableTestButton(hasURL && !isTesting);
+    }, [isTesting, values]);
+
 
     return (
         <>
@@ -83,9 +91,9 @@ export default function Webhooks(props) {
                         id={buildID(baseId, ids.WEBHOOK_TYPES_SELECT)}
                         label={t("type")}
                         select
-                        variant="outlined"
+                        variant="standard"
                         size="small"
-                        component={FormTextField}
+                        component={FormSelectField}
                     >
                         {webhookTypes?.map((type, index) => (
                             <MenuItem
@@ -136,7 +144,7 @@ export default function Webhooks(props) {
                     <Button
                         id={buildID(baseId, ids.WEBHOOK_TEST_BTN)}
                         variant="outlined"
-                        disabled={isTesting || !enableTest}
+                        disabled={!enableTestButton}
                         onClick={() => {
                             setTestKey([
                                 WEBHOOK_TEST_KEY,

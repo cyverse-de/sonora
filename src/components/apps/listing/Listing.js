@@ -234,7 +234,7 @@ function Listing(props) {
             queryKey: [
                 COLLECTION_APPS_QUERY,
                 {
-                    name: category.fullCollectionName,
+                    name: category?.fullCollectionName,
                     sortField: orderBy,
                     sortDir: order,
                     appFilter: filter,
@@ -242,12 +242,12 @@ function Listing(props) {
             ],
             queryFn: () =>
                 getCollectionApps({
-                    name: category.fullCollectionName,
+                    name: category?.fullCollectionName,
                     sortField: orderBy,
                     sortDir: order,
                     appFilter: filter,
                 }),
-            enabled: category.id === constants.MY_COLLECTIONS,
+            enabled: category?.id === constants.MY_COLLECTIONS,
             onSuccess: (resp) => {
                 trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
                     systemId: selectedSystemId,

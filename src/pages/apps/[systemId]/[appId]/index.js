@@ -67,6 +67,7 @@ export default function App() {
             orderBy={selectedOrderBy}
             filter={selectedFilter}
             category={selectedCategory}
+            isAdminView={false}
         />
     );
 }

@@ -140,7 +140,6 @@ function UserPortalUpdatePrompts() {
                 open={!!userPortalResp?.update_required}
                 id={baseId}
                 fullWidth
-                disableBackdropClick
                 disableEscapeKeyDown
                 aria-labelledby={dialogTitleId}
             >

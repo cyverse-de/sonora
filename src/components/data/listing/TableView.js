@@ -31,7 +31,7 @@ import InstantLaunchButton from "components/instantlaunches";
 import { defaultInstantLaunch } from "serviceFacades/instantlaunches";
 
 import {
-    fade,
+    alpha,
     makeStyles,
     Paper,
     Table,
@@ -89,7 +89,7 @@ function getColumnCell(key, resource, dataRecordFields) {
 const invalidRowStyles = makeStyles((theme) => ({
     root: {
         "&$selected, &$selected:hover": {
-            backgroundColor: fade(
+            backgroundColor: alpha(
                 theme.palette.error.main,
                 theme.palette.action.selectedOpacity
             ),

@@ -118,7 +118,7 @@ function Preferences(props) {
             let pref = respData.preferences;
             setDefaultOutputFolder(
                 pref?.default_output_folder?.path ||
-                pref?.system_default_output_dir?.path
+                    pref?.system_default_output_dir?.path
             );
             setBootstrapQueryEnabled(false);
             setBootstrapInfo(respData);
@@ -388,8 +388,8 @@ function Preferences(props) {
         const errors = {};
         if (values?.webhook?.url) {
             const type = values?.webhook?.type?.type;
-            if (type === null || type === undefined || type === '') {
-                errors["webhook.type.type"] =  t("webhookTypeError");
+            if (type === null || type === undefined || type === "") {
+                errors["webhook.type.type"] = t("webhookTypeError");
             }
         }
         let kbMap = new Map();
@@ -412,7 +412,10 @@ function Preferences(props) {
         for (let [key1] of kbMap) {
             for (let [key2] of kbMap) {
                 if (key1 !== key2) {
-                    if (kbMap.get(key1) && kbMap.get(key1) === kbMap.get(key2)) {
+                    if (
+                        kbMap.get(key1) &&
+                        kbMap.get(key1) === kbMap.get(key2)
+                    ) {
                         errors[key2] = t("duplicateShortcutError");
                     }
                 }
@@ -538,7 +541,8 @@ function Preferences(props) {
                                 baseId={buildID(baseId, ids.WEBHOOK_PREF)}
                                 webhookTopics={webhookTopics}
                                 webhookTypes={webhookTypes}
-                                values={props.values} />
+                                values={props.values}
+                            />
                             <Divider className={classes.dividers} />
                             <Shortcuts
                                 baseId={buildID(baseId, ids.KB_SHORTCUTS)}

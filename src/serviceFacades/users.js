@@ -53,7 +53,6 @@ function savePreferences({ preferences, webhooks }) {
     const hookPromise = updateWebhooks(webhooks ? webhooks : null);
     promises.push(hookPromise);
 
-
     return Promise.all(promises);
 }
 
@@ -93,7 +92,7 @@ function updateWebhooks(webhooks) {
     return callApi({
         endpoint: `/api/webhooks`,
         method: "PUT",
-        body: webhooks ? webhooks : { "webhooks": [] },
+        body: webhooks ? webhooks : { webhooks: [] },
     });
 }
 

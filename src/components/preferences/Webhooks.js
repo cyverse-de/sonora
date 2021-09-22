@@ -68,7 +68,6 @@ export default function Webhooks(props) {
         setEnableTestButton(hasURL && !isTesting);
     }, [isTesting, values]);
 
-
     return (
         <>
             <Typography variant="h6" className={classes.sectionHeader}>

@@ -14,7 +14,6 @@ import { useQuery } from "react-query";
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
 import FormSwitch from "components/forms/FormSwitch";
-import FormSelectField from "components/forms/FormSelectField";
 
 import { testWebhook, WEBHOOK_TEST_KEY } from "serviceFacades/users";
 
@@ -37,7 +36,8 @@ import ErrorIcon from "@material-ui/icons/Error";
 const useStyles = makeStyles(styles);
 
 export default function Webhooks(props) {
-    const { baseId, webhookTopics, webhookTypes, values } = props;
+    const { baseId, webhookTopics, webhookTypes, setFieldTouched, values } =
+        props;
     const { t } = useTranslation("preferences");
     const classes = useStyles();
     const theme = useTheme();
@@ -66,7 +66,8 @@ export default function Webhooks(props) {
     React.useEffect(() => {
         const hasURL = values?.webhook?.url ? true : false;
         setEnableTestButton(hasURL && !isTesting);
-    }, [isTesting, values]);
+        setFieldTouched("webhook.type.type", hasURL, false);
+    }, [isTesting, setFieldTouched, values]);
 
     return (
         <>
@@ -90,9 +91,9 @@ export default function Webhooks(props) {
                         id={buildID(baseId, ids.WEBHOOK_TYPES_SELECT)}
                         label={t("type")}
                         select
-                        variant="standard"
+                        variant="outlined"
                         size="small"
-                        component={FormSelectField}
+                        component={FormTextField}
                     >
                         {webhookTypes?.map((type, index) => (
                             <MenuItem

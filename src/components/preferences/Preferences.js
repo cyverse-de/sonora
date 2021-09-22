@@ -385,11 +385,11 @@ function Preferences(props) {
         );
     }
     const validate = (values, props) => {
-        const errors = {};
+        let errors = {};
         if (values?.webhook?.url) {
             const type = values?.webhook?.type?.type;
             if (type === null || type === undefined || type === "") {
-                errors["webhook.type.type"] = t("webhookTypeError");
+                errors = { webhook: { type: { type: t("webhookTypeError") } } };
             }
         }
         let kbMap = new Map();
@@ -542,6 +542,7 @@ function Preferences(props) {
                                 webhookTopics={webhookTopics}
                                 webhookTypes={webhookTypes}
                                 values={props.values}
+                                setFieldTouched={props.setFieldTouched}
                             />
                             <Divider className={classes.dividers} />
                             <Shortcuts

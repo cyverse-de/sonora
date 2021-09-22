@@ -127,7 +127,7 @@ function useBootStrap(enabled, onSuccess, onError) {
     });
 }
 
-function getUserPortalStatus(key, userId) {
+function getUserPortalStatus(userId) {
     return callApi({
         endpoint: `/api/users/${userId}/status`,
         method: "GET",

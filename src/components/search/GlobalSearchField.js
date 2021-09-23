@@ -384,7 +384,7 @@ function GlobalSearchField(props) {
 
     const { isFetching: isBootStrapFetching } = useBootStrap(
         bootstrapQueryEnabled,
-        (respData) => preProcessData(respData),
+        preProcessData,
         null
     );
 

@@ -66,8 +66,7 @@ export default function Webhooks(props) {
     React.useEffect(() => {
         const hasURL = values?.webhook?.url ? true : false;
         setEnableTestButton(hasURL && !isTesting);
-        setFieldTouched("webhook.type.type", hasURL, false);
-    }, [isTesting, setFieldTouched, values]);
+    }, [isTesting, values]);
 
     return (
         <>
@@ -94,6 +93,7 @@ export default function Webhooks(props) {
                         variant="outlined"
                         size="small"
                         component={FormTextField}
+                        required={!!values?.webhook?.url}
                     >
                         {webhookTypes?.map((type, index) => (
                             <MenuItem

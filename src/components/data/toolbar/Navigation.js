@@ -416,27 +416,25 @@ function Navigation(props) {
          * SHARED_WITH_ME_PATH: "/iplant/home",
          */
         if (dataRoots.length > 0 && path) {
+            let index = 0;
             if (path.startsWith(userHomePath)) {
-                setSelectedIndex(
-                    dataRoots.findIndex((root) => root.path === userHomePath)
+                index = dataRoots.findIndex(
+                    (root) => root.path === userHomePath
                 );
             } else if (path.startsWith(userTrashPath)) {
-                setSelectedIndex(
-                    dataRoots.findIndex((root) => root.path === userTrashPath)
+                index = dataRoots.findIndex(
+                    (root) => root.path === userTrashPath
                 );
             } else if (path.startsWith(communityDataPath)) {
-                setSelectedIndex(
-                    dataRoots.findIndex(
-                        (root) => root.path === communityDataPath
-                    )
+                index = dataRoots.findIndex(
+                    (root) => root.path === communityDataPath
                 );
             } else if (path.startsWith(sharedWithMePath)) {
-                setSelectedIndex(
-                    dataRoots.findIndex(
-                        (root) => root.path === sharedWithMePath
-                    )
+                index = dataRoots.findIndex(
+                    (root) => root.path === sharedWithMePath
                 );
             }
+            setSelectedIndex(index < 0 ? 0 : index);
         }
     }, [
         dataRoots,

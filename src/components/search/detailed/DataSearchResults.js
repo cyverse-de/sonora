@@ -44,6 +44,8 @@ import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import { IconButton, Tooltip, Typography, Grid } from "@material-ui/core";
 import { Info, Label } from "@material-ui/icons";
+import { useConfig } from "contexts/config";
+import { useUserProfile } from "contexts/userProfile";
 
 function Name(props) {
     const { resource, searchTerm } = props;
@@ -90,6 +92,8 @@ function DataSearchResults(props) {
     const { t } = useTranslation("search");
     const { t: dataI18n } = useTranslation("data");
     const dataRecordFields = dataFields(dataI18n);
+    const [config] = useConfig();
+    const [userProfile] = useUserProfile();
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();
@@ -146,6 +150,9 @@ function DataSearchResults(props) {
                 {
                     searchTerm,
                     userHomeDir: "",
+                    communityDataDir: config?.irods.community_path,
+                    isDetailed: true,
+                    userProfile,
                     rowsPerPage: searchConstants.DETAILED_SEARCH_PAGE_SIZE,
                     sortField: sortField,
                     sortDir: sortOrder,
@@ -153,7 +160,7 @@ function DataSearchResults(props) {
             ]);
             setDataSearchQueryEnabled(true);
         }
-    }, [searchTerm, sortField, sortOrder]);
+    }, [searchTerm, config, sortField, sortOrder, userProfile]);
 
     useEffect(() => {
         trackIntercomEvent(IntercomEvents.SEARCHED_DATA, {

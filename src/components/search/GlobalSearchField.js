@@ -24,7 +24,7 @@ import { useDataNavigationLink } from "components/data/utils";
 import { useAppLaunchLink } from "components/apps/utils";
 import AnalysesIcon from "components/icons/AnalysesIcon";
 
-import { BOOTSTRAP_KEY } from "serviceFacades/users";
+import { useBootStrap, BOOTSTRAP_KEY } from "serviceFacades/users";
 import { ANALYSES_SEARCH_QUERY_KEY } from "serviceFacades/analyses";
 import { APPS_SEARCH_QUERY_KEY } from "serviceFacades/apps";
 import { DATA_SEARCH_QUERY_KEY } from "serviceFacades/filesystem";
@@ -63,6 +63,7 @@ import { TeamIcon } from "../teams/Icons";
 import { useUserProfile } from "../../contexts/userProfile";
 import { getTeamLinkRefs } from "../teams/util";
 import { trackIntercomEvent } from "common/intercom";
+import { useConfig } from "contexts/config";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -333,6 +334,7 @@ function GlobalSearchField(props) {
     } = props;
 
     const { t } = useTranslation("common");
+    const [config] = useConfig();
     const { t: appsI18n } = useTranslation("apps");
     const { t: analysesI18n } = useTranslation("analyses");
     const { t: i18NSearch } = useTranslation("search");
@@ -357,6 +359,9 @@ function GlobalSearchField(props) {
     const [dataSearchQueryEnabled, setDataSearchQueryEnabled] = useState(false);
     const [teamSearchQueryEnabled, setTeamSearchQueryEnabled] = useState(false);
 
+    const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
+    const [userHomeDir, setUserHomeDir] = useState(null);
+
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
@@ -365,10 +370,33 @@ function GlobalSearchField(props) {
 
     //get bootstrap from cache.
     const bootstrapCache = queryClient.getQueryData(BOOTSTRAP_KEY);
-    let userHomeDir = bootstrapCache?.data_info.user_home_path;
-    if (userHomeDir) {
-        userHomeDir = userHomeDir + "/";
-    }
+
+    const preProcessData = useCallback(
+        (respData) => {
+            let homeDir = bootstrapCache?.data_info.user_home_path;
+            if (homeDir) {
+                homeDir = homeDir + "/";
+                setUserHomeDir(homeDir);
+            }
+        },
+        [bootstrapCache]
+    );
+
+    const { isFetching: isBootStrapFetching } = useBootStrap(
+        bootstrapQueryEnabled,
+        preProcessData,
+        null
+    );
+
+    useEffect(() => {
+        if (bootstrapCache && !userHomeDir) {
+            preProcessData(bootstrapCache);
+        } else {
+            if (userProfile?.id) {
+                setBootstrapQueryEnabled(true);
+            }
+        }
+    }, [bootstrapCache, preProcessData, userHomeDir, userProfile]);
 
     const viewAllAnalysesOptions = {
         id: searchConstants.VIEW_ALL_ANALYSES_ID,
@@ -548,11 +576,15 @@ function GlobalSearchField(props) {
         const dataQuery = getDataSimpleSearchQuery(
             searchTerm,
             userHomeDir,
+            config?.irods?.community_path,
+            false,
+            userProfile,
             searchConstants.GLOBAL_SEARCH_PAGE_SIZE,
             searchConstants.GLOBAL_SEARCH_PAGE,
             "label",
             "ascending"
         );
+
         setDataSearchKey([DATA_SEARCH_QUERY_KEY, { query: dataQuery }]);
 
         setAppsSearchKey([
@@ -618,6 +650,7 @@ function GlobalSearchField(props) {
     }, [
         analysesI18n,
         appRecordFields.NAME.key,
+        config,
         filter,
         searchTerm,
         t,
@@ -668,7 +701,11 @@ function GlobalSearchField(props) {
     }, [filter, options, searchTerm, t]);
 
     const loading =
-        searchingAnalyses || searchingApps || searchingData || searchingTeams;
+        isBootStrapFetching ||
+        searchingAnalyses ||
+        searchingApps ||
+        searchingData ||
+        searchingTeams;
 
     const renderCustomOption = (option) => {
         const id = option?.id;

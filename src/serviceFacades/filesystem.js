@@ -187,7 +187,10 @@ export const searchData = ({ query }) => {
  */
 export const searchDataInfinite = ({
     userHomeDir,
+    communityDataDir,
+    isDetailed,
     searchTerm,
+    userProfile,
     rowsPerPage,
     sortField,
     sortDir,
@@ -196,6 +199,9 @@ export const searchDataInfinite = ({
     const query = getDataSimpleSearchQuery(
         searchTerm,
         userHomeDir,
+        communityDataDir,
+        isDetailed,
+        userProfile,
         rowsPerPage,
         rowsPerPage * pageParam,
         sortField,

@@ -79,7 +79,7 @@ function NotificationsMenu(props) {
                 limit: NOTIFICATION_MENU_LIMIT,
                 offset: NOTIFICATION_MENU_OFFSET,
             }),
-
+        enabled: !!userProfile?.id,
         onSuccess: (results) => {
             setNotifications(results?.messages);
             if (results?.unseen_total > 0) {
@@ -140,7 +140,11 @@ function NotificationsMenu(props) {
                 </ListItem>
             )}
             {userProfile?.id && [
-                <DETabs value={selectedTab} onChange={onTabSelectionChange}>
+                <DETabs
+                    key={buildID(ids.BASE_DEBUG_ID, ids.NOTIFICATIONS_MENU)}
+                    value={selectedTab}
+                    onChange={onTabSelectionChange}
+                >
                     <DETab
                         value={TABS.NOTIFICATIONS}
                         label={t("notifications")}
@@ -155,6 +159,7 @@ function NotificationsMenu(props) {
                     />
                 </DETabs>,
                 <DETabPanel
+                    key={notificationTabId}
                     tabId={notificationTabId}
                     value={TABS.NOTIFICATIONS}
                     selectedTab={selectedTab}
@@ -169,6 +174,7 @@ function NotificationsMenu(props) {
                     />
                 </DETabPanel>,
                 <DETabPanel
+                    key={viceTabId}
                     tabId={viceTabId}
                     value={TABS.VICE}
                     selectedTab={selectedTab}

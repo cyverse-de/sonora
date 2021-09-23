@@ -107,7 +107,8 @@ function DataDotMenu(props) {
     const onBulkMdDialogClose = () => setBulkMdDialogOpen(false);
     const onApplyBulkMdClicked = () => setBulkMdDialogOpen(true);
 
-    const [fileTypeSelectionDlgOpen, setFileTypeSelectionDlgOpen] = useState();
+    const [fileTypeSelectionDlgOpen, setFileTypeSelectionDlgOpen] =
+        useState(false);
 
     const isSelectionEmpty = selected?.length === 0;
     const selectedResources = getSelectedResources

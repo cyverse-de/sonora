@@ -165,7 +165,7 @@ function DEPagination(props) {
     const matches = useMediaQuery(theme.breakpoints.down("sm"));
     return (
         <Paper className={classes.paper}>
-            <Grid container justify="center">
+            <Grid container justifyContent="center">
                 <Grid item>
                     <Pagination
                         id={buildID(baseId, ids.PAGINATION_TOOLBAR)}

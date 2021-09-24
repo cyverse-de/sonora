@@ -18,7 +18,6 @@ import ids from "./ids";
 import constants from "../../constants";
 import prefConstants from "./constants";
 import General from "./General";
-import Shortcuts from "./Shortcuts";
 import styles from "./styles";
 import Webhooks from "./Webhooks";
 import { isWritable } from "../data/utils";
@@ -384,7 +383,7 @@ function Preferences(props) {
             </>
         );
     }
-    const validate = (values, props) => {
+    /*     const validate = (values, props) => {
         let errors = {};
         let kbMap = new Map();
         kbMap.set(
@@ -417,7 +416,7 @@ function Preferences(props) {
         }
         return errors;
     };
-
+ */
     const mapPropsToValues = (bootstrap) => {
         const emptyPref = {
             rememberLastPath: false,
@@ -497,7 +496,7 @@ function Preferences(props) {
                     initialValues={mapPropsToValues(bootstrapInfo)}
                     onSubmit={handleSubmit}
                     enableReinitialize
-                    validate={validate}
+                    /* validate={validate} */
                 >
                     {(props) => (
                         <Form
@@ -563,10 +562,10 @@ function Preferences(props) {
                                 values={props.values}
                                 setFieldTouched={props.setFieldTouched}
                             />
-                            <Divider className={classes.dividers} />
+                            {/* <Divider className={classes.dividers} />
                             <Shortcuts
                                 baseId={buildID(baseId, ids.KB_SHORTCUTS)}
-                            />
+                            /> */}
                             <Grid container justify="flex-end">
                                 <Grid item>
                                     <Button

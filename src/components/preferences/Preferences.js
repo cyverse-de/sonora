@@ -562,6 +562,7 @@ function Preferences(props) {
                                 values={props.values}
                                 setFieldTouched={props.setFieldTouched}
                             />
+                            {/* Hide KB shortcuts until it is implemented. */}
                             {/* <Divider className={classes.dividers} />
                             <Shortcuts
                                 baseId={buildID(baseId, ids.KB_SHORTCUTS)}

@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { BarChart, Info, PermMedia, Repeat } from "@material-ui/icons";
+import { BarChart, Info, PermMedia, Repeat, Cancel } from "@material-ui/icons";
 import { IconButton, useTheme } from "@material-ui/core";
 
 import { formatDate } from "components/utils/DateFormatter";
@@ -33,6 +33,9 @@ class AnalysisItem extends ItemBase {
         const { t } = useTranslation("dashboard");
         const theme = useTheme();
         const isTerminatedAnalysis = isTerminated(analysis);
+        const [terminateAnalysisDlgOpen, setTerminateAnalysisDlgOpen] =
+            React.useState(false);
+        const handleTerminateSelected = () => setTerminateAnalysisDlgOpen(true);
         return item.addActions([
             <ItemAction
                 ariaLabel={t("relaunchAria")}
@@ -94,6 +97,23 @@ class AnalysisItem extends ItemBase {
                     <Info color="primary" />
                 </IconButton>
             </ItemAction>,
+            !isTerminatedAnalysis && (
+                <ItemAction
+                    ariaLabel={t("shareAria")}
+                    key={`${constants.KIND_ANALYSES}-${props.content.id}-terminate`}
+                    tooltipKey="terminateAction"
+                >
+                    <IconButton
+                        onClick={() => setTerminateAnalysisDlgOpen(true)}
+                        style={{
+                            margin: theme.spacing(1),
+                        }}
+                        size="small"
+                    >
+                        <Cancel color="primary" />
+                    </IconButton>
+                </ItemAction>
+            ),
         ]);
     }
 

@@ -386,12 +386,6 @@ function Preferences(props) {
     }
     const validate = (values, props) => {
         let errors = {};
-        if (values?.webhook?.url) {
-            const type = values?.webhook?.type?.type;
-            if (type === null || type === undefined || type === "") {
-                errors = { webhook: { type: { type: t("webhookTypeError") } } };
-            }
-        }
         let kbMap = new Map();
         kbMap.set(
             prefConstants.keys.APPS_KB_SC,
@@ -425,8 +419,32 @@ function Preferences(props) {
     };
 
     const mapPropsToValues = (bootstrap) => {
+        const emptyPref = {
+            rememberLastPath: false,
+            notificationKBShortcut: "",
+            dataKBShortcut: "",
+            lastFolder: "",
+            enableImportEmailNotification: false,
+            enableWaitTimeMessage: false,
+            showLegacyPrompt: false,
+            defaultFileSelectorPath: "",
+            closeKBShortcut: "",
+            appsKBShortcut: "",
+            system_default_output_dir: {
+                path: "",
+            },
+            default_output_folder: {
+                path: "",
+            },
+            analysisKBShortcut: "",
+            saveSession: false,
+            enableAnalysisEmailNotification: false,
+            enableHPCPrompt: false,
+            showTourPrompt: false,
+            webhook: { url: "", type: { type: "" } },
+        };
         if (bootstrap === null || bootstrap === undefined) {
-            return {};
+            return emptyPref;
         }
         if (bootstrap?.preferences) {
             if (bootstrap?.apps_info?.webhooks[0]) {
@@ -447,10 +465,11 @@ function Preferences(props) {
             } else {
                 return {
                     ...bootstrap.preferences,
+                    webhook: { url: "", type: { type: "" } },
                 };
             }
         } else {
-            return {};
+            return emptyPref;
         }
     };
     const busy =

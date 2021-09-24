@@ -36,8 +36,7 @@ import ErrorIcon from "@material-ui/icons/Error";
 const useStyles = makeStyles(styles);
 
 export default function Webhooks(props) {
-    const { baseId, webhookTopics, webhookTypes, setFieldTouched, values } =
-        props;
+    const { baseId, webhookTopics, webhookTypes, values } = props;
     const { t } = useTranslation("preferences");
     const classes = useStyles();
     const theme = useTheme();
@@ -93,7 +92,11 @@ export default function Webhooks(props) {
                         variant="outlined"
                         size="small"
                         component={FormTextField}
-                        required={!!values?.webhook?.url}
+                        validate={(value) => {
+                            if (values?.webhook?.url && !value) {
+                                return t("webhookTypeError");
+                            }
+                        }}
                     >
                         {webhookTypes?.map((type, index) => (
                             <MenuItem

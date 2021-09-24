@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { BarChart, Info, PermMedia, Repeat, Cancel } from "@material-ui/icons";
+import { BarChart, Info, PermMedia, Repeat, Cancel, Launch } from "@material-ui/icons";
 import { IconButton, useTheme } from "@material-ui/core";
 
 import { formatDate } from "components/utils/DateFormatter";
@@ -14,6 +14,7 @@ import { getFolderPage } from "../../data/utils";
 import NavConstants from "../../../common/NavigationConstants";
 import { isTerminated } from "components/analyses/utils";
 import { useTranslation } from "i18n";
+import { isInteractive, openInteractiveUrl } from "components/analyses/utils";
 
 class AnalysisItem extends ItemBase {
     constructor({ section, content, height, width }) {
@@ -34,7 +35,8 @@ class AnalysisItem extends ItemBase {
         const { t } = useTranslation("dashboard");
         const theme = useTheme();
         const isTerminatedAnalysis = isTerminated(analysis);
-
+        const isVICE = isInteractive(analysis);
+        const interactiveUrls = analysis?.interactive_urls;
         return item.addActions([
             <ItemAction
                 ariaLabel={t("relaunchAria")}
@@ -110,6 +112,20 @@ class AnalysisItem extends ItemBase {
                         size="small"
                     >
                         <Cancel color="primary" />
+                    </IconButton>
+                </ItemAction>),
+            isVICE && (
+                <ItemAction
+                    key={`${constants.KIND_ANALYSES}-${props.content.id}-vice`}
+                    tooltipKey="viceAction"
+                >
+                    <IconButton
+                        onClick={() => openInteractiveUrl(interactiveUrls[0])}
+                        size="small"
+                        color="primary"
+                        title={t("goToVice")}
+                    >
+                        <Launch fontSize="small" />
                     </IconButton>
                 </ItemAction>
             ),

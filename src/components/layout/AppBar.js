@@ -198,7 +198,7 @@ function DEAppBar(props) {
     ]);
 
     React.useEffect(() => {
-        if (adminUser && !userProfile.admin) {
+        if (adminUser && !userProfile?.admin) {
             const adminProfile = {
                 admin: true,
                 ...userProfile,

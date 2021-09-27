@@ -560,7 +560,6 @@ function Preferences(props) {
                                 webhookTopics={webhookTopics}
                                 webhookTypes={webhookTypes}
                                 values={props.values}
-                                setFieldTouched={props.setFieldTouched}
                             />
                             {/* Hide KB shortcuts until it is implemented. */}
                             {/* <Divider className={classes.dividers} />

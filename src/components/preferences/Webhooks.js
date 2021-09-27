@@ -40,7 +40,8 @@ export default function Webhooks(props) {
     const { t } = useTranslation("preferences");
     const classes = useStyles();
     const theme = useTheme();
-    const [enableTest, setEnableTest] = React.useState();
+    const [enableTest, setEnableTest] = React.useState(false);
+    const [enableTestButton, setEnableTestButton] = React.useState(false);
     const [testKey, setTestKey] = React.useState(WEBHOOK_TEST_KEY);
     const [testError, setTestError] = React.useState();
     const [testSuccess, setTestSuccess] = React.useState(false);
@@ -60,6 +61,11 @@ export default function Webhooks(props) {
             setTestSuccess(false);
         },
     });
+
+    React.useEffect(() => {
+        const hasURL = values?.webhook?.url ? true : false;
+        setEnableTestButton(hasURL && !isTesting);
+    }, [isTesting, values]);
 
     return (
         <>
@@ -82,11 +88,15 @@ export default function Webhooks(props) {
                         name="webhook.type.type"
                         id={buildID(baseId, ids.WEBHOOK_TYPES_SELECT)}
                         label={t("type")}
-                        required
                         select
                         variant="outlined"
                         size="small"
                         component={FormTextField}
+                        validate={(value) => {
+                            if (values?.webhook?.url && !value) {
+                                return t("webhookTypeError");
+                            }
+                        }}
                     >
                         {webhookTypes?.map((type, index) => (
                             <MenuItem
@@ -137,7 +147,7 @@ export default function Webhooks(props) {
                     <Button
                         id={buildID(baseId, ids.WEBHOOK_TEST_BTN)}
                         variant="outlined"
-                        enabled={!isTesting}
+                        disabled={!enableTestButton}
                         onClick={() => {
                             setTestKey([
                                 WEBHOOK_TEST_KEY,
@@ -145,7 +155,7 @@ export default function Webhooks(props) {
                             ]);
                             setTestSuccess(false);
                             setTestError(null);
-                            setEnableTest(true);
+                            setEnableTest(values?.webhook?.url ? true : false);
                         }}
                         startIcon={
                             testSuccess ? (

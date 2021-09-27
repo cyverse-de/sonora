@@ -18,8 +18,8 @@ import ids from "./ids";
 import constants from "../../constants";
 import prefConstants from "./constants";
 import General from "./General";
-import Shortcuts from "./Shortcuts";
 import styles from "./styles";
+import Webhooks from "./Webhooks";
 import { isWritable } from "../data/utils";
 
 import { useBootstrapInfo } from "contexts/bootstrap";
@@ -300,9 +300,9 @@ function Preferences(props) {
                 updatedPref.default_output_folder = defaultOutputFolderDetails;
                 delete updatedPref.webhook;
 
-                let updatedWebhook = {};
+                let updatedWebhook;
 
-                if (values?.webhook) {
+                if (values?.webhook?.url) {
                     const hook = values.webhook;
                     const selTopics = webhookTopics
                         .map((topic) => {
@@ -383,8 +383,8 @@ function Preferences(props) {
             </>
         );
     }
-    const validateShortCuts = (values, props) => {
-        const errors = {};
+    /*     const validate = (values, props) => {
+        let errors = {};
         let kbMap = new Map();
         kbMap.set(
             prefConstants.keys.APPS_KB_SC,
@@ -405,20 +405,45 @@ function Preferences(props) {
         for (let [key1] of kbMap) {
             for (let [key2] of kbMap) {
                 if (key1 !== key2) {
-                    if (kbMap.get(key1) === kbMap.get(key2)) {
+                    if (
+                        kbMap.get(key1) &&
+                        kbMap.get(key1) === kbMap.get(key2)
+                    ) {
                         errors[key2] = t("duplicateShortcutError");
-                    } else if (!kbMap.get(key1)) {
-                        errors[key1] = t("requiredShortcutError");
                     }
                 }
             }
         }
         return errors;
     };
-
+ */
     const mapPropsToValues = (bootstrap) => {
+        const emptyPref = {
+            rememberLastPath: false,
+            notificationKBShortcut: "",
+            dataKBShortcut: "",
+            lastFolder: "",
+            enableImportEmailNotification: false,
+            enableWaitTimeMessage: false,
+            showLegacyPrompt: false,
+            defaultFileSelectorPath: "",
+            closeKBShortcut: "",
+            appsKBShortcut: "",
+            system_default_output_dir: {
+                path: "",
+            },
+            default_output_folder: {
+                path: "",
+            },
+            analysisKBShortcut: "",
+            saveSession: false,
+            enableAnalysisEmailNotification: false,
+            enableHPCPrompt: false,
+            showTourPrompt: false,
+            webhook: { url: "", type: { type: "" } },
+        };
         if (bootstrap === null || bootstrap === undefined) {
-            return {};
+            return emptyPref;
         }
         if (bootstrap?.preferences) {
             if (bootstrap?.apps_info?.webhooks[0]) {
@@ -439,10 +464,11 @@ function Preferences(props) {
             } else {
                 return {
                     ...bootstrap.preferences,
+                    webhook: { url: "", type: { type: "" } },
                 };
             }
         } else {
-            return {};
+            return emptyPref;
         }
     };
     const busy =
@@ -470,7 +496,7 @@ function Preferences(props) {
                     initialValues={mapPropsToValues(bootstrapInfo)}
                     onSubmit={handleSubmit}
                     enableReinitialize
-                    validate={validateShortCuts}
+                    /* validate={validate} */
                 >
                     {(props) => (
                         <Form
@@ -527,14 +553,19 @@ function Preferences(props) {
                                 }
                                 requireAgaveAuth={requireAgaveAuth}
                                 resetHPCToken={resetHPCToken}
+                            />
+                            <Divider className={classes.dividers} />
+                            <Webhooks
+                                baseId={buildID(baseId, ids.WEBHOOK_PREF)}
                                 webhookTopics={webhookTopics}
                                 webhookTypes={webhookTypes}
                                 values={props.values}
                             />
-                            <Divider className={classes.dividers} />
+                            {/* Hide KB shortcuts until it is implemented. */}
+                            {/* <Divider className={classes.dividers} />
                             <Shortcuts
                                 baseId={buildID(baseId, ids.KB_SHORTCUTS)}
-                            />
+                            /> */}
                             <Grid container justify="flex-end">
                                 <Grid item>
                                     <Button

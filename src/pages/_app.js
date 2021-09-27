@@ -205,6 +205,12 @@ function MyApp({ Component, pageProps }) {
 
         const metadata = {
             communityAttr: publicRuntimeConfig.COMMUNITY_ATTR,
+            instantLaunchLocationAttr:
+                publicRuntimeConfig.INSTANT_LAUNCH_LOCATION_ATTR,
+            instantLaunchDashboard:
+                publicRuntimeConfig.INSTANT_LAUNCH_DASHBOARD,
+            instantLaunchNavDrawer:
+                publicRuntimeConfig.INSTANT_LAUNCH_NAV_DRAWER,
         };
 
         const legacyDeUrl = publicRuntimeConfig.LEGACY_DE_URL;

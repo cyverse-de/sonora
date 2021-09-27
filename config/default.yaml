@@ -89,3 +89,6 @@ unleash:
 
 metadata:
     community_attr: cyverse-community
+    instant_launch_location_attr: ui_location
+    instant_launch_dashboard: dashboard
+    instant_launch_nav_drawer: nav_drawer

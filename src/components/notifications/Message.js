@@ -25,7 +25,6 @@ import {
 import { getAppListingLinkRefs } from "components/apps/utils";
 import { getFolderPage, getParentPath } from "components/data/utils";
 import DELink from "components/utils/DELink";
-import analysisStatus from "components/models/analysisStatus";
 import systemIds from "components/models/systemId";
 
 import { Typography } from "@material-ui/core";
@@ -48,16 +47,26 @@ function MessageLink(props) {
 function AnalysisLink(props) {
     const { notification } = props;
     const { t } = useTranslation("common");
-    const message = getDisplayMessage(notification);
     const analysis = notification.payload;
     const action = analysis?.action;
-
-    const isJobStatusChange = action === "job_status_change";
     const isShare = action === "share";
     const isComplete = isTerminated(analysis);
+    const isJobStatusChange = action === "job_status_change";
+
+    let message = getDisplayMessage(notification);
 
     if (isShare || isJobStatusChange) {
         const accessUrl = notification.payload.access_url;
+        const allowRating =
+            isJobStatusChange &&
+            analysis?.system_id === systemIds.de &&
+            isComplete;
+
+        const analysisId =
+            isShare && analysis?.analyses?.length > 0
+                ? analysis.analyses[0].analysis_id
+                : isJobStatusChange && analysis?.id;
+
         if (accessUrl) {
             return (
                 <ExternalLink href={`/vice/${encodeURIComponent(accessUrl)}`}>
@@ -66,47 +75,28 @@ function AnalysisLink(props) {
             );
         }
 
+        let href, as;
         if (isComplete) {
-            const resultFolder = analysis?.analysisresultsfolder;
-            const href = getFolderPage(resultFolder);
-
-            return (
-                <MessageLink
-                    href={href}
-                    message={t("accessAnalysisOutput", { message })}
-                />
-            );
+            let resultFolder = analysis?.analysisresultsfolder;
+            href = getFolderPage(resultFolder);
+            message = t("accessAnalysisOutput", { message });
+        } else if (analysisId) {
+            [href, as] = getAnalysisDetailsLinkRefs(analysisId);
         }
 
-        const analysisId =
-            isShare && analysis?.analyses?.length > 0
-                ? analysis.analyses[0].analysis_id
-                : isJobStatusChange && analysis?.id;
-
-        if (analysisId) {
-            const [href, as] = getAnalysisDetailsLinkRefs(analysisId);
-
-            const allowRating =
-                isJobStatusChange &&
-                analysis?.system_id === systemIds.de &&
-                (analysis?.status === analysisStatus.COMPLETED ||
-                    analysis?.status === analysisStatus.FAILED ||
-                    analysis?.status === analysisStatus.CANCELED);
-
-            return (
-                <>
-                    <MessageLink message={message} href={href} as={as} />
-                    <br />
-                    {allowRating && (
-                        <RatingWidget
-                            appId={analysis?.app_id}
-                            appName={analysis?.app_name}
-                            systemId={analysis?.system_id}
-                        />
-                    )}
-                </>
-            );
-        }
+        return (
+            <>
+                <MessageLink message={message} href={href} as={as} />
+                <br />
+                {allowRating && (
+                    <RatingWidget
+                        appId={analysis?.app_id}
+                        appName={analysis?.app_name}
+                        systemId={analysis?.system_id}
+                    />
+                )}
+            </>
+        );
     }
 
     return message;

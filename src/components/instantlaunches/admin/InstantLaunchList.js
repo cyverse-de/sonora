@@ -4,7 +4,7 @@ import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import {
     listFullInstantLaunches,
-    listInstantLaunchesByMetadata,
+    adminListInstantLaunchesByMetadata,
     ALL_INSTANT_LAUNCHES_KEY,
     DASHBOARD_INSTANT_LAUNCHES_KEY,
     addToDashboardHandler,
@@ -149,7 +149,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
     const dashboardILs = useQuery(
         [DASHBOARD_INSTANT_LAUNCHES_KEY, "ui_location", "dashboard"],
-        () => listInstantLaunchesByMetadata("ui_location", "dashboard")
+        () => adminListInstantLaunchesByMetadata("ui_location", "dashboard")
     );
 
     // Get QueryClient from the context

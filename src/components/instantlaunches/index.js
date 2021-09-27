@@ -149,7 +149,7 @@ const InstantLaunchButton = ({
             size={size}
             style={{ marginLeft: theme.spacing(themeSpacing) }}
             color={color}
-            onClick={async (event) => {
+            onClick={(event) => {
                 event.stopPropagation();
                 event.preventDefault();
 

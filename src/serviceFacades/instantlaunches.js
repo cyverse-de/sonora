@@ -228,11 +228,7 @@ export const deleteInstantLaunchHandler = async (id) => {
  * @param {Object} instantLaunch - The instant launch object returned by defaultInstantLaunch().
  * @param {Object} resource - An array of resources to use as inputs to the instantly launched app.
  */
-export const instantlyLaunch = async ({
-    instantLaunch,
-    resource,
-    output_dir,
-}) => {
+export const instantlyLaunch = ({ instantLaunch, resource, output_dir }) => {
     let savedLaunchId; // The saved launch ID, used to get app information.
     let savedLaunchPromise; // The promise used to get saved launch information.
 
@@ -268,7 +264,7 @@ export const instantlyLaunch = async ({
         getAppInfo({ launchId: savedLaunchId }).catch((e) => console.log(e)),
     ];
 
-    return await Promise.all(promiseList)
+    return Promise.all(promiseList)
         .then((values) => {
             const [ql, app] = values;
             const submission = ql.submission;

@@ -11,6 +11,8 @@ export const DEFAULTS_MAPPING_QUERY_KEY = "fetchDefaultsMappings";
 export const ALL_INSTANT_LAUNCHES_KEY = "allInstantLaunches";
 export const DASHBOARD_INSTANT_LAUNCHES_KEY = "dashboardInstantLaunches";
 export const LIST_PUBLIC_SAVED_LAUNCHES_KEY = "listPublicSavedLaunches";
+export const LIST_INSTANT_LAUNCHES_BY_METADATA_KEY =
+    "fetchInstantLaunchesByMetadata";
 
 export const getDefaultsMapping = () =>
     callApi({
@@ -102,6 +104,17 @@ export const adminListInstantLaunchesByMetadata = (queryKey, queryValue) =>
         endpoint: `/api/admin/instantlaunches/metadata/full`,
         method: "GET",
         params: { attribute: queryKey, value: queryValue, unit: "" },
+    });
+
+export const listInstantLaunchesByMetadata = ({
+    attribute,
+    value,
+    unit = "",
+}) =>
+    callApi({
+        endpoint: `/api/instantlaunches/metadata/full`,
+        method: "GET",
+        params: { attribute, value, unit },
     });
 
 export const getPublicSavedLaunches = () =>

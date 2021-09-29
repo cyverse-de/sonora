@@ -63,6 +63,7 @@ import { useRunningViceJobs } from "serviceFacades/analyses";
 import { isViceNotification } from "components/notifications/utils";
 import analysisStatus from "components/models/analysisStatus";
 import UserPortalUpdatePrompts from "./UserPortalUpdatePrompts";
+import useFirstClassInstantLaunch from "../instantlaunches/useFirstClassInstantLaunch";
 
 // hidden in xsDown
 const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
@@ -238,6 +239,8 @@ function DEAppBar(props) {
         staleTime: Infinity,
         cacheTime: Infinity,
     });
+
+    const { instantLaunches } = useFirstClassInstantLaunch();
 
     const handleUserButtonClick = (event) => {
         toggleDrawer(false);
@@ -431,6 +434,7 @@ function DEAppBar(props) {
                     isXsDown={isXsDown}
                     adminUser={adminUser}
                     runningViceJobs={runningViceJobs}
+                    instantLaunches={instantLaunches}
                 />
             </Drawer>
             <CyVerseAnnouncer />

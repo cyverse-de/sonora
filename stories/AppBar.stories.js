@@ -12,6 +12,7 @@ import {
     APP_TYPE,
 } from "../src/components/bags";
 import { runningViceJobs } from "./analyses/AnalysesMocks";
+import { instantLaunchNavDrawerMock } from "./instantlaunches/admin/SavedLaunchListData";
 
 const mockUser = {
     id: "mockUser",
@@ -133,6 +134,9 @@ export function AppBarTest() {
         .reply(200, notificationsData);
     mockAxios.onGet("/api/bags/default").reply(200, bag_data);
     mockAxios.onGet("/api/analyses").reply(200, runningViceJobs);
+    mockAxios
+        .onGet("/api/instantlaunches/metadata/full")
+        .reply(200, instantLaunchNavDrawerMock);
     return (
         <UserProfileProvider>
             <NotificationsProvider>

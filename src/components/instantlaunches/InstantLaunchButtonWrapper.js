@@ -15,15 +15,19 @@ import { useMutation } from "react-query";
 import { useDefaultOutputDir } from "components/data/utils";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import { getHost } from "components/utils/getHost";
+import SignInDialog from "components/utils/SignInDialog";
 import constants from "constants.js";
+import { useUserProfile } from "contexts/userProfile";
 import { InstantLaunchSubmissionDialog } from "./index";
 import { instantlyLaunch } from "serviceFacades/instantlaunches";
 
 function InstantLaunchButtonWrapper(props) {
     const { instantLaunch, resource = {}, render, showErrorAnnouncer } = props;
     const output_dir = useDefaultOutputDir();
+    const [userProfile] = useUserProfile();
 
     const [open, setOpen] = React.useState(false);
+    const [signInDlgOpen, setSignInDlgOpen] = React.useState(false);
     const [ilUrl, setIlUrl] = React.useState();
 
     React.useEffect(() => {
@@ -58,14 +62,22 @@ function InstantLaunchButtonWrapper(props) {
     });
 
     const onClick = () => {
-        setOpen(true);
-        launch({ instantLaunch, resource, output_dir });
+        if (userProfile?.id) {
+            setOpen(true);
+            launch({ instantLaunch, resource, output_dir });
+        } else {
+            setSignInDlgOpen(true);
+        }
     };
 
     return (
         <>
             {render(onClick)}
             <InstantLaunchSubmissionDialog open={open} />
+            <SignInDialog
+                open={signInDlgOpen}
+                handleClose={() => setSignInDlgOpen(false)}
+            />
         </>
     );
 }

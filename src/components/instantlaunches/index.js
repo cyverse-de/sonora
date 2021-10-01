@@ -12,19 +12,11 @@ import {
 } from "@material-ui/core";
 
 import { PlayCircleOutlineOutlined } from "@material-ui/icons";
-
-import withErrorAnnouncer from "components/error/withErrorAnnouncer";
-
-import constants from "../../constants";
 import { useTranslation } from "i18n";
 
 import buildID from "components/utils/DebugIDUtil";
 import ids from "components/instantlaunches/ids";
-import { instantlyLaunch } from "serviceFacades/instantlaunches";
-
-import { useMutation } from "react-query";
-import { getHost } from "components/utils/getHost";
-import { useDefaultOutputDir } from "components/data/utils";
+import InstantLaunchButtonWrapper from "./InstantLaunchButtonWrapper";
 
 const useStyles = makeStyles((theme) => ({
     progress: {
@@ -100,67 +92,31 @@ export const InstantLaunchSubmissionDialog = ({ open }) => {
 const InstantLaunchButton = ({
     instantLaunch,
     resource = {},
-    showErrorAnnouncer,
     size = "medium",
     themeSpacing = 0,
     color = "primary",
 }) => {
     const baseID = buildID(ids.BASE, ids.LAUNCH, ids.BUTTON);
-    const [open, setOpen] = React.useState(false);
-    const [ilUrl, setIlUrl] = React.useState();
     const theme = useTheme();
-    const output_dir = useDefaultOutputDir();
-
-    React.useEffect(() => {
-        if (ilUrl) {
-            window.open(`${getHost()}${ilUrl}`);
-            setIlUrl(null);
-            setOpen(false);
-        }
-    }, [ilUrl]);
-
-    const { mutate: launch } = useMutation(instantlyLaunch, {
-        onSuccess: (listing) => {
-            if (listing.analyses.length > 0) {
-                const analysis = listing.analyses[0];
-                if (analysis.interactive_urls.length > 0) {
-                    setIlUrl(
-                        `${constants.VICE_LOADING_PAGE}/${encodeURIComponent(
-                            analysis.interactive_urls[0]
-                        )}`
-                    );
-                } else {
-                    setOpen(false);
-                }
-            } else {
-                setOpen(false);
-            }
-        },
-        onError: (err) => {
-            setOpen(false);
-            showErrorAnnouncer(err.message, err);
-        },
-    });
 
     return (
-        <IconButton
-            id={baseID}
-            variant="contained"
-            size={size}
-            style={{ marginLeft: theme.spacing(themeSpacing) }}
-            color={color}
-            onClick={async (event) => {
-                event.stopPropagation();
-                event.preventDefault();
-
-                setOpen(true);
-                launch({ instantLaunch, resource, output_dir });
-            }}
-        >
-            <InstantLaunchSubmissionDialog open={open} />
-            <PlayCircleOutlineOutlined />
-        </IconButton>
+        <InstantLaunchButtonWrapper
+            instantLaunch={instantLaunch}
+            resource={resource}
+            render={(onClick) => (
+                <IconButton
+                    id={baseID}
+                    variant="contained"
+                    size={size}
+                    style={{ marginLeft: theme.spacing(themeSpacing) }}
+                    color={color}
+                    onClick={onClick}
+                >
+                    <PlayCircleOutlineOutlined />
+                </IconButton>
+            )}
+        />
     );
 };
 
-export default withErrorAnnouncer(InstantLaunchButton);
+export default InstantLaunchButton;

@@ -42,4 +42,10 @@ export default {
         defaultCasUrl: "https://olson.cyverse.org/cas",
         defaultCasValidate: "validate",
     },
+    metadata: {
+        communityAttr: "cyverse-community",
+        instantLaunchLocationAttr: "ui_location",
+        instantLaunchDashboard: "dashboard",
+        instantLaunchNavDrawer: "nav_drawer",
+    },
 };

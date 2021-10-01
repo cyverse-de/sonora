@@ -87,5 +87,3 @@ unleash:
     client_secret: null
     maintenance_flag: DE-Maintenance
 
-metadata:
-    community_attr: cyverse-community

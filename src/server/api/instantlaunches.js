@@ -113,6 +113,19 @@ export default () => {
         })
     );
 
+    logger.info("adding the GET /instantlaunches/metadata/full handler");
+    api.get(
+        "/instantlaunches/metadata/full",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/instantlaunches/metadata/full",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("add the DELETE /admin/instantlaunches/:id handler");
     api.delete(
         "/admin/instantlaunches/:id",

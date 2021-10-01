@@ -20,11 +20,22 @@ import AppsIcon from "@material-ui/icons/Apps";
 import HelpIcon from "@material-ui/icons/Help";
 import HomeIcon from "@material-ui/icons/Home";
 import ToolIcon from "@material-ui/icons/LabelImportant";
+import InstantLaunchDefaultIcon from "@material-ui/icons/PlayCircleOutlineOutlined";
 import SearchIcon from "@material-ui/icons/Search";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { Web } from "@material-ui/icons";
 import { openInteractiveUrl } from "../analyses/utils";
 import { CollectionIcon } from "../collections/Icons";
+import InstantLaunchButtonWrapper from "../instantlaunches/InstantLaunchButtonWrapper";
+import TerminalIcon from "../icons/TerminalIcon";
+
+function InstantLaunchIcon(props) {
+    const { instantLaunch } = props;
+    if (instantLaunch?.quick_launch_name === "cli") {
+        return <TerminalIcon width={35} height={35} />;
+    }
+    return <InstantLaunchDefaultIcon {...props} />;
+}
 
 function DrawerItems(props) {
     const {
@@ -34,6 +45,7 @@ function DrawerItems(props) {
         isXsDown,
         adminUser,
         runningViceJobs,
+        instantLaunches,
     } = props;
     const { t } = useTranslation(["common"]);
     const [userProfile] = useUserProfile();
@@ -108,6 +120,28 @@ function DrawerItems(props) {
                         }}
                     />
                 ))}
+            {instantLaunches?.map((instantLaunch) => (
+                <InstantLaunchButtonWrapper
+                    key={instantLaunch.id}
+                    instantLaunch={instantLaunch}
+                    render={(onClick) => (
+                        <DrawerItem
+                            key={instantLaunch.id}
+                            title={instantLaunch.app_name}
+                            id={instantLaunch.quick_launch_name}
+                            icon={() => (
+                                <InstantLaunchIcon
+                                    instantLaunch={instantLaunch}
+                                />
+                            )}
+                            activeView={activeView}
+                            toggleDrawer={toggleDrawer}
+                            open={open}
+                            onClick={onClick}
+                        />
+                    )}
+                />
+            ))}
             <DrawerItem
                 title={t("teams")}
                 id={ids.TEAMS_MI}

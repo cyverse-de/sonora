@@ -6,11 +6,18 @@ import { getAppInfo, getSavedLaunch } from "serviceFacades/savedLaunches";
 import { submitAnalysis, getAnalysis } from "serviceFacades/analyses";
 
 import launchConstants from "components/models/AppParamTypes";
+import constants from "constants.js";
+
+const instantLaunchLocationAttr =
+    constants.METADATA.INSTANT_LAUNCH_LOCATION_ATTR;
+const instantLaunchDashboard = constants.METADATA.INSTANT_LAUNCH_DASHBOARD;
 
 export const DEFAULTS_MAPPING_QUERY_KEY = "fetchDefaultsMappings";
 export const ALL_INSTANT_LAUNCHES_KEY = "allInstantLaunches";
 export const DASHBOARD_INSTANT_LAUNCHES_KEY = "dashboardInstantLaunches";
 export const LIST_PUBLIC_SAVED_LAUNCHES_KEY = "listPublicSavedLaunches";
+export const LIST_INSTANT_LAUNCHES_BY_METADATA_KEY =
+    "fetchInstantLaunchesByMetadata";
 
 export const getDefaultsMapping = () =>
     callApi({
@@ -97,11 +104,22 @@ export const resetInstantLaunchMetadata = (id, avuList) => {
     });
 };
 
-export const listInstantLaunchesByMetadata = (queryKey, queryValue) =>
+export const adminListInstantLaunchesByMetadata = (queryKey, queryValue) =>
     callApi({
         endpoint: `/api/admin/instantlaunches/metadata/full`,
         method: "GET",
         params: { attribute: queryKey, value: queryValue, unit: "" },
+    });
+
+export const listInstantLaunchesByMetadata = ({
+    attribute,
+    value,
+    unit = "",
+}) =>
+    callApi({
+        endpoint: `/api/instantlaunches/metadata/full`,
+        method: "GET",
+        params: { attribute, value, unit },
     });
 
 export const getPublicSavedLaunches = () =>
@@ -167,8 +185,8 @@ export const addToDashboardHandler = async (il, t) =>
         })
         .then(() =>
             upsertInstantLaunchMetadata(il.id, {
-                attr: "ui_location",
-                value: "dashboard",
+                attr: instantLaunchLocationAttr,
+                value: instantLaunchDashboard,
                 unit: "",
             })
         );
@@ -186,12 +204,16 @@ export const removeFromDashboardHandler = async (id) => {
     }
 
     const dashCount = ilMeta.avus.filter(
-        ({ attr, value }) => attr === "ui_location" && value === "dashboard"
+        ({ attr, value }) =>
+            attr === instantLaunchLocationAttr &&
+            value === instantLaunchDashboard
     ).length;
 
     if (dashCount > 0) {
         const filtered = ilMeta.avus.filter(
-            ({ attr, value }) => attr !== "ui_location" && value !== "dashboard"
+            ({ attr, value }) =>
+                attr !== instantLaunchLocationAttr &&
+                value !== instantLaunchDashboard
         );
         return await resetInstantLaunchMetadata(id, filtered);
     }
@@ -215,11 +237,7 @@ export const deleteInstantLaunchHandler = async (id) => {
  * @param {Object} instantLaunch - The instant launch object returned by defaultInstantLaunch().
  * @param {Object} resource - An array of resources to use as inputs to the instantly launched app.
  */
-export const instantlyLaunch = async ({
-    instantLaunch,
-    resource,
-    output_dir,
-}) => {
+export const instantlyLaunch = ({ instantLaunch, resource, output_dir }) => {
     let savedLaunchId; // The saved launch ID, used to get app information.
     let savedLaunchPromise; // The promise used to get saved launch information.
 
@@ -255,7 +273,7 @@ export const instantlyLaunch = async ({
         getAppInfo({ launchId: savedLaunchId }).catch((e) => console.log(e)),
     ];
 
-    return await Promise.all(promiseList)
+    return Promise.all(promiseList)
         .then((values) => {
             const [ql, app] = values;
             const submission = ql.submission;

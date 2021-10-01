@@ -263,6 +263,50 @@ export const testFullInstantLaunchList = {
     ],
 };
 
+export const instantLaunchNavDrawerMock = {
+    instant_launches: [
+        {
+            quick_launch_name: "cli",
+            quick_launch_creator: "tswetnam@iplantcollaborative.org",
+            added_by: "tswetnam@iplantcollaborative.org",
+            app_id: "b29b7cf2-e4b1-11eb-8726-008cfa5ae621",
+            app_disabled: false,
+            quick_launch_description: "",
+            is_public: true,
+            added_on: "2021-09-04T11:03:18.077947Z",
+            id: "61f68dd8-0daa-11ec-8519-008cfa5ae621",
+            app_deleted: false,
+            quick_launch_id: "546fcbfb-5146-4d93-a008-e7e898b741e9",
+            app_description:
+                "Bourne Again Shell (BASH) terminal includes conda",
+            submission: {
+                description: "",
+                requirements: [
+                    {
+                        min_cpu_cores: 0,
+                        min_memory_limit: 0,
+                        min_disk_space: 0,
+                        step_number: 0,
+                    },
+                ],
+                config: {
+                    "b29c2512-e4b1-11eb-8726-008cfa5ae621_7a673a12-e4b4-11eb-a0b9-008cfa5ae621":
+                        [],
+                },
+                name: "Cloud_Shell_analysis1",
+                app_id: "b29b7cf2-e4b1-11eb-8726-008cfa5ae621",
+                system_id: "de",
+                debug: false,
+                create_output_subdir: true,
+                output_dir: "/iplant/home/tswetnam/analyses",
+                notify: true,
+            },
+            integrator: "tswetnam@iplantcollaborative.org",
+            app_name: "Cloud Shell",
+        },
+    ],
+};
+
 export const testInstantLaunchesDashboard = {
     instant_launches: [
         {

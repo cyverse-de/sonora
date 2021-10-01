@@ -4,7 +4,7 @@ import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import {
     listFullInstantLaunches,
-    listInstantLaunchesByMetadata,
+    adminListInstantLaunchesByMetadata,
     ALL_INSTANT_LAUNCHES_KEY,
     DASHBOARD_INSTANT_LAUNCHES_KEY,
     addToDashboardHandler,
@@ -52,6 +52,7 @@ import { useTranslation } from "i18n";
 import { shortenUsername } from "../functions";
 
 import SavedLaunchList from "./SavedLaunchList";
+import constants from "constants.js";
 
 /**
  * Checks if the instant launch associated with 'id' is in
@@ -146,10 +147,22 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
 
     const [dlgOpen, setDlgOpen] = React.useState(false);
 
+    const instantLaunchLocationAttr =
+        constants.METADATA.INSTANT_LAUNCH_LOCATION_ATTR;
+    const instantLaunchDashboard = constants.METADATA.INSTANT_LAUNCH_DASHBOARD;
+
     const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
     const dashboardILs = useQuery(
-        [DASHBOARD_INSTANT_LAUNCHES_KEY, "ui_location", "dashboard"],
-        () => listInstantLaunchesByMetadata("ui_location", "dashboard")
+        [
+            DASHBOARD_INSTANT_LAUNCHES_KEY,
+            instantLaunchLocationAttr,
+            instantLaunchDashboard,
+        ],
+        () =>
+            adminListInstantLaunchesByMetadata(
+                instantLaunchLocationAttr,
+                instantLaunchDashboard
+            )
     );
 
     // Get QueryClient from the context

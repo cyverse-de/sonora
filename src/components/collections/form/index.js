@@ -16,7 +16,6 @@ import { ERROR_CODES, getErrorCode } from "components/error/errorCode";
 import TableLoading from "components/table/TableLoading";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import isQueryLoading from "components/utils/isQueryLoading";
-import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import {
     COLLECTION_DETAILS_QUERY,
@@ -35,6 +34,7 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 import styles from "../styles";
 import CollectionToolbar from "./Toolbar";
+import constants from "constants.js";
 
 const useStyles = makeStyles(styles);
 
@@ -42,7 +42,6 @@ function CollectionsForm(props) {
     const { parentId, collectionName, goBackToCollectionList } = props;
     const { t } = useTranslation(["collections", "common"]);
     const classes = useStyles();
-    const [config] = useConfig();
 
     const [userProfile] = useUserProfile();
     const [collection, setCollection] = useState(null);
@@ -280,7 +279,7 @@ function CollectionsForm(props) {
             newAdmins,
             newApps,
             retagApps,
-            attr: config?.metadata?.communityAttr,
+            attr: constants.METADATA.COMMUNITY_ATTR,
         });
     };
 

@@ -4,19 +4,17 @@
  * A custom hook to fetch any instant launches that are considered "first class"
  * and should be shown in the navigation drawer
  */
-import { useConfig } from "contexts/config";
 import { useQuery } from "react-query";
 import {
     LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
     listInstantLaunchesByMetadata,
 } from "serviceFacades/instantlaunches";
+import constants from "constants.js";
 
 function useFirstClassInstantLaunch() {
-    const [config] = useConfig();
-
     const instantLaunchLocationAttr =
-        config?.metadata?.instantLaunchLocationAttr;
-    const instantLaunchNavDrawer = config?.metadata?.instantLaunchNavDrawer;
+        constants.METADATA.INSTANT_LAUNCH_LOCATION_ATTR;
+    const instantLaunchNavDrawer = constants.METADATA.INSTANT_LAUNCH_NAV_DRAWER;
 
     const { data, error } = useQuery({
         queryKey: [

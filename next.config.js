@@ -73,15 +73,5 @@ module.exports = withBundleAnalyzer({
         GROUPER_ALL_USERS: config.get("grouper.allUsers"),
         GROUPER_ADMIN: config.get("grouper.admin"),
         LEGACY_DE_URL: config.get("legacy_de_url"),
-        COMMUNITY_ATTR: config.get("metadata.community_attr"),
-        INSTANT_LAUNCH_LOCATION_ATTR: config.get(
-            "metadata.instant_launch_location_attr"
-        ),
-        INSTANT_LAUNCH_DASHBOARD: config.get(
-            "metadata.instant_launch_dashboard"
-        ),
-        INSTANT_LAUNCH_NAV_DRAWER: config.get(
-            "metadata.instant_launch_nav_drawer"
-        ),
     },
 });

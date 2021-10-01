@@ -93,4 +93,10 @@ export default {
         "https://learning.cyverse.org/projects/glossary/en/latest/",
     XSEDE_ALLOC_LINK: "https://portal.xsede.org/allocation-request-steps",
     VICE_LOADING_PAGE: "/vice",
+    METADATA: {
+        COMMUNITY_ATTR: "cyverse-community",
+        INSTANT_LAUNCH_LOCATION_ATTR: "ui_location",
+        INSTANT_LAUNCH_DASHBOARD: "dashboard",
+        INSTANT_LAUNCH_NAV_DRAWER: "nav_drawer",
+    },
 };

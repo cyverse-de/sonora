@@ -6,6 +6,11 @@ import { getAppInfo, getSavedLaunch } from "serviceFacades/savedLaunches";
 import { submitAnalysis, getAnalysis } from "serviceFacades/analyses";
 
 import launchConstants from "components/models/AppParamTypes";
+import constants from "constants.js";
+
+const instantLaunchLocationAttr =
+    constants.METADATA.INSTANT_LAUNCH_LOCATION_ATTR;
+const instantLaunchDashboard = constants.METADATA.INSTANT_LAUNCH_DASHBOARD;
 
 export const DEFAULTS_MAPPING_QUERY_KEY = "fetchDefaultsMappings";
 export const ALL_INSTANT_LAUNCHES_KEY = "allInstantLaunches";
@@ -180,8 +185,8 @@ export const addToDashboardHandler = async (il, t) =>
         })
         .then(() =>
             upsertInstantLaunchMetadata(il.id, {
-                attr: "ui_location",
-                value: "dashboard",
+                attr: instantLaunchLocationAttr,
+                value: instantLaunchDashboard,
                 unit: "",
             })
         );
@@ -199,12 +204,16 @@ export const removeFromDashboardHandler = async (id) => {
     }
 
     const dashCount = ilMeta.avus.filter(
-        ({ attr, value }) => attr === "ui_location" && value === "dashboard"
+        ({ attr, value }) =>
+            attr === instantLaunchLocationAttr &&
+            value === instantLaunchDashboard
     ).length;
 
     if (dashCount > 0) {
         const filtered = ilMeta.avus.filter(
-            ({ attr, value }) => attr !== "ui_location" && value !== "dashboard"
+            ({ attr, value }) =>
+                attr !== instantLaunchLocationAttr &&
+                value !== instantLaunchDashboard
         );
         return await resetInstantLaunchMetadata(id, filtered);
     }

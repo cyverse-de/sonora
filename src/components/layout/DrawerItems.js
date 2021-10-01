@@ -129,9 +129,10 @@ function DrawerItems(props) {
                             key={instantLaunch.id}
                             title={instantLaunch.app_name}
                             id={instantLaunch.quick_launch_name}
-                            icon={() => (
+                            icon={(props) => (
                                 <InstantLaunchIcon
                                     instantLaunch={instantLaunch}
+                                    {...props}
                                 />
                             )}
                             activeView={activeView}

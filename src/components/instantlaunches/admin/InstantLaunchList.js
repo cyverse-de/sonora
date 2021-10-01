@@ -10,6 +10,9 @@ import {
     addToDashboardHandler,
     removeFromDashboardHandler,
     deleteInstantLaunchHandler,
+    addToNavDrawer,
+    removeFromNavDrawer,
+    LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
 } from "serviceFacades/instantlaunches";
 
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
@@ -65,6 +68,18 @@ import constants from "constants.js";
 const isInDashboard = (id, dashboardILs) => {
     const dILIDs = dashboardILs.map((dil) => dil.id);
     return dILIDs.includes(id);
+};
+
+/**
+ * Checks if the instant launch associated with 'id' is in
+ * the list of instant launches included in the navigation drawer.
+ *
+ * @param {string} id - The UUID for the instant launch being checked.
+ * @param {Object[]} navDrawerILs - List of instant launches currently in the navigation drawer.
+ * @returns {boolean} - Whether the instant launch is included in the list of navigation drawer instant launches.
+ */
+const isInNavDrawer = (id, navDrawerILs) => {
+    return navDrawerILs.find((il) => il.id === id);
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -150,6 +165,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const instantLaunchLocationAttr =
         constants.METADATA.INSTANT_LAUNCH_LOCATION_ATTR;
     const instantLaunchDashboard = constants.METADATA.INSTANT_LAUNCH_DASHBOARD;
+    const instantLaunchNavDrawer = constants.METADATA.INSTANT_LAUNCH_NAV_DRAWER;
 
     const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
     const dashboardILs = useQuery(
@@ -162,6 +178,19 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
             adminListInstantLaunchesByMetadata(
                 instantLaunchLocationAttr,
                 instantLaunchDashboard
+            )
+    );
+
+    const navDrawerILs = useQuery(
+        [
+            LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
+            instantLaunchLocationAttr,
+            instantLaunchNavDrawer,
+        ],
+        () =>
+            adminListInstantLaunchesByMetadata(
+                instantLaunchLocationAttr,
+                instantLaunchNavDrawer
             )
     );
 
@@ -194,6 +223,39 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
         },
     });
 
+    const { mutate: addToNavDrawerMutation } = useMutation(addToNavDrawer, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(
+                LIST_INSTANT_LAUNCHES_BY_METADATA_KEY
+            );
+            announce({
+                text: t("addedToNavDrawer"),
+                variant: SUCCESS,
+            });
+        },
+        onError: (error) => {
+            showErrorAnnouncer(error.message, error);
+        },
+    });
+
+    const { mutate: removeFromDrawerMutation } = useMutation(
+        removeFromNavDrawer,
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(
+                    LIST_INSTANT_LAUNCHES_BY_METADATA_KEY
+                );
+                announce({
+                    text: t("removedFromNavDrawer"),
+                    variant: SUCCESS,
+                });
+            },
+            onError: (error) => {
+                showErrorAnnouncer(t("removeFromNavDrawerError"), error);
+            },
+        }
+    );
+
     const { mutate: deleteIL } = useMutation(deleteInstantLaunchHandler, {
         onSuccess: () => {
             queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
@@ -209,8 +271,10 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
         },
     });
 
-    const isLoading = allILs.isLoading || dashboardILs.isLoading;
-    const isError = allILs.isError || dashboardILs.isError;
+    const isLoading =
+        allILs.isLoading || dashboardILs.isLoading || navDrawerILs.isLoading;
+    const isError =
+        allILs.isError || dashboardILs.isError || navDrawerILs.isError;
 
     return (
         <div style={{ width: "100%" }}>
@@ -224,7 +288,11 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                 />
             ) : isError ? (
                 <WrappedErrorHandler
-                    errorObject={allILs.error || dashboardILs.error}
+                    errorObject={
+                        allILs.error ||
+                        dashboardILs.error ||
+                        navDrawerILs.isError
+                    }
                     baseId={baseID}
                 />
             ) : (
@@ -276,8 +344,9 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                                     <TableCell>{t("common:name")}</TableCell>
                                     <TableCell>{t("createdBy")}</TableCell>
                                     <TableCell>{t("addedOn")}</TableCell>
-                                    <TableCell></TableCell>
-                                    <TableCell></TableCell>
+                                    <TableCell />
+                                    <TableCell />
+                                    <TableCell />
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -381,6 +450,59 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                                                         >
                                                             {t(
                                                                 "addToDashboard"
+                                                            )}
+                                                        </Button>
+                                                    )}
+                                                </TableCell>
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowID,
+                                                        ids.NAV_DRAWER
+                                                    )}
+                                                >
+                                                    {isInNavDrawer(
+                                                        il.id,
+                                                        navDrawerILs.data
+                                                            .instant_launches
+                                                    ) ? (
+                                                        <Button
+                                                            variant="outlined"
+                                                            color="primary"
+                                                            onClick={() => {
+                                                                removeFromDrawerMutation(
+                                                                    il.id
+                                                                );
+                                                            }}
+                                                            id={buildID(
+                                                                rowID,
+                                                                ids.NAV_DRAWER,
+                                                                ids.RM_DRAWER,
+                                                                ids.BUTTON
+                                                            )}
+                                                        >
+                                                            {t(
+                                                                "removeFromNavDrawer"
+                                                            )}
+                                                        </Button>
+                                                    ) : (
+                                                        <Button
+                                                            variant="outlined"
+                                                            color="primary"
+                                                            onClick={() => {
+                                                                addToNavDrawerMutation(
+                                                                    il,
+                                                                    t
+                                                                );
+                                                            }}
+                                                            id={buildID(
+                                                                rowID,
+                                                                ids.NAV_DRAWER,
+                                                                ids.ADD_NAV_DRAWER,
+                                                                ids.BUTTON
+                                                            )}
+                                                        >
+                                                            {t(
+                                                                "addToNavDrawer"
                                                             )}
                                                         </Button>
                                                     )}

@@ -11,6 +11,7 @@ import constants from "constants.js";
 const instantLaunchLocationAttr =
     constants.METADATA.INSTANT_LAUNCH_LOCATION_ATTR;
 const instantLaunchDashboard = constants.METADATA.INSTANT_LAUNCH_DASHBOARD;
+const instantLaunchNavDrawer = constants.METADATA.INSTANT_LAUNCH_NAV_DRAWER;
 
 export const DEFAULTS_MAPPING_QUERY_KEY = "fetchDefaultsMappings";
 export const ALL_INSTANT_LAUNCHES_KEY = "allInstantLaunches";
@@ -192,6 +193,28 @@ export const addToDashboardHandler = async (il, t) =>
         );
 
 /**
+ * Adds the instant launch to the list of instant launches
+ * in the dashboard if it isn't already there.
+ *
+ * @param {Object} il - An instant launch object.
+ * @param {string} il.id - The UUID for the instant launch object.
+ */
+export const addToNavDrawer = async (il, t) =>
+    await validateForDashboard(il)
+        .then((isValid) => {
+            if (!isValid) {
+                throw new Error(t("cannotAddILToNavDrawer"));
+            }
+        })
+        .then(() =>
+            upsertInstantLaunchMetadata(il.id, {
+                attr: instantLaunchLocationAttr,
+                value: instantLaunchNavDrawer,
+                unit: "",
+            })
+        );
+
+/**
  * Removes an instant launch from the dashboard.
  *
  * @param {string} id - The UUID of the instant launch that should be removed from the dashboard.
@@ -212,9 +235,34 @@ export const removeFromDashboardHandler = async (id) => {
     if (dashCount > 0) {
         const filtered = ilMeta.avus.filter(
             ({ attr, value }) =>
-                attr !== instantLaunchLocationAttr &&
+                attr !== instantLaunchLocationAttr ||
                 value !== instantLaunchDashboard
         );
+        return await resetInstantLaunchMetadata(id, filtered);
+    }
+
+    return new Promise((resolve, reject) => resolve(ilMeta));
+};
+
+/**
+ * Removes an instant launch from the navigation drawer.
+ *
+ * @param {string} id - The UUID of the instant launch that should be removed from the dashboard.
+ */
+export const removeFromNavDrawer = async (id) => {
+    const ilMeta = await getInstantLaunchMetadata(id);
+
+    if (!ilMeta.avus) {
+        throw new Error("no avus in response");
+    }
+
+    const filtered = ilMeta.avus.filter(
+        ({ attr, value }) =>
+            attr !== instantLaunchLocationAttr ||
+            value !== instantLaunchNavDrawer
+    );
+
+    if (filtered.length > 0) {
         return await resetInstantLaunchMetadata(id, filtered);
     }
 

@@ -9,20 +9,12 @@ import { useTranslation } from "i18n";
 
 import DrawerItem from "./DrawerItem";
 import ids from "./ids";
-import styles from "./styles";
 import NavigationConstants from "common/NavigationConstants";
 import AnalysesIcon from "components/icons/AnalysesIcon";
 import DataIcon from "components/icons/DataIcon";
 import { TeamIcon } from "components/teams/Icons";
 import AdminDrawerItems from "./AdminDrawerItems";
-import {
-    Avatar,
-    Divider,
-    Hidden,
-    List,
-    Typography,
-    makeStyles,
-} from "@material-ui/core";
+import { Divider, Hidden, List } from "@material-ui/core";
 import { useUserProfile } from "contexts/userProfile";
 import AppsIcon from "@material-ui/icons/Apps";
 import HelpIcon from "@material-ui/icons/Help";
@@ -35,24 +27,12 @@ import { Web } from "@material-ui/icons";
 import { openInteractiveUrl } from "../analyses/utils";
 import { CollectionIcon } from "../collections/Icons";
 import InstantLaunchButtonWrapper from "../instantlaunches/InstantLaunchButtonWrapper";
-
-const useStyles = makeStyles(styles);
+import TerminalIcon from "../icons/TerminalIcon";
 
 function InstantLaunchIcon(props) {
     const { instantLaunch } = props;
-    const classes = useStyles();
     if (instantLaunch?.quick_launch_name === "cli") {
-        return (
-            <Avatar variant="rounded" className={classes.instantLaunchAvatar}>
-                <Typography
-                    variant="button"
-                    style={{ fontSize: "1.5rem" }}
-                    classes={{ root: classes.instantLaunchText }}
-                >
-                    {">_"}
-                </Typography>
-            </Avatar>
-        );
+        return <TerminalIcon width={35} height={35} />;
     }
     return <InstantLaunchDefaultIcon {...props} />;
 }
@@ -142,6 +122,7 @@ function DrawerItems(props) {
                 ))}
             {instantLaunches?.map((instantLaunch) => (
                 <InstantLaunchButtonWrapper
+                    key={instantLaunch.id}
                     instantLaunch={instantLaunch}
                     render={(onClick) => (
                         <DrawerItem

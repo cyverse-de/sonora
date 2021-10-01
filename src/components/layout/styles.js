@@ -140,15 +140,5 @@ const LayoutStyles = (theme) => ({
     announcerBtn: {
         marginRight: theme.spacing(1),
     },
-
-    instantLaunchAvatar: {
-        backgroundColor: theme.palette.primary.contrastText,
-        width: theme.spacing(4),
-        height: theme.spacing(4),
-    },
-
-    instantLaunchText: {
-        color: theme.palette.main_sidebar,
-    },
 });
 export default LayoutStyles;

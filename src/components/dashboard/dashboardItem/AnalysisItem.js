@@ -82,7 +82,7 @@ class AnalysisItem extends ItemBase {
                 </Link>
             </ItemAction>,
             <ItemAction
-                ariaLabel={t("shareAria")}
+                ariaLabel={t("openDetailsAria")}
                 key={`${constants.KIND_ANALYSES}-${props.content.id}-details`}
                 tooltipKey="detailsAction"
             >
@@ -98,9 +98,9 @@ class AnalysisItem extends ItemBase {
             </ItemAction>,
             !isTerminatedAnalysis && (
                 <ItemAction
-                    ariaLabel={t("shareAria")}
+                    ariaLabel={t("terminateAria")}
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-terminate`}
-                    tooltipKey="terminateAction"
+                    tooltipKey="terminate"
                 >
                     <IconButton
                         onClick={() => setTerminateAnalysis(analysis)}

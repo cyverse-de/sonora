@@ -105,6 +105,7 @@
     "submit": "Submit",
     "tableView": "Table View",
     "terminate": "Terminate",
+    "terminateAria": "Terminate this analysis",
     "terminateAnalysisMessage": "This will end the selected running analysis even if it hasn't completed. Outputs will be saved and when ready, can be viewed in the folder created by the analysis in your Data view.",
     "terminateAnalysisMessage_plural": "This will end the selected running analyses even if they haven't completed. Outputs will be saved and when ready, can be viewed in the folders created by the analyses in your Data view.",
     "terminateAnalysisTitle": "Terminate Analysis",

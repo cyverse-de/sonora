@@ -150,13 +150,18 @@ const Dashboard = (props) => {
     const { mutate: analysesCancelMutation, isLoading: analysisLoading } =
         useMutation(cancelAnalysis, {
             onSuccess: (analyses, { job_status }) => {
-                queryClient.invalidateQueries([DASHBOARD_QUERY_KEY, { limit: constants.SECTION_ITEM_LIMIT }])
+                queryClient.invalidateQueries([
+                    DASHBOARD_QUERY_KEY,
+                    { limit: constants.SECTION_ITEM_LIMIT },
+                ]);
+                setTerminateAnalysis(null);
             },
             onError: (error) => {
                 showErrorAnnouncer(
                     i18Analyses("analysisCancelError", { count: 1 }),
                     error
                 );
+                setTerminateAnalysis(null);
             },
         });
 
@@ -279,7 +284,11 @@ const Dashboard = (props) => {
                     }}
                 />
             )}
-            {(isLoading || analysisLoading) ? <DashboardSkeleton /> : componentContent}
+            {isLoading || analysisLoading ? (
+                <DashboardSkeleton />
+            ) : (
+                componentContent
+            )}
 
             {detailsApp && (
                 <AppDetailsDrawer

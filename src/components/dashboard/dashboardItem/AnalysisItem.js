@@ -118,7 +118,7 @@ class AnalysisItem extends ItemBase {
 
     getOrigination(t) {
         const origination = t("startedBy");
-        const date = new Date(this.content.start_date);
+        const date = new Date(parseInt(this.content.startdate));
 
         return [origination, formatDate(date.valueOf())];
     }

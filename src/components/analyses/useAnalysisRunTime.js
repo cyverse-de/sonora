@@ -62,10 +62,10 @@ function useAnalysisRunTime(
             handleUpdateRunningTime();
         }
 
-        const endDate = analysis?.end_date;
+        const endDate = analysis?.enddate;
         if (isComplete && runningStart && endDate) {
             setTotalRunTime(
-                formatDistance(new Date(runningStart), new Date(endDate))
+                formatDistance(new Date(runningStart), new Date(parseInt(endDate)))
             );
         }
 

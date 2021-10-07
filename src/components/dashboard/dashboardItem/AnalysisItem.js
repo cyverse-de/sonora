@@ -27,15 +27,14 @@ class AnalysisItem extends ItemBase {
     }
 
     static create(props) {
-        const item = new AnalysisItem(props);
         const analysis = props.content;
-        const { setDetailsAnalysis, setPendingAnalysis } = props;
+        const { setDetailsAnalysis, setPendingAnalysis, setTerminateAnalysis } =
+            props;
+        const item = new AnalysisItem(props);
         const { t } = useTranslation("dashboard");
         const theme = useTheme();
         const isTerminatedAnalysis = isTerminated(analysis);
-        const [terminateAnalysisDlgOpen, setTerminateAnalysisDlgOpen] =
-            React.useState(false);
-        const handleTerminateSelected = () => setTerminateAnalysisDlgOpen(true);
+
         return item.addActions([
             <ItemAction
                 ariaLabel={t("relaunchAria")}
@@ -104,7 +103,7 @@ class AnalysisItem extends ItemBase {
                     tooltipKey="terminateAction"
                 >
                     <IconButton
-                        onClick={() => setTerminateAnalysisDlgOpen(true)}
+                        onClick={() => setTerminateAnalysis(analysis)}
                         style={{
                             margin: theme.spacing(1),
                         }}

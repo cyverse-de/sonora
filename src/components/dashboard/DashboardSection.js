@@ -31,6 +31,7 @@ const DashboardSection = ({
     setDetailsApp,
     setDetailsAnalysis,
     setPendingAnalysis,
+    setTerminateAnalysis,
 }) => {
     const classes = useStyles();
     const { t } = useTranslation("dashboard");
@@ -58,6 +59,7 @@ const DashboardSection = ({
             setDetailsApp,
             setDetailsAnalysis,
             setPendingAnalysis,
+            setTerminateAnalysis,
             theme,
             t,
         }).component(index);
@@ -127,6 +129,7 @@ class SectionBase {
         setDetailsApp,
         setDetailsAnalysis,
         setPendingAnalysis,
+        setTerminateAnalysis,
     }) {
         let sectionItems;
 
@@ -167,6 +170,7 @@ class SectionBase {
                 setDetailsApp={setDetailsApp}
                 setDetailsAnalysis={setDetailsAnalysis}
                 setPendingAnalysis={setPendingAnalysis}
+                setTerminateAnalysis={setTerminateAnalysis}
             />
         );
     }

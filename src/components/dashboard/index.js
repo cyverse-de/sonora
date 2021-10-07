@@ -9,7 +9,7 @@ import React, { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
 
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
 import { Typography } from "@material-ui/core";
@@ -44,6 +44,9 @@ import { useUserProfile } from "contexts/userProfile";
 import Banner from "./dashboardItem/Banner";
 import Tour from "./dashboardItem/Tour";
 import LegacyDE from "./dashboardItem/LegacyDE";
+import TerminateAnalysisDialog from "components/analyses/toolbar/TerminateAnalysisDialog";
+import analysisStatus from "components/models/analysisStatus";
+import { cancelAnalysis } from "serviceFacades/analyses";
 
 const AppDetailsDrawer = dynamic(() =>
     import("components/apps/details/Drawer")
@@ -139,6 +142,33 @@ const Dashboard = (props) => {
     const [detailsApp, setDetailsApp] = useState(null);
     const [detailsAnalysis, setDetailsAnalysis] = useState(null);
     const [pendingAnalysis, setPendingAnalysis] = useState(null);
+    const [terminateAnalysis, setTerminateAnalysis] = useState(null);
+
+    const [terminateAnalysisDlgOpen, setTerminateAnalysisDlgOpen] =
+        React.useState(false);
+    const { mutate: analysesCancelMutation, isLoading: cancelLoading } =
+        useMutation(cancelAnalysis, {
+            onSuccess: (analyses, { job_status }) => {},
+            onError: (error) => {},
+        });
+
+    React.useEffect(() => {
+        if (terminateAnalysis) {
+            setTerminateAnalysisDlgOpen(true);
+        }
+    }, [terminateAnalysis]);
+
+    const handleCancel = () => {
+        analysesCancelMutation({ id: terminateAnalysis?.id });
+    };
+
+    const handleSaveAndComplete = () => {
+        const id = terminateAnalysis?.id;
+        analysesCancelMutation({
+            id,
+            job_status: analysisStatus.COMPLETED,
+        });
+    };
 
     let sections = [
         // new NewsFeed(),
@@ -188,6 +218,7 @@ const Dashboard = (props) => {
                       setDetailsApp,
                       setDetailsAnalysis,
                       setPendingAnalysis,
+                      setTerminateAnalysis,
                   })
               )
         : [];
@@ -267,6 +298,15 @@ const Dashboard = (props) => {
                 />
             )}
             <div className={classes.footer} />
+            {terminateAnalysis && (
+                <TerminateAnalysisDialog
+                    open={terminateAnalysisDlgOpen}
+                    onClose={() => setTerminateAnalysisDlgOpen(false)}
+                    getSelectedAnalyses={() => [terminateAnalysis]}
+                    handleSaveAndComplete={handleSaveAndComplete}
+                    handleCancel={handleCancel}
+                />
+            )}
         </div>
     );
 };

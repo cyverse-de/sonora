@@ -127,7 +127,7 @@ function searchAnalysesInfinite({
     });
 }
 
-function cancelAnalysis({ id, job_status }) {
+function cancelAnalysis({ id, job_status = AnalysisStatus.CANCELED }) {
     return callApi({
         endpoint: `/api/analyses/${id}/stop`,
         method: "POST",

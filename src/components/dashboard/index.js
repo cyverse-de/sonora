@@ -9,7 +9,7 @@ import React, { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
 
-import { useQuery, useMutation } from "react-query";
+import { useQueryClient, useQuery, useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
 import { Typography } from "@material-ui/core";
@@ -104,7 +104,9 @@ const Dashboard = (props) => {
     const { t } = useTranslation("dashboard");
     const { t: i18nPref } = useTranslation("preferences");
     const { t: i18nIntro } = useTranslation("intro");
+    const { t: i18Analyses } = useTranslation("analyses");
     const [userProfile] = useUserProfile();
+    const queryClient = useQueryClient();
 
     const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
     const { mutate: mutatePreferences } = useSavePreferences(
@@ -130,7 +132,6 @@ const Dashboard = (props) => {
         [DASHBOARD_QUERY_KEY, { limit: constants.SECTION_ITEM_LIMIT }],
         () => getDashboard({ limit: constants.SECTION_ITEM_LIMIT })
     );
-    const isLoading = status === "loading";
     const hasErrored = status === "error";
 
     // Display the error message if an error occurred.
@@ -146,10 +147,17 @@ const Dashboard = (props) => {
 
     const [terminateAnalysisDlgOpen, setTerminateAnalysisDlgOpen] =
         React.useState(false);
-    const { mutate: analysesCancelMutation, isLoading: cancelLoading } =
+    const { mutate: analysesCancelMutation, isLoading: analysisLoading } =
         useMutation(cancelAnalysis, {
-            onSuccess: (analyses, { job_status }) => {},
-            onError: (error) => {},
+            onSuccess: (analyses, { job_status }) => {
+                queryClient.invalidateQueries([DASHBOARD_QUERY_KEY, { limit: constants.SECTION_ITEM_LIMIT }])
+            },
+            onError: (error) => {
+                showErrorAnnouncer(
+                    i18Analyses("analysisCancelError", { count: 1 }),
+                    error
+                );
+            },
         });
 
     React.useEffect(() => {
@@ -240,6 +248,8 @@ const Dashboard = (props) => {
         !userProfile?.id ||
         bootstrapInfo?.preferences?.showLegacyPrompt !== false;
 
+    const isLoading = status === "loading" || analysisLoading;
+
     return (
         <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
             {!userProfile?.id && <Banner />}
@@ -269,7 +279,7 @@ const Dashboard = (props) => {
                     }}
                 />
             )}
-            {isLoading ? <DashboardSkeleton /> : componentContent}
+            {(isLoading || analysisLoading) ? <DashboardSkeleton /> : componentContent}
 
             {detailsApp && (
                 <AppDetailsDrawer

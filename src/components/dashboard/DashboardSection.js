@@ -220,6 +220,17 @@ export class RecentlyUsedApps extends SectionBase {
     }
 }
 
+export class PopularFeaturedApps extends SectionBase {
+    constructor() {
+        super(
+            constants.KIND_APPS,
+            constants.SECTION_POPULAR_FEATURED,
+            "popularFeaturedApps",
+            ids.SECTION_POPULAR_FEATURED_APPS
+        );
+    }
+}
+
 export class PublicApps extends SectionBase {
     constructor() {
         super(

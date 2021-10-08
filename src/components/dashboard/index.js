@@ -188,7 +188,7 @@ const Dashboard = (props) => {
         // new NewsFeed(),
         // new EventsFeed(),
         new VideosFeed(),
-        new PublicApps(),
+        new PopularFeaturedApps(),
         new InstantLaunches(),
     ];
 

@@ -30,4 +30,7 @@ export default {
     SUBMISSION: "submission",
     PROGRESS: "progress",
     LAUNCH: "launch",
+    NAV_DRAWER: "navDrawer",
+    RM_DRAWER: "removeFromDrawer",
+    ADD_NAV_DRAWER: "addToDrawer",
 };

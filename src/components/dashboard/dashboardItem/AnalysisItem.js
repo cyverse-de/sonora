@@ -1,6 +1,13 @@
 import React from "react";
 import Link from "next/link";
-import { BarChart, Info, PermMedia, Repeat, Cancel, Launch } from "@material-ui/icons";
+import {
+    BarChart,
+    Info,
+    PermMedia,
+    Repeat,
+    Cancel,
+    Launch,
+} from "@material-ui/icons";
 import { IconButton, useTheme } from "@material-ui/core";
 
 import { formatDate } from "components/utils/DateFormatter";
@@ -57,32 +64,34 @@ class AnalysisItem extends ItemBase {
                     </IconButton>
                 </Link>
             </ItemAction>,
-            <ItemAction
-                ariaLabel={t("outputFilesAria")}
-                key={`${constants.KIND_ANALYSES}-${props.content.id}-outputs`}
-                tooltipKey="outputAction"
-            >
-                <Link
-                    href={`/${NavConstants.DATA}/ds/[...pathItems]`}
-                    as={getFolderPage(item.content["result_folder_path"])}
+            isTerminatedAnalysis && (
+                <ItemAction
+                    ariaLabel={t("outputFilesAria")}
+                    key={`${constants.KIND_ANALYSES}-${props.content.id}-outputs`}
+                    tooltipKey="outputAction"
                 >
-                    <IconButton
-                        style={{
-                            margin: theme.spacing(1),
-                        }}
-                        size="small"
-                        onClick={(event) => {
-                            if (!isTerminatedAnalysis) {
-                                event.preventDefault();
-                                setPendingAnalysis(analysis);
-                                return false;
-                            }
-                        }}
+                    <Link
+                        href={`/${NavConstants.DATA}/ds/[...pathItems]`}
+                        as={getFolderPage(item.content["result_folder_path"])}
                     >
-                        <PermMedia color="primary" />
-                    </IconButton>
-                </Link>
-            </ItemAction>,
+                        <IconButton
+                            style={{
+                                margin: theme.spacing(1),
+                            }}
+                            size="small"
+                            onClick={(event) => {
+                                if (!isTerminatedAnalysis) {
+                                    event.preventDefault();
+                                    setPendingAnalysis(analysis);
+                                    return false;
+                                }
+                            }}
+                        >
+                            <PermMedia color="primary" />
+                        </IconButton>
+                    </Link>
+                </ItemAction>
+            ),
             <ItemAction
                 ariaLabel={t("openDetailsAria")}
                 key={`${constants.KIND_ANALYSES}-${props.content.id}-details`}
@@ -113,8 +122,9 @@ class AnalysisItem extends ItemBase {
                     >
                         <Cancel color="primary" />
                     </IconButton>
-                </ItemAction>),
-            isVICE && (
+                </ItemAction>
+            ),
+            isVICE && !isTerminatedAnalysis && (
                 <ItemAction
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-vice`}
                     tooltipKey="viceAction"
@@ -122,10 +132,11 @@ class AnalysisItem extends ItemBase {
                     <IconButton
                         onClick={() => openInteractiveUrl(interactiveUrls[0])}
                         size="small"
-                        color="primary"
-                        title={t("goToVice")}
+                        style={{
+                            margin: theme.spacing(1),
+                        }}
                     >
-                        <Launch fontSize="small" />
+                        <Launch color="primary" />
                     </IconButton>
                 </ItemAction>
             ),

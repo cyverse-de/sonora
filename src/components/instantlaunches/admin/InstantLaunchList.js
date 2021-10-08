@@ -43,6 +43,7 @@ import {
 } from "@material-ui/core";
 
 import DEDialog from "components/utils/DEDialog";
+import isQueryLoading from "components/utils/isQueryLoading";
 
 import {
     Add as AddIcon,
@@ -197,50 +198,54 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     // Get QueryClient from the context
     const queryClient = useQueryClient();
 
-    const { mutate: addToDash } = useMutation(addToDashboardHandler, {
-        onSuccess: () => {
-            queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
-            announce({
-                text: t("addedToDashboard"),
-                variant: SUCCESS,
-            });
-        },
-        onError: (error) => {
-            showErrorAnnouncer(error.message, error);
-        },
-    });
-
-    const { mutate: removeFromDash } = useMutation(removeFromDashboardHandler, {
-        onSuccess: () => {
-            queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
-            announce({
-                text: t("removedFromDashboard"),
-                variant: SUCCESS,
-            });
-        },
-        onError: (error) => {
-            showErrorAnnouncer(t("removeDashboardILError"), error);
-        },
-    });
-
-    const { mutate: addToNavDrawerMutation } = useMutation(addToNavDrawer, {
-        onSuccess: () => {
-            queryClient.invalidateQueries(
-                LIST_INSTANT_LAUNCHES_BY_METADATA_KEY
-            );
-            announce({
-                text: t("addedToNavDrawer"),
-                variant: SUCCESS,
-            });
-        },
-        onError: (error) => {
-            showErrorAnnouncer(error.message, error);
-        },
-    });
-
-    const { mutate: removeFromDrawerMutation } = useMutation(
-        removeFromNavDrawer,
+    const { mutate: addToDash, status: addToDashStatus } = useMutation(
+        addToDashboardHandler,
         {
+            onSuccess: () => {
+                queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+                announce({
+                    text: t("addedToDashboard"),
+                    variant: SUCCESS,
+                });
+            },
+            onError: (error) => {
+                showErrorAnnouncer(error.message, error);
+            },
+        }
+    );
+
+    const { mutate: removeFromDash, status: removeFromDashStatus } =
+        useMutation(removeFromDashboardHandler, {
+            onSuccess: () => {
+                queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+                announce({
+                    text: t("removedFromDashboard"),
+                    variant: SUCCESS,
+                });
+            },
+            onError: (error) => {
+                showErrorAnnouncer(t("removeDashboardILError"), error);
+            },
+        });
+
+    const { mutate: addToNavDrawerMutation, status: addToNavStatus } =
+        useMutation(addToNavDrawer, {
+            onSuccess: () => {
+                queryClient.invalidateQueries(
+                    LIST_INSTANT_LAUNCHES_BY_METADATA_KEY
+                );
+                announce({
+                    text: t("addedToNavDrawer"),
+                    variant: SUCCESS,
+                });
+            },
+            onError: (error) => {
+                showErrorAnnouncer(error.message, error);
+            },
+        });
+
+    const { mutate: removeFromDrawerMutation, status: removeFromNavStatus } =
+        useMutation(removeFromNavDrawer, {
             onSuccess: () => {
                 queryClient.invalidateQueries(
                     LIST_INSTANT_LAUNCHES_BY_METADATA_KEY
@@ -253,26 +258,36 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
             onError: (error) => {
                 showErrorAnnouncer(t("removeFromNavDrawerError"), error);
             },
+        });
+
+    const { mutate: deleteIL, status: deleteILStatus } = useMutation(
+        deleteInstantLaunchHandler,
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+                queryClient.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
+                announce({
+                    text: t("deletedInstantLaunch"),
+                    variant: SUCCESS,
+                });
+            },
+
+            onError: (error) => {
+                showErrorAnnouncer(t("fetchDashboardILError"), error);
+            },
         }
     );
 
-    const { mutate: deleteIL } = useMutation(deleteInstantLaunchHandler, {
-        onSuccess: () => {
-            queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
-            queryClient.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
-            announce({
-                text: t("deletedInstantLaunch"),
-                variant: SUCCESS,
-            });
-        },
-
-        onError: (error) => {
-            showErrorAnnouncer(t("fetchDashboardILError"), error);
-        },
-    });
-
-    const isLoading =
-        allILs.isLoading || dashboardILs.isLoading || navDrawerILs.isLoading;
+    const isLoading = isQueryLoading([
+        allILs.isLoading,
+        dashboardILs.isLoading,
+        navDrawerILs.isLoading,
+        addToDashStatus,
+        removeFromDashStatus,
+        addToNavStatus,
+        removeFromNavStatus,
+        deleteILStatus,
+    ]);
     const isError =
         allILs.isError || dashboardILs.isError || navDrawerILs.isError;
 

@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { BarChart, Info, PermMedia, Repeat } from "@material-ui/icons";
+import { BarChart, Info, PermMedia, Repeat, Cancel } from "@material-ui/icons";
 import { IconButton, useTheme } from "@material-ui/core";
 
 import { formatDate } from "components/utils/DateFormatter";
@@ -27,12 +27,14 @@ class AnalysisItem extends ItemBase {
     }
 
     static create(props) {
-        const item = new AnalysisItem(props);
         const analysis = props.content;
-        const { setDetailsAnalysis, setPendingAnalysis } = props;
+        const { setDetailsAnalysis, setPendingAnalysis, setTerminateAnalysis } =
+            props;
+        const item = new AnalysisItem(props);
         const { t } = useTranslation("dashboard");
         const theme = useTheme();
         const isTerminatedAnalysis = isTerminated(analysis);
+
         return item.addActions([
             <ItemAction
                 ariaLabel={t("relaunchAria")}
@@ -80,7 +82,7 @@ class AnalysisItem extends ItemBase {
                 </Link>
             </ItemAction>,
             <ItemAction
-                ariaLabel={t("shareAria")}
+                ariaLabel={t("openDetailsAria")}
                 key={`${constants.KIND_ANALYSES}-${props.content.id}-details`}
                 tooltipKey="detailsAction"
             >
@@ -94,12 +96,29 @@ class AnalysisItem extends ItemBase {
                     <Info color="primary" />
                 </IconButton>
             </ItemAction>,
+            !isTerminatedAnalysis && (
+                <ItemAction
+                    ariaLabel={t("terminateAria")}
+                    key={`${constants.KIND_ANALYSES}-${props.content.id}-terminate`}
+                    tooltipKey="terminate"
+                >
+                    <IconButton
+                        onClick={() => setTerminateAnalysis(analysis)}
+                        style={{
+                            margin: theme.spacing(1),
+                        }}
+                        size="small"
+                    >
+                        <Cancel color="primary" />
+                    </IconButton>
+                </ItemAction>
+            ),
         ]);
     }
 
     getOrigination(t) {
         const origination = t("startedBy");
-        const date = new Date(this.content.start_date);
+        const date = new Date(parseInt(this.content.startdate));
 
         return [origination, formatDate(date.valueOf())];
     }

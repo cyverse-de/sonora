@@ -9,7 +9,7 @@ import React, { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import clsx from "clsx";
 
-import { useQuery } from "react-query";
+import { useQueryClient, useQuery, useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
 import { Typography } from "@material-ui/core";
@@ -44,6 +44,9 @@ import { useUserProfile } from "contexts/userProfile";
 import Banner from "./dashboardItem/Banner";
 import Tour from "./dashboardItem/Tour";
 import LegacyDE from "./dashboardItem/LegacyDE";
+import TerminateAnalysisDialog from "components/analyses/toolbar/TerminateAnalysisDialog";
+import analysisStatus from "components/models/analysisStatus";
+import { cancelAnalysis } from "serviceFacades/analyses";
 
 const AppDetailsDrawer = dynamic(() =>
     import("components/apps/details/Drawer")
@@ -101,7 +104,9 @@ const Dashboard = (props) => {
     const { t } = useTranslation("dashboard");
     const { t: i18nPref } = useTranslation("preferences");
     const { t: i18nIntro } = useTranslation("intro");
+    const { t: i18Analyses } = useTranslation("analyses");
     const [userProfile] = useUserProfile();
+    const queryClient = useQueryClient();
 
     const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
     const { mutate: mutatePreferences } = useSavePreferences(
@@ -127,7 +132,6 @@ const Dashboard = (props) => {
         [DASHBOARD_QUERY_KEY, { limit: constants.SECTION_ITEM_LIMIT }],
         () => getDashboard({ limit: constants.SECTION_ITEM_LIMIT })
     );
-    const isLoading = status === "loading";
     const hasErrored = status === "error";
 
     // Display the error message if an error occurred.
@@ -139,6 +143,45 @@ const Dashboard = (props) => {
     const [detailsApp, setDetailsApp] = useState(null);
     const [detailsAnalysis, setDetailsAnalysis] = useState(null);
     const [pendingAnalysis, setPendingAnalysis] = useState(null);
+    const [terminateAnalysis, setTerminateAnalysis] = useState(null);
+
+    const [terminateAnalysisDlgOpen, setTerminateAnalysisDlgOpen] =
+        React.useState(false);
+    const { mutate: analysesCancelMutation, isLoading: analysisLoading } =
+        useMutation(cancelAnalysis, {
+            onSuccess: () => {
+                queryClient.invalidateQueries([
+                    DASHBOARD_QUERY_KEY,
+                    { limit: constants.SECTION_ITEM_LIMIT },
+                ]);
+                setTerminateAnalysis(null);
+            },
+            onError: (error) => {
+                showErrorAnnouncer(
+                    i18Analyses("analysisCancelError", { count: 1 }),
+                    error
+                );
+                setTerminateAnalysis(null);
+            },
+        });
+
+    React.useEffect(() => {
+        if (terminateAnalysis) {
+            setTerminateAnalysisDlgOpen(true);
+        }
+    }, [terminateAnalysis]);
+
+    const handleCancel = () => {
+        analysesCancelMutation({ id: terminateAnalysis?.id });
+    };
+
+    const handleSaveAndComplete = () => {
+        const id = terminateAnalysis?.id;
+        analysesCancelMutation({
+            id,
+            job_status: analysisStatus.COMPLETED,
+        });
+    };
 
     let sections = [
         // new NewsFeed(),
@@ -188,6 +231,7 @@ const Dashboard = (props) => {
                       setDetailsApp,
                       setDetailsAnalysis,
                       setPendingAnalysis,
+                      setTerminateAnalysis,
                   })
               )
         : [];
@@ -208,6 +252,8 @@ const Dashboard = (props) => {
     const showLegacyCard =
         !userProfile?.id ||
         bootstrapInfo?.preferences?.showLegacyPrompt !== false;
+
+    const isLoading = status === "loading" || analysisLoading;
 
     return (
         <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
@@ -267,6 +313,15 @@ const Dashboard = (props) => {
                 />
             )}
             <div className={classes.footer} />
+            {terminateAnalysis && (
+                <TerminateAnalysisDialog
+                    open={terminateAnalysisDlgOpen}
+                    onClose={() => setTerminateAnalysisDlgOpen(false)}
+                    getSelectedAnalyses={() => [terminateAnalysis]}
+                    handleSaveAndComplete={handleSaveAndComplete}
+                    handleCancel={handleCancel}
+                />
+            )}
         </div>
     );
 };

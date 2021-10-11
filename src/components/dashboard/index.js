@@ -149,7 +149,7 @@ const Dashboard = (props) => {
         React.useState(false);
     const { mutate: analysesCancelMutation, isLoading: analysisLoading } =
         useMutation(cancelAnalysis, {
-            onSuccess: (analyses, { job_status }) => {
+            onSuccess: () => {
                 queryClient.invalidateQueries([
                     DASHBOARD_QUERY_KEY,
                     { limit: constants.SECTION_ITEM_LIMIT },
@@ -284,11 +284,7 @@ const Dashboard = (props) => {
                     }}
                 />
             )}
-            {isLoading || analysisLoading ? (
-                <DashboardSkeleton />
-            ) : (
-                componentContent
-            )}
+            {isLoading ? <DashboardSkeleton /> : componentContent}
 
             {detailsApp && (
                 <AppDetailsDrawer

@@ -1,6 +1,13 @@
 import React from "react";
 import Link from "next/link";
-import { BarChart, Info, PermMedia, Repeat, Cancel } from "@material-ui/icons";
+import {
+    BarChart,
+    Info,
+    PermMedia,
+    Repeat,
+    Cancel,
+    Launch,
+} from "@material-ui/icons";
 import { IconButton, useTheme } from "@material-ui/core";
 
 import { formatDate } from "components/utils/DateFormatter";
@@ -14,6 +21,7 @@ import { getFolderPage } from "../../data/utils";
 import NavConstants from "../../../common/NavigationConstants";
 import { isTerminated } from "components/analyses/utils";
 import { useTranslation } from "i18n";
+import { isInteractive, openInteractiveUrl } from "components/analyses/utils";
 
 class AnalysisItem extends ItemBase {
     constructor({ section, content, height, width }) {
@@ -34,7 +42,8 @@ class AnalysisItem extends ItemBase {
         const { t } = useTranslation("dashboard");
         const theme = useTheme();
         const isTerminatedAnalysis = isTerminated(analysis);
-
+        const isVICE = isInteractive(analysis);
+        const interactiveUrls = analysis?.interactive_urls;
         return item.addActions([
             <ItemAction
                 ariaLabel={t("relaunchAria")}
@@ -55,32 +64,34 @@ class AnalysisItem extends ItemBase {
                     </IconButton>
                 </Link>
             </ItemAction>,
-            <ItemAction
-                ariaLabel={t("outputFilesAria")}
-                key={`${constants.KIND_ANALYSES}-${props.content.id}-outputs`}
-                tooltipKey="outputAction"
-            >
-                <Link
-                    href={`/${NavConstants.DATA}/ds/[...pathItems]`}
-                    as={getFolderPage(item.content["result_folder_path"])}
+            isTerminatedAnalysis && (
+                <ItemAction
+                    ariaLabel={t("outputFilesAria")}
+                    key={`${constants.KIND_ANALYSES}-${props.content.id}-outputs`}
+                    tooltipKey="outputAction"
                 >
-                    <IconButton
-                        style={{
-                            margin: theme.spacing(1),
-                        }}
-                        size="small"
-                        onClick={(event) => {
-                            if (!isTerminatedAnalysis) {
-                                event.preventDefault();
-                                setPendingAnalysis(analysis);
-                                return false;
-                            }
-                        }}
+                    <Link
+                        href={`/${NavConstants.DATA}/ds/[...pathItems]`}
+                        as={getFolderPage(item.content["result_folder_path"])}
                     >
-                        <PermMedia color="primary" />
-                    </IconButton>
-                </Link>
-            </ItemAction>,
+                        <IconButton
+                            style={{
+                                margin: theme.spacing(1),
+                            }}
+                            size="small"
+                            onClick={(event) => {
+                                if (!isTerminatedAnalysis) {
+                                    event.preventDefault();
+                                    setPendingAnalysis(analysis);
+                                    return false;
+                                }
+                            }}
+                        >
+                            <PermMedia color="primary" />
+                        </IconButton>
+                    </Link>
+                </ItemAction>
+            ),
             <ItemAction
                 ariaLabel={t("openDetailsAria")}
                 key={`${constants.KIND_ANALYSES}-${props.content.id}-details`}
@@ -110,6 +121,22 @@ class AnalysisItem extends ItemBase {
                         size="small"
                     >
                         <Cancel color="primary" />
+                    </IconButton>
+                </ItemAction>
+            ),
+            isVICE && !isTerminatedAnalysis && (
+                <ItemAction
+                    key={`${constants.KIND_ANALYSES}-${props.content.id}-vice`}
+                    tooltipKey="goToVice"
+                >
+                    <IconButton
+                        onClick={() => openInteractiveUrl(interactiveUrls[0])}
+                        size="small"
+                        style={{
+                            margin: theme.spacing(1),
+                        }}
+                    >
+                        <Launch color="primary" />
                     </IconButton>
                 </ItemAction>
             ),

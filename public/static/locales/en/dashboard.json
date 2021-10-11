@@ -16,6 +16,7 @@
     "favoriteAria": "favorite",
     "favoritesUpdateError": "Unable to update favorites: {{error}}",
     "gettingStarted": "Getting Started",
+    "goToVice": "Go to analysis",
     "instantLaunches": "Instant Launches",
     "integratedBy": "Integrated by",
     "launchAction": "Launch",

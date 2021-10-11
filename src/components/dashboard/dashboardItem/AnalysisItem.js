@@ -127,7 +127,7 @@ class AnalysisItem extends ItemBase {
             isVICE && !isTerminatedAnalysis && (
                 <ItemAction
                     key={`${constants.KIND_ANALYSES}-${props.content.id}-vice`}
-                    tooltipKey="viceAction"
+                    tooltipKey="goToVice"
                 >
                     <IconButton
                         onClick={() => openInteractiveUrl(interactiveUrls[0])}

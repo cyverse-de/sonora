@@ -28,6 +28,7 @@ import {
     // EventsFeed,
     RecentlyUsedApps,
     PublicApps,
+    PopularFeaturedApps,
     RecentAnalyses,
     //RunningAnalyses,
     VideosFeed,
@@ -187,7 +188,7 @@ const Dashboard = (props) => {
         // new NewsFeed(),
         // new EventsFeed(),
         new VideosFeed(),
-        new PublicApps(),
+        new PopularFeaturedApps(),
         new InstantLaunches(),
     ];
 
@@ -197,6 +198,7 @@ const Dashboard = (props) => {
             new InstantLaunches(),
             //new RunningAnalyses(),
             new RecentlyUsedApps(),
+            new PopularFeaturedApps(),
             new PublicApps(),
             // new NewsFeed(),
             // new EventsFeed(),

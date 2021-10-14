@@ -19,6 +19,7 @@ export const SECTION_RECENT = "recent";
 export const SECTION_RUNNING = "running";
 export const SECTION_RECENTLY_ADDED = "recentlyAdded";
 export const SECTION_RECENTLY_USED = "recentlyUsed";
+export const SECTION_POPULAR_FEATURED = "popularFeatured";
 export const SECTION_PUBLIC = "public";
 export const SECTION_NEWS = "news";
 export const SECTION_EVENTS = "events";

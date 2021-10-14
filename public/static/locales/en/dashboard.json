@@ -36,6 +36,7 @@
     "origination": "{{origination}} {{user}} on {{date}}",
     "outputAction": "Show Output Files",
     "outputFilesAria": "go to output files",
+    "popularFeaturedApps": "Featured Apps",
     "publicApps": "Public Apps",
     "publishedBy": "Published by",
     "recentAnalyses": "Recent Analyses",

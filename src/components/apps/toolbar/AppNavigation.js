@@ -46,12 +46,13 @@ import { CollectionIcon } from "components/collections/Icons";
 
 const useStyles = makeStyles((theme) => ({
     selectedListItem: {
-        paddingLeft: 0,
+        padding: theme.spacing(0.5),
         color: theme.palette.primary.main,
         border: `1px solid ${theme.palette.primary.main}`,
     },
     list: {
         width: 250,
+        margin: 0
     },
     listItem: {
         outline: "none",

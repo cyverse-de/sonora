@@ -163,7 +163,7 @@ function AppsToolbar(props) {
                 </Toolbar>
             )}
             {!isAdminView && (
-                <Toolbar>
+                <Toolbar style={{ padding: 0 }}>
                     <AppNavigation
                         baseId={appsToolbarId}
                         handleCategoryChange={handleCategoryChange}

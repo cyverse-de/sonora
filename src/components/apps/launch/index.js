@@ -31,7 +31,14 @@ import ids from "components/apps/ids";
 
 import { Button, Typography } from "@material-ui/core";
 
-const Launch = ({ app, launchError, viceQuota, runningJobs, loading }) => {
+const Launch = ({
+    app,
+    launchError,
+    viceQuota,
+    runningJobs,
+    pendingRequest,
+    loading,
+}) => {
     const [submissionError, setSubmissionError] = React.useState(null);
     const [accessRequestDialogOpen, setAccessRequestDialogOpen] =
         React.useState(false);
@@ -96,6 +103,13 @@ const Launch = ({ app, launchError, viceQuota, runningJobs, loading }) => {
             );
         }
         if (launchError === ERROR_CODES.ERR_PERMISSION_NEEDED) {
+            if (pendingRequest) {
+                return (
+                    <Typography style={{ margin: 8 }}>
+                        {t("pendingRequestMessage")}
+                    </Typography>
+                );
+            }
             return (
                 <>
                     <Typography style={{ margin: 8 }}>

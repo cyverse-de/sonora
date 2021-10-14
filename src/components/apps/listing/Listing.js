@@ -257,7 +257,7 @@ function Listing(props) {
             },
         });
 
-    const { deleteAppMutation, isLoading: deleteLoading } = useMutation(
+    const { mutate: deleteAppMutation, isLoading: deleteLoading } = useMutation(
         deleteApp,
         {
             onSuccess: () => {

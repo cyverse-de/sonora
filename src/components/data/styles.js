@@ -124,6 +124,7 @@ const dataStyles = (theme) => ({
     selectedListItem: {
         paddingLeft: 0,
         color: theme.palette.primary.main,
+        border: `1px solid ${theme.palette.primary.main}`,
     },
     list: {
         [theme.breakpoints.down("sm")]: {

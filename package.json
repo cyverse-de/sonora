@@ -89,7 +89,7 @@
         "react": "^16.13.1",
         "react-codemirror2": "^7.2.1",
         "react-dom": "^16.13.1",
-        "react-highlighter": "^0.4.3",
+        "react-highlighter-ts": "^2.2.0",
         "react-i18next": "^11.7.3",
         "react-joyride": "^2.3.0",
         "react-player": "^2.6.2",

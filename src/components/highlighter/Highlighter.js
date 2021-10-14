@@ -1,5 +1,5 @@
 import React from "react";
-import Highlight from "react-highlighter";
+import { Highlight } from "react-highlighter-ts";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles/index";
 

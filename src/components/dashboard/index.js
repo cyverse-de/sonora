@@ -44,7 +44,6 @@ import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import { useUserProfile } from "contexts/userProfile";
 import Banner from "./dashboardItem/Banner";
 import Tour from "./dashboardItem/Tour";
-import LegacyDE from "./dashboardItem/LegacyDE";
 import TerminateAnalysisDialog from "components/analyses/toolbar/TerminateAnalysisDialog";
 import analysisStatus from "components/models/analysisStatus";
 import { cancelAnalysis } from "serviceFacades/analyses";
@@ -251,27 +250,11 @@ const Dashboard = (props) => {
     // The base ID for the dashboard.
     const baseId = fns.makeID(ids.ROOT);
 
-    const showLegacyCard =
-        !userProfile?.id ||
-        bootstrapInfo?.preferences?.showLegacyPrompt !== false;
-
     const isLoading = status === "loading" || analysisLoading;
 
     return (
         <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
             {!userProfile?.id && <Banner />}
-            {showLegacyCard && (
-                <LegacyDE
-                    parentId={baseId}
-                    onDismiss={() => {
-                        const updatedPref = {
-                            ...bootstrapInfo.preferences,
-                            showLegacyPrompt: false,
-                        };
-                        mutatePreferences({ preferences: updatedPref });
-                    }}
-                />
-            )}
             {userProfile?.id && bootstrapInfo && (
                 <Tour
                     baseId={baseId}

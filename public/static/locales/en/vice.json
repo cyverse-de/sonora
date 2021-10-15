@@ -3,7 +3,7 @@
     "accessRequestPrompt": "Please submit this one-time form so that we can ensure fair access among legitimate users. Requests will be processed within 1 - 2 days unless you are requesting large cores, memory, or GPUs, or if we require more details on your science use-case.",
     "emptyValue": "Empty Value.",
     "minLengthUseCaseError": "Must be at least {{minLength}} characters.",
-    "pendingRequestMessage": "Your request for VICE access is currently pending review. You will be notified when there is an update.",
+    "pendingRequestMessage": "Your request for VICE access is pending review. You will be notified when there is an update.",
     "pendingRequestTitle": "VICE Access Request Pending Review",
     "requestAccess": "Request Access",
     "requestError": "Unable to submit your request. Please try again.",

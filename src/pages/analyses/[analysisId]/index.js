@@ -14,10 +14,11 @@ import { getLocalStorage } from "components/utils/localStorage";
 import { getListingPath } from "components/analyses/utils";
 import analysisFields from "components/analyses/analysisFields";
 import Listing from "components/analyses/listing/Listing";
+import AnalysisSubmissionLanding from "components/analyses/details/AnalysisSubmissionLanding";
 
 /**
  *
- * Handle routing an indvidual analysis by id
+ * Handle routing an individual analysis by id
  *
  */
 
@@ -51,16 +52,9 @@ export default function Analysis() {
     );
 
     return (
-        <Listing
+        <AnalysisSubmissionLanding
             baseId="analyses"
-            onRouteToListing={onRouteToListing}
-            idFilter={router.query?.analysisId}
-            page={selectedPage}
-            rowsPerPage={selectedRowsPerPage}
-            order={selectedOrder}
-            orderBy={selectedOrderBy}
-            permFilter={selectedPermFilter}
-            typeFilter={selectedTypeFilter}
+            id={router.query?.analysisId}
         />
     );
 }

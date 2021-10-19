@@ -35,6 +35,7 @@ export default function Launch() {
     const [launchError, setLaunchError] = React.useState(null);
     const [viceQuota, setViceQuota] = React.useState();
     const [runningJobs, setRunningJobs] = React.useState();
+    const [hasPendingRequest, setHasPendingRequest] = React.useState();
 
     const router = useRouter();
     const { systemId, appId } = router.query;
@@ -78,6 +79,10 @@ export default function Launch() {
                 setRunningJobs(
                     resp?.limitChecks?.results[0]?.additionalInfo?.runningJobs
                 );
+                setHasPendingRequest(
+                    resp?.limitChecks?.results[0]?.additionalInfo
+                        ?.pendingRequest
+                );
             }
         },
         onError: setLaunchError,
@@ -102,6 +107,7 @@ export default function Launch() {
             loading={loading}
             viceQuota={viceQuota}
             runningJobs={runningJobs}
+            pendingRequest={hasPendingRequest}
         />
     );
 }

@@ -30,6 +30,7 @@ const Relaunch = () => {
     const [relaunchError, setRelaunchError] = React.useState(null);
     const [viceQuota, setViceQuota] = React.useState();
     const [runningJobs, setRunningJobs] = React.useState();
+    const [hasPendingRequest, setHasPendingRequest] = React.useState();
 
     const router = useRouter();
     const { analysisId } = router.query;
@@ -62,6 +63,10 @@ const Relaunch = () => {
                 setRunningJobs(
                     resp?.limitChecks?.results[0]?.additionalInfo?.runningJobs
                 );
+                setHasPendingRequest(
+                    resp?.limitChecks?.results[0]?.additionalInfo
+                        ?.pendingRequest
+                );
             }
         },
         onError: setRelaunchError,
@@ -76,6 +81,7 @@ const Relaunch = () => {
             loading={loading}
             viceQuota={viceQuota}
             runningJobs={runningJobs}
+            pendingRequest={hasPendingRequest}
         />
     );
 };

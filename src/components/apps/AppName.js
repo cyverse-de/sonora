@@ -11,6 +11,7 @@ import Link from "next/link";
 import DELink from "components/utils/DELink";
 import { ERROR_CODES } from "components/error/errorCode";
 import AccessRequestDialog from "components/vice/AccessRequestDialog";
+import VicePendingRequestDlg from "components/vice/VicePendingRequestDlg";
 
 import { useUserProfile } from "contexts/userProfile";
 import DEDialog from "components/utils/DEDialog";
@@ -70,6 +71,7 @@ function AppName(props) {
     const [runningJobs, setRunningJobs] = useState();
     const [accessRequestDialogOpen, setAccessRequestDialogOpen] =
         useState(false);
+    const [pendingRequestDlgOpen, setPendingRequestDlgOpen] = useState(false);
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
     const [href, as] = useAppLaunchLink(systemId, appId);
     const { t } = useTranslation("apps");
@@ -103,12 +105,19 @@ function AppName(props) {
     } else if (runErrorCodes?.length > 0) {
         const runErrorCode = runErrorCodes[0];
         if (runErrorCode === ERROR_CODES.ERR_PERMISSION_NEEDED) {
+            const hasPendingRequest =
+                limitChecks?.results[0]?.additionalInfo?.pendingRequest;
+
             return (
                 <>
                     <MuiLink
                         component="button"
                         href="#"
-                        onClick={() => setAccessRequestDialogOpen(true)}
+                        onClick={() => {
+                            hasPendingRequest
+                                ? setPendingRequestDlgOpen(true)
+                                : setAccessRequestDialogOpen(true);
+                        }}
                         color="primary"
                     >
                         {name}
@@ -117,6 +126,10 @@ function AppName(props) {
                         open={accessRequestDialogOpen}
                         baseId={ids.ACCESS_REQUEST_DLG}
                         onClose={() => setAccessRequestDialogOpen(false)}
+                    />
+                    <VicePendingRequestDlg
+                        open={pendingRequestDlgOpen}
+                        onClose={() => setPendingRequestDlgOpen(false)}
                     />
                 </>
             );

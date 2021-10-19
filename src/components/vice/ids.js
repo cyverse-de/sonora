@@ -4,4 +4,6 @@ export default {
         SUBMIT: "submit",
         CANCEL: "cancel",
     },
+    VICE_PENDING_REQUEST_DLG: "vicePendingRequestDlg",
+    CLOSE_BTN: "closeBtn",
 };

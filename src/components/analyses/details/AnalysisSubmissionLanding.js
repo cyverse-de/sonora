@@ -1,17 +1,33 @@
 import React from "react";
 import Link from "next/link";
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import { useTranslation } from "i18n";
+
+import buildID from "components/utils/DebugIDUtil";
+
+import { useConfig } from "contexts/config";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
+
 import {
     ANALYSES_LISTING_QUERY_KEY,
     getAnalysis,
+    useAnalysisInfo,
+    useAnalysisParameters,
 } from "serviceFacades/analyses";
+
+import { getAnalysisShareWithSupportRequest } from "serviceFacades/sharing";
+import {
+    analysisSupportRequest,
+    submitAnalysisSupportRequest,
+} from "serviceFacades/support";
 
 import GridLabelValue from "components/utils/GridLabelValue";
 import { formatDate } from "components/utils/DateFormatter";
 
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
-import Drawer from "components/analyses/details/Drawer";
+import { getHost } from "components/utils/getHost";
+
 import {
     isTerminated,
     getAnalysisUser,
@@ -25,6 +41,9 @@ import { useUserProfile } from "contexts/userProfile";
 import ShareWithSupportDialog from "components/analyses/ShareWithSupportDialog";
 
 import NavigationConstants from "common/NavigationConstants";
+import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
+import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
+import CopyLinkButton from "components/utils/CopyLinkButton";
 
 import {
     Button,
@@ -34,19 +53,26 @@ import {
     useMediaQuery,
 } from "@material-ui/core";
 import GridLoading from "components/utils/GridLoading";
+import InfoPanel from "./InfoPanel";
+import ParamsPanel from "./ParamsPanel";
+import DataPathLink from "./DataPathLink";
+import constants from "../../../constants";
 
 const InfoGridValue = (props) => <Typography variant="body2" {...props} />;
 
 export default function AnalysisSubmissionLanding(props) {
-    const { id, baseId } = props;
+    const { id, baseId, showErrorAnnouncer } = props;
     const { t } = useTranslation("analyses");
+    const { t: i18nCommon } = useTranslation("common");
     const theme = useTheme();
     const [userProfile] = useUserProfile();
+    const [config] = useConfig();
 
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const [analysis, setAnalysis] = React.useState();
-    const [detailsOpen, setDetailsOpen] = React.useState(false);
     const [helpOpen, setHelpOpen] = React.useState(false);
+    const [history, setHistory] = React.useState(null);
+    const [parameters, setParameters] = React.useState(null);
 
     const username = getAnalysisUser(analysis);
 
@@ -70,6 +96,51 @@ export default function AnalysisSubmissionLanding(props) {
             setAnalysis(data?.analyses[0]);
         },
     });
+
+    const { isFetching: isInfoFetching, error: infoFetchError } =
+        useAnalysisInfo({
+            id: analysis?.id,
+            enabled: !!analysis?.id,
+            onSuccess: setHistory,
+        });
+
+    const { isFetching: isParamsFetching, error: paramsFetchError } =
+        useAnalysisParameters({
+            id: analysis?.id,
+            enabled: !!analysis?.id,
+            onSuccess: setParameters,
+        });
+
+    const { mutate: shareAnalysesMutation, isLoading: shareLoading } =
+        useMutation(submitAnalysisSupportRequest, {
+            onSuccess: (responses) => {
+                announce({
+                    text: t("statusHelpShareSuccess"),
+                    variant: SUCCESS,
+                });
+            },
+            onError: (error) => {
+                showErrorAnnouncer(t("statusHelpShareError"), error);
+            },
+        });
+
+    const onShareWithSupport = (analysis, comment) => {
+        shareAnalysesMutation({
+            ...getAnalysisShareWithSupportRequest(
+                config?.analysis?.supportUser,
+                analysis.id
+            ),
+            supportRequest: analysisSupportRequest(
+                userProfile?.id,
+                userProfile?.attributes.email,
+                t("statusHelpRequestSubject", {
+                    name: userProfile?.attributes.name,
+                }),
+                comment,
+                analysis
+            ),
+        });
+    };
 
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
@@ -105,14 +176,6 @@ export default function AnalysisSubmissionLanding(props) {
                             <Grid item>
                                 <Button
                                     variant="outlined"
-                                    onClick={() => setDetailsOpen(true)}
-                                >
-                                    {t("details")}
-                                </Button>
-                            </Grid>
-                            <Grid item>
-                                <Button
-                                    variant="outlined"
                                     onClick={() => setHelpOpen(true)}
                                 >
                                     {t("requestHelp")}
@@ -122,9 +185,6 @@ export default function AnalysisSubmissionLanding(props) {
                     </Grid>
                 </Grid>
                 <Grid container spacing={3}>
-                    <GridLabelValue label={t("analysisId")}>
-                        <InfoGridValue>{analysis?.id}</InfoGridValue>
-                    </GridLabelValue>
                     <GridLabelValue label={t("app")}>
                         <InfoGridValue>{analysis?.app_name}</InfoGridValue>
                     </GridLabelValue>
@@ -132,9 +192,33 @@ export default function AnalysisSubmissionLanding(props) {
                         <InfoGridValue>{analysis?.status}</InfoGridValue>
                     </GridLabelValue>
                     <GridLabelValue label={t("outputFolder")}>
-                        <InfoGridValue>
-                            {analysis?.resultfolderid}
-                        </InfoGridValue>
+                        <div style={{ width: "100%" }}>
+                            <div style={{ float: "left" }}>
+                                <DataPathLink
+                                    id={baseId}
+                                    param_type="FolderInput"
+                                    path={analysis?.resultfolderid}
+                                />
+                            </div>
+                            <div style={{ marginLeft: 4 }}>
+                                <CopyLinkButton
+                                    baseId={baseId}
+                                    onCopyLinkSelected={() => {
+                                        const link = `${getHost()}/${
+                                            NavigationConstants.DATA
+                                        }/${constants.DATA_STORE_STORAGE_ID}${
+                                            analysis?.resultfolderid
+                                        }`;
+                                        const copyPromise =
+                                            copyStringToClipboard(link);
+                                        copyLinkToClipboardHandler(
+                                            i18nCommon,
+                                            copyPromise
+                                        );
+                                    }}
+                                />
+                            </div>
+                        </div>
                     </GridLabelValue>
                     <GridLabelValue label={t("startDate")}>
                         <InfoGridValue>
@@ -150,11 +234,44 @@ export default function AnalysisSubmissionLanding(props) {
                         <InfoGridValue>{username}</InfoGridValue>
                     </GridLabelValue>
                 </Grid>
+                <hr />
+                <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        <Typography variant="subtitle2" color="primary">
+                            Status History
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <InfoPanel
+                            info={history}
+                            isInfoFetching={isInfoFetching}
+                            infoFetchError={infoFetchError}
+                            baseId={baseId}
+                        />
+                    </Grid>
+                </Grid>
+                <hr />
+                <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        <Typography variant="subtitle2" color="primary">
+                            Parameters
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <ParamsPanel
+                            parameters={parameters}
+                            isParamsFetching={isParamsFetching}
+                            paramsFetchError={paramsFetchError}
+                            baseId={baseId}
+                        />
+                    </Grid>
+                </Grid>
+                <hr />
                 <Grid
                     container
                     justifyContent="space-evenly"
                     alignItems="stretch"
-                    spacing={1}
+                    spacing={3}
                 >
                     {isTerminatedAnalysis && (
                         <Grid item>
@@ -198,14 +315,7 @@ export default function AnalysisSubmissionLanding(props) {
                     </Grid>
                 </Grid>
             </div>
-            {detailsOpen && (
-                <Drawer
-                    selectedAnalysis={analysis}
-                    baseId={baseId}
-                    open={detailsOpen}
-                    onClose={() => setDetailsOpen(false)}
-                />
-            )}
+
             {helpOpen && (
                 <ShareWithSupportDialog
                     baseId={baseId}
@@ -213,9 +323,9 @@ export default function AnalysisSubmissionLanding(props) {
                     analysis={analysis}
                     name={userProfile?.attributes.name}
                     email={userProfile?.attributes.email}
-                    loading={false}
+                    loading={shareLoading}
                     onClose={() => setHelpOpen(false)}
-                    onShareWithSupport={null}
+                    onShareWithSupport={onShareWithSupport}
                 />
             )}
         </>

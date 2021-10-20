@@ -4,6 +4,17 @@ import AnalysisStatus from "components/models/analysisStatus";
 import AppType from "components/models/AppType";
 import { useQuery } from "react-query";
 
+import {
+    isInputType,
+    isReferenceGenomeType,
+    isSelectionArgumentType,
+    isTextType,
+    parseSelectionValue,
+    parseStringValue,
+} from "components/analyses/details/ArgumentTypeUtils";
+
+import AppParamTypes from "components/models/AppParamTypes";
+
 const ANALYSES_LISTING_QUERY_KEY = "fetchAnalysesListingKey";
 const ANALYSIS_HISTORY_QUERY_KEY = "fetchAnalysisHistoryKey";
 const ANALYSIS_PARAMS_QUERY_KEY = "fetchAnalysisParamsKey";
@@ -85,14 +96,14 @@ function updateAnalysisComment({ id, description }) {
     });
 }
 
-function getAnalysisHistory({ id }) {
+function getAnalysisHistory(id) {
     return callApi({
         endpoint: `/api/analyses/${id}/history`,
         method: "GET",
     });
 }
 
-function getAnalysisParameters({ id }) {
+function getAnalysisParameters(id) {
     return callApi({
         endpoint: `/api/analyses/${id}/parameters`,
         method: "GET",
@@ -200,6 +211,62 @@ function extendVICEAnalysisTimeLimit({ id }) {
     });
 }
 
+function useAnalysisInfo({ id, enabled, onSuccess, onError }) {
+    return useQuery({
+        queryKey: [ANALYSIS_HISTORY_QUERY_KEY, id],
+        queryFn: () => getAnalysisHistory(id),
+        enabled,
+        onSuccess,
+        onError,
+    });
+}
+
+function useAnalysisParameters({ id, enabled, onSuccess, onError }) {
+    let parameters;
+    const preProcessData = (data) => {
+        if (!data || !data.parameters) {
+            return;
+        }
+        if (data.parameters.length === 0) {
+            parameters = [];
+            return;
+        }
+        let paramList = [];
+        data.parameters.forEach((parameter) => {
+            const type = parameter.param_type;
+            let parsedParam = null;
+            if (
+                isTextType(type) ||
+                isInputType(type) ||
+                type === AppParamTypes.FLAG ||
+                type === AppParamTypes.FILE_OUTPUT
+            ) {
+                parsedParam = parseStringValue(parameter);
+            } else if (
+                isSelectionArgumentType(type) ||
+                isReferenceGenomeType(type)
+            ) {
+                parsedParam = parseSelectionValue(parameter);
+            }
+
+            if (parsedParam) {
+                paramList.push(parsedParam);
+            }
+        });
+        parameters = paramList;
+    };
+    return useQuery({
+        queryKey: [ANALYSIS_PARAMS_QUERY_KEY, id],
+        queryFn: () => getAnalysisParameters(id),
+        enabled,
+        onSuccess: (data) => {
+            preProcessData(data);
+            onSuccess(parameters);
+        },
+        onError,
+    });
+}
+
 export {
     cancelAnalyses,
     cancelAnalysis,
@@ -218,6 +285,8 @@ export {
     useRunningViceJobs,
     extendVICEAnalysisTimeLimit,
     getTimeLimitForVICEAnalysis,
+    useAnalysisInfo,
+    useAnalysisParameters,
     ANALYSES_LISTING_QUERY_KEY,
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSIS_PARAMS_QUERY_KEY,

@@ -2,6 +2,9 @@ import callApi from "../common/callApi";
 import { getDataSimpleSearchQuery } from "components/search/dataSearchQueryBuilder";
 import viewerConstants from "components/data/viewers/constants";
 import constants from "constants.js";
+
+import { useQuery } from "react-query";
+
 export const DATA_LISTING_QUERY_KEY = "fetchDataListing";
 export const USER_INFO_QUERY_KEY = "fetchUserInfo";
 export const RESOURCE_PERMISSIONS_KEY = "fetchResourcePermissions";
@@ -348,3 +351,13 @@ export const copyMetadata = ({ source_id, destination_ids }) => {
         body: { destination_ids },
     });
 };
+
+export function useDataDetails({ paths, enabled, onSuccess, onError }) {
+    return useQuery({
+        queryKey: [DATA_DETAILS_QUERY_KEY, { paths }],
+        queryFn: () => getResourceDetails({ paths }),
+        enabled: !!(paths && paths?.length > 0),
+        onSuccess,
+        onError,
+    });
+}

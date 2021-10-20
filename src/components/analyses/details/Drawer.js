@@ -10,27 +10,14 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
-import {
-    isInputType,
-    isReferenceGenomeType,
-    isSelectionArgumentType,
-    isTextType,
-    parseSelectionValue,
-    parseStringValue,
-} from "./ArgumentTypeUtils";
 import InfoPanel from "./InfoPanel";
 import ParamsPanel from "./ParamsPanel";
-
 import ids from "../ids";
-
-import AppParamTypes from "components/models/AppParamTypes";
 import { DETab, DETabPanel, DETabs } from "components/utils/DETabs";
 
 import {
-    ANALYSIS_HISTORY_QUERY_KEY,
-    ANALYSIS_PARAMS_QUERY_KEY,
-    getAnalysisHistory,
-    getAnalysisParameters,
+    useAnalysisInfo,
+    useAnalysisParameters,
 } from "serviceFacades/analyses";
 
 import buildID from "components/utils/DebugIDUtil";
@@ -83,75 +70,19 @@ function DetailsDrawer(props) {
     const [history, setHistory] = useState(null);
     const [parameters, setParameters] = useState(null);
 
-    const [infoKey, setInfoKey] = useState(ANALYSIS_HISTORY_QUERY_KEY);
-    const [paramKey, setParamKey] = useState(ANALYSIS_PARAMS_QUERY_KEY);
-    const [infoKeyQueryEnabled, setInfoKeyQueryEnabled] = useState(false);
-    const [paramKeyQueryEnabled, setParamKeyQueryEnabled] = useState(false);
-
-    const preProcessData = (data) => {
-        if (!data || !data.parameters) {
-            return;
-        }
-        if (data.parameters.length === 0) {
-            setParameters([]);
-            return;
-        }
-        let paramList = [];
-        data.parameters.forEach((parameter) => {
-            const type = parameter.param_type;
-            let parsedParam = null;
-            if (
-                isTextType(type) ||
-                isInputType(type) ||
-                type === AppParamTypes.FLAG ||
-                type === AppParamTypes.FILE_OUTPUT
-            ) {
-                parsedParam = parseStringValue(parameter);
-            } else if (
-                isSelectionArgumentType(type) ||
-                isReferenceGenomeType(type)
-            ) {
-                parsedParam = parseSelectionValue(parameter);
-            }
-
-            if (parsedParam) {
-                paramList.push(parsedParam);
-            }
+    const { isFetching: isInfoFetching, error: infoFetchError } =
+        useAnalysisInfo({
+            id: selectedAnalysis?.id,
+            enabled: !!selectedAnalysis?.id,
+            onSuccess: setHistory,
         });
-        setParameters(paramList);
-    };
 
-    const { isFetching: isInfoFetching, error: infoFetchError } = useQuery({
-        queryKey: infoKey,
-        queryFn: () => getAnalysisHistory(infoKey[1]),
-        enabled: infoKeyQueryEnabled,
-        onSuccess: setHistory,
-    });
-
-    const { isFetching: isParamsFetching, error: paramsFetchError } = useQuery({
-        queryKey: paramKey,
-        queryFn: () => getAnalysisParameters(paramKey[1]),
-        enabled: paramKeyQueryEnabled,
-        onSuccess: preProcessData,
-    });
-
-    useEffect(() => {
-        if (selectedAnalysis) {
-            setInfoKey([
-                ANALYSIS_HISTORY_QUERY_KEY,
-                { id: selectedAnalysis.id },
-            ]);
-            setParamKey([
-                "ANALYSIS_PARAMS_QUERY_KEY",
-                { id: selectedAnalysis.id },
-            ]);
-            setInfoKeyQueryEnabled(true);
-            setParamKeyQueryEnabled(true);
-        } else {
-            setInfoKeyQueryEnabled(false);
-            setParamKeyQueryEnabled(false);
-        }
-    }, [selectedAnalysis]);
+    const { isFetching: isParamsFetching, error: paramsFetchError } =
+        useAnalysisParameters({
+            id: selectedAnalysis?.id,
+            enabled: !!selectedAnalysis?.id,
+            onSuccess: setParameters,
+        });
 
     const onTabSelectionChange = (event, selectedTab) => {
         setSelectedTab(selectedTab);

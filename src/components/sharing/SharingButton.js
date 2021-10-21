@@ -7,18 +7,16 @@
 import React from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { Button, makeStyles } from "@material-ui/core";
+import { Button, makeStyles, useTheme } from "@material-ui/core";
 import { Share } from "@material-ui/icons";
 
 import { useTranslation } from "i18n";
 import ids from "./ids";
-import styles from "./styles";
-
-const useStyles = makeStyles(styles);
 
 function SharingButton(props) {
-    const { baseId, setSharingDlgOpen, size = "medium" } = props;
-    const classes = useStyles();
+    const { baseId, setSharingDlgOpen, size = "medium", margin = 1 } = props;
+    const theme = useTheme();
+
     const { t } = useTranslation("sharing");
 
     return (
@@ -29,8 +27,8 @@ function SharingButton(props) {
             color="primary"
             size={size}
             onClick={() => setSharingDlgOpen(true)}
-            className={classes.button}
             startIcon={<Share />}
+            style={{ margin }}
         >
             {t("share")}
         </Button>

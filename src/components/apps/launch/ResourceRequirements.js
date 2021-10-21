@@ -55,8 +55,11 @@ function buildLimitList(startValue, minValue, maxValue) {
         value *= 2;
     }
 
-    if (limits[limits.length - 1] !== maxValue) {
-        limits.push(maxValue);
+    // Finally check the case where either maxValue is not a power of 2,
+    // or minValue is greater than maxValue.
+    const actualMaxValue = Math.max(minValue, maxValue);
+    if (limits[limits.length - 1] < actualMaxValue) {
+        limits.push(actualMaxValue);
     }
 
     return limits;

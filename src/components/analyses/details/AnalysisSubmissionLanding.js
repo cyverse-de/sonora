@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { useQuery, useMutation } from "react-query";
+import { useQueryClient, useQuery, useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
 import ids from "../ids";
@@ -11,17 +11,25 @@ import { announce } from "components/announcer/CyVerseAnnouncer";
 import { SUCCESS } from "components/announcer/AnnouncerConstants";
 import DotMenu from "components/dotMenu/DotMenu";
 
+import TerminateAnalysisDialog from "components/analyses/toolbar/TerminateAnalysisDialog";
+import RenameAnalysisDialog from "../RenameAnalysisDialog";
+import AnalysisCommentDialog from "../AnalysisCommentDialog";
+
 import Sharing from "components/sharing";
-import SharingButton from "components/sharing/SharingButton";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
 import { formatSharedAnalyses } from "components/sharing/util";
 import shareIds from "components/sharing/ids";
+
+import analysisStatus from "components/models/analysisStatus";
+import { cancelAnalysis } from "serviceFacades/analyses";
 
 import {
     ANALYSES_LISTING_QUERY_KEY,
     getAnalysis,
     useAnalysisInfo,
     useAnalysisParameters,
+    renameAnalysis,
+    updateAnalysisComment,
 } from "serviceFacades/analyses";
 
 import { getAnalysisShareWithSupportRequest } from "serviceFacades/sharing";
@@ -59,6 +67,9 @@ import CopyLinkButton from "components/utils/CopyLinkButton";
 import { canShare, openInteractiveUrl } from "../utils";
 
 import {
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
     Button,
     Grid,
     Hidden,
@@ -71,17 +82,14 @@ import {
 } from "@material-ui/core";
 
 import {
-    HourglassEmptyRounded as HourGlass,
     Launch as LaunchIcon,
-    PermMedia as OutputFolderIcon,
-    Repeat as RelaunchIcon,
     Edit as RenameIcon,
     UnfoldMore as UnfoldMoreIcon,
-    Info,
     Refresh,
     Cancel as CancelIcon,
     Comment as CommentIcon,
     ContactSupport,
+    ExpandMore,
     HourglassEmptyRounded as HourGlassIcon,
 } from "@material-ui/icons";
 
@@ -113,6 +121,8 @@ function DotMenuItems(props) {
         setSharingDlgOpen,
         setPendingTerminationDlgOpen,
         handleTimeLimitExtnClick,
+        isTerminatedAnalysis,
+        handleRefresh,
     } = props;
 
     const { t } = useTranslation("analyses");
@@ -120,8 +130,37 @@ function DotMenuItems(props) {
     const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
         analysis?.resultfolderid
     );
+    const interactiveUrls = analysis?.interactive_urls;
 
     return [
+        <MenuItem
+            key={buildID(baseId, ids.MENU)}
+            id={buildID(baseId, ids.MENU)}
+            onClick={() => {
+                onClose();
+                handleRefresh();
+            }}
+        >
+            <ListItemIcon>
+                <Refresh fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary={t("refresh")} />
+        </MenuItem>,
+        !isTerminatedAnalysis && isVICE && (
+            <MenuItem
+                key={buildID(baseId, ids.MENU)}
+                id={buildID(baseId, ids.MENU)}
+                onClick={() => {
+                    onClose();
+                    openInteractiveUrl(interactiveUrls[0]);
+                }}
+            >
+                <ListItemIcon>
+                    <LaunchIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("goToVice")} />
+            </MenuItem>
+        ),
         canShare && (
             <SharingMenuItem
                 key={buildID(baseId, shareIds.SHARING_MENU_ITEM)}
@@ -190,21 +229,21 @@ function DotMenuItems(props) {
             </MenuItem>
         ),
         <Hidden mdUp>
-            isVICE && (
-            <MenuItem
-                key={buildID(baseId, ids.MENUITEM_GOTO_VICE)}
-                id={buildID(baseId, ids.MENUITEM_GOTO_VICE)}
-                onClick={() => {
-                    onClose();
-                    handleInteractiveUrlClick();
-                }}
-            >
-                <ListItemIcon>
-                    <LaunchIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText primary={t("goToVice")} />
-            </MenuItem>
-            )
+            {isVICE && (
+                <MenuItem
+                    key={buildID(baseId, ids.MENUITEM_GOTO_VICE)}
+                    id={buildID(baseId, ids.MENUITEM_GOTO_VICE)}
+                    onClick={() => {
+                        onClose();
+                        handleInteractiveUrlClick();
+                    }}
+                >
+                    <ListItemIcon>
+                        <LaunchIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary={t("goToVice")} />
+                </MenuItem>
+            )}
         </Hidden>,
         allowTimeExtn && (
             <MenuItem
@@ -272,22 +311,26 @@ export default function AnalysisSubmissionLanding(props) {
     const [history, setHistory] = React.useState(null);
     const [parameters, setParameters] = React.useState(null);
     const [sharingDlgOpen, setSharingDlgOpen] = React.useState(false);
+    const [terminateAnalysisDlgOpen, setTerminateAnalysisDlgOpen] =
+        React.useState(false);
+    const [renameDialogOpen, setRenameDialogOpen] = React.useState(false);
+    const [commentDialogOpen, setCommentDialogOpen] = React.useState(false);
 
     const username = getAnalysisUser(analysis);
-
-    const interactiveUrls = analysis?.interactive_urls;
     const isBatch = isBatchAnalysis(analysis);
     const isVICE = isInteractive(analysis);
     const allowTimeExtn = allowAnalysisTimeExtn(analysis, username);
     const allowCancel = allowAnalysesCancel([analysis], username);
     const allowRelaunch = allowAnalysesRelaunch([analysis]);
     const allowEdit = allowAnalysisEdit(analysis, username);
-    const [relaunchHref, relaunchAs] = useRelaunchLink(analysis);
-    const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
-        analysis?.resultfolderid
-    );
+    const handleTerminateSelected = () => setTerminateAnalysisDlgOpen(true);
     const isTerminatedAnalysis = isTerminated(analysis);
     const sharable = canShare([analysis]);
+    const queryClient = useQueryClient();
+
+    const refreshAnalysis = () => {
+        queryClient.invalidateQueries([ANALYSES_LISTING_QUERY_KEY, id]);
+    };
 
     const { isFetching, error } = useQuery({
         queryKey: [ANALYSES_LISTING_QUERY_KEY, id],
@@ -300,15 +343,15 @@ export default function AnalysisSubmissionLanding(props) {
 
     const { isFetching: isInfoFetching, error: infoFetchError } =
         useAnalysisInfo({
-            id: analysis?.id,
-            enabled: !!analysis?.id,
+            id,
+            enabled: !!id,
             onSuccess: setHistory,
         });
 
     const { isFetching: isParamsFetching, error: paramsFetchError } =
         useAnalysisParameters({
-            id: analysis?.id,
-            enabled: !!analysis?.id,
+            id,
+            enabled: !!id,
             onSuccess: setParameters,
         });
 
@@ -325,6 +368,44 @@ export default function AnalysisSubmissionLanding(props) {
                 showErrorAnnouncer(t("statusHelpShareError"), error);
             },
         });
+
+    const { mutate: analysesCancelMutation, isLoading: analysisLoading } =
+        useMutation(cancelAnalysis, {
+            onSuccess: () => {
+                queryClient.invalidateQueries([
+                    ANALYSES_LISTING_QUERY_KEY,
+                    analysis?.id,
+                ]);
+                setTerminateAnalysisDlgOpen(false);
+            },
+            onError: (error) => {
+                showErrorAnnouncer(
+                    t("analysisCancelError", { count: 1 }),
+                    error
+                );
+            },
+        });
+    const {
+        mutate: renameAnalysisMutation,
+        isLoading: renameLoading,
+        error: renameError,
+    } = useMutation(renameAnalysis, {
+        onSuccess: (analysis) => {
+            refreshAnalysis();
+            setRenameDialogOpen(false);
+        },
+    });
+
+    const {
+        mutate: analysisCommentMutation,
+        isLoading: commentLoading,
+        error: commentError,
+    } = useMutation(updateAnalysisComment, {
+        onSuccess: (analysis) => {
+            refreshAnalysis();
+            setCommentDialogOpen(false);
+        },
+    });
 
     const onShareWithSupport = (analysis, comment) => {
         shareAnalysesMutation({
@@ -344,12 +425,24 @@ export default function AnalysisSubmissionLanding(props) {
         });
     };
 
+    const handleCancel = () => {
+        analysesCancelMutation({ id: analysis?.id });
+    };
+
+    const handleSaveAndComplete = () => {
+        const id = analysis?.id;
+        analysesCancelMutation({
+            id,
+            job_status: analysisStatus.COMPLETED,
+        });
+    };
+
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
     }
 
-    if (isFetching) {
-        return <GridLoading rows={10} baseId={baseId} />;
+    if (isFetching || isInfoFetching || isParamsFetching || analysisLoading) {
+        return <GridLoading rows={25} baseId={baseId} />;
     }
 
     return (
@@ -358,7 +451,7 @@ export default function AnalysisSubmissionLanding(props) {
                 style={{ margin: theme.spacing(1), padding: theme.spacing(1) }}
             >
                 <Grid container spacing={1}>
-                    <Grid item xs={6}>
+                    <Grid item xs={isMobile ? 0 : 6}>
                         <Grid container>
                             <Grid item>
                                 <Typography variant="h6" color="primary">
@@ -367,7 +460,7 @@ export default function AnalysisSubmissionLanding(props) {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item xs={isMobile ? 12 : 6}>
+                    <Grid item xs={isMobile ? 0 : 6}>
                         <Grid
                             container
                             spacing={1}
@@ -375,44 +468,41 @@ export default function AnalysisSubmissionLanding(props) {
                                 isMobile ? "flex-start" : "flex-end"
                             }
                         >
-                            <Grid item>
-                                {isVICE && !isTerminatedAnalysis && (
+                            <Hidden smDown>
+                                <Grid item>
                                     <Button
-                                        onClick={() =>
-                                            openInteractiveUrl(
-                                                interactiveUrls[0]
-                                            )
-                                        }
+                                        id={buildID(baseId, ids.REFRESH_BTN)}
                                         variant="outlined"
                                         size="small"
-                                        id={buildID(
-                                            baseId,
-                                            ids.ICONS.INTERACTIVE,
-                                            ids.BUTTON
-                                        )}
+                                        disableElevation
                                         color="primary"
-                                        title={t("goToVice")}
-                                        startIcon={
-                                            <LaunchIcon fontSize="small" />
-                                        }
+                                        onClick={refreshAnalysis}
+                                        startIcon={<Refresh />}
                                     >
-                                        {t("goToVice")}
+                                        <Hidden xsDown>{t("refresh")}</Hidden>
                                     </Button>
-                                )}
-                            </Grid>
+                                </Grid>
+                            </Hidden>
                             <Grid item>
-                                <Button
-                                    variant="outlined"
-                                    onClick={() => setHelpOpen(true)}
-                                    size="small"
-                                    startIcon={
-                                        <ContactSupport fontSize="small" />
-                                    }
-                                    color="primary"
-                                    title={t("requestHelp")}
-                                >
-                                    {t("requestHelp")}
-                                </Button>
+                                {[
+                                    analysisStatus.SUBMITTED,
+                                    analysisStatus.RUNNING,
+                                    analysisStatus.COMPLETED,
+                                    analysisStatus.FAILED,
+                                ].includes(analysis.status) && (
+                                    <Button
+                                        variant="outlined"
+                                        onClick={() => setHelpOpen(true)}
+                                        size="small"
+                                        startIcon={
+                                            <ContactSupport fontSize="small" />
+                                        }
+                                        color="primary"
+                                        title={t("requestHelp")}
+                                    >
+                                        {t("requestHelp")}
+                                    </Button>
+                                    )}
                             </Grid>
                             <Grid item>
                                 <DotMenu
@@ -432,6 +522,19 @@ export default function AnalysisSubmissionLanding(props) {
                                             setSharingDlgOpen={
                                                 setSharingDlgOpen
                                             }
+                                            handleTerminateSelected={
+                                                handleTerminateSelected
+                                            }
+                                            handleComments={() =>
+                                                setCommentDialogOpen(true)
+                                            }
+                                            handleRename={() =>
+                                                setRenameDialogOpen(true)
+                                            }
+                                            isTerminatedAnalysis={
+                                                isTerminatedAnalysis
+                                            }
+                                            handleRefresh={refreshAnalysis}
                                         />
                                     )}
                                 />
@@ -489,86 +592,44 @@ export default function AnalysisSubmissionLanding(props) {
                         <InfoGridValue>{username}</InfoGridValue>
                     </GridLabelValue>
                 </Grid>
-                <hr />
-                <Grid container spacing={3}>
-                    <Grid item xs={12}>
+                <Accordion expanded={true}>
+                    <AccordionSummary
+                        expandIcon={<ExpandMore />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
                         <Typography variant="subtitle2" color="primary">
                             Status History
                         </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
+                    </AccordionSummary>
+                    <div style={{ padding: theme.spacing(1) }}>
                         <InfoPanel
                             info={history}
                             isInfoFetching={isInfoFetching}
                             infoFetchError={infoFetchError}
                             baseId={baseId}
                         />
-                    </Grid>
-                </Grid>
-                <hr />
-                <Grid container spacing={3}>
-                    <Grid item xs={12}>
+                    </div>
+                </Accordion>
+                <Accordion expanded={true}>
+                    <AccordionSummary
+                        expandIcon={<ExpandMore />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
                         <Typography variant="subtitle2" color="primary">
                             Parameters
                         </Typography>
-                    </Grid>
-                    <Grid item xs={12}>
+                    </AccordionSummary>
+                    <AccordionDetails>
                         <ParamsPanel
                             parameters={parameters}
                             isParamsFetching={isParamsFetching}
                             paramsFetchError={paramsFetchError}
                             baseId={baseId}
                         />
-                    </Grid>
-                </Grid>
-                <hr />
-                <Grid
-                    container
-                    justifyContent="space-evenly"
-                    alignItems="stretch"
-                    spacing={3}
-                >
-                    {isTerminatedAnalysis && (
-                        <Grid item>
-                            <Link
-                                href={outputFolderHref}
-                                as={outputFolderAs}
-                                passHref
-                            >
-                                <Button variant="outlined">
-                                    {t("goOutputFolder")}
-                                </Button>
-                            </Link>
-                        </Grid>
-                    )}
-                    {!isTerminatedAnalysis && (
-                        <Grid item>
-                            <Button variant="outlined">{t("terminate")}</Button>
-                        </Grid>
-                    )}
-                    <Grid item>
-                        <Link href={relaunchHref} as={relaunchAs} passHref>
-                            <Button variant="outlined">{t("relaunch")}</Button>
-                        </Link>
-                    </Grid>
-                    <Grid item>
-                        <Link
-                            href={"/" + NavigationConstants.ANALYSES}
-                            passHref
-                        >
-                            <Button variant="outlined">
-                                Go to Analyses Listing
-                            </Button>
-                        </Link>
-                    </Grid>
-                    <Grid item>
-                        <Link href={"/" + NavigationConstants.APPS} passHref>
-                            <Button variant="outlined">
-                                Go to Apps Listing
-                            </Button>
-                        </Link>
-                    </Grid>
-                </Grid>
+                    </AccordionDetails>
+                </Accordion>
             </div>
             {sharable && (
                 <Sharing
@@ -589,6 +650,30 @@ export default function AnalysisSubmissionLanding(props) {
                     onShareWithSupport={onShareWithSupport}
                 />
             )}
+            <TerminateAnalysisDialog
+                open={terminateAnalysisDlgOpen}
+                onClose={() => setTerminateAnalysisDlgOpen(false)}
+                getSelectedAnalyses={() => [analysis]}
+                handleSaveAndComplete={handleSaveAndComplete}
+                handleCancel={handleCancel}
+            />
+            <RenameAnalysisDialog
+                open={renameDialogOpen}
+                selectedAnalysis={analysis}
+                isLoading={renameLoading}
+                submissionError={renameError}
+                onClose={() => setRenameDialogOpen(false)}
+                handleRename={renameAnalysisMutation}
+            />
+
+            <AnalysisCommentDialog
+                open={commentDialogOpen}
+                selectedAnalysis={analysis}
+                isLoading={commentLoading}
+                submissionError={commentError}
+                onClose={() => setCommentDialogOpen(false)}
+                handleUpdateComment={analysisCommentMutation}
+            />
         </>
     );
 }

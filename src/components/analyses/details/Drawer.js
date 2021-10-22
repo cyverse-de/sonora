@@ -5,9 +5,8 @@
  *
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
 import InfoPanel from "./InfoPanel";

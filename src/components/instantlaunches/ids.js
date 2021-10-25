@@ -32,5 +32,8 @@ export default {
     LAUNCH: "launch",
     NAV_DRAWER: "navDrawer",
     RM_DRAWER: "removeFromDrawer",
+    LISTING: "listing",
+    ADD_LISTING: "addToListing",
+    RM_LISTING: "removeFromListing",
     ADD_NAV_DRAWER: "addToDrawer",
 };

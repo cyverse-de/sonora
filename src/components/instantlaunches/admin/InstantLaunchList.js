@@ -13,6 +13,8 @@ import {
     addToNavDrawer,
     removeFromNavDrawer,
     LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
+    addToInstantLaunchListing,
+    removeFromInstantLaunchListing,
 } from "serviceFacades/instantlaunches";
 
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
@@ -81,6 +83,18 @@ const isInDashboard = (id, dashboardILs) => {
  */
 const isInNavDrawer = (id, navDrawerILs) => {
     return navDrawerILs.find((il) => il.id === id);
+};
+
+/**
+ * Checks if the instant launch associated with 'id' is in the instant
+ * launch listing.
+ *
+ * @param {string} id - The UUID for the instant launch being checked.
+ * @param {Object[]} listingILs - List of instant launches currently in the instant launch listing.
+ * @returns {boolean} - Whether the instant launch is included in the instant launch listing.
+ */
+const isInListing = (id, listingILs) => {
+    return listingILs.find((il) => il.id === id);
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -167,6 +181,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
         constants.METADATA.INSTANT_LAUNCH_LOCATION_ATTR;
     const instantLaunchDashboard = constants.METADATA.INSTANT_LAUNCH_DASHBOARD;
     const instantLaunchNavDrawer = constants.METADATA.INSTANT_LAUNCH_NAV_DRAWER;
+    const instantLaunchListing = constants.METADATA.INSTANT_LAUNCH_LISTING;
 
     const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
     const dashboardILs = useQuery(
@@ -192,6 +207,19 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
             adminListInstantLaunchesByMetadata(
                 instantLaunchLocationAttr,
                 instantLaunchNavDrawer
+            )
+    );
+
+    const listingILs = useQuery(
+        [
+            LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
+            instantLaunchLocationAttr,
+            instantLaunchListing,
+        ],
+        () =>
+            adminListInstantLaunchesByMetadata(
+                instantLaunchLocationAttr,
+                instantLaunchListing
             )
     );
 
@@ -260,6 +288,40 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
             },
         });
 
+    const { mutate: addToListingMutation, status: addToListingStatus } =
+        useMutation(addToInstantLaunchListing, {
+            onSuccess: () => {
+                queryClient.invalidateQueries(
+                    LIST_INSTANT_LAUNCHES_BY_METADATA_KEY
+                );
+                announce({
+                    text: t("addedToInstantLaunchListing"),
+                    variant: SUCCESS,
+                });
+            },
+            onError: (error) => {
+                showErrorAnnouncer(error.message, error);
+            },
+        });
+
+    const {
+        mutate: removeFromListingMutation,
+        status: removeFromListingStatus,
+    } = useMutation(removeFromInstantLaunchListing, {
+        onSuccess: () => {
+            queryClient.invalidateQueries(
+                LIST_INSTANT_LAUNCHES_BY_METADATA_KEY
+            );
+            announce({
+                text: t("removedFromInstantLaunchListing"),
+                variant: SUCCESS,
+            });
+        },
+        onError: (error) => {
+            showErrorAnnouncer(t("removeFromInstantLaunchListingError"), error);
+        },
+    });
+
     const { mutate: deleteIL, status: deleteILStatus } = useMutation(
         deleteInstantLaunchHandler,
         {
@@ -282,14 +344,20 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
         allILs.isLoading,
         dashboardILs.isLoading,
         navDrawerILs.isLoading,
+        listingILs.isLoading,
         addToDashStatus,
         removeFromDashStatus,
         addToNavStatus,
         removeFromNavStatus,
+        addToListingStatus,
+        removeFromListingStatus,
         deleteILStatus,
     ]);
     const isError =
-        allILs.isError || dashboardILs.isError || navDrawerILs.isError;
+        allILs.isError ||
+        dashboardILs.isError ||
+        navDrawerILs.isError ||
+        listingILs.isError;
 
     return (
         <div style={{ width: "100%" }}>
@@ -306,7 +374,8 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                     errorObject={
                         allILs.error ||
                         dashboardILs.error ||
-                        navDrawerILs.isError
+                        navDrawerILs.error ||
+                        listingILs.error
                     }
                     baseId={baseID}
                 />
@@ -359,6 +428,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                                     <TableCell>{t("common:name")}</TableCell>
                                     <TableCell>{t("createdBy")}</TableCell>
                                     <TableCell>{t("addedOn")}</TableCell>
+                                    <TableCell />
                                     <TableCell />
                                     <TableCell />
                                     <TableCell />
@@ -518,6 +588,59 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                                                         >
                                                             {t(
                                                                 "addToNavDrawer"
+                                                            )}
+                                                        </Button>
+                                                    )}
+                                                </TableCell>
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowID,
+                                                        ids.LISTING
+                                                    )}
+                                                >
+                                                    {isInListing(
+                                                        il.id,
+                                                        listingILs.data
+                                                            .instant_launches
+                                                    ) ? (
+                                                        <Button
+                                                            variant="outlined"
+                                                            color="primary"
+                                                            onClick={() => {
+                                                                removeFromListingMutation(
+                                                                    il.id
+                                                                );
+                                                            }}
+                                                            id={buildID(
+                                                                rowID,
+                                                                ids.LISTING,
+                                                                ids.RM_LISTING,
+                                                                ids.BUTTON
+                                                            )}
+                                                        >
+                                                            {t(
+                                                                "removeFromInstantLaunchListing"
+                                                            )}
+                                                        </Button>
+                                                    ) : (
+                                                        <Button
+                                                            variant="outlined"
+                                                            color="primary"
+                                                            onClick={() => {
+                                                                addToListingMutation(
+                                                                    il,
+                                                                    t
+                                                                );
+                                                            }}
+                                                            id={buildID(
+                                                                rowID,
+                                                                ids.LISTING,
+                                                                ids.ADD_LISTING,
+                                                                ids.BUTTON
+                                                            )}
+                                                        >
+                                                            {t(
+                                                                "addToInstantLaunchListing"
                                                             )}
                                                         </Button>
                                                     )}

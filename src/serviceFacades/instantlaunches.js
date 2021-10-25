@@ -12,6 +12,7 @@ const instantLaunchLocationAttr =
     constants.METADATA.INSTANT_LAUNCH_LOCATION_ATTR;
 const instantLaunchDashboard = constants.METADATA.INSTANT_LAUNCH_DASHBOARD;
 const instantLaunchNavDrawer = constants.METADATA.INSTANT_LAUNCH_NAV_DRAWER;
+const instantLaunchListing = constants.METADATA.INSTANT_LAUNCH_LISTING;
 
 export const DEFAULTS_MAPPING_QUERY_KEY = "fetchDefaultsMappings";
 export const ALL_INSTANT_LAUNCHES_KEY = "allInstantLaunches";
@@ -267,6 +268,52 @@ export const removeFromNavDrawer = async (id) => {
     }
 
     return new Promise((resolve, reject) => resolve(ilMeta));
+};
+
+/**
+ * Adds the instant launch to the list of instant launches
+ * in the dashboard if it isn't already there.
+ *
+ * @param {Object} il - An instant launch object.
+ * @param {string} il.quick_launch_id - The UUID for the instant launch object.
+ */
+export const addToInstantLaunchListing = (il, t) =>
+    validateForDashboard(il)
+        .then((isValid) => {
+            if (!isValid) {
+                throw new Error(t("cannotAddILToListing"));
+            }
+        })
+        .then(() =>
+            upsertInstantLaunchMetadata(il.id, {
+                attr: instantLaunchLocationAttr,
+                value: instantLaunchListing,
+                unit: "",
+            })
+        );
+
+/**
+ * Removes an instant launch from the instant launch listing
+ *
+ * @param {string} id - The UUID of the instant launch that should be removed from the listing.
+ */
+export const removeFromInstantLaunchListing = (id) => {
+    return getInstantLaunchMetadata(id).then((ilMeta) => {
+        if (!ilMeta.avus) {
+            throw new Error("no avus in response");
+        }
+
+        const filtered = ilMeta.avus.filter(
+            ({ attr, value }) =>
+                attr !== instantLaunchLocationAttr ||
+                value !== instantLaunchListing
+        );
+
+        if (filtered.length > 0) {
+            return resetInstantLaunchMetadata(id, filtered);
+        }
+        return ilMeta;
+    });
 };
 
 /**

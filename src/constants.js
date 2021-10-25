@@ -98,5 +98,6 @@ export default {
         INSTANT_LAUNCH_LOCATION_ATTR: "ui_location",
         INSTANT_LAUNCH_DASHBOARD: "dashboard",
         INSTANT_LAUNCH_NAV_DRAWER: "nav_drawer",
+        INSTANT_LAUNCH_LISTING: "listing",
     },
 };

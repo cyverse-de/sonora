@@ -1,75 +1,84 @@
 import React from "react";
 import Link from "next/link";
-import { useQueryClient, useQuery, useMutation } from "react-query";
 import { useTranslation } from "i18n";
-
-import ids from "../ids";
-import buildID from "components/utils/DebugIDUtil";
-
-import { useConfig } from "contexts/config";
-import { announce } from "components/announcer/CyVerseAnnouncer";
-import { SUCCESS } from "components/announcer/AnnouncerConstants";
-import DotMenu from "components/dotMenu/DotMenu";
-
-import TerminateAnalysisDialog from "components/analyses/toolbar/TerminateAnalysisDialog";
-import RenameAnalysisDialog from "../RenameAnalysisDialog";
-import AnalysisCommentDialog from "../AnalysisCommentDialog";
-
-import Sharing from "components/sharing";
-import SharingMenuItem from "components/sharing/SharingMenuItem";
-import { formatSharedAnalyses } from "components/sharing/util";
-import shareIds from "components/sharing/ids";
-
-import analysisStatus from "components/models/analysisStatus";
-import { cancelAnalysis } from "serviceFacades/analyses";
-
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
     ANALYSES_LISTING_QUERY_KEY,
+    ANALYSES_SEARCH_QUERY_KEY,
+    cancelAnalysis,
+    extendVICEAnalysisTimeLimit,
     getAnalysis,
-    useAnalysisInfo,
-    useAnalysisParameters,
+    getTimeLimitForVICEAnalysis,
     renameAnalysis,
     updateAnalysisComment,
+    useAnalysisInfo,
+    useAnalysisParameters,
+    VICE_TIME_LIMIT_QUERY_KEY,
 } from "serviceFacades/analyses";
-
 import { getAnalysisShareWithSupportRequest } from "serviceFacades/sharing";
 import {
     analysisSupportRequest,
     submitAnalysisSupportRequest,
 } from "serviceFacades/support";
+import constants from "../../../constants";
+import AnalysisCommentDialog from "../AnalysisCommentDialog";
+import ids from "../ids";
+import RenameAnalysisDialog from "../RenameAnalysisDialog";
+import { canShare, openInteractiveUrl } from "../utils";
+import DataPathLink from "./DataPathLink";
+import InfoPanel from "./InfoPanel";
+import ParamsPanel from "./ParamsPanel";
 
-import GridLabelValue from "components/utils/GridLabelValue";
-import { formatDate } from "components/utils/DateFormatter";
-
-import WrappedErrorHandler from "components/error/WrappedErrorHandler";
-import { getHost } from "components/utils/getHost";
-
+import NavigationConstants from "common/NavigationConstants";
+import analysisFields from "components/analyses/analysisFields";
+import ShareWithSupportDialog from "components/analyses/ShareWithSupportDialog";
+import { OutputFolderMenuItem } from "components/analyses/toolbar/OutputFolderMenuItem";
+import { RelaunchMenuItem } from "components/analyses/toolbar/RelaunchMenuItem";
+import TerminateAnalysisDialog from "components/analyses/toolbar/TerminateAnalysisDialog";
 import {
     allowAnalysesCancel,
     allowAnalysesRelaunch,
     allowAnalysisEdit,
     allowAnalysisTimeExtn,
-    isTerminated,
     getAnalysisUser,
-    isInteractive,
     isBatchAnalysis,
-    useRelaunchLink,
+    isInteractive,
+    isTerminated,
     useGotoOutputFolderLink,
+    useRelaunchLink,
 } from "components/analyses/utils";
-import { useUserProfile } from "contexts/userProfile";
-import ShareWithSupportDialog from "components/analyses/ShareWithSupportDialog";
-import { OutputFolderMenuItem } from "components/analyses/toolbar/OutputFolderMenuItem";
-import { RelaunchMenuItem } from "components/analyses/toolbar/RelaunchMenuItem";
-import NavigationConstants from "common/NavigationConstants";
-import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
-import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import DotMenu from "components/dotMenu/DotMenu";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import AnalysesIcon from "components/icons/AnalysesIcon";
+import PageWrapper from "components/layout/PageWrapper";
+import analysisStatus from "components/models/analysisStatus";
+import { useAnalysesSearchInfinite } from "components/search/searchQueries";
+import Sharing from "components/sharing";
+import shareIds from "components/sharing/ids";
+import SharingMenuItem from "components/sharing/SharingMenuItem";
+import { formatSharedAnalyses } from "components/sharing/util";
+import BasicTable from "components/table/BasicTable";
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import CopyLinkButton from "components/utils/CopyLinkButton";
-import { canShare, openInteractiveUrl } from "../utils";
+import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
+import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
+import { formatDate } from "components/utils/DateFormatter";
+import buildID from "components/utils/DebugIDUtil";
+import DELink from "components/utils/DELink";
+import { getHost } from "components/utils/getHost";
+import GridLabelValue from "components/utils/GridLabelValue";
+import GridLoading from "components/utils/GridLoading";
+import { useConfig } from "contexts/config";
+import { useUserProfile } from "contexts/userProfile";
 
 import {
     Accordion,
-    AccordionSummary,
+    AccordionActions,
     AccordionDetails,
+    AccordionSummary,
     Button,
     Grid,
     Hidden,
@@ -77,27 +86,22 @@ import {
     ListItemText,
     MenuItem,
     Typography,
-    useTheme,
     useMediaQuery,
+    useTheme,
 } from "@material-ui/core";
-
 import {
-    Launch as LaunchIcon,
-    Edit as RenameIcon,
-    UnfoldMore as UnfoldMoreIcon,
-    Refresh,
+    Apps,
     Cancel as CancelIcon,
     Comment as CommentIcon,
     ContactSupport,
+    Edit as RenameIcon,
     ExpandMore,
     HourglassEmptyRounded as HourGlassIcon,
+    Launch as LaunchIcon,
+    Refresh,
 } from "@material-ui/icons";
 
-import GridLoading from "components/utils/GridLoading";
-import InfoPanel from "./InfoPanel";
-import ParamsPanel from "./ParamsPanel";
-import DataPathLink from "./DataPathLink";
-import constants from "../../../constants";
+const BATCH_LISTING_SIZE = 100;
 
 const InfoGridValue = (props) => <Typography variant="body2" {...props} />;
 
@@ -106,11 +110,8 @@ function DotMenuItems(props) {
         baseId,
         analysis,
         handleComments,
-        handleInteractiveUrlClick,
         handleRename,
         handleTerminateSelected,
-        handleBatchIconClick,
-        isBatch,
         isVICE,
         allowTimeExtn,
         allowCancel,
@@ -134,8 +135,8 @@ function DotMenuItems(props) {
 
     return [
         <MenuItem
-            key={buildID(baseId, ids.MENU)}
-            id={buildID(baseId, ids.MENU)}
+            key={buildID(baseId, ids.MENUITEM_REFRESH)}
+            id={buildID(baseId, ids.MENUITEM_REFRESH)}
             onClick={() => {
                 onClose();
                 handleRefresh();
@@ -148,8 +149,8 @@ function DotMenuItems(props) {
         </MenuItem>,
         !isTerminatedAnalysis && isVICE && (
             <MenuItem
-                key={buildID(baseId, ids.MENU)}
-                id={buildID(baseId, ids.MENU)}
+                key={buildID(baseId, ids.MENUITEM_GOTO_VICE)}
+                id={buildID(baseId, ids.MENUITEM_GOTO_VICE)}
                 onClick={() => {
                     onClose();
                     openInteractiveUrl(interactiveUrls[0]);
@@ -169,7 +170,12 @@ function DotMenuItems(props) {
                 setSharingDlgOpen={setSharingDlgOpen}
             />
         ),
-        <Link href={outputFolderHref} as={outputFolderAs} passHref>
+        <Link
+            href={outputFolderHref}
+            as={outputFolderAs}
+            passHref
+            key={buildID(baseId, ids.MENUITEM_GO_TO_FOLDER)}
+        >
             <OutputFolderMenuItem
                 baseId={baseId}
                 analysis={analysis}
@@ -178,7 +184,12 @@ function DotMenuItems(props) {
             />
         </Link>,
         allowRelaunch && (
-            <Link href={href} as={as} passHref>
+            <Link
+                href={href}
+                as={as}
+                passHref
+                key={buildID(baseId, ids.MENUITEM_RELAUNCH)}
+            >
                 <RelaunchMenuItem baseId={baseId} />
             </Link>
         ),
@@ -212,39 +223,6 @@ function DotMenuItems(props) {
                 <ListItemText primary={t("updateComments")} />
             </MenuItem>
         ),
-        isBatch && (
-            <MenuItem
-                key={buildID(baseId, ids.MENUITEM_BATCH_FILTER)}
-                id={buildID(baseId, ids.MENUITEM_BATCH_FILTER)}
-                onClick={(event) => {
-                    onClose();
-                    event.stopPropagation();
-                    handleBatchIconClick(analysis);
-                }}
-            >
-                <ListItemIcon>
-                    <UnfoldMoreIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText primary={t("htDetails")} />
-            </MenuItem>
-        ),
-        <Hidden mdUp>
-            {isVICE && (
-                <MenuItem
-                    key={buildID(baseId, ids.MENUITEM_GOTO_VICE)}
-                    id={buildID(baseId, ids.MENUITEM_GOTO_VICE)}
-                    onClick={() => {
-                        onClose();
-                        handleInteractiveUrlClick();
-                    }}
-                >
-                    <ListItemIcon>
-                        <LaunchIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText primary={t("goToVice")} />
-                </MenuItem>
-            )}
-        </Hidden>,
         allowTimeExtn && (
             <MenuItem
                 key={buildID(baseId, ids.MENUITEM_EXTEND_TIME_LIMIT)}
@@ -275,26 +253,161 @@ function DotMenuItems(props) {
                 <ListItemText primary={t("terminate")} />
             </MenuItem>
         ),
-        <Link href={"/" + NavigationConstants.ANALYSES} passHref>
-            <MenuItem
-                key={buildID(baseId, "go to analyses listing")}
-                id={buildID(baseId, "go to analyses listing")}
-            >
-                <ListItemText primary="Go to Analyses Listing" />
+        <Link
+            href={"/" + NavigationConstants.ANALYSES}
+            passHref
+            key={buildID(baseId, ids.MENUITEM_GOTO_ANALYSES)}
+        >
+            <MenuItem id={buildID(baseId, ids.MENUITEM_GOTO_ANALYSES)}>
+                <ListItemIcon>
+                    <AnalysesIcon
+                        fontSize="large"
+                        style={{ fontSize: "1.5rem" }}
+                    />
+                </ListItemIcon>
+                <ListItemText primary={t("goToAnalysesListing")} />
             </MenuItem>
         </Link>,
-        <Link href={"/" + NavigationConstants.APPS} passHref>
+        <Link
+            href={"/" + NavigationConstants.APPS}
+            passHref
+            key={buildID(baseId, ids.MENUITEM_GOTO_APPS)}
+        >
             <MenuItem
-                key={buildID(baseId, "go to apps")}
-                id={buildID(baseId, "go to apps")}
+                id={buildID(baseId, ids.MENUITEM_GOTO_APPS)}
                 onClick={() => {
                     onClose();
                 }}
             >
-                <ListItemText primary="Go to Apps Listing" />
+                <ListItemIcon>
+                    <Apps />
+                </ListItemIcon>
+                <ListItemText primary={t("goToAppsListing")} />
             </MenuItem>
         </Link>,
     ];
+}
+
+function BatchResults(props) {
+    const { baseId, parentId, enabled } = props;
+    const { t } = useTranslation("analyses");
+    const [expandListing, setExpandListing] = React.useState(true);
+    let analysisRecordFields = analysisFields(t);
+
+    const {
+        status,
+        data,
+        isFetchingNextPage,
+        fetchNextPage,
+        hasNextPage,
+        error,
+    } = useAnalysesSearchInfinite(
+        [
+            ANALYSES_SEARCH_QUERY_KEY,
+            {
+                rowsPerPage: BATCH_LISTING_SIZE,
+                orderBy: analysisRecordFields.START_DATE.key,
+                order: constants.SORT_DESCENDING,
+                filter: JSON.stringify([
+                    { field: "parent_id", value: parentId },
+                ]),
+            },
+        ],
+        enabled,
+        (lastGroup, allGroups) => {
+            const totalPages = Math.ceil(lastGroup?.total / BATCH_LISTING_SIZE);
+            if (allGroups.length < totalPages) {
+                return allGroups.length;
+            } else {
+                return false;
+            }
+        }
+    );
+
+    const columns = React.useMemo(
+        () => [
+            {
+                Header: analysisRecordFields.NAME.fieldName,
+                accessor: analysisRecordFields.NAME.key,
+                Cell: ({ row }) => (
+                    <Link
+                        href={`/${NavigationConstants.ANALYSES}/${row?.original.id}`}
+                    >
+                        <DELink
+                            id={row?.original.id}
+                            text={row?.original.name}
+                            title={row?.original.name}
+                        />
+                    </Link>
+                ),
+            },
+            {
+                Header: analysisRecordFields.STATUS.fieldName,
+                accessor: analysisRecordFields.STATUS.key,
+            },
+        ],
+        [analysisRecordFields]
+    );
+
+    if (error) {
+        return (
+            <ErrorTypographyWithDialog
+                errorMessage={t("errorSearch")}
+                errorObject={error}
+                baseId={baseId}
+            />
+        );
+    }
+    if (
+        status !== constants.LOADING &&
+        (!data ||
+            data.pages.length === 0 ||
+            data.pages[0].analyses.length === 0)
+    ) {
+        return <Typography>{t("noResults")}</Typography>;
+    }
+
+    let flatData = [];
+    if (data && data.pages[0].analyses.length > 0) {
+        data.pages.forEach((page) => {
+            flatData = [...flatData, ...page.analyses];
+        });
+    }
+
+    return (
+        <Accordion
+            expanded={expandListing}
+            onChange={() => setExpandListing(!expandListing)}
+        >
+            <AccordionSummary
+                expandIcon={<ExpandMore />}
+                aria-controls={buildID(baseId, ids.PARAMETERS_PANEL)}
+                id={buildID(baseId, ids.PARAMETERS_PANEL)}
+            >
+                <Typography variant="subtitle2" color="primary">
+                    {t("batchDetails")}
+                </Typography>
+            </AccordionSummary>
+            <BasicTable
+                baseId={baseId}
+                columns={columns}
+                data={flatData || []}
+                loading={isFetchingNextPage}
+                sortable
+            />
+            <AccordionActions>
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    style={{ flex: 1 }}
+                    onClick={() => fetchNextPage()}
+                    disabled={!hasNextPage || isFetchingNextPage}
+                >
+                    {t("loadMore")}
+                </Button>
+            </AccordionActions>
+        </Accordion>
+    );
 }
 
 export default function AnalysisSubmissionLanding(props) {
@@ -315,6 +428,15 @@ export default function AnalysisSubmissionLanding(props) {
         React.useState(false);
     const [renameDialogOpen, setRenameDialogOpen] = React.useState(false);
     const [commentDialogOpen, setCommentDialogOpen] = React.useState(false);
+
+    const [expandHistory, setExpandHistory] = React.useState(true);
+    const [expandParams, setExpandParams] = React.useState(true);
+
+    const [confirmExtendTimeLimitDlgOpen, setConfirmExtendTimeLimitDlgOpen] =
+        React.useState(false);
+    const [timeLimitQueryEnabled, setTimeLimitQueryEnabled] =
+        React.useState(false);
+    const [timeLimit, setTimeLimit] = React.useState();
 
     const username = getAnalysisUser(analysis);
     const isBatch = isBatchAnalysis(analysis);
@@ -354,6 +476,22 @@ export default function AnalysisSubmissionLanding(props) {
             enabled: !!id,
             onSuccess: setParameters,
         });
+
+    const { isFetching: isFetchingTimeLimit } = useQuery({
+        queryKey: [VICE_TIME_LIMIT_QUERY_KEY, id],
+        queryFn: () => getTimeLimitForVICEAnalysis(id),
+        enabled: timeLimitQueryEnabled,
+        onSuccess: (resp) => {
+            //convert the response from seconds to milliseconds
+            setTimeLimit({
+                [id]: formatDate(resp?.time_limit * 1000),
+            });
+            setConfirmExtendTimeLimitDlgOpen(true);
+        },
+        onError: (error) => {
+            showErrorAnnouncer(t("timeLimitError"), error);
+        },
+    });
 
     const { mutate: shareAnalysesMutation, isLoading: shareLoading } =
         useMutation(submitAnalysisSupportRequest, {
@@ -425,6 +563,25 @@ export default function AnalysisSubmissionLanding(props) {
         });
     };
 
+    const { mutate: doTimeLimitExtension, isLoading: extensionLoading } =
+        useMutation(extendVICEAnalysisTimeLimit, {
+            onSuccess: (resp) => {
+                setConfirmExtendTimeLimitDlgOpen(false);
+                setTimeLimit(null);
+                //convert the response from seconds to milliseconds
+                announce({
+                    text: t("timeLimitExtended", {
+                        newTimeLimit: formatDate(resp?.time_limit * 1000),
+                        analysisName: analysis?.name,
+                    }),
+                    variant: SUCCESS,
+                });
+            },
+            onError: (error) => {
+                showErrorAnnouncer(t("analysesRelaunchError"), error);
+            },
+        });
+
     const handleCancel = () => {
         analysesCancelMutation({ id: analysis?.id });
     };
@@ -441,12 +598,19 @@ export default function AnalysisSubmissionLanding(props) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
     }
 
-    if (isFetching || isInfoFetching || isParamsFetching || analysisLoading) {
+    if (
+        isFetching ||
+        isInfoFetching ||
+        isParamsFetching ||
+        analysisLoading ||
+        isFetchingTimeLimit ||
+        extensionLoading
+    ) {
         return <GridLoading rows={25} baseId={baseId} />;
     }
 
     return (
-        <>
+        <PageWrapper appBarHeight={75}>
             <div
                 style={{ margin: theme.spacing(1), padding: theme.spacing(1) }}
             >
@@ -491,6 +655,10 @@ export default function AnalysisSubmissionLanding(props) {
                                     analysisStatus.FAILED,
                                 ].includes(analysis.status) && (
                                     <Button
+                                        id={buildID(
+                                            baseId,
+                                            ids.SHARE_WITH_SUPPORT
+                                        )}
                                         variant="outlined"
                                         onClick={() => setHelpOpen(true)}
                                         size="small"
@@ -502,11 +670,14 @@ export default function AnalysisSubmissionLanding(props) {
                                     >
                                         {t("requestHelp")}
                                     </Button>
-                                    )}
+                                )}
                             </Grid>
                             <Grid item>
                                 <DotMenu
-                                    baseId={baseId}
+                                    baseId={buildID(
+                                        baseId,
+                                        ids.ANALYSIS_DOT_MENU
+                                    )}
                                     buttonText={t("common:dotMenuText")}
                                     render={(onClose) => (
                                         <DotMenuItems
@@ -535,6 +706,9 @@ export default function AnalysisSubmissionLanding(props) {
                                                 isTerminatedAnalysis
                                             }
                                             handleRefresh={refreshAnalysis}
+                                            handleTimeLimitExtnClick={() => {
+                                                setTimeLimitQueryEnabled(true);
+                                            }}
                                         />
                                     )}
                                 />
@@ -592,14 +766,20 @@ export default function AnalysisSubmissionLanding(props) {
                         <InfoGridValue>{username}</InfoGridValue>
                     </GridLabelValue>
                 </Grid>
-                <Accordion expanded={true}>
+                <Accordion
+                    expanded={expandHistory}
+                    onChange={() => setExpandHistory(!expandHistory)}
+                >
                     <AccordionSummary
                         expandIcon={<ExpandMore />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
+                        aria-controls={buildID(
+                            baseId,
+                            ids.STATUS_HISTORY_PANEL
+                        )}
+                        id={buildID(baseId, ids.STATUS_HISTORY_PANEL)}
                     >
                         <Typography variant="subtitle2" color="primary">
-                            Status History
+                            {t("statusHistory")}
                         </Typography>
                     </AccordionSummary>
                     <div style={{ padding: theme.spacing(1) }}>
@@ -611,14 +791,17 @@ export default function AnalysisSubmissionLanding(props) {
                         />
                     </div>
                 </Accordion>
-                <Accordion expanded={true}>
+                <Accordion
+                    expanded={expandParams}
+                    onChange={() => setExpandParams(!expandParams)}
+                >
                     <AccordionSummary
                         expandIcon={<ExpandMore />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
+                        aria-controls={buildID(baseId, ids.PARAMETERS_PANEL)}
+                        id={buildID(baseId, ids.PARAMETERS_PANEL)}
                     >
                         <Typography variant="subtitle2" color="primary">
-                            Parameters
+                            {t("analysisParams")}
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
@@ -630,6 +813,14 @@ export default function AnalysisSubmissionLanding(props) {
                         />
                     </AccordionDetails>
                 </Accordion>
+
+                {isBatch && (
+                    <BatchResults
+                        baseId={baseId}
+                        parentId={id}
+                        enabled={isBatch}
+                    />
+                )}
             </div>
             {sharable && (
                 <Sharing
@@ -674,6 +865,16 @@ export default function AnalysisSubmissionLanding(props) {
                 onClose={() => setCommentDialogOpen(false)}
                 handleUpdateComment={analysisCommentMutation}
             />
-        </>
+            <ConfirmationDialog
+                open={confirmExtendTimeLimitDlgOpen}
+                onClose={() => setConfirmExtendTimeLimitDlgOpen(false)}
+                onConfirm={() => doTimeLimitExtension({ id })}
+                confirmButtonText={t("extend")}
+                title={t("extendTime")}
+                contentText={t("extendTimeLimitMessage", {
+                    timeLimit: timeLimit ? timeLimit[id] : "",
+                })}
+            />
+        </PageWrapper>
     );
 }

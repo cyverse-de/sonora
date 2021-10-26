@@ -19,7 +19,7 @@ export default function Analysis() {
 
     return (
         <AnalysisSubmissionLanding
-            baseId="analyses"
+            baseId="analysesLanding"
             id={router.query?.analysisId}
         />
     );

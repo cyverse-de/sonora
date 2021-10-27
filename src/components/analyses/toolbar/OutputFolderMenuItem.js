@@ -1,7 +1,7 @@
 /**
  * @author sriram
  *
- * A dot menu for Analyses View.
+ * A dot menuitem for navigating to output folder from Analyses View.
  *
  */
 

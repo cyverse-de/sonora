@@ -1,7 +1,7 @@
 /**
  * @author sriram
  *
- * A dot menu for Analyses View.
+ * A dot menuitem for relaunching an analysis from Analyses View.
  *
  */
 

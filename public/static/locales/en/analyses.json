@@ -18,6 +18,7 @@
     "analysisInfoDlgTitle": "Analysis Info",
     "analysisInfoFetchError": "Unable to fetch analysis information. Please try again.",
     "analysisInfoTitle": "Analysis Info",
+    "analysisNotFound": "Analysis not found.",
     "analysisParamFetchError": "Unable to fetch analysis parameters. Please try again.",
     "analysisParams": "Parameters",
     "analysisParamTitle": "Viewing parameters for {{name}}",

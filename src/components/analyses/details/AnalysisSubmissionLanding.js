@@ -35,6 +35,7 @@ import ShareWithSupportDialog from "components/analyses/ShareWithSupportDialog";
 import { OutputFolderMenuItem } from "components/analyses/toolbar/OutputFolderMenuItem";
 import { RelaunchMenuItem } from "components/analyses/toolbar/RelaunchMenuItem";
 import TerminateAnalysisDialog from "components/analyses/toolbar/TerminateAnalysisDialog";
+import NotificationCategory from "components/models/NotificationCategory";
 import {
     allowAnalysesCancel,
     allowAnalysesRelaunch,
@@ -51,6 +52,7 @@ import { SUCCESS } from "components/announcer/AnnouncerConstants";
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import DotMenu from "components/dotMenu/DotMenu";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
+import ErrorTypography from "components/error/ErrorTypography";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 import AnalysesIcon from "components/icons/AnalysesIcon";
 import PageWrapper from "components/layout/PageWrapper";
@@ -73,6 +75,7 @@ import GridLabelValue from "components/utils/GridLabelValue";
 import GridLoading from "components/utils/GridLoading";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
+import { useNotifications } from "contexts/pushNotifications";
 
 import {
     Accordion,
@@ -417,6 +420,7 @@ export default function AnalysisSubmissionLanding(props) {
     const theme = useTheme();
     const [userProfile] = useUserProfile();
     const [config] = useConfig();
+    const { currentNotification } = useNotifications();
 
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const [analysis, setAnalysis] = React.useState();
@@ -447,19 +451,55 @@ export default function AnalysisSubmissionLanding(props) {
     const allowEdit = allowAnalysisEdit(analysis, username);
     const handleTerminateSelected = () => setTerminateAnalysisDlgOpen(true);
     const isTerminatedAnalysis = isTerminated(analysis);
-    const sharable = canShare([analysis]);
+    const sharable = analysis ? canShare([analysis]) : false;
     const queryClient = useQueryClient();
+
+    const updateAnalysis = React.useCallback(
+        (notifiMessage) => {
+            const message = notifiMessage?.message;
+            if (message) {
+                const category = message.type;
+                if (
+                    category?.toLowerCase() ===
+                    NotificationCategory.ANALYSIS.toLowerCase()
+                ) {
+                    const analysisId = message.payload?.id;
+                    const status = message.payload?.status;
+                    const resultfolderid =
+                        message.payload?.analysisresultsfolder;
+                    const enddate = message.payload?.enddate;
+
+                    if (analysisId === id && analysis?.status !== status) {
+                        setAnalysis({
+                            ...analysis,
+                            resultfolderid,
+                            status,
+                            enddate,
+                        });
+                    }
+                }
+            }
+        },
+        [analysis, id]
+    );
+
+    React.useEffect(() => {
+        updateAnalysis(currentNotification);
+    }, [currentNotification, updateAnalysis]);
 
     const refreshAnalysis = () => {
         queryClient.invalidateQueries([ANALYSES_LISTING_QUERY_KEY, id]);
     };
 
-    const { isFetching, error } = useQuery({
+    const { isFetching, error: analysisFetchError } = useQuery({
         queryKey: [ANALYSES_LISTING_QUERY_KEY, id],
         queryFn: () => getAnalysis(id),
         enabled: !!id,
         onSuccess: (data) => {
-            setAnalysis(data?.analyses[0]);
+            //if the analysis not found a give id, an empty list is returned.
+            if (data?.analyses?.length > 0) {
+                setAnalysis(data?.analyses[0]);
+            }
         },
     });
 
@@ -594,19 +634,30 @@ export default function AnalysisSubmissionLanding(props) {
         });
     };
 
-    if (error) {
-        return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
-    }
-
-    if (
+    const busy =
         isFetching ||
         isInfoFetching ||
         isParamsFetching ||
         analysisLoading ||
         isFetchingTimeLimit ||
-        extensionLoading
-    ) {
+        extensionLoading;
+
+    if (busy) {
         return <GridLoading rows={25} baseId={baseId} />;
+    }
+
+    if (analysisFetchError) {
+        return (
+            <WrappedErrorHandler
+                errorObject={analysisFetchError}
+                baseId={baseId}
+            />
+        );
+    }
+
+    //if the analysis not found the a give id, analysis will be null/undefined.
+    if ((analysis === null || analysis === undefined) && !busy) {
+        return <ErrorTypography errorMessage={t("analysisNotFound")} />;
     }
 
     return (
@@ -653,7 +704,7 @@ export default function AnalysisSubmissionLanding(props) {
                                     analysisStatus.RUNNING,
                                     analysisStatus.COMPLETED,
                                     analysisStatus.FAILED,
-                                ].includes(analysis.status) && (
+                                ].includes(analysis?.status) && (
                                     <Button
                                         id={buildID(
                                             baseId,
@@ -726,11 +777,25 @@ export default function AnalysisSubmissionLanding(props) {
                     <GridLabelValue label={t("outputFolder")}>
                         <div style={{ width: "100%" }}>
                             <div style={{ float: "left" }}>
-                                <DataPathLink
-                                    id={baseId}
-                                    param_type="FolderInput"
-                                    path={analysis?.resultfolderid}
-                                />
+                                {[
+                                    analysisStatus.SUBMITTED,
+                                    analysisStatus.RUNNING,
+                                ].includes(analysis?.status) && (
+                                    <Typography variant="body2">
+                                        {analysis?.resultfolderid}
+                                    </Typography>
+                                )}
+                                {[
+                                    analysisStatus.COMPLETED,
+                                    analysisStatus.FAILED,
+                                    analysisStatus.CANCELED,
+                                ].includes(analysis?.status) && (
+                                    <DataPathLink
+                                        id={baseId}
+                                        param_type="FolderInput"
+                                        path={analysis?.resultfolderid}
+                                    />
+                                )}
                             </div>
                             <div style={{ marginLeft: theme.spacing(0.25) }}>
                                 <CopyLinkButton

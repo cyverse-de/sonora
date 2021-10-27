@@ -118,4 +118,5 @@ export default {
         LICENSE_LINK: "licenseLink",
     },
     SELECT_COLLECTION_DLG: "selectCollectionDlg",
+    INSTANT_LAUNCH_BTN: "instantLaunchBtn",
 };

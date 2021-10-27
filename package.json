@@ -57,7 +57,7 @@
         "@material-ui/lab": "^4.0.0-alpha.60",
         "@material-ui/styles": "^4.11.4",
         "@next/bundle-analyzer": "^9.4.0",
-        "amqplib": "^0.7.1",
+        "amqplib": "^0.8.0",
         "animated-number-react": "^0.1.1",
         "axios": "^0.21.1",
         "bowser": "^2.9.0",

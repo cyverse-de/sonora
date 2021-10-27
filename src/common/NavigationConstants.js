@@ -13,6 +13,7 @@ export default {
     DOI: "doi",
     ERROR: "error",
     HELP: "help",
+    INSTANT_LAUNCHES: "instantlaunches",
     LOGIN: "login",
     LOGOUT: "logout",
     MORE: "more",

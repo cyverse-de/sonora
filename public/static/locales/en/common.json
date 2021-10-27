@@ -37,6 +37,7 @@
     "formatTermFreeTextOption": "Use \"{{inputValue}}\"",
     "help": "Help",
     "home": "Home",
+    "instantLaunches": "Instant Launches",
     "interactiveAnalysisUrl": "{{message}}. Access your running analysis here.",
     "intercomAriaLabel": "Chat with CyVerse support",
     "learnMore": "Learn More",

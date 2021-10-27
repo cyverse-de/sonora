@@ -19,7 +19,7 @@ import { useUserProfile } from "contexts/userProfile";
 import AppsIcon from "@material-ui/icons/Apps";
 import HelpIcon from "@material-ui/icons/Help";
 import HomeIcon from "@material-ui/icons/Home";
-import ToolIcon from "@material-ui/icons/LabelImportant";
+import NestedIcon from "@material-ui/icons/LabelImportant";
 import InstantLaunchDefaultIcon from "@material-ui/icons/PlayCircleOutlineOutlined";
 import SearchIcon from "@material-ui/icons/Search";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -83,16 +83,28 @@ function DrawerItems(props) {
                 icon={AppsIcon}
             />
             {open && (
-                <DrawerItem
-                    nested
-                    title={t("tools")}
-                    id={ids.TOOLS_MI}
-                    thisView={NavigationConstants.TOOLS}
-                    activeView={activeView}
-                    toggleDrawer={toggleDrawer}
-                    open={open}
-                    icon={ToolIcon}
-                />
+                <>
+                    <DrawerItem
+                        nested
+                        title={t("tools")}
+                        id={ids.TOOLS_MI}
+                        thisView={NavigationConstants.TOOLS}
+                        activeView={activeView}
+                        toggleDrawer={toggleDrawer}
+                        open={open}
+                        icon={NestedIcon}
+                    />
+                    <DrawerItem
+                        nested
+                        title={t("instantLaunches")}
+                        id={ids.INSTANT_LAUNCHES_MI}
+                        thisView={NavigationConstants.INSTANT_LAUNCHES}
+                        activeView={activeView}
+                        toggleDrawer={toggleDrawer}
+                        open={open}
+                        icon={NestedIcon}
+                    />
+                </>
             )}
             <DrawerItem
                 title={t("analyses")}

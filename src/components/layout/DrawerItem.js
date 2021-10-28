@@ -42,13 +42,12 @@ const DrawerItem = (props) => {
                     toggleDrawer(false);
                     onClick ? onClick() : router.push("/" + thisView);
                 }}
-                className={
+                className={clsx(
+                    nested && classes.nested,
                     activeView === thisView
                         ? classes.listItemActive
-                        : nested
-                        ? clsx(classes.nested, classes.listItem)
                         : classes.listItem
-                }
+                )}
             >
                 {Icon && (
                     <ListItemIcon>

@@ -82,6 +82,7 @@
     "imageLabel": "Image",
     "inputDescHelpText": "For example, number of files required or file format(s) accepted.",
     "inputDescLabel": "Briefly describe input file(s) required by this app.",
+    "instantLaunches": "Instant Launches",
     "intEmail": "Integrator email",
     "intName": "Integrator name",
     "integratedBy": "Integrated By",

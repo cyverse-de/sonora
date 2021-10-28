@@ -20,20 +20,21 @@ import buildID from "components/utils/DebugIDUtil";
 import DotMenu from "components/dotMenu/DotMenu";
 import {
     Button,
-    Hidden,
-    Toolbar,
     Dialog,
     DialogActions,
     DialogContent,
+    Hidden,
     TextField,
+    Toolbar,
 } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
     Add as CreateAppIcon,
-    Info,
     Build,
     FilterList as FilterListIcon,
+    Info,
+    PlayArrowRounded,
     Queue as AddToBagIcon,
 } from "@material-ui/icons";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -115,6 +116,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
 }));
+
 function AppsToolbar(props) {
     const {
         handleCategoryChange,
@@ -247,6 +249,22 @@ function AppsToolbar(props) {
                                 size="small"
                             >
                                 {t("manageTools")}
+                            </Button>
+                        </Link>
+                        <Link href={`/${NavigationConstants.INSTANT_LAUNCHES}`}>
+                            <Button
+                                id={buildID(
+                                    appsToolbarId,
+                                    ids.INSTANT_LAUNCH_BTN
+                                )}
+                                className={classes.toolbarItems}
+                                variant="outlined"
+                                disableElevation
+                                color="primary"
+                                startIcon={<PlayArrowRounded />}
+                                size="small"
+                            >
+                                {t("instantLaunches")}
                             </Button>
                         </Link>
                     </Hidden>

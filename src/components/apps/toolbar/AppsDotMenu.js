@@ -34,6 +34,7 @@ import {
     Build,
     Info,
     Queue as AddToBagIcon,
+    PlayArrowRounded,
 } from "@material-ui/icons";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
 
@@ -145,6 +146,17 @@ function AppsDotMenu(props) {
                             <Build fontSize="small" />
                         </ListItemIcon>
                         <ListItemText primary={t("manageTools")} />
+                    </MenuItem>
+                </Link>,
+                <Link
+                    key={ids.INSTANT_LAUNCH_MI}
+                    href={NavigationConstants.INSTANT_LAUNCHES}
+                >
+                    <MenuItem id={buildID(baseId, ids.INSTANT_LAUNCH_MI)}>
+                        <ListItemIcon>
+                            <PlayArrowRounded fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText primary={t("instantLaunches")} />
                     </MenuItem>
                 </Link>,
                 <CreateAppMenuItem

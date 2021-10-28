@@ -26,6 +26,16 @@ export const InstantLaunchListTest = () => {
             params: { attribute: "ui_location", value: "dashboard", unit: "" },
         })
         .reply(200, testInstantLaunchesDashboard);
+    mockAxios
+        .onGet("/api/admin/instantlaunches/metadata/full", {
+            params: { attribute: "ui_location", value: "nav_drawer", unit: "" },
+        })
+        .reply(200, testInstantLaunchesDashboard);
+    mockAxios
+        .onGet("/api/admin/instantlaunches/metadata/full", {
+            params: { attribute: "ui_location", value: "listing", unit: "" },
+        })
+        .reply(200, testInstantLaunchesDashboard);
 
     return <InstantLaunchList />;
 };

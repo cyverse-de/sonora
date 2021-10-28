@@ -263,11 +263,7 @@ export const removeFromNavDrawer = async (id) => {
             value !== instantLaunchNavDrawer
     );
 
-    if (filtered.length > 0) {
-        return await resetInstantLaunchMetadata(id, filtered);
-    }
-
-    return new Promise((resolve, reject) => resolve(ilMeta));
+    return await resetInstantLaunchMetadata(id, filtered);
 };
 
 /**
@@ -309,10 +305,7 @@ export const removeFromInstantLaunchListing = (id) => {
                 value !== instantLaunchListing
         );
 
-        if (filtered.length > 0) {
-            return resetInstantLaunchMetadata(id, filtered);
-        }
-        return ilMeta;
+        return resetInstantLaunchMetadata(id, filtered);
     });
 };
 

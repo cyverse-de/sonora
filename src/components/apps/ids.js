@@ -119,4 +119,5 @@ export default {
     },
     SELECT_COLLECTION_DLG: "selectCollectionDlg",
     INSTANT_LAUNCH_BTN: "instantLaunchBtn",
+    INSTANT_LAUNCH_MI: "instantLaunchMI",
 };

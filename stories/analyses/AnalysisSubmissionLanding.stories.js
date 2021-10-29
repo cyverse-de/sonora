@@ -2,7 +2,7 @@ import React from "react";
 import { mockAxios } from "../axiosMock";
 import { deWordCountAnalysis, params, info } from "./AnalysesMocks";
 
-import AnalysisSubmissionLanding from "components/analyses/details/AnalysisSubmissionLanding";
+import AnalysisSubmissionLanding from "components/analyses/landing/AnalysisSubmissionLanding";
 
 export default {
     title: "Submission Landing",

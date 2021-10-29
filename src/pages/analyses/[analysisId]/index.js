@@ -6,7 +6,7 @@
  */
 import React from "react";
 import { useRouter } from "next/router";
-import AnalysisSubmissionLanding from "components/analyses/details/AnalysisSubmissionLanding";
+import AnalysisSubmissionLanding from "components/analyses/landing/AnalysisSubmissionLanding";
 
 /**
  *
@@ -14,6 +14,7 @@ import AnalysisSubmissionLanding from "components/analyses/details/AnalysisSubmi
  *
  */
 
+export const BATCH_DRILL_DOWN = "batchDrillDown";
 export default function Analysis() {
     const router = useRouter();
 
@@ -21,6 +22,7 @@ export default function Analysis() {
         <AnalysisSubmissionLanding
             baseId="analysesLanding"
             id={router.query?.analysisId}
+            view={router.query?.view}
         />
     );
 }

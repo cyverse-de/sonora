@@ -12,6 +12,7 @@ export default {
     COMMUNITY_DATA: "Community Data",
     TRASH: "Trash",
     DATA_STORE_STORAGE_ID: "ds",
+    DEFAULT_PAGE_SIZE: 100,
     PATH_SEPARATOR: "/",
     APPS_UNDER_DEV: "Apps under development",
     FAV_APPS: "Favorite Apps",

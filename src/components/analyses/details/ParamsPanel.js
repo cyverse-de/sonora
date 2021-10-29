@@ -22,7 +22,7 @@ import { useTranslation } from "i18n";
 import React, { useState } from "react";
 import ids from "../ids";
 import { isInputType, isReferenceGenomeType } from "./ArgumentTypeUtils";
-import DataPathLink from "./DataPathLink";
+import DataPathLink from "../../data/DataPathLink";
 
 function ParameterValue(props) {
     const {

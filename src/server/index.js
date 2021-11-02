@@ -119,9 +119,10 @@ app.prepare()
         //get notifications from amqp
         logger.info("Set up notification queue and websocket");
         setUpAmqpForNotifications();
-        expressWs(server);
+        const express_wss = expressWs(server);
+        const wss = express_wss.getWss(NavigationConstants.NOTIFICATION_WS);
         server.ws(NavigationConstants.NOTIFICATION_WS, function (ws, request) {
-            getNotifications(authn.getUserID(request), ws);
+            getNotifications(authn.getUserID(request), ws, wss);
         });
 
         logger.info(

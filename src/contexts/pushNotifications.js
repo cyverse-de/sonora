@@ -48,7 +48,8 @@ function useNotifications() {
 function NotificationsProvider(props) {
     const { children } = props;
     const [userProfile] = useUserProfile();
-    const [currentNotification, setCurrentNotification] = useState();
+    const [userId, setUserId] = useState(null);
+    const [currentNotification, setCurrentNotification] = useState(null);
     const [selectedNotification, setSelectedNotification] = useState(null);
     const [adminJoinRequestDlgOpen, setAdminJoinRequestDlgOpen] =
         useState(false);
@@ -82,7 +83,7 @@ function NotificationsProvider(props) {
     // Allow websocket connection be cached between component unmounts.
     const wsConn = useRef(null);
     useEffect(() => {
-        if (userProfile?.id && !wsConn.current) {
+        if (userId && !wsConn.current) {
             const location = window.location;
             const protocol =
                 location.protocol.toLowerCase() === "https:"
@@ -109,13 +110,14 @@ function NotificationsProvider(props) {
             //example, when switching between apps and data
             setCurrentNotification(null);
         };
-    }, [currentNotification, userProfile, onMessage, wsConn]);
+    }, [currentNotification, userId, onMessage, wsConn]);
 
     //when user logs out, close the websocket connection
     useEffect(() => {
         if (!userProfile && wsConn.current) {
             wsConn.current.close();
         }
+        setUserId(userProfile?.id);
     }, [userProfile]);
 
     useEffect(() => {

@@ -48,18 +48,14 @@ export function setUpAmqpForNotifications() {
  *
  * @param {string} user - CyVerse Username
  * @param {Object} ws - Websocket instance
- * @param {Object} wss - Websocket handler
  */
-export function getNotifications(user, ws, wss) {
+export function getNotifications(user, ws) {
     let consumerTag = "";
     if (!user) {
         logger.error("User not found. Unable to get notifications!");
         ws.close();
         return;
     }
-
-    // Tag the websocket with the current user's id
-    ws.userId = user;
 
     const QUEUE = NOTIFICATION_QUEUE + user;
 
@@ -101,14 +97,7 @@ export function getNotifications(user, ws, wss) {
                 function (msg) {
                     logger.info("Received message:" + msg.content.toString());
                     try {
-                        // Cycle through the client connections and send
-                        // ws notifications to each client containing the
-                        // matching userId tag
-                        wss.clients.forEach(function each(client) {
-                            if (user === client?.userId) {
-                                client.send(msg.content.toString());
-                            }
-                        });
+                        ws.send(msg.content.toString());
                         msgChannel.ack(msg);
                     } catch (e) {
                         logger.error("Error when sending message: " + e);

@@ -42,7 +42,7 @@ export default function DataPathLink(props) {
         },
         onError: (error) => {
             if (ERROR_CODES.ERR_DOES_NOT_EXIST === getErrorCode(error)) {
-                setStatError(t("errorInputDoesNotExist", { path: linkTarget }));
+                setStatError(t("errorInputDoesNotExist", { path }));
                 setOtherError(null);
             } else {
                 setStatError(null);

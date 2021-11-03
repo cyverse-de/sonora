@@ -27,8 +27,8 @@ import {
     ListItemText,
     Divider,
     makeStyles,
-    Paper,
     Typography,
+    useTheme,
 } from "@material-ui/core";
 import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
 
@@ -79,9 +79,8 @@ function Updates(props) {
 }
 
 function Step(props) {
-    const { step_number, external_id, step_type, status, updates } = props.step;
+    const { step_number, step_type, status, updates } = props.step;
     const { baseId } = props;
-    const { t } = useTranslation("analyses");
     const classes = useStyles();
     return (
         <Accordion id={baseId}>
@@ -91,12 +90,6 @@ function Step(props) {
                 </Typography>
             </AccordionSummary>
             <AccordionDetails classes={{ root: classes.accordionDetails }}>
-                <div>
-                    <CopyTextArea
-                        text={external_id}
-                        btnText={t("copyAnalysisId")}
-                    />
-                </div>
                 <Updates
                     updates={updates}
                     baseId={buildID(baseId, ids.INFO.UPDATE)}
@@ -109,6 +102,7 @@ function Step(props) {
 function InfoPanel(props) {
     const { info, isInfoFetching, infoFetchError, baseId } = props;
     const { t } = useTranslation("analyses");
+    const theme = useTheme();
 
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
 
@@ -141,7 +135,13 @@ function InfoPanel(props) {
         );
     }
     return (
-        <Paper>
+        <>
+            <div style={{ marginBottom: theme.spacing(1) }}>
+                <CopyTextArea
+                    text={info?.analysis_id}
+                    btnText={t("copyAnalysisId")}
+                />
+            </div>
             {info.steps.map((s, index) => {
                 return (
                     <Step
@@ -151,7 +151,7 @@ function InfoPanel(props) {
                     />
                 );
             })}
-        </Paper>
+        </>
     );
 }
 

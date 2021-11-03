@@ -8,6 +8,8 @@
 import React from "react";
 
 import TableLoading from "components/table/TableLoading";
+import EmptyTable from "components/table/EmptyTable";
+
 import {
     Table,
     TableBody,
@@ -16,8 +18,6 @@ import {
     TableHead,
     TableRow,
     TableSortLabel,
-    Typography,
-    useTheme,
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useSortBy, useTable } from "react-table";
@@ -35,7 +35,6 @@ function BasicTable(props) {
         loading,
         emptyDataMessage,
     } = props;
-    const theme = useTheme();
     const { getTableProps, headerGroups, rows, prepareRow } = useTable(
         {
             columns,
@@ -87,9 +86,12 @@ function BasicTable(props) {
                     />
                 )}
                 {!loading && data?.length === 0 && (
-                    <Typography style={{ marginLeft: theme.spacing(1) }}>
-                        {emptyDataMessage}
-                    </Typography>
+                    <TableBody>
+                        <EmptyTable
+                            message={emptyDataMessage || ""}
+                            numColumns={columns.length}
+                        />
+                    </TableBody>
                 )}
                 {!loading && data?.length > 0 && (
                     <TableBody>

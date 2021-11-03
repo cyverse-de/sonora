@@ -20,13 +20,14 @@ import {
     allowAnalysisTimeExtn,
     isBatchAnalysis,
     isInteractive,
-    isTerminated,
     useGotoOutputFolderLink,
     useRelaunchLink,
 } from "../utils";
 
 import buildID from "components/utils/DebugIDUtil";
 import DotMenu from "components/dotMenu/DotMenu";
+import { OutputFolderMenuItem } from "./OutputFolderMenuItem";
+import { RelaunchMenuItem } from "./RelaunchMenuItem";
 import {
     Hidden,
     ListItemIcon,
@@ -45,65 +46,11 @@ import {
     HourglassEmptyRounded as HourGlassIcon,
     Info,
     Launch as LaunchIcon,
-    PermMedia as OutputFolderIcon,
     Queue as AddToBagIcon,
     Repeat as RelaunchIcon,
     UnfoldMore as UnfoldMoreIcon,
 } from "@material-ui/icons";
 import SharingMenuItem from "../../sharing/SharingMenuItem";
-
-const RelaunchMenuItem = React.forwardRef((props, ref) => {
-    const { baseId, onClick, href } = props;
-    const { t } = useTranslation("analyses");
-    return (
-        <MenuItem
-            key={buildID(baseId, ids.MENUITEM_RELAUNCH)}
-            id={buildID(baseId, ids.MENUITEM_RELAUNCH)}
-            href={href}
-            onClick={onClick}
-            ref={ref}
-        >
-            <ListItemIcon>
-                <RelaunchIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText primary={t("relaunch")} />
-        </MenuItem>
-    );
-});
-
-const OutputFolderMenuItem = React.forwardRef((props, ref) => {
-    const {
-        baseId,
-        onClick,
-        onClose,
-        href,
-        analysis,
-        setPendingTerminationDlgOpen,
-    } = props;
-    const { t } = useTranslation("analyses");
-    const terminated = isTerminated(analysis);
-    return (
-        <MenuItem
-            key={buildID(baseId, ids.MENUITEM_GO_TO_FOLDER)}
-            id={buildID(baseId, ids.MENUITEM_GO_TO_FOLDER)}
-            href={href}
-            onClick={(event) => {
-                if (terminated) {
-                    onClick(event);
-                } else {
-                    onClose();
-                    setPendingTerminationDlgOpen(true);
-                }
-            }}
-            ref={ref}
-        >
-            <ListItemIcon>
-                <OutputFolderIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText primary={t("goOutputFolder")} />
-        </MenuItem>
-    );
-});
 
 function DotMenuItems(props) {
     const {

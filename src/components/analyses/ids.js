@@ -45,6 +45,10 @@ export default {
     MENUITEM_EXTEND_TIME_LIMIT: "extendTimeLimit",
     MENUITEM_FILTER: "filters",
     MENUITEM_ADD_TO_BAG: "addToBag",
+    MENUITEM_REFRESH: "refresh",
+    MENUITEM_GOTO_ANALYSES: "gotoAnalyses",
+    MENUITEM_GOTO_APPS: "gotoApps",
+    MENUITEM_SHARE_WITH_SUPPORT: "shareWithSupport",
 
     DETAILS_BTN: "detailsBtn",
     ADD_TO_BAG_BTN: "addToBagBtn",
@@ -120,4 +124,11 @@ export default {
     TERMINATE_ANALYSIS_DLG: "terminateAnalysisDlg",
     TERMINATE_BTN: "terminateBtn",
     PENDING_TERMINATION_DLG: "pendingTerminationDlg",
+
+    STATUS_HISTORY_PANEL: "statusHistoryPanel",
+    STATUS_HISTORY_PANEL_HEADER: "statusHistoryPanelHeader",
+    PARAMETERS_PANEL_HEADER: "parametersPanelHeader",
+    PARAMETERS_PANEL: "parametersPanel",
+    BATCH_PANEL_HEADER: "batchPanelHeader",
+    BATCH_PANEL: "batchPanel",
 };

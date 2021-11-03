@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     },
     list: {
         width: 250,
-        margin: 0
+        margin: 0,
     },
     listItem: {
         outline: "none",

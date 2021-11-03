@@ -53,7 +53,7 @@ const Launch = ({
         ({ submission }) => submitAnalysis(submission),
         {
             onSuccess: (resp, { onSuccess }) => {
-                router.push(`/${NavigationConstants.ANALYSES}`);
+                router.push(`/${NavigationConstants.ANALYSES}/${resp?.id}`);
                 onSuccess(resp);
                 trackIntercomEvent(IntercomEvents.LAUNCHED_JOB, resp);
             },

@@ -44,7 +44,7 @@ const allowAnalysisTimeExtn = (analysis, currentUser) => {
         return false;
     }
     return (
-        analysis.interactive_urls?.length > 0 &&
+        analysis?.interactive_urls?.length > 0 &&
         analysis.status === analysisStatus.RUNNING &&
         currentUser === getAnalysisUser(analysis)
     );
@@ -74,9 +74,9 @@ const allowAnalysesCancel = (analyses, currentUser) => {
         !analyses.find(
             (analysis) =>
                 currentUser !== getAnalysisUser(analysis) ||
-                (analysis.status !== analysisStatus.RUNNING &&
-                    analysis.status !== analysisStatus.IDLE &&
-                    analysis.status !== analysisStatus.SUBMITTED)
+                (analysis?.status !== analysisStatus.RUNNING &&
+                    analysis?.status !== analysisStatus.IDLE &&
+                    analysis?.status !== analysisStatus.SUBMITTED)
         )
     );
 };
@@ -103,7 +103,7 @@ const allowAnalysesRelaunch = (selectedAnalyses) => {
         return false;
     }
 
-    const filteredAnalyses = selectedAnalyses.filter(
+    const filteredAnalyses = selectedAnalyses?.filter(
         (analysis) => analysis?.app_disabled === true
     );
 

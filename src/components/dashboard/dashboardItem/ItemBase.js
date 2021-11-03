@@ -1,7 +1,10 @@
 import React from "react";
 import clsx from "clsx";
-import { Trans, useTranslation } from "i18n";
 import ReactPlayer from "react-player/youtube";
+import { useTranslation } from "i18n";
+
+import AnalysisSubheader from "./AnalysisSubheader";
+import buildID from "components/utils/DebugIDUtil";
 
 import {
     Avatar,
@@ -14,10 +17,6 @@ import {
     useMediaQuery,
     useTheme,
 } from "@material-ui/core";
-
-import useAnalysisRunTime from "components/analyses/useAnalysisRunTime";
-import buildID from "components/utils/DebugIDUtil";
-import analysisStatus from "components/models/analysisStatus";
 
 import ids from "../ids";
 import * as constants from "../constants";
@@ -44,46 +43,6 @@ const DashboardLink = ({ target, kind, children }) => {
         </Link>
     );
 };
-
-function AnalysisSubheader(props) {
-    const { analysis, date: formattedDate } = props;
-    const { t } = useTranslation(["dashboard", "apps"]);
-    const { elapsedTime, totalRunTime } = useAnalysisRunTime(analysis);
-    const theme = useTheme();
-
-    const status = analysis.status;
-    const statusColor =
-        status === analysisStatus.COMPLETED
-            ? theme.palette.primary.main
-            : status === analysisStatus.RUNNING
-            ? theme.palette.success.main
-            : status === analysisStatus.FAILED
-            ? theme.palette.error.main
-            : null;
-
-    return (
-        <Trans
-            t={t}
-            i18nKey={
-                totalRunTime
-                    ? "analysisCompletedOrigination"
-                    : elapsedTime
-                    ? "analysisRunningOrigination"
-                    : "analysisOrigination"
-            }
-            values={{
-                status,
-                date: formattedDate,
-                runningTime: elapsedTime,
-                totalRunTime,
-            }}
-            components={{
-                bold: <strong />,
-                status: <span style={{ color: statusColor }} />,
-            }}
-        />
-    );
-}
 
 /**
  * An item in the dashboard.

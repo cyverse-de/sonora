@@ -1,19 +1,16 @@
 /**
- * 
+ *
  * @author aramsey, sriram
- * 
+ *
  * A component that displays analysis run time and status
- * 
+ *
  */
 import React from "react";
 import { Trans, useTranslation } from "i18n";
 
-import {
-    useTheme
-} from "@material-ui/core";
+import { useTheme } from "@material-ui/core";
 import useAnalysisRunTime from "components/analyses/useAnalysisRunTime";
 import analysisStatus from "components/models/analysisStatus";
-
 
 export default function AnalysisSubheader(props) {
     const { analysis, date: formattedDate } = props;
@@ -24,12 +21,12 @@ export default function AnalysisSubheader(props) {
     const status = analysis.status;
     const statusColor =
         status === analysisStatus.COMPLETED
-            ? theme.palette.primary.main
+            ? theme.palette.success.main
             : status === analysisStatus.RUNNING
-                ? theme.palette.success.main
-                : status === analysisStatus.FAILED
-                    ? theme.palette.error.main
-                    : null;
+            ? theme.palette.primary.main
+            : status === analysisStatus.FAILED
+            ? theme.palette.error.main
+            : null;
 
     return (
         <Trans
@@ -38,8 +35,8 @@ export default function AnalysisSubheader(props) {
                 totalRunTime
                     ? "analysisCompletedOrigination"
                     : elapsedTime
-                        ? "analysisRunningOrigination"
-                        : "analysisOrigination"
+                    ? "analysisRunningOrigination"
+                    : "analysisOrigination"
             }
             values={{
                 status,

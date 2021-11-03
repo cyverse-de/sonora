@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import { makeStyles, Paper, Table } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { Formik } from "formik";
-import { queryCache, useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { INFO } from "components/announcer/AnnouncerConstants";
@@ -53,10 +53,12 @@ function CollectionsForm(props) {
     const [collectionNameSaved, setCollectionNameSaved] = useState(false);
     const [showRetagAppsDlg, setShowRetagAppsDlg] = useState(false);
 
+    const queryClient = useQueryClient();
+
     const isCreatingCollection = !collectionName;
 
     const resetMyCollectionsCache = () => {
-        queryCache.setQueryData(
+        queryClient.setQueryData(
             [MY_COLLECTIONS_QUERY, { userId: userProfile?.id }],
             null
         );

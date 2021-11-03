@@ -222,16 +222,11 @@ function useAnalysisInfo({ id, enabled, onSuccess, onError }) {
 }
 
 function useAnalysisParameters({ id, enabled, onSuccess, onError }) {
-    let parameters;
     const preProcessData = (data) => {
-        if (!data || !data.parameters) {
-            return;
-        }
-        if (data.parameters.length === 0) {
-            parameters = [];
-            return;
-        }
         let paramList = [];
+        if (!data || !data.parameters || data.parameters.length === 0) {
+            return paramList;
+        }
         data.parameters.forEach((parameter) => {
             const type = parameter.param_type;
             let parsedParam = null;
@@ -253,15 +248,14 @@ function useAnalysisParameters({ id, enabled, onSuccess, onError }) {
                 paramList.push(parsedParam);
             }
         });
-        parameters = paramList;
+        return paramList;
     };
     return useQuery({
         queryKey: [ANALYSIS_PARAMS_QUERY_KEY, id],
         queryFn: () => getAnalysisParameters(id),
         enabled,
         onSuccess: (data) => {
-            preProcessData(data);
-            onSuccess(parameters);
+            onSuccess(preProcessData(data));
         },
         onError,
     });

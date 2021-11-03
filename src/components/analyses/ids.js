@@ -131,5 +131,4 @@ export default {
     PARAMETERS_PANEL: "parametersPanel",
     BATCH_PANEL_HEADER: "batchPanelHeader",
     BATCH_PANEL: "batchPanel",
-
 };

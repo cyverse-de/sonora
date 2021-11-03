@@ -34,7 +34,6 @@ import { ExpandMore } from "@material-ui/icons";
 export default function BatchResults(props) {
     const { baseId, parentId, enabled } = props;
     const { t } = useTranslation("analyses");
-    const [expandListing, setExpandListing] = React.useState(true);
     let analysisRecordFields = analysisFields(t);
 
     const {
@@ -114,30 +113,25 @@ export default function BatchResults(props) {
 
     let flatData = [];
     if (data && data.pages[0].analyses.length > 0) {
-        data.pages.forEach((page) => {
-            flatData = [...flatData, ...page.analyses];
-        });
+        flatData = data.pages.map((page) => page.analyses).flat();
     }
 
     return (
-        <Accordion
-            expanded={expandListing}
-            onChange={() => setExpandListing(!expandListing)}
-        >
+        <Accordion defaultExpanded={true}>
             <AccordionSummary
                 expandIcon={<ExpandMore />}
                 aria-controls={buildID(baseId, ids.BATCH_PANEL)}
                 id={buildID(baseId, ids.BATCH_PANEL_HEADER)}
             >
                 <Typography variant="subtitle2" color="primary">
-                    {t("batchDetails")}
+                    {t("htDetailsTitle")}
                 </Typography>
             </AccordionSummary>
             <AccordionDetails>
                 <BasicTable
                     baseId={baseId}
                     columns={columns}
-                    data={flatData || []}
+                    data={flatData}
                     loading={isFetchingNextPage}
                     sortable
                 />

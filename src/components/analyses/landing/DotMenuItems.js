@@ -16,7 +16,12 @@ import buildID from "components/utils/DebugIDUtil";
 
 import ids from "../ids";
 import { openInteractiveUrl } from "../utils";
-import { Hidden, ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
+import {
+    Hidden,
+    ListItemIcon,
+    ListItemText,
+    MenuItem,
+} from "@material-ui/core";
 import {
     Apps,
     Cancel as CancelIcon,
@@ -25,7 +30,7 @@ import {
     HourglassEmptyRounded as HourGlassIcon,
     Launch as LaunchIcon,
     Refresh,
-    ContactSupport
+    ContactSupport,
 } from "@material-ui/icons";
 
 export default function DotMenuItems(props) {
@@ -48,7 +53,7 @@ export default function DotMenuItems(props) {
         isTerminatedAnalysis,
         handleRefresh,
         handleShareWithSupport,
-        allowShareWithSupport
+        allowShareWithSupport,
     } = props;
 
     const { t } = useTranslation("analyses");
@@ -75,20 +80,21 @@ export default function DotMenuItems(props) {
             </MenuItem>
         </Hidden>,
         <Hidden smUp>
-            {allowShareWithSupport && <MenuItem
-                key={buildID(baseId, ids.MENUITEM_SHARE_WITH_SUPPORT)}
-                id={buildID(baseId, ids.MENUITEM_SHARE_WITH_SUPPORT)}
-                onClick={() => {
-                    onClose();
-                    handleShareWithSupport();
-                }}
-            >
-                <ListItemIcon>
-                    <ContactSupport fontSize="small" />
-                </ListItemIcon>
-                <ListItemText primary={t("requestHelp")} />
-            </MenuItem>
-            }
+            {allowShareWithSupport && (
+                <MenuItem
+                    key={buildID(baseId, ids.MENUITEM_SHARE_WITH_SUPPORT)}
+                    id={buildID(baseId, ids.MENUITEM_SHARE_WITH_SUPPORT)}
+                    onClick={() => {
+                        onClose();
+                        handleShareWithSupport();
+                    }}
+                >
+                    <ListItemIcon>
+                        <ContactSupport fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary={t("requestHelp")} />
+                </MenuItem>
+            )}
         </Hidden>,
         !isTerminatedAnalysis && isVICE && (
             <MenuItem

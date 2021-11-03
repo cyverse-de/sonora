@@ -29,6 +29,7 @@ import { canShare } from "../utils";
 import DataPathLink from "../../data/DataPathLink";
 import InfoPanel from "../details/InfoPanel";
 import ParamsPanel from "../details/ParamsPanel";
+import AnalysisStatusIcon from "../AnalysisStatusIcon";
 
 import NavigationConstants from "common/NavigationConstants";
 import ShareWithSupportDialog from "components/analyses/ShareWithSupportDialog";
@@ -105,9 +106,6 @@ export default function AnalysisSubmissionLanding(props) {
         React.useState(false);
     const [renameDialogOpen, setRenameDialogOpen] = React.useState(false);
     const [commentDialogOpen, setCommentDialogOpen] = React.useState(false);
-
-    const [expandHistory, setExpandHistory] = React.useState(true);
-    const [expandParams, setExpandParams] = React.useState(true);
 
     const [confirmExtendTimeLimitDlgOpen, setConfirmExtendTimeLimitDlgOpen] =
         React.useState(false);
@@ -335,25 +333,37 @@ export default function AnalysisSubmissionLanding(props) {
         );
     }
 
-    //if the analysis not found the a give id, analysis will be null/undefined.
-    if ((analysis === null || analysis === undefined) && !busy) {
+    //if the analysis not found for a give id, analysis will be null/undefined.
+    if (!analysis && !busy) {
         return <ErrorTypography errorMessage={t("analysisNotFound")} />;
     }
 
     return (
         <PageWrapper appBarHeight={75}>
             <div
-                style={{ margin: theme.spacing(1), padding: theme.spacing(1) }}
+                style={{
+                    margin: theme.spacing(0.2),
+                    padding: theme.spacing(0.2),
+                }}
             >
                 {view === BATCH_DRILL_DOWN && <BackButton />}
                 <Grid container spacing={1}>
                     <Grid item xs={isMobile ? 0 : 6}>
-                        <Grid container>
+                        <Grid container spacing={1}>
                             <Grid item>
-                                <Typography variant="h6" color="primary">
+                                <AnalysisStatusIcon status={analysis?.status} />
+                            </Grid>
+                            <Grid item>
+                                <Typography
+                                    variant={isMobile ? "subtitle1" : "h6"}
+                                    color="primary"
+                                >
                                     {analysis?.name}
                                 </Typography>
-                                <AnalysisSubheader analysis={analysis} date={formatDate(analysis?.startdate)} />
+                                <AnalysisSubheader
+                                    analysis={analysis}
+                                    date={formatDate(analysis?.startdate)}
+                                />
                             </Grid>
                         </Grid>
                     </Grid>
@@ -437,8 +447,12 @@ export default function AnalysisSubmissionLanding(props) {
                                             handleTimeLimitExtnClick={() => {
                                                 setTimeLimitQueryEnabled(true);
                                             }}
-                                            handleShareWithSupport={() => setHelpOpen(true)}
-                                            allowShareWithSupport={allowShareWithSupport}
+                                            handleShareWithSupport={() =>
+                                                setHelpOpen(true)
+                                            }
+                                            allowShareWithSupport={
+                                                allowShareWithSupport
+                                            }
                                         />
                                     )}
                                 />
@@ -447,7 +461,11 @@ export default function AnalysisSubmissionLanding(props) {
                     </Grid>
                 </Grid>
                 <Divider />
-                <Grid container spacing={3} style={{ marginTop: theme.spacing(1) }}>
+                <Grid
+                    container
+                    spacing={3}
+                    style={{ marginTop: theme.spacing(1) }}
+                >
                     <GridLabelValue label={t("app")}>
                         <InfoGridValue>{analysis?.app_name}</InfoGridValue>
                     </GridLabelValue>
@@ -506,10 +524,7 @@ export default function AnalysisSubmissionLanding(props) {
                         <InfoGridValue>{username}</InfoGridValue>
                     </GridLabelValue>
                 </Grid>
-                <Accordion
-                    expanded={expandHistory}
-                    onChange={() => setExpandHistory(!expandHistory)}
-                >
+                <Accordion defaultExpanded={true}>
                     <AccordionSummary
                         expandIcon={<ExpandMore />}
                         aria-controls={buildID(
@@ -522,7 +537,10 @@ export default function AnalysisSubmissionLanding(props) {
                             {t("statusHistory")}
                         </Typography>
                     </AccordionSummary>
-                    <div style={{ padding: theme.spacing(1) }}>
+                    <div
+                        style={{ padding: theme.spacing(1) }}
+                        id={buildID(baseId, ids.STATUS_HISTORY_PANEL)}
+                    >
                         <InfoPanel
                             info={history}
                             isInfoFetching={isInfoFetching}
@@ -531,14 +549,11 @@ export default function AnalysisSubmissionLanding(props) {
                         />
                     </div>
                 </Accordion>
-                <Accordion
-                    expanded={expandParams}
-                    onChange={() => setExpandParams(!expandParams)}
-                >
+                <Accordion defaultExpanded={true}>
                     <AccordionSummary
                         expandIcon={<ExpandMore />}
                         aria-controls={buildID(baseId, ids.PARAMETERS_PANEL)}
-                        id={buildID(baseId, ids.PARAMETERS_PANEL)}
+                        id={buildID(baseId, ids.PARAMETERS_PANEL_HEADER)}
                     >
                         <Typography variant="subtitle2" color="primary">
                             {t("analysisParams")}

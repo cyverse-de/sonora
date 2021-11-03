@@ -7,6 +7,7 @@
 import amqplib from "amqplib";
 import * as config from "./configuration";
 import logger from "./logging";
+import UUID from "uuid/v4";
 
 const NOTIFICATION_ROUTING_KEY = "notification.";
 const NOTIFICATION_QUEUE = "de_notifications.";
@@ -57,20 +58,17 @@ export function getNotifications(user, ws) {
         return;
     }
 
-    const QUEUE = NOTIFICATION_QUEUE + user;
+    const QUEUE = NOTIFICATION_QUEUE + user + "." + UUID();
 
     const connectionCleanUp = () => {
-        msgChannel.unbindQueue(
-            QUEUE,
-            config.amqpExchangeName,
-            NOTIFICATION_ROUTING_KEY + user
-        );
         msgChannel.cancel(consumerTag);
         logger.info(
-            "Websocket closed. Channel unbound for user: " +
+            "Websocket closed. Consumer canceled for user: " +
                 user +
-                " consumer Tag:" +
-                consumerTag
+                " consumer Tag: " +
+                consumerTag +
+                " queue name: " +
+                QUEUE
         );
     };
 
@@ -84,7 +82,7 @@ export function getNotifications(user, ws) {
     });
 
     if (msgChannel) {
-        msgChannel.assertQueue(QUEUE);
+        msgChannel.assertQueue(QUEUE, { exclusive: true, autoDelete: true });
         msgChannel.bindQueue(
             QUEUE,
             config.amqpExchangeName,

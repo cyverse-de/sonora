@@ -27,6 +27,7 @@ import { useTranslation } from "react-i18next";
 import ids from "./ids";
 import Listing from "components/data/listing/Listing";
 import ResourceTypes from "../models/ResourceTypes";
+import InfoTypes from "components/models/InfoTypes";
 
 import styles from "./styles";
 import constants from "../../constants";
@@ -86,12 +87,21 @@ function SelectionToolbar(props) {
         onConfirm(currentPath);
     };
 
-    const invalidTotal =
-        ResourceTypes.ANY !== acceptedType
-            ? selectedResources.filter(
-                  (resource) => resource.type.toLowerCase() !== acceptedType
-              ).length
-            : 0;
+    let invalidTotal = 0;
+    if (ResourceTypes.FOLDER === acceptedType && !multiSelect) {
+        if (
+            selectedResources[0]?.infoType !== InfoTypes.HT_ANALYSIS_PATH_LIST
+        ) {
+            invalidTotal = 1;
+        }
+    } else {
+        invalidTotal =
+            ResourceTypes.ANY !== acceptedType
+                ? selectedResources.filter(
+                      (resource) => resource.type.toLowerCase() !== acceptedType
+                  ).length
+                : 0;
+    }
 
     const hasValidSelection = Boolean(selectedTotal && !invalidTotal);
     const hasInvalidSelection = selectedTotal && invalidTotal;

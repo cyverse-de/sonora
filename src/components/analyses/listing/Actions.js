@@ -29,6 +29,7 @@ import {
     Repeat as RelaunchIcon,
     UnfoldMore as UnfoldMoreIcon,
     Info,
+    Notes as LogsIcon,
 } from "@material-ui/icons";
 
 const RelaunchButton = React.forwardRef((props, ref) => {
@@ -94,6 +95,7 @@ export default function Actions(props) {
         baseId,
         username,
         handleTimeLimitExtnClick,
+        setVICELogsDlgOpen,
     } = props;
 
     const interactiveUrls = analysis.interactive_urls;
@@ -109,13 +111,26 @@ export default function Actions(props) {
     const isTerminatedAnalysis = isTerminated(analysis);
     return (
         <>
-            <Link href={outputFolderHref} as={outputFolderAs} passHref>
+            {!isVICE && (<Link href={outputFolderHref} as={outputFolderAs} passHref>
                 <GotoOutputFolderButton
                     baseId={baseId}
                     isTerminated={isTerminatedAnalysis}
                     setPendingTerminationDlgOpen={setPendingTerminationDlgOpen}
                 />
-            </Link>
+            </Link>)}
+            {isVICE && !isTerminatedAnalysis && (
+                <IconButton
+                    size="small"
+                    onClick={(event) => {
+                        setVICELogsDlgOpen(true);
+                    }}
+                    id={buildID(baseId, ids.ICONS.LOGS, ids.BUTTON)}
+                    color="primary"
+                    title={t("viewLogs")}
+                >
+                    <LogsIcon fontSize="small" />
+                </IconButton>
+            )}
             {allowBatchDrillDown && isBatch && (
                 <IconButton
                     size="small"

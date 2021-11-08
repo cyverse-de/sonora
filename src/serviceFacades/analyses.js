@@ -21,6 +21,7 @@ const ANALYSIS_PARAMS_QUERY_KEY = "fetchAnalysisParamsKey";
 const ANALYSIS_RELAUNCH_QUERY_KEY = "fetchAnalysisRelaunchKey";
 const ANALYSES_SEARCH_QUERY_KEY = "searchAnalysesKey";
 const VICE_TIME_LIMIT_QUERY_KEY = "fetchVICETimeLimit";
+const VICE_LOGS_QUERY_KEY = "fetchViceLogsKey";
 
 function getAnalyses({ rowsPerPage, orderBy, order, page, filter }) {
     const params = {};
@@ -211,6 +212,31 @@ function extendVICEAnalysisTimeLimit({ id }) {
     });
 }
 
+function getVICEAnalysisLogs(id, sinceTime = "0") {
+    return callApi({
+        endpoint: `/api/analyses/${id}/logs?since-time=${sinceTime}`,
+        method: "GET",
+    });
+}
+
+function useVICEAnalysisLogs({
+    id,
+    sinceTime,
+    enabled,
+    onSuccess,
+    onError,
+    refetchInterval,
+}) {
+    return useQuery({
+        queryKey: [VICE_LOGS_QUERY_KEY, id],
+        queryFn: () => getVICEAnalysisLogs(id, sinceTime),
+        enabled,
+        onSuccess,
+        onError,
+        refetchInterval,
+    });
+}
+
 function useAnalysisInfo({ id, enabled, onSuccess, onError }) {
     return useQuery({
         queryKey: [ANALYSIS_HISTORY_QUERY_KEY, id],
@@ -281,6 +307,7 @@ export {
     getTimeLimitForVICEAnalysis,
     useAnalysisInfo,
     useAnalysisParameters,
+    useVICEAnalysisLogs,
     ANALYSES_LISTING_QUERY_KEY,
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSIS_PARAMS_QUERY_KEY,
@@ -288,4 +315,5 @@ export {
     ANALYSES_SEARCH_QUERY_KEY,
     RUNNING_VICE_JOBS_QUERY_KEY,
     VICE_TIME_LIMIT_QUERY_KEY,
+    VICE_LOGS_QUERY_KEY,
 };

@@ -4,6 +4,7 @@ export default {
     COMMA_DELIMITER: ",",
     TAB_DELIMITER: "\t",
     SPACE_DELIMITER: " ",
+    NEWLINE_DELIMITER: "\n",
     NEW_FILE_NAME: "untitled",
     PLAIN_TEXT: "Plain Text",
     CSV: "CSV",

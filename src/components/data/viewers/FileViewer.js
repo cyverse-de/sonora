@@ -158,6 +158,11 @@ export default function FileViewer(props) {
             infoTypes.BOWTIE === infoType
         ) {
             return viewerConstants.TAB_DELIMITER;
+        } else if (
+            infoTypes.HT_ANALYSIS_PATH_LIST === infoType ||
+            infoTypes.MULTI_INPUT_PATH_LIST === infoType
+        ) {
+            return viewerConstants.NEWLINE_DELIMITER;
         } else {
             return viewerConstants.SPACE_DELIMITER;
         }

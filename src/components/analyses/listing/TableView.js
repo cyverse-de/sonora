@@ -184,7 +184,6 @@ function TableView(props) {
     const { t } = useTranslation("analyses");
 
     const [config] = useConfig();
-    console.error(`and the config is.... ${config}`);
 
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
     let columns = columnData(t);

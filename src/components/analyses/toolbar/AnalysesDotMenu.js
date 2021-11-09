@@ -298,7 +298,6 @@ function AnalysesDotMenu({
     const { t } = useTranslation("common");
 
     const [config] = useConfig();
-    console.error(`and the config is... ${config}`);
 
     const selectedAnalyses = getSelectedAnalyses ? getSelectedAnalyses() : null;
 

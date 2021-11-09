@@ -9,6 +9,9 @@ import constants from "../../constants";
  * @returns the username suffix to use.
  */
 export const getUserNameSuffix = (config) => {
+    if (!config) {
+        console.error("no configuration was provided");
+    }
     return config?.username?.suffix || constants.DEFAULT_USERNAME_SUFFIX;
 };
 

@@ -204,6 +204,7 @@ function MyApp({ Component, pageProps }) {
         };
 
         const legacyDeUrl = publicRuntimeConfig.LEGACY_DE_URL;
+        const usernameSuffix = publicRuntimeConfig.USERNAME_SUFFIX;
 
         if (
             intercom ||
@@ -215,7 +216,8 @@ function MyApp({ Component, pageProps }) {
             fileIdentifiers ||
             vice ||
             grouper ||
-            legacyDeUrl
+            legacyDeUrl ||
+            usernameSuffix
         ) {
             setConfig({
                 intercom,
@@ -228,6 +230,7 @@ function MyApp({ Component, pageProps }) {
                 vice,
                 grouper,
                 legacyDeUrl,
+                usernameSuffix,
             });
         }
 

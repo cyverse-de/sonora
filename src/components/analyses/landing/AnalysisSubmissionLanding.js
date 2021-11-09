@@ -113,13 +113,13 @@ export default function AnalysisSubmissionLanding(props) {
         React.useState(false);
     const [timeLimit, setTimeLimit] = React.useState();
 
-    const username = getAnalysisUser(analysis);
+    const username = getAnalysisUser(analysis, config);
     const isBatch = isBatchAnalysis(analysis);
     const isVICE = isInteractive(analysis);
-    const allowTimeExtn = allowAnalysisTimeExtn(analysis, username);
-    const allowCancel = allowAnalysesCancel([analysis], username);
+    const allowTimeExtn = allowAnalysisTimeExtn(analysis, username, config);
+    const allowCancel = allowAnalysesCancel([analysis], username, config);
     const allowRelaunch = allowAnalysesRelaunch([analysis]);
-    const allowEdit = allowAnalysisEdit(analysis, username);
+    const allowEdit = allowAnalysisEdit(analysis, username, config);
     const allowShareWithSupport = [
         analysisStatus.SUBMITTED,
         analysisStatus.RUNNING,
@@ -476,29 +476,31 @@ export default function AnalysisSubmissionLanding(props) {
                                     analysisStatus.SUBMITTED,
                                     analysisStatus.RUNNING,
                                 ].includes(analysis?.status) && (
-                                        <Typography variant="body2">
-                                            {analysis?.resultfolderid}
-                                        </Typography>
-                                    )}
+                                    <Typography variant="body2">
+                                        {analysis?.resultfolderid}
+                                    </Typography>
+                                )}
                                 {[
                                     analysisStatus.COMPLETED,
                                     analysisStatus.FAILED,
                                     analysisStatus.CANCELED,
                                 ].includes(analysis?.status) && (
-                                        <DataPathLink
-                                            id={baseId}
-                                            param_type="FolderInput"
-                                            path={analysis?.resultfolderid}
-                                        />
-                                    )}
+                                    <DataPathLink
+                                        id={baseId}
+                                        param_type="FolderInput"
+                                        path={analysis?.resultfolderid}
+                                    />
+                                )}
                             </div>
                             <div style={{ marginLeft: theme.spacing(0.25) }}>
                                 <CopyLinkButton
                                     baseId={baseId}
                                     onCopyLinkSelected={() => {
-                                        const link = `${getHost()}/${NavigationConstants.DATA
-                                            }/${constants.DATA_STORE_STORAGE_ID}${analysis?.resultfolderid
-                                            }`;
+                                        const link = `${getHost()}/${
+                                            NavigationConstants.DATA
+                                        }/${constants.DATA_STORE_STORAGE_ID}${
+                                            analysis?.resultfolderid
+                                        }`;
                                         const copyPromise =
                                             copyStringToClipboard(link);
                                         copyLinkToClipboardHandler(

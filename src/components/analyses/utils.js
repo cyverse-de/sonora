@@ -6,13 +6,14 @@ import { getUserName } from "components/utils/getUserName";
 /**
  * Get the user who ran this analysis
  * @param {object} analysis
+ * @param {object} config
  * @returns {boolean}
  */
-const getAnalysisUser = (analysis) => {
+const getAnalysisUser = (analysis, config) => {
     if (!analysis) {
         return null;
     }
-    return getUserName(analysis.username);
+    return getUserName(analysis.username, config);
 };
 
 /**
@@ -37,16 +38,17 @@ const isInteractive = (analysis) => {
  * Check if the user can extend the time limit
  * @param {object} analysis
  * @param {string} currentUser
+ * @param {object} config
  * @returns {boolean}
  */
-const allowAnalysisTimeExtn = (analysis, currentUser) => {
+const allowAnalysisTimeExtn = (analysis, currentUser, config) => {
     if (!analysis) {
         return false;
     }
     return (
         analysis?.interactive_urls?.length > 0 &&
         analysis.status === analysisStatus.RUNNING &&
-        currentUser === getAnalysisUser(analysis)
+        currentUser === getAnalysisUser(analysis, config)
     );
 };
 
@@ -64,16 +66,17 @@ const isBatchAnalysis = (analysis) => {
  *
  * @param {array} analyses
  * @param {string} currentUser
+ * @param {object} config
  * @returns {boolean} false if any analysis does not belong to the current user
  *  or is not in the running, idle, or submitted status.
  */
-const allowAnalysesCancel = (analyses, currentUser) => {
+const allowAnalysesCancel = (analyses, currentUser, config) => {
     return (
         analyses &&
         analyses.length > 0 &&
         !analyses.find(
             (analysis) =>
-                currentUser !== getAnalysisUser(analysis) ||
+                currentUser !== getAnalysisUser(analysis, config) ||
                 (analysis?.status !== analysisStatus.RUNNING &&
                     analysis?.status !== analysisStatus.IDLE &&
                     analysis?.status !== analysisStatus.SUBMITTED)
@@ -86,12 +89,15 @@ const allowAnalysesCancel = (analyses, currentUser) => {
  *
  * @param {array} analyses
  * @param {string} currentUser
+ * @param {object} config
  * @returns {boolean} false if any analysis does not belong to the current user
  */
-const allowAnalysesDelete = (analyses, currentUser) =>
+const allowAnalysesDelete = (analyses, currentUser, config) =>
     analyses &&
     analyses.length > 0 &&
-    !analyses.find((analysis) => currentUser !== getAnalysisUser(analysis));
+    !analyses.find(
+        (analysis) => currentUser !== getAnalysisUser(analysis, config)
+    );
 
 /**
  * Check if selected analyses can be relaunched
@@ -115,10 +121,11 @@ const allowAnalysesRelaunch = (selectedAnalyses) => {
  *
  * @param {array} analysis
  * @param {string} currentUser
+ * @param {object} config
  * @returns {boolean} true if the analysis belongs to the current user
  */
-const allowAnalysisEdit = (analysis, currentUser) =>
-    currentUser === getAnalysisUser(analysis);
+const allowAnalysisEdit = (analysis, currentUser, config) =>
+    currentUser === getAnalysisUser(analysis, config);
 
 /**
  * Builds `href` and `as` paths for use in an analysis details next/link

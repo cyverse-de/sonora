@@ -26,7 +26,7 @@ export const getUserNameSuffix = (config) => {
  */
 export const getUserName = (userNameWithDomain, config) => {
     const suffix = getUserNameSuffix(config);
-    return userNameWithDomain && userNameWithDomain.includes(suffix)
+    return userNameWithDomain && userNameWithDomain.endsWith(suffix)
         ? userNameWithDomain.split("@")[0]
         : userNameWithDomain;
 };

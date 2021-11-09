@@ -28,6 +28,7 @@ import {
     listSavedLaunches,
     deleteSavedLaunch,
 } from "serviceFacades/savedLaunches";
+import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 
 import buildID from "components/utils/DebugIDUtil";
@@ -169,6 +170,7 @@ function ListSavedLaunches(props) {
     const { t } = useTranslation("apps");
     const theme = useTheme();
     const [userProfile] = useUserProfile();
+    const [config] = useConfig();
     const [embedCode, setEmbedCode] = useState("");
     const [savedLaunchUrl, setSavedLaunchUrl] = useState("");
     const [embedDialogOpen, setEmbedDialogOpen] = useState(false);
@@ -289,7 +291,8 @@ function ListSavedLaunches(props) {
                             const id = buildID(baseDebugId, savedLaunch.id);
                             const is_public = savedLaunch.is_public;
                             const onDelete =
-                                userName === getUserName(savedLaunch.creator)
+                                userName ===
+                                getUserName(savedLaunch.creator, config)
                                     ? (event) =>
                                           deleteSavedLaunchHandler(
                                               event,

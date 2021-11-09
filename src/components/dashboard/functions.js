@@ -7,20 +7,6 @@ import * as constants from "./constants";
 
 export const makeID = (...names) => buildID(ids.BASE, ...names);
 
-export const cleanUsername = (username) => {
-    let user;
-    if (username) {
-        if (username.endsWith(constants.USER_SUFFIX)) {
-            user = username.replace(constants.USER_SUFFIX, "");
-        } else {
-            user = username;
-        }
-    } else {
-        user = constants.CYVERSE;
-    }
-    return user;
-};
-
 export const cleanField = (field, comparator) => {
     let retval;
     if (field.length > comparator) {

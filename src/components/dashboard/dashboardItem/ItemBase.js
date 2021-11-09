@@ -23,6 +23,10 @@ import * as constants from "../constants";
 import * as fns from "../functions";
 import useStyles from "./styles";
 
+import { useConfig } from "contexts/config";
+
+import { getUserName } from "../../utils/getUserName";
+
 const DashboardLink = ({ target, kind, children }) => {
     const isNewTab =
         kind === constants.KIND_EVENTS || kind === constants.KIND_FEEDS;
@@ -249,6 +253,7 @@ class ItemBase {
         actions = [],
         menuActions = [],
     }) {
+        const [config] = useConfig();
         this.kind = kind;
         this.section = section;
         this.content = content;
@@ -256,7 +261,7 @@ class ItemBase {
         this.height = height;
         this.width = width;
         this.id = buildID(content.id);
-        this.username = fns.cleanUsername(content.username);
+        this.username = getUserName(content.username, config);
         this.menuActions = menuActions;
     }
 

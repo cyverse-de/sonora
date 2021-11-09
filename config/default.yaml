@@ -87,3 +87,5 @@ unleash:
     client_secret: null
     maintenance_flag: DE-Maintenance
 
+usernames:
+    suffix: iplantcollaborative.org

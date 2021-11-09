@@ -21,6 +21,8 @@ import {
     isTerminated,
 } from "../utils";
 
+import { useConfig } from "contexts/config";
+
 import { IconButton } from "@material-ui/core";
 import {
     HourglassEmptyRounded as HourGlass,
@@ -96,12 +98,14 @@ export default function Actions(props) {
         handleTimeLimitExtnClick,
     } = props;
 
+    const [config] = useConfig();
+
     const interactiveUrls = analysis.interactive_urls;
     const isDisabled = analysis.app_disabled;
 
     const isBatch = isBatchAnalysis(analysis);
     const isVICE = isInteractive(analysis);
-    const allowTimeExtn = allowAnalysisTimeExtn(analysis, username);
+    const allowTimeExtn = allowAnalysisTimeExtn(analysis, username, config);
     const [relaunchHref, relaunchAs] = useRelaunchLink(analysis);
     const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
         analysis?.resultfolderid

@@ -52,6 +52,8 @@ import {
 } from "@material-ui/icons";
 import SharingMenuItem from "../../sharing/SharingMenuItem";
 
+import { useConfig } from "contexts/config";
+
 function DotMenuItems(props) {
     const {
         baseId,
@@ -295,6 +297,8 @@ function AnalysesDotMenu({
     const { baseId, isSingleSelection } = props;
     const { t } = useTranslation("common");
 
+    const [config] = useConfig();
+
     const selectedAnalyses = getSelectedAnalyses ? getSelectedAnalyses() : null;
 
     let isBatch = false,
@@ -307,16 +311,21 @@ function AnalysesDotMenu({
 
     if (selectedAnalyses) {
         if (isSingleSelection) {
-            allowEdit = allowAnalysisEdit(selectedAnalyses[0], username);
+            allowEdit = allowAnalysisEdit(
+                selectedAnalyses[0],
+                username,
+                config
+            );
             isBatch = isBatchAnalysis(selectedAnalyses[0]);
             isVICE = isInteractive(selectedAnalyses[0]);
             allowTimeExtn = allowAnalysisTimeExtn(
                 selectedAnalyses[0],
-                username
+                username,
+                config
             );
         }
-        allowCancel = allowAnalysesCancel(selectedAnalyses, username);
-        allowDelete = allowAnalysesDelete(selectedAnalyses, username);
+        allowCancel = allowAnalysesCancel(selectedAnalyses, username, config);
+        allowDelete = allowAnalysesDelete(selectedAnalyses, username, config);
         allowRelaunch = allowAnalysesRelaunch(selectedAnalyses);
     }
 

@@ -6,8 +6,6 @@
  * @module dashboard/constants
  */
 
-import meta from "../../constants";
-
 export const KIND_ANALYSES = "analyses";
 export const KIND_APPS = "apps";
 export const KIND_FEEDS = "feeds";
@@ -27,7 +25,6 @@ export const SECTION_VIDEOS = "videos";
 export const SECTION_INSTANT_LAUNCHES = "instantLaunches";
 export const SECTION_ITEM_LIMIT = 8;
 
-export const USER_SUFFIX = `@${meta.IPLANT}.org`;
 export const CYVERSE = "CyVerse";
 export const DESC_MAX_LENGTH = 130;
 export const TITLE_MAX_LENGTH = 31;

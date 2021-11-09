@@ -34,7 +34,7 @@ export default {
         "https://learning.cyverse.org/projects/faq/en/latest/account-portal-faq.html",
     IMPORT_IRODS_METADATA_LINK:
         "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027072/Using+Metadata+in+the+DE#UsingMetadataintheDE-irodsMetadataImport",
-    IPLANT: "iplantcollaborative",
+    DEFAULT_USERNAME_SUFFIX: "iplantcollaborative.org",
     WEBSOCKET_MAX_CONNECTION_ATTEMPTS: 10,
     LOCAL_STORAGE: {
         DATA: {

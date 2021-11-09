@@ -111,6 +111,9 @@ const validate = () => {
     validateConfigSetting("unleash.api_url");
     validateConfigSetting("unleash.client_secret");
     validateConfigSetting("unleash.maintenance_flag");
+
+    //username settings
+    validateConfigSetting("username.suffix");
 };
 
 validate();
@@ -312,3 +315,8 @@ export const unleashClientSecret = config.get("unleash.client_secret");
  * The unleash flag for DE maintenance
  */
 export const unleashMaintenanceFlag = config.get("unleash.maintenance_flag");
+
+/**
+ * The usermame suffix.
+ */
+export const usernameSuffix = config.get("username.suffix");

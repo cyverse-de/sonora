@@ -25,6 +25,8 @@ import { formatDate } from "components/utils/DateFormatter";
 import DECheckbox from "components/utils/DECheckbox";
 import EmptyTable from "components/table/EmptyTable";
 
+import { useConfig } from "contexts/config";
+
 import {
     makeStyles,
     Link,
@@ -181,6 +183,8 @@ function TableView(props) {
     const theme = useTheme();
     const { t } = useTranslation("analyses");
 
+    const [config] = useConfig();
+
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
     let columns = columnData(t);
     //hide actions on small screens
@@ -233,7 +237,7 @@ function TableView(props) {
                             analyses.length > 0 &&
                             analyses.map((analysis, index) => {
                                 const id = analysis.id;
-                                const user = getAnalysisUser(analysis);
+                                const user = getAnalysisUser(analysis, config);
                                 const isSelected = selected.indexOf(id) !== -1;
                                 const rowId = buildID(baseId, tableId, id);
                                 return (

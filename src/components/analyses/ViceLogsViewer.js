@@ -62,9 +62,7 @@ function ViceLogsViewer(props) {
                 setLogsToDisplay(logsToDisplay + data?.lines);
                 setSinceTime(data?.since_time);
             },
-            refetchInterval: followLogs
-                ? constants.VICE_LOGS_POLLING_INTERVAL
-                : false,
+            refetchInterval: followLogs && constants.VICE_LOGS_POLLING_INTERVAL,
         });
 
     const handleAutoRefreshChange = (event) => {
@@ -79,12 +77,16 @@ function ViceLogsViewer(props) {
         <DEDialog
             open={open}
             maxWidth="sm"
-            disableBackdropClick
             disableEscapeKeyDown
             scroll="paper"
             id={baseId}
             title={analysis?.name}
-            onClose={onClose}
+            onClose={(event, reason) => {
+                if (reason !== "backdropClick") {
+                    setFollowLogs(false);
+                    onClose();
+                }
+            }}
         >
             <Divider />
             <Toolbar variant="dense">
@@ -106,22 +108,21 @@ function ViceLogsViewer(props) {
                         }
                         label={t("followLogs")}
                     />
-                    <Button
-                        className={classes.toolbarItems}
-                        variant="outlined"
-                        size="small"
-                        onClick={onRefreshClicked}
-                        id={buildID(baseId, ids.VICE_LOGS_VIEWER.REFRESH)}
-                    >
-                        <RefreshIcon color="primary" />
-                        {t("refresh")}
-                    </Button>
+                    {!isLogsFetching && !followLogs && (
+                        <Button
+                            className={classes.toolbarItems}
+                            variant="outlined"
+                            size="small"
+                            onClick={onRefreshClicked}
+                            id={buildID(baseId, ids.VICE_LOGS_VIEWER.REFRESH)}
+                        >
+                            <RefreshIcon color="primary" />
+                            {t("refresh")}
+                        </Button>
+                    )}
                 </FormGroup>
                 {isLogsFetching && !logsFetchError && (
-                    <CircularProgress
-                        size={30}
-                        thickness={7}
-                    />
+                    <CircularProgress size={30} thickness={7} />
                 )}
             </Toolbar>
             <Divider />
@@ -141,7 +142,7 @@ function ViceLogsViewer(props) {
                     editorInstance={editorInstance}
                     setEditorInstance={setEditorInstance}
                     setEditorValue={setLogsToDisplay}
-                    setDirty={() => { }}
+                    setDirty={() => {}}
                     editorValue={logsToDisplay}
                 />
             )}

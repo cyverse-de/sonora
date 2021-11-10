@@ -111,13 +111,17 @@ export default function Actions(props) {
     const isTerminatedAnalysis = isTerminated(analysis);
     return (
         <>
-            {!isVICE && (<Link href={outputFolderHref} as={outputFolderAs} passHref>
-                <GotoOutputFolderButton
-                    baseId={baseId}
-                    isTerminated={isTerminatedAnalysis}
-                    setPendingTerminationDlgOpen={setPendingTerminationDlgOpen}
-                />
-            </Link>)}
+            {isTerminatedAnalysis && (
+                <Link href={outputFolderHref} as={outputFolderAs} passHref>
+                    <GotoOutputFolderButton
+                        baseId={baseId}
+                        isTerminated={isTerminatedAnalysis}
+                        setPendingTerminationDlgOpen={
+                            setPendingTerminationDlgOpen
+                        }
+                    />
+                </Link>
+            )}
             {isVICE && !isTerminatedAnalysis && (
                 <IconButton
                     size="small"

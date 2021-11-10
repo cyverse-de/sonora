@@ -15,7 +15,6 @@ import AppsTypeFilter from "components/apps/AppsTypeFilter";
 
 import buildID from "components/utils/DebugIDUtil";
 
-
 import {
     Button,
     Dialog,
@@ -152,7 +151,7 @@ function AnalysesToolbar(props) {
         setPendingTerminationDlgOpen,
         handleTimeLimitExtnClick,
         onRefreshSelected,
-        setVICELogsDlgOpen
+        setVICELogsDlgOpen,
     } = props;
     const classes = useStyles();
     const theme = useTheme();

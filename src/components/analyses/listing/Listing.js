@@ -239,9 +239,9 @@ function Listing(props) {
                     analyses: data.analyses.map((a) =>
                         analysisIds?.includes(a.id)
                             ? {
-                                ...a,
-                                status: job_status || analysisStatus.CANCELED,
-                            }
+                                  ...a,
+                                  status: job_status || analysisStatus.CANCELED,
+                              }
                             : a
                     ),
                 };
@@ -394,7 +394,7 @@ function Listing(props) {
                 const category = message.type;
                 if (
                     category?.toLowerCase() ===
-                    NotificationCategory.ANALYSIS.toLowerCase() &&
+                        NotificationCategory.ANALYSIS.toLowerCase() &&
                     data
                 ) {
                     const analysisStatus = message.payload.status;
@@ -407,10 +407,10 @@ function Listing(props) {
                             const newAnalyses = data.analyses.map((analysis) =>
                                 analysis.id === message.payload.id
                                     ? {
-                                        ...analysis,
-                                        status: analysisStatus,
-                                        enddate: message.payload.enddate,
-                                    }
+                                          ...analysis,
+                                          status: analysisStatus,
+                                          enddate: message.payload.enddate,
+                                      }
                                     : analysis
                             );
                             setData({ ...data, analyses: newAnalyses });
@@ -860,7 +860,6 @@ function Listing(props) {
                 open={viceLogsDlgOpen}
                 onClose={() => setVICELogsDlgOpen(false)}
                 getSelectedAnalyses={getSelectedAnalyses}
-                analysis={getSelectedAnalyses()[0]}
             />
         </>
     );

@@ -272,7 +272,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         isLoading,
         error,
     } = useQuery(facade.DEFAULT_BAG_QUERY_KEY, facade.getDefaultBag, {
-        enabled: !!userProfile,
+        enabled: !!userProfile?.id,
         onSuccess: setBagInfo,
     });
 

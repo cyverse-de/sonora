@@ -51,14 +51,8 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     filter: {
-        [theme.breakpoints.down("xs")]: {
-            width: 175,
-            margin: theme.spacing(0.2),
-        },
-        [theme.breakpoints.up("sm")]: {
-            width: 175,
-            margin: theme.spacing(1),
-        },
+        width: 175,
+        margin: theme.spacing(0.5),
     },
     filterIcon: {
         [theme.breakpoints.down("xs")]: {
@@ -67,12 +61,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     toolbarItems: {
-        [theme.breakpoints.down("xs")]: {
-            margin: theme.spacing(0.5),
-        },
-        [theme.breakpoints.up("sm")]: {
-            margin: theme.spacing(1),
-        },
+        margin: theme.spacing(0.5),
     },
 }));
 
@@ -162,6 +151,7 @@ function AnalysesToolbar(props) {
         setPendingTerminationDlgOpen,
         handleTimeLimitExtnClick,
         onRefreshSelected,
+        setVICELogsDlgOpen,
     } = props;
     const classes = useStyles();
     const theme = useTheme();
@@ -180,7 +170,7 @@ function AnalysesToolbar(props) {
 
     return (
         <>
-            <Toolbar variant="dense" id={analysesNavId}>
+            <Toolbar variant="dense" id={analysesNavId} style={{ padding: 0 }}>
                 <Hidden xsDown>
                     <>
                         <PermissionsFilter
@@ -205,6 +195,7 @@ function AnalysesToolbar(props) {
                         onClearFilter={onClearFilter}
                     />
                 )}
+                <div className={classes.divider} />
                 <Button
                     id={buildID(analysesNavId, ids.REFRESH_BTN)}
                     variant="outlined"
@@ -217,7 +208,6 @@ function AnalysesToolbar(props) {
                 >
                     <Hidden xsDown>{t("refresh")}</Hidden>
                 </Button>
-                <div className={classes.divider} />
                 <Hidden smDown>
                     {isSingleSelection && (
                         <Button
@@ -278,6 +268,7 @@ function AnalysesToolbar(props) {
                             setPendingTerminationDlgOpen
                         }
                         handleTimeLimitExtnClick={handleTimeLimitExtnClick}
+                        setVICELogsDlgOpen={setVICELogsDlgOpen}
                     />
                 )}
             </Toolbar>

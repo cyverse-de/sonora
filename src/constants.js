@@ -101,4 +101,5 @@ export default {
         INSTANT_LAUNCH_NAV_DRAWER: "nav_drawer",
         INSTANT_LAUNCH_LISTING: "listing",
     },
+    VICE_LOGS_POLLING_INTERVAL: 10000,
 };

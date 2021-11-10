@@ -128,6 +128,7 @@
     "viewFilter": "View",
     "viewingBatch": "Viewing Batch: {{name}}",
     "viewLogs": "View logs",
+    "viceLogsFetchError": "Unable to fetch logs for this analysis. Please try again.",
     "viewParam": "View Parameters",
     "yes": "Yes"
 }

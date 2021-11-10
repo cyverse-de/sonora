@@ -15,6 +15,8 @@ import { SUCCESS } from "components/announcer/AnnouncerConstants";
 import { formatDate } from "components/utils/DateFormatter";
 import buildID from "components/utils/DebugIDUtil";
 
+import ViceLogsViewer from "components/analyses/ViceLogsViewer";
+
 import {
     ANALYSES_LISTING_QUERY_KEY,
     VICE_TIME_LIMIT_QUERY_KEY,
@@ -120,7 +122,7 @@ function Listing(props) {
     const [commentDialogOpen, setCommentDialogOpen] = useState(false);
     const [confirmExtendTimeLimitDlgOpen, setConfirmExtendTimeLimitDlgOpen] =
         useState(false);
-
+    const [viceLogsDlgOpen, setVICELogsDlgOpen] = useState(false);
     const [analysesKey, setAnalysesKey] = useState(ANALYSES_LISTING_QUERY_KEY);
     const [analysesListingQueryEnabled, setAnalysesListingQueryEnabled] =
         useState(false);
@@ -740,6 +742,7 @@ function Listing(props) {
                 setPendingTerminationDlgOpen={setPendingTerminationDlgOpen}
                 handleTimeLimitExtnClick={() => setTimeLimitQueryEnabled(true)}
                 onRefreshSelected={onRefreshSelected}
+                setVICELogsDlgOpen={setVICELogsDlgOpen}
             />
             <TableView
                 loading={isLoading}
@@ -763,6 +766,7 @@ function Listing(props) {
                 handleTimeLimitExtnClick={() => {
                     setTimeLimitQueryEnabled(true);
                 }}
+                setVICELogsDlgOpen={setVICELogsDlgOpen}
             />
 
             <ConfirmationDialog
@@ -851,6 +855,11 @@ function Listing(props) {
                 contentText={t("extendTimeLimitMessage", {
                     timeLimit: timeLimit ? timeLimit[selected[0]] : "",
                 })}
+            />
+            <ViceLogsViewer
+                open={viceLogsDlgOpen}
+                onClose={() => setVICELogsDlgOpen(false)}
+                getSelectedAnalyses={getSelectedAnalyses}
             />
         </>
     );

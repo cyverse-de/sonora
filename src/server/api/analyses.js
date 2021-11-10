@@ -157,5 +157,15 @@ export default function analysesRouter() {
         })
     );
 
+    logger.info("adding the GET /analyses/:id/logs handler");
+    api.get(
+        "/analyses/:id/logs",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/analyses/:id/logs",
+        })
+    );
+
     return api;
 }

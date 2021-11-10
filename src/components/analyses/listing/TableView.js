@@ -178,6 +178,7 @@ function TableView(props) {
         handleStatusClick,
         setPendingTerminationDlgOpen,
         handleTimeLimitExtnClick,
+        setVICELogsDlgOpen,
     } = props;
 
     const theme = useTheme();
@@ -352,6 +353,9 @@ function TableView(props) {
                                                     }
                                                     handleTimeLimitExtnClick={
                                                         handleTimeLimitExtnClick
+                                                    }
+                                                    setVICELogsDlgOpen={
+                                                        setVICELogsDlgOpen
                                                     }
                                                 />
                                             </TableCell>

@@ -49,6 +49,7 @@ import {
     Queue as AddToBagIcon,
     Repeat as RelaunchIcon,
     UnfoldMore as UnfoldMoreIcon,
+    Notes as LogsIcon,
 } from "@material-ui/icons";
 import SharingMenuItem from "../../sharing/SharingMenuItem";
 
@@ -82,6 +83,7 @@ function DotMenuItems(props) {
         onFilterSelected,
         setPendingTerminationDlgOpen,
         handleTimeLimitExtnClick,
+        setVICELogsDlgOpen,
     } = props;
     const { t } = useTranslation("analyses");
     const theme = useTheme();
@@ -207,7 +209,7 @@ function DotMenuItems(props) {
                 <ListItemText primary={t("goToVice")} />
             </MenuItem>
         ),
-        allowTimeExtn && (
+        allowTimeExtn && [
             <MenuItem
                 key={buildID(baseId, ids.MENUITEM_EXTEND_TIME_LIMIT)}
                 id={buildID(baseId, ids.MENUITEM_EXTEND_TIME_LIMIT)}
@@ -220,8 +222,21 @@ function DotMenuItems(props) {
                     <HourGlassIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary={t("extendTime")} />
-            </MenuItem>
-        ),
+            </MenuItem>,
+            <MenuItem
+                id={buildID(baseId, ids.MENUITEM_VIEW_LOGS)}
+                key={buildID(baseId, ids.MENUITEM_VIEW_LOGS)}
+                onClick={() => {
+                    onClose();
+                    setVICELogsDlgOpen(true);
+                }}
+            >
+                <ListItemIcon>
+                    <LogsIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("viewLogs")} />
+            </MenuItem>,
+        ],
         allowCancel && (
             <MenuItem
                 key={buildID(baseId, ids.MENUITEM_CANCEL)}
@@ -291,6 +306,7 @@ function AnalysesDotMenu({
     getSelectedAnalyses,
     canShare,
     setSharingDlgOpen,
+    setVICELogsDlgOpen,
     ...props
 }) {
     // These props need to be spread down into DotMenuItems below.
@@ -348,6 +364,7 @@ function AnalysesDotMenu({
                     selectedAnalyses={selectedAnalyses}
                     canShare={canShare}
                     setSharingDlgOpen={setSharingDlgOpen}
+                    setVICELogsDlgOpen={setVICELogsDlgOpen}
                 />
             )}
         />

@@ -35,8 +35,8 @@ function useAnalysisRunTime(
     const [totalRunTime, setTotalRunTime] = useState(null);
 
     useQuery({
-        queryKey: [ANALYSIS_HISTORY_QUERY_KEY, { id: analysis?.id }],
-        queryFn: () => getAnalysisHistory({ id: analysis?.id }),
+        queryKey: [ANALYSIS_HISTORY_QUERY_KEY, analysis?.id],
+        queryFn: () => getAnalysisHistory(analysis?.id),
         enabled: isRunning || isComplete,
         onSuccess: (resp) => {
             // Make sure we're looking at the correct step

@@ -267,14 +267,14 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         menuIconClass = classes.menuIcon;
     }
 
-    const {
-        isError: hasErrored,
-        isLoading,
-        error,
-    } = useQuery(facade.DEFAULT_BAG_QUERY_KEY, facade.getDefaultBag, {
-        enabled: !!userProfile?.id,
-        onSuccess: setBagInfo,
-    });
+    const { isLoading, error } = useQuery(
+        facade.DEFAULT_BAG_QUERY_KEY,
+        facade.getDefaultBag,
+        {
+            enabled: !!userProfile?.id,
+            onSuccess: setBagInfo,
+        }
+    );
 
     const removeItem = facade.useBagRemoveItem({
         handleError: (error) => {
@@ -287,12 +287,6 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
             showErrorAnnouncer(t("removeAllItemsError"), error);
         },
     });
-
-    useEffect(() => {
-        if (hasErrored) {
-            showErrorAnnouncer(t("fetchBagError"), error);
-        }
-    }, [hasErrored, error, showErrorAnnouncer, t]);
 
     useEffect(() => {
         let count = bagInfo?.contents?.items?.length;
@@ -341,6 +335,10 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
         Object.entries(sharingResources)
             .map(([_key, value]) => value.length)
             .reduce((acc, curr) => acc + curr) > 0;
+
+    if (error) {
+        showErrorAnnouncer(t("fetchBagError"), error);
+    }
 
     const dialogID = buildID(constants.BASEID, constants.DIALOG);
     return (

@@ -99,8 +99,8 @@ export default function AnalysisSubmissionLanding(props) {
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const [analysis, setAnalysis] = React.useState();
     const [helpOpen, setHelpOpen] = React.useState(false);
-    const [history, setHistory] = React.useState();
-    const [parameters, setParameters] = React.useState();
+    const [history, setHistory] = React.useState(null);
+    const [parameters, setParameters] = React.useState(null);
     const [sharingDlgOpen, setSharingDlgOpen] = React.useState(false);
     const [terminateAnalysisDlgOpen, setTerminateAnalysisDlgOpen] =
         React.useState(false);
@@ -308,7 +308,6 @@ export default function AnalysisSubmissionLanding(props) {
 
     const busy =
         isFetching ||
-        isParamsFetching ||
         analysisLoading ||
         isFetchingTimeLimit ||
         extensionLoading;

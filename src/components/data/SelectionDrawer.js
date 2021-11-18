@@ -89,8 +89,11 @@ function SelectionToolbar(props) {
 
     let invalidTotal = 0;
     if (ResourceTypes.FOLDER === acceptedType && !multiSelect) {
+        const selectedInfoType = selectedResources[0]?.infoType;
+        const selectedType = selectedResources[0]?.type;
         if (
-            selectedResources[0]?.infoType !== InfoTypes.HT_ANALYSIS_PATH_LIST
+            selectedInfoType !== InfoTypes.HT_ANALYSIS_PATH_LIST
+            && selectedType !== ResourceTypes.FOLDER
         ) {
             invalidTotal = 1;
         }
@@ -98,8 +101,8 @@ function SelectionToolbar(props) {
         invalidTotal =
             ResourceTypes.ANY !== acceptedType
                 ? selectedResources.filter(
-                      (resource) => resource.type.toLowerCase() !== acceptedType
-                  ).length
+                    (resource) => resource.type.toLowerCase() !== acceptedType
+                ).length
                 : 0;
     }
 
@@ -306,9 +309,8 @@ function SelectionDrawer(props) {
         >
             <div
                 style={{
-                    maxHeight: `calc(100vh - ${
-                        toolbarHeight + PAGINATION_BAR_HEIGHT + theme.spacing(1)
-                    }px)`,
+                    maxHeight: `calc(100vh - ${toolbarHeight + PAGINATION_BAR_HEIGHT + theme.spacing(1)
+                        }px)`,
                     display: "flex",
                     flexDirection: "column",
                 }}

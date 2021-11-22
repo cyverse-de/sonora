@@ -85,7 +85,7 @@ function getInvalidSelectionCount(
                     }
                 }
             } else {
-                //we support info type selections for multi-select folders
+                //we don't support info type based selections for multi-select folders
                 invalidTotal = selectedResources.filter(
                     (resource) => resource.type.toLowerCase() !== acceptedType
                 ).length;

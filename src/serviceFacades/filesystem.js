@@ -356,7 +356,7 @@ export function useDataDetails({ paths, enabled, onSuccess, onError }) {
     return useQuery({
         queryKey: [DATA_DETAILS_QUERY_KEY, { paths }],
         queryFn: () => getResourceDetails({ paths }),
-        enabled: !!(paths && paths?.length > 0),
+        enabled,
         onSuccess,
         onError,
     });

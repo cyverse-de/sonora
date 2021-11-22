@@ -237,17 +237,16 @@ function useVICEAnalysisLogs({
     });
 }
 
-function useAnalysisInfo({ id, enabled, onSuccess, onError }) {
+function useAnalysisInfo({ id, enabled, onSuccess }) {
     return useQuery({
         queryKey: [ANALYSIS_HISTORY_QUERY_KEY, id],
         queryFn: () => getAnalysisHistory(id),
         enabled,
         onSuccess,
-        onError,
     });
 }
 
-function useAnalysisParameters({ id, enabled, onSuccess, onError }) {
+function useAnalysisParameters({ id, enabled, onSuccess }) {
     const preProcessData = (data) => {
         let paramList = [];
         if (!data || !data.parameters || data.parameters.length === 0) {
@@ -283,7 +282,6 @@ function useAnalysisParameters({ id, enabled, onSuccess, onError }) {
         onSuccess: (data) => {
             onSuccess(preProcessData(data));
         },
-        onError,
     });
 }
 

@@ -45,6 +45,7 @@ const BrowseButton = (props) => {
         disabled,
         startingPath,
         acceptedType,
+        acceptedInfoTypes,
         multiSelect,
         onConfirm,
     } = props;
@@ -71,6 +72,7 @@ const BrowseButton = (props) => {
                     onClose={() => setOpen(false)}
                     startingPath={startingPath || defaultStartingPath}
                     acceptedType={acceptedType}
+                    acceptedInfoTypes={acceptedInfoTypes}
                     onConfirm={(selections) => {
                         setOpen(false);
                         onConfirm(selections);
@@ -88,6 +90,7 @@ const BrowseButton = (props) => {
  */
 const InputSelector = ({
     acceptedType,
+    acceptedInfoTypes,
     startingPath,
     showErrorAnnouncer,
     ...props
@@ -119,6 +122,7 @@ const InputSelector = ({
                     disabled={props.disabled}
                     startingPath={startingPath}
                     acceptedType={acceptedType}
+                    acceptedInfoTypes={acceptedInfoTypes}
                     multiSelect={false}
                     name={field.name}
                     onConfirm={(selection) => {

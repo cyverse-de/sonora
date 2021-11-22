@@ -27,7 +27,6 @@ import { useTranslation } from "react-i18next";
 import ids from "./ids";
 import Listing from "components/data/listing/Listing";
 import ResourceTypes from "../models/ResourceTypes";
-import InfoTypes from "components/models/InfoTypes";
 
 import styles from "./styles";
 import constants from "../../constants";
@@ -41,6 +40,64 @@ const useStyles = makeStyles(styles);
 
 const PAGINATION_BAR_HEIGHT = 60;
 
+function getInvalidSelectionCount(
+    getSelectedResources,
+    acceptedType,
+    acceptedInfoTypes,
+    multiSelect
+) {
+    const selectedResources = getSelectedResources();
+    const allowSelectionByInfoTypes =
+        acceptedInfoTypes && acceptedInfoTypes?.length > 0;
+    const invalidInfoTypeSelections = allowSelectionByInfoTypes
+        ? selectedResources.filter(
+              (resource) => !acceptedInfoTypes?.includes(resource?.infoType)
+          ).length
+        : 0;
+    let invalidTotal = 0;
+
+    switch (acceptedType) {
+        case ResourceTypes.FILE:
+            //for file inputs, we want all the selections to be of 'file' type
+            // and in one of the accepted info types if specified
+            invalidTotal =
+                selectedResources.filter(
+                    (resource) => resource.type.toLowerCase() !== acceptedType
+                ).length || invalidInfoTypeSelections;
+            break;
+        case ResourceTypes.FOLDER:
+            if (!multiSelect) {
+                const selectedType = selectedResources[0]?.type;
+                //for single folder input selection for Apps,
+                //we allow either HT-Path-list file or a single folder as input
+                if (allowSelectionByInfoTypes) {
+                    if (
+                        invalidInfoTypeSelections > 0 &&
+                        selectedType !== ResourceTypes.FOLDER
+                    ) {
+                        invalidTotal = 1;
+                    }
+                } else {
+                    // in other places like Move or Preferences default output folder selection
+                    // we only allow folders
+                    if (selectedType !== ResourceTypes.FOLDER) {
+                        invalidTotal = 1;
+                    }
+                }
+            } else {
+                //we support info type selections for multi-select folders
+                invalidTotal = selectedResources.filter(
+                    (resource) => resource.type.toLowerCase() !== acceptedType
+                ).length;
+            }
+            break;
+        default:
+        //ResourceTypes.ANY - do nothing
+    }
+
+    return invalidTotal;
+}
+
 function SelectionToolbar(props) {
     const {
         baseId,
@@ -53,6 +110,7 @@ function SelectionToolbar(props) {
         acceptedType,
         multiSelect,
         setToolbarRef,
+        acceptedInfoTypes,
     } = props;
     const theme = useTheme();
     const classes = useStyles();
@@ -86,26 +144,12 @@ function SelectionToolbar(props) {
     const handleCurrentFolderConfirm = () => {
         onConfirm(currentPath);
     };
-
-    let invalidTotal = 0;
-    if (ResourceTypes.FOLDER === acceptedType && !multiSelect) {
-        const selectedInfoType = selectedResources[0]?.infoType;
-        const selectedType = selectedResources[0]?.type;
-        if (
-            selectedInfoType !== InfoTypes.HT_ANALYSIS_PATH_LIST
-            && selectedType !== ResourceTypes.FOLDER
-        ) {
-            invalidTotal = 1;
-        }
-    } else {
-        invalidTotal =
-            ResourceTypes.ANY !== acceptedType
-                ? selectedResources.filter(
-                    (resource) => resource.type.toLowerCase() !== acceptedType
-                ).length
-                : 0;
-    }
-
+    const invalidTotal = getInvalidSelectionCount(
+        getSelectedResources,
+        acceptedType,
+        acceptedInfoTypes,
+        multiSelect
+    );
     const hasValidSelection = Boolean(selectedTotal && !invalidTotal);
     const hasInvalidSelection = selectedTotal && invalidTotal;
 
@@ -247,6 +291,7 @@ function SelectionDrawer(props) {
     const {
         startingPath,
         acceptedType = ResourceTypes.ANY,
+        acceptedInfoTypes,
         open,
         multiSelect = false,
         onConfirm,
@@ -266,13 +311,18 @@ function SelectionDrawer(props) {
         orderBy: DEFAULT_PAGE_SETTINGS.orderBy,
     });
 
-    const isInvalidSelection = (resource) => {
-        return ResourceTypes.ANY !== acceptedType
-            ? resource.type.toLowerCase() !== acceptedType
-            : false;
-    };
-
     const [toolbarHeight, setToolbarRef] = useComponentHeight();
+
+    const isInvalidSelection = (resource) => {
+        return (
+            getInvalidSelectionCount(
+                () => [resource],
+                acceptedType,
+                acceptedInfoTypes,
+                multiSelect
+            ) > 0
+        );
+    };
 
     const handlePathChange = (path, resource) => {
         //disable file viewer from selection drawer
@@ -309,8 +359,9 @@ function SelectionDrawer(props) {
         >
             <div
                 style={{
-                    maxHeight: `calc(100vh - ${toolbarHeight + PAGINATION_BAR_HEIGHT + theme.spacing(1)
-                        }px)`,
+                    maxHeight: `calc(100vh - ${
+                        toolbarHeight + PAGINATION_BAR_HEIGHT + theme.spacing(1)
+                    }px)`,
                     display: "flex",
                     flexDirection: "column",
                 }}
@@ -338,6 +389,7 @@ function SelectionDrawer(props) {
                             onConfirm={onConfirm}
                             onClose={onClose}
                             setToolbarRef={setToolbarRef}
+                            acceptedInfoTypes={acceptedInfoTypes}
                         />
                     )}
                     toolbarVisibility={false}

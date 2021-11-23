@@ -43,51 +43,36 @@ const PAGINATION_BAR_HEIGHT = 60;
 function getInvalidSelectionCount(
     getSelectedResources,
     acceptedType,
-    acceptedInfoTypes,
-    multiSelect
+    acceptedInfoTypes
 ) {
     const selectedResources = getSelectedResources();
     const allowSelectionByInfoTypes =
         acceptedInfoTypes && acceptedInfoTypes?.length > 0;
-    const invalidInfoTypeSelections = allowSelectionByInfoTypes
-        ? selectedResources.filter(
-              (resource) => !acceptedInfoTypes?.includes(resource?.infoType)
-          ).length
-        : 0;
-    let invalidTotal = 0;
+    let invalidTotal =
+        acceptedType !== ResourceTypes.ANY
+            ? selectedResources.filter(
+                  (resource) => resource.type.toLowerCase() !== acceptedType
+              ).length
+            : 0;
 
     switch (acceptedType) {
         case ResourceTypes.FILE:
-            //for file inputs, we want all the selections to be of 'file' type
-            // and in one of the accepted info types if specified
-            invalidTotal =
-                selectedResources.filter(
-                    (resource) => resource.type.toLowerCase() !== acceptedType
-                ).length || invalidInfoTypeSelections;
+            //file selection must conform to acceptedType and acceptedInfoTypes
+            if (allowSelectionByInfoTypes) {
+                invalidTotal = selectedResources.filter(
+                    (resource) =>
+                        resource.type.toLowerCase() !== acceptedType ||
+                        !acceptedInfoTypes.includes(resource.infoType)
+                ).length;
+            }
             break;
         case ResourceTypes.FOLDER:
-            if (!multiSelect) {
-                const selectedType = selectedResources[0]?.type;
-                //for single folder input selection for Apps,
-                //we allow either HT-Path-list file or a single folder as input
-                if (allowSelectionByInfoTypes) {
-                    if (
-                        invalidInfoTypeSelections > 0 &&
-                        selectedType !== ResourceTypes.FOLDER
-                    ) {
-                        invalidTotal = 1;
-                    }
-                } else {
-                    // in other places like Move or Preferences default output folder selection
-                    // we only allow folders
-                    if (selectedType !== ResourceTypes.FOLDER) {
-                        invalidTotal = 1;
-                    }
-                }
-            } else {
-                //we don't support info type based selections for multi-select folders
+            //Single Folder selection must conform to acceptedType or acceptedInfoTypes
+            if (allowSelectionByInfoTypes) {
                 invalidTotal = selectedResources.filter(
-                    (resource) => resource.type.toLowerCase() !== acceptedType
+                    (resource) =>
+                        resource.type.toLowerCase() !== acceptedType &&
+                        !acceptedInfoTypes.includes(resource.infoType)
                 ).length;
             }
             break;
@@ -318,8 +303,7 @@ function SelectionDrawer(props) {
             getInvalidSelectionCount(
                 () => [resource],
                 acceptedType,
-                acceptedInfoTypes,
-                multiSelect
+                acceptedInfoTypes
             ) > 0
         );
     };

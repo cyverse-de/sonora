@@ -27,7 +27,6 @@ import { useTranslation } from "react-i18next";
 import ids from "./ids";
 import Listing from "components/data/listing/Listing";
 import ResourceTypes from "../models/ResourceTypes";
-import InfoTypes from "components/models/InfoTypes";
 
 import styles from "./styles";
 import constants from "../../constants";
@@ -41,6 +40,49 @@ const useStyles = makeStyles(styles);
 
 const PAGINATION_BAR_HEIGHT = 60;
 
+function getInvalidSelectionCount(
+    getSelectedResources,
+    acceptedType,
+    acceptedInfoTypes
+) {
+    const selectedResources = getSelectedResources();
+    const allowSelectionByInfoTypes =
+        acceptedInfoTypes && acceptedInfoTypes?.length > 0;
+    let invalidTotal =
+        acceptedType !== ResourceTypes.ANY
+            ? selectedResources.filter(
+                  (resource) => resource.type.toLowerCase() !== acceptedType
+              ).length
+            : 0;
+
+    switch (acceptedType) {
+        case ResourceTypes.FILE:
+            //file selection must conform to acceptedType and acceptedInfoTypes
+            if (allowSelectionByInfoTypes) {
+                invalidTotal = selectedResources.filter(
+                    (resource) =>
+                        resource.type.toLowerCase() !== acceptedType ||
+                        !acceptedInfoTypes.includes(resource.infoType)
+                ).length;
+            }
+            break;
+        case ResourceTypes.FOLDER:
+            //Single Folder selection must conform to acceptedType or acceptedInfoTypes
+            if (allowSelectionByInfoTypes) {
+                invalidTotal = selectedResources.filter(
+                    (resource) =>
+                        resource.type.toLowerCase() !== acceptedType &&
+                        !acceptedInfoTypes.includes(resource.infoType)
+                ).length;
+            }
+            break;
+        default:
+        //ResourceTypes.ANY - do nothing
+    }
+
+    return invalidTotal;
+}
+
 function SelectionToolbar(props) {
     const {
         baseId,
@@ -53,6 +95,7 @@ function SelectionToolbar(props) {
         acceptedType,
         multiSelect,
         setToolbarRef,
+        acceptedInfoTypes,
     } = props;
     const theme = useTheme();
     const classes = useStyles();
@@ -86,23 +129,12 @@ function SelectionToolbar(props) {
     const handleCurrentFolderConfirm = () => {
         onConfirm(currentPath);
     };
-
-    let invalidTotal = 0;
-    if (ResourceTypes.FOLDER === acceptedType && !multiSelect) {
-        if (
-            selectedResources[0]?.infoType !== InfoTypes.HT_ANALYSIS_PATH_LIST
-        ) {
-            invalidTotal = 1;
-        }
-    } else {
-        invalidTotal =
-            ResourceTypes.ANY !== acceptedType
-                ? selectedResources.filter(
-                      (resource) => resource.type.toLowerCase() !== acceptedType
-                  ).length
-                : 0;
-    }
-
+    const invalidTotal = getInvalidSelectionCount(
+        getSelectedResources,
+        acceptedType,
+        acceptedInfoTypes,
+        multiSelect
+    );
     const hasValidSelection = Boolean(selectedTotal && !invalidTotal);
     const hasInvalidSelection = selectedTotal && invalidTotal;
 
@@ -244,6 +276,7 @@ function SelectionDrawer(props) {
     const {
         startingPath,
         acceptedType = ResourceTypes.ANY,
+        acceptedInfoTypes,
         open,
         multiSelect = false,
         onConfirm,
@@ -263,13 +296,17 @@ function SelectionDrawer(props) {
         orderBy: DEFAULT_PAGE_SETTINGS.orderBy,
     });
 
-    const isInvalidSelection = (resource) => {
-        return ResourceTypes.ANY !== acceptedType
-            ? resource.type.toLowerCase() !== acceptedType
-            : false;
-    };
-
     const [toolbarHeight, setToolbarRef] = useComponentHeight();
+
+    const isInvalidSelection = (resource) => {
+        return (
+            getInvalidSelectionCount(
+                () => [resource],
+                acceptedType,
+                acceptedInfoTypes
+            ) > 0
+        );
+    };
 
     const handlePathChange = (path, resource) => {
         //disable file viewer from selection drawer
@@ -336,6 +373,7 @@ function SelectionDrawer(props) {
                             onConfirm={onConfirm}
                             onClose={onClose}
                             setToolbarRef={setToolbarRef}
+                            acceptedInfoTypes={acceptedInfoTypes}
                         />
                     )}
                     toolbarVisibility={false}

@@ -254,6 +254,13 @@ const Dashboard = (props) => {
 
     return (
         <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
+            <a
+                href="https://cyverse-subscription-sandbox.phoenixbioinformatics.org"
+                target="_blank"
+                rel="noreferrer"
+            >
+                Buy
+            </a>
             {!userProfile?.id && <Banner />}
             {userProfile?.id && bootstrapInfo && (
                 <Tour

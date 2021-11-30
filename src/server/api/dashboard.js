@@ -41,5 +41,18 @@ export default function dashboardRouter() {
             },
         })
     );
+
+    logger.info("adding the GET /api/analyses/stats handler");
+    api.get(
+        "/analyses/stats",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/analyses/stats",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
     return api;
 }

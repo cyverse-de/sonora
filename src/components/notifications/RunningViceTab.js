@@ -15,7 +15,7 @@ import { openInteractiveUrl } from "components/analyses/utils";
 import DELink from "components/utils/DELink";
 import { useTranslation } from "i18n";
 import ids from "./ids";
-import { getTimeStamp } from "./utils";
+import { getFormattedDistance } from "components/utils/DateFormatter";
 
 function RunningViceTab(props) {
     const { baseId, handleClose, runningViceJobs, isFetching } = props;
@@ -58,7 +58,9 @@ function RunningViceTab(props) {
                                     text={analysis.name}
                                 />
                             }
-                            secondary={getTimeStamp(analysis.startdate)}
+                            secondary={getFormattedDistance(
+                                analysis.startdate?.slice(0, -3)
+                            )}
                         />
                     </ListItem>
                 ))}

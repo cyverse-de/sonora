@@ -24,7 +24,7 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 import Message from "./Message";
 import styles from "./styles";
-import { getTimeStamp } from "./utils";
+import { getFormattedDistance } from "components/utils/DateFormatter";
 
 const useStyles = makeStyles(styles);
 
@@ -181,8 +181,8 @@ function NotificationsTab(props) {
                                     variant="caption"
                                 >
                                     {t("timestamp", {
-                                        timestamp: getTimeStamp(
-                                            n.message?.timestamp
+                                        timestamp: getFormattedDistance(
+                                            n.message?.timestamp.slice(0, -3)
                                         ),
                                     })}
                                 </Typography>

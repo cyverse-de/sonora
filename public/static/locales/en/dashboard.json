@@ -52,5 +52,9 @@
     "stopAria": "stop",
     "tweetAria": "tweet",
     "videosFeed": "Videos",
-    "welcome": "Welcome to Discovery Environment"
+    "resourceUsage": "Resource Usage",
+    "dataConsumption": "Data Consumption",
+    "welcome": "Welcome to Discovery Environment",
+    "dataConsumptionTimestamp": "{{distance}} ago.",
+    "dataQuotaLimit": "{{limit}} (Limit)"
 }

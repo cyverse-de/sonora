@@ -29,5 +29,17 @@ export default function dashboardRouter() {
         })
     );
 
+    logger.info("adding the GET /api/resource-usage/data/total handler");
+    api.get(
+        "/resource-usage/data/total",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/resource-usage/data/total",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
     return api;
 }

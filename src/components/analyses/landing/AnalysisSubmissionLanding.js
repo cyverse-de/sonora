@@ -132,7 +132,6 @@ export default function AnalysisSubmissionLanding(props) {
     const sharable = analysis ? canShare([analysis]) : false;
     const queryClient = useQueryClient();
 
-
     React.useEffect(() => {
         const message = currentNotification?.message;
         if (message) {
@@ -143,8 +142,7 @@ export default function AnalysisSubmissionLanding(props) {
             ) {
                 const analysisId = message.payload?.id;
                 const status = message.payload?.status;
-                const resultfolderid =
-                    message.payload?.analysisresultsfolder;
+                const resultfolderid = message.payload?.analysisresultsfolder;
                 const enddate = message.payload?.enddate;
 
                 if (analysisId === id && analysis?.status !== status) {
@@ -312,7 +310,6 @@ export default function AnalysisSubmissionLanding(props) {
         isFetchingTimeLimit ||
         extensionLoading;
 
-
     if (busy) {
         return <GridLoading rows={25} baseId={baseId} />;
     }
@@ -469,29 +466,31 @@ export default function AnalysisSubmissionLanding(props) {
                                     analysisStatus.SUBMITTED,
                                     analysisStatus.RUNNING,
                                 ].includes(analysis?.status) && (
-                                        <Typography variant="body2">
-                                            {analysis?.resultfolderid}
-                                        </Typography>
-                                    )}
+                                    <Typography variant="body2">
+                                        {analysis?.resultfolderid}
+                                    </Typography>
+                                )}
                                 {[
                                     analysisStatus.COMPLETED,
                                     analysisStatus.FAILED,
                                     analysisStatus.CANCELED,
                                 ].includes(analysis?.status) && (
-                                        <DataPathLink
-                                            id={baseId}
-                                            param_type="FolderInput"
-                                            path={analysis?.resultfolderid}
-                                        />
-                                    )}
+                                    <DataPathLink
+                                        id={baseId}
+                                        param_type="FolderInput"
+                                        path={analysis?.resultfolderid}
+                                    />
+                                )}
                             </div>
                             <div style={{ marginLeft: theme.spacing(0.25) }}>
                                 <CopyLinkButton
                                     baseId={baseId}
                                     onCopyLinkSelected={() => {
-                                        const link = `${getHost()}/${NavigationConstants.DATA
-                                            }/${constants.DATA_STORE_STORAGE_ID}${analysis?.resultfolderid
-                                            }`;
+                                        const link = `${getHost()}/${
+                                            NavigationConstants.DATA
+                                        }/${constants.DATA_STORE_STORAGE_ID}${
+                                            analysis?.resultfolderid
+                                        }`;
                                         const copyPromise =
                                             copyStringToClipboard(link);
                                         copyLinkToClipboardHandler(

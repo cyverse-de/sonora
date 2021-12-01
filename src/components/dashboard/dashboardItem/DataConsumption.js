@@ -24,7 +24,7 @@ import { getDataUsage, DATA_USAGE_QUERY_KEY } from "serviceFacades/dashboard";
 import constants from "../../../constants";
 import { formatFileSize } from "components/data/utils";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
-import { Typography, Divider, useTheme } from "@material-ui/core";
+import { useTheme } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { getUnixTime, parseISO } from "date-fns";
 import {
@@ -137,37 +137,18 @@ export default function DataConsumption(props) {
         getDataUsage()
     );
 
-    const header = (
-        <>
-            <Typography
-                variant="h6"
-                style={{
-                    color: theme.palette.info.main,
-                }}
-            >
-                {t("resourceUsage")}
-            </Typography>
-            <Divider
-                style={{
-                    margin: 0,
-                    color: theme.palette.info.main,
-                }}
-            />
-        </>
-    );
     if (status === "error") {
         return (
-            <>
-                {header} <ErrorTypographyWithDialog error={error} />
-            </>
+            <div style={{ padding: theme.spacing(1) }}>
+                <ErrorTypographyWithDialog
+                    errorObject={error}
+                    errorMessage={t("dataConsumptionError")}
+                />
+            </div>
         );
     }
     if (status === "loading") {
-        return (
-            <>
-                {header} <Skeleton variant="rect" width={200} height={200} />
-            </>
-        );
+        return <Skeleton variant="rect" width={300} height={200} />;
     }
     const isoTime = parseISO(data?.time);
     const unixTime = getUnixTime(isoTime);
@@ -175,20 +156,17 @@ export default function DataConsumption(props) {
     const dateObj = new Date(isoTime);
 
     return (
-        <>
-            {header}{" "}
-            <Bar
-                options={options(
-                    data?.total,
-                    quota,
-                    formatDateObject(dateObj),
-                    distance,
-                    t("dataConsumption"),
-                    theme,
-                    t
-                )}
-                data={getFormattedData(data?.total, quota, theme)}
-            />
-        </>
+        <Bar
+            options={options(
+                data?.total,
+                quota,
+                formatDateObject(dateObj),
+                distance,
+                t("dataConsumption"),
+                theme,
+                t
+            )}
+            data={getFormattedData(data?.total, quota, theme)}
+        />
     );
 }

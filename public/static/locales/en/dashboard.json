@@ -56,5 +56,7 @@
     "dataConsumption": "Data Consumption",
     "welcome": "Welcome to Discovery Environment",
     "dataConsumptionTimestamp": "{{distance}} ago.",
-    "dataQuotaLimit": "{{limit}} (Limit)"
+    "dataQuotaLimit": "{{limit}} (Limit)",
+    "dataConsumptionError": "Unable to get data consumption info.",
+    "analysesStatError": "Unable to get analyses stats."
 }

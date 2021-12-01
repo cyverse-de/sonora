@@ -47,7 +47,7 @@ import Tour from "./dashboardItem/Tour";
 import TerminateAnalysisDialog from "components/analyses/toolbar/TerminateAnalysisDialog";
 import analysisStatus from "components/models/analysisStatus";
 import { cancelAnalysis } from "serviceFacades/analyses";
-import DataConsumption from "./dashboardItem/DataConsumption";
+import ResourceUsageItem from "./dashboardItem/ResourceUsageItem";
 
 const AppDetailsDrawer = dynamic(() =>
     import("components/apps/details/Drawer")
@@ -272,7 +272,7 @@ const Dashboard = (props) => {
                             mutatePreferences({ preferences: updatedPref });
                         }}
                     />,
-                    <DataConsumption />,
+                    <ResourceUsageItem />,
                 ]}
             {isLoading ? <DashboardSkeleton /> : componentContent}
 

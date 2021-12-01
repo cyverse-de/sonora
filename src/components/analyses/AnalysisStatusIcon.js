@@ -39,7 +39,7 @@ export default function AnalysisStatusIcon({ status }) {
                     <CompletedIcon />
                 </Avatar>
             );
-        case analysisStatus.CANCELLED:
+        case analysisStatus.CANCELED:
             return (
                 <Avatar style={{ backgroundColor: theme.palette.warning.main }}>
                     <CancelledIcon />

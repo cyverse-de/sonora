@@ -7,7 +7,7 @@ export default {
 };
 
 export const DataConsumptionTest = () => {
-    mockAxios.onGet("/api/resource-usage/data/total").reply(200, {
+    mockAxios.onGet("/api/resource-usage/data/current").reply(200, {
         id: "123456789",
         user_id: "sriram",
         username: "sriram@iplantcollaborative.org",

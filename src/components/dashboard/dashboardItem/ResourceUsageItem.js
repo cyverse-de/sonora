@@ -43,7 +43,7 @@ export default function ResourceUsageItem(props) {
                     <Grid item xs={12} md={6}>
                         <DataConsumption />
                     </Grid>
-                    <Grid item xs={6} md={6}>
+                    <Grid item xs={12} md={6}>
                         <AnalysesStats />
                     </Grid>
                 </Grid>

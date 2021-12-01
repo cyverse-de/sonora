@@ -1,5 +1,6 @@
 {
     "addToCalendarAria": "add to calendar",
+    "analysesStatError": "Unable to get analyses stats.",
     "analysisCompletedOrigination": "<status><bold>{{status}}</bold></status> in {{totalRunTime}} - ({{date}})",
     "analysisOrigination": "<status><bold>{{status}}</bold></status> - {{date}}",
     "analysisRunningOrigination": "<status><bold>{{status}}</bold></status> for {{runningTime}} ({{date}})",
@@ -7,6 +8,10 @@
     "by": "By",
     "changeSettings": "Change Settings",
     "dashboardInitError": "Unable to initialize the dashboard: {{error}}",
+    "dataConsumption": "Data Consumption",
+    "dataConsumptionError": "Unable to get data consumption info.",
+    "dataConsumptionTimestamp": "{{distance}} ago.",
+    "dataQuotaLimit": "{{limit}} (Limit)",
     "detailsAction": "Show Details",
     "dismiss": "Dismiss",
     "editedBy": "Edited by",
@@ -40,6 +45,7 @@
     "recentlyUsedApps": "Recently Used Apps",
     "relaunchAction": "Relaunch",
     "relaunchAria": "relaunch",
+    "resourceUsage": "Resource Usage",
     "runningAnalyses": "Running Analyses",
     "shareAction": "Share",
     "shareAria": "share",
@@ -52,11 +58,5 @@
     "stopAria": "stop",
     "tweetAria": "tweet",
     "videosFeed": "Videos",
-    "resourceUsage": "Resource Usage",
-    "dataConsumption": "Data Consumption",
-    "welcome": "Welcome to Discovery Environment",
-    "dataConsumptionTimestamp": "{{distance}} ago.",
-    "dataQuotaLimit": "{{limit}} (Limit)",
-    "dataConsumptionError": "Unable to get data consumption info.",
-    "analysesStatError": "Unable to get analyses stats."
+    "welcome": "Welcome to Discovery Environment"
 }

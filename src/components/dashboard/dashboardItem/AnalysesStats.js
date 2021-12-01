@@ -40,7 +40,7 @@ ChartJS.register(
     ChartDataLabels
 );
 
-export const options = (jobTotal) => {
+const options = (jobTotal) => {
     return {
         indexAxis: "y",
         plugins: {
@@ -71,7 +71,7 @@ export const options = (jobTotal) => {
 
 const labels = ["Analyses"];
 
-export const getFormattedData = (data, theme) => {
+const getFormattedData = (data, theme) => {
     return {
         labels,
         datasets: [
@@ -104,17 +104,17 @@ export const getFormattedData = (data, theme) => {
                 backgroundColor: theme.palette.error.main,
             },
             {
-                label: "Submitted",
+                label: analysisStatus.SUBMITTED,
                 data: [
-                    data["status-count"].find((x) => x.status === "Submitted")
+                    data["status-count"].find((x) => x.status === analysisStatus.SUBMITTED)
                         ?.count || 0,
                 ],
                 backgroundColor: palette.indigo,
             },
             {
-                label: "Running",
+                label: analysisStatus.RUNNING,
                 data: [
-                    data["status-count"].find((x) => x.status === "Running")
+                    data["status-count"].find((x) => x.status === analysisStatus.RUNNING)
                         ?.count || 0,
                 ],
                 backgroundColor: theme.palette.primary.main,

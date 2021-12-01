@@ -72,51 +72,39 @@ const options = (jobTotal) => {
 const labels = ["Analyses"];
 
 const getFormattedData = (data, theme) => {
+    const getCount = (status) => {
+        let count = data["status-count"].find(
+            (x) => x.status === status
+        )?.count;
+        return count ? count : 0;
+    };
     return {
         labels,
         datasets: [
             {
                 label: analysisStatus.COMPLETED,
-                data: [
-                    data["status-count"].find(
-                        (x) => x.status === analysisStatus.COMPLETED
-                    )?.count || 0,
-                ],
+                data: [getCount(analysisStatus.COMPLETED)],
                 backgroundColor: theme.palette.success.main,
             },
             {
                 label: analysisStatus.CANCELED,
-                data: [
-                    data["status-count"].find(
-                        (x) => x.status === analysisStatus.CANCELED
-                    )?.count || 0,
-                ],
+                data: [getCount(analysisStatus.CANCELED)],
                 backgroundColor: theme.palette.warning.main,
             },
 
             {
                 label: analysisStatus.FAILED,
-                data: [
-                    data["status-count"].find(
-                        (x) => x.status === analysisStatus.FAILED
-                    )?.count || 0,
-                ],
+                data: [getCount(analysisStatus.FAILED)],
                 backgroundColor: theme.palette.error.main,
             },
             {
                 label: analysisStatus.SUBMITTED,
-                data: [
-                    data["status-count"].find((x) => x.status === analysisStatus.SUBMITTED)
-                        ?.count || 0,
-                ],
+                data: [getCount(analysisStatus.SUBMITTED)],
                 backgroundColor: palette.indigo,
             },
             {
                 label: analysisStatus.RUNNING,
-                data: [
-                    data["status-count"].find((x) => x.status === analysisStatus.RUNNING)
-                        ?.count || 0,
-                ],
+                data: [getCount(analysisStatus.RUNNING)],
                 backgroundColor: theme.palette.primary.main,
             },
         ],

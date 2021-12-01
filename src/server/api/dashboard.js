@@ -29,13 +29,13 @@ export default function dashboardRouter() {
         })
     );
 
-    logger.info("adding the GET /api/resource-usage/data/total handler");
+    logger.info("adding the GET /api/resource-usage/data/current handler");
     api.get(
-        "/resource-usage/data/total",
+        "/resource-usage/data/current",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
-            pathname: "/resource-usage/data/total",
+            pathname: "/resource-usage/data/current",
             headers: {
                 "Content-Type": "application/json",
             },

@@ -32,16 +32,15 @@ export default function ResourceUsageItem(props) {
                     color: theme.palette.info.main,
                 }}
             />
-            <Card>
-                <Grid container>
-                    <Grid item xs={12} md={6}>
-                        <DataConsumption />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <AnalysesStats />
-                    </Grid>
+
+            <Grid container spacing={1}>
+                <Grid item xs={12} md={6}>
+                    <Card> <DataConsumption /> </Card>
                 </Grid>
-            </Card>
+                <Grid item xs={12} md={6}>
+                    <Card> <AnalysesStats /> </Card>
+                </Grid>
+            </Grid>
         </>
     );
 }

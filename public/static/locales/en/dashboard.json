@@ -4,6 +4,7 @@
     "analysisCompletedOrigination": "<status><bold>{{status}}</bold></status> in {{totalRunTime}} - ({{date}})",
     "analysisOrigination": "<status><bold>{{status}}</bold></status> - {{date}}",
     "analysisRunningOrigination": "<status><bold>{{status}}</bold></status> for {{runningTime}} ({{date}})",
+    "analysesStats": "Analyses Stats",
     "banner": "Banner",
     "by": "By",
     "changeSettings": "Change Settings",
@@ -58,6 +59,7 @@
     "startedBy": "Started by",
     "stopAction": "Stop",
     "stopAria": "stop",
+    "totalJobs": "Total: {{jobTotal}}",
     "tweetAria": "tweet",
     "videosFeed": "Videos",
     "welcome": "Welcome to Discovery Environment"

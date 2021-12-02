@@ -40,13 +40,13 @@ ChartJS.register(
     ChartDataLabels
 );
 
-const options = (jobTotal) => {
+const options = (jobTotal, t) => {
     return {
         indexAxis: "y",
         plugins: {
             title: {
                 display: true,
-                text: ["Analyses Stats", "Total: " + jobTotal],
+                text: [t("analysesStats"), t("totalJobs", { jobTotal })],
             },
             datalabels: {
                 display: false,
@@ -136,10 +136,7 @@ export default function AnalysesStats() {
     );
     if (jobTotal === 0) {
         return (
-            <Typography
-                variant="caption"
-                style={{ padding: theme.spacing(1) }}
-            >
+            <Typography variant="caption" style={{ padding: theme.spacing(1) }}>
                 {t("noAnalysesStats")}
             </Typography>
         );
@@ -147,7 +144,7 @@ export default function AnalysesStats() {
     return (
         <Bar
             height={200}
-            options={options(jobTotal)}
+            options={options(jobTotal, t)}
             data={getFormattedData(data, theme)}
         />
     );

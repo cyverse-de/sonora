@@ -35,10 +35,14 @@ export default function ResourceUsageItem(props) {
 
             <Grid container spacing={1}>
                 <Grid item xs={12} md={6}>
-                    <Card> <DataConsumption /> </Card>
+                    <Card>
+                        <DataConsumption />
+                    </Card>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <Card> <AnalysesStats /> </Card>
+                    <Card>
+                        <AnalysesStats />
+                    </Card>
                 </Grid>
             </Grid>
         </>

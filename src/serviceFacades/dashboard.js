@@ -19,9 +19,17 @@ function getDataUsage() {
 }
 
 function getAnalysesStats() {
+    const params = {};
+    const own_filter = {
+        field: "ownership",
+        value: "mine",
+    };
+    params.filter = JSON.stringify([own_filter]);
+    params["include-deleted"] = true;
     return callApi({
         endpoint: "/api/analyses/stats",
         method: "GET",
+        params,
     });
 }
 

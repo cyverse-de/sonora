@@ -75,7 +75,7 @@ const options = (usage, quota, date, distance, title, theme, t) => {
                     weight: "bold",
                 },
                 formatter: (value) =>
-                    `${formatFileSize(value)} of ${formatFileSize(quota)} `,
+                    `${formatFileSize(value)} of ${formatFileSize(quota)} used`,
                 padding: 1,
             },
         },

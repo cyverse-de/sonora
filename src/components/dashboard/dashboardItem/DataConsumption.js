@@ -24,7 +24,8 @@ import { getDataUsage, DATA_USAGE_QUERY_KEY } from "serviceFacades/dashboard";
 import constants from "../../../constants";
 import { formatFileSize } from "components/data/utils";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
-import { useTheme } from "@material-ui/core";
+import { getErrorCode } from "components/error/errorCode";
+import { Typography, useTheme } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { getUnixTime, parseISO } from "date-fns";
 import {
@@ -138,14 +139,25 @@ export default function DataConsumption(props) {
     );
 
     if (status === "error") {
-        return (
-            <div style={{ padding: theme.spacing(1) }}>
-                <ErrorTypographyWithDialog
-                    errorObject={error}
-                    errorMessage={t("dataConsumptionError")}
-                />
-            </div>
-        );
+        if (getErrorCode(error) === "404") {
+            return (
+                <Typography
+                    variant="caption"
+                    style={{ padding: theme.spacing(1) }}
+                >
+                    {t("noDataConsumptionInfo")}
+                </Typography>
+            );
+        } else {
+            return (
+                <div style={{ padding: theme.spacing(1) }}>
+                    <ErrorTypographyWithDialog
+                        errorObject={error}
+                        errorMessage={t("dataConsumptionError")}
+                    />
+                </div>
+            );
+        }
     }
     if (status === "loading") {
         return <Skeleton variant="rect" width={300} height={200} />;

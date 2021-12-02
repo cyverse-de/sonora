@@ -28,7 +28,7 @@ import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialo
 import palette from "components/theme/default/CyVersePalette";
 import { Skeleton } from "@material-ui/lab";
 import analysisStatus from "components/models/analysisStatus";
-import { useTheme } from "@material-ui/core";
+import { useTheme, Typography } from "@material-ui/core";
 
 ChartJS.register(
     CategoryScale,
@@ -119,10 +119,12 @@ export default function AnalysesStats() {
     );
     if (status === "error") {
         return (
-            <ErrorTypographyWithDialog
-                errorObject={error}
-                errorMessage={t("analysesStatError")}
-            />
+            <div style={{ padding: theme.spacing(1) }}>
+                <ErrorTypographyWithDialog
+                    errorObject={error}
+                    errorMessage={t("analysesStatError")}
+                />
+            </div>
         );
     }
     if (status === "loading") {
@@ -132,6 +134,16 @@ export default function AnalysesStats() {
         (prev, curr) => prev + curr.count,
         0
     );
+    if (jobTotal === 0) {
+        return (
+            <Typography
+                variant="caption"
+                style={{ padding: theme.spacing(1) }}
+            >
+                {t("noAnalysesStats")}
+            </Typography>
+        );
+    }
     return (
         <Bar
             height={200}

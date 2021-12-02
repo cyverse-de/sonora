@@ -102,5 +102,5 @@ export default {
         INSTANT_LAUNCH_LISTING: "listing",
     },
     VICE_LOGS_POLLING_INTERVAL: 10000,
-    DATA_STORAGE_QUOTA_LIMIT: 107374182400, //100 GiB in bytes
+    DATA_STORAGE_QUOTA_LIMIT: (2 ** 30) * 100, // 100 GiB
 };

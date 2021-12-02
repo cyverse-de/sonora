@@ -56,10 +56,7 @@ const options = (usage, quota, date, distance, title, theme, t) => {
             },
             tooltip: {
                 callbacks: {
-                    label: function (context) {
-                        let label = context.dataset.label || "";
-                        return label;
-                    },
+                    label: (context) => context.dataset.label || "",
                     footer: function (context) {
                         return t("dataConsumptionTimestamp", { distance });
                     },
@@ -87,7 +84,7 @@ const options = (usage, quota, date, distance, title, theme, t) => {
             x: {
                 stacked: false,
                 min: 0,
-                max: usage < quota ? quota : usage,
+                max: Math.max(quota, usage),
                 ticks: {
                     /*  stepSize:
                          usage < quota ? 10 : Math.ceil(usage / quota) * 10, */

@@ -41,6 +41,11 @@ function formatDateObject(dateObj, dateFormat) {
         : dateConstants.EMPTY_DATE;
 }
 
+/**
+ * 
+ * @param timestamp - number of seconds
+ * @returns {string} e.g. "1 day ago"
+ */
 function getFormattedDistance(timestamp) {
     if (timestamp) {
         const d = fromUnixTime(timestamp);

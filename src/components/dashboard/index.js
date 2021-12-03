@@ -47,6 +47,7 @@ import Tour from "./dashboardItem/Tour";
 import TerminateAnalysisDialog from "components/analyses/toolbar/TerminateAnalysisDialog";
 import analysisStatus from "components/models/analysisStatus";
 import { cancelAnalysis } from "serviceFacades/analyses";
+import ResourceUsageItem from "./dashboardItem/ResourceUsageItem";
 
 const AppDetailsDrawer = dynamic(() =>
     import("components/apps/details/Drawer")
@@ -255,20 +256,24 @@ const Dashboard = (props) => {
     return (
         <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
             {!userProfile?.id && <Banner />}
-            {userProfile?.id && bootstrapInfo && (
-                <Tour
-                    baseId={baseId}
-                    showTourPrompt={bootstrapInfo?.preferences?.showTourPrompt}
-                    user={userProfile.id}
-                    onDismiss={() => {
-                        const updatedPref = {
-                            ...bootstrapInfo.preferences,
-                            showTourPrompt: false,
-                        };
-                        mutatePreferences({ preferences: updatedPref });
-                    }}
-                />
-            )}
+            {userProfile?.id &&
+                bootstrapInfo && [
+                    <Tour
+                        baseId={baseId}
+                        showTourPrompt={
+                            bootstrapInfo?.preferences?.showTourPrompt
+                        }
+                        user={userProfile.id}
+                        onDismiss={() => {
+                            const updatedPref = {
+                                ...bootstrapInfo.preferences,
+                                showTourPrompt: false,
+                            };
+                            mutatePreferences({ preferences: updatedPref });
+                        }}
+                    />,
+                    <ResourceUsageItem />,
+                ]}
             {isLoading ? <DashboardSkeleton /> : componentContent}
 
             {detailsApp && (

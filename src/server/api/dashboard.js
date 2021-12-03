@@ -29,5 +29,30 @@ export default function dashboardRouter() {
         })
     );
 
+    logger.info("adding the GET /api/resource-usage/data/current handler");
+    api.get(
+        "/resource-usage/data/current",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/resource-usage/data/current",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the GET /api/analyses/stats handler");
+    api.get(
+        "/analyses/stats",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/analyses/stats",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
     return api;
 }

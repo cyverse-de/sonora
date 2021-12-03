@@ -5,6 +5,7 @@
 import lightFormat from "date-fns/lightFormat";
 import toDate from "date-fns/toDate";
 import dateConstants from "./dateConstants";
+import { formatDistance, fromUnixTime } from "date-fns";
 
 /**
  * Format a date with the given format or return a `-`.
@@ -40,4 +41,21 @@ function formatDateObject(dateObj, dateFormat) {
         : dateConstants.EMPTY_DATE;
 }
 
-export { formatDate, formatCurrentDate, formatDateObject };
+/**
+ * 
+ * @param timestamp - number of seconds
+ * @returns {string} e.g. "1 day ago"
+ */
+function getFormattedDistance(timestamp) {
+    if (timestamp) {
+        const d = fromUnixTime(timestamp);
+        return formatDistance(d, new Date());
+    }
+}
+
+export {
+    formatDate,
+    formatCurrentDate,
+    formatDateObject,
+    getFormattedDistance,
+};

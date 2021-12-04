@@ -2,6 +2,7 @@
     "add": "Add",
     "addToBag": "Add To Bag",
     "addToBagError": "Error adding resource(s) to bag",
+    "advancedDataSearch": "Advanced Data Search",
     "ariaCheckbox": "{{label}} checkbox",
     "ariaCustomCols": "Customize table columns",
     "ariaTableListing": "{{path}} Data Table",

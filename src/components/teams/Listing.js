@@ -152,7 +152,7 @@ function Listing(props) {
     const { isFetching: fetchSearchResults, error: searchError } =
         useTeamsSearch(
             [SEARCH_TEAMS_QUERY, { searchTerm }],
-            searchTerm && searchTerm.length > 2,
+            searchTerm?.length > 2,
             (results) => {
                 const teams = results.groups;
                 trackIntercomEvent(IntercomEvents.SEARCHED_TEAMS, {

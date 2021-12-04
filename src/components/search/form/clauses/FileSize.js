@@ -1,6 +1,6 @@
 import React from "react";
 
-import { MenuItem } from "@material-ui/core";
+import { Grid, MenuItem } from "@material-ui/core";
 import { Field } from "formik";
 
 import { FormNumberField, FormSelectField } from "components/forms/FormField";
@@ -24,36 +24,44 @@ function FileSize(props) {
     const { t } = useTranslation("search");
 
     return (
-        <>
-            <Field
-                name={`${name}.from.value`}
-                helperText={t("fileSizeGreater")}
-                id={buildID(parentId, ids.FILE_SIZE_GREATER_VAL)}
-                validate={(value) => minValue(value, t)}
-                fullWidth={false}
-                component={FormNumberField}
-            />
-            <Field
-                name={`${name}.from.unit`}
-                id={buildID(parentId, ids.FILE_SIZE_GREATER_UNIT)}
-                label=" "
-                component={SizeUnit}
-            />
-            <Field
-                name={`${name}.to.value`}
-                helperText={t("fileSizeLessThan")}
-                id={buildID(parentId, ids.FILE_SIZE_LESS_THAN_VAL)}
-                validate={(value) => minValue(value, t)}
-                fullWidth={false}
-                component={FormNumberField}
-            />
-            <Field
-                name={`${name}.to.unit`}
-                id={buildID(parentId, ids.FILE_SIZE_LESS_THAN_UNIT)}
-                label=" "
-                component={SizeUnit}
-            />
-        </>
+        <Grid container spacing={1}>
+            <Grid item>
+                <Field
+                    name={`${name}.from.value`}
+                    helperText={t("fileSizeGreater")}
+                    id={buildID(parentId, ids.FILE_SIZE_GREATER_VAL)}
+                    validate={(value) => minValue(value, t)}
+                    fullWidth={false}
+                    component={FormNumberField}
+                />
+            </Grid>
+            <Grid item>
+                <Field
+                    name={`${name}.from.unit`}
+                    id={buildID(parentId, ids.FILE_SIZE_GREATER_UNIT)}
+                    label=" "
+                    component={SizeUnit}
+                />
+            </Grid>
+            <Grid item>
+                <Field
+                    name={`${name}.to.value`}
+                    helperText={t("fileSizeLessThan")}
+                    id={buildID(parentId, ids.FILE_SIZE_LESS_THAN_VAL)}
+                    validate={(value) => minValue(value, t)}
+                    fullWidth={false}
+                    component={FormNumberField}
+                />
+            </Grid>
+            <Grid item>
+                <Field
+                    name={`${name}.to.unit`}
+                    id={buildID(parentId, ids.FILE_SIZE_LESS_THAN_UNIT)}
+                    label=" "
+                    component={SizeUnit}
+                />
+            </Grid>
+        </Grid>
     );
 }
 

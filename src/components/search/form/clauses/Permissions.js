@@ -1,6 +1,6 @@
 import React from "react";
 
-import { MenuItem } from "@material-ui/core";
+import { Grid, MenuItem } from "@material-ui/core";
 import { Field, FieldArray, getIn } from "formik";
 
 import { FormSelectField } from "components/forms/FormField";
@@ -32,40 +32,47 @@ function Permissions(props) {
     const users = getIn(values, usersFieldName);
 
     return (
-        <>
-            <Field
-                name={permissionFieldName}
-                id={buildID(parentId, ids.PERMISSION_VALUE)}
-                component={FormSelectField}
-            >
-                {Object.values(PermissionsModel).map((permission, index) => (
-                    <MenuItem key={index} value={permission}>
-                        {t(permission)}
-                    </MenuItem>
-                ))}
-            </Field>
-            <FieldArray
-                name={usersFieldName}
-                render={(arrayHelpers) => (
-                    <>
-                        <SubjectSearchField
-                            baseId={buildID(
-                                parentId,
-                                ids.PERMISSION_USER_SEARCH
-                            )}
-                            onUserSelected={(user) =>
-                                arrayHelpers.push(user.id)
-                            }
-                        />
-                        <UserPanel
-                            parentId={parentId}
-                            users={users}
-                            onDelete={(index) => arrayHelpers.remove(index)}
-                        />
-                    </>
-                )}
-            />
-        </>
+        <Grid container spacing={1}>
+            <Grid item>
+                <Field
+                    name={permissionFieldName}
+                    id={buildID(parentId, ids.PERMISSION_VALUE)}
+                    fullWidth={false}
+                    component={FormSelectField}
+                >
+                    {Object.values(PermissionsModel).map(
+                        (permission, index) => (
+                            <MenuItem key={index} value={permission}>
+                                {t(permission)}
+                            </MenuItem>
+                        )
+                    )}
+                </Field>
+            </Grid>
+            <Grid item sm={12}>
+                <FieldArray
+                    name={usersFieldName}
+                    render={(arrayHelpers) => (
+                        <>
+                            <SubjectSearchField
+                                baseId={buildID(
+                                    parentId,
+                                    ids.PERMISSION_USER_SEARCH
+                                )}
+                                onUserSelected={(user) =>
+                                    arrayHelpers.push(user.id)
+                                }
+                            />
+                            <UserPanel
+                                parentId={parentId}
+                                users={users}
+                                onDelete={(index) => arrayHelpers.remove(index)}
+                            />
+                        </>
+                    )}
+                />
+            </Grid>
+        </Grid>
     );
 }
 

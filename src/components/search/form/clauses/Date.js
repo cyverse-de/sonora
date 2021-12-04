@@ -6,6 +6,7 @@ import { FormTimestampField } from "components/forms/FormField";
 import buildID from "components/utils/DebugIDUtil";
 import { useTranslation } from "i18n";
 import ids from "../ids";
+import { Grid } from "@material-ui/core";
 
 const MODIFIED_TYPE = "modified";
 const CREATED_TYPE = "created";
@@ -22,20 +23,24 @@ function Date(props) {
     const { t } = useTranslation("search");
 
     return (
-        <>
-            <Field
-                name={`${name}.from`}
-                helperText={t("startDate")}
-                id={buildID(parentId, ids.FROM_DATE)}
-                component={FormTimestampField}
-            />
-            <Field
-                name={`${name}.to`}
-                helperText={t("endDate")}
-                id={buildID(parentId, ids.TO_DATE)}
-                component={FormTimestampField}
-            />
-        </>
+        <Grid container spacing={1}>
+            <Grid item>
+                <Field
+                    name={`${name}.from`}
+                    helperText={t("startDate")}
+                    id={buildID(parentId, ids.FROM_DATE)}
+                    component={FormTimestampField}
+                />
+            </Grid>
+            <Grid item>
+                <Field
+                    name={`${name}.to`}
+                    helperText={t("endDate")}
+                    id={buildID(parentId, ids.TO_DATE)}
+                    component={FormTimestampField}
+                />
+            </Grid>
+        </Grid>
     );
 }
 

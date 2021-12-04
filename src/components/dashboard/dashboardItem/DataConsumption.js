@@ -44,6 +44,22 @@ ChartJS.register(
 );
 
 const options = (usage, quota, date, distance, title, theme, t) => {
+    let quotaGiB = quota / constants.ONE_GiB;
+    let divisor =
+        quotaGiB % 4 === 0
+            ? 4
+            : quotaGiB % 3 === 0
+            ? 3
+            : quotaGiB % 5 === 0
+            ? 5
+            : quotaGiB % 2 === 0
+            ? 2
+            : 4;
+    let maxTicks = 6;
+    let stepSize =
+        usage <= (quota / divisor) * maxTicks
+            ? Math.ceil(quota / divisor)
+            : quota;
     return {
         indexAxis: "y",
         plugins: {
@@ -84,10 +100,9 @@ const options = (usage, quota, date, distance, title, theme, t) => {
             x: {
                 stacked: false,
                 min: 0,
-                max: Math.max(quota, usage),
+                max: Math.max(Math.ceil(usage / stepSize) * stepSize, quota),
                 ticks: {
-                    /*  stepSize:
-                         usage < quota ? 10 : Math.ceil(usage / quota) * 10, */
+                    stepSize: stepSize,
                     callback: function (value, index, values) {
                         if (value === quota) {
                             return t("dataQuotaLimit", {

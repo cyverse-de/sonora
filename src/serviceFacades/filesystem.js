@@ -1,5 +1,8 @@
 import callApi from "../common/callApi";
-import { getDataSimpleSearchQuery } from "components/search/dataSearchQueryBuilder";
+import {
+    getDataAdvancedSearchQuery,
+    getDataSimpleSearchQuery,
+} from "components/search/dataSearchQueryBuilder";
 import viewerConstants from "components/data/viewers/constants";
 import constants from "constants.js";
 
@@ -193,23 +196,34 @@ export const searchDataInfinite = ({
     communityDataDir,
     isDetailed,
     searchTerm,
+    advancedDataQuery,
     userProfile,
     rowsPerPage,
     sortField,
     sortDir,
     pageParam,
 }) => {
-    const query = getDataSimpleSearchQuery(
-        searchTerm,
-        userHomeDir,
-        communityDataDir,
-        isDetailed,
-        userProfile,
-        rowsPerPage,
-        rowsPerPage * pageParam,
-        sortField,
-        sortDir
-    );
+
+    const query = advancedDataQuery
+        ? getDataAdvancedSearchQuery(
+              advancedDataQuery,
+              rowsPerPage,
+            rowsPerPage * pageParam,
+              sortField,
+              sortDir
+          )
+        : getDataSimpleSearchQuery(
+              searchTerm,
+              userHomeDir,
+              communityDataDir,
+              isDetailed,
+              userProfile,
+              rowsPerPage,
+              rowsPerPage * pageParam,
+              sortField,
+              sortDir
+          );
+
     return callApi({
         endpoint: "/api/filesystem/search",
         method: "POST",

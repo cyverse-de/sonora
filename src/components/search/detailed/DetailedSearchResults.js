@@ -70,7 +70,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DetailedSearchResults(props) {
-    const { baseId, searchTerm, selectedTab, onTabSelectionChange } = props;
+    const {
+        baseId,
+        searchTerm,
+        advancedDataQuery,
+        selectedTab,
+        onTabSelectionChange,
+    } = props;
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -107,7 +113,7 @@ function DetailedSearchResults(props) {
 
     const totalResults = dataCount + appsCount + analysesCount + teamCount;
 
-    if (!searchTerm && !isMobile) {
+    if (!searchTerm && !isMobile && !advancedDataQuery) {
         return (
             <div>
                 <span>
@@ -202,6 +208,7 @@ function DetailedSearchResults(props) {
             >
                 <DataSearchResults
                     searchTerm={searchTerm}
+                    advancedDataQuery={advancedDataQuery}
                     updateResultCount={(count) => setDataCount(count)}
                     baseId={dataTabId}
                 />

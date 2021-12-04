@@ -22,11 +22,12 @@ import SearchResultsTable from "./SearchResultsTable";
 import { useDataSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
 import ids from "../ids";
+import styles from "./styles";
 
 import {
     DATA_SEARCH_QUERY_KEY,
-    INFO_TYPES_QUERY_KEY,
     getInfoTypes,
+    INFO_TYPES_QUERY_KEY,
 } from "serviceFacades/filesystem";
 
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
@@ -40,12 +41,22 @@ import { getHost } from "components/utils/getHost";
 import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
 import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
 import CopyLinkButton from "components/utils/CopyLinkButton";
-import { trackIntercomEvent, IntercomEvents } from "common/intercom";
+import { IntercomEvents, trackIntercomEvent } from "common/intercom";
 
-import { IconButton, Tooltip, Typography, Grid } from "@material-ui/core";
+import {
+    Grid,
+    IconButton,
+    Toolbar,
+    Tooltip,
+    Typography,
+} from "@material-ui/core";
 import { Info, Label } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/styles";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
+import SearchButton from "../form/SearchButton";
+
+const useStyles = makeStyles(styles);
 
 function Name(props) {
     const { resource, searchTerm } = props;
@@ -81,7 +92,14 @@ function CopyPathButton(props) {
 }
 
 function DataSearchResults(props) {
-    const { searchTerm, updateResultCount, baseId, showErrorAnnouncer } = props;
+    const {
+        searchTerm,
+        advancedDataQuery,
+        updateResultCount,
+        baseId,
+        showErrorAnnouncer,
+    } = props;
+    const classes = useStyles();
     const [dataSearchKey, setDataSearchKey] = useState(DATA_SEARCH_QUERY_KEY);
     const [sortField, setSortField] = useState("label");
     const [sortOrder, setSortOrder] = useState("ascending");
@@ -144,11 +162,12 @@ function DataSearchResults(props) {
     );
 
     useEffect(() => {
-        if (searchTerm && searchTerm.length > 2) {
+        if (searchTerm?.length > 2 || advancedDataQuery) {
             setDataSearchKey([
                 DATA_SEARCH_QUERY_KEY,
                 {
                     searchTerm,
+                    advancedDataQuery,
                     userHomeDir: "",
                     communityDataDir: config?.irods.community_path,
                     isDetailed: true,
@@ -160,17 +179,25 @@ function DataSearchResults(props) {
             ]);
             setDataSearchQueryEnabled(true);
         }
-    }, [searchTerm, config, sortField, sortOrder, userProfile]);
+    }, [
+        searchTerm,
+        advancedDataQuery,
+        config,
+        sortField,
+        sortOrder,
+        userProfile,
+    ]);
 
     useEffect(() => {
         trackIntercomEvent(IntercomEvents.SEARCHED_DATA, {
             search: searchTerm,
+            advancedDataQuery,
             total: data?.pages[0] ? data.pages[0].total : 0,
         });
         if (data && data.pages.length > 0) {
             updateResultCount(data.pages[0].total);
         }
-    }, [data, searchTerm, updateResultCount]);
+    }, [advancedDataQuery, data, searchTerm, updateResultCount]);
 
     const columns = React.useMemo(
         () => [
@@ -289,7 +316,14 @@ function DataSearchResults(props) {
         status !== constants.LOADING &&
         (!data || data.pages.length === 0 || data.pages[0]?.hits.length === 0)
     ) {
-        return <Typography>{t("noResults")}</Typography>;
+        return (
+            <>
+                <Toolbar variant="dense">
+                    <SearchButton />
+                </Toolbar>
+                <Typography>{t("noResults")}</Typography>
+            </>
+        );
     }
 
     let flatData = [];
@@ -301,6 +335,10 @@ function DataSearchResults(props) {
 
     return (
         <>
+            <Toolbar variant="dense">
+                <div className={classes.divider} />
+                <SearchButton />
+            </Toolbar>
             <SearchResultsTable
                 columns={columns}
                 data={flatData}
@@ -334,4 +372,5 @@ function DataSearchResults(props) {
         </>
     );
 }
+
 export default withErrorAnnouncer(DataSearchResults);

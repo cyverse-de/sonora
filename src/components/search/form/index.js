@@ -28,6 +28,8 @@ import Permissions, {
     PERMISSIONS_TYPE,
 } from "./clauses/Permissions";
 import ids from "./ids";
+import { getSearchLink } from "../utils";
+import { useRouter } from "next/router";
 
 const initialValue = () => {
     return {
@@ -91,8 +93,9 @@ const CLAUSE_LIST = [
 ];
 
 function SearchForm(props) {
-    const { open } = props;
+    const { open, onClose } = props;
     const { t } = useTranslation("search");
+    const router = useRouter();
 
     const clearEmptyValues = (values) => {
         const clauses = values.query.all;
@@ -111,7 +114,9 @@ function SearchForm(props) {
 
     const handleSubmit = (values) => {
         const filledInValues = clearEmptyValues(values);
-        console.log(filledInValues);
+        const href = getSearchLink({ advancedDataQuery: filledInValues });
+        router.push(href);
+        onClose();
     };
 
     return (

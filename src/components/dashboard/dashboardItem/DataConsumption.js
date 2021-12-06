@@ -7,7 +7,7 @@
  */
 
 import React from "react";
-import { useTranslation } from "i18n";
+import { Trans, useTranslation } from "i18n";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { useQuery } from "react-query";
 import {
@@ -32,6 +32,7 @@ import {
     getFormattedDistance,
     formatDateObject,
 } from "components/utils/DateFormatter";
+import ExternalLink from "components/utils/ExternalLink";
 
 ChartJS.register(
     CategoryScale,
@@ -165,17 +166,26 @@ export default function DataConsumption(props) {
     const dateObj = new Date(isoTime);
 
     return (
-        <Bar
-            options={options(
-                data?.total,
-                quota,
-                formatDateObject(dateObj),
-                distance,
-                t("dataConsumption"),
-                theme,
-                t
+        <>
+            <Bar
+                options={options(
+                    data?.total,
+                    quota,
+                    formatDateObject(dateObj),
+                    distance,
+                    t("dataConsumption"),
+                    theme,
+                    t
+                )}
+                data={getFormattedData(data?.total, quota, theme)}
+            />
+            {data?.total > quota && (
+                <div style={{ margin: theme.spacing(0.5) }}>
+                    <Typography variant="caption">
+                        <Trans t={t} i18nKey="dataOverageNote" components={{ dataStoreFormLink: (<ExternalLink href={constants.DATA_STORE_INCREASE_FORM} />), }} />
+                    </Typography>
+                </div>
             )}
-            data={getFormattedData(data?.total, quota, theme)}
-        />
+        </>
     );
 }

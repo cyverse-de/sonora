@@ -12,6 +12,7 @@
     "dataConsumption": "Data Storage",
     "dataConsumptionError": "Unable to get data storage info.",
     "dataConsumptionTimestamp": "{{distance}} ago.",
+    "dataOverageNote": "Need more resources? There's a <dataStoreFormLink>form</dataStoreFormLink> for that!",
     "dataQuotaLimit": "{{limit}} (Limit)",
     "detailsAction": "Show Details",
     "dismiss": "Dismiss",

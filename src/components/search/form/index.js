@@ -32,16 +32,12 @@ import { getSearchLink } from "../utils";
 import { useRouter } from "next/router";
 
 const initialValue = () => {
-    return {
-        query: {
-            all: CLAUSE_LIST.map((clause) => {
-                return {
-                    type: clause.type,
-                    args: clause.defaultArgs,
-                };
-            }),
-        },
-    };
+    return CLAUSE_LIST.map((clause) => {
+        return {
+            type: clause.type,
+            args: clause.defaultArgs,
+        };
+    });
 };
 
 const CLAUSE_LIST = [
@@ -98,17 +94,15 @@ function SearchForm(props) {
     const router = useRouter();
 
     const clearEmptyValues = (values) => {
-        const clauses = values.query.all;
-
-        const updatedClauses = clauses.filter((clause, index) => {
+        const clauses = values.filter((clause, index) => {
             return (
                 JSON.stringify(clause.args) !==
                 JSON.stringify(CLAUSE_LIST[index].defaultArgs)
             );
         });
 
-        return updatedClauses?.length > 0
-            ? { query: { all: updatedClauses } }
+        return clauses?.length > 0
+            ? { query: { all: clauses } }
             : null;
     };
 
@@ -146,7 +140,7 @@ function SearchForm(props) {
                             <GridLabelValue label={t(clause.type)} key={index}>
                                 <Field
                                     parentId={ids.ADVANCED_SEARCH_DLG}
-                                    name={`query.all.${index}.args`}
+                                    name={`${index}.args`}
                                     component={clause.component}
                                 />
                             </GridLabelValue>

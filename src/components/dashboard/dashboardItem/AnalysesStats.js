@@ -40,7 +40,12 @@ ChartJS.register(
     ChartDataLabels
 );
 
-const options = (jobTotal, t) => {
+const getCount = (data, status) => {
+    let count = data["status-count"].find((x) => x.status === status)?.count;
+    return count ? count : 0;
+};
+
+const options = (data, jobTotal, t) => {
     return {
         indexAxis: "y",
         plugins: {
@@ -50,6 +55,49 @@ const options = (jobTotal, t) => {
             },
             datalabels: {
                 display: false,
+            },
+            legend: {
+                display: true,
+                labels: {
+                    generateLabels: function (chart) {
+                        const datasets = chart.data.datasets;
+                        const {
+                            labels: {
+                                usePointStyle,
+                                pointStyle,
+                                textAlign,
+                                color,
+                            },
+                        } = chart.legend.options;
+
+                        return chart._getSortedDatasetMetas().map((meta) => {
+                            const style = meta.controller.getStyle(
+                                usePointStyle ? 0 : undefined
+                            );
+
+                            return {
+                                text:
+                                    datasets[meta.index].label +
+                                    ` (${getCount(
+                                        data,
+                                        datasets[meta.index].label
+                                    )}) `,
+                                fillStyle: style.backgroundColor,
+                                fontColor: color,
+                                hidden: !meta.visible,
+                                lineCap: style.borderCapStyle,
+                                lineDashOffset: style.borderDashOffset,
+                                lineJoin: style.borderJoinStyle,
+                                strokeStyle: style.borderColor,
+                                pointStyle: pointStyle || style.pointStyle,
+                                rotation: style.rotation,
+                                textAlign: textAlign || style.textAlign,
+                                borderRadius: 0,
+                                datasetIndex: meta.index,
+                            };
+                        });
+                    },
+                },
             },
         },
         responsive: false,
@@ -72,39 +120,33 @@ const options = (jobTotal, t) => {
 const labels = ["Analyses"];
 
 const getFormattedData = (data, theme) => {
-    const getCount = (status) => {
-        let count = data["status-count"].find(
-            (x) => x.status === status
-        )?.count;
-        return count ? count : 0;
-    };
     return {
         labels,
         datasets: [
             {
                 label: analysisStatus.COMPLETED,
-                data: [getCount(analysisStatus.COMPLETED)],
+                data: [getCount(data, analysisStatus.COMPLETED)],
                 backgroundColor: theme.palette.success.main,
             },
             {
                 label: analysisStatus.CANCELED,
-                data: [getCount(analysisStatus.CANCELED)],
+                data: [getCount(data, analysisStatus.CANCELED)],
                 backgroundColor: theme.palette.warning.main,
             },
 
             {
                 label: analysisStatus.FAILED,
-                data: [getCount(analysisStatus.FAILED)],
+                data: [getCount(data, analysisStatus.FAILED)],
                 backgroundColor: theme.palette.error.main,
             },
             {
                 label: analysisStatus.SUBMITTED,
-                data: [getCount(analysisStatus.SUBMITTED)],
+                data: [getCount(data, analysisStatus.SUBMITTED)],
                 backgroundColor: palette.indigo,
             },
             {
                 label: analysisStatus.RUNNING,
-                data: [getCount(analysisStatus.RUNNING)],
+                data: [getCount(data, analysisStatus.RUNNING)],
                 backgroundColor: theme.palette.primary.main,
             },
         ],
@@ -144,7 +186,7 @@ export default function AnalysesStats() {
     return (
         <Bar
             height={200}
-            options={options(jobTotal, t)}
+            options={options(data, jobTotal, t)}
             data={getFormattedData(data, theme)}
         />
     );

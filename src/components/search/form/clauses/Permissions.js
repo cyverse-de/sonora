@@ -14,6 +14,7 @@ import UserPanel from "./UserPanel";
 const PERMISSIONS_TYPE = "permission";
 const PERMISSIONS_ARGS_DEFAULT = {
     permission: "read",
+    permission_recurse: true, // e.g. a user has read if they have write or own
     users: [],
 };
 

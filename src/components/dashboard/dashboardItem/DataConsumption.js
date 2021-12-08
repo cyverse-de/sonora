@@ -66,7 +66,13 @@ const options = (usage, quota, date, distance, title, theme, t) => {
         plugins: {
             title: {
                 display: true,
-                text: [title, date],
+                text: [
+                    title,
+                    t("dataConsumptionChartSecondaryTitle", {
+                        percentage: (usage / quota) * 100,
+                        timestamp: date,
+                    }),
+                ],
             },
             legend: {
                 display: false,
@@ -99,6 +105,7 @@ const options = (usage, quota, date, distance, title, theme, t) => {
         responsive: false,
         scales: {
             x: {
+                barThickness: "flex",
                 stacked: false,
                 min: 0,
                 max: Math.max(Math.ceil(usage / stepSize) * stepSize, quota),
@@ -197,7 +204,19 @@ export default function DataConsumption(props) {
             {data?.total > quota && (
                 <div style={{ margin: theme.spacing(0.5) }}>
                     <Typography variant="caption">
-                        <Trans t={t} i18nKey="dataOverageNote" components={{ dataStoreFormLink: (<ExternalLink href={constants.DATA_STORE_INCREASE_FORM} />), }} />
+                        <Trans
+                            t={t}
+                            i18nKey="dataOverageNote"
+                            components={{
+                                dataStoreFormLink: (
+                                    <ExternalLink
+                                        href={
+                                            constants.DATA_STORE_INCREASE_FORM
+                                        }
+                                    />
+                                ),
+                            }}
+                        />
                     </Typography>
                 </div>
             )}

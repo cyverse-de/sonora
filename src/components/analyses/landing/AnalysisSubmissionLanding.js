@@ -84,6 +84,7 @@ import {
 } from "@material-ui/core";
 import { ContactSupport, ExpandMore, Refresh } from "@material-ui/icons";
 import BackButton from "components/utils/BackButton";
+import PendingTerminationDlg from "components/analyses/PendingTerminationDlg";
 
 const InfoGridValue = (props) => <Typography variant="body2" {...props} />;
 
@@ -112,6 +113,8 @@ export default function AnalysisSubmissionLanding(props) {
     const [timeLimitQueryEnabled, setTimeLimitQueryEnabled] =
         React.useState(false);
     const [timeLimit, setTimeLimit] = React.useState();
+    const [pendingTerminationDlgOpen, setPendingTerminationDlgOpen] =
+        React.useState(false);
 
     const username = getAnalysisUser(analysis, config);
     const isBatch = isBatchAnalysis(analysis);
@@ -443,6 +446,9 @@ export default function AnalysisSubmissionLanding(props) {
                                             allowShareWithSupport={
                                                 allowShareWithSupport
                                             }
+                                            setPendingTerminationDlgOpen={
+                                                setPendingTerminationDlgOpen
+                                            }
                                         />
                                     )}
                                 />
@@ -594,6 +600,12 @@ export default function AnalysisSubmissionLanding(props) {
                 getSelectedAnalyses={() => [analysis]}
                 handleSaveAndComplete={handleSaveAndComplete}
                 handleCancel={handleCancel}
+            />
+            <PendingTerminationDlg
+                open={pendingTerminationDlgOpen}
+                onClose={() => setPendingTerminationDlgOpen(false)}
+                analysisName={analysis?.name}
+                analysisStatus={analysis?.status}
             />
             <RenameAnalysisDialog
                 open={renameDialogOpen}

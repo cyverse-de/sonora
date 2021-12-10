@@ -7,16 +7,25 @@
  */
 import React from "react";
 
-import { Chip, Paper } from "@material-ui/core";
+import { Chip, Paper, makeStyles } from "@material-ui/core";
 
 import buildID from "components/utils/DebugIDUtil";
 import ids from "../ids";
+import styles from "../styles";
+
+const useStyles = makeStyles(styles);
 
 function UserPanel(props) {
     const { users, onDelete, parentId } = props;
-    const panelId = buildID(parentId, ids.USER_PANEL)
+    const classes = useStyles();
+    const panelId = buildID(parentId, ids.USER_PANEL);
+
+    if (!users?.length > 0) {
+        return null;
+    }
+
     return (
-        <Paper id={panelId}>
+        <Paper id={panelId} classes={{ root: classes.paperPadding }}>
             {users?.map((user, index) => (
                 <Chip
                     id={buildID(panelId, user)}

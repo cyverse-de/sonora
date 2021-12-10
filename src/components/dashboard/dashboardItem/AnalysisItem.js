@@ -72,7 +72,7 @@ class AnalysisItem extends ItemBase {
                 >
                     <Link
                         href={`/${NavConstants.DATA}/ds/[...pathItems]`}
-                        as={getFolderPage(item.content["resultfolderid"])}
+                        as={getFolderPage(item.content.resultfolderid)}
                     >
                         <IconButton
                             style={{

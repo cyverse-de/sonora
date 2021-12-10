@@ -42,7 +42,7 @@ ChartJS.register(
 
 const getCount = (data, status) => {
     let count = data["status-count"].find((x) => x.status === status)?.count;
-    return count ? count : 0;
+    return count || 0;
 };
 
 const options = (data, jobTotal, t) => {

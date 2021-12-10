@@ -160,6 +160,7 @@ function SearchForm(props) {
                     title={t("advancedSearch")}
                     open={open}
                     onClose={onClose}
+                    maxWidth="md"
                     actions={
                         <Button
                             variant="contained"

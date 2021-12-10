@@ -173,7 +173,11 @@ function SearchForm(props) {
                 >
                     <Grid container alignItems="center" spacing={2}>
                         {CLAUSE_LIST.map((clause, index) => (
-                            <GridLabelValue label={t(clause.type)} key={index}>
+                            <GridLabelValue
+                                label={t(clause.type)}
+                                key={index}
+                                wordBreak="unset"
+                            >
                                 <FastField
                                     parentId={ids.ADVANCED_SEARCH_DLG}
                                     name={`${index}.args`}

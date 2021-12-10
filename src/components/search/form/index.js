@@ -1,3 +1,12 @@
+/**
+ * @author aramsey
+ *
+ * The dialog that opens to show the advanced data search form.
+ *
+ * All available search clauses are displayed and the query will execute
+ * with ALL clauses needing to be true.
+ *
+ */
 import React from "react";
 
 import { Button, Grid } from "@material-ui/core";
@@ -107,7 +116,8 @@ const CLAUSE_LIST = [
 ];
 
 /**
- *
+ * Takes in the list of filled out clauses and will trim out any empty clauses
+ * or empty values.  Will also format any clause values as needed.
  * @param values
  * @returns {Clause[]|null}
  */

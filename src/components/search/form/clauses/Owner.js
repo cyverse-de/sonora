@@ -1,3 +1,8 @@
+/**
+ * @author aramsey
+ *
+ * The clause for handling designating an owner in an advanced data search.
+ */
 import React from "react";
 
 import { FastField, getIn } from "formik";

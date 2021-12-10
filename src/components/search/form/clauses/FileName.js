@@ -1,3 +1,13 @@
+/**
+ * @author aramsey
+ *
+ * The clause for handling searching for a file name within an advanced
+ * data search.
+ *
+ * By default, the name is set to a "contains" search with `exact: false` set
+ * in `LABEL_ARGS_DEFAULT`
+ * e.g. searching for "test" will yield any file whose name contains "test"
+ */
 import React from "react";
 
 import { FastField } from "formik";

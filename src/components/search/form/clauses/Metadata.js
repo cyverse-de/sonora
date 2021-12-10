@@ -1,3 +1,11 @@
+/**
+ * @author aramsey
+ *
+ * The clause for handling metadata attributes and values in an advanced
+ * data search.
+ *
+ * Both values can be filled out, or just one.
+ */
 import React from "react";
 
 import { FastField } from "formik";

@@ -1,3 +1,12 @@
+/**
+ * @author aramsey
+ *
+ * The clause for handling modified or created dates when doing an advanced
+ * data search.
+ *
+ * Either value can be omitted or both can be filled out.
+ *
+ */
 import React from "react";
 
 import { Grid } from "@material-ui/core";

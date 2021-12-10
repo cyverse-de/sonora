@@ -1,3 +1,14 @@
+/**
+ * @author aramsey
+ *
+ * The clause for handling multiple user permissions in an advanced data search.
+ *
+ * For this clause, you can select a single permission value (read, write, own)
+ * and select multiple users who should have that permission.
+ *
+ * By default, `permission_recurse` is set to true, meaning a user who has "own"
+ * or "write" will count as having "read" in the query.
+ */
 import React from "react";
 
 import { Grid, MenuItem } from "@material-ui/core";

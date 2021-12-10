@@ -1,3 +1,11 @@
+/**
+ * @author aramsey
+ *
+ * The clause for handling selecting a parent path in an advanced data search.
+ *
+ * Results are not exclusive to that path, all sub-folders will be included
+ * in the search.
+ */
 import React from "react";
 
 import { FastField } from "formik";

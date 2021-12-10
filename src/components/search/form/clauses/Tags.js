@@ -1,3 +1,10 @@
+/**
+ * @author aramsey
+ *
+ * The clause for handling tags in an advanced data search.
+ *
+ * Multiple tags can be specified.
+ */
 import React from "react";
 
 import { FieldArray } from "formik";

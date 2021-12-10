@@ -1,3 +1,12 @@
+/**
+ * @author aramsey
+ *
+ * The clause for handling file size ranges for an advanced data search.
+ *
+ * The components are laid out so that users can enter in a value and then
+ * select a unit (KB, MB, etc.) to associate with that value.  On submission,
+ * these 2 separate values are merged into a string for the query (e.g. "2MB")
+ */
 import React from "react";
 
 import { Grid, MenuItem } from "@material-ui/core";

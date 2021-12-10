@@ -1,7 +1,7 @@
 /**
  * @author aramsey
  *
- * A button for bringing up the advanced data search form
+ * A button for bringing up the advanced data search form in a dialog
  */
 
 import React, { useState } from "react";

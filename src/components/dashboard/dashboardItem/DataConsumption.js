@@ -197,7 +197,19 @@ export default function DataConsumption(props) {
             {data?.total > quota && (
                 <div style={{ margin: theme.spacing(0.5) }}>
                     <Typography variant="caption">
-                        <Trans t={t} i18nKey="dataOverageNote" components={{ dataStoreFormLink: (<ExternalLink href={constants.DATA_STORE_INCREASE_FORM} />), }} />
+                        <Trans
+                            t={t}
+                            i18nKey="dataOverageNote"
+                            components={{
+                                dataStoreFormLink: (
+                                    <ExternalLink
+                                        href={
+                                            constants.DATA_STORE_INCREASE_FORM
+                                        }
+                                    />
+                                ),
+                            }}
+                        />
                     </Typography>
                 </div>
             )}

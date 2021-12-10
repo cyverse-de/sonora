@@ -203,12 +203,11 @@ export const searchDataInfinite = ({
     sortDir,
     pageParam,
 }) => {
-
     const query = advancedDataQuery
         ? getDataAdvancedSearchQuery(
               advancedDataQuery,
               rowsPerPage,
-            rowsPerPage * pageParam,
+              rowsPerPage * pageParam,
               sortField,
               sortDir
           )

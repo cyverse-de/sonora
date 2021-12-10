@@ -70,7 +70,10 @@ test("tests data search Modified clause: default value is removed", () => {
 });
 
 test("tests data search Modified clause: empty `from` is removed", () => {
-    const clause = { type: MODIFIED_TYPE, args: { from: "", to: "2021-12-10 01:00:00" } };
+    const clause = {
+        type: MODIFIED_TYPE,
+        args: { from: "", to: "2021-12-10 01:00:00" },
+    };
     const result = clearEmptyValues([clause]);
     const expected = [{ type: MODIFIED_TYPE, args: { to: "1639098000000" } }];
 
@@ -78,7 +81,10 @@ test("tests data search Modified clause: empty `from` is removed", () => {
 });
 
 test("tests data search Modified clause: empty `to` is removed", () => {
-    const clause = { type: MODIFIED_TYPE, args: { from: "2021-12-10 01:00:00", to: "" } };
+    const clause = {
+        type: MODIFIED_TYPE,
+        args: { from: "2021-12-10 01:00:00", to: "" },
+    };
     const result = clearEmptyValues([clause]);
     const expected = [{ type: MODIFIED_TYPE, args: { from: "1639098000000" } }];
 
@@ -130,9 +136,7 @@ test("tests data search Size clause: empty `from` is removed", () => {
         },
     };
     const result = clearEmptyValues([clause]);
-    const expected = [
-        { type: SIZE_TYPE, args: { to: "2MB" } },
-    ];
+    const expected = [{ type: SIZE_TYPE, args: { to: "2MB" } }];
 
     expect(result).toStrictEqual(expected);
 });
@@ -146,9 +150,7 @@ test("tests data search Size clause: empty `to` is removed", () => {
         },
     };
     const result = clearEmptyValues([clause]);
-    const expected = [
-        { type: SIZE_TYPE, args: { from: "2MB"  } },
-    ];
+    const expected = [{ type: SIZE_TYPE, args: { from: "2MB" } }];
 
     expect(result).toStrictEqual(expected);
 });
@@ -166,7 +168,7 @@ test("tests data search Size clause: no values removed", () => {
         type: SIZE_TYPE,
         args: {
             from: "2MB",
-            to: "5MB" ,
+            to: "5MB",
         },
     };
 

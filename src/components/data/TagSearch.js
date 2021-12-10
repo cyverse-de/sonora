@@ -104,6 +104,9 @@ function TagSearch(props) {
                 handleTagRemoved(
                     selectedTags.findIndex((item) => item.id === selectedTag.id)
                 );
+                setSelectedTags(
+                    selectedTags.filter((item) => item.id !== selectedTag.id)
+                );
                 return;
             }
             removeTag({ tagIds: [selectedTag.id], resourceId: resource.id });

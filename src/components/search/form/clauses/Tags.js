@@ -6,7 +6,7 @@ import TagSearch from "components/data/TagSearch";
 import buildID from "components/utils/DebugIDUtil";
 import ids from "../ids";
 
-const TAGS_TYPE = "tags";
+const TAGS_TYPE = "tag";
 const TAGS_ARGS_DEFAULT = { tags: [] };
 
 function Tags(props) {
@@ -23,7 +23,7 @@ function Tags(props) {
                     id={buildID(parentId, ids.TAG_SEARCH)}
                     showHeader={false}
                     handleTagAdded={(tag) => {
-                        arrayHelpers.push(tag);
+                        arrayHelpers.push(tag.id);
                     }}
                     handleTagRemoved={(index) => {
                         arrayHelpers.remove(index);

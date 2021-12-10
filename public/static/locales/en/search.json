@@ -24,7 +24,7 @@
     "value": "Value",
     "metadata": "Metadata",
     "path": "Path",
-    "tags": "Tags",
+    "tag": "Tags",
     "modified": "Modified",
     "created": "Created",
     "fileNamePlaceholder": "myAnalysisFile",

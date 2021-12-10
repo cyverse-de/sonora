@@ -31,7 +31,7 @@
     "size": "File Size",
     "pathPlaceholder": "/iplant/home/me",
     "owner": "Owner",
-    "permission": "Permission",
+    "permissions": "Permissions",
     "read": "Read",
     "write": "Write",
     "own": "Own",

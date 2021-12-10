@@ -7,7 +7,7 @@
  */
 import React from "react";
 
-import { Chip, makeStyles, Paper } from "@material-ui/core";
+import { Chip, Grid, makeStyles, Paper } from "@material-ui/core";
 
 import buildID from "components/utils/DebugIDUtil";
 import ids from "../ids";
@@ -26,13 +26,17 @@ function UserPanel(props) {
 
     return (
         <Paper id={panelId} classes={{ root: classes.paperPadding }}>
-            {users?.map((user, index) => (
-                <Chip
-                    id={buildID(panelId, user)}
-                    onDelete={() => onDelete(index)}
-                    label={user}
-                />
-            ))}
+            <Grid container spacing={1}>
+                {users?.map((user, index) => (
+                    <Grid item>
+                        <Chip
+                            id={buildID(panelId, user)}
+                            onDelete={() => onDelete(index)}
+                            label={user}
+                        />
+                    </Grid>
+                ))}
+            </Grid>
         </Paper>
     );
 }

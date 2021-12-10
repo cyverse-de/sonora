@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Grid, MenuItem } from "@material-ui/core";
-import { Field } from "formik";
+import { FastField } from "formik";
 
 import { FormNumberField, FormSelectField } from "components/forms/FormField";
 import buildID from "components/utils/DebugIDUtil";
@@ -49,7 +49,7 @@ function FileSize(props) {
     return (
         <Grid container spacing={1}>
             <Grid item>
-                <Field
+                <FastField
                     name={`${name}.from.value`}
                     helperText={t("fileSizeGreater")}
                     id={buildID(parentId, ids.FILE_SIZE_GREATER_VAL)}
@@ -59,7 +59,7 @@ function FileSize(props) {
                 />
             </Grid>
             <Grid item>
-                <Field
+                <FastField
                     name={`${name}.from.unit`}
                     id={buildID(parentId, ids.FILE_SIZE_GREATER_UNIT)}
                     label=" "
@@ -67,7 +67,7 @@ function FileSize(props) {
                 />
             </Grid>
             <Grid item>
-                <Field
+                <FastField
                     name={`${name}.to.value`}
                     helperText={t("fileSizeLessThan")}
                     id={buildID(parentId, ids.FILE_SIZE_LESS_THAN_VAL)}
@@ -77,7 +77,7 @@ function FileSize(props) {
                 />
             </Grid>
             <Grid item>
-                <Field
+                <FastField
                     name={`${name}.to.unit`}
                     id={buildID(parentId, ids.FILE_SIZE_LESS_THAN_UNIT)}
                     label=" "

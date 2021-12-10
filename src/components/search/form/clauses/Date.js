@@ -2,7 +2,7 @@ import React from "react";
 
 import { Grid } from "@material-ui/core";
 import { getTime, parseISO } from "date-fns";
-import { Field } from "formik";
+import { FastField } from "formik";
 
 import { FormTimestampField } from "components/forms/FormField";
 import buildID from "components/utils/DebugIDUtil";
@@ -52,7 +52,7 @@ function Date(props) {
     return (
         <Grid container spacing={1}>
             <Grid item>
-                <Field
+                <FastField
                     name={`${name}.from`}
                     helperText={t("startDate")}
                     id={buildID(parentId, ids.FROM_DATE)}
@@ -60,7 +60,7 @@ function Date(props) {
                 />
             </Grid>
             <Grid item>
-                <Field
+                <FastField
                     name={`${name}.to`}
                     helperText={t("endDate")}
                     id={buildID(parentId, ids.TO_DATE)}

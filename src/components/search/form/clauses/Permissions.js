@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Grid, MenuItem } from "@material-ui/core";
-import { Field, FieldArray, getIn } from "formik";
+import { FastField, FieldArray, getIn } from "formik";
 
 import { FormSelectField } from "components/forms/FormField";
 import PermissionsModel from "components/models/Permissions";
@@ -39,7 +39,7 @@ function Permissions(props) {
     return (
         <Grid container spacing={1}>
             <Grid item>
-                <Field
+                <FastField
                     name={permissionFieldName}
                     id={buildID(parentId, ids.PERMISSION_VALUE)}
                     fullWidth={false}
@@ -52,7 +52,7 @@ function Permissions(props) {
                             </MenuItem>
                         )
                     )}
-                </Field>
+                </FastField>
             </Grid>
             <Grid item sm={12}>
                 <FieldArray

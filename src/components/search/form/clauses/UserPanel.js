@@ -7,7 +7,7 @@
  */
 import React from "react";
 
-import { Chip, Paper, makeStyles } from "@material-ui/core";
+import { Chip, makeStyles, Paper } from "@material-ui/core";
 
 import buildID from "components/utils/DebugIDUtil";
 import ids from "../ids";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Field } from "formik";
+import { FastField } from "formik";
 
 import { FormTextField } from "components/forms/FormField";
 import buildID from "components/utils/DebugIDUtil";
@@ -41,7 +41,7 @@ function Metadata(props) {
     return (
         <Grid container spacing={1}>
             <Grid item>
-                <Field
+                <FastField
                     name={`${name}.attribute`}
                     label={t("attribute")}
                     id={buildID(parentId, ids.METADATA_ATTRIBUTE)}
@@ -50,7 +50,7 @@ function Metadata(props) {
                 />
             </Grid>
             <Grid item>
-                <Field
+                <FastField
                     name={`${name}.value`}
                     label={t("value")}
                     id={buildID(parentId, ids.METADATA_VALUE)}

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Button, Grid } from "@material-ui/core";
-import { Field, Formik } from "formik";
+import { FastField, Formik } from "formik";
 
 import DEDialog from "components/utils/DEDialog";
 import GridLabelValue from "components/utils/GridLabelValue";
@@ -9,10 +9,10 @@ import {
     Created,
     CREATED_ARGS_DEFAULT,
     CREATED_TYPE,
+    formatDateValues,
     Modified,
     MODIFIED_ARGS_DEFAULT,
     MODIFIED_TYPE,
-    formatDateValues,
 } from "./clauses/Date";
 import { useTranslation } from "i18n";
 import FileName, { LABEL_ARGS_DEFAULT, LABEL_TYPE } from "./clauses/FileName";
@@ -174,7 +174,7 @@ function SearchForm(props) {
                     <Grid container alignItems="center" spacing={2}>
                         {CLAUSE_LIST.map((clause, index) => (
                             <GridLabelValue label={t(clause.type)} key={index}>
-                                <Field
+                                <FastField
                                     parentId={ids.ADVANCED_SEARCH_DLG}
                                     name={`${index}.args`}
                                     component={clause.component}

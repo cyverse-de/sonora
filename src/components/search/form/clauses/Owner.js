@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Field, getIn } from "formik";
+import { FastField, getIn } from "formik";
 
 import SubjectSearchField from "components/sharing/SubjectSearchField";
-import buildID from "../../../utils/DebugIDUtil";
+import buildID from "components/utils/DebugIDUtil";
 import ids from "../ids";
 import UserPanel from "./UserPanel";
 
@@ -24,7 +24,7 @@ function Owner(props) {
 
     return (
         <>
-            <Field
+            <FastField
                 name={fieldName}
                 baseId={baseId}
                 onUserSelected={(user) => setFieldValue(fieldName, user.id)}

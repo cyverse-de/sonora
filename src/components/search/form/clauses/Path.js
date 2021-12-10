@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Field } from "formik";
+import { FastField } from "formik";
 
 import { FormTextField } from "components/forms/FormField";
 import buildID from "components/utils/DebugIDUtil";
@@ -19,7 +19,7 @@ function Path(props) {
     const { t } = useTranslation("search");
 
     return (
-        <Field
+        <FastField
             name={`${name}.prefix`}
             fullWidth={false}
             placeholder={t("pathPlaceholder")}

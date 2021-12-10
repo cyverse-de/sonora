@@ -138,14 +138,13 @@ function SearchForm(props) {
     const { t } = useTranslation("search");
     const router = useRouter();
 
-    const handleSubmit = (values, { resetForm }) => {
+    const handleSubmit = (values) => {
         const filledInClauses = clearEmptyValues(values);
         if (filledInClauses?.length > 0) {
             const advancedDataQuery = { query: { all: filledInClauses } };
             const href = getSearchLink({ advancedDataQuery });
             router.push(href);
         }
-        resetForm();
         onClose();
     };
 

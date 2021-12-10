@@ -26,25 +26,29 @@ const CREATED_ARGS_DEFAULT = DATE_ARGS_DEFAULT;
 
 // removes empty values and converts to milliseconds
 const formatDateValues = (clause) => {
-    let filteredValues = { ...clause };
+    // create copy of the clause, don't modify the original otherwise it
+    // mutates the form
+    let filteredValues = JSON.parse(JSON.stringify(clause));
     let args = filteredValues.args;
 
     if (!args.from && !args.to) {
         return null;
     }
 
-    if (!args.from) {
-        delete filteredValues.args.from;
-        filteredValues.args.to = getTime(
-            parseISO(filteredValues.args.to)
-        ).toString();
-    }
-
-    if (!args.to) {
-        delete filteredValues.args.to;
+    if (args.from) {
         filteredValues.args.from = getTime(
             parseISO(filteredValues.args.from)
         ).toString();
+    } else {
+        delete filteredValues.args.from;
+    }
+
+    if (args.to) {
+        filteredValues.args.to = getTime(
+            parseISO(filteredValues.args.to)
+        ).toString();
+    } else {
+        delete filteredValues.args.to;
     }
 
     return filteredValues;

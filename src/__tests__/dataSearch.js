@@ -94,11 +94,17 @@ test("tests data search Modified clause: empty `to` is removed", () => {
 test("tests data search Modified clause: no values removed", () => {
     const clause = {
         type: MODIFIED_TYPE,
-        args: { from: "someValue", to: "someValue" },
+        args: { from: "2021-12-10 01:00:00", to: "2021-12-10 01:00:00" },
     };
     const result = clearEmptyValues([clause]);
+    const expected = [
+        {
+            type: MODIFIED_TYPE,
+            args: { from: "1639098000000", to: "1639098000000" },
+        },
+    ];
 
-    expect(result).toStrictEqual([clause]);
+    expect(result).toStrictEqual(expected);
 });
 
 test("tests data search Label clause: default value is removed", () => {

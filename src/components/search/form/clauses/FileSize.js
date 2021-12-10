@@ -26,7 +26,9 @@ const SIZE_ARGS_DEFAULT = {
 
 // remove empty values, merge size and unit to one string
 const formatFileSizeValues = (clause) => {
-    let filteredValues = { ...clause };
+    // create copy of the clause, don't modify the original otherwise it
+    // mutates the form
+    let filteredValues = JSON.parse(JSON.stringify(clause));
     let args = filteredValues.args;
 
     if (!args.from.value && !args.to.value) {

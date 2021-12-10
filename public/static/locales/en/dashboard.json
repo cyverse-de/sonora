@@ -11,6 +11,7 @@
     "dashboardInitError": "Unable to initialize the dashboard: {{error}}",
     "dataConsumption": "Data Storage",
     "dataConsumptionError": "Unable to get data storage info.",
+    "dataConsumptionChartSecondaryTitle": "Using {{percentage}}% as of {{timestamp}}",
     "dataConsumptionTimestamp": "{{distance}} ago.",
     "dataOverageNote": "Need more resources? There's a <dataStoreFormLink>form</dataStoreFormLink> for that!",
     "dataQuotaLimit": "{{limit}} (Limit)",

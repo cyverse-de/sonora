@@ -66,7 +66,13 @@ const options = (usage, quota, date, distance, title, theme, t) => {
         plugins: {
             title: {
                 display: true,
-                text: [title, date],
+                text: [
+                    title,
+                    t("dataConsumptionChartSecondaryTitle", {
+                        percentage: (usage / quota) * 100,
+                        timestamp: date,
+                    }),
+                ],
             },
             legend: {
                 display: false,
@@ -99,6 +105,7 @@ const options = (usage, quota, date, distance, title, theme, t) => {
         responsive: false,
         scales: {
             x: {
+                barThickness: "flex",
                 stacked: false,
                 min: 0,
                 max: Math.max(Math.ceil(usage / stepSize) * stepSize, quota),

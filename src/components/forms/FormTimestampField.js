@@ -33,7 +33,7 @@ const onTimeChange = (prevDate, fieldName, setFieldValue) => (event) => {
 
         setFieldValue(fieldName, `${dateStr} ${newValue}`);
     } else {
-        setFieldValue(fieldName, "")
+        setFieldValue(fieldName, "");
     }
 };
 

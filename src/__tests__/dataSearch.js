@@ -35,7 +35,10 @@ import {
     PERMISSIONS_ARGS_DEFAULT,
     PERMISSIONS_TYPE,
 } from "../components/search/form/clauses/Permissions";
-import { TAGS_ARGS_DEFAULT, TAGS_TYPE } from "../components/search/form/clauses/Tags";
+import {
+    TAGS_ARGS_DEFAULT,
+    TAGS_TYPE,
+} from "../components/search/form/clauses/Tags";
 
 beforeEach(() => {
     mockAxios.reset();
@@ -255,7 +258,11 @@ test("tests data search Permission clause: empty `users` list is removed", () =>
 test("tests data search Permission clause: no values removed", () => {
     const clause = {
         type: PERMISSIONS_TYPE,
-        args: { permission: "own", permission_recurse: true, users: ["batman"] },
+        args: {
+            permission: "own",
+            permission_recurse: true,
+            users: ["batman"],
+        },
     };
     const result = clearEmptyValues([clause]);
 

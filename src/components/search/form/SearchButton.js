@@ -35,7 +35,7 @@ function SearchButton(props) {
                 onClick={onClickSearchBtn}
                 variant="outlined"
                 color="primary"
-                startIcon={<SearchIcon/>}
+                startIcon={<SearchIcon />}
             >
                 {t("advancedSearch")}
             </Button>

@@ -7,7 +7,7 @@ export const getDataSimpleSearchQuery = (
     rowsPerPage,
     offset,
     sortField,
-    sortDir,
+    sortDir
 ) => {
     const searchClauses = [
         { type: "label", args: { exact: false, label: searchTerm } },
@@ -25,9 +25,9 @@ export const getDataSimpleSearchQuery = (
         query: {
             all: pathPrefix
                 ? searchClauses.concat({
-                    type: "path",
-                    args: { prefix: pathPrefix },
-                })
+                      type: "path",
+                      args: { prefix: pathPrefix },
+                  })
                 : searchClauses,
         },
         size: rowsPerPage,
@@ -41,7 +41,7 @@ export const getDataAdvancedSearchQuery = (
     rowsPerPage,
     offset,
     sortField,
-    sortDir,
+    sortDir
 ) => {
     return {
         ...JSON.parse(query),

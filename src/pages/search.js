@@ -8,7 +8,8 @@ import NavigationConstants from "common/NavigationConstants";
 
 export default function Search() {
     const router = useRouter();
-    const { searchTerm, filter, selectedTab, advancedDataQuery } = router?.query;
+    const { searchTerm, filter, selectedTab, advancedDataQuery } =
+        router?.query;
     let tab = selectedTab || SEARCH_RESULTS_TABS.data;
     const onShowDetailedSearch = (query) => {
         router.push({

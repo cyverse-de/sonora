@@ -305,11 +305,17 @@ function DataSearchResults(props) {
 
     if (error) {
         return (
-            <ErrorTypographyWithDialog
-                errorMessage={t("errorSearch")}
-                errorObject={error}
-                baseId={baseId}
-            />
+            <>
+                <Toolbar variant="dense">
+                    <div className={classes.divider} />
+                    <SearchButton />
+                </Toolbar>
+                <ErrorTypographyWithDialog
+                    errorMessage={t("errorSearch")}
+                    errorObject={error}
+                    baseId={baseId}
+                />
+            </>
         );
     }
     if (
@@ -319,6 +325,7 @@ function DataSearchResults(props) {
         return (
             <>
                 <Toolbar variant="dense">
+                    <div className={classes.divider} />
                     <SearchButton />
                 </Toolbar>
                 <Typography>{t("noResults")}</Typography>

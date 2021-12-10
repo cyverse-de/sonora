@@ -12,24 +12,37 @@ import {
     Modified,
     MODIFIED_ARGS_DEFAULT,
     MODIFIED_TYPE,
+    formatDateValues,
 } from "./clauses/Date";
 import { useTranslation } from "i18n";
 import FileName, { LABEL_ARGS_DEFAULT, LABEL_TYPE } from "./clauses/FileName";
 import Path, { PATH_ARGS_DEFAULT, PATH_TYPE } from "./clauses/Path";
-import FileSize, { SIZE_ARGS_DEFAULT, SIZE_TYPE } from "./clauses/FileSize";
+import FileSize, {
+    formatFileSizeValues,
+    SIZE_ARGS_DEFAULT,
+    SIZE_TYPE,
+} from "./clauses/FileSize";
 import Metadata, {
     METADATA_ARGS_DEFAULT,
     METADATA_TYPE,
+    formatMetadataVals,
 } from "./clauses/Metadata";
 import Tags, { TAGS_ARGS_DEFAULT, TAGS_TYPE } from "./clauses/Tags";
 import Owner, { OWNER_ARGS_DEFAULT, OWNER_TYPE } from "./clauses/Owner";
 import Permissions, {
     PERMISSIONS_ARGS_DEFAULT,
     PERMISSIONS_TYPE,
+    removeEmptyPermissionVals,
 } from "./clauses/Permissions";
 import ids from "./ids";
 import { getSearchLink } from "../utils";
 import { useRouter } from "next/router";
+
+/**
+ * @typedef {object} Clause
+ * @property {string} type
+ * @property {object} args
+ */
 
 const initialValue = () => {
     return CLAUSE_LIST.map((clause) => {
@@ -55,21 +68,25 @@ const CLAUSE_LIST = [
         type: MODIFIED_TYPE,
         component: Modified,
         defaultArgs: MODIFIED_ARGS_DEFAULT,
+        getFormattedValue: formatDateValues,
     },
     {
         type: CREATED_TYPE,
         component: Created,
         defaultArgs: CREATED_ARGS_DEFAULT,
+        getFormattedValue: formatDateValues,
     },
     {
         type: SIZE_TYPE,
         component: FileSize,
         defaultArgs: SIZE_ARGS_DEFAULT,
+        getFormattedValue: formatFileSizeValues,
     },
     {
         type: METADATA_TYPE,
         component: Metadata,
         defaultArgs: METADATA_ARGS_DEFAULT,
+        getFormattedValue: formatMetadataVals,
     },
     {
         type: TAGS_TYPE,
@@ -85,31 +102,50 @@ const CLAUSE_LIST = [
         type: PERMISSIONS_TYPE,
         component: Permissions,
         defaultArgs: PERMISSIONS_ARGS_DEFAULT,
+        getFormattedValue: removeEmptyPermissionVals,
     },
 ];
+
+/**
+ *
+ * @param values
+ * @returns {Clause[]|null}
+ */
+const clearEmptyValues = (values) => {
+    let clauses = [];
+    values.forEach((clause) => {
+        const clauseDefinition = CLAUSE_LIST.find(
+            (item) => item.type === clause.type
+        );
+        const isInitializedValue =
+            JSON.stringify(clause.args) ===
+            JSON.stringify(clauseDefinition.defaultArgs);
+        if (!isInitializedValue) {
+            const clauseVal = clauseDefinition.getFormattedValue
+                ? clauseDefinition.getFormattedValue(clause)
+                : clause;
+            if (clauseVal) {
+                clauses.push(clauseVal);
+            }
+        }
+    });
+
+    return clauses;
+};
 
 function SearchForm(props) {
     const { open, onClose } = props;
     const { t } = useTranslation("search");
     const router = useRouter();
 
-    const clearEmptyValues = (values) => {
-        const clauses = values.filter((clause, index) => {
-            return (
-                JSON.stringify(clause.args) !==
-                JSON.stringify(CLAUSE_LIST[index].defaultArgs)
-            );
-        });
-
-        return clauses?.length > 0
-            ? { query: { all: clauses } }
-            : null;
-    };
-
-    const handleSubmit = (values) => {
-        const filledInValues = clearEmptyValues(values);
-        const href = getSearchLink({ advancedDataQuery: filledInValues });
-        router.push(href);
+    const handleSubmit = (values, { resetForm }) => {
+        const filledInClauses = clearEmptyValues(values);
+        if (filledInClauses?.length > 0) {
+            const advancedDataQuery = { query: { all: filledInClauses } };
+            const href = getSearchLink({ advancedDataQuery });
+            router.push(href);
+        }
+        resetForm();
         onClose();
     };
 
@@ -153,3 +189,4 @@ function SearchForm(props) {
 }
 
 export default SearchForm;
+export { clearEmptyValues };

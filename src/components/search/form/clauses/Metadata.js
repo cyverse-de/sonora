@@ -11,6 +11,25 @@ import { Grid } from "@material-ui/core";
 const METADATA_TYPE = "metadata";
 const METADATA_ARGS_DEFAULT = { attribute: "", value: "" };
 
+// remove any empty values
+const formatMetadataVals = (clause) => {
+    let filteredValues = { ...clause };
+    let args = filteredValues.args;
+
+    if (!args.attribute && !args.value) {
+        return null;
+    }
+
+    if (!args.attribute) {
+        delete filteredValues.args.attribute;
+    }
+    if (!args.value) {
+        delete filteredValues.args.value;
+    }
+
+    return filteredValues;
+};
+
 function Metadata(props) {
     const {
         parentId,
@@ -44,4 +63,4 @@ function Metadata(props) {
 }
 
 export default Metadata;
-export { METADATA_ARGS_DEFAULT, METADATA_TYPE };
+export { METADATA_ARGS_DEFAULT, METADATA_TYPE, formatMetadataVals };

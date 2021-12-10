@@ -15,6 +15,29 @@ const SIZE_ARGS_DEFAULT = {
     to: { value: "", unit: "KB" },
 };
 
+// remove empty values, merge size and unit to one string
+const formatFileSizeValues = (clause) => {
+    let filteredValues = { ...clause };
+    let args = filteredValues.args;
+
+    if (!args.from.value && !args.to.value) {
+        return null;
+    }
+
+    if (args.from.value) {
+        filteredValues.args.from = `${args.from.value}${args.from.unit}`;
+    } else {
+        delete filteredValues.args.from;
+    }
+    if (args.to.value) {
+        filteredValues.args.to = `${args.to.value}${args.to.unit}`;
+    } else {
+        delete filteredValues.args.to;
+    }
+
+    return filteredValues;
+};
+
 function FileSize(props) {
     const {
         parentId,
@@ -87,4 +110,4 @@ function SizeUnit(props) {
 }
 
 export default FileSize;
-export { SIZE_ARGS_DEFAULT, SIZE_TYPE };
+export { SIZE_ARGS_DEFAULT, SIZE_TYPE, formatFileSizeValues };

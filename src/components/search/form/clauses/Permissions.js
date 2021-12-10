@@ -18,6 +18,10 @@ const PERMISSIONS_ARGS_DEFAULT = {
     users: [],
 };
 
+const removeEmptyPermissionVals = (clause) => {
+    return clause.args.users?.length > 0 ? clause : null;
+}
+
 function Permissions(props) {
     const {
         parentId,
@@ -78,4 +82,4 @@ function Permissions(props) {
 }
 
 export default Permissions;
-export { PERMISSIONS_ARGS_DEFAULT, PERMISSIONS_TYPE };
+export { PERMISSIONS_ARGS_DEFAULT, PERMISSIONS_TYPE, removeEmptyPermissionVals };

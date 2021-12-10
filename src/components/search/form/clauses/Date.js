@@ -1,18 +1,45 @@
 import React from "react";
 
+import { Grid } from "@material-ui/core";
+import { getTime, parseISO } from "date-fns";
 import { Field } from "formik";
 
 import { FormTimestampField } from "components/forms/FormField";
 import buildID from "components/utils/DebugIDUtil";
 import { useTranslation } from "i18n";
 import ids from "../ids";
-import { Grid } from "@material-ui/core";
 
 const MODIFIED_TYPE = "modified";
 const CREATED_TYPE = "created";
 const DATE_ARGS_DEFAULT = { from: "", to: "" };
 const MODIFIED_ARGS_DEFAULT = DATE_ARGS_DEFAULT;
 const CREATED_ARGS_DEFAULT = DATE_ARGS_DEFAULT;
+
+// removes empty values and converts to milliseconds
+const formatDateValues = (clause) => {
+    let filteredValues = { ...clause };
+    let args = filteredValues.args;
+
+    if (!args.from && !args.to) {
+        return null;
+    }
+
+    if (!args.from) {
+        delete filteredValues.args.from;
+        filteredValues.args.to = getTime(
+            parseISO(filteredValues.args.to)
+        ).toString();
+    }
+
+    if (!args.to) {
+        delete filteredValues.args.to;
+        filteredValues.args.from = getTime(
+            parseISO(filteredValues.args.from)
+        ).toString();
+    }
+
+    return filteredValues;
+};
 
 function Date(props) {
     const {
@@ -69,4 +96,5 @@ export {
     CREATED_TYPE,
     MODIFIED_ARGS_DEFAULT,
     CREATED_ARGS_DEFAULT,
+    formatDateValues,
 };

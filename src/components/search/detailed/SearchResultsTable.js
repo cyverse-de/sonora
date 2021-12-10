@@ -98,7 +98,7 @@ const SearchResultsTable = ({
     }, [selectedFlatRows, setSelectedResources]);
 
     return (
-        <PageWrapper appBarHeight={isMobile ? 210 : 225}>
+        <PageWrapper appBarHeight={isMobile ? 250 : 270}>
             {isFetchingMore && (
                 <CircularProgress
                     thickness={7}

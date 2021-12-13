@@ -132,7 +132,9 @@ function DetailedSearchResults(props) {
         <Paper className={classes.root}>
             {!isMobile && (
                 <Typography className={classes.searchInfo}>
-                    {t("search:searchInfo", { term: `"${searchTerm}"` })}
+                    {advancedDataQuery
+                        ? t("search:searchInfoAdvancedData")
+                        : t("search:searchInfo", { term: `"${searchTerm}"` })}
                     <AnimatedNumber
                         value={totalResults}
                         formatValue={(value) => value.toFixed(0)}

@@ -4,13 +4,19 @@
  * @author aramsey
  */
 
-import React from "react";
+import React, { useEffect } from "react";
 
 import Listing from "components/teams/Listing";
 import { Paper, TableContainer } from "@material-ui/core";
 
 export default function TeamSearchResults(props) {
     const { searchTerm, updateResultCount } = props;
+
+    useEffect(() => {
+        if (!searchTerm) {
+            updateResultCount(0);
+        }
+    }, [searchTerm, updateResultCount]);
 
     return (
         <TableContainer component={Paper} style={{ overflow: "auto" }}>

@@ -14,6 +14,7 @@ import { FastField, Formik } from "formik";
 
 import DEDialog from "components/utils/DEDialog";
 import GridLabelValue from "components/utils/GridLabelValue";
+import { useUserProfile } from "contexts/userProfile";
 import {
     Created,
     CREATED_ARGS_DEFAULT,
@@ -53,8 +54,8 @@ import { useRouter } from "next/router";
  * @property {object} args
  */
 
-const initialValue = () => {
-    return CLAUSE_LIST.map((clause) => {
+const initialValue = (clauseList) => {
+    return clauseList.map((clause) => {
         return {
             type: clause.type,
             args: clause.defaultArgs,
@@ -62,56 +63,71 @@ const initialValue = () => {
     });
 };
 
+const getClauseList = (userId) => {
+    return userId
+        ? CLAUSE_LIST
+        : CLAUSE_LIST.filter((clause) => !clause.requiresLogIn);
+};
+
 const CLAUSE_LIST = [
     {
         type: LABEL_TYPE,
         component: FileName,
         defaultArgs: LABEL_ARGS_DEFAULT,
+        requiresLogIn: false,
     },
     {
         type: PATH_TYPE,
         component: Path,
         defaultArgs: PATH_ARGS_DEFAULT,
+        requiresLogIn: false,
     },
     {
         type: MODIFIED_TYPE,
         component: Modified,
         defaultArgs: MODIFIED_ARGS_DEFAULT,
         getFormattedValue: formatDateValues,
+        requiresLogIn: false,
     },
     {
         type: CREATED_TYPE,
         component: Created,
         defaultArgs: CREATED_ARGS_DEFAULT,
         getFormattedValue: formatDateValues,
+        requiresLogIn: false,
     },
     {
         type: SIZE_TYPE,
         component: FileSize,
         defaultArgs: SIZE_ARGS_DEFAULT,
         getFormattedValue: formatFileSizeValues,
+        requiresLogIn: false,
     },
     {
         type: METADATA_TYPE,
         component: Metadata,
         defaultArgs: METADATA_ARGS_DEFAULT,
         getFormattedValue: formatMetadataVals,
+        requiresLogIn: false,
     },
     {
         type: TAGS_TYPE,
         component: Tags,
         defaultArgs: TAGS_ARGS_DEFAULT,
+        requiresLogIn: false,
     },
     {
         type: OWNER_TYPE,
         component: Owner,
         defaultArgs: OWNER_ARGS_DEFAULT,
+        requiresLogIn: true,
     },
     {
         type: PERMISSIONS_TYPE,
         component: Permissions,
         defaultArgs: PERMISSIONS_ARGS_DEFAULT,
         getFormattedValue: removeEmptyPermissionVals,
+        requiresLogIn: true,
     },
 ];
 
@@ -147,6 +163,10 @@ function SearchForm(props) {
     const { open, onClose } = props;
     const { t } = useTranslation("search");
     const router = useRouter();
+    const [userProfile] = useUserProfile();
+
+    const clauseList = getClauseList(userProfile?.id);
+    const initialValues = initialValue(clauseList);
 
     const handleSubmit = (values) => {
         const filledInClauses = clearEmptyValues(values);
@@ -161,7 +181,7 @@ function SearchForm(props) {
     return (
         <Formik
             enableReinitialize
-            initialValues={initialValue()}
+            initialValues={initialValues}
             onSubmit={handleSubmit}
         >
             {({ handleSubmit }) => (
@@ -182,7 +202,7 @@ function SearchForm(props) {
                     }
                 >
                     <Grid container alignItems="center" spacing={2}>
-                        {CLAUSE_LIST.map((clause, index) => (
+                        {clauseList.map((clause, index) => (
                             <GridLabelValue
                                 label={t(clause.type)}
                                 key={index}

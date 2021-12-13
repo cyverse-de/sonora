@@ -3,6 +3,7 @@ import React from "react";
 import { mockAxios } from "../../stories/axiosMock";
 import TestRenderer from "react-test-renderer";
 import { ConfigProvider } from "contexts/config";
+import { UserProfileProvider } from "contexts/userProfile";
 import { I18nProviderWrapper } from "../i18n";
 import { RQWrapper } from "../__mocks__/RQWrapper";
 import { clearEmptyValues } from "components/search/form";
@@ -51,11 +52,13 @@ afterEach(() => {
 test("renders Advanced Data Search without crashing", () => {
     const component = TestRenderer.create(
         <RQWrapper>
-            <I18nProviderWrapper>
-                <ConfigProvider>
-                    <AdvancedSearchForm />
-                </ConfigProvider>
-            </I18nProviderWrapper>
+            <UserProfileProvider>
+                <I18nProviderWrapper>
+                    <ConfigProvider>
+                        <AdvancedSearchForm />
+                    </ConfigProvider>
+                </I18nProviderWrapper>
+            </UserProfileProvider>
         </RQWrapper>
     );
     component.unmount();

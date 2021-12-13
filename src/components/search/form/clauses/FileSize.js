@@ -20,8 +20,8 @@ import ids from "../ids";
 
 const SIZE_TYPE = "size";
 const SIZE_ARGS_DEFAULT = {
-    from: { value: "", unit: "KB" },
-    to: { value: "", unit: "KB" },
+    from: { value: "", unit: "KiB" },
+    to: { value: "", unit: "KiB" },
 };
 
 // remove empty values, merge size and unit to one string
@@ -99,7 +99,7 @@ function FileSize(props) {
     );
 }
 
-const sizesList = ["KB", "MB", "GB", "TB"];
+const sizesList = ["KiB", "MiB", "GiB", "TiB"];
 
 function SizeUnit(props) {
     const {

@@ -7,6 +7,7 @@
     "dataSearchTab": "Data ({{count}})",
     "endDate": "End Date",
     "errorSearch": "Unable to search. Please try again.",
+    "fileNameGlob": "A glob pattern like *.txt can be used here",
     "fileNamePlaceholder": "myAnalysisFile",
     "fileSize": "File Size",
     "fileSizeGreater": "Greater Than",

@@ -33,6 +33,7 @@ function FileName(props) {
             name={`${name}.label`}
             fullWidth={false}
             placeholder={t("fileNamePlaceholder")}
+            helperText={t("fileNameGlob")}
             id={buildID(parentId, ids.FILE_NAME)}
             component={FormTextField}
         />

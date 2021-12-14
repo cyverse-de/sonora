@@ -34,9 +34,15 @@ export default function Search() {
                 filter={filter}
                 selectedTab={tab}
                 onTabSelectionChange={(event, selection) => {
-                    router.push(
-                        `/${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&advancedDataQuery=${advancedDataQuery}&filter=${filter}&selectedTab=${selection}`
-                    );
+                    router.push({
+                        pathname: `/${NavigationConstants.SEARCH}`,
+                        query: {
+                            searchTerm,
+                            advancedDataQuery,
+                            filter,
+                            selectedTab: selection,
+                        },
+                    });
                 }}
             />
         </>

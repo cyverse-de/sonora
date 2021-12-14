@@ -41,6 +41,7 @@ function TagSearch(props) {
     const {
         id,
         resource,
+        initialTags,
         showHeader = true,
         handleTagAdded,
         handleTagRemoved,
@@ -50,7 +51,7 @@ function TagSearch(props) {
 
     const [searchTerm, setSearchTerm] = useState(null);
     const [options, setOptions] = useState([]);
-    const [selectedTags, setSelectedTags] = useState([]);
+    const [selectedTags, setSelectedTags] = useState(initialTags || []);
 
     const resourceId = resource?.id;
     const fetchTagsQueryKey = ["dataTagsForResource", { resourceId }];

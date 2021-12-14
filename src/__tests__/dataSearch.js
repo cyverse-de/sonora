@@ -301,9 +301,15 @@ test("tests data search Tags clause: default value removed", () => {
 test("tests data search Tags clause: no values removed", () => {
     const clause = {
         type: TAGS_TYPE,
-        args: { tags: ["myTag"] },
+        args: { tags: [{ name: "myTag", id: "someId" }] },
     };
     const result = clearEmptyValues([clause]);
+    const expected = [
+        {
+            type: TAGS_TYPE,
+            args: { tags: ["someId"] },
+        },
+    ];
 
-    expect(result).toStrictEqual([clause]);
+    expect(result).toStrictEqual(expected);
 });

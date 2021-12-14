@@ -37,7 +37,11 @@ import Metadata, {
     METADATA_TYPE,
     formatMetadataVals,
 } from "./clauses/Metadata";
-import Tags, { TAGS_ARGS_DEFAULT, TAGS_TYPE } from "./clauses/Tags";
+import Tags, {
+    formatTagVals,
+    TAGS_ARGS_DEFAULT,
+    TAGS_TYPE,
+} from "./clauses/Tags";
 import Owner, { OWNER_ARGS_DEFAULT, OWNER_TYPE } from "./clauses/Owner";
 import Permissions, {
     PERMISSIONS_ARGS_DEFAULT,
@@ -114,6 +118,7 @@ const CLAUSE_LIST = [
         type: TAGS_TYPE,
         component: Tags,
         defaultArgs: TAGS_ARGS_DEFAULT,
+        getFormattedValue: formatTagVals,
         requiresLogIn: false,
     },
     {

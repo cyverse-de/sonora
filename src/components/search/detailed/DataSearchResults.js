@@ -99,7 +99,6 @@ function DataSearchResults(props) {
         baseId,
         showErrorAnnouncer,
     } = props;
-    const classes = useStyles();
     const [dataSearchKey, setDataSearchKey] = useState(DATA_SEARCH_QUERY_KEY);
     const [sortField, setSortField] = useState("label");
     const [sortOrder, setSortOrder] = useState("ascending");
@@ -306,10 +305,7 @@ function DataSearchResults(props) {
     if (error) {
         return (
             <>
-                <Toolbar variant="dense">
-                    <div className={classes.divider} />
-                    <SearchButton />
-                </Toolbar>
+                <DataSearchToolbar advancedDataQuery={advancedDataQuery} />
                 <ErrorTypographyWithDialog
                     errorMessage={t("errorSearch")}
                     errorObject={error}
@@ -324,10 +320,7 @@ function DataSearchResults(props) {
     ) {
         return (
             <>
-                <Toolbar variant="dense">
-                    <div className={classes.divider} />
-                    <SearchButton />
-                </Toolbar>
+                <DataSearchToolbar advancedDataQuery={advancedDataQuery} />
                 <Typography>{t("noResults")}</Typography>
             </>
         );
@@ -342,10 +335,7 @@ function DataSearchResults(props) {
 
     return (
         <>
-            <Toolbar variant="dense">
-                <div className={classes.divider} />
-                <SearchButton />
-            </Toolbar>
+            <DataSearchToolbar advancedDataQuery={advancedDataQuery} />
             <SearchResultsTable
                 columns={columns}
                 data={flatData}
@@ -377,6 +367,40 @@ function DataSearchResults(props) {
                 />
             )}
         </>
+    );
+}
+
+function DataSearchToolbar(props) {
+    const { advancedDataQuery } = props;
+    const classes = useStyles();
+
+    // displays each clause's args values i.e. label:myFile.txt prefix:/cyverse/home
+    const getQueryDisplayText = (query) => {
+        const queryObj = JSON.parse(query);
+        const clauses = queryObj?.query?.all;
+        return clauses
+            ?.map((clause) => {
+                const args = clause.args;
+                return Object.entries(args).map(([key, value]) => {
+                    return `${key}:${value}`;
+                });
+            })
+            .flat()
+            .join(" ");
+    };
+
+    const queryDisplayText = advancedDataQuery
+        ? getQueryDisplayText(advancedDataQuery)
+        : null;
+
+    return (
+        <Toolbar variant="dense">
+            {queryDisplayText && (
+                <Typography variant="caption">{queryDisplayText}</Typography>
+            )}
+            <div className={classes.divider} />
+            <SearchButton />
+        </Toolbar>
     );
 }
 

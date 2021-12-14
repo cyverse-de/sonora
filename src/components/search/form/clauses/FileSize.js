@@ -12,7 +12,7 @@ import React from "react";
 import { Grid, MenuItem } from "@material-ui/core";
 import { FastField } from "formik";
 
-import { FormNumberField, FormSelectField } from "components/forms/FormField";
+import { FormNumberField, FormTextField } from "components/forms/FormField";
 import buildID from "components/utils/DebugIDUtil";
 import { minValue } from "components/utils/validations";
 import { useTranslation } from "i18n";
@@ -20,8 +20,8 @@ import ids from "../ids";
 
 const SIZE_TYPE = "size";
 const SIZE_ARGS_DEFAULT = {
-    from: { value: "", unit: "KiB" },
-    to: { value: "", unit: "KiB" },
+    from: { value: "", unit: "KB" },
+    to: { value: "", unit: "KB" },
 };
 
 // remove empty values, merge size and unit to one string
@@ -73,7 +73,7 @@ function FileSize(props) {
                 <FastField
                     name={`${name}.from.unit`}
                     id={buildID(parentId, ids.FILE_SIZE_GREATER_UNIT)}
-                    label=" "
+                    label=""
                     component={SizeUnit}
                 />
             </Grid>
@@ -91,7 +91,7 @@ function FileSize(props) {
                 <FastField
                     name={`${name}.to.unit`}
                     id={buildID(parentId, ids.FILE_SIZE_LESS_THAN_UNIT)}
-                    label=" "
+                    label=""
                     component={SizeUnit}
                 />
             </Grid>
@@ -99,24 +99,27 @@ function FileSize(props) {
     );
 }
 
-const sizesList = ["KiB", "MiB", "GiB", "TiB"];
+const sizesList = [
+    { label: "KiB", value: "KB" },
+    { label: "MiB", value: "MB" },
+    {
+        label: "GiB",
+        value: "GB",
+    },
+    { label: "TiB", value: "TB" },
+];
 
 function SizeUnit(props) {
-    const {
-        field,
-        form: { setFieldValue, ...form },
-        ...rest
-    } = props;
     return (
-        <FormSelectField form={form} field={field} fullWidth={false} {...rest}>
+        <FormTextField select variant="outlined" fullWidth={false} {...props}>
             {sizesList.map((item, index) => {
                 return (
-                    <MenuItem key={index} value={item} id={item}>
-                        {item}
+                    <MenuItem key={index} value={item.value} id={item}>
+                        {item.label}
                     </MenuItem>
                 );
             })}
-        </FormSelectField>
+        </FormTextField>
     );
 }
 

@@ -72,6 +72,7 @@ import constants from "../../../constants";
 import ExternalLink from "components/utils/ExternalLink";
 import { createDOIRequest } from "serviceFacades/doi";
 import MoveDialog from "../MoveDialog";
+import SearchForm from "components/search/form";
 
 function Listing(props) {
     const {
@@ -102,6 +103,7 @@ function Listing(props) {
     const [data, setData] = useState({ total: 0, listing: [] });
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
+    const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false);
     const [detailsResource, setDetailsResource] = useState(null);
     const [infoTypes, setInfoTypes] = useState([]);
     const [infoTypesQueryEnabled, setInfoTypesQueryEnabled] = useState(false);
@@ -492,6 +494,14 @@ function Listing(props) {
         setSelected([]);
     };
 
+    const onAdvancedDataSearchSelected = () => {
+        setAdvancedSearchOpen(true);
+    };
+
+    const onCloseAdvancedSearch = () => {
+        setAdvancedSearchOpen(false);
+    };
+
     const handleChangePage = (event, newPage) => {
         onRouteToListing &&
             onRouteToListing(path, order, orderBy, newPage - 1, rowsPerPage);
@@ -598,6 +608,7 @@ function Listing(props) {
                     onMetadataSelected={onMetadataSelected}
                     onDeleteSelected={onDeleteSelected}
                     onRestoreSelected={onRestoreSelected}
+                    onAdvancedDataSearchSelected={onAdvancedDataSearchSelected}
                     onEmptyTrashSelected={onEmptyTrashSelected}
                     detailsEnabled={detailsEnabled}
                     onDetailsSelected={onDetailsSelected}
@@ -767,6 +778,10 @@ function Listing(props) {
                     );
                     setSelected(newSelected);
                 }}
+            />
+            <SearchForm
+                open={advancedSearchOpen}
+                onClose={onCloseAdvancedSearch}
             />
         </>
     );

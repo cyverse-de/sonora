@@ -15,18 +15,26 @@ import TextField from "@material-ui/core/TextField";
 
 const onDateChange = (prevDate, fieldName, setFieldValue) => (event) => {
     const newValue = event.target.value;
-    const date = prevDate ? prevDate : new Date();
-    const time = formatDateObject(date, dateConstants.TIME_FORMAT);
+    if (newValue) {
+        const date = prevDate ? prevDate : new Date();
+        const time = formatDateObject(date, dateConstants.TIME_FORMAT);
 
-    setFieldValue(fieldName, `${newValue} ${time}`);
+        setFieldValue(fieldName, `${newValue} ${time}`);
+    } else {
+        setFieldValue(fieldName, "");
+    }
 };
 
 const onTimeChange = (prevDate, fieldName, setFieldValue) => (event) => {
     const newValue = event.target.value;
-    const date = prevDate ? prevDate : new Date();
-    const dateStr = formatDateObject(date, dateConstants.DATE_FORMAT);
+    if (newValue) {
+        const date = prevDate ? prevDate : new Date();
+        const dateStr = formatDateObject(date, dateConstants.DATE_FORMAT);
 
-    setFieldValue(fieldName, `${dateStr} ${newValue}`);
+        setFieldValue(fieldName, `${dateStr} ${newValue}`);
+    } else {
+        setFieldValue(fieldName, "");
+    }
 };
 
 const FormTimestampField = ({

@@ -35,3 +35,18 @@ export const getDataSimpleSearchQuery = (
         sort: [{ field: sortField, order: sortDir }],
     };
 };
+
+export const getDataAdvancedSearchQuery = (
+    query,
+    rowsPerPage,
+    offset,
+    sortField,
+    sortDir
+) => {
+    return {
+        ...JSON.parse(query),
+        size: rowsPerPage,
+        from: offset,
+        sort: [{ field: sortField, order: sortDir }],
+    };
+};

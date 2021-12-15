@@ -8,7 +8,8 @@ import NavigationConstants from "common/NavigationConstants";
 
 export default function Search() {
     const router = useRouter();
-    const { searchTerm, filter, selectedTab } = router?.query;
+    const { searchTerm, filter, selectedTab, advancedDataQuery } =
+        router?.query;
     let tab = selectedTab || SEARCH_RESULTS_TABS.data;
     const onShowDetailedSearch = (query) => {
         router.push({
@@ -28,13 +29,20 @@ export default function Search() {
             </Hidden>
             <DetailedSearchResults
                 baseId="search"
-                searchTerm={router.query?.searchTerm}
+                searchTerm={searchTerm}
+                advancedDataQuery={advancedDataQuery}
                 filter={filter}
                 selectedTab={tab}
                 onTabSelectionChange={(event, selection) => {
-                    router.push(
-                        `/${NavigationConstants.SEARCH}?searchTerm=${searchTerm}&filter=${filter}&selectedTab=${selection}`
-                    );
+                    router.push({
+                        pathname: `/${NavigationConstants.SEARCH}`,
+                        query: {
+                            searchTerm,
+                            advancedDataQuery,
+                            filter,
+                            selectedTab: selection,
+                        },
+                    });
                 }}
             />
         </>

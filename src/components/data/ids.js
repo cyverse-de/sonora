@@ -1,5 +1,6 @@
 export default {
     ADD_TO_BAG_MI: "addToBagMenuItem",
+    ADVANCED_DATA_SEARCH: "advancedDataSearchMenuItem",
     AUTO_CREATE_HT_FILE_MI: "autoCreateHTFileMenuItem",
     AUTO_CREATE_MULTI_INPUT_MI: "autoCreateMultiInputMenuItem",
     BREADCRUMBS: "breadcrumbs",

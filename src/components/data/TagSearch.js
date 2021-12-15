@@ -38,15 +38,22 @@ import { useUserProfile } from "contexts/userProfile";
 const useStyles = makeStyles(styles);
 
 function TagSearch(props) {
-    const { id, resource } = props;
+    const {
+        id,
+        resource,
+        initialTags,
+        showHeader = true,
+        handleTagAdded,
+        handleTagRemoved,
+    } = props;
     const classes = useStyles();
     const { t } = useTranslation("data");
 
     const [searchTerm, setSearchTerm] = useState(null);
     const [options, setOptions] = useState([]);
-    const [selectedTags, setSelectedTags] = useState([]);
+    const [selectedTags, setSelectedTags] = useState(initialTags || []);
 
-    const resourceId = resource.id;
+    const resourceId = resource?.id;
     const fetchTagsQueryKey = ["dataTagsForResource", { resourceId }];
     const [errorMessage, setErrorMessage] = useState(null);
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
@@ -58,6 +65,7 @@ function TagSearch(props) {
 
     const { isFetching: isFetchingTags } = useQuery({
         queryKey: fetchTagsQueryKey,
+        enabled: !!resourceId,
         queryFn: () => getTagsForResource(fetchTagsQueryKey[1]),
         onSuccess: (resp) => setSelectedTags(resp.tags),
         onError: (e) => {
@@ -92,7 +100,18 @@ function TagSearch(props) {
     );
 
     const onTagRemove = (selectedTag) => {
-        removeTag({ tagIds: [selectedTag.id], resourceId: resource.id });
+        if (selectedTag) {
+            if (handleTagRemoved) {
+                handleTagRemoved(
+                    selectedTags.findIndex((item) => item.id === selectedTag.id)
+                );
+                setSelectedTags(
+                    selectedTags.filter((item) => item.id !== selectedTag.id)
+                );
+                return;
+            }
+            removeTag({ tagIds: [selectedTag.id], resourceId: resource.id });
+        }
     };
 
     const { mutate: createTag, status: tagCreationStatus } = useMutation(
@@ -133,6 +152,12 @@ function TagSearch(props) {
                 return;
             }
 
+            if (handleTagAdded) {
+                handleTagAdded(selectedTag);
+                setSelectedTags([...selectedTags, selectedTag]);
+                return;
+            }
+
             // Check if a tag has already been added
             if (!selectedTags.find((tag) => tag.id === tagId)) {
                 attachTagToResource({
@@ -162,7 +187,9 @@ function TagSearch(props) {
 
     return (
         <>
-            <Typography variant="subtitle1">{t("tags")}</Typography>
+            {showHeader && (
+                <Typography variant="subtitle1">{t("tags")}</Typography>
+            )}
 
             <Autocomplete
                 id={id}

@@ -95,11 +95,11 @@ function SubjectSearchField(props) {
             // Remove recent contacts list (default collab list) from search results
             // so user doesn't share with everyone they've ever shared with
             const subjects = resp?.subjects
-                .filter(
+                ?.filter(
                     (subject) =>
                         groupName(subject) !== RECENT_CONTACTS_LIST_NAME
                 )
-                .map((subject) => {
+                ?.map((subject) => {
                     return { ...subject, grouping: t("searchResults") };
                 });
             setSearchResults(subjects);

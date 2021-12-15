@@ -55,6 +55,7 @@ import {
 import NavigationConstants from "common/NavigationConstants";
 import TrashMenuItems from "./TrashMenuItems";
 import ApplyBulkMetadataDialog from "components/metadata/ApplyBulkMetadataDialog";
+import SearchIcon from "@material-ui/icons/Search";
 
 function DataDotMenu(props) {
     const {
@@ -62,6 +63,7 @@ function DataDotMenu(props) {
         path,
         onDetailsSelected,
         onDeleteSelected,
+        onAdvancedDataSearchSelected,
         onAddToBagSelected,
         ButtonProps,
         refreshListing,
@@ -369,6 +371,27 @@ function DataDotMenu(props) {
                             </ListItemIcon>
                             <ListItemText
                                 primary={t("automateCreateMultiInput")}
+                            />
+                        </MenuItem>,
+                        <MenuItem
+                            key={buildID(
+                                baseId,
+                                ids.ADVANCED_DATA_SEARCH
+                            )}
+                            id={buildID(
+                                baseId,
+                                ids.ADVANCED_DATA_SEARCH
+                            )}
+                            onClick={() => {
+                                onClose();
+                                onAdvancedDataSearchSelected();
+                            }}
+                        >
+                            <ListItemIcon>
+                                <SearchIcon fontSize="small" />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary={t("advancedDataSearch")}
                             />
                         </MenuItem>,
                     ],

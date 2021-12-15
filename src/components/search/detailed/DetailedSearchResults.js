@@ -70,7 +70,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DetailedSearchResults(props) {
-    const { baseId, searchTerm, selectedTab, onTabSelectionChange } = props;
+    const {
+        baseId,
+        searchTerm,
+        advancedDataQuery,
+        selectedTab,
+        onTabSelectionChange,
+    } = props;
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -107,7 +113,7 @@ function DetailedSearchResults(props) {
 
     const totalResults = dataCount + appsCount + analysesCount + teamCount;
 
-    if (!searchTerm && !isMobile) {
+    if (!searchTerm && !isMobile && !advancedDataQuery) {
         return (
             <div>
                 <span>
@@ -126,7 +132,9 @@ function DetailedSearchResults(props) {
         <Paper className={classes.root}>
             {!isMobile && (
                 <Typography className={classes.searchInfo}>
-                    {t("search:searchInfo", { term: `"${searchTerm}"` })}
+                    {advancedDataQuery
+                        ? t("search:searchInfoAdvancedData")
+                        : t("search:searchInfo", { term: `"${searchTerm}"` })}
                     <AnimatedNumber
                         value={totalResults}
                         formatValue={(value) => value.toFixed(0)}
@@ -202,6 +210,7 @@ function DetailedSearchResults(props) {
             >
                 <DataSearchResults
                     searchTerm={searchTerm}
+                    advancedDataQuery={advancedDataQuery}
                     updateResultCount={(count) => setDataCount(count)}
                     baseId={dataTabId}
                 />

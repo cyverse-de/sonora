@@ -75,6 +75,7 @@ function DataToolbar(props) {
         onRefreshSelected,
         onRenameSelected,
         onMoveSelected,
+        onAdvancedDataSearchSelected,
     } = props;
 
     const { t } = useTranslation("data");
@@ -201,6 +202,7 @@ function DataToolbar(props) {
                             onCreateFolderSelected={onCreateFolderClicked}
                             onDetailsSelected={onDetailsSelected}
                             onAddToBagSelected={onAddToBagSelected}
+                            onAdvancedDataSearchSelected={onAdvancedDataSearchSelected}
                             permission={permission}
                             refreshListing={refreshListing}
                             detailsEnabled={detailsEnabled}

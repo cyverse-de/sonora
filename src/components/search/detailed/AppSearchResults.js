@@ -137,7 +137,9 @@ export default function AppSearchResults(props) {
             search: searchTerm,
             total: data?.pages.length ? data.pages[0].total : 0,
         });
-        if (data && data.pages.length > 0) {
+        if (!searchTerm) {
+            updateResultCount(0);
+        } else if (data && data.pages.length > 0) {
             updateResultCount && updateResultCount(data.pages[0].total);
             const flat = data.pages.map((page) => page.apps).flat();
             setFlatData(flat);

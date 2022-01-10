@@ -257,7 +257,7 @@ const Dashboard = (props) => {
     return (
         <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
             {!userProfile?.id && <Banner />}
-            {<UserSurvey />}
+            <UserSurvey />
             {userProfile?.id &&
                 bootstrapInfo && [
                     <Tour

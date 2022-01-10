@@ -9,7 +9,7 @@
     "by": "By",
     "changeSettings": "Change Settings",
     "cyverseTransition": "CyVerse Transition",
-    "transitionMessage": "Completing this survey will help us understand how moving to a subscription model will impact our users. It is important that we hear from you!",
+    "transitionMessage": "Completing this survey will help us understand its impacts as we work with NSF to transition to a subscription model.",
     "dashboardInitError": "Unable to initialize the dashboard: {{error}}",
     "dataConsumption": "Data Storage",
     "dataConsumptionError": "Unable to get data storage info.",

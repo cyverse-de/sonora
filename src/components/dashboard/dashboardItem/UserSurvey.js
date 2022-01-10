@@ -30,6 +30,7 @@ function UserSurvey(props) {
     return (
         <Card id={baseId} classes={{ root: classes.legacyCard }}>
             <CardHeader
+                style={{ backgroundColor: theme.palette.secondary.main }}
                 avatar={
                     <NewReleases
                         style={{ color: theme.palette.gold }}
@@ -52,6 +53,8 @@ function UserSurvey(props) {
                     id={buildID(baseId, ids.DISMISS_BTN)}
                     size="small"
                     onClick={() => window.open(USER_SURVEY, "_blank")}
+                    variant="contained"
+                    color="primary"
                 >
                     {t("takeSurvey")}
                 </Button>

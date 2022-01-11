@@ -13,9 +13,10 @@ import {
 import { NewReleases } from "@material-ui/icons";
 
 import ids from "../ids";
-import { useTranslation } from "i18n";
+import { Trans, useTranslation } from "i18n";
 import useStyles from "./styles";
-import { USER_SURVEY } from "../constants";
+import { USER_SURVEY, PHX_BIO_URL } from "../constants";
+import ExternalLink from "components/utils/ExternalLink";
 
 function UserSurvey(props) {
     const { parentId } = props;
@@ -45,7 +46,13 @@ function UserSurvey(props) {
             />
             <CardContent>
                 <Typography variant="body2" gutterBottom>
-                    {t("transitionMessage")}
+                    <Trans t={t} i18nKey="transitionMessage" components={{
+                        bio: (
+                            <ExternalLink
+                                href={PHX_BIO_URL}
+                            />
+                        )
+                    }} />
                 </Typography>
             </CardContent>
             <CardActions>

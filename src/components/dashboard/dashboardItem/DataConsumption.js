@@ -69,7 +69,7 @@ const options = (usage, quota, date, distance, title, theme, t) => {
                 text: [
                     title,
                     t("dataConsumptionChartSecondaryTitle", {
-                        percentage: (usage / quota) * 100,
+                        percentage: ((usage / quota) * 100).toFixed(2),
                         timestamp: date,
                     }),
                 ],

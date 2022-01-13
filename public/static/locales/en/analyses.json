@@ -59,6 +59,7 @@
     "info": "Info",
     "jobLogsUnavailableHeading": "Logs not available",
     "jobLogsUnavailableMessage": "The logs will be available within the analysis output folder after the status of this analysis changes to Completed or Failed.",
+    "landingPageFootNote": "* This page will refresh automatically. * You can bookmark this page to come back to it later.",
     "loadMore": "Load More",
     "message": "Message",
     "mine": "My Analyses",

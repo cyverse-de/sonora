@@ -79,12 +79,12 @@ import {
     Grid,
     Hidden,
     Typography,
-    useMediaQuery,
     useTheme,
 } from "@material-ui/core";
-import { ContactSupport, ExpandMore, Refresh } from "@material-ui/icons";
+import { ContactSupport, ExpandMore, Refresh, Launch } from "@material-ui/icons";
 import BackButton from "components/utils/BackButton";
 import PendingTerminationDlg from "components/analyses/PendingTerminationDlg";
+import { openInteractiveUrl } from "../utils";
 
 const InfoGridValue = (props) => <Typography variant="body2" {...props} />;
 
@@ -97,7 +97,6 @@ export default function AnalysisSubmissionLanding(props) {
     const [config] = useConfig();
     const { currentNotification } = useNotifications();
 
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const [analysis, setAnalysis] = React.useState();
     const [helpOpen, setHelpOpen] = React.useState(false);
     const [history, setHistory] = React.useState(null);
@@ -133,6 +132,7 @@ export default function AnalysisSubmissionLanding(props) {
     const handleTerminateSelected = () => setTerminateAnalysisDlgOpen(true);
     const isTerminatedAnalysis = isTerminated(analysis);
     const sharable = analysis ? canShare([analysis]) : false;
+    const interactiveUrls = analysis?.interactive_urls;
     const queryClient = useQueryClient();
 
     React.useEffect(() => {
@@ -341,14 +341,14 @@ export default function AnalysisSubmissionLanding(props) {
             >
                 {view === BATCH_DRILL_DOWN && <BackButton />}
                 <Grid container spacing={1}>
-                    <Grid item xs={isMobile ? 0 : 6}>
+                    <Grid item>
                         <Grid container spacing={1}>
                             <Grid item>
                                 <AnalysisStatusIcon status={analysis?.status} />
                             </Grid>
                             <Grid item>
                                 <Typography
-                                    variant={isMobile ? "subtitle1" : "h6"}
+                                    variant={"subtitle2"}
                                     color="primary"
                                 >
                                     {analysis?.name}
@@ -360,15 +360,25 @@ export default function AnalysisSubmissionLanding(props) {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item xs={isMobile ? 0 : 6}>
+                    <Grid item>
                         <Grid
                             container
                             spacing={1}
-                            justifyContent={
-                                isMobile ? "flex-start" : "flex-end"
-                            }
                         >
                             <Hidden smDown>
+                                {isVICE && !isTerminatedAnalysis && (<Grid item>
+                                    <Button
+                                        id={buildID(baseId, ids.REFRESH_BTN)}
+                                        variant="outlined"
+                                        size="small"
+                                        disableElevation
+                                        color="primary"
+                                        onClick={() => openInteractiveUrl(interactiveUrls[0])}
+                                        startIcon={<Launch />}
+                                    >
+                                        <Hidden xsDown>{t("goToVice")}</Hidden>
+                                    </Button>
+                                </Grid>)}
                                 <Grid item>
                                     <Button
                                         id={buildID(baseId, ids.REFRESH_BTN)}
@@ -472,31 +482,29 @@ export default function AnalysisSubmissionLanding(props) {
                                     analysisStatus.SUBMITTED,
                                     analysisStatus.RUNNING,
                                 ].includes(analysis?.status) && (
-                                    <Typography variant="body2">
-                                        {analysis?.resultfolderid}
-                                    </Typography>
-                                )}
+                                        <Typography variant="body2">
+                                            {analysis?.resultfolderid}
+                                        </Typography>
+                                    )}
                                 {[
                                     analysisStatus.COMPLETED,
                                     analysisStatus.FAILED,
                                     analysisStatus.CANCELED,
                                 ].includes(analysis?.status) && (
-                                    <DataPathLink
-                                        id={baseId}
-                                        param_type="FolderInput"
-                                        path={analysis?.resultfolderid}
-                                    />
-                                )}
+                                        <DataPathLink
+                                            id={baseId}
+                                            param_type="FolderInput"
+                                            path={analysis?.resultfolderid}
+                                        />
+                                    )}
                             </div>
                             <div style={{ marginLeft: theme.spacing(0.25) }}>
                                 <CopyLinkButton
                                     baseId={baseId}
                                     onCopyLinkSelected={() => {
-                                        const link = `${getHost()}/${
-                                            NavigationConstants.DATA
-                                        }/${constants.DATA_STORE_STORAGE_ID}${
-                                            analysis?.resultfolderid
-                                        }`;
+                                        const link = `${getHost()}/${NavigationConstants.DATA
+                                            }/${constants.DATA_STORE_STORAGE_ID}${analysis?.resultfolderid
+                                            }`;
                                         const copyPromise =
                                             copyStringToClipboard(link);
                                         copyLinkToClipboardHandler(
@@ -574,6 +582,9 @@ export default function AnalysisSubmissionLanding(props) {
                         enabled={isBatch}
                     />
                 )}
+                <Typography variant="caption">
+                    {t("landingPageFootNote")}
+                </Typography>
             </div>
             {sharable && (
                 <Sharing

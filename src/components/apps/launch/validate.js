@@ -228,6 +228,26 @@ const validate = (t) => (values) => {
         launchStepErrors[0] = true;
     }
 
+    if (values.requirements) {
+        const reqErrors = [];
+        values.requirements.forEach((req, i) => {
+            if (req?.min_cpu_cores && req?.max_cpu_cores) {
+                const err = validateBelow(
+                    req.min_cpu_cores,
+                    req.max_cpu_cores,
+                    t
+                );
+                if (err) {
+                    reqErrors[i] = { min_cpu_cores: err };
+                }
+            }
+        });
+        if (reqErrors?.length > 0) {
+            errors.requirements = reqErrors;
+            launchStepErrors[2] = true;
+        }
+    }
+
     if (values.groups) {
         const groupErrors = [];
         values.groups.forEach((group, index) => {

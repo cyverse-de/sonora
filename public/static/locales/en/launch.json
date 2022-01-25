@@ -40,7 +40,7 @@
     "reviewAndLaunch": "Review and Launch",
     "saveAsSavedLaunch": "Create Saved Launch",
     "selectMins": "Select Minimums",
-    "selectMaxs": "Select Maximums",
+    "selectMaxes": "Select Maximums",
     "showAllParameters": "Show All Parameters",
     "showAllParametersHelpText": "Turn off to hide parameters without values entered or selected.",
     "stepLabel": "Step {{step}}: {{label}}",

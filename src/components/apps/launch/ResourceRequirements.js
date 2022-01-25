@@ -99,7 +99,7 @@ const StepResourceRequirementsForm = ({
         memory_limit,
         min_disk_space,
     } = requirements;
-    const minCPUCoreList = buildLimitList(
+    const cpuCoreList = buildLimitList(
         1,
         min_cpu_cores || 0,
         max_cpu_cores || defaultMaxCPUCores || 8
@@ -130,7 +130,7 @@ const StepResourceRequirementsForm = ({
                         label={t("minCPUCores")}
                         component={FormSelectField}
                     >
-                        {minCPUCoreList.map((size, index) => (
+                        {cpuCoreList.map((size, index) => (
                             <MenuItem key={index} value={size}>
                                 {size}
                             </MenuItem>
@@ -175,7 +175,7 @@ const StepResourceRequirementsForm = ({
             <Grid container spacing={1}>
                 <Grid item xs={12}>
                     <Typography variant="subtitle2">
-                        {t("selectMaxs")}
+                        {t("selectMaxes")}
                     </Typography>
                 </Grid>
                 <Grid item xs={12}>
@@ -185,7 +185,7 @@ const StepResourceRequirementsForm = ({
                         label={t("maxCPUCores")}
                         component={FormSelectField}
                     >
-                        {minCPUCoreList.map((size, index) => (
+                        {cpuCoreList.map((size, index) => (
                             <MenuItem key={index} value={size}>
                                 {size}
                             </MenuItem>

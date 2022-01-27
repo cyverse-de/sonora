@@ -14,6 +14,7 @@ export const ERROR_CODES = {
     ERR_NOT_FOUND: "ERR_NOT_FOUND",
     ERR_NOT_READABLE: "ERR_NOT_READABLE",
     ERR_PERMISSION_NEEDED: "ERR_PERMISSION_NEEDED",
+    ERR_NOT_WRITEABLE: "ERR_NOT_WRITEABLE",
 };
 
 export const signInErrorResponse = { response: { status: 401 } };

@@ -118,17 +118,17 @@ function adminAddTool(tool) {
     });
 }
 
-function updateTool(tool) {
+function updateTool(tool, overwriteAppsAffectedByTool) {
     return callApi({
-        endpoint: `/api/tools/${tool.id}`,
+        endpoint: `/api/tools/${tool.id}?overwrite-public=${overwriteAppsAffectedByTool}`,
         method: "PATCH",
         body: tool,
     });
 }
 
-function adminUpdateTool(tool) {
+function adminUpdateTool(tool, overwriteAppsAffectedByTool) {
     return callApi({
-        endpoint: `/api/admin/tools/${tool.id}`,
+        endpoint: `/api/admin/tools/${tool.id}?overwrite-public=${overwriteAppsAffectedByTool}`,
         method: "PATCH",
         body: tool,
     });

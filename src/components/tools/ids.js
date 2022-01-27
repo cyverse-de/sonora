@@ -53,6 +53,7 @@ export default {
         RESTRICTIONS: "restrictions",
         HOST_PORT: "hostPort",
         BIND_TO_HOST: "bindToHost",
+        OVERWRITE_TOOL_DLG : "overWriteDialog",
     },
     BUTTONS: {
         SAVE: "saveBtn",

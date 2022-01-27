@@ -99,7 +99,7 @@ const StepResourceRequirementsForm = ({
         memory_limit,
         min_disk_space,
     } = requirements;
-    const minCPUCoreList = buildLimitList(
+    const cpuCoreList = buildLimitList(
         1,
         min_cpu_cores || 0,
         max_cpu_cores || defaultMaxCPUCores || 8
@@ -116,52 +116,84 @@ const StepResourceRequirementsForm = ({
     );
 
     return (
-        <Grid container spacing={1}>
-            <Grid item xs={12}>
-                <FastField
-                    id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
-                    name={`requirements.${index}.min_cpu_cores`}
-                    label={t("minCPUCores")}
-                    component={FormSelectField}
-                >
-                    {minCPUCoreList.map((size, index) => (
-                        <MenuItem key={index} value={size}>
-                            {size}
-                        </MenuItem>
-                    ))}
-                </FastField>
+        <div style={{ margin: 8 }}>
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <Typography variant="subtitle2">
+                        {t("selectMins")}
+                    </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <FastField
+                        id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
+                        name={`requirements.${index}.min_cpu_cores`}
+                        label={t("minCPUCores")}
+                        component={FormSelectField}
+                    >
+                        {cpuCoreList.map((size, index) => (
+                            <MenuItem key={index} value={size}>
+                                {size}
+                            </MenuItem>
+                        ))}
+                    </FastField>
+                </Grid>
+                <Grid item xs={12}>
+                    <FastField
+                        id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_MEM)}
+                        name={`requirements.${index}.min_memory_limit`}
+                        label={t("minMemory")}
+                        component={FormSelectField}
+                        renderValue={formatGBValue}
+                    >
+                        {minMemoryList.map((size, index) => (
+                            <MenuItem key={index} value={size}>
+                                {formatGBListItem(size)}
+                            </MenuItem>
+                        ))}
+                    </FastField>
+                </Grid>
+                <Grid item xs={12}>
+                    <FastField
+                        id={buildID(
+                            baseId,
+                            ids.RESOURCE_REQUESTS.MIN_DISK_SPACE
+                        )}
+                        name={`requirements.${index}.min_disk_space`}
+                        label={t("minDiskSpace")}
+                        component={FormSelectField}
+                        renderValue={formatGBValue}
+                    >
+                        {minDiskSpaceList.map((size, index) => (
+                            <MenuItem key={index} value={size}>
+                                {formatGBListItem(size)}
+                            </MenuItem>
+                        ))}
+                    </FastField>
+                </Grid>
             </Grid>
-            <Grid item xs={12}>
-                <FastField
-                    id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_MEM)}
-                    name={`requirements.${index}.min_memory_limit`}
-                    label={t("minMemory")}
-                    component={FormSelectField}
-                    renderValue={formatGBValue}
-                >
-                    {minMemoryList.map((size, index) => (
-                        <MenuItem key={index} value={size}>
-                            {formatGBListItem(size)}
-                        </MenuItem>
-                    ))}
-                </FastField>
+            <br />
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <Typography variant="subtitle2">
+                        {t("selectMaxes")}
+                    </Typography>
+                </Grid>
+                <Grid item xs={12}>
+                    <FastField
+                        id={buildID(baseId, "MAX_CPU")}
+                        name={`requirements.${index}.max_cpu_cores`}
+                        label={t("maxCPUCores")}
+                        component={FormSelectField}
+                    >
+                        {cpuCoreList.map((size, index) => (
+                            <MenuItem key={index} value={size}>
+                                {size}
+                            </MenuItem>
+                        ))}
+                    </FastField>
+                </Grid>
             </Grid>
-            <Grid item xs={12}>
-                <FastField
-                    id={buildID(baseId, ids.RESOURCE_REQUESTS.MIN_DISK_SPACE)}
-                    name={`requirements.${index}.min_disk_space`}
-                    label={t("minDiskSpace")}
-                    component={FormSelectField}
-                    renderValue={formatGBValue}
-                >
-                    {minDiskSpaceList.map((size, index) => (
-                        <MenuItem key={index} value={size}>
-                            {formatGBListItem(size)}
-                        </MenuItem>
-                    ))}
-                </FastField>
-            </Grid>
-        </Grid>
+        </div>
     );
 };
 
@@ -268,8 +300,13 @@ const StepResourceRequirementsReview = ({
     showAll,
 }) => {
     const { t } = useTranslation("launch");
-    const { step_number, min_cpu_cores, min_memory_limit, min_disk_space } =
-        stepRequirements;
+    const {
+        step_number,
+        min_cpu_cores,
+        min_memory_limit,
+        min_disk_space,
+        max_cpu_cores,
+    } = stepRequirements;
 
     const hasRequest = !!(min_cpu_cores || min_memory_limit || min_disk_space);
 
@@ -327,6 +364,14 @@ const StepResourceRequirementsReview = ({
                                         <TableCell>
                                             {formatGBValue(min_disk_space) ||
                                                 ""}
+                                        </TableCell>
+                                    </TableRow>
+                                )}
+                                {(showAll || !!max_cpu_cores) && (
+                                    <TableRow>
+                                        <TableCell>{t("maxCPUCores")}</TableCell>
+                                        <TableCell>
+                                            {max_cpu_cores || ""}
                                         </TableCell>
                                     </TableRow>
                                 )}

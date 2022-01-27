@@ -38,11 +38,14 @@ const initAppLaunchValues = (
     const reqInitValues = requirements?.map(
         ({
             step_number,
+            max_cpu_cores,
+            default_max_cpu_cores = 0,
             default_cpu_cores = 0,
             default_memory = 0,
             default_disk_space = 0,
         }) => ({
             step_number,
+            max_cpu_cores: default_max_cpu_cores || max_cpu_cores,
             min_cpu_cores: default_cpu_cores,
             min_memory_limit: default_memory,
             min_disk_space: default_disk_space,

@@ -171,7 +171,6 @@ function EditToolDialog(props) {
                 onClose();
             },
             onError: (err) => {
-                console.error(getErrorCode(err));
                 if (isAdmin && getErrorCode(err) === ERROR_CODES.ERR_NOT_WRITEABLE) {
                     const apps = err?.response?.data?.apps;
                     confirmOverwrite(apps);

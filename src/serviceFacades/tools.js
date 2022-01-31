@@ -126,9 +126,9 @@ function updateTool(tool) {
     });
 }
 
-function adminUpdateTool(tool) {
+function adminUpdateTool(tool, overwriteAppsAffectedByTool) {
     return callApi({
-        endpoint: `/api/admin/tools/${tool.id}`,
+        endpoint: `/api/admin/tools/${tool.id}?overwrite-public=${overwriteAppsAffectedByTool}`,
         method: "PATCH",
         body: tool,
     });

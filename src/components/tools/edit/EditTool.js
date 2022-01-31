@@ -43,16 +43,22 @@ import FormMultilineTextField from "components/forms/FormMultilineTextField";
 import FormTextField from "components/forms/FormTextField";
 import FormSelectField from "components/forms/FormSelectField";
 import FormNumberField from "components/forms/FormNumberField";
+import { ERROR_CODES, getErrorCode } from "components/error/errorCode";
 
 import { Field, FieldArray, Form, Formik } from "formik";
 import {
     Button,
     CircularProgress,
     Grid,
+    List,
+    ListItemIcon,
+    ListItemText,
+    ListItem,
     MenuItem,
     Paper,
     Typography,
 } from "@material-ui/core";
+import LabelIcon from '@material-ui/icons/Label';
 import { withStyles } from "@material-ui/core/styles";
 import { Skeleton } from "@material-ui/lab";
 
@@ -60,13 +66,19 @@ function EditToolDialog(props) {
     const { open, parentId, tool, isAdmin, isAdminPublishing, onClose } = props;
 
     const { t } = useTranslation("tools");
+    const { t: i18nCommon } = useTranslation("common");
 
     const [toolTypes, setToolTypes] = useState([]);
-    const [addToolError, setAddToolError] = useState();
-    const [updateToolError, setUpdateToolError] = useState();
+    const [addToolError, setAddToolError] = useState(null);
+    const [updateToolError, setUpdateToolError] = useState(null);
     const [selectedTool, setSelectedTool] = useState();
     const [toolTypeQueryEnabled, setToolTypesQueryEnabled] = useState();
-
+    const [showOverwriteWarningDialog, setShowOverwriteWarningDialog] =
+        useState(false);
+    const [appsAffectedByTool, setAppsAffectedByTool] = useState([]);
+    const [overwriteAppsAffectedByTool, setOverwriteAppsAffectedByTool] =
+        useState(false);
+    const [toolSubmission, setToolSubmission] = useState(null);
     const [config] = useConfig();
     const resourceConfigs = isAdmin
         ? config?.tools?.admin
@@ -136,9 +148,16 @@ function EditToolDialog(props) {
         }
     );
 
+    const confirmOverwrite = (apps) => {
+        setAppsAffectedByTool(apps);
+        setShowOverwriteWarningDialog(true);
+    };
+
     const { mutate: updateCurrentTool, status: updateToolStatus } = useMutation(
-        ({ submission }) =>
-            isAdmin ? adminUpdateTool(submission) : updateTool(submission),
+        () =>
+            isAdmin
+                ? adminUpdateTool(toolSubmission, overwriteAppsAffectedByTool)
+                : updateTool(toolSubmission),
         {
             onSuccess: (data) => {
                 announce({
@@ -146,14 +165,30 @@ function EditToolDialog(props) {
                 });
                 queryClient.invalidateQueries(TOOLS_QUERY_KEY);
                 setUpdateToolError(null);
+                setOverwriteAppsAffectedByTool(false);
+                setAppsAffectedByTool(null);
+                setToolSubmission(null);
                 onClose();
             },
-            onError: setUpdateToolError,
+            onError: (err) => {
+                if (isAdmin && getErrorCode(err) === ERROR_CODES.ERR_NOT_WRITEABLE) {
+                    const apps = err?.response?.data?.apps;
+                    confirmOverwrite(apps);
+                } else {
+                    setUpdateToolError(err);
+                }
+            },
         }
     );
 
+    React.useEffect(() => {
+        if (overwriteAppsAffectedByTool) {
+            updateCurrentTool();
+        }
+    }, [overwriteAppsAffectedByTool, updateCurrentTool]);
+
     const handleSubmit = (values) => {
-        const submission = formatSubmission(values, config, isAdmin);
+        setToolSubmission(formatSubmission(values, config, isAdmin));
 
         //avoid dupe submission
         if (
@@ -161,168 +196,224 @@ function EditToolDialog(props) {
             updateToolStatus !== constants.LOADING
         ) {
             if (tool) {
-                updateCurrentTool({ submission });
+                updateCurrentTool();
             } else {
-                addNewTool({ submission });
+                addNewTool();
             }
         }
     };
 
     return (
-        <Formik
-            initialValues={mapPropsToValues(selectedTool, isAdmin)}
-            onSubmit={handleSubmit}
-            enableReinitialize={true}
-        >
-            {({ handleSubmit, values }) => {
-                return (
-                    <Form>
-                        <DEDialog
-                            open={open}
-                            fullWidth={true}
-                            onClose={onClose}
-                            id={parentId}
-                            title={
-                                tool
-                                    ? t("editTool", {
-                                          name: tool.name,
-                                      })
-                                    : t("addTool")
-                            }
-                            actions={
-                                <>
-                                    <Button
-                                        id={buildID(
-                                            parentId,
-                                            ids.BUTTONS.CANCEL
-                                        )}
-                                        onClick={onClose}
-                                    >
-                                        {t("cancel")}
-                                    </Button>
-                                    <Button
-                                        id={buildID(parentId, ids.BUTTONS.SAVE)}
-                                        type="submit"
-                                        color="primary"
-                                        onClick={handleSubmit}
-                                    >
-                                        {isAdminPublishing
-                                            ? t("makePublic")
-                                            : t("save")}
-                                    </Button>
-                                </>
-                            }
-                        >
-                            {(isToolTypeFetching || isToolFetching) && (
-                                <Skeleton
-                                    animation="wave"
-                                    variant="rect"
-                                    height={800}
-                                />
-                            )}
-
-                            {(newToolStatus === constants.LOADING ||
-                                updateToolStatus === constants.LOADING) && (
-                                <CircularProgress
-                                    size={30}
-                                    thickness={5}
-                                    style={{
-                                        position: "absolute",
-                                        top: "50%",
-                                        left: "50%",
-                                    }}
-                                />
-                            )}
-
-                            {toolTypeError && (
-                                <ErrorTypographyWithDialog
-                                    errorObject={toolTypeError}
-                                    errorMessage={t("toolTypesFetchError")}
-                                    baseId={parentId}
-                                />
-                            )}
-                            {toolFetchError && (
-                                <ErrorTypographyWithDialog
-                                    errorObject={toolFetchError}
-                                    errorMessage={t("toolInfoError")}
-                                    baseId={parentId}
-                                />
-                            )}
-
-                            {addToolError && (
-                                <ErrorTypographyWithDialog
-                                    errorObject={addToolError}
-                                    errorMessage={t("toolAddError")}
-                                />
-                            )}
-                            {updateToolError && (
-                                <ErrorTypographyWithDialog
-                                    errorObject={updateToolError}
-                                    errorMessage={t("toolUpdateError")}
-                                />
-                            )}
-
-                            {!isToolTypeFetching && !isToolFetching && (
-                                <StyledEditToolForm
-                                    isAdmin={isAdmin}
-                                    parentId={parentId}
-                                    toolTypes={toolTypes}
-                                    maxCPUCore={maxCPUCore}
-                                    maxMemory={maxMemory}
-                                    maxDiskSpace={maxDiskSpace}
-                                    values={values}
-                                />
-                            )}
-                            <Grid
-                                container
-                                direction="row"
-                                justifyContent="flex-end"
-                                alignItems="flex-end"
-                                spacing={1}
-                            >
-                                {toolTypeError && (
-                                    <Grid item xs>
-                                        <ErrorTypographyWithDialog
-                                            errorObject={toolTypeError}
-                                            errorMessage={t(
-                                                "toolTypesFetchError"
+        <>
+            <Formik
+                initialValues={mapPropsToValues(selectedTool, isAdmin)}
+                onSubmit={handleSubmit}
+                enableReinitialize={true}
+            >
+                {({ handleSubmit, values }) => {
+                    return (
+                        <Form>
+                            <DEDialog
+                                open={open}
+                                fullWidth={true}
+                                onClose={onClose}
+                                id={parentId}
+                                title={
+                                    tool
+                                        ? t("editTool", {
+                                            name: tool.name,
+                                        })
+                                        : t("addTool")
+                                }
+                                actions={
+                                    <>
+                                        <Button
+                                            id={buildID(
+                                                parentId,
+                                                ids.BUTTONS.CANCEL
                                             )}
-                                            baseId={parentId}
+                                            onClick={onClose}
+                                        >
+                                            {t("cancel")}
+                                        </Button>
+                                        <Button
+                                            id={buildID(
+                                                parentId,
+                                                ids.BUTTONS.SAVE
+                                            )}
+                                            type="submit"
+                                            color="primary"
+                                            onClick={handleSubmit}
+                                        >
+                                            {isAdminPublishing
+                                                ? t("makePublic")
+                                                : t("save")}
+                                        </Button>
+                                    </>
+                                }
+                            >
+                                {(isToolTypeFetching || isToolFetching) && (
+                                    <Skeleton
+                                        animation="wave"
+                                        variant="rect"
+                                        height={800}
+                                    />
+                                )}
+
+                                {(newToolStatus === constants.LOADING ||
+                                    updateToolStatus === constants.LOADING) && (
+                                        <CircularProgress
+                                            size={30}
+                                            thickness={5}
+                                            style={{
+                                                position: "absolute",
+                                                top: "50%",
+                                                left: "50%",
+                                            }}
                                         />
-                                    </Grid>
+                                    )}
+
+                                {toolTypeError && (
+                                    <ErrorTypographyWithDialog
+                                        errorObject={toolTypeError}
+                                        errorMessage={t("toolTypesFetchError")}
+                                        baseId={parentId}
+                                    />
                                 )}
                                 {toolFetchError && (
-                                    <Grid item xs>
-                                        <ErrorTypographyWithDialog
-                                            errorObject={toolFetchError}
-                                            errorMessage={t("toolInfoError")}
-                                            baseId={parentId}
-                                        />
-                                    </Grid>
+                                    <ErrorTypographyWithDialog
+                                        errorObject={toolFetchError}
+                                        errorMessage={t("toolInfoError")}
+                                        baseId={parentId}
+                                    />
                                 )}
 
                                 {addToolError && (
-                                    <Grid item xs>
-                                        <ErrorTypographyWithDialog
-                                            errorObject={addToolError}
-                                            errorMessage={t("toolAddError")}
-                                        />
-                                    </Grid>
+                                    <ErrorTypographyWithDialog
+                                        errorObject={addToolError}
+                                        errorMessage={t("toolAddError")}
+                                    />
                                 )}
                                 {updateToolError && (
-                                    <Grid item xs>
-                                        <ErrorTypographyWithDialog
-                                            errorObject={updateToolError}
-                                            errorMessage={t("toolUpdateError")}
-                                        />
-                                    </Grid>
+                                    <ErrorTypographyWithDialog
+                                        errorObject={updateToolError}
+                                        errorMessage={t("toolUpdateError")}
+                                    />
                                 )}
-                            </Grid>
-                        </DEDialog>
-                    </Form>
-                );
-            }}
-        </Formik>
+
+                                {!isToolTypeFetching && !isToolFetching && (
+                                    <StyledEditToolForm
+                                        isAdmin={isAdmin}
+                                        parentId={parentId}
+                                        toolTypes={toolTypes}
+                                        maxCPUCore={maxCPUCore}
+                                        maxMemory={maxMemory}
+                                        maxDiskSpace={maxDiskSpace}
+                                        values={values}
+                                    />
+                                )}
+                                <Grid
+                                    container
+                                    direction="row"
+                                    justifyContent="flex-end"
+                                    alignItems="flex-end"
+                                    spacing={1}
+                                >
+                                    {toolTypeError && (
+                                        <Grid item xs>
+                                            <ErrorTypographyWithDialog
+                                                errorObject={toolTypeError}
+                                                errorMessage={t(
+                                                    "toolTypesFetchError"
+                                                )}
+                                                baseId={parentId}
+                                            />
+                                        </Grid>
+                                    )}
+                                    {toolFetchError && (
+                                        <Grid item xs>
+                                            <ErrorTypographyWithDialog
+                                                errorObject={toolFetchError}
+                                                errorMessage={t(
+                                                    "toolInfoError"
+                                                )}
+                                                baseId={parentId}
+                                            />
+                                        </Grid>
+                                    )}
+
+                                    {addToolError && (
+                                        <Grid item xs>
+                                            <ErrorTypographyWithDialog
+                                                errorObject={addToolError}
+                                                errorMessage={t("toolAddError")}
+                                            />
+                                        </Grid>
+                                    )}
+                                    {updateToolError && (
+                                        <Grid item xs>
+                                            <ErrorTypographyWithDialog
+                                                errorObject={updateToolError}
+                                                errorMessage={t(
+                                                    "toolUpdateError"
+                                                )}
+                                            />
+                                        </Grid>
+                                    )}
+                                </Grid>
+                            </DEDialog>
+                        </Form>
+                    );
+                }}
+            </Formik>
+            <DEDialog
+                baseId={ids.OVERWRITE_TOOL_DLG}
+                title={t("overwritePromptTitle")}
+                open={showOverwriteWarningDialog}
+                onClose={() => setShowOverwriteWarningDialog(false)}
+                actions={
+                    <>
+                        <Button
+                            id={buildID(ids.OVERWRITE_TOOL_DLG, ids.BUTTONS.CANCEL)}
+                            onClick={() => {
+                                setShowOverwriteWarningDialog(false);
+                                setOverwriteAppsAffectedByTool(false);
+                            }}
+                        >
+                            {i18nCommon("cancel")}
+                        </Button>
+                        <Button
+                            id={buildID(ids.OVERWRITE_TOOL_DLG, ids.BUTTONS.OK)}
+                            onClick={() => {
+                                setShowOverwriteWarningDialog(false);
+                                setOverwriteAppsAffectedByTool(true);
+                            }}
+                            color="primary"
+                        >
+                            {t("overwrite")}
+                        </Button>
+                    </>
+                }
+            >
+                <Typography>
+                    {t("overwritePromptMessage")}
+                </Typography>
+                <List>
+                    {
+                        appsAffectedByTool?.map((app) => (
+                            <>
+                                <ListItem key={app.id}>
+                                    <ListItemIcon>
+                                        <LabelIcon />
+                                    </ListItemIcon>
+                                    <ListItemText>{app.name}</ListItemText>
+                                </ListItem>
+                            </>
+                        ))
+                    }
+                </List>
+            </DEDialog >
+        </>
     );
 }
 

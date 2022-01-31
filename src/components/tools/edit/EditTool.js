@@ -50,10 +50,15 @@ import {
     Button,
     CircularProgress,
     Grid,
+    List,
+    ListItemIcon,
+    ListItemText,
+    ListItem,
     MenuItem,
     Paper,
     Typography,
 } from "@material-ui/core";
+import LabelIcon from '@material-ui/icons/Label';
 import { withStyles } from "@material-ui/core/styles";
 import { Skeleton } from "@material-ui/lab";
 
@@ -152,7 +157,7 @@ function EditToolDialog(props) {
         () =>
             isAdmin
                 ? adminUpdateTool(toolSubmission, overwriteAppsAffectedByTool)
-                : updateTool(toolSubmission, overwriteAppsAffectedByTool),
+                : updateTool(toolSubmission),
         {
             onSuccess: (data) => {
                 announce({
@@ -167,7 +172,7 @@ function EditToolDialog(props) {
             },
             onError: (err) => {
                 console.error(getErrorCode(err));
-                if (getErrorCode(err) === ERROR_CODES.ERR_NOT_WRITEABLE) {
+                if (isAdmin && getErrorCode(err) === ERROR_CODES.ERR_NOT_WRITEABLE) {
                     const apps = err?.response?.data?.apps;
                     confirmOverwrite(apps);
                 } else {
@@ -394,16 +399,20 @@ function EditToolDialog(props) {
                 <Typography>
                     {t("overwritePromptMessage")}
                 </Typography>
-                {
-                    appsAffectedByTool?.map((app) => (
-                        <>
-                            <br />
-                            <Typography key={app.id} variant="caption">
-                                * {app.name}
-                            </Typography>
-                        </>
-                    ))
-                }
+                <List>
+                    {
+                        appsAffectedByTool?.map((app) => (
+                            <>
+                                <ListItem key={app.id}>
+                                    <ListItemIcon>
+                                        <LabelIcon />
+                                    </ListItemIcon>
+                                    <ListItemText>{app.name}</ListItemText>
+                                </ListItem>
+                            </>
+                        ))
+                    }
+                </List>
             </DEDialog >
         </>
     );

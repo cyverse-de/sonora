@@ -76,7 +76,6 @@
         "express-winston": "^4.0.2",
         "express-ws": "^5.0.2",
         "formik": "^2.2.5",
-        "handlebars": "^4.7.7",
         "i18next": "^19.8.3",
         "is-plain-object": "^3.0.0",
         "jsonpath-plus": "^4.0.0",

@@ -7,6 +7,9 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 const ONE_GiB = 2 ** 30;
 
 module.exports = withBundleAnalyzer({
+    future: {
+        webpack5: true,
+    },
     publicRuntimeConfig: {
         INTERCOM_APP_ID: config.get("intercom.app_id"),
         INTERCOM_ENABLED: config.get("intercom.enabled"),

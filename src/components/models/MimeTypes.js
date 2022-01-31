@@ -1,4 +1,4 @@
-import { CODE_MIRROR_MODES } from "components/data/viewers/Editor";
+import { CODE_MIRROR_MODES } from "components/data/viewers/constants";
 const mimeTypes = {
     // Images
     PNG: "png",

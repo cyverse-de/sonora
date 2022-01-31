@@ -1,3 +1,13 @@
+export const CODE_MIRROR_MODES = {
+    R: "r",
+    PYTHON: "python",
+    GITHUB_FLAVORED_MARKDOWN: "gfm",
+    YAML: "yaml",
+    DOCKERFILE: "dockerfile",
+    SHELL: "shell",
+    PERL: "perl",
+};
+
 export default {
     DEFAULT_PAGE_SIZE: 8388608,
     DEFAULT_VIEWER_HEIGHT: "75vh",

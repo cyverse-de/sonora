@@ -19,7 +19,7 @@ import {
     MenuItem,
 } from "@material-ui/core";
 
-import { CODE_MIRROR_MODES } from "./Editor";
+import { CODE_MIRROR_MODES } from "./constants";
 
 export default function FileTypeSelectionDialog(props) {
     const { open, onFileTypeSelected, onClose } = props;

@@ -15,16 +15,6 @@ import viewerConstants from "./constants";
 
 import Skeleton from "@material-ui/lab/Skeleton";
 
-export const CODE_MIRROR_MODES = {
-    R: "r",
-    PYTHON: "python",
-    GITHUB_FLAVORED_MARKDOWN: "gfm",
-    YAML: "yaml",
-    DOCKERFILE: "dockerfile",
-    SHELL: "shell",
-    PERL: "perl",
-};
-
 export default function Editor(props) {
     const {
         baseId,

@@ -104,4 +104,5 @@ export default {
     VICE_LOGS_POLLING_INTERVAL: 10000,
     DATA_STORAGE_QUOTA_LIMIT: 2 ** 30 * 100, // 100 GiB
     DATA_STORE_INCREASE_FORM: "https://user.cyverse.org/requests/2",
+    CPU_HOURS_QUOTA_LIMIT: 1000, //i came with this number arbitrarily. We can revisit this if needed.
 };

@@ -54,5 +54,19 @@ export default function dashboardRouter() {
             },
         })
     );
+
+    logger.info("adding the GET /api/resource-usage/cpu/total");
+    api.get(
+        "/resource-usage/cpu/total",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/resource-usage/cpu/total",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

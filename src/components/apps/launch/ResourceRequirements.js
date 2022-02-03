@@ -369,7 +369,9 @@ const StepResourceRequirementsReview = ({
                                 )}
                                 {(showAll || !!max_cpu_cores) && (
                                     <TableRow>
-                                        <TableCell>{t("maxCPUCores")}</TableCell>
+                                        <TableCell>
+                                            {t("maxCPUCores")}
+                                        </TableCell>
                                         <TableCell>
                                             {max_cpu_cores || ""}
                                         </TableCell>

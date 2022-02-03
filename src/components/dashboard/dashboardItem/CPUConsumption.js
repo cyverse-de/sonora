@@ -2,12 +2,11 @@
  *
  * @author sriram
  *
- * A chart that displays the data consumption of the user.
+ * A chart that displays the CPU consumption of the user.
  *
  */
-
 import React from "react";
-import { Trans, useTranslation } from "i18n";
+import { useTranslation } from "i18n";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import { useQuery } from "react-query";
 import {
@@ -20,19 +19,16 @@ import {
     Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { getDataUsage, DATA_USAGE_QUERY_KEY } from "serviceFacades/dashboard";
+import {
+    getCPUHoursConsumption,
+    CPU_HOURS_CONSUMPTION_QUERY_KEY,
+} from "serviceFacades/dashboard";
 import constants from "../../../constants";
-import { formatFileSize } from "components/data/utils";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import { getErrorCode } from "components/error/errorCode";
 import { Typography, useTheme } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { getUnixTime, parseISO } from "date-fns";
-import {
-    getFormattedDistance,
-    formatDateObject,
-} from "components/utils/DateFormatter";
-import ExternalLink from "components/utils/ExternalLink";
+import { formatDateObject } from "components/utils/DateFormatter";
 
 ChartJS.register(
     CategoryScale,
@@ -44,23 +40,8 @@ ChartJS.register(
     ChartDataLabels
 );
 
-const options = (usage, quota, date, distance, title, theme, t) => {
-    let quotaGiB = quota / constants.ONE_GiB;
-    let divisor =
-        quotaGiB % 4 === 0
-            ? 4
-            : quotaGiB % 3 === 0
-            ? 3
-            : quotaGiB % 5 === 0
-            ? 5
-            : quotaGiB % 2 === 0
-            ? 2
-            : 4;
-    let maxTicks = 6;
-    let stepSize =
-        usage <= (quota / divisor) * maxTicks
-            ? Math.ceil(quota / divisor)
-            : quota;
+const options = (usage, quota, timestamp, title, theme, t) => {
+    const formatValue = (value) => `${value} ${t("coreHours")}`;
     return {
         indexAxis: "y",
         plugins: {
@@ -70,7 +51,7 @@ const options = (usage, quota, date, distance, title, theme, t) => {
                     title,
                     t("consumptionChartSecondaryTitle", {
                         percentage: ((usage / quota) * 100).toFixed(2),
-                        timestamp: date,
+                        timestamp,
                     }),
                 ],
             },
@@ -80,9 +61,6 @@ const options = (usage, quota, date, distance, title, theme, t) => {
             tooltip: {
                 callbacks: {
                     label: (context) => context.dataset.label || "",
-                    footer: function (context) {
-                        return t("dataConsumptionTimestamp", { distance });
-                    },
                 },
                 xAlign: "right",
                 yAlign: "top",
@@ -97,8 +75,7 @@ const options = (usage, quota, date, distance, title, theme, t) => {
                 font: {
                     weight: "bold",
                 },
-                formatter: (value) =>
-                    `${formatFileSize(value)} of ${formatFileSize(quota)} used`,
+                formatter: (value) => `${t("coreHoursUsed", { value, quota })}`,
                 padding: 1,
             },
         },
@@ -108,16 +85,14 @@ const options = (usage, quota, date, distance, title, theme, t) => {
                 barThickness: "flex",
                 stacked: false,
                 min: 0,
-                max: Math.max(Math.ceil(usage / stepSize) * stepSize, quota),
                 ticks: {
-                    stepSize: stepSize,
                     callback: function (value, index, values) {
                         if (value === quota) {
                             return t("quotaLimit", {
-                                limit: formatFileSize(value),
+                                limit: formatValue(value),
                             });
                         } else {
-                            return formatFileSize(value);
+                            return formatValue(value);
                         }
                     },
                 },
@@ -136,13 +111,11 @@ const getFormattedData = (usage, quota, theme) => {
         labels,
         datasets: [
             {
-                label: `Using ${formatFileSize(usage)} of ${formatFileSize(
-                    quota
-                )} `,
+                label: `Using ${usage} of ${quota} `,
                 barThickness: 50,
                 data: [usage],
                 backgroundColor:
-                    usage < constants.DATA_STORAGE_QUOTA_LIMIT
+                    usage < constants.CPU_HOURS_QUOTA_LIMIT
                         ? theme.palette.primary.main
                         : theme.palette.error.main,
             },
@@ -150,22 +123,23 @@ const getFormattedData = (usage, quota, theme) => {
     };
 };
 
-export default function DataConsumption(props) {
-    const quota = constants.DATA_STORAGE_QUOTA_LIMIT;
+export default function CPUConsumption(props) {
+    const quota = constants.CPU_HOURS_QUOTA_LIMIT;
     const theme = useTheme();
     const { t } = useTranslation("dashboard");
-    const { status, data, error } = useQuery([DATA_USAGE_QUERY_KEY], () =>
-        getDataUsage()
+    const { status, data, error } = useQuery(
+        CPU_HOURS_CONSUMPTION_QUERY_KEY,
+        () => getCPUHoursConsumption()
     );
 
     if (status === "error") {
-        if (getErrorCode(error) === "404") {
+        if (getErrorCode(error) === 404) {
             return (
                 <Typography
                     variant="caption"
                     style={{ padding: theme.spacing(1) }}
                 >
-                    {t("noDataConsumptionInfo")}
+                    {t("noCPUConsumptionInfo")}
                 </Typography>
             );
         } else {
@@ -173,7 +147,7 @@ export default function DataConsumption(props) {
                 <div style={{ padding: theme.spacing(1) }}>
                     <ErrorTypographyWithDialog
                         errorObject={error}
-                        errorMessage={t("dataConsumptionError")}
+                        errorMessage={t("cpuConsumptionError")}
                     />
                 </div>
             );
@@ -182,44 +156,19 @@ export default function DataConsumption(props) {
     if (status === "loading") {
         return <Skeleton variant="rect" width={300} height={200} />;
     }
-    const isoTime = parseISO(data?.time);
-    const unixTime = getUnixTime(isoTime);
-    const distance = getFormattedDistance(unixTime);
-    const dateObj = new Date(isoTime);
 
+    const usage = Number.parseFloat(data?.total).toFixed(2);
     return (
-        <>
-            <Bar
-                options={options(
-                    data?.total,
-                    quota,
-                    formatDateObject(dateObj),
-                    distance,
-                    t("dataConsumption"),
-                    theme,
-                    t
-                )}
-                data={getFormattedData(data?.total, quota, theme)}
-            />
-            {data?.total > quota && (
-                <div style={{ margin: theme.spacing(0.5) }}>
-                    <Typography variant="caption">
-                        <Trans
-                            t={t}
-                            i18nKey="dataOverageNote"
-                            components={{
-                                dataStoreFormLink: (
-                                    <ExternalLink
-                                        href={
-                                            constants.DATA_STORE_INCREASE_FORM
-                                        }
-                                    />
-                                ),
-                            }}
-                        />
-                    </Typography>
-                </div>
+        <Bar
+            options={options(
+                usage,
+                quota,
+                formatDateObject(new Date(data?.last_modified)),
+                "CPU Consumption",
+                theme,
+                t
             )}
-        </>
+            data={getFormattedData(usage, quota, theme)}
+        />
     );
 }

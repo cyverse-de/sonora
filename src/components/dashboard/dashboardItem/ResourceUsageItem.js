@@ -11,6 +11,7 @@ import { useTranslation } from "i18n";
 import { Grid, Typography, Divider, useTheme, Card } from "@material-ui/core";
 import DataConsumption from "./DataConsumption";
 import AnalysesStats from "./AnalysesStats";
+import CPUConsumption from "./CPUConsumption";
 
 export default function ResourceUsageItem(props) {
     const { t } = useTranslation("dashboard");
@@ -39,7 +40,13 @@ export default function ResourceUsageItem(props) {
                         <DataConsumption />
                     </Card>
                 </Grid>
+
                 <Grid item xs={12} md={6}>
+                    <Card>
+                        <CPUConsumption />
+                    </Card>
+                </Grid>
+                <Grid item xs={12} md={12}>
                     <Card>
                         <AnalysesStats />
                     </Card>

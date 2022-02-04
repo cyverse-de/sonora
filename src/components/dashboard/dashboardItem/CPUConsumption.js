@@ -42,6 +42,21 @@ ChartJS.register(
 
 const options = (usage, quota, timestamp, title, theme, t) => {
     const formatValue = (value) => `${value} ${t("coreHours")}`;
+    let divisor =
+        quota % 4 === 0
+            ? 4
+            : quota % 3 === 0
+                ? 3
+                : quota % 5 === 0
+                    ? 5
+                    : quota % 2 === 0
+                        ? 2
+                        : 4;
+    let maxTicks = 6;
+    let stepSize =
+        usage <= (quota / divisor) * maxTicks
+            ? Math.ceil(quota / divisor)
+            : quota;
     return {
         indexAxis: "y",
         plugins: {
@@ -85,7 +100,9 @@ const options = (usage, quota, timestamp, title, theme, t) => {
                 barThickness: "flex",
                 stacked: false,
                 min: 0,
+                max: Math.max(Math.ceil(usage / stepSize) * stepSize, quota),
                 ticks: {
+                    stepSize: stepSize,
                     callback: function (value, index, values) {
                         if (value === quota) {
                             return t("quotaLimit", {
@@ -158,17 +175,22 @@ export default function CPUConsumption(props) {
     }
 
     const usage = Number.parseFloat(data?.total).toFixed(2);
+    const startDate = formatDateObject(new Date(data?.effective_start));
+    const endDate = formatDateObject(new Date(data?.effective_end));
     return (
-        <Bar
-            options={options(
-                usage,
-                quota,
-                formatDateObject(new Date(data?.last_modified)),
-                "CPU Consumption",
-                theme,
-                t
-            )}
-            data={getFormattedData(usage, quota, theme)}
-        />
+        <>
+            <Bar
+                options={options(
+                    usage,
+                    quota,
+                    formatDateObject(new Date(data?.last_modified)),
+                    t("cpuConsumption"),
+                    theme,
+                    t
+                )}
+                data={getFormattedData(usage, quota, theme)}
+            />
+            <Typography variant="caption">{t("effectiveTimePeriod", { startDate, endDate })}</Typography>
+        </>
     );
 }

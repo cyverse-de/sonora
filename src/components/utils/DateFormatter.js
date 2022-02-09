@@ -42,7 +42,7 @@ function formatDateObject(dateObj, dateFormat) {
 }
 
 /**
- * 
+ *
  * @param timestamp - number of seconds
  * @returns {string} e.g. "1 day ago"
  */

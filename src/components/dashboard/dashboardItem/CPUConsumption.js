@@ -8,7 +8,7 @@
 import React from "react";
 import { useTranslation } from "i18n";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { useQuery } from "react-query";
+
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -19,10 +19,7 @@ import {
     Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import {
-    getCPUHoursConsumption,
-    CPU_HOURS_CONSUMPTION_QUERY_KEY,
-} from "serviceFacades/dashboard";
+
 import constants from "../../../constants";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import { getErrorCode } from "components/error/errorCode";
@@ -46,12 +43,12 @@ const options = (usage, quota, timestamp, title, theme, t) => {
         quota % 4 === 0
             ? 4
             : quota % 3 === 0
-                ? 3
-                : quota % 5 === 0
-                    ? 5
-                    : quota % 2 === 0
-                        ? 2
-                        : 4;
+            ? 3
+            : quota % 5 === 0
+            ? 5
+            : quota % 2 === 0
+            ? 2
+            : 4;
     let maxTicks = 6;
     let stepSize =
         usage <= (quota / divisor) * maxTicks
@@ -141,16 +138,19 @@ const getFormattedData = (usage, quota, theme) => {
 };
 
 export default function CPUConsumption(props) {
+    const { status, data, errors } = props;
     const quota = constants.CPU_HOURS_QUOTA_LIMIT;
     const theme = useTheme();
     const { t } = useTranslation("dashboard");
-    const { status, data, error } = useQuery(
-        CPU_HOURS_CONSUMPTION_QUERY_KEY,
-        () => getCPUHoursConsumption()
-    );
 
-    if (status === "error") {
-        if (getErrorCode(error) === 404) {
+    let errorFound;
+
+    if (errors && errors.length > 0) {
+        errorFound = errors.find((error) => error.field === "cpu_usage");
+    }
+
+    if (errorFound) {
+        if (getErrorCode(errorFound) === 404) {
             return (
                 <Typography
                     variant="caption"
@@ -163,7 +163,7 @@ export default function CPUConsumption(props) {
             return (
                 <div style={{ padding: theme.spacing(1) }}>
                     <ErrorTypographyWithDialog
-                        errorObject={error}
+                        errorObject={errorFound}
                         errorMessage={t("cpuConsumptionError")}
                     />
                 </div>
@@ -175,8 +175,6 @@ export default function CPUConsumption(props) {
     }
 
     const usage = Number.parseFloat(data?.total).toFixed(2);
-    const startDate = formatDateObject(new Date(data?.effective_start));
-    const endDate = formatDateObject(new Date(data?.effective_end));
     return (
         <>
             <Bar
@@ -190,7 +188,6 @@ export default function CPUConsumption(props) {
                 )}
                 data={getFormattedData(usage, quota, theme)}
             />
-            <Typography variant="caption">{t("effectiveTimePeriod", { startDate, endDate })}</Typography>
         </>
     );
 }

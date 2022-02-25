@@ -1,10 +1,8 @@
 import callApi from "../common/callApi";
 
 const DASHBOARD_QUERY_KEY = "fetchDashboardItems";
-const DATA_USAGE_QUERY_KEY = "fetchDataUsage";
 const ANALYSES_STATS_QUERY_KEY = "fetchAnalysesStats";
-const CPU_HOURS_CONSUMPTION_QUERY_KEY = "fetchCPUHoursConsumption";
-
+const RESOURCE_USAGE_QUERY_KEY = "fetchResourceUsage";
 function getDashboard({ limit }) {
     return callApi({
         endpoint: `/api/dashboard?limit=${limit}`,
@@ -12,16 +10,9 @@ function getDashboard({ limit }) {
     });
 }
 
-function getDataUsage() {
+function getResourceUsageSummary() {
     return callApi({
-        endpoint: `/api/resource-usage/data/current`,
-        method: "GET",
-    });
-}
-
-function getCPUHoursConsumption() {
-    return callApi({
-        endpoint: `/api/resource-usage/cpu/total`,
+        endpoint: `/api/resource-usage/summary`,
         method: "GET",
     });
 }
@@ -43,11 +34,9 @@ function getAnalysesStats() {
 
 export {
     getDashboard,
-    getDataUsage,
     getAnalysesStats,
-    getCPUHoursConsumption,
+    getResourceUsageSummary,
     DASHBOARD_QUERY_KEY,
-    DATA_USAGE_QUERY_KEY,
     ANALYSES_STATS_QUERY_KEY,
-    CPU_HOURS_CONSUMPTION_QUERY_KEY,
+    RESOURCE_USAGE_QUERY_KEY,
 };

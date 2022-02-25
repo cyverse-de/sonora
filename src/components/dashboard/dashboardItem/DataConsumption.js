@@ -9,7 +9,7 @@
 import React from "react";
 import { Trans, useTranslation } from "i18n";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { useQuery } from "react-query";
+
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -20,7 +20,7 @@ import {
     Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { getDataUsage, DATA_USAGE_QUERY_KEY } from "serviceFacades/dashboard";
+
 import constants from "../../../constants";
 import { formatFileSize } from "components/data/utils";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
@@ -151,15 +151,19 @@ const getFormattedData = (usage, quota, theme) => {
 };
 
 export default function DataConsumption(props) {
+    const { status, data, errors } = props;
     const quota = constants.DATA_STORAGE_QUOTA_LIMIT;
     const theme = useTheme();
     const { t } = useTranslation("dashboard");
-    const { status, data, error } = useQuery([DATA_USAGE_QUERY_KEY], () =>
-        getDataUsage()
-    );
 
-    if (status === "error") {
-        if (getErrorCode(error) === "404") {
+    let errorFound;
+
+    if (errors && errors.length > 0) {
+        errorFound = errors.find((error) => error.field === "data_usage");
+    }
+
+    if (errorFound) {
+        if (getErrorCode(errorFound) === "404") {
             return (
                 <Typography
                     variant="caption"
@@ -172,7 +176,7 @@ export default function DataConsumption(props) {
             return (
                 <div style={{ padding: theme.spacing(1) }}>
                     <ErrorTypographyWithDialog
-                        errorObject={error}
+                        errorObject={errorFound}
                         errorMessage={t("dataConsumptionError")}
                     />
                 </div>

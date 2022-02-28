@@ -163,7 +163,7 @@ export default function DataConsumption(props) {
     }
 
     if (errorFound) {
-        if (getErrorCode(errorFound) === "404") {
+        if (getErrorCode(errorFound) === 404) {
             return (
                 <Typography
                     variant="caption"

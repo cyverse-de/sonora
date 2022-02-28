@@ -43,5 +43,29 @@ export const ResourceUsageTest = () => {
             },
         },
     });
+    mockAxios.onGet("/api/analyses/stats").reply(200, {
+        "status-count": [
+            {
+                count: 32,
+                status: "Canceled",
+            },
+            {
+                count: 703,
+                status: "Completed",
+            },
+            {
+                count: 296,
+                status: "Failed",
+            },
+            {
+                count: 150,
+                status: "Submitted",
+            },
+            {
+                count: 100,
+                status: "Running",
+            },
+        ],
+    });
     return <ResourceUsageItem />;
 };

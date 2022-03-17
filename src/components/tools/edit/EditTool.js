@@ -58,7 +58,7 @@ import {
     Paper,
     Typography,
 } from "@material-ui/core";
-import LabelIcon from '@material-ui/icons/Label';
+import LabelIcon from "@material-ui/icons/Label";
 import { withStyles } from "@material-ui/core/styles";
 import { Skeleton } from "@material-ui/lab";
 
@@ -171,7 +171,10 @@ function EditToolDialog(props) {
                 onClose();
             },
             onError: (err) => {
-                if (isAdmin && getErrorCode(err) === ERROR_CODES.ERR_NOT_WRITEABLE) {
+                if (
+                    isAdmin &&
+                    getErrorCode(err) === ERROR_CODES.ERR_NOT_WRITEABLE
+                ) {
                     const apps = err?.response?.data?.apps;
                     confirmOverwrite(apps);
                 } else {
@@ -221,8 +224,8 @@ function EditToolDialog(props) {
                                 title={
                                     tool
                                         ? t("editTool", {
-                                            name: tool.name,
-                                        })
+                                              name: tool.name,
+                                          })
                                         : t("addTool")
                                 }
                                 actions={
@@ -262,16 +265,16 @@ function EditToolDialog(props) {
 
                                 {(newToolStatus === constants.LOADING ||
                                     updateToolStatus === constants.LOADING) && (
-                                        <CircularProgress
-                                            size={30}
-                                            thickness={5}
-                                            style={{
-                                                position: "absolute",
-                                                top: "50%",
-                                                left: "50%",
-                                            }}
-                                        />
-                                    )}
+                                    <CircularProgress
+                                        size={30}
+                                        thickness={5}
+                                        style={{
+                                            position: "absolute",
+                                            top: "50%",
+                                            left: "50%",
+                                        }}
+                                    />
+                                )}
 
                                 {toolTypeError && (
                                     <ErrorTypographyWithDialog
@@ -374,7 +377,10 @@ function EditToolDialog(props) {
                 actions={
                     <>
                         <Button
-                            id={buildID(ids.OVERWRITE_TOOL_DLG, ids.BUTTONS.CANCEL)}
+                            id={buildID(
+                                ids.OVERWRITE_TOOL_DLG,
+                                ids.BUTTONS.CANCEL
+                            )}
                             onClick={() => {
                                 setShowOverwriteWarningDialog(false);
                                 setOverwriteAppsAffectedByTool(false);
@@ -395,24 +401,20 @@ function EditToolDialog(props) {
                     </>
                 }
             >
-                <Typography>
-                    {t("overwritePromptMessage")}
-                </Typography>
+                <Typography>{t("overwritePromptMessage")}</Typography>
                 <List>
-                    {
-                        appsAffectedByTool?.map((app) => (
-                            <>
-                                <ListItem key={app.id}>
-                                    <ListItemIcon>
-                                        <LabelIcon />
-                                    </ListItemIcon>
-                                    <ListItemText>{app.name}</ListItemText>
-                                </ListItem>
-                            </>
-                        ))
-                    }
+                    {appsAffectedByTool?.map((app) => (
+                        <>
+                            <ListItem key={app.id}>
+                                <ListItemIcon>
+                                    <LabelIcon />
+                                </ListItemIcon>
+                                <ListItemText>{app.name}</ListItemText>
+                            </ListItem>
+                        </>
+                    ))}
                 </List>
-            </DEDialog >
+            </DEDialog>
         </>
     );
 }

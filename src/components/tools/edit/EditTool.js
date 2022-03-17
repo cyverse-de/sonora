@@ -133,8 +133,8 @@ function EditToolDialog(props) {
     });
 
     const { mutate: addNewTool, status: newToolStatus } = useMutation(
-        ({ submission }) =>
-            isAdmin ? adminAddTool(submission) : addTool(submission),
+        () =>
+            isAdmin ? adminAddTool(toolSubmission) : addTool(toolSubmission),
         {
             onSuccess: (data) => {
                 announce({

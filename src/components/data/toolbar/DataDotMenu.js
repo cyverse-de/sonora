@@ -374,14 +374,8 @@ function DataDotMenu(props) {
                             />
                         </MenuItem>,
                         <MenuItem
-                            key={buildID(
-                                baseId,
-                                ids.ADVANCED_DATA_SEARCH
-                            )}
-                            id={buildID(
-                                baseId,
-                                ids.ADVANCED_DATA_SEARCH
-                            )}
+                            key={buildID(baseId, ids.ADVANCED_DATA_SEARCH)}
+                            id={buildID(baseId, ids.ADVANCED_DATA_SEARCH)}
                             onClick={() => {
                                 onClose();
                                 onAdvancedDataSearchSelected();
@@ -390,9 +384,7 @@ function DataDotMenu(props) {
                             <ListItemIcon>
                                 <SearchIcon fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText
-                                primary={t("advancedDataSearch")}
-                            />
+                            <ListItemText primary={t("advancedDataSearch")} />
                         </MenuItem>,
                     ],
                     renameEnabled && (

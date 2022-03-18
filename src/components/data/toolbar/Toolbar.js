@@ -202,7 +202,9 @@ function DataToolbar(props) {
                             onCreateFolderSelected={onCreateFolderClicked}
                             onDetailsSelected={onDetailsSelected}
                             onAddToBagSelected={onAddToBagSelected}
-                            onAdvancedDataSearchSelected={onAdvancedDataSearchSelected}
+                            onAdvancedDataSearchSelected={
+                                onAdvancedDataSearchSelected
+                            }
                             permission={permission}
                             refreshListing={refreshListing}
                             detailsEnabled={detailsEnabled}

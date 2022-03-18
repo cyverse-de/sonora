@@ -81,7 +81,12 @@ import {
     Typography,
     useTheme,
 } from "@material-ui/core";
-import { ContactSupport, ExpandMore, Refresh, Launch } from "@material-ui/icons";
+import {
+    ContactSupport,
+    ExpandMore,
+    Refresh,
+    Launch,
+} from "@material-ui/icons";
 import BackButton from "components/utils/BackButton";
 import PendingTerminationDlg from "components/analyses/PendingTerminationDlg";
 import { openInteractiveUrl } from "../utils";
@@ -361,24 +366,32 @@ export default function AnalysisSubmissionLanding(props) {
                         </Grid>
                     </Grid>
                     <Grid item>
-                        <Grid
-                            container
-                            spacing={1}
-                        >
+                        <Grid container spacing={1}>
                             <Hidden smDown>
-                                {isVICE && !isTerminatedAnalysis && (<Grid item>
-                                    <Button
-                                        id={buildID(baseId, ids.REFRESH_BTN)}
-                                        variant="outlined"
-                                        size="small"
-                                        disableElevation
-                                        color="primary"
-                                        onClick={() => openInteractiveUrl(interactiveUrls[0])}
-                                        startIcon={<Launch />}
-                                    >
-                                        <Hidden xsDown>{t("goToVice")}</Hidden>
-                                    </Button>
-                                </Grid>)}
+                                {isVICE && !isTerminatedAnalysis && (
+                                    <Grid item>
+                                        <Button
+                                            id={buildID(
+                                                baseId,
+                                                ids.REFRESH_BTN
+                                            )}
+                                            variant="outlined"
+                                            size="small"
+                                            disableElevation
+                                            color="primary"
+                                            onClick={() =>
+                                                openInteractiveUrl(
+                                                    interactiveUrls[0]
+                                                )
+                                            }
+                                            startIcon={<Launch />}
+                                        >
+                                            <Hidden xsDown>
+                                                {t("goToVice")}
+                                            </Hidden>
+                                        </Button>
+                                    </Grid>
+                                )}
                                 <Grid item>
                                     <Button
                                         id={buildID(baseId, ids.REFRESH_BTN)}
@@ -482,29 +495,31 @@ export default function AnalysisSubmissionLanding(props) {
                                     analysisStatus.SUBMITTED,
                                     analysisStatus.RUNNING,
                                 ].includes(analysis?.status) && (
-                                        <Typography variant="body2">
-                                            {analysis?.resultfolderid}
-                                        </Typography>
-                                    )}
+                                    <Typography variant="body2">
+                                        {analysis?.resultfolderid}
+                                    </Typography>
+                                )}
                                 {[
                                     analysisStatus.COMPLETED,
                                     analysisStatus.FAILED,
                                     analysisStatus.CANCELED,
                                 ].includes(analysis?.status) && (
-                                        <DataPathLink
-                                            id={baseId}
-                                            param_type="FolderInput"
-                                            path={analysis?.resultfolderid}
-                                        />
-                                    )}
+                                    <DataPathLink
+                                        id={baseId}
+                                        param_type="FolderInput"
+                                        path={analysis?.resultfolderid}
+                                    />
+                                )}
                             </div>
                             <div style={{ marginLeft: theme.spacing(0.25) }}>
                                 <CopyLinkButton
                                     baseId={baseId}
                                     onCopyLinkSelected={() => {
-                                        const link = `${getHost()}/${NavigationConstants.DATA
-                                            }/${constants.DATA_STORE_STORAGE_ID}${analysis?.resultfolderid
-                                            }`;
+                                        const link = `${getHost()}/${
+                                            NavigationConstants.DATA
+                                        }/${constants.DATA_STORE_STORAGE_ID}${
+                                            analysis?.resultfolderid
+                                        }`;
                                         const copyPromise =
                                             copyStringToClipboard(link);
                                         copyLinkToClipboardHandler(

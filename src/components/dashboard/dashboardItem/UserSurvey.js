@@ -46,13 +46,13 @@ function UserSurvey(props) {
             />
             <CardContent>
                 <Typography variant="body2" gutterBottom>
-                    <Trans t={t} i18nKey="transitionMessage" components={{
-                        bio: (
-                            <ExternalLink
-                                href={PHX_BIO_URL}
-                            />
-                        )
-                    }} />
+                    <Trans
+                        t={t}
+                        i18nKey="transitionMessage"
+                        components={{
+                            bio: <ExternalLink href={PHX_BIO_URL} />,
+                        }}
+                    />
                 </Typography>
             </CardContent>
             <CardActions>

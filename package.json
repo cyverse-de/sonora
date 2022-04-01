@@ -18,7 +18,9 @@
         "format": "prettier --write 'src/**/*.js' './.storybook/**/*.js' 'stories/**/*.js' 'public/static/locales/**/*.json'",
         "lint": "eslint --max-warnings=0 ./src/ ./stories/",
         "clean": "rimraf ./.next ./dist ./generated-docs",
-        "check": "npx prettier --check ./src/**/*.js ./.storybook/**/*.js ./stories/**/*.js public/static/locales/**/*.json && eslint --max-warnings=0 ./src/ ./stories/ && TZ=UTC jest"
+        "check-format": "npx prettier --check ./src/**/*.js ./.storybook/**/*.js ./stories/**/*.js public/static/locales/**/*.json",
+        "check-styles": "npm run check-format && npm run lint",
+        "check": "npm run check-styles && TZ=UTC jest"
     },
     "repository": {
         "type": "git",

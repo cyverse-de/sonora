@@ -6,6 +6,7 @@
     "analysisOrigination": "<status><bold>{{status}}</bold></status> - {{date}}",
     "analysisRunningOrigination": "<status><bold>{{status}}</bold></status> for {{runningTime}} ({{date}})",
     "banner": "Banner",
+    "buy": "Buy",
     "by": "By",
     "changeSettings": "Change Settings",
     "consumptionChartSecondaryTitle": "Using {{percentage}}% as of {{timestamp}}",

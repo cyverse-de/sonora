@@ -108,7 +108,7 @@ export default function ResourceUsageItem(props) {
                                     )
                                 }
                             >
-                                Buy
+                                {t("buy")}
                             </Button>
                         </Grid>
                         <Grid item xs={12}>

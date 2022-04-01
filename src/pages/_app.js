@@ -206,33 +206,19 @@ function MyApp({ Component, pageProps }) {
         const legacyDeUrl = publicRuntimeConfig.LEGACY_DE_URL;
         const usernameSuffix = publicRuntimeConfig.USERNAME_SUFFIX;
 
-        if (
-            intercom ||
-            admin ||
-            analysis ||
-            irods ||
-            sessions ||
-            tools ||
-            fileIdentifiers ||
-            vice ||
-            grouper ||
-            legacyDeUrl ||
-            usernameSuffix
-        ) {
-            setConfig({
-                intercom,
-                admin,
-                analysis,
-                irods,
-                sessions,
-                tools,
-                fileIdentifiers,
-                vice,
-                grouper,
-                legacyDeUrl,
-                usernameSuffix,
-            });
-        }
+        setConfig({
+            intercom,
+            admin,
+            analysis,
+            irods,
+            sessions,
+            tools,
+            fileIdentifiers,
+            vice,
+            grouper,
+            legacyDeUrl,
+            usernameSuffix,
+        });
 
         const jssStyles = document.querySelector("#jss-server-side");
         if (jssStyles) {

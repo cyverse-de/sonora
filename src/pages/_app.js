@@ -203,6 +203,10 @@ function MyApp({ Component, pageProps }) {
             admin: publicRuntimeConfig.GROUPER_ADMIN,
         };
 
+        const subscriptions = {
+            checkout_url: publicRuntimeConfig.SUBSCRIPTIONS_CHECKOUT_URL,
+        };
+
         const legacyDeUrl = publicRuntimeConfig.LEGACY_DE_URL;
         const usernameSuffix = publicRuntimeConfig.USERNAME_SUFFIX;
 
@@ -216,6 +220,7 @@ function MyApp({ Component, pageProps }) {
             fileIdentifiers,
             vice,
             grouper,
+            subscriptions,
             legacyDeUrl,
             usernameSuffix,
         });

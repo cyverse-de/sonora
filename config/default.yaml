@@ -89,3 +89,6 @@ unleash:
 
 username:
     suffix: iplantcollaborative.org
+
+subscriptions:
+    checkout_url: https://cyverse-subscription-sandbox.phoenixbioinformatics.org

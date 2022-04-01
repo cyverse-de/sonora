@@ -22,13 +22,17 @@ import {
     useTheme,
     Card,
 } from "@material-ui/core";
+
 import DataConsumption from "./DataConsumption";
 import AnalysesStats from "./AnalysesStats";
 import CPUConsumption from "./CPUConsumption";
 import ExternalLink from "components/utils/ExternalLink";
-import { FEATURE_MATRIX_URL, CHECKOUT_URL } from "../constants";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import { formatDateObject } from "components/utils/DateFormatter";
+
+import { FEATURE_MATRIX_URL } from "../constants";
+import { useConfig } from "contexts/config";
+
 import { Skeleton } from "@material-ui/lab";
 
 export default function ResourceUsageItem(props) {
@@ -37,6 +41,7 @@ export default function ResourceUsageItem(props) {
         getResourceUsageSummary()
     );
 
+    const [config] = useConfig();
     const theme = useTheme();
     if (status === "loading") {
         return <Skeleton variant="rect" width={800} height={200} />;
@@ -97,10 +102,13 @@ export default function ResourceUsageItem(props) {
                                 size="small"
                                 variant="contained"
                                 onClick={() =>
-                                    window.open(CHECKOUT_URL, "_blank")
+                                    window.open(
+                                        config?.subscriptions?.checkout_url,
+                                        "_blank"
+                                    )
                                 }
                             >
-                                Buy
+                                {t("buy")}
                             </Button>
                         </Grid>
                         <Grid item xs={12}>

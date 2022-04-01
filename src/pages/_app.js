@@ -203,36 +203,27 @@ function MyApp({ Component, pageProps }) {
             admin: publicRuntimeConfig.GROUPER_ADMIN,
         };
 
+        const subscriptions = {
+            checkout_url: publicRuntimeConfig.SUBSCRIPTIONS_CHECKOUT_URL,
+        };
+
         const legacyDeUrl = publicRuntimeConfig.LEGACY_DE_URL;
         const usernameSuffix = publicRuntimeConfig.USERNAME_SUFFIX;
 
-        if (
-            intercom ||
-            admin ||
-            analysis ||
-            irods ||
-            sessions ||
-            tools ||
-            fileIdentifiers ||
-            vice ||
-            grouper ||
-            legacyDeUrl ||
-            usernameSuffix
-        ) {
-            setConfig({
-                intercom,
-                admin,
-                analysis,
-                irods,
-                sessions,
-                tools,
-                fileIdentifiers,
-                vice,
-                grouper,
-                legacyDeUrl,
-                usernameSuffix,
-            });
-        }
+        setConfig({
+            intercom,
+            admin,
+            analysis,
+            irods,
+            sessions,
+            tools,
+            fileIdentifiers,
+            vice,
+            grouper,
+            subscriptions,
+            legacyDeUrl,
+            usernameSuffix,
+        });
 
         const jssStyles = document.querySelector("#jss-server-side");
         if (jssStyles) {

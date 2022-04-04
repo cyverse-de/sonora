@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "dev": "nodemon",
-        "dev-server": "cross-env NODE_ENV=development babel-node ./src/server/",
+        "dev-server": "cross-env NODE_ENV=development babel-node -r './src/server/tracing.js' ./src/server/",
         "build-frontend": "next build",
         "build-server": "babel ./src/i18n.js ./src/constants.js --out-dir dist/ && babel ./src/server --out-dir dist/server && babel ./src/common --out-dir dist/common",
         "build-docs": "jsdoc -r -d generated-docs ./src",

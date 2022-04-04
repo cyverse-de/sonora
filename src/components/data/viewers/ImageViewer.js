@@ -39,12 +39,14 @@ export default function ImageViewer(props) {
                     onRefresh={onRefresh}
                     fileName={fileName}
                 />
-                <img
-                    id={buildID(baseId, ids.VIEWER_IMAGE, fileName)}
-                    src={`${url}`}
-                    alt={fileName}
-                    style={{ overflow: "auto" }}
-                />
+                <div>
+                    <img
+                        id={buildID(baseId, ids.VIEWER_IMAGE, fileName)}
+                        src={`${url}`}
+                        alt={fileName}
+                        style={{ overflow: "auto" }}
+                    />
+                </div>
             </PageWrapper>
         );
     } else {

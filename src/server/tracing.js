@@ -2,9 +2,6 @@ const opentelemetry = require("@opentelemetry/sdk-node");
 const {
     getNodeAutoInstrumentations,
 } = require("@opentelemetry/auto-instrumentations-node");
-const {
-    AmqplibInstrumentation,
-} = require("opentelemetry-instrumentation-amqplib");
 const { Resource } = require("@opentelemetry/resources");
 const {
     SemanticResourceAttributes,
@@ -33,10 +30,7 @@ if (traceExporter === "jaeger") {
 
     const sdk = new opentelemetry.NodeSDK({
         traceExporter: new JaegerExporter(options),
-        instrumentations: [
-            getNodeAutoInstrumentations(),
-            new AmqplibInstrumentation(),
-        ],
+        instrumentations: [getNodeAutoInstrumentations()],
         resource: resource,
     });
 

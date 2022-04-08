@@ -74,6 +74,14 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 20
           timeoutSeconds: 10
+        startupProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 60
+          periodSeconds: 20
+          timeoutSeconds: 10
+          failureThreshold: 20
         readinessProbe:
           httpGet:
             path: /

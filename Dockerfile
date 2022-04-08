@@ -1,5 +1,4 @@
 FROM node:16 AS deps
-RUN apk add --no-cache libc6-compat
 WORKDIR /src
 COPY package.json package-lock.json /src/
 RUN npm ci

@@ -14,6 +14,7 @@ const resource = new Resource({
 });
 
 if (traceExporter === "jaeger") {
+    console.log("Setting up a jaeger exporter");
     const { JaegerExporter } = require("@opentelemetry/exporter-jaeger");
 
     const endpoint = process.env.OTEL_EXPORTER_JAEGER_ENDPOINT;
@@ -24,6 +25,8 @@ if (traceExporter === "jaeger") {
         );
     }
 
+    console.log(`Jaeger endpoint: ${endpoint}`);
+
     const options = {
         endpoint: endpoint,
     };
@@ -32,7 +35,9 @@ if (traceExporter === "jaeger") {
         traceExporter: new JaegerExporter(options),
         instrumentations: [getNodeAutoInstrumentations()],
         resource: resource,
+        autoDetectResources: false,
     });
 
+    console.log("starting sdk");
     sdk.start();
 }

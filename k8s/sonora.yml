@@ -7,6 +7,9 @@ spec:
   selector:
     matchLabels:
       de-app: sonora
+  strategy:
+    rollingUpdate:
+      maxSurge: 200%
   template:
     metadata:
       labels:

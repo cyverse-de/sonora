@@ -211,8 +211,6 @@ function MyApp({ Component, pageProps }) {
         const usernameSuffix = publicRuntimeConfig.USERNAME_SUFFIX;
         const userPortalURL = publicRuntimeConfig.USER_PORTAL_URL;
 
-        console.log(publicRuntimeConfig);
-
         setConfig({
             intercom,
             admin,

@@ -415,10 +415,7 @@ function DEAppBar(props) {
                                 profile={userProfile}
                                 onLogoutClick={onLogoutClick}
                                 onManageAccountClick={() =>
-                                    window.open(
-                                        constants.CYVERSE_USER_PORTAL,
-                                        "_blank"
-                                    )
+                                    window.open(config?.userPortalURL, "_blank")
                                 }
                             />
                         ) : (
@@ -456,7 +453,7 @@ function DEAppBar(props) {
                     profile={userProfile}
                     onLogoutClick={onLogoutClick}
                     onManageAccountClick={() =>
-                        window.open(constants.CYVERSE_USER_PORTAL, "_blank")
+                        window.open(config?.userPortalURL, "_blank")
                     }
                 />
             </Popover>

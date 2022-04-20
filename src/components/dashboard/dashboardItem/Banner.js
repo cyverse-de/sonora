@@ -8,6 +8,7 @@ import React from "react";
 import Image from "next/image";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
+import { useConfig } from "contexts/config";
 
 import NavigationConstants from "common/NavigationConstants";
 
@@ -27,6 +28,7 @@ export default function Banner(props) {
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const { t } = useTranslation("dashboard");
     const router = useRouter();
+    const [config] = useConfig();
 
     const onLoginClick = (event) => {
         router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
@@ -99,7 +101,7 @@ export default function Banner(props) {
                                 style={{
                                     margin: theme.spacing(0.4),
                                 }}
-                                href={constants.CYVERSE_USER_PORTAL}
+                                href={config?.userPortalURL}
                             >
                                 {t("signUp")} |
                             </ExternalLink>

@@ -1,7 +1,4 @@
 const opentelemetry = require("@opentelemetry/sdk-node");
-const {
-    getNodeAutoInstrumentations,
-} = require("@opentelemetry/auto-instrumentations-node");
 const { Resource } = require("@opentelemetry/resources");
 const {
     SemanticResourceAttributes,
@@ -13,7 +10,44 @@ const resource = new Resource({
     [SemanticResourceAttributes.SERVICE_NAME]: "sonora",
 });
 
-if (traceExporter === "jaeger") {
+const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
+const { PgInstrumentation } = require("@opentelemetry/instrumentation-pg");
+const {
+    AmqplibInstrumentation,
+} = require("@opentelemetry/instrumentation-amqplib");
+const {
+    ExpressInstrumentation,
+} = require("@opentelemetry/instrumentation-express");
+
+function getInstrumentations() {
+    return [
+        new HttpInstrumentation(),
+        new ExpressInstrumentation({ ignoreLayersType: ["middleware"] }),
+        new PgInstrumentation(),
+        new AmqplibInstrumentation(),
+    ];
+}
+
+if (traceExporter === "console") {
+    const { ConsoleSpanExporter } = require("@opentelemetry/sdk-trace-base");
+    const sdk = new opentelemetry.NodeSDK({
+        traceExporter: new ConsoleSpanExporter(),
+        instrumentations: [getInstrumentations()],
+        resource: resource,
+    });
+
+    console.log("starting sdk");
+    sdk.start()
+        .then(() => console.log("Tracing initialized"))
+        .catch((error) => console.log("Error initializing tracing", error));
+
+    process.on("SIGTERM", () => {
+        sdk.shutdown()
+            .then(() => console.log("Tracing terminated"))
+            .catch((error) => console.log("Error terminating tracing", error))
+            .finally(() => process.exit(0));
+    });
+} else if (traceExporter === "jaeger") {
     console.log("Setting up a jaeger exporter");
     const { JaegerExporter } = require("@opentelemetry/exporter-jaeger");
 
@@ -33,9 +67,8 @@ if (traceExporter === "jaeger") {
 
     const sdk = new opentelemetry.NodeSDK({
         traceExporter: new JaegerExporter(options),
-        instrumentations: [getNodeAutoInstrumentations()],
+        instrumentations: [getInstrumentations()],
         resource: resource,
-        autoDetectResources: false,
     });
 
     console.log("starting sdk");

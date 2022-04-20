@@ -1,6 +1,7 @@
 base_url: http://localhost:3000
 terrain_url: http://terrain
 listen_port: 3000
+user_portal_url: https://user.cyverse.org
 legacy_de_url: https://legacy-qa.cyverse.org
 
 logging:

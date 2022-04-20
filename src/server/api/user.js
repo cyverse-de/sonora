@@ -13,7 +13,7 @@ import logger from "../logging";
 import axiosInstance from "../../common/getAxios";
 import { handler as terrainHandler } from "./terrain";
 import { handler as cyRealmHandler } from "./cyverseRealm";
-import { userPortalURL } from "../configuration";
+import { userPortalAPIURL } from "../configuration";
 
 const WEBHOOK_TEST_BODY = { text: "This is a test message from DE." };
 
@@ -161,7 +161,7 @@ export default function userRouter() {
         auth.authnTokenMiddleware,
         cyRealmHandler({
             method: "GET",
-            url: userPortalURL,
+            url: userPortalAPIURL,
             pathname: "/users/:user/status",
         })
     );

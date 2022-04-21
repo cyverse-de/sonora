@@ -231,6 +231,13 @@ function DEAppBar(props) {
         }
     }, [currentNotification, runningViceJobs]);
 
+    let userPortalURLRef = useRef(constants.DEFAULT_USER_PORTAL_URL);
+    useEffect(() => {
+        if (config?.userPortalURL) {
+            userPortalURLRef.current = config.userPortalURL;
+        }
+    }, [config]);
+
     // This query is cached because after logging in we'll update the list based on the
     // incoming notifications instead of re-running this query
     const { isFetching: isFetchingRunningVice } = useRunningViceJobs({
@@ -415,7 +422,10 @@ function DEAppBar(props) {
                                 profile={userProfile}
                                 onLogoutClick={onLogoutClick}
                                 onManageAccountClick={() =>
-                                    window.open(config?.userPortalURL, "_blank")
+                                    window.open(
+                                        userPortalURLRef.current,
+                                        "_blank"
+                                    )
                                 }
                             />
                         ) : (
@@ -453,7 +463,7 @@ function DEAppBar(props) {
                     profile={userProfile}
                     onLogoutClick={onLogoutClick}
                     onManageAccountClick={() =>
-                        window.open(config?.userPortalURL, "_blank")
+                        window.open(userPortalURLRef.current, "_blank")
                     }
                 />
             </Popover>

@@ -4,7 +4,7 @@
  * A banner to display for logged out users.
  *
  */
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
@@ -33,6 +33,13 @@ export default function Banner(props) {
     const onLoginClick = (event) => {
         router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
     };
+
+    const userPortalURLRef = useRef(constants.DEFAULT_USER_PORTAL_URL);
+    useEffect(() => {
+        if (config?.userPortalURL) {
+            userPortalURLRef.current = config.userPortalURL;
+        }
+    }, [config]);
 
     return (
         <Paper>
@@ -101,7 +108,7 @@ export default function Banner(props) {
                                 style={{
                                     margin: theme.spacing(0.4),
                                 }}
-                                href={config?.userPortalURL}
+                                href={userPortalURLRef.current}
                             >
                                 {t("signUp")} |
                             </ExternalLink>

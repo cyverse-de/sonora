@@ -209,6 +209,7 @@ function MyApp({ Component, pageProps }) {
 
         const legacyDeUrl = publicRuntimeConfig.LEGACY_DE_URL;
         const usernameSuffix = publicRuntimeConfig.USERNAME_SUFFIX;
+        const userPortalURL = publicRuntimeConfig.USER_PORTAL_URL;
 
         setConfig({
             intercom,
@@ -223,6 +224,7 @@ function MyApp({ Component, pageProps }) {
             subscriptions,
             legacyDeUrl,
             usernameSuffix,
+            userPortalURL,
         });
 
         const jssStyles = document.querySelector("#jss-server-side");

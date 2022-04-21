@@ -4,10 +4,11 @@
  * A banner to display for logged out users.
  *
  */
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
+import { useConfig } from "contexts/config";
 
 import NavigationConstants from "common/NavigationConstants";
 
@@ -27,10 +28,18 @@ export default function Banner(props) {
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const { t } = useTranslation("dashboard");
     const router = useRouter();
+    const [config] = useConfig();
 
     const onLoginClick = (event) => {
         router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
     };
+
+    const userPortalURLRef = useRef(constants.DEFAULT_USER_PORTAL_URL);
+    useEffect(() => {
+        if (config?.userPortalURL) {
+            userPortalURLRef.current = config.userPortalURL;
+        }
+    }, [config]);
 
     return (
         <Paper>
@@ -99,7 +108,7 @@ export default function Banner(props) {
                                 style={{
                                     margin: theme.spacing(0.4),
                                 }}
-                                href={constants.CYVERSE_USER_PORTAL}
+                                href={userPortalURLRef.current}
                             >
                                 {t("signUp")} |
                             </ExternalLink>

@@ -78,5 +78,6 @@ module.exports = withBundleAnalyzer({
         SUBSCRIPTIONS_CHECKOUT_URL: config.get("subscriptions.checkout_url"),
         LEGACY_DE_URL: config.get("legacy_de_url"),
         USERNAME_SUFFIX: config.get("username.suffix"),
+        USER_PORTAL_URL: config.get("user_portal_url"),
     },
 });

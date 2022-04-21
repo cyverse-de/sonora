@@ -56,6 +56,7 @@ function buildDatabaseURI() {
 const validate = () => {
     validateConfigSetting("base_url");
     validateConfigSetting("terrain_url");
+    validateConfigSetting("user_portal_url");
     validateConfigSetting("listen_port");
 
     // logging configuration settings.
@@ -105,7 +106,6 @@ const validate = () => {
     // 3rd Party Service URL/Endpoint Settings
     validateConfigSetting("services.ontology_lookup_service.base");
     validateConfigSetting("services.unified_astronomy_thesaurus.base");
-    validateConfigSetting("services.user_portal_api.base");
 
     //unleash settings
     validateConfigSetting("unleash.api_url");
@@ -292,7 +292,7 @@ export const uatURL = config.get("services.unified_astronomy_thesaurus.base");
 /**
  * The base URL for the User Portal's API
  */
-export const userPortalURL = config.get("services.user_portal_api.base");
+export const userPortalAPIURL = `${config.get("user_portal_url")}/api`;
 
 /**
  *

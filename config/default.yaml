@@ -1,7 +1,7 @@
 base_url: http://localhost:3000
 terrain_url: http://terrain
 listen_port: 3000
-user_portal_url: https://user.cyverse.org
+user_portal_url: https://portaldev.cyverse.org
 legacy_de_url: https://legacy-qa.cyverse.org
 
 logging:
@@ -76,8 +76,6 @@ services:
         base: https://www.ebi.ac.uk/ols/api/select
     unified_astronomy_thesaurus:
         base: https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/current/concept.json
-    user_portal_api:
-        base: https://portaldev.cyverse.org/api
 
 grouper:
     allUsers: GrouperAll

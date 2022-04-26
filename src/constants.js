@@ -30,8 +30,7 @@ export default {
     WS_PROTOCOL: "ws://",
     WSS_PROTOCOL: "wss://",
     USER_PORTAL: "https://user.cyverse.org/register",
-    USER_PORTAL_FAQ:
-        "https://learning.cyverse.org/projects/faq/en/latest/account-portal-faq.html",
+    USER_PORTAL_FAQ: "https://learning.cyverse.org/faq/#user-account",
     IMPORT_IRODS_METADATA_LINK:
         "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027072/Using+Metadata+in+the+DE#UsingMetadataintheDE-irodsMetadataImport",
     DEFAULT_USERNAME_SUFFIX: "iplantcollaborative.org",
@@ -79,19 +78,16 @@ export default {
     URL_REGEX: /^(?:ftp|FTP|HTTPS?|https?):\/\/[^/]+\.[^/]+.*/i,
     EMAIL_REGEX:
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    DE_FAQ: "https://learning.cyverse.org/projects/faq/en/latest/Discovery-environment-faq.html",
-    DE_GUIDE:
-        "https://learning.cyverse.org/projects/cyverse-de2-guide/en/latest/",
-    CYVERSE_LC: "https://learning.cyverse.org/en/latest/",
+    DE_FAQ: "https://learning.cyverse.org/faq/",
+    DE_GUIDE: "https://learning.cyverse.org/de/",
+    CYVERSE_LC: "https://learning.cyverse.org/",
     DEFAULT_EMAIL: "no-reply@cyverse.org",
     SUPPORT_EMAIL: "support@cyverse.org",
-    GETTING_STARTED: "https://learning.cyverse.org/en/latest/README.html",
-    DOI_GUIDE:
-        "https://learning.cyverse.org/projects/cyverse-doi-request-quickstart/en/latest/",
+    GETTING_STARTED: "https://learning.cyverse.org/",
+    DOI_GUIDE: "https://learning.cyverse.org/ds/doi/",
     DC_USER_AGREEMENT:
         "https://cyverse.org/policies/data-commons-user-agreement",
-    CYVERSE_GLOSSARY:
-        "https://learning.cyverse.org/projects/glossary/en/latest/",
+    CYVERSE_GLOSSARY: "https://learning.cyverse.org/glossary/",
     XSEDE_ALLOC_LINK: "https://portal.xsede.org/allocation-request-steps",
     VICE_LOADING_PAGE: "/vice",
     METADATA: {

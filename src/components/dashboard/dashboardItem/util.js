@@ -31,7 +31,6 @@ export const getUserQuota = (resourceTypeName, userPlan) => {
     // Search for the quota with the given resource type name.
     if (quotas) {
         for (const quota of quotas) {
-            console.log(quota);
             const currentResourceTypeName = quota?.resource_type?.name;
             if (currentResourceTypeName === resourceTypeName) {
                 return quota?.quota || defaultQuotaValue;

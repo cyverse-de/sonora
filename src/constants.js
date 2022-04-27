@@ -98,7 +98,9 @@ export default {
         INSTANT_LAUNCH_LISTING: "listing",
     },
     VICE_LOGS_POLLING_INTERVAL: 10000,
-    DATA_STORAGE_QUOTA_LIMIT: 2 ** 30 * 100, // 100 GiB
+    DATA_STORAGE_QUOTA_LIMIT_DEFAULT: 2 ** 30 * 100, // 100 GiB
+    DATA_STORAGE_RESURCE_NAME: "data.size",
     DATA_STORE_INCREASE_FORM: "https://user.cyverse.org/requests/2",
-    CPU_HOURS_QUOTA_LIMIT: 1000, //i came with this number arbitrarily. We can revisit this if needed.
+    CPU_HOURS_QUOTA_LIMIT_DEFAULT: 1000, //i came with this number arbitrarily. We can revisit this if needed.
+    CPU_HOURS_RESOURCE_NAME: "cpu.hours",
 };

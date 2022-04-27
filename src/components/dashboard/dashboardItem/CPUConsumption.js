@@ -27,6 +27,8 @@ import { Typography, useTheme } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { formatDateObject } from "components/utils/DateFormatter";
 
+import { getUserQuota } from "./util";
+
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -129,7 +131,7 @@ const getFormattedData = (usage, quota, theme) => {
                 barThickness: 50,
                 data: [usage],
                 backgroundColor:
-                    usage < constants.CPU_HOURS_QUOTA_LIMIT
+                    usage < quota
                         ? theme.palette.primary.main
                         : theme.palette.error.main,
             },
@@ -138,8 +140,8 @@ const getFormattedData = (usage, quota, theme) => {
 };
 
 export default function CPUConsumption(props) {
-    const { status, data, errors } = props;
-    const quota = constants.CPU_HOURS_QUOTA_LIMIT;
+    const { status, userPlan, data, errors } = props;
+    const quota = getUserQuota(constants.CPU_HOURS_RESOURCE_NAME, userPlan);
     const theme = useTheme();
     const { t } = useTranslation("dashboard");
 

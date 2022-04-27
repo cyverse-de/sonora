@@ -34,6 +34,8 @@ import {
 } from "components/utils/DateFormatter";
 import ExternalLink from "components/utils/ExternalLink";
 
+import { getUserQuota } from "./util";
+
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -142,7 +144,7 @@ const getFormattedData = (usage, quota, theme) => {
                 barThickness: 50,
                 data: [usage],
                 backgroundColor:
-                    usage < constants.DATA_STORAGE_QUOTA_LIMIT
+                    usage < quota
                         ? theme.palette.primary.main
                         : theme.palette.error.main,
             },
@@ -151,8 +153,8 @@ const getFormattedData = (usage, quota, theme) => {
 };
 
 export default function DataConsumption(props) {
-    const { status, data, errors } = props;
-    const quota = constants.DATA_STORAGE_QUOTA_LIMIT;
+    const { status, userPlan, data, errors } = props;
+    const quota = getUserQuota(constants.DATA_STORAGE_RESURCE_NAME, userPlan);
     const theme = useTheme();
     const { t } = useTranslation("dashboard");
 

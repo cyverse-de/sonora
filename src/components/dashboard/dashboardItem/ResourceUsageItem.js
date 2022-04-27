@@ -125,6 +125,7 @@ export default function ResourceUsageItem(props) {
                             <Card>
                                 <DataConsumption
                                     data={data?.data_usage}
+                                    userPlan={data?.user_plan}
                                     status={status}
                                     errors={data?.errors}
                                 />
@@ -135,6 +136,7 @@ export default function ResourceUsageItem(props) {
                             <Card>
                                 <CPUConsumption
                                     data={data?.cpu_usage}
+                                    userPlan={data?.user_plan}
                                     status={status}
                                     errors={data?.errors}
                                 />

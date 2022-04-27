@@ -154,7 +154,7 @@ const getFormattedData = (usage, quota, theme) => {
 
 export default function DataConsumption(props) {
     const { status, userPlan, data, errors } = props;
-    const quota = getUserQuota(constants.DATA_STORAGE_RESURCE_NAME, userPlan);
+    const quota = getUserQuota(constants.DATA_STORAGE_RESOURCE_NAME, userPlan);
     const theme = useTheme();
     const { t } = useTranslation("dashboard");
 

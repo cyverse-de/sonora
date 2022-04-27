@@ -99,7 +99,7 @@ export default {
     },
     VICE_LOGS_POLLING_INTERVAL: 10000,
     DATA_STORAGE_QUOTA_LIMIT_DEFAULT: 50 * 2 ** 30,
-    DATA_STORAGE_RESURCE_NAME: "data.size",
+    DATA_STORAGE_RESOURCE_NAME: "data.size",
     DATA_STORE_INCREASE_FORM: "https://user.cyverse.org/requests/2",
     CPU_HOURS_QUOTA_LIMIT_DEFAULT: 20,
     CPU_HOURS_RESOURCE_NAME: "cpu.hours",

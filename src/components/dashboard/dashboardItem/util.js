@@ -11,7 +11,7 @@ import constants from "../../../constants";
 const defaultQuotaFor = {
     [constants.CPU_HOURS_RESOURCE_NAME]:
         constants.CPU_HOURS_QUOTA_LIMIT_DEFAULT,
-    [constants.DATA_STORAGE_RESURCE_NAME]:
+    [constants.DATA_STORAGE_RESOURCE_NAME]:
         constants.DATA_STORAGE_QUOTA_LIMIT_DEFAULT,
 };
 

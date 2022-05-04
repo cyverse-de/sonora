@@ -35,8 +35,12 @@ function TerminateAnalysisDialog(props) {
         const viceAnalyses = mapIsVice?.true;
         const condorAnalyses = mapIsVice?.false;
 
-        handleSaveAndComplete(viceAnalyses);
-        handleCancel(condorAnalyses);
+        if (viceAnalyses) {
+            handleSaveAndComplete(viceAnalyses);
+        }
+        if (condorAnalyses) {
+            handleCancel(condorAnalyses);
+        }
     };
 
     return (

@@ -47,6 +47,7 @@
     "section": "Section {{groupNumber}} of {{totalGroups}}",
     "validationAbove": "Must be greater than {{min}}",
     "validationBelow": "Must be less than {{max}}",
+    "validationNotAbove": "Must be less than or equal to {{max}}",
     "validationRange": "Must be between {{min}} and {{max}}",
     "validationCharLimit": "Cannot exceed {{limit}} characters",
     "validationRegex": "Does not match the expression {{regexPattern}}",

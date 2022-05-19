@@ -9,7 +9,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import { FastField } from "formik";
+import { FastField, getIn } from "formik";
 import numeral from "numeral";
 
 import constants from "../../../constants";
@@ -293,9 +293,28 @@ const ResourceRequirementsForm = ({
     );
 };
 
+const ResourceRequirementsReviewRow = ({
+    label,
+    value,
+    valueFormatter,
+    showAll,
+    error,
+}) =>
+    (showAll || error || !!value) && (
+        <TableRow>
+            <TableCell>
+                <Typography color={error ? "error" : "initial"}>
+                    {label}
+                </Typography>
+            </TableCell>
+            <TableCell>{valueFormatter(value) || ""}</TableCell>
+        </TableRow>
+    );
+
 const StepResourceRequirementsReview = ({
     baseId,
     stepRequirements,
+    stepRequirementErrors,
     headerMessageKey,
     showAll,
 }) => {
@@ -308,11 +327,25 @@ const StepResourceRequirementsReview = ({
         max_cpu_cores,
     } = stepRequirements;
 
-    const hasRequest = !!(min_cpu_cores || min_memory_limit || min_disk_space);
+    const hasRequest = !!(
+        min_cpu_cores ||
+        min_memory_limit ||
+        min_disk_space ||
+        max_cpu_cores
+    );
 
     return (
         (showAll || hasRequest) && (
-            <Accordion defaultExpanded={false}>
+            <Accordion
+                defaultExpanded={
+                    !!(
+                        stepRequirementErrors?.min_cpu_cores ||
+                        stepRequirementErrors?.min_memory_limit ||
+                        stepRequirementErrors?.min_disk_space ||
+                        stepRequirementErrors?.max_cpu_cores
+                    )
+                }
+            >
                 <AccordionSummary
                     expandIcon={
                         <ExpandMore
@@ -337,46 +370,38 @@ const StepResourceRequirementsReview = ({
                     <TableContainer component={Paper}>
                         <Table>
                             <TableBody>
-                                {(showAll || !!min_cpu_cores) && (
-                                    <TableRow>
-                                        <TableCell>
-                                            {t("minCPUCores")}
-                                        </TableCell>
-                                        <TableCell>
-                                            {min_cpu_cores || ""}
-                                        </TableCell>
-                                    </TableRow>
-                                )}
-                                {(showAll || !!min_memory_limit) && (
-                                    <TableRow>
-                                        <TableCell>{t("minMemory")}</TableCell>
-                                        <TableCell>
-                                            {formatGBValue(min_memory_limit) ||
-                                                ""}
-                                        </TableCell>
-                                    </TableRow>
-                                )}
-                                {(showAll || !!min_disk_space) && (
-                                    <TableRow>
-                                        <TableCell>
-                                            {t("minDiskSpace")}
-                                        </TableCell>
-                                        <TableCell>
-                                            {formatGBValue(min_disk_space) ||
-                                                ""}
-                                        </TableCell>
-                                    </TableRow>
-                                )}
-                                {(showAll || !!max_cpu_cores) && (
-                                    <TableRow>
-                                        <TableCell>
-                                            {t("maxCPUCores")}
-                                        </TableCell>
-                                        <TableCell>
-                                            {max_cpu_cores || ""}
-                                        </TableCell>
-                                    </TableRow>
-                                )}
+                                <ResourceRequirementsReviewRow
+                                    label={t("minCPUCores")}
+                                    value={min_cpu_cores}
+                                    valueFormatter={(value) => value}
+                                    showAll={showAll}
+                                    error={stepRequirementErrors?.min_cpu_cores}
+                                />
+                                <ResourceRequirementsReviewRow
+                                    label={t("minMemory")}
+                                    value={min_memory_limit}
+                                    valueFormatter={formatGBValue}
+                                    showAll={showAll}
+                                    error={
+                                        stepRequirementErrors?.min_memory_limit
+                                    }
+                                />
+                                <ResourceRequirementsReviewRow
+                                    label={t("minDiskSpace")}
+                                    value={min_disk_space}
+                                    valueFormatter={formatGBValue}
+                                    showAll={showAll}
+                                    error={
+                                        stepRequirementErrors?.min_disk_space
+                                    }
+                                />
+                                <ResourceRequirementsReviewRow
+                                    label={t("maxCPUCores")}
+                                    value={max_cpu_cores}
+                                    valueFormatter={(value) => value}
+                                    showAll={showAll}
+                                    error={stepRequirementErrors?.max_cpu_cores}
+                                />
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -398,17 +423,23 @@ const StepResourceRequirementsReview = ({
  * @param {number} props.requirements[].min_memory_limit
  * @param {number} props.requirements[].min_disk_space
  */
-const ResourceRequirementsReview = ({ baseId, requirements, showAll }) => {
+const ResourceRequirementsReview = ({
+    baseId,
+    requirements,
+    errors,
+    showAll,
+}) => {
     const headerMessageKey =
         requirements.length === 1
             ? "resourceRequirements"
             : "resourceRequirementsForStep";
 
-    return requirements.map((stepRequirements) => (
+    return requirements.map((stepRequirements, index) => (
         <StepResourceRequirementsReview
             baseId={baseId}
             key={stepRequirements.step_number}
             stepRequirements={stepRequirements}
+            stepRequirementErrors={getIn(errors, `requirements.${index}`)}
             headerMessageKey={headerMessageKey}
             showAll={showAll}
         />

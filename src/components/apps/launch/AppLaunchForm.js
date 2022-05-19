@@ -112,7 +112,7 @@ const StepperNavigation = (props) => {
     );
 };
 
-const displayStepError = (stepIndex, errors, touched, groups) => {
+const displayStepError = (stepIndex, errors, touched, groups, hasParams) => {
     if (stepIndex === 0) {
         return (
             getFormError("name", touched, errors) ||
@@ -120,11 +120,11 @@ const displayStepError = (stepIndex, errors, touched, groups) => {
         );
     }
 
-    if (stepIndex === 1) {
+    if (stepIndex === 1 && hasParams) {
         return anyParamErrorAndTouched(errors, touched, groups);
     }
 
-    return false;
+    return getFormError(`launchSteps.${stepIndex}`, touched, errors);
 };
 
 /**
@@ -236,7 +236,7 @@ const AppLaunchForm = (props) => {
             <Formik
                 initialValues={initAppLaunchValues(t, props)}
                 initialTouched={{ launchSteps: [false, false, false, false] }}
-                validate={validate(t)}
+                validate={validate(t, hasParams)}
                 onSubmit={(values, { resetForm, setSubmitting }) => {
                     submitAnalysis(
                         formatSubmission(defaultOutputDir, values),
@@ -332,7 +332,8 @@ const AppLaunchForm = (props) => {
                                             stepIndex,
                                             errors,
                                             touched,
-                                            groups
+                                            groups,
+                                            hasParams
                                         )
                                     }
                                     ref={stepperRef}
@@ -430,7 +431,6 @@ const AppLaunchForm = (props) => {
                                             appType={app_type}
                                             groups={values.groups}
                                             errors={errors}
-                                            touched={touched}
                                             showAll={reviewShowAll}
                                             setShowAll={setReviewShowAll}
                                         />
@@ -441,6 +441,7 @@ const AppLaunchForm = (props) => {
                                                 requirements={
                                                     values.requirements
                                                 }
+                                                errors={errors}
                                                 showAll={reviewShowAll}
                                             />
                                         )}

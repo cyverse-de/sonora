@@ -216,7 +216,7 @@ const validateDouble = ({ value, validators }, t) => {
  * May also contain custom error fields not found in `values`.
  * If an empty object is returned, then there were no errors.
  */
-const validate = (t) => (values) => {
+const validate = (t, hasParams) => (values) => {
     const errors = {};
     const launchStepErrors = [];
 
@@ -252,7 +252,7 @@ const validate = (t) => (values) => {
         });
         if (reqErrors?.length > 0) {
             errors.requirements = reqErrors;
-            launchStepErrors[2] = true;
+            launchStepErrors[hasParams ? 2 : 1] = true;
         }
     }
 

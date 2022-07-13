@@ -6,6 +6,20 @@ export const MoveDialogTest = () => {
     const logger = (message) => {
         console.log(message);
     };
+    mockAxios.onPost(/\/api\/filesystem\/move/).replyOnce(409, {
+        error_code: "ERR_CONFLICT",
+        paths: ["/iplant/home/ipcdev/Discovery Environment-CyVerse-blue.svg"],
+    });
+    mockAxios.onPost(/\/api\/filesystem\/move/).replyOnce(409, {
+        error_code: "ERR_CONFLICT",
+        paths: [
+            "/iplant/home/ipcdev/CORE-1752-path.list",
+            "/iplant/home/ipcdev/CORE-1752.txt",
+            "/iplant/home/ipcdev/Discovery Environment-CyVerse-blue.svg",
+            "/iplant/home/ipcdev/CORE-1346-path.list",
+            "/iplant/home/ipcdev/CORE-1346.txt",
+        ],
+    });
     mockAxios.onPost(/\/api\/filesystem\/move/).reply(200, "");
 
     return (

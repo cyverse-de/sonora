@@ -24,10 +24,12 @@ import {
     Grid,
     Link,
     makeStyles,
+    TextField,
     Typography,
 } from "@material-ui/core";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import ErrorIcon from "@material-ui/icons/Error";
+import WarningIcon from "@material-ui/icons/Warning";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 const useStyles = makeStyles((theme) => ({
@@ -62,10 +64,12 @@ function ErrorHandler(props) {
         trackIntercomEvent(IntercomEvents.ENCOUNTERED_ERROR, errorObject);
     }, [errorObject]);
 
-    let title, subHeader, contents, avatar;
+    let title,
+        subHeader,
+        contents,
+        avatar = <ErrorIcon fontSize="large" color="error" />;
 
     if (!errorObject?.response && !errorObject?.config) {
-        avatar = <ErrorIcon fontSize="large" color="error" />;
         title = (
             <Typography color="error" variant="h6">
                 {t("oops")}
@@ -82,6 +86,8 @@ function ErrorHandler(props) {
         );
     } else {
         const errorResponse = errorObject.response;
+        const errorData = errorResponse?.data;
+
         if (errorResponse?.status === 401) {
             avatar = <ErrorIcon color="primary" fontSize="large" />;
             title = (
@@ -145,8 +151,41 @@ function ErrorHandler(props) {
                     </Typography>
                 </>
             );
+        } else if (errorResponse?.status === 409) {
+            avatar = <WarningIcon color="error" fontSize="large" />;
+            title = (
+                <Typography color="error" variant="h6">
+                    {t("conflict")}
+                </Typography>
+            );
+            subHeader = (
+                <Typography color="error" variant="subtitle2">
+                    {errorObject.message}
+                </Typography>
+            );
+            contents = (
+                <>
+                    <Typography gutterBottom>{t("conflictErrMsg")}</Typography>
+                    {errorData?.paths ? (
+                        <TextField
+                            id={buildID(errBaseId, ids.CONFLICTING_PATHS)}
+                            label={t("conflictingPaths")}
+                            multiline
+                            rows={3}
+                            variant="outlined"
+                            fullWidth
+                            value={errorData.paths.join("\n")}
+                        />
+                    ) : (
+                        <Typography id={buildID(errBaseId, ids.REASON)}>
+                            {JSON.stringify(
+                                errorData?.reason || errorData?.message
+                            )}
+                        </Typography>
+                    )}
+                </>
+            );
         } else {
-            avatar = <ErrorIcon fontSize="large" color="error" />;
             title = (
                 <Typography color="error" variant="h6">
                     {t("error")}
@@ -172,15 +211,15 @@ function ErrorHandler(props) {
                     </GridLabelValue>
                     <GridLabelValue label={t("errorCode")}>
                         <Typography id={buildID(errBaseId, ids.ERROR_CODE)}>
-                            {errorResponse?.data?.error_code}
+                            {errorData?.error_code}
                         </Typography>
                     </GridLabelValue>
                     <GridLabelValue label={t("reason")}>
                         <Typography id={buildID(errBaseId, ids.REASON)}>
                             {JSON.stringify(
-                                errorResponse?.data?.reason ||
-                                    errorResponse?.data?.message ||
-                                    errorResponse?.data?.grouper_result_message
+                                errorData?.reason ||
+                                    errorData?.message ||
+                                    errorData?.grouper_result_message
                             )}
                         </Typography>
                     </GridLabelValue>

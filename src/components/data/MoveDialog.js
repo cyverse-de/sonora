@@ -53,14 +53,13 @@ function MoveDialog(props) {
             });
             onClose();
         },
-        onError: (error) => {
-            setMoveError(error);
-        },
+        onError: setMoveError,
     });
 
     const handleMove = ({ dest }) => {
         const sources = selectedResources?.map((res) => res.path);
         if (status !== constants.LOADING && sources?.length > 0) {
+            setMoveError(null);
             resourcesMove({ dest, sources });
         }
     };

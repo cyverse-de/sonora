@@ -13,6 +13,7 @@ export default {
     STATUS_CODE: "statusCode",
     ERROR_CODE: "errorCode",
     REASON: "reason",
+    CONFLICTING_PATHS: "conflictingPaths",
     CONTACT_SUPPORT_BUTTON: "contactSupportBtn",
     GRID_VIEW_BTN: "gridViewBtn",
     TABLE_VIEW_BTN: "tableViewBtn",

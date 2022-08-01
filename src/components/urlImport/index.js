@@ -137,17 +137,28 @@ const URLImportTextField = (props) => {
             errorCallback(null);
             setUploadURL("");
         },
+
         onError: (error) => {
             successCallback(null);
+
             const errorPath = getErrorData(error)?.path;
-            const duplicateName = urlFileName(errorPath);
-            const text =
-                getErrorCode(error) === ERROR_CODES.ERR_EXISTS
-                    ? t("fileExists", {
-                          name: duplicateName,
-                          path: path,
-                      })
-                    : t("fileImportFail");
+            var text = "";
+
+            // default to a generic error message if the errorPath could not
+            // be determined and is therefore undefined.
+            if (errorPath) {
+                const duplicateName = urlFileName(errorPath);
+                text =
+                    getErrorCode(error) === ERROR_CODES.ERR_EXISTS
+                        ? t("fileExists", {
+                              name: duplicateName,
+                              path: path,
+                          })
+                        : t("fileImportFail");
+            } else {
+                text = t("fileImportFail");
+            }
+
             errorCallback(text);
         },
     });

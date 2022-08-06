@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
+import { serverSideTranslations, RequiredNamespaces } from "i18n";
 import {
     getAppDescription,
     APP_DESCRIPTION_QUERY_KEY,
@@ -117,8 +118,18 @@ function Launch({ showErrorAnnouncer }) {
     );
 }
 
-export default withErrorAnnouncer(Launch);
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "apps",
+                "launch",
+                "util",
+                "dashboard",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}
 
-Launch.getInitialProps = async () => ({
-    namespacesRequired: ["apps", "launch", "common", "util", "dashboard"],
-});
+export default withErrorAnnouncer(Launch);

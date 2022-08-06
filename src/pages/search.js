@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { Hidden } from "@material-ui/core";
+import { serverSideTranslations, RequiredNamespaces } from "i18n";
 import GlobalSearchField from "components/search/GlobalSearchField";
 import DetailedSearchResults from "components/search/detailed/DetailedSearchResults";
 import SEARCH_RESULTS_TABS from "components/search/detailed/tabs";
@@ -49,6 +50,14 @@ export default function Search() {
     );
 }
 
-Search.getInitialProps = async () => ({
-    namespacesRequired: ["common", "search", "analyses"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "search",
+                "analyses",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

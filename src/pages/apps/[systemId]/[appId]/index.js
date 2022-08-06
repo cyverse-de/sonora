@@ -6,7 +6,11 @@
  */
 import React, { useCallback } from "react";
 import { useRouter } from "next/router";
-import { useTranslation } from "i18n";
+import {
+    serverSideTranslations,
+    RequiredNamespaces,
+    useTranslation,
+} from "i18n";
 
 import { getLocalStorage } from "components/utils/localStorage";
 
@@ -71,6 +75,15 @@ export default function App() {
         />
     );
 }
-App.getInitialProps = async () => ({
-    namespacesRequired: ["apps", "common", "util"],
-});
+
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "apps",
+                "util",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

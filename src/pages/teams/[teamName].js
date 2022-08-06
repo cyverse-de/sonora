@@ -8,6 +8,8 @@ import React from "react";
 
 import { useRouter } from "next/router";
 
+import { serverSideTranslations, RequiredNamespaces } from "i18n";
+
 import NavigationConstants from "common/NavigationConstants";
 import TeamForm from "components/teams/form";
 
@@ -28,6 +30,14 @@ export default function EditTeam() {
     );
 }
 
-EditTeam.getInitialProps = async () => ({
-    namespacesRequired: ["teams", "sharing", "common"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "teams",
+                "sharing",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

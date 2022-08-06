@@ -3,6 +3,7 @@
  * @author sriram, aramsey
  */
 import React, { Fragment, useEffect } from "react";
+import { serverSideTranslations, RequiredNamespaces } from "i18n";
 import { useUserProfile } from "contexts/userProfile";
 import { useConfig } from "contexts/config";
 import { getEncodedPath, getPageQueryParams } from "components/data/utils";
@@ -41,6 +42,13 @@ export default function Data() {
     return <Fragment />;
 }
 
-Data.getInitialProps = async () => ({
-    namespacesRequired: ["data"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "data",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

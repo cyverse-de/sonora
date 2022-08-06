@@ -1,13 +1,25 @@
 import React from "react";
 
-import Dashboard from "../components/dashboard";
+import { serverSideTranslations, RequiredNamespaces } from "i18n";
+import Dashboard from "components/dashboard";
 
 function DashboardPage() {
     return <Dashboard />;
 }
 
-DashboardPage.getInitialProps = async () => ({
-    namespacesRequired: ["dashboard", "apps"],
-});
+export async function getStaticProps(context) {
+    // The `locale` prop is undefined in this page for some reason.
+    const { locale, defaultLocale } = context;
+
+    return {
+        props: {
+            ...(await serverSideTranslations(locale ?? defaultLocale, [
+                "dashboard",
+                "apps",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}
 
 export default DashboardPage;

@@ -5,6 +5,8 @@
  */
 import React from "react";
 
+import { serverSideTranslations, RequiredNamespaces } from "i18n";
+
 import WorkflowEditor from "components/apps/workflows/Editor";
 import NewWorkflowDefaults from "components/apps/workflows/NewWorkflowDefaults";
 import ids from "components/apps/workflows/ids";
@@ -34,6 +36,15 @@ export default function AppCreate() {
     );
 }
 
-AppCreate.getInitialProps = async () => ({
-    namespacesRequired: ["apps", "common", "search", "workflows"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "apps",
+                "search",
+                "workflows",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

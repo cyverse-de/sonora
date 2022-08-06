@@ -7,6 +7,7 @@
 import React from "react";
 
 import { useRouter } from "next/router";
+import { serverSideTranslations, RequiredNamespaces } from "i18n";
 import ViceLoading from "components/vice/loading";
 
 export default function Loading() {
@@ -16,6 +17,13 @@ export default function Loading() {
     return <ViceLoading accessUrl={accessUrl} />;
 }
 
-Loading.getInitialProps = async () => ({
-    namespacesRequired: ["vice-loading", "common"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "vice-loading",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

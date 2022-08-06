@@ -8,6 +8,8 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
+import { serverSideTranslations, RequiredNamespaces } from "i18n";
+
 import {
     getAppDescription,
     APP_DESCRIPTION_QUERY_KEY,
@@ -72,6 +74,15 @@ export default function Launch() {
     );
 }
 
-Launch.getInitialProps = async () => ({
-    namespacesRequired: ["apps", "launch", "common", "util"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "apps",
+                "launch",
+                "util",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

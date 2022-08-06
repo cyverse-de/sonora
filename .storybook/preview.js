@@ -29,7 +29,7 @@ import { I18nextProvider } from "react-i18next";
 
 import { addDecorator } from "@storybook/react";
 import { withConsole } from "@storybook/addon-console";
-import { withNextRouter } from "storybook-addon-next-router";
+import { RouterContext } from "next/dist/shared/lib/router-context";
 
 function MockUserProfile() {
     const [userProfile, setUserProfile] = useUserProfile();
@@ -76,14 +76,6 @@ const queryClient = new QueryClient({
 });
 
 addDecorator((storyFn, context) => withConsole()(storyFn)(context));
-addDecorator(
-    withNextRouter({
-        path: "/", // defaults to `/`
-        asPath: "/", // defaults to `/`
-        query: {}, // defaults to `{}`
-        // push() {}, // defaults to using addon actions integration, can override any method in the router
-    })
-);
 
 export const decorators = [
     (Story) => (
@@ -115,4 +107,11 @@ export const decorators = [
 ];
 export const parameters = {
     chromatic: { delay: AXIOS_DELAY + 500 },
+    nextRouter: {
+        Provider: RouterContext.Provider,
+        path: "/", // defaults to `/`
+        asPath: "/", // defaults to `/`
+        query: {}, // defaults to `{}`
+        // push() {}, // defaults to using addon actions integration, can override any method in the router
+    },
 };

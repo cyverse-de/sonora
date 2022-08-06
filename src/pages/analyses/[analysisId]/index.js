@@ -6,6 +6,7 @@
  */
 import React from "react";
 import { useRouter } from "next/router";
+import { serverSideTranslations, RequiredNamespaces } from "i18n";
 import AnalysisSubmissionLanding from "components/analyses/landing/AnalysisSubmissionLanding";
 
 /**
@@ -27,6 +28,13 @@ export default function Analysis() {
     );
 }
 
-Analysis.getInitialProps = async () => ({
-    namespacesRequired: ["analyses"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "analyses",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

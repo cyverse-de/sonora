@@ -8,6 +8,8 @@ import React from "react";
 
 import { useRouter } from "next/router";
 
+import { serverSideTranslations, RequiredNamespaces } from "i18n";
+
 import NavigationConstants from "common/NavigationConstants";
 import TeamsView from "components/teams";
 import { getTeamLinkRefs } from "components/teams/util";
@@ -33,6 +35,13 @@ export default function Teams() {
     );
 }
 
-Teams.getInitialProps = async () => ({
-    namespacesRequired: ["teams"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "teams",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

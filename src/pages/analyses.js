@@ -7,7 +7,12 @@
 
 import React, { useCallback } from "react";
 import { useRouter } from "next/router";
-import { useTranslation } from "i18n";
+
+import {
+    serverSideTranslations,
+    RequiredNamespaces,
+    useTranslation,
+} from "i18n";
 
 import constants from "../constants";
 
@@ -82,6 +87,15 @@ export default function Analyses() {
     );
 }
 
-Analyses.getInitialProps = async () => ({
-    namespacesRequired: ["analyses", "common", "data", "util"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "analyses",
+                "data",
+                "util",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
+import { serverSideTranslations, RequiredNamespaces } from "i18n";
 import constants from "../../../constants";
 import {
     getAnalysisRelaunchInfo,
@@ -119,7 +120,16 @@ const Relaunch = ({ showErrorAnnouncer }) => {
     );
 };
 
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "launch",
+                "dashboard",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}
+
 export default withErrorAnnouncer(Relaunch);
-Relaunch.getInitialProps = async () => ({
-    namespacesRequired: ["launch", "dashboard"],
-});

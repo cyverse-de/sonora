@@ -5,6 +5,8 @@
 import React, { Fragment, useEffect } from "react";
 import { useRouter } from "next/router";
 
+import { serverSideTranslations, RequiredNamespaces } from "i18n";
+
 import constants from "../../constants";
 import {
     getEncodedPath,
@@ -46,6 +48,13 @@ export default function Data() {
     return <Fragment />;
 }
 
-Data.getInitialProps = async () => ({
-    namespacesRequired: ["data"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "data",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

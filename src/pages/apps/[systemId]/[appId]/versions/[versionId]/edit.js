@@ -9,6 +9,8 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
+import { serverSideTranslations, RequiredNamespaces } from "i18n";
+
 import AppEditor from "components/apps/editor";
 import ids from "components/apps/editor/ids";
 import WorkflowEditor from "components/apps/workflows/Editor";
@@ -105,15 +107,19 @@ export default function AppEdit() {
     );
 }
 
-AppEdit.getInitialProps = async () => ({
-    namespacesRequired: [
-        "app_editor",
-        "app_editor_help",
-        "app_param_types",
-        "apps",
-        "common",
-        "data",
-        "launch",
-        "workflows",
-    ],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "app_editor",
+                "app_editor_help",
+                "app_param_types",
+                "apps",
+                "data",
+                "launch",
+                "workflows",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

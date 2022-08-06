@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 
+import { serverSideTranslations, RequiredNamespaces } from "i18n";
 import constants from "../../../constants";
 import { NavigationParams } from "common/NavigationConstants";
 
@@ -186,6 +187,14 @@ export default function DataStore() {
     );
 }
 
-DataStore.getInitialProps = async () => ({
-    namespacesRequired: ["data", "util"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "data",
+                "util",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

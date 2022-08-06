@@ -1,22 +1,24 @@
-import NextI18Next from "next-i18next";
-import path from "path";
 import React, { Suspense } from "react";
 import { I18nextProvider } from "react-i18next";
-
 /**
- * The singular instance of next-i18next to be used throughout the app.
- * Every page and component that needs i18n should use appWithTranslation,
- * useTranslation, and withTranslation exported from this instance
+ * The singular instances of i18n components to be used throughout the app.
+ * Every page and component that needs i18n should use the components
+ * exported from next-i18next.
  *
  * See examples here from the next-i18next repo:
- * https://github.com/isaachinman/next-i18next/tree/master/examples/simple
+ * https://github.com/i18next/next-i18next/tree/master/examples/simple
  */
-const { i18n, useTranslation, withTranslation, appWithTranslation, Trans } =
-    new NextI18Next({
-        defaultLanguage: "en",
-        otherLanguages: [],
-        localePath: path.resolve("./public/static/locales"),
-    });
+import {
+    i18n,
+    useTranslation,
+    withTranslation,
+    appWithTranslation,
+    Trans,
+} from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+// The two always-needed namespaces
+const RequiredNamespaces = ["common", "bags"];
 
 /**
  * A wrapper component to provide i18n capabilities to Storybook as well as
@@ -44,4 +46,6 @@ export {
     appWithTranslation,
     I18nProviderWrapper,
     Trans,
+    serverSideTranslations,
+    RequiredNamespaces,
 };

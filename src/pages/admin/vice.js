@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import { useUserProfile } from "contexts/userProfile";
 import NotAuthorized from "components/error/NotAuthorized";
 
-import { useTranslation } from "i18n";
+import {
+    serverSideTranslations,
+    RequiredNamespaces,
+    useTranslation,
+} from "i18n";
 
 import { useQuery } from "react-query";
 
@@ -218,6 +222,13 @@ export default function VICEAdminPage() {
     }
 }
 
-VICEAdminPage.getInitialProps = async () => ({
-    namespacesRequired: ["vice-admin"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "vice-admin",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

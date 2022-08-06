@@ -289,23 +289,3 @@ function MyApp({ Component, pageProps }) {
 }
 
 export default appWithTranslation(MyApp);
-
-MyApp.getInitialProps = async ({ Component, ctx }) => {
-    let pageProps = {};
-
-    if (Component.getInitialProps) {
-        pageProps = await Component.getInitialProps(ctx);
-    }
-
-    // merge the two always-needed namespaces into the pageProps namespacesRequired array
-    return {
-        pageProps: {
-            ...pageProps,
-            namespacesRequired: [
-                ...(pageProps?.namespacesRequired ?? []),
-                "common",
-                "bags",
-            ],
-        },
-    };
-};

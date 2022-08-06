@@ -93,7 +93,7 @@
         "lottie-web": "^5.7.6",
         "md5": "^2.2.1",
         "micromatch": "^4.0.2",
-        "next": "^10.2.3",
+        "next": "^12.1.0",
         "next-i18next": "^7.0.1",
         "numeral": "^2.0.6",
         "postman-request": "^2.88.1-postman.18",

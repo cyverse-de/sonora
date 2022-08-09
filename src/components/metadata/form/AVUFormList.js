@@ -82,8 +82,11 @@ const AVUFormDialog = (props) => {
             baseId={formID}
             open={open}
             title={title}
-            onClose={onClose}
-            disableBackdropClick
+            onClose={(event, reason) => {
+                if (reason !== "backdropClick") {
+                    onClose(event);
+                }
+            }}
             disableEscapeKeyDown
             TransitionComponent={SlideUpTransition}
             actions={

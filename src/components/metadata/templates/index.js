@@ -295,7 +295,7 @@ const MetadataTemplateAttributeForm = (props) => {
                                         item
                                         container
                                         spacing={2}
-                                        justify="flex-start"
+                                        justifyContent="flex-start"
                                         alignItems="center"
                                     >
                                         <Grid item xs>
@@ -406,7 +406,7 @@ const MetadataTemplateAttributeForm = (props) => {
                                         container
                                         spacing={2}
                                         direction="column"
-                                        justify="flex-start"
+                                        justifyContent="flex-start"
                                         alignItems="stretch"
                                     >
                                         <Grid item xs>
@@ -474,7 +474,11 @@ const MetadataTemplateForm = (props) => {
         <DEDialog
             baseId={ids.METADATA_TEMPLATE_VIEW}
             open={open}
-            onClose={closeMetadataTemplateDialog}
+            onClose={(event, reason) => {
+                if (reason !== "backdropClick") {
+                    closeMetadataTemplateDialog(event);
+                }
+            }}
             title={
                 loading ? (
                     <Skeleton variant="text" width={240} />
@@ -483,7 +487,6 @@ const MetadataTemplateForm = (props) => {
                 )
             }
             maxWidth="md"
-            disableBackdropClick
             disableEscapeKeyDown
             TransitionComponent={SlideUpTransition}
             actions={[

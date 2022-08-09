@@ -64,7 +64,7 @@ export default function SplitView(props) {
         <Grid
             container
             direction="row"
-            justify="space-between"
+            justifyContent="space-between"
             alignItems="stretch"
             style={{ flexGrow: 1 }}
             spacing={0}
@@ -114,7 +114,7 @@ export default function SplitView(props) {
                     </ToggleButton>
                 </ToggleButtonGroup>
             </Grid>
-            <Grid xs={rightWidth} id={ids.RIGHT_PANEL}>
+            <Grid item xs={rightWidth} id={ids.RIGHT_PANEL}>
                 <Typography className={classes.panelHeader} variant="subtitle2">
                     {rightPanelTitle}
                 </Typography>

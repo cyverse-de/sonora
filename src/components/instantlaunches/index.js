@@ -50,7 +50,6 @@ export const InstantLaunchSubmissionDialog = ({ open }) => {
                 event.preventDefault();
             }}
             id={baseID}
-            disableBackdropClick
             disableEscapeKeyDown
         >
             <DialogTitle id={buildID(baseID, ids.TITLE)}>

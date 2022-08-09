@@ -34,15 +34,16 @@ const getMenuItems = (onClose) => [
 ];
 
 export const DotMenuTest = () => {
+    return <DotMenu baseId="sampleDotMenu" render={getMenuItems} />;
+};
+
+export const DotMenuWithText = () => {
     return (
-        <>
-            <DotMenu baseId="sampleDotMenu" render={getMenuItems} />
-            <DotMenu
-                baseId="sampleDotMenu"
-                render={getMenuItems}
-                buttonText="More Actions"
-            />
-        </>
+        <DotMenu
+            baseId="sampleDotMenu"
+            render={getMenuItems}
+            buttonText="More Actions"
+        />
     );
 };
 

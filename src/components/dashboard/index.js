@@ -261,6 +261,7 @@ const Dashboard = (props) => {
             {userProfile?.id &&
                 bootstrapInfo && [
                     <Tour
+                        key="Tour"
                         baseId={baseId}
                         showTourPrompt={
                             bootstrapInfo?.preferences?.showTourPrompt
@@ -274,7 +275,7 @@ const Dashboard = (props) => {
                             mutatePreferences({ preferences: updatedPref });
                         }}
                     />,
-                    <ResourceUsageItem />,
+                    <ResourceUsageItem key="ResourceUsage" />,
                 ]}
             {isLoading ? <DashboardSkeleton /> : componentContent}
 

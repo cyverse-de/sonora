@@ -161,7 +161,7 @@ function AppName(props) {
     } else {
         return (
             <div tabIndex="0" role="button" id={baseDebugId} title={title}>
-                <Highlighter search={searchTerm}>{name}</Highlighter>
+                <Highlighter search={searchTerm || ""}>{name}</Highlighter>
             </div>
         );
     }

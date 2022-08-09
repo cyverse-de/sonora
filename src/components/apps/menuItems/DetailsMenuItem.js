@@ -7,13 +7,13 @@ import { useTranslation } from "i18n";
 
 import ids from "../ids";
 
-function DetailsMenuItem(props) {
+const DetailsMenuItem = React.forwardRef((props, ref) => {
     const { baseId, onDetailsSelected, onClose } = props;
     const { t } = useTranslation("apps");
 
     return (
         <MenuItem
-            key={buildID(baseId, ids.DETAILS_MENU_ITEM)}
+            ref={ref}
             id={buildID(baseId, ids.DETAILS_MENU_ITEM)}
             onClick={() => {
                 onClose();
@@ -26,6 +26,6 @@ function DetailsMenuItem(props) {
             <ListItemText primary={t("details")} />
         </MenuItem>
     );
-}
+});
 
 export default DetailsMenuItem;

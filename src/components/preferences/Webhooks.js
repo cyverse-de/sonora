@@ -121,7 +121,7 @@ export default function Webhooks(props) {
             </Grid>
             <Grid container spacing={3} className={classes.grid}>
                 {webhookTopics?.map((topic, index) => (
-                    <Grid item xs={12}>
+                    <Grid item xs={12} key={index}>
                         <Field
                             id={buildID(
                                 baseId,
@@ -132,7 +132,6 @@ export default function Webhooks(props) {
                             name={`webhook.${topic.topic}`}
                             color="primary"
                             label={t(`${topic.topic}`)}
-                            key={topic.topic}
                         />
                     </Grid>
                 ))}

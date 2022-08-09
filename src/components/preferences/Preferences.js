@@ -506,7 +506,7 @@ function Preferences(props) {
                                 ids.LOADING_PROGRESS
                             )}
                         >
-                            <Grid container justify="flex-end">
+                            <Grid container justifyContent="flex-end">
                                 <Grid item>
                                     <Button
                                         id={buildID(
@@ -566,7 +566,7 @@ function Preferences(props) {
                             <Shortcuts
                                 baseId={buildID(baseId, ids.KB_SHORTCUTS)}
                             /> */}
-                            <Grid container justify="flex-end">
+                            <Grid container justifyContent="flex-end">
                                 <Grid item>
                                     <Button
                                         id={buildID(

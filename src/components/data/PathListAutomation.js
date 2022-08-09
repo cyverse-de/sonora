@@ -215,8 +215,8 @@ export default function PathListAutomation(props) {
                 return (
                     <Form>
                         <Dialog
+                            id={baseId}
                             open={open}
-                            baseId={baseId}
                             onClose={onClose}
                             maxWidth="sm"
                             fullWidth
@@ -238,7 +238,7 @@ export default function PathListAutomation(props) {
                                 <Grid
                                     container
                                     direction="column"
-                                    justify="center"
+                                    justifyContent="center"
                                     alignItems="stretch"
                                     spacing={1}
                                 >
@@ -324,7 +324,6 @@ export default function PathListAutomation(props) {
                                             component={FormTextField}
                                             placeholder="e.g: \.csv$"
                                             variant="outlined"
-                                            dense
                                         />
                                     </Grid>
                                     <Grid item xs>
@@ -429,7 +428,7 @@ export default function PathListAutomation(props) {
                                 <Grid
                                     container
                                     direction="row"
-                                    justify="flex-end"
+                                    justifyContent="flex-end"
                                     alignItems="flex-end"
                                     spacing={1}
                                 >

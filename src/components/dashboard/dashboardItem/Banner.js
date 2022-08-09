@@ -46,7 +46,7 @@ export default function Banner(props) {
             <Grid
                 container
                 direction={isMobile ? "column" : "row"}
-                justify="space-between"
+                justifyContent="space-between"
                 alignItems="center"
                 spacing={isMobile ? 1 : 3}
             >
@@ -64,7 +64,7 @@ export default function Banner(props) {
                     <Grid
                         container
                         direction="column"
-                        justify="space-between"
+                        justifyContent="space-between"
                         alignItems="center"
                         spacing={isMobile ? 1 : 3}
                     >

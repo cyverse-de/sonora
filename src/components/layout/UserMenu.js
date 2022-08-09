@@ -73,7 +73,7 @@ export default function UserMenu(props) {
             <Grid
                 container
                 direction="column"
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
                 spacing={1}
             >
@@ -129,7 +129,7 @@ export default function UserMenu(props) {
             <Grid
                 container
                 direction="column"
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
                 spacing={1}
             >
@@ -149,7 +149,7 @@ export default function UserMenu(props) {
             <Grid
                 container
                 direction="row"
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
                 spacing={1}
             >

@@ -256,8 +256,11 @@ function AppDoc(props) {
         <>
             <Dialog
                 open={open}
-                onClose={handleClose}
-                disableBackdropClick
+                onClose={(event, reason) => {
+                    if (reason !== "backdropClick") {
+                        handleClose(event);
+                    }
+                }}
                 id={docBaseId}
                 fullScreen={isMobile}
             >

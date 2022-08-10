@@ -5,6 +5,7 @@ export default {
     APP_DESCRIPTION: "appDescription",
     APP_EDITOR_VIEW: "appEditorView",
     APP_NAME: "appName",
+    APP_VERSION: "appVersion",
     CMD_LINE_PREVIEW: "cmdLinePreview",
     DELETE_CONFIRM_DIALOG: "deleteConfirmDialog",
     GROUP: "group",

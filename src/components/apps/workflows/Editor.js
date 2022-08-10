@@ -180,7 +180,9 @@ const WorkflowEditor = (props) => {
 
     const onRedirectToEditPage = (workflow) =>
         workflow.id &&
-        router.replace(getAppEditPath(workflow.system_id, workflow.id));
+        router.replace(
+            getAppEditPath(workflow.system_id, workflow.id, workflow.version_id)
+        );
 
     const { mutate: savePipeline } = useMutation(
         ({ workflow }) => {

@@ -153,6 +153,14 @@ function addApp({ systemId, app }) {
     });
 }
 
+function addAppVersion({ systemId, appId, app }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}/versions`,
+        method: "POST",
+        body: app,
+    });
+}
+
 function deleteApp({ systemId, appId }) {
     return callApi({
         endpoint: `/api/apps/${systemId}/${appId}`,
@@ -167,17 +175,17 @@ function getAppDescription({ systemId, appId }) {
     });
 }
 
-function updateApp({ systemId, appId, app }) {
+function updateApp({ systemId, appId, versionId, app }) {
     return callApi({
-        endpoint: `/api/apps/${systemId}/${appId}`,
+        endpoint: `/api/apps/${systemId}/${appId}/versions/${versionId}`,
         method: "PUT",
         body: app,
     });
 }
 
-function updateAppLabels({ systemId, appId, app }) {
+function updateAppLabels({ systemId, appId, versionId, app }) {
     return callApi({
-        endpoint: `/api/apps/${systemId}/${appId}`,
+        endpoint: `/api/apps/${systemId}/${appId}/versions/${versionId}`,
         method: "PATCH",
         body: app,
     });
@@ -290,11 +298,16 @@ function getAppTasks({ systemId, appId }) {
     });
 }
 
-function getAppUI({ systemId, appId }) {
-    return callApi({
-        endpoint: `/api/apps/${systemId}/${appId}/ui`,
-        method: "GET",
-    });
+function getAppUI({ systemId, appId, versionId }) {
+    return versionId
+        ? callApi({
+              endpoint: `/api/apps/${systemId}/${appId}/versions/${versionId}/ui`,
+              method: "GET",
+          })
+        : callApi({
+              endpoint: `/api/apps/${systemId}/${appId}/ui`,
+              method: "GET",
+          });
 }
 
 // start of admin end-points
@@ -485,6 +498,7 @@ function adminPublishApp({ appId, systemId }) {
 
 export {
     addApp,
+    addAppVersion,
     copyApp,
     deleteApp,
     getApps,

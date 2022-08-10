@@ -50,7 +50,13 @@ const initMockAxiosForAppEditor = () => {
         const app = JSON.parse(config.data);
         console.log("Save New App", config.url, app);
 
-        return [200, { ...app, id: "new-uuid" }];
+        const resp = {
+            ...app,
+            id: app.id || "new-uuid",
+            version_id: "new-version-uuid",
+        };
+
+        return [200, resp];
     });
 
     mockAxios.onPut(/\/api\/apps\/.*/).reply((config) => {
@@ -120,6 +126,19 @@ KitchenSinkEditor.argTypes = {
             type: "boolean",
         },
     },
+};
+
+export const KitchenSinkNewVersionEditor = () => {
+    initMockAxiosForAppEditor();
+
+    const { version_id, ...appDescription } = AppDescriptionMock;
+
+    return (
+        <AppEditor
+            baseId={ids.APP_EDITOR_VIEW}
+            appDescription={appDescription}
+        />
+    );
 };
 
 export default { title: "Apps / Editor" };

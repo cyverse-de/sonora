@@ -44,6 +44,7 @@
     "copyWorkflow": "Copy Workflow",
     "create": "Create",
     "createApp": "Create App",
+    "createAppVersion": "Create Version",
     "createSavedLaunchLabel": "Create Saved Launch",
     "createWorkflow": "Create Workflow",
     "declineAuthBtnText": "Not Now",

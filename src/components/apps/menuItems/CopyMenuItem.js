@@ -44,7 +44,13 @@ function CopyMenuItem(props) {
                     text: t("appCopySuccess", { appName: app?.name }),
                     variant: SUCCESS,
                 });
-                router.push(getAppEditPath(appCopy.system_id, appCopy.id));
+                router.push(
+                    getAppEditPath(
+                        appCopy.system_id,
+                        appCopy.id,
+                        appCopy.version_id
+                    )
+                );
             },
             onError: (error) => {
                 showErrorAnnouncer(

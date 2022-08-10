@@ -35,7 +35,7 @@ export default function AppEdit() {
     const [userProfile] = useUserProfile();
 
     const router = useRouter();
-    const { systemId, appId } = router.query;
+    const { systemId, appId, versionId } = router.query;
 
     const isPublic = appListingInfo?.is_public;
     const isWorkflow = appListingInfo?.step_count > 1;
@@ -51,12 +51,13 @@ export default function AppEdit() {
     });
 
     const { isFetching: appUILoading } = useQuery({
-        queryKey: [APP_UI_QUERY_KEY, { systemId, appId }],
-        queryFn: () => getAppUI({ systemId, appId }),
+        queryKey: [APP_UI_QUERY_KEY, { systemId, appId, versionId }],
+        queryFn: () => getAppUI({ systemId, appId, versionId }),
         enabled: !!(
             userProfile?.id &&
             systemId &&
             appId &&
+            versionId &&
             appListingInfo &&
             !isWorkflow
         ),

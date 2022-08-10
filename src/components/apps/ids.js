@@ -16,6 +16,7 @@ export default {
     COPY_MENU_ITEM: "copy",
     CREATE_APP_BTN: "createAppButton",
     CREATE_APP_MENU_ITEM: "createAppMenuItem",
+    CREATE_APP_VERSION_MENU_ITEM: "createAppVersionMenuItem",
     CREATE_MENU_ITEM: "createMenuItem",
     CREATE_WORKFLOW_MENU_ITEM: "createWorkflowMenuItem",
     DIALOG: "dialog",

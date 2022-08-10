@@ -127,32 +127,6 @@ export default function appsRouter() {
         })
     );
 
-    logger.info("adding the PATCH /apps/:systemId/:appId handler");
-    api.patch(
-        "/apps/:systemId/:appId",
-        auth.authnTokenMiddleware,
-        terrainHandler({
-            method: "PATCH",
-            pathname: "/apps/:systemId/:appId",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-    );
-
-    logger.info("adding the PUT /apps/:systemId/:appId handler");
-    api.put(
-        "/apps/:systemId/:appId",
-        auth.authnTokenMiddleware,
-        terrainHandler({
-            method: "PUT",
-            pathname: "/apps/:systemId/:appId",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-    );
-
     logger.info("adding the GET /apps/:systemId/:appId/listing handler");
     api.get(
         "/apps/:systemId/:appId/listing",
@@ -246,6 +220,61 @@ export default function appsRouter() {
         terrainHandler({
             method: "GET",
             pathname: "/apps/:systemId/:appId/ui",
+        })
+    );
+
+    logger.info("adding the POST /apps/:systemId/:appId/versions handler");
+    api.post(
+        "/apps/:systemId/:appId/versions",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/apps/:systemId/:appId/versions",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info(
+        "adding the PATCH /apps/:systemId/:appId/versions/:versionId handler"
+    );
+    api.patch(
+        "/apps/:systemId/:appId/versions/:versionId",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/apps/:systemId/:appId/versions/:versionId",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info(
+        "adding the PUT /apps/:systemId/:appId/versions/:versionId handler"
+    );
+    api.put(
+        "/apps/:systemId/:appId/versions/:versionId",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PUT",
+            pathname: "/apps/:systemId/:appId/versions/:versionId",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info(
+        "adding the GET /apps/:systemId/:appId/versions/:versionId/ui handler"
+    );
+    api.get(
+        "/apps/:systemId/:appId/versions/:versionId/ui",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/:systemId/:appId/versions/:versionId/ui",
         })
     );
 

@@ -51,9 +51,21 @@ export const getSavedLaunchPath = (systemId, appId, launchId) =>
  *
  * @param {string} systemId The app's system ID.
  * @param {string} appId The app's ID.
+ * @param {string} versionId The app's version ID.
  */
-export const getAppEditPath = (systemId, appId) =>
-    `/${NavigationConstants.APPS}/${systemId}/${appId}/edit`;
+export const getAppEditPath = (systemId, appId, versionId) =>
+    `/${NavigationConstants.APPS}/${systemId}/${appId}/versions/${versionId}/edit`;
+
+/**
+ * Builds a path to the App Editor for creating a new version
+ * of the app with the given IDs.
+ *
+ * @param {string} systemId The app's system ID.
+ * @param {string} appId The app's ID.
+ * @param {string} versionId The app's version ID.
+ */
+export const getAppVersionCreatePath = (systemId, appId, versionId) =>
+    `/${NavigationConstants.APPS}/${systemId}/${appId}/versions/${versionId}/create`;
 
 /**
  *

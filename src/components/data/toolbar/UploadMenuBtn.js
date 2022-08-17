@@ -26,6 +26,8 @@ import {
     ArrowDropDown as ArrowDropDownIcon,
 } from "@material-ui/icons";
 
+import BlockIcon from "@material-ui/icons/Block";
+
 const useStyles = makeStyles(styles);
 
 function UploadMenuBtn(props) {
@@ -35,6 +37,7 @@ function UploadMenuBtn(props) {
         path,
         setUploadDialogOpen,
         setImportDialogOpen,
+        uploadsEnabled,
     } = props;
     const { t } = useTranslation("data");
     const classes = useStyles();
@@ -59,6 +62,17 @@ function UploadMenuBtn(props) {
         processSelectedFiles(files, trackAllUploads);
     };
 
+    const uploadButtonIcon = uploadsEnabled ? (
+        <>
+            <UploadIcon />
+        </>
+    ) : (
+        <>
+            <BlockIcon />
+        </>
+    );
+    const uploadButtonColor = uploadsEnabled ? "primary" : "error";
+
     return (
         <>
             <FileBrowser
@@ -70,12 +84,12 @@ function UploadMenuBtn(props) {
                 variant="outlined"
                 size="small"
                 disableElevation
-                color="primary"
+                color={uploadButtonColor}
                 className={classes.button}
                 onClick={onUploadMenuClick}
                 aria-haspopup={true}
                 aria-controls={uploadMenuId}
-                startIcon={<UploadIcon />}
+                startIcon={uploadButtonIcon}
                 endIcon={<ArrowDropDownIcon />}
             >
                 {t("upload")}

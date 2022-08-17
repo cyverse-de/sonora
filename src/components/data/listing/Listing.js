@@ -74,6 +74,12 @@ import { createDOIRequest } from "serviceFacades/doi";
 import MoveDialog from "../MoveDialog";
 import SearchForm from "components/search/form";
 
+import {
+    getResourceUsageSummary,
+    RESOURCE_USAGE_QUERY_KEY,
+} from "serviceFacades/dashboard";
+import { getUserQuota } from "components/utils/resourceUsage";
+
 function Listing(props) {
     const {
         baseId,
@@ -132,6 +138,8 @@ function Listing(props) {
     const [renameDlgOpen, setRenameDlgOpen] = useState(false);
     const [moveDlgOpen, setMoveDlgOpen] = useState(false);
     const [erroredUploadCount, setErroredUploadCount] = useState(0);
+
+    const [uploadsEnabled, setUploadsEnabled] = useState(false);
 
     const onRenameClicked = () => setRenameDlgOpen(true);
     const onRenameDlgClose = () => setRenameDlgOpen(false);
@@ -225,6 +233,24 @@ function Listing(props) {
         },
         onError: (e) => {
             showErrorAnnouncer(t("defaultMappingError"), e);
+        },
+    });
+
+    const { isFetching: isFetchingUsageSummary } = useQuery({
+        queryKey: [RESOURCE_USAGE_QUERY_KEY],
+        queryFn: getResourceUsageSummary,
+        enabled: true,
+        onSuccess: (respData) => {
+            const usage = respData?.data_usage?.total || 0;
+            const userPlan = respData?.user_plan;
+            const quota = getUserQuota(
+                globalConstants.DATA_STORAGE_RESOURCE_NAME,
+                userPlan
+            );
+            setUploadsEnabled(usage < quota);
+        },
+        onError: (e) => {
+            showErrorAnnouncer(t("usageSummaryError"), e);
         },
     });
 
@@ -590,6 +616,7 @@ function Listing(props) {
         emptyTrashStatus,
         restoreStatus,
         isFetchingDefaultsMapping,
+        isFetchingUsageSummary,
     ]);
     const localUploadId = buildID(baseId, ids.UPLOAD_MI, ids.UPLOAD_INPUT);
     return (
@@ -632,6 +659,7 @@ function Listing(props) {
                     onRefreshSelected={refreshListing}
                     onRenameSelected={onRenameClicked}
                     onMoveSelected={onMoveSelected}
+                    uploadsEnabled={uploadsEnabled}
                 />
                 {!isGridView && (
                     <TableView

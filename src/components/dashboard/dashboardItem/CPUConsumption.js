@@ -27,7 +27,7 @@ import { Typography, useTheme } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { formatDateObject } from "components/utils/DateFormatter";
 
-import { getUserQuota } from "./util";
+import { getUserQuota } from "../../utils/resourceUsage";
 
 ChartJS.register(
     CategoryScale,

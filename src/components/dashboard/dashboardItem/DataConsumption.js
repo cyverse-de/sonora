@@ -34,7 +34,7 @@ import {
 } from "components/utils/DateFormatter";
 import ExternalLink from "components/utils/ExternalLink";
 
-import { getUserQuota } from "./util";
+import { getUserQuota } from "../../utils/resourceUsage";
 
 ChartJS.register(
     CategoryScale,

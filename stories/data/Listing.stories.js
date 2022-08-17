@@ -15,6 +15,7 @@ import {
     instantLaunchSavedLaunch,
     instantLaunchGlobalSavedLaunches,
     instantLaunchSubmissionResponse,
+    usageSummaryResponse,
 } from "./DataMocksInstantLaunch";
 
 import { mockAxios } from "../axiosMock";
@@ -73,6 +74,10 @@ export const DataListingTest = () => {
     mockAxios
         .onPost(/\/api\/analyses.*/)
         .reply(200, instantLaunchSubmissionResponse);
+
+    mockAxios
+        .onGet(/\/api\/resource-usage\/summary.*/)
+        .reply(200, usageSummaryResponse);
 
     return <ListingTest />;
 };

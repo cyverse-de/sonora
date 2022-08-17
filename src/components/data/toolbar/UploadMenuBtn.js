@@ -71,7 +71,6 @@ function UploadMenuBtn(props) {
             <BlockIcon />
         </>
     );
-    const uploadButtonColor = uploadsEnabled ? "primary" : "error";
 
     return (
         <>
@@ -84,7 +83,7 @@ function UploadMenuBtn(props) {
                 variant="outlined"
                 size="small"
                 disableElevation
-                color={uploadButtonColor}
+                color="primary"
                 className={classes.button}
                 onClick={onUploadMenuClick}
                 aria-haspopup={true}

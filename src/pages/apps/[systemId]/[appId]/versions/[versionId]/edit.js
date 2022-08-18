@@ -66,9 +66,9 @@ export default function AppEdit() {
     });
 
     const { isFetching: workflowUILoading } = useQuery({
-        queryKey: [PIPELINE_UI_QUERY_KEY, { appId }],
-        queryFn: () => getPipelineUI({ appId }),
-        enabled: !!(userProfile?.id && appId && isWorkflow),
+        queryKey: [PIPELINE_UI_QUERY_KEY, { appId, versionId }],
+        queryFn: () => getPipelineUI({ appId, versionId }),
+        enabled: !!(userProfile?.id && appId && versionId && isWorkflow),
         onSuccess: setWorkflowDescription,
         onError: setLoadingError,
     });

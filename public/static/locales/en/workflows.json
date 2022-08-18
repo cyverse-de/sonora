@@ -5,6 +5,7 @@
     "confirmDeleteStepText": "This action cannot be undone.",
     "confirmDeleteStepTitle": "Delete Step?",
     "createWorkflow": "Create Workflow: {{name}}",
+    "createWorkflowVersion": "Create New Version of \"{{name}}\"",
     "disabledAppsNotAllowed": "Disabled apps can't be included in a workflow.",
     "editWorkflow": "Edit Workflow: {{name}}",
     "exitEditor": "Exit Editor",
@@ -28,5 +29,6 @@
     "workflowInfo": "Workflow Information",
     "workflowSaved": "Workflow Saved",
     "workflowSavedSuggestions": "The workflow is saved, so you can test it out by launching the workflow, or you can exit the editor now.",
-    "workflowSaveErr": "Unable to save workflow. Please try again."
+    "workflowSaveErr": "Unable to save workflow. Please try again.",
+    "workflowVersion": "Version"
 }

@@ -16,7 +16,8 @@ import { groupBy } from "common/functions";
  * @returns A workflow with steps formatted for use in the form.
  */
 export const initWorkflowValues = (appDescription) => {
-    const { steps, tasks, mappings } = appDescription || {};
+    const { steps, tasks, mappings, version, version_id } =
+        appDescription || {};
 
     // First format each task by adding a source step key to each output.
     let formattedTasks = tasks?.map((task) => ({
@@ -56,7 +57,13 @@ export const initWorkflowValues = (appDescription) => {
         // after onSubmit:
         // https://github.com/formium/formik/issues/445#issuecomment-366952762
         workflowSteps: [null, null, null, null],
+
         ...appDescription,
+
+        // If the version_id is empty, then keep the version label empty as well,
+        // to force the user to enter a new version label.
+        version: version_id ? version : "",
+
         steps:
             steps?.map((step) => ({
                 ...step,
@@ -72,7 +79,7 @@ export const initWorkflowValues = (appDescription) => {
  * @returns A workflow JSON formatted for submission to the service.
  */
 export const formatWorkflowSubmission = (workflow) => {
-    const { id, name, description, steps } = workflow;
+    const { id, name, version, version_id, description, steps } = workflow;
 
     // Build the mappings array from the formatted task inputs in each step.
     const mappings = steps
@@ -103,6 +110,8 @@ export const formatWorkflowSubmission = (workflow) => {
     return {
         id,
         name,
+        version,
+        version_id,
         description,
         mappings,
         steps: steps.map(

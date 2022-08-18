@@ -18,22 +18,29 @@ import FormMultilineTextField from "components/forms/FormMultilineTextField";
 export default function WorkflowInfo(props) {
     const { baseId, cosmeticOnly } = props;
 
-    const { t } = useTranslation("common");
+    const { t } = useTranslation(["workflows", "common"]);
 
     return (
         <>
             <FastField
                 id={buildID(baseId, ids.WORKFLOW_NAME)}
                 name="name"
-                label={t("name")}
+                label={t("common:name")}
                 required
                 component={FormTextField}
                 disabled={cosmeticOnly}
             />
             <FastField
+                id={buildID(baseId, ids.WORKFLOW_VERSION)}
+                name="version"
+                label={t("workflowVersion")}
+                required
+                component={FormTextField}
+            />
+            <FastField
                 id={buildID(baseId, ids.WORKFLOW_DESCRIPTION)}
                 name="description"
-                label={t("description")}
+                label={t("common:description")}
                 required
                 component={FormMultilineTextField}
             />

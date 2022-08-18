@@ -16,6 +16,7 @@ import {
     instantLaunchGlobalSavedLaunches,
     instantLaunchSubmissionResponse,
     usageSummaryResponse,
+    usageSummaryStorageLimitExceededResponse,
 } from "./DataMocksInstantLaunch";
 
 import { mockAxios } from "../axiosMock";
@@ -45,39 +46,77 @@ function ListingTest(props) {
     );
 }
 
-export const DataListingTest = () => {
+const DataListingTestTemplate = (args) => {
+    const {
+        pagedDirectoryResponse,
+        dataRootsResponse,
+        fileTypesResponse,
+        deletionResponse,
+        instantLaunchMappingResponse,
+        instantLaunchAppInfoResponse,
+        instantLaunchGlobalSavedLaunchesResponse,
+        instantLaunchSavedLaunchResponse,
+        instantLaunchSubmissionResponse,
+        usageSummaryResponse,
+    } = args;
+
     mockAxios
         .onGet(/\/api\/filesystem\/paged-directory.*/)
-        .reply(200, successResp);
-    mockAxios.onGet(/\/api\/filesystem\/root.*/).reply(200, dataRootsResp);
-    mockAxios.onGet(/\/api\/filetypes\/type-list/).reply(200, fileTypesResp);
-    mockAxios.onPost(/\/api\/filesystem\/delete/).reply(200, {});
+        .reply(200, pagedDirectoryResponse);
+    mockAxios.onGet(/\/api\/filesystem\/root.*/).reply(200, dataRootsResponse);
+    mockAxios
+        .onGet(/\/api\/filetypes\/type-list/)
+        .reply(200, fileTypesResponse);
 
+    mockAxios.onPost(/\/api\/filesystem\/delete/).reply(200, deletionResponse);
     mockAxios
         .onGet(/\/api\/instantlaunches\/mappings\/defaults\/latest.*/)
-        .reply(200, instantLaunchMapping);
-
+        .reply(200, instantLaunchMappingResponse);
     mockAxios
         .onGet(
             /\/api\/quicklaunches\/a4b1f851-80c0-415d-ba3c-6663432e4f7e\/app-info.*/
         )
-        .reply(200, instantLaunchAppInfo);
-
+        .reply(200, instantLaunchAppInfoResponse);
     mockAxios
         .onGet(/\/api\/quicklaunches\/defaults\/global.*/)
-        .reply(200, instantLaunchGlobalSavedLaunches);
-
+        .reply(200, instantLaunchGlobalSavedLaunchesResponse);
     mockAxios
         .onGet(/\/api\/quicklaunches\/a4b1f851-80c0-415d-ba3c-6663432e4f7e.*/)
-        .reply(200, instantLaunchSavedLaunch);
-
+        .reply(200, instantLaunchSavedLaunchResponse);
     mockAxios
         .onPost(/\/api\/analyses.*/)
         .reply(200, instantLaunchSubmissionResponse);
-
     mockAxios
         .onGet(/\/api\/resource-usage\/summary.*/)
         .reply(200, usageSummaryResponse);
 
     return <ListingTest />;
+};
+
+export const NormalListing = DataListingTestTemplate.bind({});
+NormalListing.args = {
+    pagedDirectoryResponse: successResp,
+    dataRootsResponse: dataRootsResp,
+    fileTypesResponse: fileTypesResp,
+    deletionResponse: {},
+    instantLaunchMappingResponse: instantLaunchMapping,
+    instantLaunchAppInfoResponse: instantLaunchAppInfo,
+    instantLaunchGlobalSavedLaunchesResponse: instantLaunchGlobalSavedLaunches,
+    instantLaunchSavedLaunchResponse: instantLaunchSavedLaunch,
+    instantLaunchSubmissionResponse: instantLaunchSubmissionResponse,
+    usageSummaryResponse: usageSummaryResponse,
+};
+
+export const StorageLimitExceeded = DataListingTestTemplate.bind({});
+StorageLimitExceeded.args = {
+    pagedDirectoryResponse: successResp,
+    dataRootsResponse: dataRootsResp,
+    fileTypesResponse: fileTypesResp,
+    deletionResponse: {},
+    instantLaunchMappingResponse: instantLaunchMapping,
+    instantLaunchAppInfoResponse: instantLaunchAppInfo,
+    instantLaunchGlobalSavedLaunchesResponse: instantLaunchGlobalSavedLaunches,
+    instantLaunchSavedLaunchResponse: instantLaunchSavedLaunch,
+    instantLaunchSubmissionResponse: instantLaunchSubmissionResponse,
+    usageSummaryResponse: usageSummaryStorageLimitExceededResponse,
 };

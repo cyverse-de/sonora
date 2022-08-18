@@ -16,14 +16,11 @@ import {
     instantLaunchGlobalSavedLaunches,
     instantLaunchSubmissionResponse,
     usageSummaryResponse,
+    usageSummaryStorageLimitExceededResponse,
 } from "./DataMocksInstantLaunch";
 
 import { mockAxios } from "../axiosMock";
 import constants from "../../src/constants";
-
-export default {
-    title: "Data / Listing",
-};
 
 function ListingTest(props) {
     const logger = (message) => {
@@ -45,7 +42,12 @@ function ListingTest(props) {
     );
 }
 
-export const DataListingTest = () => {
+export const DataListingTest = (props) => {
+    const { "Storage Limit Exceeded": storageLimitExceeded } = props;
+    console.log(!!storageLimitExceeded);
+    console.log(props);
+
+    mockAxios.resetHandlers();
     mockAxios
         .onGet(/\/api\/filesystem\/paged-directory.*/)
         .reply(200, successResp);
@@ -75,9 +77,25 @@ export const DataListingTest = () => {
         .onPost(/\/api\/analyses.*/)
         .reply(200, instantLaunchSubmissionResponse);
 
-    mockAxios
-        .onGet(/\/api\/resource-usage\/summary.*/)
-        .reply(200, usageSummaryResponse);
+    mockAxios.onGet(/\/api\/resource-usage\/summary.*/).reply(function (_) {
+        return [
+            200,
+            !!storageLimitExceeded
+                ? usageSummaryStorageLimitExceededResponse
+                : usageSummaryResponse,
+        ];
+    });
 
     return <ListingTest />;
+};
+
+export default {
+    title: "Data / Listing",
+    argTypes: {
+        "Storage Limit Exceeded": {
+            control: {
+                type: "boolean",
+            },
+        },
+    },
 };

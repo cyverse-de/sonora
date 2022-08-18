@@ -190,3 +190,58 @@ export const usageSummaryResponse = {
     },
     errors: [],
 };
+
+export const usageSummaryStorageLimitExceededResponse = {
+    cpu_usage: {
+        id: "daafc764-42bf-425d-83c6-dbdfed410e26",
+        user_id: "2ec78d4e-0dc3-11e8-a42f-008cfa5ae621",
+        username: "ipcdev@iplantcollaborative.org",
+        total: "1919.5484124900004782",
+        effective_start: "2022-03-01T08:38:11.717336Z",
+        effective_end: "2023-03-01T08:38:11.717336Z",
+        last_modified: "2022-08-16T15:29:50.757566Z",
+    },
+    data_usage: {
+        id: "580cbce3-c94f-4f7e-90de-f073d9088b89",
+        user_id: "2ec78d4e-0dc3-11e8-a42f-008cfa5ae621",
+        username: "ipcdev@iplantcollaborative.org",
+        total: 1261218220900000,
+        time: "2022-08-16T15:33:38.352429-07:00",
+        last_modified: "2022-08-16T15:33:38.348854-07:00",
+    },
+    user_plan: {
+        id: "3ae507e4-07d5-11ed-b0ae-008cfa5ae621",
+        effective_start_date: "2022-07-19T19:39:51.58586-07:00",
+        effective_end_date: "2023-07-19T19:39:51.58586-07:00",
+        plan: {
+            id: "cdf7ac7a-98dc-11ec-bbe3-406c8f3e9cbb",
+            name: "Pro",
+            description: "Professional plan",
+        },
+        quotas: [
+            {
+                id: "3ae561c6-07d5-11ed-b0ae-008cfa5ae621",
+                quota: 2000,
+                resource_type: {
+                    id: "99e3bc7e-950a-11ec-84a4-406c8f3e9cbb",
+                    name: "cpu.hours",
+                    description: "",
+                },
+            },
+            {
+                id: "3ae56e78-07d5-11ed-b0ae-008cfa5ae621",
+                quota: 3298534883328,
+                resource_type: {
+                    id: "99e3f91e-950a-11ec-84a4-406c8f3e9cbb",
+                    name: "data.size",
+                    description: "",
+                },
+            },
+        ],
+        users: {
+            id: "",
+            username: "",
+        },
+    },
+    errors: [],
+};

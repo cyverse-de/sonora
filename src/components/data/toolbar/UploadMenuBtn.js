@@ -16,6 +16,8 @@ import styles from "../styles";
 import { processSelectedFiles, trackUpload } from "../../uploads/UploadDrop";
 import { useUploadTrackingDispatch } from "../../../contexts/uploadTracking";
 
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
+
 import { useTranslation } from "i18n";
 
 import buildID from "components/utils/DebugIDUtil";
@@ -38,6 +40,7 @@ function UploadMenuBtn(props) {
         setUploadDialogOpen,
         setImportDialogOpen,
         uploadsEnabled,
+        showErrorAnnouncer,
     } = props;
     const { t } = useTranslation("data");
     const classes = useStyles();
@@ -49,7 +52,11 @@ function UploadMenuBtn(props) {
     };
 
     const onUploadMenuClick = (event) => {
-        setUploadAnchor(event.currentTarget);
+        if (uploadsEnabled) {
+            setUploadAnchor(event.currentTarget);
+        } else {
+            showErrorAnnouncer(t("storageLimitExceeded"));
+        }
     };
 
     const trackAllUploads = (uploadFiles) => {
@@ -126,4 +133,4 @@ function UploadMenuBtn(props) {
     );
 }
 
-export default UploadMenuBtn;
+export default withErrorAnnouncer(UploadMenuBtn);

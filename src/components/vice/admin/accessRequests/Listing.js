@@ -10,7 +10,10 @@ import React from "react";
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
+import { stableSort, getSorting } from "components/table/TableSort";
+
 import buildID from "components/utils/DebugIDUtil";
+import constants from "../../../../constants";
 
 import ids from "./ids";
 import {
@@ -75,7 +78,14 @@ function Listing(props) {
         queryKey: [ADMIN_ACCESS_REQUEST_LISTING_QUERY_KEY, { showAllRequests }],
         queryFn: () => adminRequestListing({ showAllRequests }),
         enabled: true,
-        onSuccess: setData,
+        onSuccess: (responseBody) => {
+            setData(
+                stableSort(
+                    responseBody?.requests || [],
+                    getSorting(constants.SORT_DESCENDING, "updated_date")
+                )
+            );
+        },
     });
 
     const { mutate: setLimitMutation, isLoading: limitLoading } = useMutation(
@@ -180,7 +190,7 @@ function Listing(props) {
 
                 <TableView
                     baseId={buildID(baseId, ids.REQUESTS_TABLE)}
-                    data={data?.requests || []}
+                    data={data || []}
                     onUpdateRequest={onUpdateRequest}
                     showAllRequest={showAllRequests}
                     onRequestFilterChange={handleRequestFilterChange}

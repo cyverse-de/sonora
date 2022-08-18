@@ -82,7 +82,7 @@ function Listing(props) {
             setData(
                 stableSort(
                     responseBody?.requests || [],
-                    getSorting(constants.SORT_DESCENDING, "updated_date")
+                    getSorting(constants.SORT_DESCENDING, "created_date")
                 )
             );
         },

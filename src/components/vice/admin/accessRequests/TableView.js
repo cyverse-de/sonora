@@ -60,24 +60,6 @@ export default function TableView(props) {
                 },
             },
             {
-                Header: t("requestedDate"),
-                accessor: "created_date",
-                Cell: ({ row, value }) => {
-                    return (
-                        <Typography>
-                            {formatDateObject(new Date(value))}
-                        </Typography>
-                    );
-                },
-            },
-            {
-                Header: t("useCase"),
-                accessor: "details.intended_use",
-                Cell: ({ row, value }) => {
-                    return <Typography>{value}</Typography>;
-                },
-            },
-            {
                 Header: t("approve"),
                 id: ids.APPROVE_BTN,
                 Cell: ({ row, value }) => {
@@ -129,6 +111,24 @@ export default function TableView(props) {
                             <ThumbDownIcon />
                         </IconButton>
                     );
+                },
+            },
+            {
+                Header: t("requestedDate"),
+                accessor: "created_date",
+                Cell: ({ row, value }) => {
+                    return (
+                        <Typography>
+                            {formatDateObject(new Date(value))}
+                        </Typography>
+                    );
+                },
+            },
+            {
+                Header: t("useCase"),
+                accessor: "details.intended_use",
+                Cell: ({ row, value }) => {
+                    return <Typography>{value}</Typography>;
                 },
             },
             {

@@ -3,6 +3,7 @@ export default {
     ADMIN_APPS_FILTER_FIELD: "adminAppsFilterField",
     ADMIN_APPS_SEARCH: "adminAppsSearch",
     APP_NAME: "appName",
+    APP_VERSION_SELECTION: "appVersionSelection",
     ACCESS_REQUEST_DLG: "accessRequestDlg",
     DOT_MENU: "dotMenu",
     DOCUMENTATION_DLG: "appDocDlg",

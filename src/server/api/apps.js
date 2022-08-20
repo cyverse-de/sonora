@@ -269,6 +269,18 @@ export default function appsRouter() {
     );
 
     logger.info(
+        "adding the GET /apps/:systemId/:appId/versions/:versionId/details handler"
+    );
+    api.get(
+        "/apps/:systemId/:appId/versions/:versionId/details",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/:systemId/:appId/versions/:versionId/details",
+        })
+    );
+
+    logger.info(
         "adding the GET /apps/:systemId/:appId/versions/:versionId/ui handler"
     );
     api.get(

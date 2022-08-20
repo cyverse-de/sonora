@@ -13,6 +13,7 @@ import { useQueryClient, useMutation, useQuery } from "react-query";
 import ToolsUsedPanel from "./ToolUsedPanel";
 import AppFavorite from "../AppFavorite";
 
+import VersionSelection from "components/apps/VersionSelection";
 import ids from "../../apps/ids";
 import { DETab, DETabPanel, DETabs } from "../../utils/DETabs";
 
@@ -23,10 +24,8 @@ import { getHost } from "components/utils/getHost";
 import { getAppListingLinkRefs } from "components/apps/utils";
 
 import {
-    APP_BY_ID_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     appFavorite,
-    getAppById,
     getAppDetails,
     rateApp,
 } from "serviceFacades/apps";
@@ -174,16 +173,23 @@ function DetailsSubHeader({
 
 function DetailsDrawer(props) {
     const classes = useStyles();
-    const { appId, systemId, open, onClose, onFavoriteUpdated } = props;
+    const {
+        systemId,
+        appId,
+        versionId: initialVersionId,
+        open,
+        onClose,
+        onFavoriteUpdated,
+    } = props;
 
     const { t } = useTranslation("apps");
 
+    const [versionId, setVersionId] = useState(initialVersionId);
     const [selectedApp, setSelectedApp] = useState(null);
     const [selectedTab, setSelectedTab] = useState(TABS.appInfo);
     const [detailsError, setDetailsError] = useState(null);
     const [favMutationError, setFavMutationError] = useState(null);
     const [ratingMutationError, setRatingMutationError] = useState(null);
-    const [details, setDetails] = useState(null);
 
     const onTabSelectionChange = (event, selectedTab) => {
         setSelectedTab(selectedTab);
@@ -209,32 +215,24 @@ function DetailsDrawer(props) {
     // Get QueryClient from the context
     const queryClient = useQueryClient();
 
-    const { isFetching: appByIdStatus, error: appByIdError } = useQuery({
-        queryKey: [APP_BY_ID_QUERY_KEY, { systemId, appId }],
-        queryFn: () => getAppById({ systemId, appId }),
-
-        enabled: !!appId && !!systemId,
-        onSuccess: (result) => {
-            setSelectedApp(result?.apps[0]);
-        },
-    });
-
     const { isFetching: detailsStatus } = useQuery({
         queryKey: [
             APP_DETAILS_QUERY_KEY,
             {
                 systemId,
                 appId,
+                versionId,
             },
         ],
         queryFn: () =>
             getAppDetails({
                 systemId,
                 appId,
+                versionId,
             }),
 
         enabled: !!appId && !!systemId,
-        onSuccess: setDetails,
+        onSuccess: setSelectedApp,
         onError: (e) => {
             setDetailsError(e);
             setFavMutationError(null);
@@ -247,7 +245,7 @@ function DetailsDrawer(props) {
         {
             onSuccess: () => {
                 queryClient.invalidateQueries([
-                    APP_BY_ID_QUERY_KEY,
+                    APP_DETAILS_QUERY_KEY,
                     { systemId, appId },
                 ]);
                 onFavoriteUpdated && onFavoriteUpdated(selectedApp.is_favorite);
@@ -265,7 +263,7 @@ function DetailsDrawer(props) {
         {
             onSuccess: () =>
                 queryClient.invalidateQueries([
-                    APP_BY_ID_QUERY_KEY,
+                    APP_DETAILS_QUERY_KEY,
                     { systemId, appId },
                 ]),
             onError: (e) => {
@@ -334,6 +332,16 @@ function DetailsDrawer(props) {
                     totalRating={totalRating}
                 />
             </div>
+            <div className={classes.drawerSubHeader}>
+                {!detailsStatus && selectedApp?.versions && (
+                    <VersionSelection
+                        baseId={drawerId}
+                        version_id={selectedApp?.version_id}
+                        versions={selectedApp?.versions}
+                        onChange={setVersionId}
+                    />
+                )}
+            </div>
             <DETabs value={selectedTab} onChange={onTabSelectionChange}>
                 <DETab
                     value={TABS.appInfo}
@@ -354,11 +362,11 @@ function DetailsDrawer(props) {
                 selectedTab={selectedTab}
             >
                 <DetailsPanel
-                    details={details}
+                    details={selectedApp}
                     userRating={userRating}
                     isPublic={isPublic}
                     isExternal={isExternal}
-                    detailsLoadingStatus={detailsStatus || appByIdStatus}
+                    detailsLoadingStatus={detailsStatus}
                     ratingMutationStatus={
                         ratingMutationStatus === constants.LOADING
                     }
@@ -366,7 +374,7 @@ function DetailsDrawer(props) {
                     onRatingChange={onRatingChange}
                     onDeleteRatingClick={onDeleteRating}
                     onFavoriteClick={onFavoriteClick}
-                    detailsError={detailsError || appByIdError}
+                    detailsError={detailsError}
                     favMutationError={favMutationError}
                     ratingMutationError={ratingMutationError}
                 />
@@ -377,10 +385,10 @@ function DetailsDrawer(props) {
                 selectedTab={selectedTab}
             >
                 <ToolsUsedPanel
-                    details={details}
+                    details={selectedApp}
                     baseId={drawerId}
-                    loading={detailsStatus || appByIdStatus}
-                    error={detailsError || appByIdError}
+                    loading={detailsStatus}
+                    error={detailsError}
                 />
             </DETabPanel>
         </Drawer>

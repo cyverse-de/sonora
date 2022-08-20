@@ -786,6 +786,23 @@ export const appDetails = {
     integrator_email: "rogerab@email.arizona.edu",
     wiki_url:
         "http://pods.iplantcollaborative.org/wiki/display/DEapps/Annotate+transcripts",
+    pipeline_eligibility: {
+        is_valid: true,
+        reason: "",
+    },
+    is_favorite: true,
+    beta: false,
+    permission: "read",
+    can_favor: true,
+    can_rate: true,
+    is_public: true,
+    step_count: 1,
+    can_run: true,
+    app_type: "de",
+    rating: {
+        average: 3.0,
+        total: 10,
+    },
 };
 export const appDocumentation = {
     app_id: "67d15627-22c5-42bd-8daf-9af5deecceab",

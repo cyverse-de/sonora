@@ -198,11 +198,16 @@ function copyApp({ systemId, appId, versionId }) {
     });
 }
 
-function getAppDetails({ systemId, appId }) {
-    return callApi({
-        endpoint: `/api/apps/${systemId}/${appId}/details`,
-        method: "GET",
-    });
+function getAppDetails({ systemId, appId, versionId }) {
+    return versionId
+        ? callApi({
+              endpoint: `/api/apps/${systemId}/${appId}/versions/${versionId}/details`,
+              method: "GET",
+          })
+        : callApi({
+              endpoint: `/api/apps/${systemId}/${appId}/details`,
+              method: "GET",
+          });
 }
 
 function appFavorite({ isFav, systemId, appId }) {

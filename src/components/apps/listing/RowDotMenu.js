@@ -10,6 +10,7 @@ import { useTranslation } from "i18n";
 import buildID from "components/utils/DebugIDUtil";
 import DotMenu from "components/dotMenu/DotMenu";
 
+import SystemIds from "components/models/systemId";
 import ids from "../ids";
 import { hasOwn, isReadable, isWritable } from "../utils";
 import { getHost } from "components/utils/getHost";
@@ -57,7 +58,8 @@ function RowDotMenu(props) {
 
     const canPublish = isOwner && !isAppPublic;
     const canDelete = isOwner && !isAppPublic;
-    const canCopy = isReadable(app?.permission);
+    const canCopy =
+        isReadable(app?.permission) && app?.system_id === SystemIds.de;
     const canEdit = isWritable(app?.permission);
     const canEditLabels =
         canEdit || (isAppPublic && !isWorkflow && isAppIntegrator);

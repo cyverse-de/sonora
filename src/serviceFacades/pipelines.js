@@ -29,9 +29,9 @@ function updatePipeline({ appId, versionId, workflow }) {
     });
 }
 
-function copyPipeline({ appId }) {
+function copyPipeline({ appId, versionId }) {
     return callApi({
-        endpoint: `/api/apps/pipelines/${appId}/copy`,
+        endpoint: `/api/apps/pipelines/${appId}/versions/${versionId}/copy`,
         method: "POST",
     });
 }

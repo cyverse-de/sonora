@@ -191,9 +191,9 @@ function updateAppLabels({ systemId, appId, versionId, app }) {
     });
 }
 
-function copyApp({ systemId, appId }) {
+function copyApp({ systemId, appId, versionId }) {
     return callApi({
-        endpoint: `/api/apps/${systemId}/${appId}/copy`,
+        endpoint: `/api/apps/${systemId}/${appId}/versions/${versionId}/copy`,
         method: "POST",
     });
 }

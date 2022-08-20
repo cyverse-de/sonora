@@ -16,6 +16,7 @@ import constants from "../constants";
 import SavedLaunch from "./SavedLaunch";
 
 import { getSavedLaunchPath } from "components/apps/utils";
+import SystemIds from "components/models/systemId";
 import { getHost } from "components/utils/getHost";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import GridLoading from "components/utils/GridLoading";
@@ -262,7 +263,7 @@ function ListSavedLaunches(props) {
     }
 
     if (!savedLaunches || savedLaunches.length === 0) {
-        if (systemId !== constants.AGAVE) {
+        if (systemId !== SystemIds.agave) {
             const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch`;
             const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch`;
             return (

@@ -30,7 +30,7 @@ function ListingTest(props) {
     mockAxios.onPost(/\/api\/apps\/.*\/copy/).reply((config) => {
         console.log("Copy App", config.url);
         const url = config.url.split("/");
-        return [200, { system_id: url[3], id: url[4] }];
+        return [200, { system_id: url[3], id: url[4], version_id: url[6] }];
     });
 
     mockAxios.onDelete(/\/api\/apps\/.*/).replyOnce(500, errorResponseJSON);
@@ -101,8 +101,6 @@ export const AppsListingTest = () => {
     );
 };
 
-AppsListingTest.story = {
-    parameters: {
-        chromatic: { delay: AXIOS_DELAY * 2 + 500 },
-    },
+AppsListingTest.parameters = {
+    chromatic: { delay: AXIOS_DELAY * 2 + 500 },
 };

@@ -137,19 +137,6 @@ export default function appsRouter() {
         })
     );
 
-    logger.info("adding the POST /apps/:systemId/:appId/copy handler");
-    api.post(
-        "/apps/:systemId/:appId/copy",
-        auth.authnTokenMiddleware,
-        terrainHandler({
-            method: "POST",
-            pathname: "/apps/:systemId/:appId/copy",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-    );
-
     logger.info("adding the GET /apps/:systemId/:appId/details handler");
     api.get(
         "/apps/:systemId/:appId/details",
@@ -260,6 +247,21 @@ export default function appsRouter() {
         terrainHandler({
             method: "PUT",
             pathname: "/apps/:systemId/:appId/versions/:versionId",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info(
+        "adding the POST /apps/:systemId/:appId/versions/:versionId/copy handler"
+    );
+    api.post(
+        "/apps/:systemId/:appId/versions/:versionId/copy",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/apps/:systemId/:appId/versions/:versionId/copy",
             headers: {
                 "Content-Type": "application/json",
             },

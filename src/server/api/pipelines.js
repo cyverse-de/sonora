@@ -28,19 +28,6 @@ export default function pipelinesRouter() {
         })
     );
 
-    logger.info("adding the POST /apps/pipelines/:appId/copy handler");
-    api.post(
-        "/apps/pipelines/:appId/copy",
-        auth.authnTokenMiddleware,
-        terrainHandler({
-            method: "POST",
-            pathname: "/apps/pipelines/:appId/copy",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-    );
-
     logger.info("adding the GET /apps/pipelines/:appId/ui handler");
     api.get(
         "/apps/pipelines/:appId/ui",
@@ -73,6 +60,21 @@ export default function pipelinesRouter() {
         terrainHandler({
             method: "PUT",
             pathname: "/apps/pipelines/:appId/versions/:versionId",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info(
+        "adding the POST /apps/pipelines/:appId/versions/:versionId/copy handler"
+    );
+    api.post(
+        "/apps/pipelines/:appId/versions/:versionId/copy",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/apps/pipelines/:appId/versions/:versionId/copy",
             headers: {
                 "Content-Type": "application/json",
             },

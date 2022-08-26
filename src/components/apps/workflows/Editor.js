@@ -27,6 +27,7 @@ import AppStepDisplay, {
     BottomNavigationSkeleton as StepperNavSkeleton,
 } from "../AppStepDisplay";
 
+import VersionSelection from "components/apps/VersionSelection";
 import { getAppEditPath, getAppLaunchPath } from "components/apps/utils";
 
 import BackButton from "components/utils/BackButton";
@@ -441,18 +442,41 @@ const WorkflowEditor = (props) => {
                             wrap="nowrap"
                         >
                             <BackButton dirty={dirty} />
-                            <Typography variant="h6">
-                                {t(
-                                    values.id
-                                        ? values.version_id
-                                            ? "editWorkflow"
-                                            : "createWorkflowVersion"
-                                        : "createWorkflow",
-                                    {
-                                        name: values.name,
-                                    }
+                            <Grid
+                                container
+                                direction="column"
+                                alignItems="center"
+                            >
+                                <Typography variant="h6">
+                                    {t(
+                                        values.id
+                                            ? values.version_id
+                                                ? "editWorkflow"
+                                                : "createWorkflowVersion"
+                                            : "createWorkflow",
+                                        {
+                                            name: values.name,
+                                        }
+                                    )}
+                                </Typography>
+                                {values.version_id && (
+                                    <VersionSelection
+                                        baseId={baseId}
+                                        version_id={values.version_id}
+                                        versions={values.versions}
+                                        dirty={dirty}
+                                        onChange={(versionId) =>
+                                            router.push(
+                                                getAppEditPath(
+                                                    appDescription.system_id,
+                                                    appDescription.id,
+                                                    versionId
+                                                )
+                                            )
+                                        }
+                                    />
                                 )}
-                            </Typography>
+                            </Grid>
                             <SaveButton
                                 id={buildID(baseId, ids.BUTTONS.SAVE_BTN)}
                                 type="submit"

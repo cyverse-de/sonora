@@ -62,7 +62,28 @@ const initAxiosMocks = () => {
         const pipeline = JSON.parse(config.data);
         console.log("Save New Workflow", config.url, pipeline);
 
-        return [200, workflowDescription];
+        const resp = {
+            ...workflowDescription,
+            ...pipeline,
+            id: pipeline.id || "new-uuid",
+        };
+
+        // This will allow the view to switch to the pipeline update view after
+        // a successful save.
+        if (workflowDescription.versions) {
+            // This trick will allow the new version label to be selected in the
+            // version selector in the pipeline update view.
+            resp.versions = [...workflowDescription.versions];
+            resp.version_id = workflowDescription.versions[0].version_id;
+            resp.versions[0] = {
+                ...workflowDescription.versions[0],
+                version: pipeline.version,
+            };
+        } else {
+            resp.version_id = "new-version-uuid";
+        }
+
+        return [200, resp];
     });
 
     mockAxios.onPut(/\/api\/apps\/pipelines\/.*/).reply((config) => {

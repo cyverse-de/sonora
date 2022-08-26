@@ -1,5 +1,6 @@
 /**
- * A page for displaying the App Launch Wizard for an app with the given IDs.
+ * A page for displaying the App Launch Wizard for an app's latest version,
+ * or for a saved launch.
  *
  * @author psarando
  */
@@ -9,7 +10,6 @@ import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
-import constants from "../../../../constants";
 import {
     getAppDescription,
     APP_DESCRIPTION_QUERY_KEY,
@@ -40,13 +40,6 @@ function Launch({ showErrorAnnouncer }) {
     const { t } = useTranslation("dashboard");
     const [config] = useConfig();
     const [userProfile] = useUserProfile();
-    const [appKey, setAppKey] = React.useState(APP_DESCRIPTION_QUERY_KEY);
-    const [appDescriptionQueryEnabled, setAppDescriptionQueryEnabled] =
-        React.useState(false);
-    const [
-        savedLaunchAppDescriptionQueryEnabled,
-        setSavedLaunchAppDescriptionQueryEnabled,
-    ] = React.useState(false);
     const [app, setApp] = React.useState(null);
     const [launchError, setLaunchError] = React.useState(null);
     const [viceQuota, setViceQuota] = React.useState();
@@ -61,56 +54,31 @@ function Launch({ showErrorAnnouncer }) {
     const launchId =
         router.query["saved-launch-id"] || router.query["quick-launch-id"];
 
-    React.useEffect(() => {
-        const hasIds = !!(systemId && appId);
-
-        setAppDescriptionQueryEnabled(hasIds);
-
-        if (launchId) {
-            setSavedLaunchAppDescriptionQueryEnabled(true);
-            setAppDescriptionQueryEnabled(false);
-            setAppKey([SAVED_LAUNCH_APP_INFO, { launchId }]);
-        } else if (hasIds) {
-            setSavedLaunchAppDescriptionQueryEnabled(false);
-            setAppDescriptionQueryEnabled(true);
-            setAppKey([
-                APP_DESCRIPTION_QUERY_KEY,
-                {
-                    systemId,
-                    appId,
-                },
-            ]);
-        }
-    }, [systemId, appId, launchId, setAppDescriptionQueryEnabled]);
-
-    const { status: appStatus } = useQuery({
-        queryKey: appKey,
-        queryFn: () => getAppDescription(appKey[1]),
-        enabled: appDescriptionQueryEnabled,
+    const { isFetching: appDescriptionLoading } = useQuery({
+        queryKey: [APP_DESCRIPTION_QUERY_KEY, { systemId, appId }],
+        queryFn: () => getAppDescription({ systemId, appId }),
+        enabled: !!(systemId && appId && !launchId),
         onSuccess: (resp) => {
-            if (resp?.limitChecks?.canRun || !userProfile?.id) {
+            const checks = resp?.limitChecks;
+            if (checks?.canRun || !userProfile?.id) {
                 setApp(resp);
             } else {
-                setLaunchError(resp?.limitChecks?.results[0]?.reasonCodes[0]);
-                setViceQuota(
-                    resp?.limitChecks?.results[0]?.additionalInfo?.maxJobs
-                );
-                setRunningJobs(
-                    resp?.limitChecks?.results[0]?.additionalInfo?.runningJobs
-                );
-                setHasPendingRequest(
-                    resp?.limitChecks?.results[0]?.additionalInfo
-                        ?.pendingRequest
-                );
+                const checkResults = resp?.limitChecks?.results[0];
+                const additionalInfo = checkResults?.additionalInfo;
+
+                setLaunchError(checkResults?.reasonCodes[0]);
+                setViceQuota(additionalInfo?.maxJobs);
+                setRunningJobs(additionalInfo?.runningJobs);
+                setHasPendingRequest(additionalInfo?.pendingRequest);
             }
         },
         onError: setLaunchError,
     });
 
-    const { status: savedLaunchStatus } = useQuery({
-        queryKey: appKey,
-        queryFn: () => getAppInfo(appKey[1]),
-        enabled: savedLaunchAppDescriptionQueryEnabled,
+    const { isFetching: savedLaunchLoading } = useQuery({
+        queryKey: [SAVED_LAUNCH_APP_INFO, { launchId }],
+        queryFn: () => getAppInfo({ launchId }),
+        enabled: !!launchId,
         onSuccess: setApp,
         onError: setLaunchError,
     });
@@ -134,9 +102,7 @@ function Launch({ showErrorAnnouncer }) {
     });
 
     const loading =
-        appStatus === constants.LOADING ||
-        savedLaunchStatus === constants.LOADING ||
-        fetchingUsageSummary;
+        appDescriptionLoading || savedLaunchLoading || fetchingUsageSummary;
 
     return (
         <AppLaunch

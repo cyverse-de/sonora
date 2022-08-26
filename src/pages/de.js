@@ -62,7 +62,7 @@ export default function DeLegacyRedirector() {
             break;
     }
 
-    // router can only be used client-side.
+    // router.replace can only be used client-side.
     React.useEffect(() => {
         router.replace(redirectPath);
     }, [router, redirectPath]);

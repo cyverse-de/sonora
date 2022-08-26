@@ -29,9 +29,12 @@ import Permissions, {
  *
  * @param {string} systemId The app's system ID.
  * @param {string} appId The app's ID.
+ * @param {string} versionId The app's version ID.
  */
-export const getAppLaunchPath = (systemId, appId) =>
-    `/${NavigationConstants.APPS}/${systemId}/${appId}/launch`;
+export const getAppLaunchPath = (systemId, appId, versionId) =>
+    versionId
+        ? `/${NavigationConstants.APPS}/${systemId}/${appId}/versions/${versionId}/launch`
+        : `/${NavigationConstants.APPS}/${systemId}/${appId}/launch`;
 
 /**
  * Builds a path to the App Launch Wizard for the Saved Launch with

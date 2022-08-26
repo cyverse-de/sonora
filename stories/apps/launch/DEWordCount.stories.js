@@ -49,6 +49,11 @@ export const DEWordCount = ({
 
     const app = { ...WordCountApp, deleted, disabled };
 
+    if (deleted) {
+        app.version = "deleted version";
+        app.version_id = "deleted-version-id";
+    }
+
     return (
         <AppLaunchStoryBase
             app={!loadingError && app}

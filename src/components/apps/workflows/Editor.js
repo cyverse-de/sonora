@@ -181,7 +181,13 @@ const WorkflowEditor = (props) => {
 
     const onLaunch = (workflow) =>
         workflow.id &&
-        router.push(getAppLaunchPath(workflow.system_id, workflow.id));
+        router.push(
+            getAppLaunchPath(
+                workflow.system_id,
+                workflow.id,
+                workflow.version_id
+            )
+        );
 
     const onRedirectToEditPage = (workflow) =>
         workflow.id &&

@@ -12,6 +12,12 @@ export default {
     label: "DE Word Count",
     id: "67d15627-22c5-42bd-8daf-9af5deecceab",
     app_type: "DE",
+    version: "v2",
+    version_id: "b9e1e332-0d34-11ed-ab8a-62d47aced14b",
+    versions: [
+        { version: "v2", version_id: "b9e1e332-0d34-11ed-ab8a-62d47aced14b" },
+        { version: "v1", version_id: "8a1e3b3c-0d34-11ed-8b77-62d47aced14b" },
+    ],
     groups: [
         {
             id: "741711b0-0b95-4ac9-98b4-ca58225e76be",

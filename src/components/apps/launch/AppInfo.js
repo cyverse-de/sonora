@@ -5,14 +5,17 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
+import { useRouter } from "next/router";
 import { Trans } from "react-i18next";
 
 import styles from "./styles";
 
 import { intercomShow } from "common/intercom";
 
+import VersionSelection from "components/apps/VersionSelection";
 import AppDoc from "components/apps/details/AppDoc";
 import DetailsDrawer from "components/apps/details/Drawer";
+import { getAppLaunchPath } from "components/apps/utils";
 
 import BackButton from "components/utils/BackButton";
 import DEErrorDialog from "components/error/DEErrorDialog";
@@ -141,10 +144,13 @@ const AppInfo = (props) => {
         loading,
         loadingError,
     } = props;
+
     const { t } = useTranslation("apps");
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const router = useRouter();
+
     const [detailsDrawerOpen, setDetailsDrawerOpen] = React.useState(false);
     const [docDialogOpen, setDocDialogOpen] = React.useState(false);
 
@@ -200,6 +206,36 @@ const AppInfo = (props) => {
                     {loading ? <Skeleton /> : app?.description}
                 </Typography>
             </Hidden>
+            {loading && !loadingError ? (
+                <Skeleton />
+            ) : (
+                !loadingError &&
+                app?.versions?.length > 0 && (
+                    <VersionSelection
+                        baseId={baseId}
+                        version_id={app.deleted ? "" : app.version_id}
+                        versions={app.versions}
+                        helperText={
+                            app.deleted
+                                ? t("otherVersionsAvailable", {
+                                      count: app.versions.length,
+                                  })
+                                : app.version_id !==
+                                      app.versions[0].version_id &&
+                                  t("newerVersionAvailable")
+                        }
+                        onChange={(versionId) =>
+                            router.push(
+                                getAppLaunchPath(
+                                    app.system_id,
+                                    app.id,
+                                    versionId
+                                )
+                            )
+                        }
+                    />
+                )
+            )}
             <Box m={2}>
                 {appUnavailable(
                     app,

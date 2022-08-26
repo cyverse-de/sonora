@@ -232,7 +232,8 @@ const AppEditor = (props) => {
     const onExit = () => router.back();
 
     const onLaunch = (app) =>
-        app.id && router.push(getAppLaunchPath(app.system_id, app.id));
+        app.id &&
+        router.push(getAppLaunchPath(app.system_id, app.id, app.version_id));
 
     const onRedirectToEditPage = (app) =>
         app.id &&

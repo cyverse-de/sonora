@@ -168,11 +168,16 @@ function deleteApp({ systemId, appId }) {
     });
 }
 
-function getAppDescription({ systemId, appId }) {
-    return callApi({
-        endpoint: `/api/apps/${systemId}/${appId}`,
-        method: "GET",
-    });
+function getAppDescription({ systemId, appId, versionId }) {
+    return versionId
+        ? callApi({
+              endpoint: `/api/apps/${systemId}/${appId}/versions/${versionId}`,
+              method: "GET",
+          })
+        : callApi({
+              endpoint: `/api/apps/${systemId}/${appId}`,
+              method: "GET",
+          });
 }
 
 function updateApp({ systemId, appId, versionId, app }) {

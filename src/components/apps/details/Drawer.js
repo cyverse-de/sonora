@@ -10,14 +10,16 @@ import { useTranslation } from "i18n";
 
 import { useQueryClient, useMutation, useQuery } from "react-query";
 
+import DetailsPanel from "./DetailsPanel";
+import { Documentation } from "./AppDoc";
 import ToolsUsedPanel from "./ToolUsedPanel";
 import AppFavorite from "../AppFavorite";
 
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import VersionSelection from "components/apps/VersionSelection";
 import ids from "../../apps/ids";
 import { DETab, DETabPanel, DETabs } from "../../utils/DETabs";
 
-import DetailsPanel from "./DetailsPanel";
 import constants from "../../../constants";
 
 import { getHost } from "components/utils/getHost";
@@ -52,6 +54,7 @@ import LinkIcon from "@material-ui/icons/Link";
 const TABS = {
     appInfo: "APP INFORMATION",
     toolInfo: "TOOL(S) USED BY THIS APP",
+    docs: "APP DOCS",
 };
 const useStyles = makeStyles((theme) => ({
     drawerPaper: {
@@ -190,6 +193,16 @@ function DetailsDrawer(props) {
     const [detailsError, setDetailsError] = useState(null);
     const [favMutationError, setFavMutationError] = useState(null);
     const [ratingMutationError, setRatingMutationError] = useState(null);
+    const [dirty, setDirty] = useState(false);
+    const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+
+    const handleClose = () => {
+        if (dirty) {
+            setOpenConfirmDialog(true);
+        } else {
+            onClose();
+        }
+    };
 
     const onTabSelectionChange = (event, selectedTab) => {
         setSelectedTab(selectedTab);
@@ -211,11 +224,12 @@ function DetailsDrawer(props) {
     const drawerId = ids.DETAILS_DRAWER;
     const detailsTabId = buildID(drawerId, ids.DETAILS_TAB);
     const toolInfoTabId = buildID(drawerId, ids.TOOLS_INFO_TAB);
+    const docsTabId = buildID(drawerId, ids.DOCS_TAB);
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();
 
-    const { isFetching: detailsStatus } = useQuery({
+    const { isFetching: detailsLoading } = useQuery({
         queryKey: [
             APP_DETAILS_QUERY_KEY,
             {
@@ -300,7 +314,7 @@ function DetailsDrawer(props) {
 
     return (
         <Drawer
-            onClose={onClose}
+            onClose={handleClose}
             open={open}
             anchor="right"
             PaperProps={{
@@ -333,7 +347,7 @@ function DetailsDrawer(props) {
                 />
             </div>
             <div className={classes.drawerSubHeader}>
-                {!detailsStatus && selectedApp?.versions && (
+                {!detailsLoading && selectedApp?.versions && (
                     <VersionSelection
                         baseId={drawerId}
                         version_id={selectedApp?.version_id}
@@ -355,6 +369,12 @@ function DetailsDrawer(props) {
                     id={toolInfoTabId}
                     aria-controls={buildID(toolInfoTabId, ids.PANEL)}
                 />
+                <DETab
+                    value={TABS.docs}
+                    label={t("documentation")}
+                    id={docsTabId}
+                    aria-controls={buildID(docsTabId, ids.PANEL)}
+                />
             </DETabs>
             <DETabPanel
                 tabId={detailsTabId}
@@ -366,7 +386,7 @@ function DetailsDrawer(props) {
                     userRating={userRating}
                     isPublic={isPublic}
                     isExternal={isExternal}
-                    detailsLoadingStatus={detailsStatus}
+                    detailsLoadingStatus={detailsLoading}
                     ratingMutationStatus={
                         ratingMutationStatus === constants.LOADING
                     }
@@ -387,10 +407,36 @@ function DetailsDrawer(props) {
                 <ToolsUsedPanel
                     details={selectedApp}
                     baseId={drawerId}
-                    loading={detailsStatus}
+                    loading={detailsLoading}
                     error={detailsError}
                 />
             </DETabPanel>
+            <DETabPanel
+                tabId={docsTabId}
+                value={TABS.docs}
+                selectedTab={selectedTab}
+            >
+                <Documentation
+                    baseId={drawerId}
+                    appId={appId}
+                    versionId={versionId}
+                    systemId={systemId}
+                    app={selectedApp}
+                    appLoading={detailsLoading}
+                    appError={detailsError}
+                    setDirty={setDirty}
+                />
+            </DETabPanel>
+            <ConfirmationDialog
+                open={openConfirmDialog}
+                onClose={() => setOpenConfirmDialog(false)}
+                title={t("discardChanges")}
+                contentText={t("docUnsavedPrompt")}
+                onConfirm={() => {
+                    setOpenConfirmDialog(false);
+                    onClose();
+                }}
+            />
         </Drawer>
     );
 }

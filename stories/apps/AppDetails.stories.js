@@ -1,30 +1,87 @@
 import React from "react";
-import Drawer from "../../src/components/apps/details/Drawer";
+
 import { mockAxios } from "../axiosMock";
-import { appDetails, savedLaunches } from "./AppMocks";
-import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
+import userProfileMock from "../userProfileMock";
+import { appDetails, appDocumentation, savedLaunches } from "./AppMocks";
+
+import { UploadTrackingProvider } from "contexts/uploadTracking";
+import Drawer from "components/apps/details/Drawer";
 
 export default {
     title: "Apps / Details",
 };
 
-export function DetailsDrawerTest(props) {
+export function DetailsDrawer({ docsEditable }) {
+    const appId = appDetails.id;
+
     mockAxios
-        .onGet(
-            /\/api\/apps\/de\/676846d4-854a-11e4-980d-7f0fcca75dbb\/.*details/
-        )
-        .reply(200, appDetails);
+        .onGet(new RegExp(`/api/apps/de/${appId}/.*details`))
+        .reply((config) => {
+            const url = config.url.split("/");
+            const version_id = url[6] || appDetails.version_id;
+
+            const details = {
+                ...appDetails,
+                version_id,
+                integrator_email: docsEditable
+                    ? userProfileMock.attributes.email
+                    : appDetails.integrator_email,
+            };
+
+            return [200, details];
+        });
+
     mockAxios
-        .onGet(`/api/quicklaunches/apps/676846d4-854a-11e4-980d-7f0fcca75dbb`)
+        .onGet(new RegExp(`/api/apps/de/${appId}/.*documentation`))
+        .reply((config) => {
+            const url = config.url.split("/");
+            const version_id = url[6] || appDetails.version_id;
+
+            return [
+                200,
+                {
+                    ...appDocumentation,
+                    version_id,
+                    documentation: `${version_id} documentation`,
+                },
+            ];
+        });
+
+    mockAxios
+        .onPatch(new RegExp(`/api/apps/de/${appId}/.*documentation`))
+        .reply((config) => {
+            const url = config.url.split("/");
+            const version_id = url[6] || appDetails.version_id;
+            const appDoc = JSON.parse(config.data);
+
+            return [200, { ...appDocumentation, ...appDoc, version_id }];
+        });
+
+    mockAxios
+        .onGet(`/api/quicklaunches/apps/${appId}`)
         .reply(200, savedLaunches);
+
     return (
         <UploadTrackingProvider>
             <Drawer
                 baseId="drawer"
                 open={true}
-                appId="676846d4-854a-11e4-980d-7f0fcca75dbb"
+                appId={appId}
+                versionId={appDetails.version_id}
                 systemId="de"
+                onClose={() => console.log("Drawer closed.")}
             />
         </UploadTrackingProvider>
     );
 }
+
+DetailsDrawer.args = { docsEditable: false };
+
+DetailsDrawer.argTypes = {
+    docsEditable: {
+        name: "Documentation Editable",
+        control: {
+            type: "boolean",
+        },
+    },
+};

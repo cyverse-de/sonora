@@ -5,7 +5,12 @@ import { useTranslation } from "i18n";
 import { AXIOS_DELAY, errorResponseJSON, mockAxios } from "../axiosMock";
 import userProfileMock from "../userProfileMock";
 
-import { appListing, categories } from "./AppMocks";
+import {
+    appDetails,
+    appDocumentation,
+    appListing,
+    categories,
+} from "./AppMocks";
 
 import constants from "../../src/constants";
 import appFields from "components/apps/appFields";
@@ -24,6 +29,17 @@ function ListingTest(props) {
     //Note: the params must exactly with original call made by react-query
     mockAxios.reset();
     mockAxios.onGet("/api/apps/categories?public=false").reply(200, categories);
+
+    mockAxios.onGet(/\/api\/apps\/de\/.*details/).reply(200, appDetails);
+
+    mockAxios
+        .onGet(
+            new RegExp(
+                `/api/apps/de/${appDocumentation.app_id}/.*documentation`
+            )
+        )
+        .reply(200, appDocumentation);
+
     mockAxios.onGet(/\/api\/apps*/).reply(200, appListing);
 
     mockAxios.onPost(/\/api\/apps\/.*\/copy/).replyOnce(500, errorResponseJSON);

@@ -13,7 +13,7 @@ import styles from "./styles";
 import { intercomShow } from "common/intercom";
 
 import VersionSelection from "components/apps/VersionSelection";
-import AppDoc from "components/apps/details/AppDoc";
+import AppDocDialog from "components/apps/details/AppDoc";
 import DetailsDrawer from "components/apps/details/Drawer";
 import { getAppLaunchPath } from "components/apps/utils";
 
@@ -256,9 +256,10 @@ const AppInfo = (props) => {
                 open={detailsDrawerOpen}
                 onClose={() => setDetailsDrawerOpen(false)}
             />
-            <AppDoc
+            <AppDocDialog
                 open={docDialogOpen}
                 appId={app?.id}
+                versionId={app?.version_id}
                 systemId={app?.system_id}
                 name={app?.name}
                 onClose={() => setDocDialogOpen(false)}

@@ -76,6 +76,7 @@ module.exports = withBundleAnalyzer({
         GROUPER_ALL_USERS: config.get("grouper.allUsers"),
         GROUPER_ADMIN: config.get("grouper.admin"),
         SUBSCRIPTIONS_CHECKOUT_URL: config.get("subscriptions.checkout_url"),
+        SUBSCRIPTIONS_ENFORCE: config.get("subscriptions.enforce"),
         LEGACY_DE_URL: config.get("legacy_de_url"),
         USERNAME_SUFFIX: config.get("username.suffix"),
         USER_PORTAL_URL: config.get("user_portal_url"),

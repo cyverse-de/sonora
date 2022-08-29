@@ -74,6 +74,8 @@ import { createDOIRequest } from "serviceFacades/doi";
 import MoveDialog from "../MoveDialog";
 import SearchForm from "components/search/form";
 
+import { useConfig } from "contexts/config";
+
 import {
     getResourceUsageSummary,
     RESOURCE_USAGE_QUERY_KEY,
@@ -98,6 +100,8 @@ function Listing(props) {
         toolbarVisibility = true,
         rowDotMenuVisibility = true,
     } = props;
+    const [config] = useConfig();
+
     const { t } = useTranslation("data");
 
     const uploadTracker = useUploadTrackingState();
@@ -139,7 +143,9 @@ function Listing(props) {
     const [moveDlgOpen, setMoveDlgOpen] = useState(false);
     const [erroredUploadCount, setErroredUploadCount] = useState(0);
 
-    const [uploadsEnabled, setUploadsEnabled] = useState(false);
+    const [uploadsEnabled, setUploadsEnabled] = useState(
+        !config?.subscriptions?.enforce
+    );
 
     const onRenameClicked = () => setRenameDlgOpen(true);
     const onRenameDlgClose = () => setRenameDlgOpen(false);
@@ -239,7 +245,7 @@ function Listing(props) {
     const { isFetching: isFetchingUsageSummary } = useQuery({
         queryKey: [RESOURCE_USAGE_QUERY_KEY],
         queryFn: getResourceUsageSummary,
-        enabled: true,
+        enabled: !!config?.subscriptions?.enforce,
         onSuccess: (respData) => {
             const usage = respData?.data_usage?.total || 0;
             const userPlan = respData?.user_plan;

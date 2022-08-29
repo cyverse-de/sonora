@@ -45,5 +45,6 @@ export default {
     subscriptions: {
         checkout_url:
             "https://cyverse-subscription-sandbox.phoenixbioinformatics.org",
+        enforce: true,
     },
 };

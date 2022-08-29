@@ -41,7 +41,7 @@ const setupEvent = (event) => {
 const UploadDropTarget = (props) => {
     const uploadDispatch = useUploadTrackingDispatch();
     const [dragCounter, setDragCounter] = useState(0);
-    const { children, path } = props;
+    const { children, path, uploadsEnabled } = props;
 
     const trackAllUploads = (uploadFiles) =>
         uploadFiles.forEach((aFile) => {
@@ -75,7 +75,9 @@ const UploadDropTarget = (props) => {
     const handleDrop = (event) => {
         setupEvent(event);
         setDragCounter(0);
-        processDroppedFiles(event.dataTransfer.items, trackAllUploads);
+        if (uploadsEnabled) {
+            processDroppedFiles(event.dataTransfer.items, trackAllUploads);
+        }
     };
 
     return (

@@ -622,7 +622,7 @@ function Listing(props) {
     return (
         <>
             {render && render(selected.length, getSelectedResources)}
-            <UploadDropTarget path={path}>
+            <UploadDropTarget path={path} uploadsEnabled={uploadsEnabled}>
                 <DataToolbar
                     path={path}
                     selected={selected}

@@ -91,7 +91,7 @@ function UploadMenuBtn(props) {
                 onClick={onUploadMenuClick}
                 aria-haspopup={true}
                 aria-controls={uploadMenuId}
-                startIcon={uploadButtonIcon}
+                startIcon={<UploadMenuButtonIcon />}
                 endIcon={<ArrowDropDownIcon />}
             >
                 {t("upload")}

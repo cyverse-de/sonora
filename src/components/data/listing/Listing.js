@@ -74,6 +74,14 @@ import { createDOIRequest } from "serviceFacades/doi";
 import MoveDialog from "../MoveDialog";
 import SearchForm from "components/search/form";
 
+import { useConfig } from "contexts/config";
+
+import {
+    getResourceUsageSummary,
+    RESOURCE_USAGE_QUERY_KEY,
+} from "serviceFacades/dashboard";
+import { getUserQuota } from "components/utils/resourceUsage";
+
 function Listing(props) {
     const {
         baseId,
@@ -92,6 +100,8 @@ function Listing(props) {
         toolbarVisibility = true,
         rowDotMenuVisibility = true,
     } = props;
+    const [config] = useConfig();
+
     const { t } = useTranslation("data");
 
     const uploadTracker = useUploadTrackingState();
@@ -132,6 +142,10 @@ function Listing(props) {
     const [renameDlgOpen, setRenameDlgOpen] = useState(false);
     const [moveDlgOpen, setMoveDlgOpen] = useState(false);
     const [erroredUploadCount, setErroredUploadCount] = useState(0);
+
+    const [uploadsEnabled, setUploadsEnabled] = useState(
+        !config?.subscriptions?.enforce
+    );
 
     const onRenameClicked = () => setRenameDlgOpen(true);
     const onRenameDlgClose = () => setRenameDlgOpen(false);
@@ -225,6 +239,24 @@ function Listing(props) {
         },
         onError: (e) => {
             showErrorAnnouncer(t("defaultMappingError"), e);
+        },
+    });
+
+    const { isFetching: isFetchingUsageSummary } = useQuery({
+        queryKey: [RESOURCE_USAGE_QUERY_KEY],
+        queryFn: getResourceUsageSummary,
+        enabled: !!config?.subscriptions?.enforce,
+        onSuccess: (respData) => {
+            const usage = respData?.data_usage?.total || 0;
+            const userPlan = respData?.user_plan;
+            const quota = getUserQuota(
+                globalConstants.DATA_STORAGE_RESOURCE_NAME,
+                userPlan
+            );
+            setUploadsEnabled(usage < quota);
+        },
+        onError: (e) => {
+            showErrorAnnouncer(t("usageSummaryError"), e);
         },
     });
 
@@ -590,12 +622,13 @@ function Listing(props) {
         emptyTrashStatus,
         restoreStatus,
         isFetchingDefaultsMapping,
+        isFetchingUsageSummary,
     ]);
     const localUploadId = buildID(baseId, ids.UPLOAD_MI, ids.UPLOAD_INPUT);
     return (
         <>
             {render && render(selected.length, getSelectedResources)}
-            <UploadDropTarget path={path}>
+            <UploadDropTarget path={path} uploadsEnabled={uploadsEnabled}>
                 <DataToolbar
                     path={path}
                     selected={selected}
@@ -632,6 +665,7 @@ function Listing(props) {
                     onRefreshSelected={refreshListing}
                     onRenameSelected={onRenameClicked}
                     onMoveSelected={onMoveSelected}
+                    uploadsEnabled={uploadsEnabled}
                 />
                 {!isGridView && (
                     <TableView

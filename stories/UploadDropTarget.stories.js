@@ -24,15 +24,15 @@ fetchMock.restore().post(/\/api\/upload\/?\??.*/, {
     },
 });
 
-export const UploadDropTargetTest = ({ children }) => {
+export const UploadDropTargetTest = ({ uploadsEnabled }) => {
     return (
         <UploadTrackingProvider>
-            <UnwrappedTest />
+            <UnwrappedTest uploadsEnabled={uploadsEnabled} />
         </UploadTrackingProvider>
     );
 };
 
-const UnwrappedTest = () => {
+const UnwrappedTest = ({ uploadsEnabled }) => {
     const [uploadsCompleted, setUploadsCompleted] = useState(0);
     const uploadState = useUploadTrackingState();
 
@@ -62,6 +62,7 @@ const UnwrappedTest = () => {
             <UploadDropTarget
                 path="/iplant/home/ipcdev/"
                 uploadCompletedCB={incrementCompleted}
+                uploadsEnabled={uploadsEnabled}
             >
                 <DataTableViewTest />
             </UploadDropTarget>
@@ -71,6 +72,19 @@ const UnwrappedTest = () => {
             UploadsTracked: {uploadState.uploads.length}
         </>
     );
+};
+
+UploadDropTargetTest.argTypes = {
+    uploadsEnabled: {
+        name: "Uploads Enabled",
+        control: {
+            type: "boolean",
+        },
+    },
+};
+
+UploadDropTargetTest.args = {
+    uploadsEnabled: true,
 };
 
 export default {

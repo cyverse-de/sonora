@@ -159,6 +159,7 @@
     "showSplitView": "Show Split View",
     "showLineNumbers": "Line Numbers",
     "splitVisibility": "Panel Visibility",
+    "storageLimitExceeded": "You have exceeded your storage limit. Please purchase a storage subscription or clean up unneeded data before uploading more files.",
     "suggestionSelection_any_plural": "Select resources",
     "syntaxHighlighterMode": "Mode",
     "tableView": "Table View",

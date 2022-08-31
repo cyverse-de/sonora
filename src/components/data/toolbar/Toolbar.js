@@ -76,6 +76,7 @@ function DataToolbar(props) {
         onRenameSelected,
         onMoveSelected,
         onAdvancedDataSearchSelected,
+        uploadsEnabled,
     } = props;
 
     const { t } = useTranslation("data");
@@ -158,6 +159,7 @@ function DataToolbar(props) {
                                     path={path}
                                     setUploadDialogOpen={setUploadDialogOpen}
                                     setImportDialogOpen={setImportDialogOpen}
+                                    uploadsEnabled={uploadsEnabled}
                                 />
                             </>
                         )}

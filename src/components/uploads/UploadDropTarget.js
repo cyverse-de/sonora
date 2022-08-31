@@ -7,8 +7,10 @@
  */
 
 import React, { useState } from "react";
+import { useTranslation } from "i18n";
 import { processDroppedFiles, trackUpload } from "./UploadDrop";
 import { useUploadTrackingDispatch } from "../../contexts/uploadTracking";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import PropTypes from "prop-types";
 
 /**
@@ -41,7 +43,8 @@ const setupEvent = (event) => {
 const UploadDropTarget = (props) => {
     const uploadDispatch = useUploadTrackingDispatch();
     const [dragCounter, setDragCounter] = useState(0);
-    const { children, path } = props;
+    const { children, path, uploadsEnabled, showErrorAnnouncer } = props;
+    const { t } = useTranslation("data");
 
     const trackAllUploads = (uploadFiles) =>
         uploadFiles.forEach((aFile) => {
@@ -75,7 +78,11 @@ const UploadDropTarget = (props) => {
     const handleDrop = (event) => {
         setupEvent(event);
         setDragCounter(0);
-        processDroppedFiles(event.dataTransfer.items, trackAllUploads);
+        if (uploadsEnabled) {
+            processDroppedFiles(event.dataTransfer.items, trackAllUploads);
+        } else {
+            showErrorAnnouncer(t("storageLimitExceeded"));
+        }
     };
 
     return (
@@ -101,4 +108,4 @@ UploadDropTarget.propTypes = {
     path: PropTypes.string.isRequired,
 };
 
-export default UploadDropTarget;
+export default withErrorAnnouncer(UploadDropTarget);

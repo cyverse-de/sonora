@@ -16,6 +16,8 @@ import styles from "../styles";
 import { processSelectedFiles, trackUpload } from "../../uploads/UploadDrop";
 import { useUploadTrackingDispatch } from "../../../contexts/uploadTracking";
 
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
+
 import { useTranslation } from "i18n";
 
 import buildID from "components/utils/DebugIDUtil";
@@ -26,6 +28,8 @@ import {
     ArrowDropDown as ArrowDropDownIcon,
 } from "@material-ui/icons";
 
+import BlockIcon from "@material-ui/icons/Block";
+
 const useStyles = makeStyles(styles);
 
 function UploadMenuBtn(props) {
@@ -35,6 +39,8 @@ function UploadMenuBtn(props) {
         path,
         setUploadDialogOpen,
         setImportDialogOpen,
+        uploadsEnabled,
+        showErrorAnnouncer,
     } = props;
     const { t } = useTranslation("data");
     const classes = useStyles();
@@ -46,7 +52,11 @@ function UploadMenuBtn(props) {
     };
 
     const onUploadMenuClick = (event) => {
-        setUploadAnchor(event.currentTarget);
+        if (uploadsEnabled) {
+            setUploadAnchor(event.currentTarget);
+        } else {
+            showErrorAnnouncer(t("storageLimitExceeded"));
+        }
     };
 
     const trackAllUploads = (uploadFiles) => {
@@ -58,6 +68,8 @@ function UploadMenuBtn(props) {
     const handleUploadFiles = (files) => {
         processSelectedFiles(files, trackAllUploads);
     };
+
+    const UploadMenuButtonIcon = uploadsEnabled ? UploadIcon : BlockIcon;
 
     return (
         <>
@@ -75,7 +87,7 @@ function UploadMenuBtn(props) {
                 onClick={onUploadMenuClick}
                 aria-haspopup={true}
                 aria-controls={uploadMenuId}
-                startIcon={<UploadIcon />}
+                startIcon={<UploadMenuButtonIcon />}
                 endIcon={<ArrowDropDownIcon />}
             >
                 {t("upload")}
@@ -113,4 +125,4 @@ function UploadMenuBtn(props) {
     );
 }
 
-export default UploadMenuBtn;
+export default withErrorAnnouncer(UploadMenuBtn);

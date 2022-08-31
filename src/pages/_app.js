@@ -205,6 +205,7 @@ function MyApp({ Component, pageProps }) {
 
         const subscriptions = {
             checkout_url: publicRuntimeConfig.SUBSCRIPTIONS_CHECKOUT_URL,
+            enforce: publicRuntimeConfig.SUBSCRIPTIONS_ENFORCE,
         };
 
         const legacyDeUrl = publicRuntimeConfig.LEGACY_DE_URL;

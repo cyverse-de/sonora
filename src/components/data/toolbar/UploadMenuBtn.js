@@ -69,11 +69,7 @@ function UploadMenuBtn(props) {
         processSelectedFiles(files, trackAllUploads);
     };
 
-    const uploadButtonIcon = uploadsEnabled ? (
-        <UploadIcon />
-    ) : (
-        <BlockIcon />
-    );
+    const UploadMenuButtonIcon = uploadsEnabled ? UploadIcon : BlockIcon;
 
     return (
         <>

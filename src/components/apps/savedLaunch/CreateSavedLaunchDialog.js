@@ -84,7 +84,8 @@ function CreateSavedLaunchDialog(props) {
                 initialValues={{ name: "", description: "", is_public: false }}
                 enableReinitialize={true}
                 onSubmit={handleSubmit}
-                render={({ isSubmitting }) => (
+            >
+                {({ isSubmitting }) => (
                     <Form>
                         <DialogContent>
                             <Field
@@ -145,7 +146,7 @@ function CreateSavedLaunchDialog(props) {
                         </DialogActions>
                     </Form>
                 )}
-            />
+            </Formik>
         </Dialog>
     );
 }

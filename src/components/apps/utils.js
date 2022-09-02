@@ -243,3 +243,16 @@ export const formatAppDoc = (
     console.log("Doc=>" + doc);
     return doc;
 };
+
+export const appUnavailable = (
+    app,
+    hasDeprecatedParams,
+    computeLimitExceeded
+) => {
+    return (
+        app?.deleted ||
+        app?.disabled ||
+        hasDeprecatedParams ||
+        computeLimitExceeded
+    );
+};

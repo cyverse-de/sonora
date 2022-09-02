@@ -9,6 +9,7 @@
     "appLoadingError": "Unable to load App. Please try again later.",
     "appParamsDeprecated": "This application uses 1 or more parameters that have been deprecated. If you still need access to this application, please <support>contact support</support>.",
     "appUnavailable": "This app is temporarily unavailable.",
+    "computeLimitExceeded": "You have exceeded your compute limit. If you would like to run more analyses, please <buy>purchase a subscription</buy>.",
     "back": "Back",
     "browse": "Browse",
     "clearInput": "Clear Input",

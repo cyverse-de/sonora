@@ -80,7 +80,7 @@ import {
     getResourceUsageSummary,
     RESOURCE_USAGE_QUERY_KEY,
 } from "serviceFacades/dashboard";
-import { getUserQuota } from "components/utils/resourceUsage";
+import { getUserQuota } from "common/resourceUsage";
 
 function Listing(props) {
     const {

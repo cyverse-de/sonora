@@ -37,6 +37,10 @@ import { Info, MenuBook } from "@material-ui/icons";
 
 import { Skeleton } from "@material-ui/lab";
 
+import { appUnavailable } from "../utils";
+
+import { useConfig } from "contexts/config";
+
 const useStyles = makeStyles(styles);
 
 const LoadingErrorDisplay = ({ baseId, loadingError }) => {
@@ -60,9 +64,16 @@ const LoadingErrorDisplay = ({ baseId, loadingError }) => {
     );
 };
 
-const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
+const UnavailableMsg = ({
+    app,
+    hasDeprecatedParams,
+    computeLimitExceeded,
+    baseId,
+}) => {
     let message = "";
     const { t } = useTranslation("launch");
+    const [config] = useConfig();
+
     if (app?.deleted) {
         message = (
             <Trans
@@ -97,6 +108,28 @@ const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
                 }}
             />
         );
+    } else if (computeLimitExceeded) {
+        console.log("formatting the message");
+        message = (
+            <Trans
+                t={t}
+                i18nKey="computeLimitExceeded"
+                components={{
+                    buy: (
+                        <Link
+                            id={buildID(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
+                            component="button"
+                            onClick={() => {
+                                window.open(
+                                    config?.subscriptions?.checkout_url,
+                                    "_blank"
+                                );
+                            }}
+                        />
+                    ),
+                }}
+            />
+        );
     }
 
     return (
@@ -107,7 +140,14 @@ const UnavailableMsg = ({ app, hasDeprecatedParams, baseId }) => {
 };
 
 const AppInfo = (props) => {
-    const { app, baseId, hasDeprecatedParams, loading, loadingError } = props;
+    const {
+        app,
+        baseId,
+        hasDeprecatedParams,
+        computeLimitExceeded,
+        loading,
+        loadingError,
+    } = props;
     const { t } = useTranslation("apps");
     const classes = useStyles();
     const theme = useTheme();
@@ -168,10 +208,15 @@ const AppInfo = (props) => {
                 </Typography>
             </Hidden>
             <Box m={2}>
-                {(app?.deleted || app?.disabled || hasDeprecatedParams) && (
+                {appUnavailable(
+                    app,
+                    hasDeprecatedParams,
+                    computeLimitExceeded
+                ) && (
                     <UnavailableMsg
                         app={app}
                         hasDeprecatedParams={hasDeprecatedParams}
+                        computeLimitExceeded={computeLimitExceeded}
                         baseId={baseId}
                     />
                 )}

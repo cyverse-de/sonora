@@ -3,7 +3,7 @@
  *
  * @description utility functions for use in multiple dashboard item components.
  */
-import constants from "../../constants";
+import constants from "../constants";
 
 // A map from resource type name to default storage limit. The default values should never be used, but it's
 // helpful to have them in case we encounter a case where the user plan information doesn't contain a quota for

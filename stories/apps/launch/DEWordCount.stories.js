@@ -138,6 +138,7 @@ DEWordCount.argTypes = {
 DEWordCount.args = {
     deleted: false,
     disabled: false,
+    computeLimitExceeded: false,
     loading: false,
     loadingError: false,
     submissionError: false,

@@ -102,7 +102,7 @@ function Listing(props) {
     } = props;
     const [config] = useConfig();
 
-    const { t } = useTranslation("data");
+    const { t } = useTranslation(["data", "dashboard"]);
 
     const uploadTracker = useUploadTrackingState();
     const theme = useTheme();

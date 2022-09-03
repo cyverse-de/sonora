@@ -36,5 +36,4 @@ export default {
     ADD_LISTING: "addToListing",
     RM_LISTING: "removeFromListing",
     ADD_NAV_DRAWER: "addToDrawer",
-    INSTANT_LAUNCH_BUTTON: "instantLaunchButton",
 };

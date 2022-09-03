@@ -146,6 +146,9 @@ function Listing(props) {
     const [uploadsEnabled, setUploadsEnabled] = useState(
         !config?.subscriptions?.enforce
     );
+    const [computeLimitExceeded, setComputeLimitExceeded] = useState(
+        !!config?.subscriptions?.enforce
+    );
 
     const onRenameClicked = () => setRenameDlgOpen(true);
     const onRenameDlgClose = () => setRenameDlgOpen(false);
@@ -247,13 +250,19 @@ function Listing(props) {
         queryFn: getResourceUsageSummary,
         enabled: !!config?.subscriptions?.enforce,
         onSuccess: (respData) => {
-            const usage = respData?.data_usage?.total || 0;
+            const dataUsage = respData?.data_usage?.total || 0;
+            const computeUsage = respData?.cpu_usage?.total || 0;
             const userPlan = respData?.user_plan;
-            const quota = getUserQuota(
+            const storageQuota = getUserQuota(
                 globalConstants.DATA_STORAGE_RESOURCE_NAME,
                 userPlan
             );
-            setUploadsEnabled(usage < quota);
+            const computeQuota = getUserQuota(
+                globalConstants.CPU_HOURS_RESOURCE_NAME,
+                userPlan
+            );
+            setUploadsEnabled(dataUsage < storageQuota);
+            setComputeLimitExceeded(computeUsage >= computeQuota);
         },
         onError: (e) => {
             showErrorAnnouncer(t("usageSummaryError"), e);
@@ -697,6 +706,7 @@ function Listing(props) {
                         instantLaunchDefaultsMapping={
                             instantLaunchDefaultsMapping
                         }
+                        computeLimitExceeded={computeLimitExceeded}
                     />
                 )}
                 {isGridView && <span>Coming Soon!</span>}

@@ -23,13 +23,10 @@ import { instantlyLaunch } from "serviceFacades/instantlaunches";
 import { useTranslation } from "i18n";
 import { Trans } from "react-i18next";
 import { Link } from "@material-ui/core";
-import buildID from "components/utils/DebugIDUtil";
-import ids from "./ids";
 import { useConfig } from "contexts/config";
 
 function InstantLaunchButtonWrapper(props) {
     const {
-        key,
         instantLaunch,
         computeLimitExceeded,
         resource = {},
@@ -87,7 +84,6 @@ function InstantLaunchButtonWrapper(props) {
                         components={{
                             buy: (
                                 <Link
-                                    id={buildID(ids.INSTANT_LAUNCH_BUTTON, key)}
                                     component="button"
                                     onClick={() => {
                                         window.open(

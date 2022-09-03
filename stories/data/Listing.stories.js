@@ -17,6 +17,7 @@ import {
     instantLaunchSubmissionResponse,
     usageSummaryResponse,
     usageSummaryStorageLimitExceededResponse,
+    usageSummaryComputeLimitExceededResponse,
 } from "./DataMocksInstantLaunch";
 
 import { mockAxios } from "../axiosMock";
@@ -119,4 +120,18 @@ StorageLimitExceeded.args = {
     instantLaunchSavedLaunchResponse: instantLaunchSavedLaunch,
     instantLaunchSubmissionResponse: instantLaunchSubmissionResponse,
     usageSummaryResponse: usageSummaryStorageLimitExceededResponse,
+};
+
+export const ComputeLimitExceeded = DataListingTestTemplate.bind({});
+ComputeLimitExceeded.args = {
+    pagedDirectoryResponse: successResp,
+    dataRootsResponse: dataRootsResp,
+    fileTypesResponse: fileTypesResp,
+    deletionResponse: {},
+    instantLaunchMappingResponse: instantLaunchMapping,
+    instantLaunchAppInfoResponse: instantLaunchAppInfo,
+    instantLaunchGlobalSavedLaunchesResponse: instantLaunchGlobalSavedLaunches,
+    instantLaunchSavedLaunchResponse: instantLaunchSavedLaunch,
+    instantLaunchSubmissionResponse: instantLaunchSubmissionResponse,
+    usageSummaryResponse: usageSummaryComputeLimitExceededResponse,
 };

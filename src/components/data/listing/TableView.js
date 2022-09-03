@@ -152,6 +152,7 @@ function TableView(props) {
         onRenameSelected,
         onMoveSelected,
         instantLaunchDefaultsMapping,
+        computeLimitExceeded,
     } = props;
     const invalidRowClass = invalidRowStyles();
     const { t } = useTranslation("data");
@@ -403,6 +404,9 @@ function TableView(props) {
                                                     size="small"
                                                     color="default"
                                                     themeSpacing={3}
+                                                    computeLimitExceeded={
+                                                        computeLimitExceeded
+                                                    }
                                                 />
                                             )}
                                         </TableCell>

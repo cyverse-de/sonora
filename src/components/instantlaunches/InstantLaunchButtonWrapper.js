@@ -20,15 +20,31 @@ import constants from "constants.js";
 import { useUserProfile } from "contexts/userProfile";
 import { InstantLaunchSubmissionDialog } from "./index";
 import { instantlyLaunch } from "serviceFacades/instantlaunches";
+import { useTranslation } from "i18n";
+import { Trans } from "react-i18next";
+import { Link } from "@material-ui/core";
+import buildID from "components/utils/DebugIDUtil";
+import ids from "./ids";
+import { useConfig } from "contexts/config";
 
 function InstantLaunchButtonWrapper(props) {
-    const { instantLaunch, resource = {}, render, showErrorAnnouncer } = props;
+    const {
+        key,
+        instantLaunch,
+        computeLimitExceeded,
+        resource = {},
+        render,
+        showErrorAnnouncer,
+    } = props;
+    const [config] = useConfig();
     const output_dir = useDefaultOutputDir();
     const [userProfile] = useUserProfile();
 
     const [open, setOpen] = React.useState(false);
     const [signInDlgOpen, setSignInDlgOpen] = React.useState(false);
     const [ilUrl, setIlUrl] = React.useState();
+
+    const { t } = useTranslation("launch");
 
     React.useEffect(() => {
         if (ilUrl) {
@@ -63,8 +79,32 @@ function InstantLaunchButtonWrapper(props) {
 
     const onClick = () => {
         if (userProfile?.id) {
-            setOpen(true);
-            launch({ instantLaunch, resource, output_dir });
+            if (computeLimitExceeded) {
+                const msg = (
+                    <Trans
+                        t={t}
+                        i18nKey="computeLimitExceeded"
+                        components={{
+                            buy: (
+                                <Link
+                                    id={buildID(ids.INSTANT_LAUNCH_BUTTON, key)}
+                                    component="button"
+                                    onClick={() => {
+                                        window.open(
+                                            config?.subscriptions?.checkout_url,
+                                            "_blank"
+                                        );
+                                    }}
+                                />
+                            ),
+                        }}
+                    />
+                );
+                showErrorAnnouncer(msg);
+            } else {
+                setOpen(true);
+                launch({ instantLaunch, resource, output_dir });
+            }
         } else {
             setSignInDlgOpen(true);
         }

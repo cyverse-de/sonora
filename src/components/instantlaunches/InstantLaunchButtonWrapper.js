@@ -74,29 +74,30 @@ function InstantLaunchButtonWrapper(props) {
         },
     });
 
+    const computeLimitExceededMsg = (
+        <Trans
+            t={t}
+            i18nKey="computeLimitExceeded"
+            components={{
+                buy: (
+                    <Link
+                        component="button"
+                        onClick={() => {
+                            window.open(
+                                config?.subscriptions?.checkout_url,
+                                "_blank"
+                            );
+                        }}
+                    />
+                ),
+            }}
+        />
+    );
+
     const onClick = () => {
         if (userProfile?.id) {
             if (computeLimitExceeded) {
-                const msg = (
-                    <Trans
-                        t={t}
-                        i18nKey="computeLimitExceeded"
-                        components={{
-                            buy: (
-                                <Link
-                                    component="button"
-                                    onClick={() => {
-                                        window.open(
-                                            config?.subscriptions?.checkout_url,
-                                            "_blank"
-                                        );
-                                    }}
-                                />
-                            ),
-                        }}
-                    />
-                );
-                showErrorAnnouncer(msg);
+                showErrorAnnouncer(computeLimitExceededMsg);
             } else {
                 setOpen(true);
                 launch({ instantLaunch, resource, output_dir });

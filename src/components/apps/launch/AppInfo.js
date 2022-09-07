@@ -109,7 +109,6 @@ const UnavailableMsg = ({
             />
         );
     } else if (computeLimitExceeded) {
-        console.log("formatting the message");
         message = (
             <Trans
                 t={t}

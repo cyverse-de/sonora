@@ -8,6 +8,7 @@ import React from "react";
 
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
+import { useTranslation } from "i18n";
 
 import constants from "../../../constants";
 import {
@@ -15,10 +16,20 @@ import {
     ANALYSIS_RELAUNCH_QUERY_KEY,
 } from "serviceFacades/analyses";
 
+import {
+    getResourceUsageSummary,
+    RESOURCE_USAGE_QUERY_KEY,
+} from "serviceFacades/dashboard";
+import { useConfig } from "contexts/config";
+import { getUserQuota } from "../../../common/resourceUsage";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
+
 import AppLaunch from "components/apps/launch";
 import { useUserProfile } from "contexts/userProfile";
 
-const Relaunch = () => {
+const Relaunch = ({ showErrorAnnouncer }) => {
+    const { t } = useTranslation("dashboard");
+    const [config] = useConfig();
     const [userProfile] = useUserProfile();
     const [relaunchKey, setRelaunchKey] = React.useState(
         ANALYSIS_RELAUNCH_QUERY_KEY
@@ -31,6 +42,9 @@ const Relaunch = () => {
     const [viceQuota, setViceQuota] = React.useState();
     const [runningJobs, setRunningJobs] = React.useState();
     const [hasPendingRequest, setHasPendingRequest] = React.useState();
+    const [computeLimitExceeded, setComputeLimitExceeded] = React.useState(
+        !!config?.subscriptions?.enforce
+    );
 
     const router = useRouter();
     const { analysisId } = router.query;
@@ -72,7 +86,26 @@ const Relaunch = () => {
         onError: setRelaunchError,
     });
 
-    const loading = relaunchStatus === constants.LOADING;
+    const { isFetching: fetchingUsageSummary } = useQuery({
+        queryKey: [RESOURCE_USAGE_QUERY_KEY],
+        queryFn: getResourceUsageSummary,
+        enabled: !!config?.subscriptions?.enforce,
+        onSuccess: (respData) => {
+            const usage = respData?.cpu_usage?.total || 0;
+            const userPlan = respData?.user_plan;
+            const quota = getUserQuota(
+                constants.CPU_HOURS_RESOURCE_NAME,
+                userPlan
+            );
+            setComputeLimitExceeded(usage >= quota);
+        },
+        onError: (e) => {
+            showErrorAnnouncer(t("usageSummaryError"), e);
+        },
+    });
+
+    const loading =
+        relaunchStatus === constants.LOADING || fetchingUsageSummary;
 
     return (
         <AppLaunch
@@ -82,11 +115,12 @@ const Relaunch = () => {
             viceQuota={viceQuota}
             runningJobs={runningJobs}
             pendingRequest={hasPendingRequest}
+            computeLimitExceeded={computeLimitExceeded}
         />
     );
 };
 
-export default Relaunch;
+export default withErrorAnnouncer(Relaunch);
 Relaunch.getInitialProps = async () => ({
     namespacesRequired: ["launch"],
 });

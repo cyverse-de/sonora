@@ -20,6 +20,8 @@ import {
     ADMIN_APPS_QUERY_KEY,
 } from "serviceFacades/apps";
 
+import VersionSelection from "components/apps/VersionSelection";
+
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
 import FormMultilineTextField from "components/forms/FormMultilineTextField";
@@ -48,6 +50,7 @@ export default function AdminAppDetailsDialog(props) {
     const [updateAppError, setUpdateAppError] = useState(null);
     const [avusError, setAUVsError] = useState(null);
     const [details, setDetails] = useState(null);
+    const [versionId, setVersionId] = useState(app?.version_id);
     const [avus, setAVUs] = useState(null);
 
     // Get QueryClient from the context
@@ -59,12 +62,14 @@ export default function AdminAppDetailsDialog(props) {
             {
                 systemId: app?.system_id,
                 appId: app?.id,
+                versionId,
             },
         ],
         queryFn: () =>
             getAppDetailsForAdmin({
                 systemId: app?.system_id,
                 appId: app?.id,
+                versionId,
             }),
         enabled: !!app,
         onSuccess: setDetails,
@@ -111,17 +116,17 @@ export default function AdminAppDetailsDialog(props) {
             allUpdatesStatus !== constants.LOADING ||
             metadataUpdateStatus !== constants.LOADING
         ) {
-            adminMutateApp({ app, details, avus, values });
+            adminMutateApp({ app: details, avus, values });
         }
     };
 
     return (
         <Formik
-            initialValues={mapPropsToValues(app, details)}
+            initialValues={mapPropsToValues(details)}
             onSubmit={handleSubmit}
             enableReinitialize={true}
         >
-            {({ handleSubmit, values }) => {
+            {({ handleSubmit }) => {
                 return (
                     <AdminAppDetailsForm
                         parentId={parentId}
@@ -130,9 +135,11 @@ export default function AdminAppDetailsDialog(props) {
                         documentationTemplateUrl={documentationTemplateUrl}
                         handleClose={handleClose}
                         open={open}
-                        app={app}
-                        detailsFetching={detailsFetching}
-                        avusFetching={avusFetching}
+                        appName={app?.name}
+                        versions={details?.versions}
+                        versionId={versionId}
+                        setVersionId={setVersionId}
+                        loading={detailsFetching || avusFetching}
                         detailsError={detailsError}
                         avusError={avusError}
                         updateAppError={updateAppError}
@@ -147,8 +154,17 @@ export default function AdminAppDetailsDialog(props) {
     );
 }
 
-function mapPropsToValues(app, details) {
-    return { ...app, ...details };
+function mapPropsToValues(app) {
+    // Ensure all text fields are pre-populated with empty strings.
+    return {
+        name: "",
+        description: "",
+        integrator_name: "",
+        integrator_email: "",
+        extra: { htcondor: { extra_requirements: "" } },
+        documentation: { documentation: "" },
+        ...app,
+    };
 }
 
 function AdminAppDetailsForm(props) {
@@ -159,9 +175,11 @@ function AdminAppDetailsForm(props) {
         documentationTemplateUrl,
         handleClose,
         open,
-        app,
-        detailsFetching,
-        avusFetching,
+        appName,
+        versions,
+        versionId,
+        setVersionId,
+        loading,
         detailsError,
         avusError,
         updateAppError,
@@ -179,7 +197,7 @@ function AdminAppDetailsForm(props) {
                 maxWidth="sm"
                 onClose={handleClose}
                 baseId={parentId}
-                title={app.name}
+                title={appName}
                 actions={
                     <>
                         <Button
@@ -199,7 +217,7 @@ function AdminAppDetailsForm(props) {
                     </>
                 }
             >
-                {(detailsFetching || avusFetching) && (
+                {loading && (
                     <Skeleton animation="wave" variant="rect" height={600} />
                 )}
                 {detailsError && (
@@ -231,8 +249,16 @@ function AdminAppDetailsForm(props) {
                         errorObject={updateAppError}
                     />
                 )}
-                {!(detailsFetching || avusFetching) && (
+                {!loading && (
                     <>
+                        {versions && (
+                            <VersionSelection
+                                baseId={parentId}
+                                versions={versions}
+                                version_id={versionId}
+                                onChange={setVersionId}
+                            />
+                        )}
                         <Field
                             name={"name"}
                             label={t("name")}

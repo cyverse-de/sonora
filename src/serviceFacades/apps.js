@@ -346,6 +346,7 @@ function getAppsForAdmin({
 
     // Determine if the request is supposed to be paginated.
     const isPaginated = (page || page === 0) && rowsPerPage;
+
     // Build the object containing the query parameters.
     const params = {};
     if (isOrdered) {
@@ -373,15 +374,20 @@ function getAppsForAdmin({
     return callApi({
         endpoint: `/api/admin/apps`,
         method: "GET",
-        params: params,
+        params,
     });
 }
 
-function getAppDetailsForAdmin({ systemId, appId }) {
-    return callApi({
-        endpoint: `/api/admin/apps/${systemId}/${appId}/details`,
-        method: "GET",
-    });
+function getAppDetailsForAdmin({ systemId, appId, versionId }) {
+    return versionId
+        ? callApi({
+              endpoint: `/api/admin/apps/${systemId}/${appId}/versions/${versionId}/details`,
+              method: "GET",
+          })
+        : callApi({
+              endpoint: `/api/admin/apps/${systemId}/${appId}/details`,
+              method: "GET",
+          });
 }
 
 function adminPatchApp({
@@ -391,26 +397,27 @@ function adminPatchApp({
     description,
     name,
     id,
+    version_id,
     system_id,
 }) {
     return callApi({
-        endpoint: `/api/admin/apps/${system_id}/${id}`,
+        endpoint: `/api/admin/apps/${system_id}/${id}/versions/${version_id}`,
         method: "PATCH",
         body: { deleted, disabled, extra, description, name, id },
     });
 }
 
-function adminAddAppDoc({ systemId, appId, doc }) {
+function adminAddAppDoc({ systemId, appId, versionId, doc }) {
     return callApi({
-        endpoint: `/api/admin/apps/${systemId}/${appId}/documentation`,
+        endpoint: `/api/admin/apps/${systemId}/${appId}/versions/${versionId}/documentation`,
         method: "POST",
         body: { documentation: doc },
     });
 }
 
-function adminUpdateAppDoc({ systemId, appId, doc }) {
+function adminUpdateAppDoc({ systemId, appId, versionId, doc }) {
     return callApi({
-        endpoint: `/api/admin/apps/${systemId}/${appId}/documentation`,
+        endpoint: `/api/admin/apps/${systemId}/${appId}/versions/${versionId}/documentation`,
         method: "PATCH",
         body: { documentation: doc },
     });
@@ -453,42 +460,48 @@ function adminUpdateAppMetadata({ app, avus, values }) {
     return adminSetAppAVUs({ avus: updatedAVUs, appId: app.id });
 }
 
-function adminUpdateApp({ app, details, avus, values }) {
-    const documentation = details?.documentation;
+function adminUpdateApp({ app, values }) {
     const promises = [];
-    if (app !== values) {
-        const { deleted, disabled, description, name, id, system_id, extra } =
-            values;
-        promises.push(
-            adminPatchApp({
-                deleted,
-                disabled,
-                extra,
-                description,
-                name,
-                id,
-                system_id,
-            })
-        );
-    }
-    if (!documentation?.documentation && values.documentation?.documentation) {
-        promises.push(
-            adminAddAppDoc({
-                systemId: values.system_id,
-                appId: values.id,
-                doc: values.documentation.documentation,
-            })
-        );
-    } else if (
-        documentation?.documentation !== values.documentation?.documentation
-    ) {
-        promises.push(
-            adminUpdateAppDoc({
-                systemId: values.system_id,
-                appId: values.id,
-                doc: values.documentation?.documentation,
-            })
-        );
+
+    const {
+        deleted,
+        disabled,
+        description,
+        name,
+        id,
+        version_id,
+        system_id,
+        extra,
+        documentation,
+    } = values;
+
+    promises.push(
+        adminPatchApp({
+            deleted,
+            disabled,
+            extra,
+            description,
+            name,
+            id,
+            version_id,
+            system_id,
+        })
+    );
+
+    const formDocumentation = documentation?.documentation;
+    const appDocsReq = {
+        systemId: system_id,
+        appId: id,
+        versionId: version_id,
+        doc: formDocumentation,
+    };
+
+    if (app?.documentation) {
+        if (app.documentation.documentation !== formDocumentation) {
+            promises.push(adminUpdateAppDoc(appDocsReq));
+        }
+    } else if (formDocumentation) {
+        promises.push(adminAddAppDoc(appDocsReq));
     }
 
     return Promise.all(promises);

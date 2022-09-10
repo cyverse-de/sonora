@@ -8,12 +8,7 @@
 
 import React from "react";
 import { useTranslation } from "i18n";
-import { useQuery } from "react-query";
 import { Trans } from "react-i18next";
-import {
-    getResourceUsageSummary,
-    RESOURCE_USAGE_QUERY_KEY,
-} from "serviceFacades/dashboard";
 import {
     Button,
     Grid,
@@ -36,21 +31,19 @@ import { useConfig } from "contexts/config";
 import { Skeleton } from "@material-ui/lab";
 
 export default function ResourceUsageItem(props) {
+    const { resourceUsageSummary, resourceUsageError, isLoading } = props;
     const { t } = useTranslation("dashboard");
-    const { status, data, error } = useQuery([RESOURCE_USAGE_QUERY_KEY], () =>
-        getResourceUsageSummary()
-    );
 
     const [config] = useConfig();
     const theme = useTheme();
-    if (status === "loading") {
+    if (isLoading) {
         return <Skeleton variant="rect" width={800} height={200} />;
     }
     const startDate = formatDateObject(
-        new Date(data?.user_plan.effective_start_date)
+        new Date(resourceUsageSummary?.user_plan.effective_start_date)
     );
     const endDate = formatDateObject(
-        new Date(data?.user_plan.effective_end_date)
+        new Date(resourceUsageSummary?.user_plan.effective_end_date)
     );
     return (
         <>
@@ -69,13 +62,13 @@ export default function ResourceUsageItem(props) {
                     color: theme.palette.info.main,
                 }}
             />
-            {error && (
+            {resourceUsageError && (
                 <ErrorTypographyWithDialog
                     errorMessage={t("usageSummaryError")}
-                    errorObject={error}
+                    errorObject={resourceUsageError}
                 />
             )}
-            {!error && (
+            {!resourceUsageError && (
                 <>
                     <Grid container spacing={3}>
                         <Grid item xs={6}>
@@ -83,7 +76,8 @@ export default function ResourceUsageItem(props) {
                                 <Trans
                                     t={t}
                                     values={{
-                                        plan: data?.user_plan?.plan?.name,
+                                        plan: resourceUsageSummary?.user_plan
+                                            ?.plan?.name,
                                     }}
                                     i18nKey="currentPlan"
                                     components={{
@@ -124,10 +118,10 @@ export default function ResourceUsageItem(props) {
                         <Grid item xs={12} md={6}>
                             <Card>
                                 <DataConsumption
-                                    data={data?.data_usage}
-                                    userPlan={data?.user_plan}
-                                    status={status}
-                                    errors={data?.errors}
+                                    data={resourceUsageSummary?.data_usage}
+                                    userPlan={resourceUsageSummary?.user_plan}
+                                    isLoading={isLoading}
+                                    errors={resourceUsageSummary?.errors}
                                 />
                             </Card>
                         </Grid>
@@ -135,10 +129,10 @@ export default function ResourceUsageItem(props) {
                         <Grid item xs={12} md={6}>
                             <Card>
                                 <CPUConsumption
-                                    data={data?.cpu_usage}
-                                    userPlan={data?.user_plan}
-                                    status={status}
-                                    errors={data?.errors}
+                                    data={resourceUsageSummary?.cpu_usage}
+                                    userPlan={resourceUsageSummary?.user_plan}
+                                    isLoading={isLoading}
+                                    errors={resourceUsageSummary?.errors}
                                 />
                             </Card>
                         </Grid>

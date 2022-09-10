@@ -140,7 +140,7 @@ const getFormattedData = (usage, quota, theme) => {
 };
 
 export default function CPUConsumption(props) {
-    const { status, userPlan, data, errors } = props;
+    const { isLoading, userPlan, data, errors } = props;
     const quota = getUserQuota(constants.CPU_HOURS_RESOURCE_NAME, userPlan);
     const theme = useTheme();
     const { t } = useTranslation("dashboard");
@@ -172,7 +172,7 @@ export default function CPUConsumption(props) {
             );
         }
     }
-    if (status === "loading") {
+    if (isLoading) {
         return <Skeleton variant="rect" width={300} height={200} />;
     }
 

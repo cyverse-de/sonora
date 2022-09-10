@@ -153,7 +153,7 @@ const getFormattedData = (usage, quota, theme) => {
 };
 
 export default function DataConsumption(props) {
-    const { status, userPlan, data, errors } = props;
+    const { isLoading, userPlan, data, errors } = props;
     const quota = getUserQuota(constants.DATA_STORAGE_RESOURCE_NAME, userPlan);
     const theme = useTheme();
     const { t } = useTranslation("dashboard");
@@ -185,7 +185,7 @@ export default function DataConsumption(props) {
             );
         }
     }
-    if (status === "loading") {
+    if (isLoading) {
         return <Skeleton variant="rect" width={300} height={200} />;
     }
     const isoTime = parseISO(data?.time);

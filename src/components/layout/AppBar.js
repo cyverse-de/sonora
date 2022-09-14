@@ -168,7 +168,7 @@ function DEAppBar(props) {
             setComputeLimitExceeded(usage >= quota);
         },
         onError: (e) => {
-            showErrorAnnouncer(t("usageSummaryError"), e);
+            showErrorAnnouncer(t("dashboard:usageSummaryError"), e);
         },
     });
 

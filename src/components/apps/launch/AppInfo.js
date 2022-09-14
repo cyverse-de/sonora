@@ -40,6 +40,7 @@ import { Skeleton } from "@material-ui/lab";
 import { appUnavailable } from "../utils";
 
 import { useConfig } from "contexts/config";
+import ExternalLink from "components/utils/ExternalLink";
 
 const useStyles = makeStyles(styles);
 
@@ -115,15 +116,8 @@ const UnavailableMsg = ({
                 i18nKey="computeLimitExceeded"
                 components={{
                     buy: (
-                        <Link
-                            id={buildID(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
-                            component="button"
-                            onClick={() => {
-                                window.open(
-                                    config?.subscriptions?.checkout_url,
-                                    "_blank"
-                                );
-                            }}
+                        <ExternalLink
+                            href={config?.subscriptions?.checkout_url}
                         />
                     ),
                 }}

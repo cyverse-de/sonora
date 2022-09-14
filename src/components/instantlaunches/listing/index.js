@@ -135,7 +135,7 @@ function Listing(props) {
         ];
     }, [baseId, t, computeLimitExceeded]);
 
-    const isLoading = isQueryLoading([status]) || isFetchingUsageSummary;
+    const isLoading = isQueryLoading([status, isFetchingUsageSummary]);
 
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;

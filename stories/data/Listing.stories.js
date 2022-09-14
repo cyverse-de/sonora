@@ -59,6 +59,7 @@ const DataListingTestTemplate = (args) => {
         instantLaunchSavedLaunchResponse,
         instantLaunchSubmissionResponse,
         usageSummaryResponse,
+        usageSummaryError,
     } = args;
 
     mockAxios
@@ -89,7 +90,7 @@ const DataListingTestTemplate = (args) => {
         .reply(200, instantLaunchSubmissionResponse);
     mockAxios
         .onGet(/\/api\/resource-usage\/summary.*/)
-        .reply(200, usageSummaryResponse);
+        .reply(usageSummaryError ? 400 : 200, usageSummaryResponse);
 
     return <ListingTest />;
 };
@@ -106,6 +107,7 @@ NormalListing.args = {
     instantLaunchSavedLaunchResponse: instantLaunchSavedLaunch,
     instantLaunchSubmissionResponse: instantLaunchSubmissionResponse,
     usageSummaryResponse: usageSummaryResponse,
+    usageSummaryError: false,
 };
 
 export const StorageLimitExceeded = DataListingTestTemplate.bind({});
@@ -120,6 +122,7 @@ StorageLimitExceeded.args = {
     instantLaunchSavedLaunchResponse: instantLaunchSavedLaunch,
     instantLaunchSubmissionResponse: instantLaunchSubmissionResponse,
     usageSummaryResponse: usageSummaryStorageLimitExceededResponse,
+    usageSummaryError: false,
 };
 
 export const ComputeLimitExceeded = DataListingTestTemplate.bind({});
@@ -134,4 +137,20 @@ ComputeLimitExceeded.args = {
     instantLaunchSavedLaunchResponse: instantLaunchSavedLaunch,
     instantLaunchSubmissionResponse: instantLaunchSubmissionResponse,
     usageSummaryResponse: usageSummaryComputeLimitExceededResponse,
+    usageSummaryError: false,
+};
+
+export const UsageSummaryError = DataListingTestTemplate.bind({});
+UsageSummaryError.args = {
+    pagedDirectoryResponse: successResp,
+    dataRootsResponse: dataRootsResp,
+    fileTypesResponse: fileTypesResp,
+    deletionResponse: {},
+    instantLaunchMappingResponse: instantLaunchMapping,
+    instantLaunchAppInfoResponse: instantLaunchAppInfo,
+    instantLaunchGlobalSavedLaunchesResponse: instantLaunchGlobalSavedLaunches,
+    instantLaunchSavedLaunchResponse: instantLaunchSavedLaunch,
+    instantLaunchSubmissionResponse: instantLaunchSubmissionResponse,
+    usageSummaryResponse: usageSummaryResponse,
+    usageSummaryError: true,
 };

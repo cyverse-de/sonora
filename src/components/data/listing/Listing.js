@@ -265,7 +265,7 @@ function Listing(props) {
             setComputeLimitExceeded(computeUsage >= computeQuota);
         },
         onError: (e) => {
-            showErrorAnnouncer(t("usageSummaryError"), e);
+            showErrorAnnouncer(t("dashboard:usageSummaryError"), e);
         },
     });
 

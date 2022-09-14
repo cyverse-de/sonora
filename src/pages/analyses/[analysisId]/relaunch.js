@@ -122,5 +122,5 @@ const Relaunch = ({ showErrorAnnouncer }) => {
 
 export default withErrorAnnouncer(Relaunch);
 Relaunch.getInitialProps = async () => ({
-    namespacesRequired: ["launch"],
+    namespacesRequired: ["launch", "dashboard"],
 });

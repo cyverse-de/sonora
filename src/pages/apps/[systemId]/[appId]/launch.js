@@ -151,5 +151,5 @@ function Launch({ showErrorAnnouncer }) {
 export default withErrorAnnouncer(Launch);
 
 Launch.getInitialProps = async () => ({
-    namespacesRequired: ["apps", "launch", "common", "util"],
+    namespacesRequired: ["apps", "launch", "common", "util", "dashboard"],
 });

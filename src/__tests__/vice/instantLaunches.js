@@ -5,7 +5,8 @@ import TestRenderer from "react-test-renderer";
 import { I18nProviderWrapper } from "i18n";
 import { mockAxios } from "../../../stories/axiosMock";
 import { RQWrapper } from "../../__mocks__/RQWrapper";
-import { InstantLaunchListTest } from "../../../stories/instantlaunches/InstantLaunchListing.stories";
+import { NormalListing } from "../../../stories/instantlaunches/InstantLaunchListing.stories";
+import { ConfigProvider } from "contexts/config";
 
 beforeEach(() => {
     mockAxios.reset();
@@ -19,7 +20,9 @@ test("renders Instant Launch Listing without crashing", () => {
     const component = TestRenderer.create(
         <RQWrapper>
             <I18nProviderWrapper>
-                <InstantLaunchListTest />
+                <ConfigProvider>
+                    <NormalListing />
+                </ConfigProvider>
             </I18nProviderWrapper>
         </RQWrapper>
     );

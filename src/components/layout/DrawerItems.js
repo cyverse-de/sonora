@@ -46,6 +46,7 @@ function DrawerItems(props) {
         adminUser,
         runningViceJobs,
         instantLaunches,
+        computeLimitExceeded,
     } = props;
     const { t } = useTranslation(["common"]);
     const [userProfile] = useUserProfile();
@@ -136,6 +137,7 @@ function DrawerItems(props) {
                 <InstantLaunchButtonWrapper
                     key={instantLaunch.id}
                     instantLaunch={instantLaunch}
+                    computeLimitExceeded={computeLimitExceeded}
                     render={(onClick) => (
                         <DrawerItem
                             key={instantLaunch.id}

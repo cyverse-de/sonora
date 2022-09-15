@@ -38,6 +38,7 @@ const Launch = ({
     runningJobs,
     pendingRequest,
     loading,
+    computeLimitExceeded,
 }) => {
     const [submissionError, setSubmissionError] = React.useState(null);
     const [accessRequestDialogOpen, setAccessRequestDialogOpen] =
@@ -154,6 +155,7 @@ const Launch = ({
                 setSubmissionError(null);
                 addSavedLaunchMutation({ savedLaunch, onSuccess, onError });
             }}
+            computeLimitExceeded={computeLimitExceeded}
         />
     );
 };

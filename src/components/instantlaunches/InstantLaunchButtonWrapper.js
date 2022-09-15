@@ -20,15 +20,24 @@ import constants from "constants.js";
 import { useUserProfile } from "contexts/userProfile";
 import { InstantLaunchSubmissionDialog } from "./index";
 import { instantlyLaunch } from "serviceFacades/instantlaunches";
+import { useTranslation } from "i18n";
 
 function InstantLaunchButtonWrapper(props) {
-    const { instantLaunch, resource = {}, render, showErrorAnnouncer } = props;
+    const {
+        instantLaunch,
+        computeLimitExceeded,
+        resource = {},
+        render,
+        showErrorAnnouncer,
+    } = props;
     const output_dir = useDefaultOutputDir();
     const [userProfile] = useUserProfile();
 
     const [open, setOpen] = React.useState(false);
     const [signInDlgOpen, setSignInDlgOpen] = React.useState(false);
     const [ilUrl, setIlUrl] = React.useState();
+
+    const { t } = useTranslation("launch");
 
     React.useEffect(() => {
         if (ilUrl) {
@@ -63,8 +72,12 @@ function InstantLaunchButtonWrapper(props) {
 
     const onClick = () => {
         if (userProfile?.id) {
-            setOpen(true);
-            launch({ instantLaunch, resource, output_dir });
+            if (computeLimitExceeded) {
+                showErrorAnnouncer(t("computeLimitExceededMsg"));
+            } else {
+                setOpen(true);
+                launch({ instantLaunch, resource, output_dir });
+            }
         } else {
             setSignInDlgOpen(true);
         }

@@ -21,6 +21,7 @@ import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import ids from "./ids";
 import * as constants from "./constants";
+import globalConstants from "../../constants";
 import useStyles from "./styles";
 import * as fns from "./functions";
 import {
@@ -35,8 +36,15 @@ import {
     InstantLaunches,
 } from "./DashboardSection";
 
-import { getDashboard, DASHBOARD_QUERY_KEY } from "serviceFacades/dashboard";
+import {
+    getDashboard,
+    DASHBOARD_QUERY_KEY,
+    getResourceUsageSummary,
+    RESOURCE_USAGE_QUERY_KEY,
+} from "serviceFacades/dashboard";
 import { useBootstrapInfo } from "contexts/bootstrap";
+import { useConfig } from "contexts/config";
+import { getUserQuota } from "common/resourceUsage";
 
 import { useSavePreferences } from "serviceFacades/users";
 
@@ -108,7 +116,14 @@ const Dashboard = (props) => {
     const { t: i18nIntro } = useTranslation("intro");
     const { t: i18Analyses } = useTranslation("analyses");
     const [userProfile] = useUserProfile();
+    const [config] = useConfig();
     const queryClient = useQueryClient();
+
+    const [resourceUsageSummary, setResourceUsageSummary] = useState(null);
+    const [resourceUsageError, setResourceUsageError] = useState(null);
+    const [computeLimitExceeded, setComputeLimitExceeded] = useState(
+        !!config?.subscriptions?.enforce
+    );
 
     const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
     const { mutate: mutatePreferences } = useSavePreferences(
@@ -135,6 +150,26 @@ const Dashboard = (props) => {
         () => getDashboard({ limit: constants.SECTION_ITEM_LIMIT })
     );
     const hasErrored = status === "error";
+
+    const { isFetching: fetchingUsageSummary } = useQuery({
+        queryKey: [RESOURCE_USAGE_QUERY_KEY],
+        queryFn: getResourceUsageSummary,
+        enabled: !!config?.subscriptions?.enforce,
+        onSuccess: (respData) => {
+            const usage = respData?.cpu_usage?.total || 0;
+            const userPlan = respData?.user_plan;
+            const quota = getUserQuota(
+                globalConstants.CPU_HOURS_RESOURCE_NAME,
+                userPlan
+            );
+            setComputeLimitExceeded(usage >= quota);
+            setResourceUsageSummary(respData);
+        },
+        onError: (e) => {
+            setResourceUsageError(e);
+            showErrorAnnouncer(t("usageSummaryError"), e);
+        },
+    });
 
     // Display the error message if an error occurred.
     if (hasErrored) {
@@ -235,6 +270,7 @@ const Dashboard = (props) => {
                       setDetailsAnalysis,
                       setPendingAnalysis,
                       setTerminateAnalysis,
+                      computeLimitExceeded,
                   })
               )
         : [];
@@ -252,7 +288,8 @@ const Dashboard = (props) => {
     // The base ID for the dashboard.
     const baseId = fns.makeID(ids.ROOT);
 
-    const isLoading = status === "loading" || analysisLoading;
+    const isLoading =
+        status === "loading" || analysisLoading || fetchingUsageSummary;
 
     return (
         <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
@@ -275,7 +312,12 @@ const Dashboard = (props) => {
                             mutatePreferences({ preferences: updatedPref });
                         }}
                     />,
-                    <ResourceUsageItem key="ResourceUsage" />,
+                    <ResourceUsageItem
+                        key="ResourceUsage"
+                        resourceUsageSummary={resourceUsageSummary}
+                        resourceUsageError={resourceUsageError}
+                        isLoading={fetchingUsageSummary}
+                    />,
                 ]}
             {isLoading ? <DashboardSkeleton /> : componentContent}
 

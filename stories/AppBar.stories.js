@@ -13,6 +13,10 @@ import {
 } from "../src/components/bags";
 import { runningViceJobs } from "./analyses/AnalysesMocks";
 import { instantLaunchNavDrawerMock } from "./instantlaunches/admin/SavedLaunchListData";
+import {
+    usageSummaryResponse,
+    usageSummaryComputeLimitExceededResponse,
+} from "./usageSummaryMock";
 
 const mockUser = {
     id: "mockUser",
@@ -126,17 +130,31 @@ const bag_data = {
     },
 };
 
-export function AppBarTest() {
-    mockAxios.onGet("/api/profile").reply(200, mockUser);
-    mockAxios.onGet(/\/api\/bootstrap*/).reply(200, bootStrap);
+const appBarTestTemplate = (args) => {
+    const {
+        mockUserProfile,
+        mockBootstrapResponse,
+        mockNotificationsData,
+        mockBagData,
+        mockRunningViceJobs,
+        mockInstantLaunches,
+        mockUsageSummary,
+    } = args;
+
+    mockAxios.onGet("/api/profile").reply(200, mockUserProfile);
+    mockAxios.onGet(/\/api\/bootstrap*/).reply(200, mockBootstrapResponse);
     mockAxios
         .onGet("/api/notifications/last-ten-messages")
-        .reply(200, notificationsData);
-    mockAxios.onGet("/api/bags/default").reply(200, bag_data);
-    mockAxios.onGet("/api/analyses").reply(200, runningViceJobs);
+        .reply(200, mockNotificationsData);
+    mockAxios.onGet("/api/bags/default").reply(200, mockBagData);
+    mockAxios.onGet("/api/analyses").reply(200, mockRunningViceJobs);
     mockAxios
         .onGet("/api/instantlaunches/metadata/full")
-        .reply(200, instantLaunchNavDrawerMock);
+        .reply(200, mockInstantLaunches);
+    mockAxios
+        .onGet(/\/api\/resource-usage\/summary.*/)
+        .reply(200, mockUsageSummary);
+
     return (
         <UserProfileProvider>
             <NotificationsProvider>
@@ -144,7 +162,29 @@ export function AppBarTest() {
             </NotificationsProvider>
         </UserProfileProvider>
     );
-}
+};
+
+export const NormalView = appBarTestTemplate.bind({});
+NormalView.args = {
+    mockUserProfile: mockUser,
+    mockBootstrapResponse: bootStrap,
+    mockNotificationsData: notificationsData,
+    mockBagData: bag_data,
+    mockRunningViceJobs: runningViceJobs,
+    mockInstantLaunches: instantLaunchNavDrawerMock,
+    mockUsageSummary: usageSummaryResponse,
+};
+
+export const ComputeLimitExceeded = appBarTestTemplate.bind({});
+ComputeLimitExceeded.args = {
+    mockUserProfile: mockUser,
+    mockBootstrapResponse: bootStrap,
+    mockNotificationsData: notificationsData,
+    mockBagData: bag_data,
+    mockRunningViceJobs: runningViceJobs,
+    mockInstantLaunches: instantLaunchNavDrawerMock,
+    mockUsageSummary: usageSummaryComputeLimitExceededResponse,
+};
 
 export default {
     title: "AppBar",

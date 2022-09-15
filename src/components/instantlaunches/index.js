@@ -94,6 +94,7 @@ const InstantLaunchButton = ({
     size = "medium",
     themeSpacing = 0,
     color = "primary",
+    computeLimitExceeded = false,
 }) => {
     const baseID = buildID(ids.BASE, ids.LAUNCH, ids.BUTTON);
     const theme = useTheme();
@@ -102,6 +103,7 @@ const InstantLaunchButton = ({
         <InstantLaunchButtonWrapper
             instantLaunch={instantLaunch}
             resource={resource}
+            computeLimitExceeded={computeLimitExceeded}
             render={(onClick) => (
                 <IconButton
                     id={baseID}

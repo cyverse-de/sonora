@@ -27,7 +27,7 @@ import { Typography, useTheme } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { formatDateObject } from "components/utils/DateFormatter";
 
-import { getUserQuota } from "../../utils/resourceUsage";
+import { getUserQuota } from "../../../common/resourceUsage";
 
 ChartJS.register(
     CategoryScale,
@@ -140,7 +140,7 @@ const getFormattedData = (usage, quota, theme) => {
 };
 
 export default function CPUConsumption(props) {
-    const { status, userPlan, data, errors } = props;
+    const { isLoading, userPlan, data, errors } = props;
     const quota = getUserQuota(constants.CPU_HOURS_RESOURCE_NAME, userPlan);
     const theme = useTheme();
     const { t } = useTranslation("dashboard");
@@ -172,7 +172,7 @@ export default function CPUConsumption(props) {
             );
         }
     }
-    if (status === "loading") {
+    if (isLoading) {
         return <Skeleton variant="rect" width={300} height={200} />;
     }
 

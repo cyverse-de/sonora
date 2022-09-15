@@ -14,10 +14,12 @@ import { DeprecatedParamTypes } from "components/models/AppParamTypes";
 
 import { Divider, Paper } from "@material-ui/core";
 
+import { appUnavailable } from "../utils";
+
 const deprecatedParamTypes = Object.values(DeprecatedParamTypes);
 
 function AppLaunchWizard(props) {
-    const { baseId, app, appError, loading } = props;
+    const { baseId, app, appError, loading, computeLimitExceeded } = props;
 
     const hasDeprecatedParams = app?.groups?.find((group) =>
         group.parameters?.find((param) =>
@@ -33,15 +35,18 @@ function AppLaunchWizard(props) {
                 loadingError={appError}
                 app={app}
                 hasDeprecatedParams={hasDeprecatedParams}
+                computeLimitExceeded={computeLimitExceeded}
             />
             <Divider />
             {loading ? (
                 <AppStepperFormSkeleton baseId={baseId} />
             ) : (
                 app &&
-                !(app.deleted || app.disabled || hasDeprecatedParams) && (
-                    <AppLaunchForm {...props} />
-                )
+                !appUnavailable(
+                    app,
+                    hasDeprecatedParams,
+                    computeLimitExceeded
+                ) && <AppLaunchForm {...props} />
             )}
         </Paper>
     );

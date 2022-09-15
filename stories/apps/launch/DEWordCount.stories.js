@@ -20,6 +20,7 @@ const errorObject = {
 export const DEWordCount = ({
     deleted,
     disabled,
+    computeLimitExceeded,
     loading,
     loadingError,
     submissionError,
@@ -56,6 +57,7 @@ export const DEWordCount = ({
             defaultMaxCPUCores={defaultMaxCPUCores}
             defaultMaxMemory={defaultMaxMemory}
             defaultMaxDiskSpace={defaultMaxDiskSpace}
+            computeLimitExceeded={computeLimitExceeded}
             submitAnalysis={(submission, onSuccess, onError) => {
                 setAppError(null);
                 submitAnalysis(
@@ -85,6 +87,12 @@ DEWordCount.argTypes = {
     },
     disabled: {
         name: "Disabled",
+        control: {
+            type: "boolean",
+        },
+    },
+    computeLimitExceeded: {
+        name: "Compute Limit Exceeded",
         control: {
             type: "boolean",
         },
@@ -130,6 +138,7 @@ DEWordCount.argTypes = {
 DEWordCount.args = {
     deleted: false,
     disabled: false,
+    computeLimitExceeded: false,
     loading: false,
     loadingError: false,
     submissionError: false,

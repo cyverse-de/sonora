@@ -6,13 +6,18 @@ import fetchMock from "fetch-mock";
 import { mockAxios } from "../axiosMock";
 
 import { appDetails, listingById } from "./appDetails";
+import {
+    usageSummaryResponse,
+    usageSummaryComputeLimitExceededResponse,
+} from "../usageSummaryMock";
+
 import testData from "./data";
 
 export default {
-    title: "Dashboard",
+    title: "Dashboard / Display",
 };
 
-export const DashboardTest = () => {
+const DashboardTestTemplate = ({ usageSummaryResponseBody }) => {
     const favoriteUriRegexp = /\/api\/apps\/[^/]+\/[^/]+\/favorite/;
     mockAxios
         .onGet(/\/api\/apps\/[^/]+\/[^/]+\/details/)
@@ -23,6 +28,9 @@ export const DashboardTest = () => {
     mockAxios.onGet("/api/dashboard?limit=8").reply(200, testData);
     mockAxios.onPut(favoriteUriRegexp).reply(200);
     mockAxios.onDelete(favoriteUriRegexp).reply(200);
+    mockAxios
+        .onGet(/\/api\/resource-usage\/summary.*/)
+        .reply(200, usageSummaryResponseBody);
 
     // mocks for noembed.com image thumbnails
     fetchMock.restore();
@@ -246,4 +254,14 @@ export const DashboardTest = () => {
     ); */
 
     return <Dashboard />;
+};
+
+export const NoLimitsExceeded = DashboardTestTemplate.bind({});
+NoLimitsExceeded.args = {
+    usageSummaryResponseBody: usageSummaryResponse,
+};
+
+export const ComputeLimitExceeded = DashboardTestTemplate.bind({});
+ComputeLimitExceeded.args = {
+    usageSummaryResponseBody: usageSummaryComputeLimitExceededResponse,
 };

@@ -36,6 +36,7 @@ class InstantLaunchItem extends ItemBase {
             setDetailsApp,
             t,
             theme,
+            computeLimitExceeded,
             content: instantLaunch,
         } = props;
 
@@ -52,6 +53,7 @@ class InstantLaunchItem extends ItemBase {
                 <InstantLaunchButton
                     instantLaunch={instantLaunch}
                     showErrorAnnouncer={showErrorAnnouncer}
+                    computeLimitExceeded={computeLimitExceeded}
                 />
             </ItemAction>,
 

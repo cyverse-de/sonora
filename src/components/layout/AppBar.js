@@ -64,6 +64,11 @@ import { isViceNotification } from "components/notifications/utils";
 import analysisStatus from "components/models/analysisStatus";
 import UserPortalUpdatePrompts from "./UserPortalUpdatePrompts";
 import useFirstClassInstantLaunch from "../instantlaunches/useFirstClassInstantLaunch";
+import {
+    getResourceUsageSummary,
+    RESOURCE_USAGE_QUERY_KEY,
+} from "serviceFacades/dashboard";
+import { getUserQuota } from "common/resourceUsage";
 
 // hidden in xsDown
 const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
@@ -85,7 +90,7 @@ function DEAppBar(props) {
 
     const ref = useRef();
     const [config, setConfig] = useConfig();
-    const { t } = useTranslation(["common"]);
+    const { t } = useTranslation(["common", "dashboard"]);
 
     const searchTerm = router?.query?.searchTerm || "";
     let filter = searchConstants.ALL;
@@ -110,6 +115,9 @@ function DEAppBar(props) {
     const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
     const [runningViceJobs, setRunningViceJobs] = useState([]);
+    const [computeLimitExceeded, setComputeLimitExceeded] = useState(
+        !!config?.subscriptions?.enforce
+    );
 
     if (activeView === NavigationConstants.APPS) {
         filter = searchConstants.APPS;
@@ -145,6 +153,24 @@ function DEAppBar(props) {
             setProfileRefetchInterval(clientConfig.sessions.poll_interval_ms);
         }
     }, [clientConfig, setConfig]);
+
+    useQuery({
+        queryKey: [RESOURCE_USAGE_QUERY_KEY],
+        queryFn: getResourceUsageSummary,
+        enabled: !!config?.subscriptions?.enforce && !!userProfile?.id,
+        onSuccess: (respData) => {
+            const usage = respData?.cpu_usage?.total || 0;
+            const userPlan = respData?.user_plan;
+            const quota = getUserQuota(
+                constants.CPU_HOURS_RESOURCE_NAME,
+                userPlan
+            );
+            setComputeLimitExceeded(usage >= quota);
+        },
+        onError: (e) => {
+            showErrorAnnouncer(t("dashboard:usageSummaryError"), e);
+        },
+    });
 
     useEffect(() => {
         if (bootstrapError) {
@@ -442,6 +468,7 @@ function DEAppBar(props) {
                     adminUser={adminUser}
                     runningViceJobs={runningViceJobs}
                     instantLaunches={instantLaunches}
+                    computeLimitExceeded={computeLimitExceeded}
                 />
             </Drawer>
             <CyVerseAnnouncer />

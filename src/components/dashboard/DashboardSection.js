@@ -32,6 +32,7 @@ const DashboardSection = ({
     setDetailsAnalysis,
     setPendingAnalysis,
     setTerminateAnalysis,
+    computeLimitExceeded,
 }) => {
     const classes = useStyles();
     const { t } = useTranslation("dashboard");
@@ -62,6 +63,7 @@ const DashboardSection = ({
             setTerminateAnalysis,
             theme,
             t,
+            computeLimitExceeded,
         }).component(index);
 
     const uncollapsed = items.slice(0, limit).map(itemComponent);
@@ -130,6 +132,7 @@ class SectionBase {
         setDetailsAnalysis,
         setPendingAnalysis,
         setTerminateAnalysis,
+        computeLimitExceeded,
     }) {
         let sectionItems;
 
@@ -171,6 +174,7 @@ class SectionBase {
                 setDetailsAnalysis={setDetailsAnalysis}
                 setPendingAnalysis={setPendingAnalysis}
                 setTerminateAnalysis={setTerminateAnalysis}
+                computeLimitExceeded={computeLimitExceeded}
             />
         );
     }

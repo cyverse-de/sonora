@@ -26,12 +26,24 @@ import {
     LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
     listInstantLaunchesByMetadata,
 } from "serviceFacades/instantlaunches";
+import {
+    getResourceUsageSummary,
+    RESOURCE_USAGE_QUERY_KEY,
+} from "serviceFacades/dashboard";
+import { getUserQuota } from "common/resourceUsage";
+import { useConfig } from "contexts/config";
+import globalConstants from "../../../constants";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 function Listing(props) {
-    const { baseId } = props;
+    const { baseId, showErrorAnnouncer } = props;
     const [showAppDetails, setShowAppDetails] = useState(null);
+    const [config] = useConfig();
+    const [computeLimitExceeded, setComputeLimitExceeded] = useState(
+        !!config?.subscriptions?.enforce
+    );
 
-    const { t } = useTranslation("instantlaunches");
+    const { t } = useTranslation(["instantlaunches", "dashboard"]);
     const instantLaunchLocationAttr =
         constants.METADATA.INSTANT_LAUNCH_LOCATION_ATTR;
     const instantLaunchListing = constants.METADATA.INSTANT_LAUNCH_LISTING;
@@ -50,6 +62,24 @@ function Listing(props) {
             })
     );
 
+    const { isFetching: isFetchingUsageSummary } = useQuery({
+        queryKey: [RESOURCE_USAGE_QUERY_KEY],
+        queryFn: getResourceUsageSummary,
+        enabled: !!config?.subscriptions?.enforce,
+        onSuccess: (respData) => {
+            const computeUsage = respData?.cpu_usage?.total || 0;
+            const userPlan = respData?.user_plan;
+            const computeQuota = getUserQuota(
+                globalConstants.CPU_HOURS_RESOURCE_NAME,
+                userPlan
+            );
+            setComputeLimitExceeded(computeUsage >= computeQuota);
+        },
+        onError: (e) => {
+            showErrorAnnouncer(t("dashboard:usageSummaryError"), e);
+        },
+    });
+
     const columns = useMemo(() => {
         const listingId = buildID(baseId, ids.LISTING);
         return [
@@ -61,6 +91,7 @@ function Listing(props) {
                     return (
                         <InstantLaunchButtonWrapper
                             instantLaunch={instantLaunch}
+                            computeLimitExceeded={computeLimitExceeded}
                             render={(onClick) => (
                                 <DELink
                                     onClick={onClick}
@@ -102,9 +133,9 @@ function Listing(props) {
                 },
             },
         ];
-    }, [baseId, t]);
+    }, [baseId, t, computeLimitExceeded]);
 
-    const isLoading = isQueryLoading([status]);
+    const isLoading = isQueryLoading([status, isFetchingUsageSummary]);
 
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
@@ -132,4 +163,4 @@ function Listing(props) {
     );
 }
 
-export default Listing;
+export default withErrorAnnouncer(Listing);

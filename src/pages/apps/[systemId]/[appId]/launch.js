@@ -7,6 +7,7 @@ import React from "react";
 
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
+import { useTranslation } from "i18n";
 
 import constants from "../../../../constants";
 import {
@@ -22,7 +23,19 @@ import {
 import AppLaunch from "components/apps/launch";
 import { useUserProfile } from "contexts/userProfile";
 
-export default function Launch() {
+import {
+    getResourceUsageSummary,
+    RESOURCE_USAGE_QUERY_KEY,
+} from "serviceFacades/dashboard";
+import { useConfig } from "contexts/config";
+
+import { getUserQuota } from "../../../../common/resourceUsage";
+import globalConstants from "../../../../constants";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
+
+function Launch({ showErrorAnnouncer }) {
+    const { t } = useTranslation("dashboard");
+    const [config] = useConfig();
     const [userProfile] = useUserProfile();
     const [appKey, setAppKey] = React.useState(APP_DESCRIPTION_QUERY_KEY);
     const [appDescriptionQueryEnabled, setAppDescriptionQueryEnabled] =
@@ -36,6 +49,9 @@ export default function Launch() {
     const [viceQuota, setViceQuota] = React.useState();
     const [runningJobs, setRunningJobs] = React.useState();
     const [hasPendingRequest, setHasPendingRequest] = React.useState();
+    const [computeLimitExceeded, setComputeLimitExceeded] = React.useState(
+        !!config?.subscriptions?.enforce
+    );
 
     const router = useRouter();
     const { systemId, appId } = router.query;
@@ -96,9 +112,28 @@ export default function Launch() {
         onError: setLaunchError,
     });
 
+    const { isFetching: fetchingUsageSummary } = useQuery({
+        queryKey: [RESOURCE_USAGE_QUERY_KEY],
+        queryFn: getResourceUsageSummary,
+        enabled: !!config?.subscriptions?.enforce,
+        onSuccess: (respData) => {
+            const usage = respData?.cpu_usage?.total || 0;
+            const userPlan = respData?.user_plan;
+            const quota = getUserQuota(
+                globalConstants.CPU_HOURS_RESOURCE_NAME,
+                userPlan
+            );
+            setComputeLimitExceeded(usage >= quota);
+        },
+        onError: (e) => {
+            showErrorAnnouncer(t("usageSummaryError"), e);
+        },
+    });
+
     const loading =
         appStatus === constants.LOADING ||
-        savedLaunchStatus === constants.LOADING;
+        savedLaunchStatus === constants.LOADING ||
+        fetchingUsageSummary;
 
     return (
         <AppLaunch
@@ -108,10 +143,13 @@ export default function Launch() {
             viceQuota={viceQuota}
             runningJobs={runningJobs}
             pendingRequest={hasPendingRequest}
+            computeLimitExceeded={computeLimitExceeded}
         />
     );
 }
 
+export default withErrorAnnouncer(Launch);
+
 Launch.getInitialProps = async () => ({
-    namespacesRequired: ["apps", "launch", "common", "util"],
+    namespacesRequired: ["apps", "launch", "common", "util", "dashboard"],
 });

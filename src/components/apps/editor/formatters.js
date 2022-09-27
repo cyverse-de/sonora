@@ -158,7 +158,7 @@ const initFlagName = (name) => {
  *
  * @returns The App formatted for submission to the service.
  */
-const formatSubmission = ({ editorSteps, ...app }) => {
+const formatSubmission = ({ editorSteps, versions, ...app }) => {
     const { groups, tools } = app;
 
     const formattedGroups = groups?.map(

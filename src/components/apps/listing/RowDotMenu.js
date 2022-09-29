@@ -57,7 +57,7 @@ function RowDotMenu(props) {
     const isWorkflow = app?.step_count > 1;
 
     const canPublish = isOwner && !isAppPublic;
-    const canDelete = isOwner && !isAppPublic;
+    const canDelete = isAdminView || (isOwner && !isAppPublic);
     const canCopy =
         isReadable(app?.permission) && app?.system_id === SystemIds.de;
     const canEdit = isWritable(app?.permission);
@@ -148,15 +148,16 @@ function RowDotMenu(props) {
                                 copyLinkToClipboardHandler(t, copyPromise);
                             }}
                         />,
-                        canDelete && (
-                            <DeleteMenuItem
-                                key={buildID(baseId, ids.DELETE)}
-                                baseId={baseId}
-                                handleDelete={handleDelete}
-                                onClose={onClose}
-                            />
-                        ),
                     ],
+                    canDelete && (
+                        <DeleteMenuItem
+                            key={buildID(baseId, ids.DELETE)}
+                            baseId={baseId}
+                            isDeleted={app?.deleted}
+                            handleDelete={handleDelete}
+                            onClose={onClose}
+                        />
+                    ),
                 ]}
             />
             <PublishAppDialog

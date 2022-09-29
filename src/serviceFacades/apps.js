@@ -507,6 +507,14 @@ function adminUpdateApp({ app, values }) {
     return Promise.all(promises);
 }
 
+function adminDeleteDisableApp({ systemId, appId, deleted, disabled }) {
+    return callApi({
+        endpoint: `/api/admin/apps/${systemId}/${appId}`,
+        method: "PATCH",
+        body: { deleted, disabled },
+    });
+}
+
 function requestToPublishApp({ systemId, appId, request }) {
     return callApi({
         endpoint: `/api/apps/${systemId}/${appId}/publish`,
@@ -555,6 +563,7 @@ export {
     searchAppsInfiniteQuery,
     getAppDoc,
     saveAppDoc,
+    adminDeleteDisableApp,
     adminGetAppAVUs,
     adminUpdateApp,
     adminUpdateAppMetadata,

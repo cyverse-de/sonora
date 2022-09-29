@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "i18n";
 import PropTypes from "prop-types";
 
+import DeletedIcon from "@material-ui/icons/Delete";
 import Disabled from "@material-ui/icons/Block";
 import Lock from "@material-ui/icons/Lock";
 import VerifiedUser from "@material-ui/icons/VerifiedUser";
@@ -15,15 +16,19 @@ import { useTheme } from "@material-ui/core";
  */
 
 function AppStatusIcon(props) {
-    const { isPublic, isDisabled, isBeta, isBlessed, ...custom } = props;
+    const { isPublic, isDeleted, isDisabled, isBeta, isBlessed, ...custom } =
+        props;
     const theme = useTheme();
     const isPrivate = !isPublic;
 
-    if (isPrivate) {
-        return <PrivateIcon {...custom} color="primary" />;
+    if (isDeleted) {
+        return <DeletedIcon {...custom} color="error" />;
     }
     if (isDisabled) {
         return <DisabledIcon {...custom} color="error" />;
+    }
+    if (isPrivate) {
+        return <PrivateIcon {...custom} color="primary" />;
     }
     if (isBeta) {
         return <BetaIcon {...custom} />;

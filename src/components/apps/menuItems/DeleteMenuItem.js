@@ -13,7 +13,7 @@ import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import { Delete as DeleteIcon } from "@material-ui/icons";
 
 export default function DeleteMenuItem(props) {
-    const { baseId, handleDelete, onClose } = props;
+    const { baseId, isDeleted, handleDelete, onClose } = props;
 
     const { t } = useTranslation("common");
 
@@ -28,7 +28,7 @@ export default function DeleteMenuItem(props) {
             <ListItemIcon>
                 <DeleteIcon fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary={t("delete")} />
+            <ListItemText primary={t(isDeleted ? "restore" : "delete")} />
         </MenuItem>
     );
 }

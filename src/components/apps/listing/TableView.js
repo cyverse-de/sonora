@@ -129,6 +129,7 @@ function TableView(props) {
         enableActionCell = false,
         isAdminView,
         searchTerm,
+        appBarHeight,
     } = props;
     const { t } = useTranslation("apps");
     const apps = listing?.apps;
@@ -145,7 +146,7 @@ function TableView(props) {
     }
 
     return (
-        <PageWrapper appBarHeight={isAdminView ? 290 : 0}>
+        <PageWrapper appBarHeight={appBarHeight || 0}>
             <TableContainer component={Paper} style={{ overflow: "auto" }}>
                 <Table
                     stickyHeader={true}
@@ -256,6 +257,7 @@ function TableView(props) {
                                                 <AppStatusIcon
                                                     isPublic={app.is_public}
                                                     isBeta={app.beta}
+                                                    isDeleted={app.deleted}
                                                     isDisabled={app.disabled}
                                                     isBlessed={app.isBlessed}
                                                 />

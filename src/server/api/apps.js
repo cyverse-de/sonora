@@ -392,6 +392,19 @@ export default function appsRouter() {
         })
     );
 
+    logger.info("adding the PATCH /admin/apps/:systemId/:appId handler");
+    api.patch(
+        "/admin/apps/:systemId/:appId",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/admin/apps/:systemId/:appId",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info(
         "adding the GET /admin/apps/:systemId/:appId/versions/:versionId/details handler"
     );

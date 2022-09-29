@@ -127,6 +127,7 @@ export default function Apps() {
                         isAdminView={isAdmin}
                         searchTerm={searchTerm}
                         adminOwnershipFilter={adminOwnershipFilter}
+                        appBarHeight={290}
                     />
                 </DETabPanel>
                 <DETabPanel
@@ -134,7 +135,7 @@ export default function Apps() {
                     value={TABS.pubRequest}
                     selectedTab={selectedTab}
                 >
-                    <AppPublicationRequests />
+                    <AppPublicationRequests parentId={"pubRequestListing"} />
                 </DETabPanel>
             </>
         );

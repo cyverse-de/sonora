@@ -113,6 +113,7 @@ function TableView(props) {
         handleCheckboxClick,
         handleClick,
         handleDelete,
+        handleDisable,
         order,
         orderBy,
         selected,
@@ -351,6 +352,9 @@ function TableView(props) {
                                                         canShare={canShare}
                                                         handleDelete={
                                                             handleDelete
+                                                        }
+                                                        handleDisable={
+                                                            handleDisable
                                                         }
                                                         onDetailsSelected={
                                                             onDetailsSelected

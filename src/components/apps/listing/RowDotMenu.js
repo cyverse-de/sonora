@@ -20,6 +20,7 @@ import CopyMenuItem from "../menuItems/CopyMenuItem";
 import CreateVersionMenuItem from "../menuItems/CreateVersionMenuItem";
 import DeleteMenuItem from "../menuItems/DeleteMenuItem";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
+import DisableMenuItem from "../menuItems/DisableMenuItem";
 import DocMenuItem from "../menuItems/DocMenuItem";
 import EditMenuItem from "../menuItems/EditMenuItem";
 import SavedLaunchMenuItem from "../menuItems/SavedLaunchMenuItem";
@@ -38,6 +39,7 @@ function RowDotMenu(props) {
         baseId,
         ButtonProps,
         canShare,
+        handleDisable,
         handleDelete,
         setSharingDlgOpen,
         onDetailsSelected,
@@ -149,6 +151,15 @@ function RowDotMenu(props) {
                             }}
                         />,
                     ],
+                    isAdminView && (
+                        <DisableMenuItem
+                            key={buildID(baseId, ids.DISABLE)}
+                            baseId={baseId}
+                            isDisabled={app?.disabled}
+                            handleDisable={handleDisable}
+                            onClose={onClose}
+                        />
+                    ),
                     canDelete && (
                         <DeleteMenuItem
                             key={buildID(baseId, ids.DELETE)}

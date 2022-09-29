@@ -265,7 +265,7 @@ export const appListing = {
             permission: "read",
             isBlessed: false,
             can_favor: true,
-            disabled: false,
+            disabled: true,
             can_rate: true,
             name: "Discovery Environment Alpha Testing App",
             limitChecks: { canRun: true, results: [] },

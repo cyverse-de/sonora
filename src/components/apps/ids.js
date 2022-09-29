@@ -64,6 +64,7 @@ export default {
     VIEW_ALL_APPS: "viewAllApps",
     SAVED_LAUNCH_MENU_ITEM: "savedLaunchMI",
     DELETE: "delete",
+    DISABLE: "disable",
     DOC_MENU_ITEM: "documentation",
     EDIT_MENU_ITEM: "edit",
     SEARCH: "search",

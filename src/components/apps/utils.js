@@ -136,14 +136,6 @@ export const useAppLaunchLink = (systemId, appId) => {
     return [href, as];
 };
 
-export const canShare = (apps) => {
-    return (
-        apps &&
-        apps.length > 0 &&
-        !apps.find((app) => app?.permission !== Permissions.OWN)
-    );
-};
-
 export const hasOwn = (permission) => {
     return Permissions.OWN === permission;
 };
@@ -158,6 +150,16 @@ export const isWritable = (permission) => {
 export const isReadable = (permission) => {
     return (
         permissionHierarchy(permission) >= permissionHierarchy(Permissions.READ)
+    );
+};
+
+export const canShare = (apps, isAdmin) => {
+    return (
+        apps &&
+        apps.length > 0 &&
+        !apps.find((app) =>
+            isAdmin ? !isReadable(app?.permission) : !hasOwn(app?.permission)
+        )
     );
 };
 

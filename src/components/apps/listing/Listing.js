@@ -101,7 +101,7 @@ function Listing(props) {
         return apps.filter((app) => selected.find((id) => app.id === id));
     }, [data, selected]);
 
-    const shareEnabled = canShare(getSelectedApps());
+    const shareEnabled = canShare(getSelectedApps(), isAdminView);
 
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
     const [docDlgOpen, setDocDlgOpen] = useState(false);
@@ -765,6 +765,7 @@ function Listing(props) {
                 open={sharingDlgOpen}
                 onClose={() => setSharingDlgOpen(false)}
                 resources={sharingApps}
+                isAdminView={isAdminView}
             />
             <AppDocDialog
                 baseId={buildID(baseId, ids.DOCUMENTATION)}

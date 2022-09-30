@@ -12,6 +12,16 @@ import {
     appListing,
     categories,
 } from "./AppMocks";
+import {
+    appPermissionListResponse,
+    appShareResponse,
+    appUnshareResponse,
+} from "../sharing/SharingMocks";
+import {
+    collabListMemberResp,
+    userInfoMemberResp,
+    userInfoResp,
+} from "../UserInfoMocks";
 
 import constants from "../../src/constants";
 import appFields from "components/apps/appFields";
@@ -76,6 +86,34 @@ function ListingTest({ isAdminView }) {
         return [200];
     });
     mockAxios.onGet("/api/communities").reply(200, myCollectionList);
+
+    mockAxios.onGet(/\/api\/subjects.*/).reply(200, {
+        subjects: [
+            ...Object.values(userInfoResp),
+            { id: "test_user", email: "test@test.com", name: "Testy Test" },
+        ],
+    });
+    mockAxios
+        .onGet(/\/api\/user-info.*username=alfred.*/)
+        .reply(200, userInfoResp);
+    mockAxios
+        .onPost(/\/api\/apps\/permission-lister/)
+        .reply(200, appPermissionListResponse);
+    mockAxios.onPost(/\/api(\/admin)?\/apps\/sharing/).reply((config) => {
+        console.log("Sharing request", config.url, JSON.parse(config.data));
+        return [200, appShareResponse];
+    });
+    mockAxios.onPost(/\/api(\/admin)?\/apps\/unsharing/).reply((config) => {
+        console.log("Unshare request", config.url, JSON.parse(config.data));
+        return [200, appUnshareResponse];
+    });
+
+    mockAxios
+        .onGet("/api/collaborator-lists/default/members")
+        .reply(200, collabListMemberResp);
+    mockAxios
+        .onGet(/\/api\/user-info.*username=superman.*/)
+        .reply(200, userInfoMemberResp);
 
     const { t } = useTranslation("apps");
     const fields = appFields(t);

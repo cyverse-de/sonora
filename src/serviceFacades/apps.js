@@ -276,13 +276,14 @@ function searchAppsInfiniteQuery({
     });
 }
 
-function getAppPermissions({ apps }) {
+function getAppPermissions({ apps, params }) {
     return callApi({
         endpoint: `/api/apps/permission-lister`,
         method: "POST",
         body: {
             apps,
         },
+        params,
     });
 }
 

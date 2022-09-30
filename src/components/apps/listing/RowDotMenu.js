@@ -86,26 +86,23 @@ function RowDotMenu(props) {
                             app={app}
                         />
                     ),
+                    !isAdminView && canEditLabels && (
+                        <EditMenuItem
+                            key={buildID(baseId, ids.EDIT_MENU_ITEM)}
+                            baseId={baseId}
+                            onClose={onClose}
+                            app={app}
+                        />
+                    ),
+                    canShare && (
+                        <SharingMenuItem
+                            key={buildID(baseId, shareIds.SHARING_MENU_ITEM)}
+                            baseId={baseId}
+                            onClose={onClose}
+                            setSharingDlgOpen={setSharingDlgOpen}
+                        />
+                    ),
                     !isAdminView && [
-                        canEditLabels && (
-                            <EditMenuItem
-                                key={buildID(baseId, ids.EDIT_MENU_ITEM)}
-                                baseId={baseId}
-                                onClose={onClose}
-                                app={app}
-                            />
-                        ),
-                        canShare && (
-                            <SharingMenuItem
-                                key={buildID(
-                                    baseId,
-                                    shareIds.SHARING_MENU_ITEM
-                                )}
-                                baseId={baseId}
-                                onClose={onClose}
-                                setSharingDlgOpen={setSharingDlgOpen}
-                            />
-                        ),
                         canPublish && (
                             <PublishMenuItem
                                 key={buildID(baseId, ids.PUBLISH_MENU_ITEM)}

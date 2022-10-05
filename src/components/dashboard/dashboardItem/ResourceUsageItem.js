@@ -39,12 +39,17 @@ export default function ResourceUsageItem(props) {
     if (isLoading) {
         return <Skeleton variant="rect" width={800} height={200} />;
     }
+
+    const userPlan = resourceUsageSummary?.user_plan;
     const startDate = formatDateObject(
-        new Date(resourceUsageSummary?.user_plan.effective_start_date)
+        new Date(userPlan?.effective_start_date)
     );
-    const endDate = formatDateObject(
-        new Date(resourceUsageSummary?.user_plan.effective_end_date)
-    );
+    const endDate = formatDateObject(new Date(userPlan?.effective_end_date));
+    const currentPlanName = userPlan?.plan?.name;
+    const dataUsage = resourceUsageSummary?.data_usage;
+    const cpuUsage = resourceUsageSummary?.cpu_usage;
+    const usageSummaryErrors = resourceUsageSummary?.errors;
+
     return (
         <>
             <Typography
@@ -70,72 +75,75 @@ export default function ResourceUsageItem(props) {
             )}
             {!resourceUsageError && (
                 <>
-                    <Grid container spacing={3}>
-                        <Grid item xs={6}>
-                            <Typography>
-                                <Trans
-                                    t={t}
-                                    values={{
-                                        plan: resourceUsageSummary?.user_plan
-                                            ?.plan?.name,
-                                    }}
-                                    i18nKey="currentPlan"
-                                    components={{
-                                        featureMatrixLink: (
-                                            <ExternalLink
-                                                href={FEATURE_MATRIX_URL}
-                                            />
-                                        ),
-                                    }}
-                                />
-                            </Typography>
+                    {resourceUsageSummary && (
+                        <Grid container spacing={3}>
+                            <Grid item xs={6}>
+                                <Typography>
+                                    <Trans
+                                        t={t}
+                                        values={{ plan: currentPlanName }}
+                                        i18nKey="currentPlan"
+                                        components={{
+                                            featureMatrixLink: (
+                                                <ExternalLink
+                                                    href={FEATURE_MATRIX_URL}
+                                                />
+                                            ),
+                                        }}
+                                    />
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Button
+                                    color="primary"
+                                    size="small"
+                                    variant="contained"
+                                    onClick={() =>
+                                        window.open(
+                                            config?.subscriptions?.checkout_url,
+                                            "_blank"
+                                        )
+                                    }
+                                >
+                                    {t("buy")}
+                                </Button>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography>
+                                    {t("effectiveTimePeriod", {
+                                        startDate,
+                                        endDate,
+                                    })}
+                                </Typography>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={6}>
-                            <Button
-                                color="primary"
-                                size="small"
-                                variant="contained"
-                                onClick={() =>
-                                    window.open(
-                                        config?.subscriptions?.checkout_url,
-                                        "_blank"
-                                    )
-                                }
-                            >
-                                {t("buy")}
-                            </Button>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography>
-                                {t("effectiveTimePeriod", {
-                                    startDate,
-                                    endDate,
-                                })}
-                            </Typography>
-                        </Grid>
-                    </Grid>
+                    )}
                     <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
-                            <Card>
-                                <DataConsumption
-                                    data={resourceUsageSummary?.data_usage}
-                                    userPlan={resourceUsageSummary?.user_plan}
-                                    isLoading={isLoading}
-                                    errors={resourceUsageSummary?.errors}
-                                />
-                            </Card>
-                        </Grid>
+                        {resourceUsageSummary && (
+                            <Grid item xs={12} md={6}>
+                                <Card>
+                                    <DataConsumption
+                                        data={dataUsage}
+                                        userPlan={userPlan}
+                                        isLoading={isLoading}
+                                        errors={usageSummaryErrors}
+                                    />
+                                </Card>
+                            </Grid>
+                        )}
 
-                        <Grid item xs={12} md={6}>
-                            <Card>
-                                <CPUConsumption
-                                    data={resourceUsageSummary?.cpu_usage}
-                                    userPlan={resourceUsageSummary?.user_plan}
-                                    isLoading={isLoading}
-                                    errors={resourceUsageSummary?.errors}
-                                />
-                            </Card>
-                        </Grid>
+                        {resourceUsageSummary && (
+                            <Grid item xs={12} md={6}>
+                                <Card>
+                                    <CPUConsumption
+                                        data={cpuUsage}
+                                        userPlan={userPlan}
+                                        isLoading={isLoading}
+                                        errors={usageSummaryErrors}
+                                    />
+                                </Card>
+                            </Grid>
+                        )}
                         <Grid item xs={12} md={12}>
                             <Card>
                                 <AnalysesStats />

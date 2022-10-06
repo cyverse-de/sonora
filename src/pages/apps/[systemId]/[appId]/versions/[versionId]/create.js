@@ -77,6 +77,7 @@ export default function AppVersionCreate() {
     const router = useRouter();
     const { systemId, appId, versionId } = router.query;
 
+    const isPublic = appDetails?.is_public;
     const isWorkflow = appDetails?.step_count > 1;
 
     const { isFetching: appInfoLoading } = useQuery({
@@ -143,6 +144,7 @@ export default function AppVersionCreate() {
         <AppEditor
             baseId={ids.APP_EDITOR_VIEW}
             appDescription={appDescription}
+            isPublic={isPublic}
             loading={loading}
             loadingError={loadingError}
         />

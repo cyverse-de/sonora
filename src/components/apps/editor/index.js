@@ -180,6 +180,7 @@ const AppEditor = (props) => {
         baseId,
         appDescription,
         cosmeticOnly,
+        isPublic,
         loading,
         loadingError,
         showErrorAnnouncer,
@@ -631,6 +632,7 @@ const AppEditor = (props) => {
                                 <AppInfo
                                     baseId={baseId}
                                     cosmeticOnly={cosmeticOnly}
+                                    isPublic={isPublic}
                                 />
                             ) : activeStepInfo === stepParameters ? (
                                 <ParamGroups

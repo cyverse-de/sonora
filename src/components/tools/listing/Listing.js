@@ -12,7 +12,8 @@ import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import constants from "../../../constants";
-import ToolsToolbar, { TOOL_FILTER_VALUES } from "../toolbar/Toolbar";
+import ToolsToolbar from "components/tools/toolbar/Toolbar";
+import { TOOL_FILTER_VALUES } from "components/tools/utils";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 /**
@@ -33,6 +34,7 @@ function Listing(props) {
         order,
         orderBy,
         permFilter,
+        filterDisabled,
         searchTerm,
         showErrorAnnouncer,
         isAdmin,
@@ -278,6 +280,7 @@ function Listing(props) {
                 disableShare={disableShare}
                 selected={selected}
                 getSelectedTools={getSelectedTools}
+                filterDisabled={filterDisabled}
                 handleOwnershipFilterChange={handleOwnershipFilterChange}
                 handleSearch={handleSearch}
                 searchTerm={searchTerm}

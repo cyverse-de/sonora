@@ -17,4 +17,9 @@ const isWritable = (permission) => {
     );
 };
 
-export { isWritable, canShare };
+const TOOL_FILTER_VALUES = {
+    MY_TOOLS: "MY_TOOLS",
+    PUBLIC: "PUBLIC",
+};
+
+export { TOOL_FILTER_VALUES, isWritable, canShare };

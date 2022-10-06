@@ -17,6 +17,7 @@ import SharingButton from "components/sharing/SharingButton";
 import Sharing from "components/sharing";
 import { formatSharedTools } from "components/sharing/util";
 import EditToolDialog from "components/tools/edit/EditTool";
+import { TOOL_FILTER_VALUES } from "components/tools/utils";
 
 import buildID from "components/utils/DebugIDUtil";
 import SearchField from "components/searchField/SearchField";
@@ -35,11 +36,6 @@ import {
 
 import { Info } from "@material-ui/icons";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-
-export const TOOL_FILTER_VALUES = {
-    MY_TOOLS: "MY_TOOLS",
-    PUBLIC: "PUBLIC",
-};
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -124,6 +120,7 @@ export default function ToolsToolbar(props) {
         disableEdit,
         disableShare,
         getSelectedTools,
+        filterDisabled,
         ownershipFilter,
         handleOwnershipFilterChange,
         handleSearch,
@@ -153,7 +150,7 @@ export default function ToolsToolbar(props) {
         <>
             <Toolbar variant="dense">
                 <Hidden xsDown>
-                    {!isAdmin && (
+                    {!(isAdmin || filterDisabled) && (
                         <PermissionsFilter
                             baseId={baseId}
                             filter={ownershipFilter}
@@ -232,7 +229,7 @@ export default function ToolsToolbar(props) {
             />
             <Dialog open={openFilterDialog}>
                 <DialogContent>
-                    {!isAdmin && (
+                    {!(isAdmin || filterDisabled) && (
                         <PermissionsFilter
                             baseId={baseId}
                             filter={ownershipFilter}

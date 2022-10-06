@@ -150,7 +150,7 @@ KitchenSinkEditor.argTypes = {
     },
 };
 
-export const KitchenSinkNewVersionEditor = () => {
+export const KitchenSinkNewVersionEditor = ({ isPublic }) => {
     initMockAxiosForAppEditor();
 
     const { version_id, ...appDescription } = AppDescriptionMock;
@@ -159,8 +159,22 @@ export const KitchenSinkNewVersionEditor = () => {
         <AppEditor
             baseId={ids.APP_EDITOR_VIEW}
             appDescription={appDescription}
+            isPublic={isPublic}
         />
     );
+};
+
+KitchenSinkNewVersionEditor.args = {
+    isPublic: false,
+};
+
+KitchenSinkNewVersionEditor.argTypes = {
+    isPublic: {
+        name: "Public App View",
+        control: {
+            type: "boolean",
+        },
+    },
 };
 
 export default { title: "Apps / Editor" };

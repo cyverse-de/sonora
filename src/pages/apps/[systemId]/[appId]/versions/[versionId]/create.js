@@ -134,6 +134,7 @@ export default function AppVersionCreate() {
             <WorkflowEditor
                 baseId={WorkflowIds.WORKFLOW_EDITOR_FORM}
                 appDescription={workflowDescription}
+                isPublic={isPublic}
                 loading={loading}
                 loadingError={loadingError}
             />

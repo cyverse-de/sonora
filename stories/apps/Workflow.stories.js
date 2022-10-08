@@ -152,7 +152,7 @@ export const DeprecatedToolsPipeline = (props) => {
 DeprecatedToolsPipeline.argTypes = { loading };
 DeprecatedToolsPipeline.args = { loading: false };
 
-export const SimplePipelineNewVersion = () => {
+export const SimplePipelineNewVersion = ({ isPublic }) => {
     initAxiosMocks();
 
     const { version_id, ...appDescription } = workflowDescription;
@@ -161,8 +161,22 @@ export const SimplePipelineNewVersion = () => {
         <WorkflowEditor
             baseId={ids.WORKFLOW_EDITOR_FORM}
             appDescription={appDescription}
+            isPublic={isPublic}
         />
     );
+};
+
+SimplePipelineNewVersion.args = {
+    isPublic: false,
+};
+
+SimplePipelineNewVersion.argTypes = {
+    isPublic: {
+        name: "Public App View",
+        control: {
+            type: "boolean",
+        },
+    },
 };
 
 export default { title: "Apps / Workflows" };

@@ -15,6 +15,7 @@
     "mapOutputsToInputs": "Match Outputs to Inputs",
     "outputMappingLabel": "Step {{step}}: {{label}}",
     "outputsLabel": "Output(s)",
+    "privateAppsNotAllowed": "Private apps can't be included in a public workflow.",
     "saveAndExit": "Save and Exit",
     "saveAndLaunch": "Save and Launch",
     "selectAndOrderApps": "Select & Order Apps",

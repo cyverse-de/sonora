@@ -155,6 +155,7 @@ const WorkflowEditor = (props) => {
     const {
         baseId,
         appDescription,
+        isPublic,
         loading,
         loadingError,
         showErrorAnnouncer,
@@ -575,6 +576,7 @@ const WorkflowEditor = (props) => {
                             ) : activeStepInfo === stepOrderApps ? (
                                 <AppOrder
                                     baseId={baseId}
+                                    publicOnly={isPublic}
                                     steps={values.steps}
                                     setFieldValue={setFieldValue}
                                 />

@@ -16,16 +16,15 @@ import {
     ANALYSIS_RELAUNCH_QUERY_KEY,
 } from "serviceFacades/analyses";
 
-import {
-    getResourceUsageSummary,
-    RESOURCE_USAGE_QUERY_KEY,
-} from "serviceFacades/dashboard";
+import { getResourceUsageSummary } from "serviceFacades/dashboard";
 import { useConfig } from "contexts/config";
 import { getUserQuota } from "../../../common/resourceUsage";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import AppLaunch from "components/apps/launch";
 import { useUserProfile } from "contexts/userProfile";
+
+import { APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY } from "pages/apps/[systemId]/[appId]/launch";
 
 const Relaunch = ({ showErrorAnnouncer }) => {
     const { t } = useTranslation("dashboard");
@@ -87,7 +86,7 @@ const Relaunch = ({ showErrorAnnouncer }) => {
     });
 
     const { isFetching: fetchingUsageSummary } = useQuery({
-        queryKey: [RESOURCE_USAGE_QUERY_KEY],
+        queryKey: [APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY],
         queryFn: getResourceUsageSummary,
         enabled: !!config?.subscriptions?.enforce,
         onSuccess: (respData) => {

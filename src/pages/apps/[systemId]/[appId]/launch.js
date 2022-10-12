@@ -33,6 +33,9 @@ import { getUserQuota } from "../../../../common/resourceUsage";
 import globalConstants from "../../../../constants";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
+export const APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY =
+    RESOURCE_USAGE_QUERY_KEY + "AppLaunch";
+
 function Launch({ showErrorAnnouncer }) {
     const { t } = useTranslation("dashboard");
     const [config] = useConfig();
@@ -113,7 +116,7 @@ function Launch({ showErrorAnnouncer }) {
     });
 
     const { isFetching: fetchingUsageSummary } = useQuery({
-        queryKey: [RESOURCE_USAGE_QUERY_KEY],
+        queryKey: [APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY],
         queryFn: getResourceUsageSummary,
         enabled: !!config?.subscriptions?.enforce,
         onSuccess: (respData) => {

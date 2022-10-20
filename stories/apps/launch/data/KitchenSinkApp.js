@@ -16,6 +16,12 @@ export default {
     label: "kitchen sink",
     id: "1778b1d6-5a83-11ea-9e38-008cfa5ae621",
     app_type: "DE",
+    version: "v2",
+    version_id: "b9e1e332-0d34-11ed-ab8a-62d47aced14b",
+    versions: [
+        { version: "v2", version_id: "b9e1e332-0d34-11ed-ab8a-62d47aced14b" },
+        { version: "v1", version_id: "8a1e3b3c-0d34-11ed-8b77-62d47aced14b" },
+    ],
     groups: [
         {
             id: "177a671a-5a83-11ea-9e38-008cfa5ae621",

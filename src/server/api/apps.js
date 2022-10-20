@@ -224,6 +224,18 @@ export default function appsRouter() {
     );
 
     logger.info(
+        "adding the GET /apps/:systemId/:appId/versions/:versionId handler"
+    );
+    api.get(
+        "/apps/:systemId/:appId/versions/:versionId",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/:systemId/:appId/versions/:versionId",
+        })
+    );
+
+    logger.info(
         "adding the PATCH /apps/:systemId/:appId/versions/:versionId handler"
     );
     api.patch(
@@ -265,6 +277,18 @@ export default function appsRouter() {
             headers: {
                 "Content-Type": "application/json",
             },
+        })
+    );
+
+    logger.info(
+        "adding the GET /apps/:systemId/:appId/versions/:versionId/details handler"
+    );
+    api.get(
+        "/apps/:systemId/:appId/versions/:versionId/details",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/apps/:systemId/:appId/versions/:versionId/details",
         })
     );
 

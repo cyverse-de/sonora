@@ -166,7 +166,14 @@ const AppLaunchForm = (props) => {
         defaultOutputDir,
         createSavedLaunch,
         submitAnalysis,
-        app: { id: app_id, name: appName, app_type, groups, requirements },
+        app: {
+            id: app_id,
+            version_id,
+            name: appName,
+            app_type,
+            groups,
+            requirements,
+        },
     } = props;
 
     const formId = buildID(baseId, ids.APP_LAUNCH_FORM);
@@ -473,6 +480,7 @@ const AppLaunchForm = (props) => {
                             description,
                             is_public,
                             app_id,
+                            app_version_id: version_id,
                             submission: savedLaunchSubmission,
                         },
                         onSuccess,

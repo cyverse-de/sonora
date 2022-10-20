@@ -50,11 +50,22 @@ const initMockAxiosForAppEditor = () => {
         const app = JSON.parse(config.data);
         console.log("Save New App", config.url, app);
 
-        const resp = {
-            ...app,
-            id: app.id || "new-uuid",
-            version_id: "new-version-uuid",
-        };
+        const resp = { ...app, id: app.id || "new-uuid" };
+
+        // This will allow the view to switch to the app update view after a
+        // successful save.
+        if (AppDescriptionMock.versions) {
+            // This trick will allow the new version label to be selected in the
+            // version selector in the app update view.
+            resp.versions = [...AppDescriptionMock.versions];
+            resp.version_id = AppDescriptionMock.versions[0].version_id;
+            resp.versions[0] = {
+                ...AppDescriptionMock.versions[0],
+                version: app.version,
+            };
+        } else {
+            resp.version_id = "new-version-uuid";
+        }
 
         return [200, resp];
     });
@@ -62,6 +73,17 @@ const initMockAxiosForAppEditor = () => {
     mockAxios.onPut(/\/api\/apps\/.*/).reply((config) => {
         const app = JSON.parse(config.data);
         console.log("Update App", config.url, app);
+
+        if (AppDescriptionMock.versions) {
+            // This trick will allow the new version label to be selected in the
+            // version selector in the app update view.
+            app.versions = [...AppDescriptionMock.versions];
+            app.version_id = AppDescriptionMock.versions[0].version_id;
+            app.versions[0] = {
+                ...AppDescriptionMock.versions[0],
+                version: app.version,
+            };
+        }
 
         return [200, app];
     });

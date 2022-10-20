@@ -50,7 +50,7 @@ import { canShare } from "../utils";
 
 import Sharing from "components/sharing";
 import { formatSharedApps } from "components/sharing/util";
-import AppDoc from "components/apps/details/AppDoc";
+import AppDocDialog from "components/apps/details/AppDoc";
 import SavedLaunchDialog from "../savedLaunch/SavedLaunchDialog";
 import { useUserProfile } from "contexts/userProfile";
 import AdminAppDetailsDialog from "../admin/details/AdminAppDetails";
@@ -696,10 +696,11 @@ function Listing(props) {
                 onClose={() => setSharingDlgOpen(false)}
                 resources={sharingApps}
             />
-            <AppDoc
+            <AppDocDialog
                 baseId={buildID(baseId, ids.DOCUMENTATION)}
                 open={docDlgOpen}
                 appId={selectedApp?.id}
+                versionId={selectedApp?.version_id}
                 systemId={selectedApp?.system_id}
                 name={selectedApp?.name}
                 onClose={() => setDocDlgOpen(false)}

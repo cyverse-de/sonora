@@ -342,6 +342,35 @@ export default function appsRouter() {
         })
     );
 
+    logger.info(
+        "adding the GET /apps/:systemId/:appId/versions/:versionId/documentation handler"
+    );
+    api.get(
+        "/apps/:systemId/:appId/versions/:versionId/documentation",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname:
+                "/apps/:systemId/:appId/versions/:versionId/documentation",
+        })
+    );
+
+    logger.info(
+        "adding the PATCH /apps/:systemId/:appId/versions/:versionId/documentation handler"
+    );
+    api.patch(
+        "/apps/:systemId/:appId/versions/:versionId/documentation",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname:
+                "/apps/:systemId/:appId/versions/:versionId/documentation",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("************ Adding Admin Apps handlers **********");
     logger.info("adding the GET /admin/apps handler");
     api.get(

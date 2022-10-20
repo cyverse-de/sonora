@@ -286,19 +286,30 @@ function getAppPermissions({ apps }) {
     });
 }
 
-function getAppDoc({ systemId, appId }) {
-    return callApi({
-        endpoint: `/api/apps/${systemId}/${appId}/documentation`,
-        method: "GET",
-    });
+function getAppDoc({ systemId, appId, versionId }) {
+    return versionId
+        ? callApi({
+              endpoint: `/api/apps/${systemId}/${appId}/versions/${versionId}/documentation`,
+              method: "GET",
+          })
+        : callApi({
+              endpoint: `/api/apps/${systemId}/${appId}/documentation`,
+              method: "GET",
+          });
 }
 
-function saveAppDoc({ systemId, appId, documentation }) {
-    return callApi({
-        endpoint: `/api/apps/${systemId}/${appId}/documentation`,
-        method: "PATCH",
-        body: { documentation },
-    });
+function saveAppDoc({ systemId, appId, versionId, documentation }) {
+    return versionId
+        ? callApi({
+              endpoint: `/api/apps/${systemId}/${appId}/versions/${versionId}/documentation`,
+              method: "PATCH",
+              body: { documentation },
+          })
+        : callApi({
+              endpoint: `/api/apps/${systemId}/${appId}/documentation`,
+              method: "PATCH",
+              body: { documentation },
+          });
 }
 
 function getAppTasks({ systemId, appId }) {

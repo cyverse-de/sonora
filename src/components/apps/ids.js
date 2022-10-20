@@ -47,6 +47,7 @@ export default {
     DETAILS_DRAWER: "appDetailsDrawer",
     DETAILS_MENU_ITEM: "details",
     DETAILS_TAB: "detailsTab",
+    DOCS_TAB: "documentationTab",
     ADD_TO_BAG_BTN: "addToBagBtn",
     ADD_TO_BAG_MENU_ITEM: "addToBag",
     TOOLS_INFO_TAB: "toolsInfoTab",

@@ -7,6 +7,7 @@ export default {
     WORKFLOW_DESCRIPTION: "description",
     WORKFLOW_EDITOR_FORM: "workflowEditorForm",
     WORKFLOW_NAME: "name",
+    WORKFLOW_VERSION: "version",
 
     BUTTONS: {
         ADD_APPS: "addAppsBtn",

@@ -10,12 +10,14 @@ import { useTranslation } from "i18n";
 import buildID from "components/utils/DebugIDUtil";
 import DotMenu from "components/dotMenu/DotMenu";
 
+import SystemIds from "components/models/systemId";
 import ids from "../ids";
 import { hasOwn, isReadable, isWritable } from "../utils";
 import { getHost } from "components/utils/getHost";
 import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
 import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
 import CopyMenuItem from "../menuItems/CopyMenuItem";
+import CreateVersionMenuItem from "../menuItems/CreateVersionMenuItem";
 import DeleteMenuItem from "../menuItems/DeleteMenuItem";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 import DocMenuItem from "../menuItems/DocMenuItem";
@@ -56,10 +58,11 @@ function RowDotMenu(props) {
 
     const canPublish = isOwner && !isAppPublic;
     const canDelete = isOwner && !isAppPublic;
-    const canCopy = isReadable(app?.permission);
-    const canEdit =
-        isWritable(app?.permission) ||
-        (isAppPublic && !isWorkflow && isAppIntegrator);
+    const canCopy =
+        isReadable(app?.permission) && app?.system_id === SystemIds.de;
+    const canEdit = isWritable(app?.permission);
+    const canEditLabels =
+        canEdit || (isAppPublic && !isWorkflow && isAppIntegrator);
 
     return (
         <>
@@ -73,8 +76,16 @@ function RowDotMenu(props) {
                         onClose={onClose}
                         onDetailsSelected={onDetailsSelected}
                     />,
+                    canEdit && (
+                        <CreateVersionMenuItem
+                            key={ids.CREATE_APP_VERSION_MENU_ITEM}
+                            baseId={baseId}
+                            onClose={onClose}
+                            app={app}
+                        />
+                    ),
                     !isAdminView && [
-                        canEdit && (
+                        canEditLabels && (
                             <EditMenuItem
                                 key={buildID(baseId, ids.EDIT_MENU_ITEM)}
                                 baseId={baseId}

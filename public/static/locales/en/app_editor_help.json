@@ -35,7 +35,7 @@
     "Regex": "Indicates that the text the user enters must match the expression you define.",
     "RepeatOptionFlag": "Selecting this option allows the \"Argument option\" defined for this parameter to be included on the command line before each filename selected by the user.",
     "Section": "<p>An app can contain multiple <b>sections</b> that appear as collapsible panels to help organize the app's content.</p><p>For example, you may have one section labeled \"Inputs\" where users select their input data, as well as an \"Options\" section where users select from the various options you have created for your app.</p>",
-    "StepErrorInfo": "Apps require a name and a description.",
+    "StepErrorInfo": "Apps require a name, version, and a description.",
     "StepHelpInfo": "Enter a name and a brief description for this app. The app description will display in app search results and at the top of the app launch form. More detailed documentation for this app may be added when it's made public. A tool selection is required in order for the app to run, but a work in progress may be saved before selecting a tool.",
     "Text": "Will display a text box the user may enter information into. You can also set informative or descriptive default \"background\" text to display in the text box.",
     "TextSelection": "Adds a drop-down list from which the user can make one selection from the options you define.",

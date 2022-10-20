@@ -9,6 +9,7 @@
     "appSaved": "App Saved",
     "appSavedSuggestions": "The app is saved, so you can test it out by launching the app, or you can exit the editor now.",
     "appSaveErr": "Unable to save app. Please try again.",
+    "appVersion": "Version",
     "argumentOption": "Argument option",
     "checkboxArgOptionCheckedLabel": "Argument option when checked",
     "checkboxArgValueCheckedLabel": "Value when checked",
@@ -25,6 +26,7 @@
     "confirmDeleteParamTitle": "Delete Parameter?",
     "confirmDeleteParamText": "This action cannot be undone.",
     "createApp": "Create App: {{name}}",
+    "createAppVersion": "Create New Version of \"{{name}}\"",
     "dataSourceLabel": "Source of output file",
     "defaultValue": "Default value",
     "doNotPass": "Do not pass this argument to command line.",
@@ -78,5 +80,6 @@
     "validationRuleRegex": "Matches a reqular expression",
     "validationRuleValueAbove": "Has a lower limit",
     "validationRuleValueBelow": "Has an upper limit",
-    "validationRuleValueRange": "Has a range of allowed values"
+    "validationRuleValueRange": "Has a range of allowed values",
+    "versionDuplicateLabelError": "Another version is already using that label"
 }

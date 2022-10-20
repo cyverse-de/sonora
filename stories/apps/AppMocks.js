@@ -51,6 +51,8 @@ export const appListing = {
     total: 645,
     apps: [
         {
+            version_id: "8c6f09fc-127a-11ed-9c8c-008cfa5ae621",
+            version: "Unversioned",
             integration_date: "2016-01-22T00:24:54.000Z",
             description: "16sblaster",
             deleted: false,
@@ -76,6 +78,8 @@ export const appListing = {
             rating: { average: 5, total: 1 },
         },
         {
+            version_id: "8c7f2846-127a-11ed-9c8c-008cfa5ae621",
+            version: "Unversioned",
             integration_date: "2013-05-24T21:44:49.000Z",
             description:
                 "This App will add existing reference annotation information to newly assembled transcripts in GFF format.",
@@ -104,6 +108,8 @@ export const appListing = {
             rating: { average: 1, total: 1 },
         },
         {
+            version_id: "8c91535e-127a-11ed-9c8c-008cfa5ae621",
+            version: "Unversioned",
             integration_date: "2018-04-26T18:22:58.000Z",
             description:
                 "Outputs counts at each position of a genome marked in the BAM input file.",
@@ -130,6 +136,8 @@ export const appListing = {
             rating: { average: 0, total: 0 },
         },
         {
+            version_id: "8c897814-127a-11ed-9c8c-008cfa5ae621",
+            version: "Unversioned",
             integration_date: "2014-08-06T14:55:45.000Z",
             description:
                 "This app lets the user blast two sequences without having to run formatdb on the subject sequence.",
@@ -158,6 +166,8 @@ export const appListing = {
             rating: { average: 2.5, total: 2 },
         },
         {
+            version_id: "8c94519e-127a-11ed-9c8c-008cfa5ae621",
+            version: "Unversioned",
             description: "Test tooltip for checkbox",
             deleted: false,
             pipeline_eligibility: { is_valid: true, reason: "" },
@@ -182,6 +192,8 @@ export const appListing = {
             rating: { average: 0, total: 0 },
         },
         {
+            version_id: "7cdbff8e-984f-11e4-bb1d-bb8a86c22997",
+            version: "Unversioned",
             description:
                 "RSEM is an app for counting the number of hits for each gene or transcript in a BAM file from a read to transcript mapping.",
             deleted: false,
@@ -207,6 +219,8 @@ export const appListing = {
             rating: { average: 0, total: 0 },
         },
         {
+            version_id: "8c97ccf2-127a-11ed-9c8c-008cfa5ae621",
+            version: "Unversioned",
             integration_date: "2015-08-04T16:30:16.000Z",
             description: "Counts the number of words in a file",
             deleted: false,
@@ -238,6 +252,8 @@ export const appListing = {
             },
         },
         {
+            version_id: "8c8c566a-127a-11ed-9c8c-008cfa5ae621",
+            version: "Unversioned",
             integration_date: "2020-10-16T20:07:34.000Z",
             description:
                 "NOTE: Don't use unless you're sure! This app is for testing. It may not work as you expect!\n\nThis app will run `wc` on its first argument, if provided, then exit with exit code 1 after printing some stuff to stdout.",
@@ -264,6 +280,8 @@ export const appListing = {
             rating: { average: 0, total: 0 },
         },
         {
+            version_id: "8c9654d0-127a-11ed-9c8c-008cfa5ae621",
+            version: "Unversioned",
             integration_date: "2019-09-12T17:44:37.000Z",
             description:
                 "Launches a Jupyter Lab with ScyPy \n\nMaintained here: https://github.com/cyverse-vice/jupyterlab-scipy ",
@@ -307,6 +325,8 @@ export const appListing = {
             rating: { average: 4, total: 5 },
         },
         {
+            version_id: "8c96822a-127a-11ed-9c8c-008cfa5ae621",
+            version: "Unversioned",
             integration_date: "2019-09-28T04:20:25.000Z",
             description:
                 "PlantCV is an open-source image analysis software package targeted for plant phenotyping. Homepage: https://plantcv.danforthcenter.org/",
@@ -350,6 +370,8 @@ export const appListing = {
             rating: { average: 3.3333333333333335, total: 3 },
         },
         {
+            version_id: "8c83ce46-127a-11ed-9c8c-008cfa5ae621",
+            version: "Unversioned",
             integration_date: "2019-10-18T21:10:53.000Z",
             description:
                 "Jupyter Notebooks for: Ten simple rules for writing and sharing computational analyses in Jupyter Notebooks. Rule A, Birmingham A, Zuniga C, Altintas I, Huang SC, Knight R, Moshiri N, Nguyen MH, Rosenthal SB, Pérez F, Rose PW. PLoS Comput Biol. 2019 Jul 25;15(7):e1007007. doi: 10.1371/journal.pcbi.1007007",
@@ -393,6 +415,8 @@ export const appListing = {
             rating: { average: 5, total: 1 },
         },
         {
+            version_id: "8c894010-127a-11ed-9c8c-008cfa5ae621",
+            version: "Unversioned",
             description: "testing pipelines",
             deleted: false,
             pipeline_eligibility: {
@@ -426,6 +450,8 @@ export const appListing = {
             },
         },
         {
+            version_id: "12940286-05e2-11e7-9fd7-008cfa5ae621",
+            version: "Unversioned",
             description: "Folder testing",
             deleted: false,
             pipeline_eligibility: { is_valid: true, reason: "" },
@@ -450,6 +476,8 @@ export const appListing = {
             rating: { average: 0, total: 0 },
         },
         {
+            version_id: "8c6db2fa-127a-11ed-9c8c-008cfa5ae621",
+            version: "Unversioned",
             integration_date: "2015-12-09T12:04:24.000Z",
             description:
                 "Tuexdo suite of tools to assess levels of differential expression between up to 4 separate conditions. The Tuxedo suite: Tophat2>Cufflinks>Cuffmerge>Cuffdiff>CummRbund. http://www.nature.com/nprot/journal/v7/n3/full/nprot.2012.016.html \nworkflow v1.0\n",
@@ -478,6 +506,8 @@ export const appListing = {
     ],
 };
 export const selectedApp = {
+    version_id: "8c7f2846-127a-11ed-9c8c-008cfa5ae621",
+    version: "Unversioned",
     integration_date: "2013-05-24T21:44:49.000Z",
     description:
         "This App will add existing reference annotation information to newly assembled transcripts in GFF format.",
@@ -514,6 +544,8 @@ export const listingById = {
     total: 1,
     apps: [
         {
+            version_id: "8c7f2846-127a-11ed-9c8c-008cfa5ae621",
+            version: "Unversioned",
             integration_date: "2013-05-24T21:44:49.000Z",
             description:
                 "This App will add existing reference annotation information to newly assembled transcripts in GFF format.",
@@ -555,6 +587,15 @@ export const appDetails = {
     deleted: false,
     integrator_name: "Roger Barthelson",
     disabled: false,
+    version_id: "8c7f2846-127a-11ed-9c8c-008cfa5ae621",
+    version: "Unversioned",
+    versions: [
+        {
+            version: "Unversioned",
+            version_id: "8c7f2846-127a-11ed-9c8c-008cfa5ae621",
+        },
+        { version: "v2", version_id: "b9e1e332-0d34-11ed-ab8a-62d47aced14b" },
+    ],
     suggested_categories: [
         {
             id: "f9f22c5a-09f5-4630-997c-4e3a00ae924b",
@@ -748,6 +789,7 @@ export const appDetails = {
 };
 export const appDocumentation = {
     app_id: "67d15627-22c5-42bd-8daf-9af5deecceab",
+    version_id: "8c97ccf2-127a-11ed-9c8c-008cfa5ae621",
     documentation:
         "### DE Word Count\n> #### Description and Quick Start\n>> To use Word Count, upload your data in plain text format.\n>> Resources: http://www.gnu.org/software/coreutils/manual/coreutils.html#wc-invocation\n> #### Test Data\n>> Community Data > iplantcollaborative > example_data > wordcount\n> #### Input File(s)\n>> Use SampleText.txt  as test data.\n> #### Parameters Used in App\n>> no parameters to selecgt\n> #### Output File(s)\n>> Look under the logs folder. Results are stored in condor-stdout-0.",
     references: ["https://learning.cyverse.org/", "https://cyverse.org/"],

@@ -39,7 +39,7 @@ const FILE_PARAMETER_FORMAT_DEFAULT = "Unspecified";
  * @returns Initial form values.
  */
 const initAppValues = (app) => {
-    const groups = app?.groups;
+    const { groups, version, version_id } = app || {};
 
     const initializedGroups = groups?.map(({ name, ...group }, groupIndex) => ({
         ...group,
@@ -116,7 +116,13 @@ const initAppValues = (app) => {
 
     return {
         ...app,
+
         groups: initializedGroups,
+
+        // If the version_id is empty, then keep the version label empty as well,
+        // to force the user to enter a new version label.
+        version: version_id ? version : "",
+
         // The editorSteps array is only required for preserving touched state
         // after any onSubmit errors:
         // https://github.com/formium/formik/issues/445#issuecomment-366952762

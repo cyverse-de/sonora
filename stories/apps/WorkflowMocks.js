@@ -4,6 +4,8 @@ export const concatTasksMock = {
     description:
         "Joins two or more files together head to tail using latest Dockerized version of cat.",
     system_id: "de",
+    version: "Unversioned",
+    version_id: "77830f32-084a-11e8-a871-008cfa5ae621",
     tasks: [
         {
             system_id: "de",
@@ -74,6 +76,8 @@ export const wordCountTasksMock = {
     name: "DE Word Count",
     description: "Counts the number of words in a file",
     system_id: "de",
+    version: "Unversioned",
+    version_id: "67d15627-22c5-42bd-8daf-9af5deecceab",
     tasks: [
         {
             system_id: "de",
@@ -144,6 +148,12 @@ export const workflowDescription = {
     system_id: "de",
     name: "Simple Pipeline",
     description: "A simple pipeline with 2 steps.",
+    version: "v1",
+    version_id: "8a1e3b3c-0d34-11ed-8b77-62d47aced14b",
+    versions: [
+        { version: "v1", version_id: "8a1e3b3c-0d34-11ed-8b77-62d47aced14b" },
+        { version: "v2", version_id: "b9e1e332-0d34-11ed-ab8a-62d47aced14b" },
+    ],
     steps: [
         {
             name: concatTasksMock.name,
@@ -179,6 +189,8 @@ export const deprecatedWordCountTasksMock = {
     description:
         "Counts and summarizes the number of lines, words, and bytes in a target file",
     system_id: "de",
+    version: "Unversioned",
+    version_id: "c7f05682-23c8-4182-b9a2-e09650a5f49b",
     tasks: [
         {
             system_id: "de",
@@ -268,6 +280,8 @@ export const deprecatedConcatTasksMock = {
     description:
         "Concatenate multiple files. Compatible with Workflows in the DE.",
     system_id: "de",
+    version: "Unversioned",
+    version_id: "af334df2-ad6e-4bf4-b7e8-5686525b63b0",
     tasks: [
         {
             system_id: "de",
@@ -363,6 +377,12 @@ export const deprecatedToolsWorkflowDescription = {
     system_id: "de",
     name: "test deprecated tools pipeline",
     description: "testing deprecated tools",
+    version: "v1",
+    version_id: "8a1e3b3c-0d34-11ed-8b77-62d47aced14b",
+    versions: [
+        { version: "v1", version_id: "8a1e3b3c-0d34-11ed-8b77-62d47aced14b" },
+        { version: "v2", version_id: "b9e1e332-0d34-11ed-ab8a-62d47aced14b" },
+    ],
     steps: [
         {
             name: deprecatedWordCountTasksMock.name,

@@ -131,4 +131,17 @@ export const DeprecatedToolsPipeline = (props) => {
 DeprecatedToolsPipeline.argTypes = { loading };
 DeprecatedToolsPipeline.args = { loading: false };
 
+export const SimplePipelineNewVersion = () => {
+    initAxiosMocks();
+
+    const { version_id, ...appDescription } = workflowDescription;
+
+    return (
+        <WorkflowEditor
+            baseId={ids.WORKFLOW_EDITOR_FORM}
+            appDescription={appDescription}
+        />
+    );
+};
+
 export default { title: "Apps / Workflows" };

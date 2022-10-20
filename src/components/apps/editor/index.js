@@ -36,7 +36,12 @@ import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 import useComponentHeight from "components/utils/useComponentHeight";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
-import { addApp, updateApp, updateAppLabels } from "serviceFacades/apps";
+import {
+    addApp,
+    addAppVersion,
+    updateApp,
+    updateAppLabels,
+} from "serviceFacades/apps";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { SUCCESS } from "components/announcer/AnnouncerConstants";
@@ -66,9 +71,8 @@ const useStyles = makeStyles(styles);
 
 const displayStepError = (stepIndex, errors, touched) => {
     if (stepIndex === 0) {
-        return (
-            getFormError("name", touched, errors) ||
-            getFormError("description", touched, errors)
+        return ["name", "description", "version"].find((fieldName) =>
+            getFormError(fieldName, touched, errors)
         );
     }
 
@@ -229,18 +233,25 @@ const AppEditor = (props) => {
         app.id && router.push(getAppLaunchPath(app.system_id, app.id));
 
     const onRedirectToEditPage = (app) =>
-        app.id && router.replace(getAppEditPath(app.system_id, app.id));
+        app.id &&
+        router.replace(getAppEditPath(app.system_id, app.id, app.version_id));
 
     const { mutate: saveApp } = useMutation(
         ({ app }) => {
-            const { system_id: systemId, id: appId } = app;
+            const {
+                system_id: systemId,
+                id: appId,
+                version_id: versionId,
+            } = app;
 
-            const request = { systemId, appId, app };
+            const request = { systemId, appId, versionId, app };
 
             return appId
-                ? cosmeticOnly
-                    ? updateAppLabels(request)
-                    : updateApp(request)
+                ? versionId
+                    ? cosmeticOnly
+                        ? updateAppLabels(request)
+                        : updateApp(request)
+                    : addAppVersion(request)
                 : addApp(request);
         },
         {
@@ -308,14 +319,23 @@ const AppEditor = (props) => {
                 const errors = {};
                 const editorStepErrors = [];
 
-                if (!values.name) {
+                ["name", "description", "version"].forEach((fieldName) => {
+                    if (!values[fieldName]) {
+                        errors.error = true;
+                        errors[fieldName] = t("common:required");
+                        editorStepErrors[0] = true;
+                    }
+                });
+
+                if (
+                    appDescription.versions?.find(
+                        (versionInfo) =>
+                            versionInfo.version === values.version &&
+                            versionInfo.version_id !== values.version_id
+                    )
+                ) {
                     errors.error = true;
-                    errors.name = t("common:required");
-                    editorStepErrors[0] = true;
-                }
-                if (!values.description) {
-                    errors.error = true;
-                    errors.description = t("common:required");
+                    errors.version = t("versionDuplicateLabelError");
                     editorStepErrors[0] = true;
                 }
 
@@ -333,7 +353,7 @@ const AppEditor = (props) => {
                         onExit();
                     } else if (launchOnSave) {
                         onLaunch(app);
-                    } else if (!values.id) {
+                    } else if (!values.id || !values.version_id) {
                         // A new app was saved, so update address to new URL
                         onRedirectToEditPage(app);
                     }
@@ -443,9 +463,14 @@ const AppEditor = (props) => {
                         >
                             <BackButton dirty={dirty} />
                             <Typography variant="h6">
-                                {t(values.id ? "editApp" : "createApp", {
-                                    name: values.name,
-                                })}
+                                {t(
+                                    values.id
+                                        ? values.version_id
+                                            ? "editApp"
+                                            : "createAppVersion"
+                                        : "createApp",
+                                    { name: values.name }
+                                )}
                             </Typography>
                             <SaveButton
                                 id={buildID(baseId, ids.BUTTONS.SAVE_BTN)}

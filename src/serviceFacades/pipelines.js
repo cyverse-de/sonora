@@ -13,30 +13,44 @@ function addPipeline({ workflow }) {
     });
 }
 
-function updatePipeline({ appId, workflow }) {
+function addPipelineVersion({ appId, workflow }) {
     return callApi({
-        endpoint: `/api/apps/pipelines/${appId}`,
+        endpoint: `/api/apps/pipelines/${appId}/versions`,
+        method: "POST",
+        body: workflow,
+    });
+}
+
+function updatePipeline({ appId, versionId, workflow }) {
+    return callApi({
+        endpoint: `/api/apps/pipelines/${appId}/versions/${versionId}`,
         method: "PUT",
         body: workflow,
     });
 }
 
-function copyPipeline({ appId }) {
+function copyPipeline({ appId, versionId }) {
     return callApi({
-        endpoint: `/api/apps/pipelines/${appId}/copy`,
+        endpoint: `/api/apps/pipelines/${appId}/versions/${versionId}/copy`,
         method: "POST",
     });
 }
 
-function getPipelineUI({ appId }) {
-    return callApi({
-        endpoint: `/api/apps/pipelines/${appId}/ui`,
-        method: "GET",
-    });
+function getPipelineUI({ appId, versionId }) {
+    return versionId
+        ? callApi({
+              endpoint: `/api/apps/pipelines/${appId}/versions/${versionId}/ui`,
+              method: "GET",
+          })
+        : callApi({
+              endpoint: `/api/apps/pipelines/${appId}/ui`,
+              method: "GET",
+          });
 }
 
 export {
     addPipeline,
+    addPipelineVersion,
     copyPipeline,
     getPipelineUI,
     updatePipeline,

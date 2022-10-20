@@ -35,7 +35,11 @@ import useComponentHeight from "components/utils/useComponentHeight";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
-import { addPipeline, updatePipeline } from "serviceFacades/pipelines";
+import {
+    addPipeline,
+    addPipelineVersion,
+    updatePipeline,
+} from "serviceFacades/pipelines";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { SUCCESS } from "components/announcer/AnnouncerConstants";
@@ -166,7 +170,7 @@ const WorkflowEditor = (props) => {
         setStepperRef(stepperRef);
     }, [stepperRef, setStepperRef]);
 
-    const { t } = useTranslation(["workflows", "common"]);
+    const { t } = useTranslation(["workflows", "app_editor", "common"]);
     const classes = useStyles();
     const router = useRouter();
     const theme = useTheme();
@@ -180,14 +184,20 @@ const WorkflowEditor = (props) => {
 
     const onRedirectToEditPage = (workflow) =>
         workflow.id &&
-        router.replace(getAppEditPath(workflow.system_id, workflow.id));
+        router.replace(
+            getAppEditPath(workflow.system_id, workflow.id, workflow.version_id)
+        );
 
     const { mutate: savePipeline } = useMutation(
         ({ workflow }) => {
-            const { id: appId } = workflow;
-            const request = { appId, workflow };
+            const { id: appId, version_id: versionId } = workflow;
+            const request = { appId, versionId, workflow };
 
-            return appId ? updatePipeline(request) : addPipeline(request);
+            return appId
+                ? versionId
+                    ? updatePipeline(request)
+                    : addPipelineVersion(request)
+                : addPipeline(request);
         },
         {
             onSuccess: (resp, { onSuccess }) => {
@@ -251,15 +261,24 @@ const WorkflowEditor = (props) => {
                 const errors = {};
                 const workflowSteps = [];
 
-                if (!values.name) {
+                ["name", "description", "version"].forEach((fieldName) => {
+                    if (!values[fieldName]) {
+                        workflowSteps[0] = true;
+                        errors.error = true;
+                        errors[fieldName] = t("common:required");
+                    }
+                });
+
+                if (
+                    appDescription.versions?.find(
+                        (versionInfo) =>
+                            versionInfo.version === values.version &&
+                            versionInfo.version_id !== values.version_id
+                    )
+                ) {
                     workflowSteps[0] = true;
                     errors.error = true;
-                    errors.name = t("common:required");
-                }
-                if (!values.description) {
-                    workflowSteps[0] = true;
-                    errors.error = true;
-                    errors.description = t("common:required");
+                    errors.version = t("app_editor:versionDuplicateLabelError");
                 }
 
                 const tooFewSteps = values.steps.length < 2;
@@ -298,7 +317,7 @@ const WorkflowEditor = (props) => {
                         onExit();
                     } else if (launchOnSave) {
                         onLaunch(workflow);
-                    } else if (!values.id) {
+                    } else if (!values.id || !values.version_id) {
                         // A new workflow was saved, so redirect to new URL
                         onRedirectToEditPage(workflow);
                     }
@@ -367,9 +386,9 @@ const WorkflowEditor = (props) => {
 
                 const displayStepError = (stepIndex) => {
                     if (stepIndex === 0) {
-                        return (
-                            getFormError("name", touched, errors) ||
-                            getFormError("description", touched, errors)
+                        return ["name", "description", "version"].find(
+                            (fieldName) =>
+                                getFormError(fieldName, touched, errors)
                         );
                     }
 
@@ -425,7 +444,9 @@ const WorkflowEditor = (props) => {
                             <Typography variant="h6">
                                 {t(
                                     values.id
-                                        ? "editWorkflow"
+                                        ? values.version_id
+                                            ? "editWorkflow"
+                                            : "createWorkflowVersion"
                                         : "createWorkflow",
                                     {
                                         name: values.name,

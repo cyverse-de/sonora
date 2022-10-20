@@ -44,7 +44,13 @@ function CopyMenuItem(props) {
                     text: t("appCopySuccess", { appName: app?.name }),
                     variant: SUCCESS,
                 });
-                router.push(getAppEditPath(appCopy.system_id, appCopy.id));
+                router.push(
+                    getAppEditPath(
+                        appCopy.system_id,
+                        appCopy.id,
+                        appCopy.version_id
+                    )
+                );
             },
             onError: (error) => {
                 showErrorAnnouncer(
@@ -60,7 +66,11 @@ function CopyMenuItem(props) {
             id={buildID(baseId, ids.COPY_MENU_ITEM)}
             disabled={isLoading}
             onClick={() => {
-                onCopyApp({ systemId: app?.system_id, appId: app?.id });
+                onCopyApp({
+                    systemId: app?.system_id,
+                    appId: app?.id,
+                    versionId: app?.version_id,
+                });
             }}
         >
             <ListItemIcon>

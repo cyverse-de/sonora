@@ -85,6 +85,13 @@ export default function AppInfo(props) {
                 disabled={cosmeticOnly}
             />
             <FastField
+                id={buildID(baseId, ids.APP_VERSION)}
+                name="version"
+                label={t("appVersion")}
+                required
+                component={FormTextField}
+            />
+            <FastField
                 id={buildID(baseId, ids.APP_DESCRIPTION)}
                 name="description"
                 label={t("appDescription")}

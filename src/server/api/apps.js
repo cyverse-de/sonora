@@ -406,14 +406,27 @@ export default function appsRouter() {
     );
 
     logger.info(
-        "adding the POST /admin/apps/:systemId/:appId/documentation handler"
+        "adding the GET /admin/apps/:systemId/:appId/versions/:versionId/details handler"
     );
-    api.post(
-        "/admin/apps/:systemId/:appId/documentation",
+    api.get(
+        "/admin/apps/:systemId/:appId/versions/:versionId/details",
         auth.authnTokenMiddleware,
         terrainHandler({
-            method: "POST",
-            pathname: "/admin/apps/:systemId/:appId/documentation",
+            method: "GET",
+            pathname:
+                "/admin/apps/:systemId/:appId/versions/:versionId/details",
+        })
+    );
+
+    logger.info(
+        "adding the PATCH /admin/apps/:systemId/:appId/versions/:versionId handler"
+    );
+    api.patch(
+        "/admin/apps/:systemId/:appId/versions/:versionId",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/admin/apps/:systemId/:appId/versions/:versionId",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -421,14 +434,31 @@ export default function appsRouter() {
     );
 
     logger.info(
-        "adding the PATCH /admin/apps/:systemId/:appId/documentation handler"
+        "adding the POST /admin/apps/:systemId/:appId/versions/:versionId/documentation handler"
+    );
+    api.post(
+        "/admin/apps/:systemId/:appId/versions/:versionId/documentation",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname:
+                "/admin/apps/:systemId/:appId/versions/:versionId/documentation",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info(
+        "adding the PATCH /admin/apps/:systemId/:appId/versions/:versionId/documentation handler"
     );
     api.patch(
-        "/admin/apps/:systemId/:appId/documentation",
+        "/admin/apps/:systemId/:appId/versions/:versionId/documentation",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "PATCH",
-            pathname: "/admin/apps/:systemId/:appId/documentation",
+            pathname:
+                "/admin/apps/:systemId/:appId/versions/:versionId/documentation",
             headers: {
                 "Content-Type": "application/json",
             },

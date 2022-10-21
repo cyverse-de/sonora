@@ -6,6 +6,7 @@ import { AXIOS_DELAY, errorResponseJSON, mockAxios } from "../axiosMock";
 import userProfileMock from "../userProfileMock";
 
 import {
+    adminDetails,
     appDetails,
     appDocumentation,
     appListing,
@@ -25,12 +26,15 @@ export default {
     title: "Apps / Listing",
 };
 
-function ListingTest(props) {
+function ListingTest({ isAdminView }) {
     //Note: the params must exactly with original call made by react-query
     mockAxios.reset();
     mockAxios.onGet("/api/apps/categories?public=false").reply(200, categories);
 
     mockAxios.onGet(/\/api\/apps\/de\/.*details/).reply(200, appDetails);
+    mockAxios
+        .onGet(/\/api\/admin\/apps\/de\/.*details/)
+        .reply(200, adminDetails);
 
     mockAxios
         .onGet(
@@ -40,7 +44,24 @@ function ListingTest(props) {
         )
         .reply(200, appDocumentation);
 
-    mockAxios.onGet(/\/api\/apps*/).reply(200, appListing);
+    mockAxios.onGet(/\/api\/admin\/apps*/).reply((config) => {
+        console.log("Admin Get Apps", config.url);
+        const adminAppListing = {
+            total: appListing.total,
+            apps: [{ ...adminDetails, deleted: true }, ...appListing.apps],
+        };
+
+        return [200, adminAppListing];
+    });
+    mockAxios.onPatch(/\/api\/admin\/apps\/de\/.*/).reply((config) => {
+        console.log("Admin Update App", config.url, JSON.parse(config.data));
+        return [200, {}];
+    });
+
+    mockAxios.onGet(/\/api\/apps*/).reply((config) => {
+        console.log("Get Apps", config.url);
+        return [200, appListing];
+    });
 
     mockAxios.onPost(/\/api\/apps\/.*\/copy/).replyOnce(500, errorResponseJSON);
     mockAxios.onPost(/\/api\/apps\/.*\/copy/).reply((config) => {
@@ -103,18 +124,32 @@ function ListingTest(props) {
             orderBy={selectedOrderBy}
             filter={selectedFilter}
             category={selectedCategory}
+            isAdminView={isAdminView}
         />
     );
 }
 
-export const AppsListingTest = () => {
+export const AppsListingTest = ({ isAdminView }) => {
     return (
         <UploadTrackingProvider>
             <UserProfileProvider>
-                <ListingTest />
+                <ListingTest isAdminView={isAdminView} />
             </UserProfileProvider>
         </UploadTrackingProvider>
     );
+};
+
+AppsListingTest.args = {
+    isAdminView: false,
+};
+
+AppsListingTest.argTypes = {
+    isAdminView: {
+        name: "Admin View",
+        control: {
+            type: "boolean",
+        },
+    },
 };
 
 AppsListingTest.parameters = {

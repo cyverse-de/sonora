@@ -30,6 +30,7 @@ import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import { useTranslation } from "i18n";
 
 import {
+    adminDeleteDisableApp,
     getApps,
     getAppsForAdmin,
     getAppById,
@@ -73,6 +74,7 @@ function Listing(props) {
         isAdminView,
         searchTerm,
         adminOwnershipFilter,
+        appBarHeight,
     } = props;
     const { t } = useTranslation(["apps", "common"]);
     const [isGridView, setGridView] = useState(false);
@@ -102,6 +104,7 @@ function Listing(props) {
     const [docDlgOpen, setDocDlgOpen] = useState(false);
     const [savedLaunchDlgOpen, setSavedLaunchDlgOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [disableDialogOpen, setDisableDialogOpen] = useState(false);
     const [selectCollectionDlgOpen, setSelectCollectionDlgOpen] =
         useState(false);
 
@@ -258,11 +261,18 @@ function Listing(props) {
         });
 
     const { mutate: deleteAppMutation, isLoading: deleteLoading } = useMutation(
-        deleteApp,
+        isAdminView ? adminDeleteDisableApp : deleteApp,
         {
             onSuccess: () => {
                 announce({
-                    text: t("appDeleteSuccess", { appName: selectedApp?.name }),
+                    text: t(
+                        isAdminView
+                            ? selectedApp.deleted
+                                ? "adminAppRestoreSuccess"
+                                : "adminAppDeleteSuccess"
+                            : "appDeleteSuccess",
+                        { appName: selectedApp?.name }
+                    ),
                     variant: SUCCESS,
                 });
 
@@ -275,6 +285,7 @@ function Listing(props) {
                     ]);
                 }
 
+                queryClient.invalidateQueries(ADMIN_APPS_QUERY_KEY);
                 queryClient.invalidateQueries(APPS_IN_CATEGORY_QUERY_KEY);
             },
             onError: (error) => {
@@ -282,6 +293,36 @@ function Listing(props) {
             },
         }
     );
+
+    const { mutate: disableAppMutation, isLoading: disableLoading } =
+        useMutation(adminDeleteDisableApp, {
+            onSuccess: () => {
+                announce({
+                    text: t(
+                        selectedApp.disabled
+                            ? "adminAppEnableSuccess"
+                            : "adminAppDisableSuccess",
+                        { appName: selectedApp?.name }
+                    ),
+                    variant: SUCCESS,
+                });
+
+                setSelected([]);
+
+                if (selectedSystemId && selectedAppId) {
+                    queryClient.invalidateQueries([
+                        APP_BY_ID_QUERY_KEY,
+                        { systemId: selectedSystemId, appId: selectedAppId },
+                    ]);
+                }
+
+                queryClient.invalidateQueries(ADMIN_APPS_QUERY_KEY);
+                queryClient.invalidateQueries(APPS_IN_CATEGORY_QUERY_KEY);
+            },
+            onError: (error) => {
+                showErrorAnnouncer(t("appDisableError"), error);
+            },
+        });
 
     useEffect(() => {
         if (data && data.Location && data.status === 302) {
@@ -521,11 +562,25 @@ function Listing(props) {
         setDeleteDialogOpen(true);
     };
 
+    const handleDisable = () => {
+        setDisableDialogOpen(true);
+    };
+
     const confirmDelete = () => {
         setDeleteDialogOpen(false);
         deleteAppMutation({
             systemId: selectedApp?.system_id,
             appId: selectedApp?.id,
+            deleted: !selectedApp?.deleted,
+        });
+    };
+
+    const confirmDisable = () => {
+        setDisableDialogOpen(false);
+        disableAppMutation({
+            systemId: selectedApp?.system_id,
+            appId: selectedApp?.id,
+            disabled: !selectedApp?.disabled,
         });
     };
 
@@ -628,6 +683,7 @@ function Listing(props) {
                     allAppsStatus ||
                     categoryStatus ||
                     deleteLoading ||
+                    disableLoading ||
                     appByIdStatus ||
                     appsInCollectionStatus
                 }
@@ -647,6 +703,7 @@ function Listing(props) {
                 handleCheckboxClick={handleCheckboxClick}
                 handleClick={handleClick}
                 handleDelete={handleDelete}
+                handleDisable={handleDisable}
                 handleRequestSort={handleRequestSort}
                 canShare={shareEnabled}
                 onDetailsSelected={onDetailsSelected}
@@ -655,6 +712,7 @@ function Listing(props) {
                 onSavedLaunchSelected={() => setSavedLaunchDlgOpen(true)}
                 isAdminView={isAdminView}
                 searchTerm={searchTerm}
+                appBarHeight={appBarHeight}
             />
 
             {detailsOpen && !isAdminView && (
@@ -720,9 +778,32 @@ function Listing(props) {
                 onClose={() => setDeleteDialogOpen(false)}
                 onConfirm={confirmDelete}
                 title={t("common:delete")}
-                contentText={t("appDeleteWarning", {
-                    appName: selectedApp?.name,
-                })}
+                contentText={t(
+                    isAdminView
+                        ? selectedApp?.deleted
+                            ? "adminAppRestoreWarning"
+                            : "adminAppDeleteWarning"
+                        : "appDeleteWarning",
+                    {
+                        appName: selectedApp?.name,
+                    }
+                )}
+            />
+
+            <ConfirmationDialog
+                open={disableDialogOpen}
+                baseId={buildID(ids.DIALOG, ids.DISABLE)}
+                onClose={() => setDisableDialogOpen(false)}
+                onConfirm={confirmDisable}
+                title={t("common:disable")}
+                contentText={t(
+                    selectedApp?.disabled
+                        ? "adminAppEnableWarning"
+                        : "adminAppDisableWarning",
+                    {
+                        appName: selectedApp?.name,
+                    }
+                )}
             />
 
             <SelectCollectionDialog

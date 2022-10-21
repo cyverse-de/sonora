@@ -1,36 +1,85 @@
 import React from "react";
 import { mockAxios } from "../../axiosMock";
 import { adminApp, adminDetails } from "../AppMocks";
+
+import appsConstants from "components/apps/constants";
 import AdminAppDetails from "components/apps/admin/details/AdminAppDetails";
+
 export default {
     title: "Apps / Admin Details",
 };
 
 export function AdminAppDetailsTest() {
-    const restrictedChars = ":@/\\|^#;[]{}<>";
-    const restrictedStartingChars = "~.$";
-    const createDocWikiUrl =
-        "https://wiki.cyverse.org/wiki/display/DEmanual/Sharing+your+App+or+Workflow+and+Editing+the+User+Manual#Publish";
-    const documentationTemplateUrl =
-        "https:qa.cyverse.org/belphegor/app-doc-template.txt";
+    mockAxios
+        .onGet(new RegExp(`/api/admin/apps/de/${adminApp.id}/.*details`))
+        .reply((config) => {
+            console.log("Get Admin App Details", config.url);
+            const url = config.url.split("/");
+            const version_id = url[7] || adminDetails.version_id;
 
-    const parentId = "adminAppDetailsDlg";
+            const details = {
+                ...adminDetails,
+                version_id,
+            };
+
+            return [200, details];
+        });
+
+    mockAxios.onGet(`/api/admin/apps/${adminApp.id}/metadata`).reply(200, {
+        avus: [{ attr: "existing", value: "metadata", unit: "" }],
+    });
 
     mockAxios
-        .onGet(
-            `/api/admin/apps/de/34f2c392-9a8a-11e8-9c8e-008cfa5ae621/details`
+        .onPost(new RegExp(`/api/admin/apps/de/${adminApp.id}/.*documentation`))
+        .reply((config) => {
+            const docs = JSON.parse(config.data);
+            console.log("Save New Docs", config.url, docs);
+
+            return [200, docs];
+        });
+
+    mockAxios
+        .onPatch(
+            new RegExp(`/api/admin/apps/de/${adminApp.id}/.*documentation`)
         )
-        .reply(200, adminDetails);
+        .reply((config) => {
+            const docs = JSON.parse(config.data);
+            console.log("Update Docs", config.url, docs);
+
+            return [200, docs];
+        });
+
+    mockAxios
+        .onPatch(new RegExp(`/api/admin/apps/de/${adminApp.id}.*`))
+        .reply((config) => {
+            const url = config.url.split("/");
+            const version_id = url[6] || adminApp.version_id;
+            const app = JSON.parse(config.data);
+            console.log("Save App", config.url, app);
+
+            return [200, { ...app, version_id }];
+        });
+
+    mockAxios
+        .onPut(`/api/admin/apps/${adminApp.id}/metadata`)
+        .reply((config) => {
+            const avus = JSON.parse(config.data);
+            console.log("Set Metadata", config.url, avus);
+
+            return [200, avus];
+        });
 
     return (
         <AdminAppDetails
             open={true}
-            parentId={parentId}
+            parentId={"adminAppDetailsDlg"}
             app={adminApp}
-            restrictedChars={restrictedChars}
-            restrictedStartingChars={restrictedStartingChars}
-            createDocWikiUrl={createDocWikiUrl}
-            documentationTemplateUrl={documentationTemplateUrl}
+            handleClose={() => console.log("Dialog closed.")}
+            restrictedChars={appsConstants.APP_NAME_RESTRICTED_CHARS}
+            restrictedStartingChars={
+                appsConstants.APP_NAME_RESTRICTED_STARTING_CHARS
+            }
+            documentationTemplateUrl={appsConstants.DOCUMENTATION_TEMPLATE_URL}
         />
     );
 }

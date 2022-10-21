@@ -20,6 +20,7 @@ import CopyMenuItem from "../menuItems/CopyMenuItem";
 import CreateVersionMenuItem from "../menuItems/CreateVersionMenuItem";
 import DeleteMenuItem from "../menuItems/DeleteMenuItem";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
+import DisableMenuItem from "../menuItems/DisableMenuItem";
 import DocMenuItem from "../menuItems/DocMenuItem";
 import EditMenuItem from "../menuItems/EditMenuItem";
 import SavedLaunchMenuItem from "../menuItems/SavedLaunchMenuItem";
@@ -38,6 +39,7 @@ function RowDotMenu(props) {
         baseId,
         ButtonProps,
         canShare,
+        handleDisable,
         handleDelete,
         setSharingDlgOpen,
         onDetailsSelected,
@@ -57,7 +59,7 @@ function RowDotMenu(props) {
     const isWorkflow = app?.step_count > 1;
 
     const canPublish = isOwner && !isAppPublic;
-    const canDelete = isOwner && !isAppPublic;
+    const canDelete = isAdminView || (isOwner && !isAppPublic);
     const canCopy =
         isReadable(app?.permission) && app?.system_id === SystemIds.de;
     const canEdit = isWritable(app?.permission);
@@ -148,15 +150,25 @@ function RowDotMenu(props) {
                                 copyLinkToClipboardHandler(t, copyPromise);
                             }}
                         />,
-                        canDelete && (
-                            <DeleteMenuItem
-                                key={buildID(baseId, ids.DELETE)}
-                                baseId={baseId}
-                                handleDelete={handleDelete}
-                                onClose={onClose}
-                            />
-                        ),
                     ],
+                    isAdminView && (
+                        <DisableMenuItem
+                            key={buildID(baseId, ids.DISABLE)}
+                            baseId={baseId}
+                            isDisabled={app?.disabled}
+                            handleDisable={handleDisable}
+                            onClose={onClose}
+                        />
+                    ),
+                    canDelete && (
+                        <DeleteMenuItem
+                            key={buildID(baseId, ids.DELETE)}
+                            baseId={baseId}
+                            isDeleted={app?.deleted}
+                            handleDelete={handleDelete}
+                            onClose={onClose}
+                        />
+                    ),
                 ]}
             />
             <PublishAppDialog

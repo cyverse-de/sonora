@@ -265,7 +265,7 @@ export const appListing = {
             permission: "read",
             isBlessed: false,
             can_favor: true,
-            disabled: false,
+            disabled: true,
             can_rate: true,
             name: "Discovery Environment Alpha Testing App",
             limitChecks: { canRun: true, results: [] },
@@ -966,6 +966,8 @@ export const adminApp = {
     system_id: "de",
     is_public: true,
     id: "34f2c392-9a8a-11e8-9c8e-008cfa5ae621",
+    version_id: "8c7f2846-127a-11ed-9c8c-008cfa5ae621",
+    version: "Unversioned",
     edited_date: "2019-02-28T19:12:20.000Z",
     step_count: 1,
     can_run: true,
@@ -992,6 +994,15 @@ export const adminDetails = {
     deleted: false,
     integrator_name: "Upendra Kumar Devisetty",
     disabled: false,
+    version_id: "8c7f2846-127a-11ed-9c8c-008cfa5ae621",
+    version: "Unversioned",
+    versions: [
+        {
+            version: "Unversioned",
+            version_id: "8c7f2846-127a-11ed-9c8c-008cfa5ae621",
+        },
+        { version: "v2", version_id: "b9e1e332-0d34-11ed-ab8a-62d47aced14b" },
+    ],
     suggested_categories: [],
     hierarchies: [
         {
@@ -1083,6 +1094,23 @@ export const adminDetails = {
         htcondor: {
             extra_requirements: "TRUE && TRUE",
         },
+    },
+    pipeline_eligibility: {
+        is_valid: false,
+        reason: "Job type, interactive, canu0027t currently be included in a pipeline.",
+    },
+    is_favorite: false,
+    beta: false,
+    permission: "read",
+    can_favor: true,
+    can_rate: true,
+    is_public: true,
+    step_count: 1,
+    can_run: true,
+    app_type: "DE",
+    rating: {
+        average: 5.0,
+        total: 2,
     },
 };
 export const appPublicationRequests = {

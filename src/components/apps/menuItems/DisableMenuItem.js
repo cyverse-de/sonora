@@ -10,25 +10,25 @@ import buildID from "components/utils/DebugIDUtil";
 
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 
-import { Delete as DeleteIcon } from "@material-ui/icons";
+import { Block as DisableIcon } from "@material-ui/icons";
 
-export default function DeleteMenuItem(props) {
-    const { baseId, isDeleted, handleDelete, onClose } = props;
+export default function DisableMenuItem(props) {
+    const { baseId, isDisabled, handleDisable, onClose } = props;
 
     const { t } = useTranslation("common");
 
     return (
         <MenuItem
-            id={buildID(baseId, ids.DELETE)}
+            id={buildID(baseId, ids.DISABLE)}
             onClick={() => {
-                handleDelete();
+                handleDisable();
                 onClose();
             }}
         >
             <ListItemIcon>
-                <DeleteIcon fontSize="small" />
+                <DisableIcon fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary={t(isDeleted ? "restore" : "delete")} />
+            <ListItemText primary={t(isDisabled ? "enable" : "disable")} />
         </MenuItem>
     );
 }

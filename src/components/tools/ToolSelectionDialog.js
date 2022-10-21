@@ -12,13 +12,14 @@ import constants from "../../constants";
 import ids from "./ids";
 
 import Listing from "components/tools/listing/Listing";
+import { TOOL_FILTER_VALUES } from "components/tools/utils";
 import { getLocalStorage } from "components/utils/localStorage";
 import DEDialog from "components/utils/DEDialog";
 
 import { Button } from "@material-ui/core";
 
 export default function ToolSelectionDialog(props) {
-    const { open, onClose, onConfirm } = props;
+    const { open, onClose, onConfirm, publicOnly } = props;
 
     const [selectedTool, setSelectedTool] = React.useState();
     const [
@@ -32,7 +33,7 @@ export default function ToolSelectionDialog(props) {
             parseInt(
                 getLocalStorage(constants.LOCAL_STORAGE.TOOLS.PAGE_SIZE)
             ) || 100,
-        permFilter: null,
+        permFilter: publicOnly ? TOOL_FILTER_VALUES.PUBLIC : null,
         searchTerm: "",
     });
 
@@ -85,6 +86,7 @@ export default function ToolSelectionDialog(props) {
                 page={page}
                 rowsPerPage={rowsPerPage}
                 permFilter={permFilter}
+                filterDisabled={publicOnly}
                 searchTerm={searchTerm}
                 onRouteToListing={onRouteToListing}
                 onToolSelected={setSelectedTool}

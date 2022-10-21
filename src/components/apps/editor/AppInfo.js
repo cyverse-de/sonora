@@ -24,7 +24,7 @@ import { Build as SelectToolIcon } from "@material-ui/icons";
 /**
  * An Input Selector form field for picking data store file or folder paths.
  */
-const ToolSelector = (props) => {
+const ToolSelector = ({ publicOnly, ...props }) => {
     // These props need to be spread down into the FormTextField
     const { id, disabled, field, form } = props;
     const { setFieldValue } = form;
@@ -53,6 +53,7 @@ const ToolSelector = (props) => {
                         </Button>
                         <ToolSelectionDialog
                             open={open}
+                            publicOnly={publicOnly}
                             onClose={() => setOpen(false)}
                             onConfirm={(tool) => {
                                 if (tool) {
@@ -70,7 +71,7 @@ const ToolSelector = (props) => {
 };
 
 export default function AppInfo(props) {
-    const { baseId, cosmeticOnly } = props;
+    const { baseId, cosmeticOnly, isPublic } = props;
 
     const { t } = useTranslation(["app_editor", "app_editor_help"]);
 
@@ -115,6 +116,7 @@ export default function AppInfo(props) {
                 }
                 component={ToolSelector}
                 disabled={cosmeticOnly}
+                publicOnly={isPublic}
             />
         </>
     );

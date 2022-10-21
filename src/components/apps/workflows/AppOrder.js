@@ -270,7 +270,8 @@ const AppStep = (props) => {
 };
 
 function AppOrder(props) {
-    const { baseId, steps, setFieldValue, showErrorAnnouncer } = props;
+    const { baseId, publicOnly, steps, setFieldValue, showErrorAnnouncer } =
+        props;
 
     const [appSearchDrawerOpen, setAppSearchDrawerOpen] = React.useState(false);
     const [confirmDeleteIndex, setConfirmDeleteIndex] = React.useState(-1);
@@ -280,12 +281,17 @@ function AppOrder(props) {
 
     const validateAppSelection = (apps) => {
         const invalidApp = apps?.find(
-            (app) => app.disabled || !app.pipeline_eligibility.is_valid
+            (app) =>
+                !app.pipeline_eligibility.is_valid ||
+                app.disabled ||
+                (publicOnly && !app.is_public)
         );
         if (invalidApp) {
-            return invalidApp.disabled
+            return !invalidApp.pipeline_eligibility.is_valid
+                ? invalidApp.pipeline_eligibility.reason
+                : invalidApp.disabled
                 ? t("disabledAppsNotAllowed")
-                : invalidApp.pipeline_eligibility.reason;
+                : t("privateAppsNotAllowed");
         }
         return null;
     };

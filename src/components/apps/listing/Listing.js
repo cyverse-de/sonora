@@ -95,7 +95,10 @@ function Listing(props) {
     const [navError, setNavError] = useState(null);
 
     const getSelectedApps = useCallback(() => {
-        return selected.map((id) => data?.apps.find((app) => app.id === id));
+        // Sometimes selected gets out of sync
+        // and contains IDs not in the current data set.
+        const apps = data?.apps || [];
+        return apps.filter((app) => selected.find((id) => app.id === id));
     }, [data, selected]);
 
     const shareEnabled = canShare(getSelectedApps());
@@ -336,13 +339,20 @@ function Listing(props) {
     }, [selected]);
 
     useEffect(() => {
-        const selApps = getSelectedApps();
+        const selectedApps = getSelectedApps();
         setAddToBagEnabled(
-            selApps &&
-                selected.length > 0 &&
-                selApps?.filter((app) => app.is_public).length === 0
+            selectedApps &&
+                selectedApps.length > 0 &&
+                !selectedApps.find((app) => app.is_public)
         );
-    }, [getSelectedApps, selected, selectedApp]);
+    }, [getSelectedApps, selected]);
+
+    useEffect(() => {
+        // Reset selected whenever the data set changes,
+        // which can be due to the browser's back or forward navigation,
+        // in addition to the user changing categories or pages.
+        setSelected([]);
+    }, [data]);
 
     useEffect(() => {
         if (data?.apps) {
@@ -420,6 +430,7 @@ function Listing(props) {
     };
 
     const handleChangePage = (event, newPage) => {
+        setSelected([]);
         onRouteToListing &&
             onRouteToListing(
                 order,
@@ -609,6 +620,7 @@ function Listing(props) {
     );
 
     const handleViewAllApps = () => {
+        setSelected([]);
         onRouteToListing(
             order,
             orderBy,

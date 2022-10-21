@@ -63,6 +63,22 @@ export const unshareApps = ({ appUnsharingRequest }) => {
     });
 };
 
+export const adminShareApps = ({ appSharingRequest }) => {
+    return callApi({
+        endpoint: `/api/admin/apps/sharing`,
+        method: "POST",
+        body: appSharingRequest,
+    });
+};
+
+export const adminUnshareApps = ({ appUnsharingRequest }) => {
+    return callApi({
+        endpoint: `/api/admin/apps/unsharing`,
+        method: "POST",
+        body: appUnsharingRequest,
+    });
+};
+
 export const shareAnalyses = ({ analysisSharingRequest }) => {
     return callApi({
         endpoint: `/api/analyses/sharing`,
@@ -151,6 +167,26 @@ export const doSharingUpdates = ({ sharing, unsharing }) => {
     return Promise.all(promises);
 };
 
+export const adminAppSharing = ({ sharing, unsharing }) => {
+    const { apps } = sharing;
+    const { apps: appsUnshare } = unsharing;
+    let promises = [];
+
+    if (apps && apps.length > 0) {
+        promises.push(adminShareApps({ appSharingRequest: { sharing: apps } }));
+    }
+
+    if (appsUnshare && appsUnshare.length > 0) {
+        promises.push(
+            adminUnshareApps({
+                appUnsharingRequest: { unsharing: appsUnshare },
+            })
+        );
+    }
+
+    return Promise.all(promises);
+};
+
 const getPaths = ({ paths }) => {
     return paths ? paths.map((resource) => resource.path) : null;
 };
@@ -174,7 +210,7 @@ const getToolIds = ({ tools }) => {
     return tools ? tools.map((resource) => resource.id) : null;
 };
 
-export const getPermissions = ({ resources }) => {
+export const getPermissions = ({ resources, appParams }) => {
     const paths = getPaths(resources);
     const apps = getAppIds(resources);
     const analyses = getAnalysisIds(resources);
@@ -185,7 +221,7 @@ export const getPermissions = ({ resources }) => {
         permissionPromises.push(getResourcePermissions({ paths }));
     }
     if (apps && apps.length > 0) {
-        permissionPromises.push(getAppPermissions({ apps }));
+        permissionPromises.push(getAppPermissions({ apps, params: appParams }));
     }
     if (analyses && analyses.length > 0) {
         permissionPromises.push(getAnalysisPermissions({ analyses }));

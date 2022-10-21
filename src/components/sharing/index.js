@@ -49,6 +49,7 @@ import { useUserProfile } from "contexts/userProfile";
 import { useTranslation } from "i18n";
 import Permissions from "components/models/Permissions";
 import {
+    adminAppSharing,
     doSharingUpdates,
     GET_PERMISSIONS_QUERY_KEY,
     getPermissions,
@@ -61,7 +62,7 @@ import DEErrorDialog from "components/error/DEErrorDialog";
 const useStyles = makeStyles(styles);
 
 function Sharing(props) {
-    const { open, onClose, resources } = props;
+    const { open, onClose, isAdminView, resources } = props;
 
     const [permissions, setPermissions] = useState([]);
     const [originalUsers, setOriginalUsers] = useState({});
@@ -82,7 +83,11 @@ function Sharing(props) {
 
     const { isFetching: fetchPermissions } = useQuery({
         queryKey: [GET_PERMISSIONS_QUERY_KEY, { resources }],
-        queryFn: () => getPermissions({ resources }),
+        queryFn: () =>
+            getPermissions({
+                resources,
+                appParams: { "full-listing": isAdminView },
+            }),
         enabled: open && resources !== null,
         onSuccess: (results) => {
             setPermissions(results);
@@ -162,7 +167,7 @@ function Sharing(props) {
     const onUserSelected = (user, onUserAdded) => {
         const userExist = userMap[user.id];
         const isSelf = user.id === userProfile.id;
-        isSelf
+        isSelf && !isAdminView
             ? setErrorDetails({
                   message: tSharing("cannotAddSelf"),
               })
@@ -196,7 +201,7 @@ function Sharing(props) {
     };
 
     const { mutate: sendSharingUpdates, isLoading: isSaving } = useMutation(
-        doSharingUpdates,
+        isAdminView ? adminAppSharing : doSharingUpdates,
         {
             onSuccess: (results) => {
                 let failures = [];

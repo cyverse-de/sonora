@@ -32,7 +32,7 @@ const initAppLaunchValues = (
     {
         notify,
         defaultOutputDir,
-        app: { id, system_id, name, requirements, groups },
+        app: { id, version_id, system_id, name, requirements, groups },
     }
 ) => {
     const reqInitValues = requirements?.map(
@@ -63,6 +63,7 @@ const initAppLaunchValues = (
         name: formatAnalysisName(t, name),
         description: "",
         app_id: id,
+        app_version_id: version_id,
         system_id,
         groups: initGroupValues(groups),
         limits: requirements,
@@ -170,6 +171,7 @@ const formatSubmission = (
         output_dir,
         system_id,
         app_id,
+        app_version_id,
         requirements,
         groups,
     }
@@ -182,6 +184,7 @@ const formatSubmission = (
     output_dir,
     system_id,
     app_id,
+    app_version_id,
     requirements,
     config: groups?.reduce(paramConfigsReducer, {}),
 });

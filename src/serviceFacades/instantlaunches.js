@@ -364,7 +364,13 @@ export const instantlyLaunch = ({ instantLaunch, resource, output_dir }) => {
     return Promise.all(promiseList)
         .then((values) => {
             const [ql, app] = values;
-            const submission = ql.submission;
+            const { app_version_id, submission } = ql;
+
+            // Ensure submission for the correct app version,
+            // since older QL submissions do not have version IDs saved.
+            if (!submission.app_version_id) {
+                submission.app_version_id = app_version_id;
+            }
 
             const appInputs = app.groups
                 .map((group) => group.parameters || [])

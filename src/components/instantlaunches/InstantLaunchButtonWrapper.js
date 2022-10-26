@@ -51,7 +51,7 @@ function InstantLaunchButtonWrapper(props) {
         onSuccess: (listing) => {
             if (listing.analyses.length > 0) {
                 const analysis = listing.analyses[0];
-                if (analysis.interactive_urls.length > 0) {
+                if (analysis.interactive_urls?.length > 0) {
                     setIlUrl(
                         `${constants.VICE_LOADING_PAGE}/${encodeURIComponent(
                             analysis.interactive_urls[0]

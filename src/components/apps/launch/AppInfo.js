@@ -215,6 +215,7 @@ const AppInfo = (props) => {
                         baseId={baseId}
                         version_id={app.deleted ? "" : app.version_id}
                         versions={app.versions}
+                        FormHelperTextProps={{ error: true }}
                         helperText={
                             app.deleted
                                 ? t("otherVersionsAvailable", {

@@ -25,7 +25,7 @@ import {
     useTheme,
 } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import {
     addMissingResourcesToUser,
@@ -38,6 +38,7 @@ import {
     isGroup,
 } from "./util";
 import { TYPE } from "./constants";
+import { ADMIN_APPS_QUERY_KEY } from "serviceFacades/apps";
 import { getUserInfo } from "serviceFacades/users";
 import { USER_INFO_QUERY_KEY } from "serviceFacades/filesystem";
 import isQueryLoading from "components/utils/isQueryLoading";
@@ -73,6 +74,7 @@ function Sharing(props) {
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
     const [errorDetails, setErrorDetails] = useState(null);
     const [userProfile] = useUserProfile();
+    const queryClient = useQueryClient();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -226,6 +228,7 @@ function Sharing(props) {
                 } else {
                     handleClose();
                 }
+                queryClient.invalidateQueries(ADMIN_APPS_QUERY_KEY);
             },
             onError: (error) => {
                 setErrorDetails({

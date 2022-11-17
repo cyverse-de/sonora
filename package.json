@@ -93,7 +93,7 @@
         "lottie-web": "^5.7.6",
         "md5": "^2.2.1",
         "micromatch": "^4.0.2",
-        "next": "^10.2.3",
+        "next": "^13.0.3",
         "next-i18next": "^7.0.1",
         "numeral": "^2.0.6",
         "postman-request": "^2.88.1-postman.18",
@@ -148,7 +148,7 @@
         "prettier": "^2.0.5",
         "react-test-renderer": "^16.12.0",
         "rimraf": "^3.0.0",
-        "storybook-addon-next-router": "^2.0.3"
+        "storybook-addon-next-router": "^4.0.1"
     },
     "prettier": {
         "trailingComma": "es5",

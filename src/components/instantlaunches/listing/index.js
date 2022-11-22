@@ -109,6 +109,10 @@ function Listing(props) {
                 accessor: "app_name",
             },
             {
+                Header: t("appVersion"),
+                accessor: "app_version",
+            },
+            {
                 Header: "",
                 accessor: "id",
                 Cell: ({ row }) => {

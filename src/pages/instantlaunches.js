@@ -12,5 +12,5 @@ export default function InstantLaunches() {
 }
 
 InstantLaunches.getInitialProps = async () => ({
-    namespacesRequired: ["instantlaunches"],
+    namespacesRequired: ["instantlaunches", "dashboard"],
 });

@@ -20,8 +20,6 @@ import {
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
-import { Skeleton } from "@material-ui/lab";
-
 import { format as formatDate } from "date-fns";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
@@ -30,35 +28,26 @@ import buildID from "components/utils/DebugIDUtil";
 
 import ids from "components/instantlaunches/ids";
 
-import {
-    Button,
-    makeStyles,
-    Table,
-    TableContainer,
-    TableHead,
-    TableCell,
-    TableRow,
-    TableBody,
-    Typography,
-    Paper,
-    IconButton,
-} from "@material-ui/core";
-
+import BasicTable from "components/table/BasicTable";
 import DEDialog from "components/utils/DEDialog";
 import isQueryLoading from "components/utils/isQueryLoading";
-
-import {
-    Add as AddIcon,
-    Close as CloseIcon,
-    Delete as DeleteIcon,
-} from "@material-ui/icons";
 
 import { useTranslation } from "i18n";
 
 import { shortenUsername } from "../functions";
 
+import RowDotMenu from "./RowDotMenu";
 import SavedLaunchList from "./SavedLaunchList";
 import constants from "constants.js";
+
+import { Button, Grid, makeStyles, Typography } from "@material-ui/core";
+import {
+    Add as AddIcon,
+    Close as CloseIcon,
+    Home as HomeIcon,
+    LabelImportant as NestedIcon,
+    MenuOutlined,
+} from "@material-ui/icons";
 
 /**
  * Checks if the instant launch associated with 'id' is in
@@ -170,7 +159,6 @@ const CreationDialog = ({ t, open, onClose }) => {
  */
 const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const baseID = buildID(ids.BASE, ids.LIST);
-    const skeletonID = buildID(baseID, ids.SKELETON);
 
     const { t } = useTranslation("instantlaunches");
     const classes = useStyles();
@@ -340,6 +328,163 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
         }
     );
 
+    const columns = React.useMemo(() => {
+        return [
+            {
+                Header: "",
+                accessor: "quick_launch_id",
+                Cell: ({ row }) => {
+                    const il = row.original;
+
+                    const inDashboard = isInDashboard(
+                        il.id,
+                        dashboardILs.data.instant_launches
+                    );
+                    const inNavDrawer = isInNavDrawer(
+                        il.id,
+                        navDrawerILs.data.instant_launches
+                    );
+                    const inListing = isInListing(
+                        il.id,
+                        listingILs.data.instant_launches
+                    );
+
+                    return (
+                        <Grid container direction="row" wrap="nowrap">
+                            {inListing && <NestedIcon fontSize="small" />}
+                            {inNavDrawer && <MenuOutlined fontSize="small" />}
+                            {inDashboard && <HomeIcon fontSize="small" />}
+                        </Grid>
+                    );
+                },
+            },
+            {
+                Header: t("common:name"),
+                accessor: "quick_launch_name",
+            },
+            {
+                Header: t("app"),
+                accessor: "app_name",
+            },
+            {
+                Header: t("appVersion"),
+                accessor: "app_version",
+            },
+            {
+                Header: t("createdBy"),
+                accessor: "added_by",
+                Cell: ({ row }) => {
+                    const instantLaunch = row.original;
+                    return shortenUsername(instantLaunch.added_by);
+                },
+            },
+            {
+                Header: t("addedOn"),
+                accessor: "added_on",
+                Cell: ({ row }) => {
+                    const instantLaunch = row.original;
+                    const addedOn = Date.parse(instantLaunch.added_on);
+
+                    return formatDate(addedOn, "yyyy-MM-dd pppp");
+                },
+            },
+            {
+                Header: "",
+                accessor: "id",
+                Cell: ({ row }) => {
+                    const il = row.original;
+
+                    const rowID = buildID(baseID, ids.TABLE, ids.ROW, il.id);
+
+                    const inDashboard = isInDashboard(
+                        il.id,
+                        dashboardILs.data.instant_launches
+                    );
+                    const inNavDrawer = isInNavDrawer(
+                        il.id,
+                        navDrawerILs.data.instant_launches
+                    );
+                    const inListing = isInListing(
+                        il.id,
+                        listingILs.data.instant_launches
+                    );
+
+                    return (
+                        <RowDotMenu
+                            baseId={rowID}
+                            dashboardActionId={buildID(
+                                rowID,
+                                ids.DASH,
+                                inDashboard ? ids.RM_DASH : ids.ADD_DASH,
+                                ids.BUTTON
+                            )}
+                            dashboardAction={() =>
+                                inDashboard
+                                    ? removeFromDash(il.id)
+                                    : addToDash(il, t)
+                            }
+                            dashboardLabel={t(
+                                inDashboard
+                                    ? "removeFromDashboard"
+                                    : "addToDashboard"
+                            )}
+                            navDrawerActionId={buildID(
+                                rowID,
+                                ids.NAV_DRAWER,
+                                inNavDrawer
+                                    ? ids.RM_DRAWER
+                                    : ids.ADD_NAV_DRAWER,
+                                ids.BUTTON
+                            )}
+                            navDrawerAction={() =>
+                                inNavDrawer
+                                    ? removeFromDrawerMutation(il.id)
+                                    : addToNavDrawerMutation(il, t)
+                            }
+                            navDrawerLabel={t(
+                                inNavDrawer
+                                    ? "removeFromNavDrawer"
+                                    : "addToNavDrawer"
+                            )}
+                            listingActionId={buildID(
+                                rowID,
+                                ids.LISTING,
+                                inListing ? ids.RM_LISTING : ids.ADD_LISTING,
+                                ids.BUTTON
+                            )}
+                            listingAction={() =>
+                                inListing
+                                    ? removeFromListingMutation(il.id)
+                                    : addToListingMutation(il, t)
+                            }
+                            listingLabel={t(
+                                inListing
+                                    ? "removeFromInstantLaunchListing"
+                                    : "addToInstantLaunchListing"
+                            )}
+                            deleteActionId={buildID(rowID, ids.DELETE)}
+                            deleteAction={() => deleteIL(il.id)}
+                            deleteLabel={t("common:delete")}
+                        />
+                    );
+                },
+            },
+        ];
+    }, [
+        addToDash,
+        addToListingMutation,
+        addToNavDrawerMutation,
+        baseID,
+        dashboardILs,
+        deleteIL,
+        listingILs,
+        navDrawerILs,
+        removeFromDash,
+        removeFromDrawerMutation,
+        removeFromListingMutation,
+        t,
+    ]);
+
     const isLoading = isQueryLoading([
         allILs.isLoading,
         dashboardILs.isLoading,
@@ -361,15 +506,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
 
     return (
         <div style={{ width: "100%" }}>
-            {isLoading ? (
-                <Skeleton
-                    variant="rect"
-                    animation="wave"
-                    height={300}
-                    width="100%"
-                    id={skeletonID}
-                />
-            ) : isError ? (
+            {isError ? (
                 <WrappedErrorHandler
                     errorObject={
                         allILs.error ||
@@ -392,287 +529,41 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                         }}
                     />
 
-                    <TableContainer className={classes.table} component={Paper}>
-                        <div className={classes.tableTitle}>
-                            <Typography variant="h5" component="span">
-                                {t("currentInstantLaunches")}
-                            </Typography>
-
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                startIcon={<AddIcon />}
-                                className={classes.addButton}
-                                onClick={(event) => {
-                                    event.stopPropagation();
-                                    event.preventDefault();
-
-                                    setDlgOpen(true);
-                                }}
-                                id={buildID(baseID, ids.ADD, ids.BUTTON)}
-                            >
-                                {t("common:new")}
-                            </Button>
-                        </div>
-
-                        <Typography
-                            variant="body2"
-                            className={classes.tableDescription}
-                        >
-                            {t("listDescription")}
+                    <div className={classes.tableTitle}>
+                        <Typography variant="h5" component="span">
+                            {t("currentInstantLaunches")}
                         </Typography>
 
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>{t("common:name")}</TableCell>
-                                    <TableCell>{t("createdBy")}</TableCell>
-                                    <TableCell>{t("addedOn")}</TableCell>
-                                    <TableCell />
-                                    <TableCell />
-                                    <TableCell />
-                                    <TableCell />
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {allILs.data.instant_launches.map(
-                                    (il, index) => {
-                                        const addedOn = Date.parse(il.added_on);
-                                        const rowID = buildID(
-                                            baseID,
-                                            ids.TABLE,
-                                            ids.ROW,
-                                            index
-                                        );
-                                        return (
-                                            <TableRow key={il.id} id={rowID}>
-                                                <TableCell
-                                                    id={buildID(
-                                                        rowID,
-                                                        ids.NAME
-                                                    )}
-                                                >
-                                                    {il.quick_launch_name}
-                                                </TableCell>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            startIcon={<AddIcon />}
+                            className={classes.addButton}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                event.preventDefault();
 
-                                                <TableCell
-                                                    id={buildID(
-                                                        rowID,
-                                                        ids.ADDED_BY
-                                                    )}
-                                                >
-                                                    {shortenUsername(
-                                                        il.added_by
-                                                    )}
-                                                </TableCell>
+                                setDlgOpen(true);
+                            }}
+                            id={buildID(baseID, ids.ADD, ids.BUTTON)}
+                        >
+                            {t("common:new")}
+                        </Button>
+                    </div>
 
-                                                <TableCell
-                                                    id={buildID(
-                                                        rowID,
-                                                        ids.ADDED_ON
-                                                    )}
-                                                >
-                                                    {formatDate(
-                                                        addedOn,
-                                                        "yyyy-MM-dd pppp"
-                                                    )}
-                                                </TableCell>
+                    <Typography
+                        variant="body2"
+                        className={classes.tableDescription}
+                    >
+                        {t("listDescription")}
+                    </Typography>
 
-                                                <TableCell
-                                                    id={buildID(
-                                                        rowID,
-                                                        ids.DASH
-                                                    )}
-                                                >
-                                                    {isInDashboard(
-                                                        il.id,
-                                                        dashboardILs.data
-                                                            .instant_launches
-                                                    ) ? (
-                                                        <Button
-                                                            variant="outlined"
-                                                            color="primary"
-                                                            onClick={(
-                                                                event
-                                                            ) => {
-                                                                event.stopPropagation();
-                                                                event.preventDefault();
-                                                                removeFromDash(
-                                                                    il.id
-                                                                );
-                                                            }}
-                                                            id={buildID(
-                                                                rowID,
-                                                                ids.DASH,
-                                                                ids.RM_DASH,
-                                                                ids.BUTTON
-                                                            )}
-                                                        >
-                                                            {t(
-                                                                "removeFromDashboard"
-                                                            )}
-                                                        </Button>
-                                                    ) : (
-                                                        <Button
-                                                            variant="outlined"
-                                                            color="primary"
-                                                            onClick={(
-                                                                event
-                                                            ) => {
-                                                                event.stopPropagation();
-                                                                event.preventDefault();
-                                                                addToDash(
-                                                                    il,
-                                                                    t
-                                                                );
-                                                            }}
-                                                            id={buildID(
-                                                                rowID,
-                                                                ids.DASH,
-                                                                ids.ADD_DASH,
-                                                                ids.BUTTON
-                                                            )}
-                                                        >
-                                                            {t(
-                                                                "addToDashboard"
-                                                            )}
-                                                        </Button>
-                                                    )}
-                                                </TableCell>
-                                                <TableCell
-                                                    id={buildID(
-                                                        rowID,
-                                                        ids.NAV_DRAWER
-                                                    )}
-                                                >
-                                                    {isInNavDrawer(
-                                                        il.id,
-                                                        navDrawerILs.data
-                                                            .instant_launches
-                                                    ) ? (
-                                                        <Button
-                                                            variant="outlined"
-                                                            color="primary"
-                                                            onClick={() => {
-                                                                removeFromDrawerMutation(
-                                                                    il.id
-                                                                );
-                                                            }}
-                                                            id={buildID(
-                                                                rowID,
-                                                                ids.NAV_DRAWER,
-                                                                ids.RM_DRAWER,
-                                                                ids.BUTTON
-                                                            )}
-                                                        >
-                                                            {t(
-                                                                "removeFromNavDrawer"
-                                                            )}
-                                                        </Button>
-                                                    ) : (
-                                                        <Button
-                                                            variant="outlined"
-                                                            color="primary"
-                                                            onClick={() => {
-                                                                addToNavDrawerMutation(
-                                                                    il,
-                                                                    t
-                                                                );
-                                                            }}
-                                                            id={buildID(
-                                                                rowID,
-                                                                ids.NAV_DRAWER,
-                                                                ids.ADD_NAV_DRAWER,
-                                                                ids.BUTTON
-                                                            )}
-                                                        >
-                                                            {t(
-                                                                "addToNavDrawer"
-                                                            )}
-                                                        </Button>
-                                                    )}
-                                                </TableCell>
-                                                <TableCell
-                                                    id={buildID(
-                                                        rowID,
-                                                        ids.LISTING
-                                                    )}
-                                                >
-                                                    {isInListing(
-                                                        il.id,
-                                                        listingILs.data
-                                                            .instant_launches
-                                                    ) ? (
-                                                        <Button
-                                                            variant="outlined"
-                                                            color="primary"
-                                                            onClick={() => {
-                                                                removeFromListingMutation(
-                                                                    il.id
-                                                                );
-                                                            }}
-                                                            id={buildID(
-                                                                rowID,
-                                                                ids.LISTING,
-                                                                ids.RM_LISTING,
-                                                                ids.BUTTON
-                                                            )}
-                                                        >
-                                                            {t(
-                                                                "removeFromInstantLaunchListing"
-                                                            )}
-                                                        </Button>
-                                                    ) : (
-                                                        <Button
-                                                            variant="outlined"
-                                                            color="primary"
-                                                            onClick={() => {
-                                                                addToListingMutation(
-                                                                    il,
-                                                                    t
-                                                                );
-                                                            }}
-                                                            id={buildID(
-                                                                rowID,
-                                                                ids.LISTING,
-                                                                ids.ADD_LISTING,
-                                                                ids.BUTTON
-                                                            )}
-                                                        >
-                                                            {t(
-                                                                "addToInstantLaunchListing"
-                                                            )}
-                                                        </Button>
-                                                    )}
-                                                </TableCell>
-                                                <TableCell
-                                                    id={buildID(
-                                                        rowID,
-                                                        ids.DELETE
-                                                    )}
-                                                >
-                                                    <IconButton
-                                                        onClick={(event) => {
-                                                            event.stopPropagation();
-                                                            event.preventDefault();
-                                                            deleteIL(il.id);
-                                                        }}
-                                                        id={buildID(
-                                                            rowID,
-                                                            ids.DELETE,
-                                                            ids.BUTTON
-                                                        )}
-                                                    >
-                                                        <DeleteIcon />
-                                                    </IconButton>
-                                                </TableCell>
-                                            </TableRow>
-                                        );
-                                    }
-                                )}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                    <BasicTable
+                        columns={columns}
+                        data={allILs?.data?.instant_launches || []}
+                        loading={isLoading}
+                        sortable={true}
+                    />
                 </>
             )}
         </div>

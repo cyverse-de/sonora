@@ -109,18 +109,24 @@ function Listing(props) {
                 accessor: "app_name",
             },
             {
+                Header: t("appVersion"),
+                accessor: "app_version",
+            },
+            {
                 Header: "",
                 accessor: "id",
                 Cell: ({ row }) => {
                     const instantLaunch = row.original;
-                    const appId = instantLaunch.app_id;
+                    const { app_id, app_version_id, submission } =
+                        instantLaunch;
+
                     return (
                         <IconButton
                             onClick={() =>
                                 setShowAppDetails({
-                                    app_id: appId,
-                                    system_id:
-                                        instantLaunch.submission.system_id,
+                                    app_id,
+                                    app_version_id,
+                                    system_id: submission.system_id,
                                 })
                             }
                             size="small"
@@ -156,6 +162,7 @@ function Listing(props) {
                 baseId={baseId}
                 open={!!showAppDetails}
                 appId={showAppDetails?.app_id}
+                versionId={showAppDetails?.app_version_id}
                 systemId={showAppDetails?.system_id}
                 onClose={() => setShowAppDetails(null)}
             />

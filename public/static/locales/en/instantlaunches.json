@@ -10,6 +10,7 @@
     "addedToNavDrawer": "Instant Launch added to the navigation drawer.",
     "app": "App",
     "appDetails": "App Details",
+    "appVersion": "Version",
     "cannotAddILToDashboard": "Cannot add Instant Launch to the dashboard, a required input parameter is present.",
     "cannotAddILToListing": "Cannot add Instant Launch to the Instant Launch listing, a required input parameter is present.",
     "cannotAddILToNavDrawer": "Cannot add Instant Launch to the navigation drawer, a required input parameter is present.",

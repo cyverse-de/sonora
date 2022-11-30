@@ -146,6 +146,9 @@ export const testFullInstantLaunchList = {
             added_by: "ipcdev@siplantcollaborative.org",
             added_on: Date(),
             app_id: "34f2c392-9a8a-11e8-9c8e-008cfa5ae621",
+            app_version_id: "34f2c392-9a8a-11e8-9c8e-008cfa5ae621",
+            app_version: "v0.0.3",
+            app_name: "JupyterLab",
             is_public: true,
             submission: {
                 config: {
@@ -174,6 +177,9 @@ export const testFullInstantLaunchList = {
             added_by: "aramsey@iplantcollaborative.org",
             added_on: Date(),
             app_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
+            app_version_id: "e54bfc1a-f811-11e8-8a14-008cfa5ae621",
+            app_version: "latest",
+            app_name: "JupJup",
             is_public: true,
             submission: {
                 config: {
@@ -198,6 +204,9 @@ export const testFullInstantLaunchList = {
             added_by: "wregglej@iplantcollaborative.org",
             added_on: Date(),
             app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
+            app_version_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
+            app_version: "Unversioned",
+            app_name: "jupyter-lab",
             is_public: true,
             submission: {
                 config: {
@@ -222,6 +231,9 @@ export const testFullInstantLaunchList = {
             added_by: "wregglej@iplantcollaborative.org",
             added_on: Date(),
             app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
+            app_version_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
+            app_version: "Unversioned",
+            app_name: "jupyter-lab",
             is_public: true,
             submission: {
                 config: {
@@ -246,6 +258,9 @@ export const testFullInstantLaunchList = {
             added_by: "wregglej@iplantcollaborative.org",
             added_on: Date(),
             app_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
+            app_version_id: "d61d9a26-e921-11e9-8fe0-008cfa5ae621",
+            app_version: "Unversioned",
+            app_name: "jupyter-lab",
             is_public: true,
             submission: {
                 config: {

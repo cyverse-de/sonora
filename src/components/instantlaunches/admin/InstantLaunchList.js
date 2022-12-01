@@ -333,6 +333,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
             {
                 Header: "",
                 accessor: "quick_launch_id",
+                disableSortBy: true,
                 Cell: ({ row }) => {
                     const il = row.original;
 
@@ -391,6 +392,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
             {
                 Header: "",
                 accessor: "id",
+                disableSortBy: true,
                 Cell: ({ row }) => {
                     const il = row.original;
 

@@ -158,14 +158,16 @@ function Listing(props) {
                 loading={isLoading}
                 sortable={true}
             />
-            <Drawer
-                baseId={baseId}
-                open={!!showAppDetails}
-                appId={showAppDetails?.app_id}
-                versionId={showAppDetails?.app_version_id}
-                systemId={showAppDetails?.system_id}
-                onClose={() => setShowAppDetails(null)}
-            />
+            {showAppDetails && (
+                <Drawer
+                    baseId={baseId}
+                    open={!!showAppDetails}
+                    appId={showAppDetails?.app_id}
+                    versionId={showAppDetails?.app_version_id}
+                    systemId={showAppDetails?.system_id}
+                    onClose={() => setShowAppDetails(null)}
+                />
+            )}
         </>
     );
 }

@@ -63,7 +63,7 @@ function BasicTable(props) {
                                     )}
                                 >
                                     {column.render("Header")}
-                                    {sortable && (
+                                    {sortable && column.canSort && (
                                         <TableSortLabel
                                             active={column.isSorted}
                                             direction={

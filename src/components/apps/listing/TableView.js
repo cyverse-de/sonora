@@ -11,7 +11,6 @@ import { useTranslation } from "i18n";
 import buildID from "components/utils/DebugIDUtil";
 import DECheckbox from "components/utils/DECheckbox";
 import EmptyTable from "components/table/EmptyTable";
-import Rate from "components/rating/Rate";
 import PageWrapper from "components/layout/PageWrapper";
 
 import {
@@ -27,13 +26,33 @@ import RowDotMenu from "./RowDotMenu";
 
 import AppStatusIcon from "../AppStatusIcon";
 import AppName from "../AppName";
+import appFields from "../appFields";
+
+import AppType from "components/models/AppType";
+import ToolTypes from "components/models/ToolTypes";
 import { AppActionCell } from "components/search/detailed/AppSearchResults";
 import DETableHead from "components/table/DETableHead";
 import TableLoading from "components/table/TableLoading";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 import { DERow } from "components/table/DERow";
 import DeleteButton from "components/utils/DeleteButton";
-import appFields from "../appFields";
+
+function getAppTypeDisplay(app) {
+    if (app?.system_id?.toLowerCase() === AppType.agave.value.toLowerCase()) {
+        return AppType.agave.display;
+    }
+
+    if (app?.step_count === 1) {
+        if (ToolTypes.INTERACTIVE === app?.overall_job_type) {
+            return AppType.interactive.display;
+        }
+        if (ToolTypes.OSG === app?.overall_job_type) {
+            return AppType.osg.display;
+        }
+    }
+
+    return "";
+}
 
 function getTableColumns(enableDelete, enableMenu, enableActionCell, t) {
     const fields = appFields(t);
@@ -53,23 +72,10 @@ function getTableColumns(enableDelete, enableMenu, enableActionCell, t) {
             id: fields.NAME.key,
         },
         {
-            name: fields.INTEGRATOR.fieldName,
+            name: fields.TYPE.fieldName,
             enableSorting: true,
-            key: fields.INTEGRATOR.key,
-            id: fields.INTEGRATOR.key,
-        },
-        {
-            name: fields.RATING.fieldName,
-            enableSorting: true,
-            key: fields.RATING.key,
-            id: fields.RATING.key,
-        },
-        {
-            name: fields.SYSTEM.fieldName,
-            enableSorting: false,
-            key: fields.SYSTEM.key,
-            id: fields.SYSTEM.key,
-            align: "right",
+            key: fields.TYPE.key,
+            id: fields.TYPE.key,
         },
     ];
 
@@ -172,7 +178,7 @@ function TableView(props) {
                     />
                     {loading && (
                         <TableLoading
-                            numColumns={6}
+                            numColumns={4}
                             numRows={25}
                             baseId={tableId}
                         />
@@ -188,11 +194,6 @@ function TableView(props) {
                             {apps &&
                                 apps.length > 0 &&
                                 apps.map((app, index) => {
-                                    const {
-                                        average: averageRating,
-                                        user: userRating,
-                                        total: totalRating,
-                                    } = app.rating;
                                     const appId = app.id;
                                     const appName = app.name;
                                     const isSelected =
@@ -202,6 +203,7 @@ function TableView(props) {
                                         tableId,
                                         appId
                                     );
+
                                     return (
                                         <DERow
                                             role="checkbox"
@@ -282,33 +284,10 @@ function TableView(props) {
                                             <TableCell
                                                 id={buildID(
                                                     rowId,
-                                                    ids.integratorName
+                                                    ids.APP_TYPE
                                                 )}
                                             >
-                                                {app.integrator_name}
-                                            </TableCell>
-                                            <TableCell
-                                                id={buildID(rowId, ids.RATING)}
-                                                padding="none"
-                                            >
-                                                <Rate
-                                                    name={app.id}
-                                                    value={
-                                                        userRating ||
-                                                        averageRating
-                                                    }
-                                                    readOnly={true}
-                                                    total={totalRating}
-                                                />
-                                            </TableCell>
-                                            <TableCell
-                                                align="right"
-                                                id={buildID(
-                                                    rowId,
-                                                    ids.SYSTEM_ID
-                                                )}
-                                            >
-                                                {app.system_id}
+                                                {getAppTypeDisplay(app)}
                                             </TableCell>
                                             {enableActionCell && (
                                                 <TableCell

@@ -28,31 +28,14 @@ import AppStatusIcon from "../AppStatusIcon";
 import AppName from "../AppName";
 import appFields from "../appFields";
 
-import AppType from "components/models/AppType";
-import ToolTypes from "components/models/ToolTypes";
+import { getAppTypeDisplay } from "components/apps/utils";
+
 import { AppActionCell } from "components/search/detailed/AppSearchResults";
 import DETableHead from "components/table/DETableHead";
 import TableLoading from "components/table/TableLoading";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 import { DERow } from "components/table/DERow";
 import DeleteButton from "components/utils/DeleteButton";
-
-function getAppTypeDisplay(app) {
-    if (app?.system_id?.toLowerCase() === AppType.agave.value.toLowerCase()) {
-        return AppType.agave.display;
-    }
-
-    if (app?.step_count === 1) {
-        if (ToolTypes.INTERACTIVE === app?.overall_job_type) {
-            return AppType.interactive.display;
-        }
-        if (ToolTypes.OSG === app?.overall_job_type) {
-            return AppType.osg.display;
-        }
-    }
-
-    return "";
-}
 
 function getTableColumns(enableDelete, enableMenu, enableActionCell, t) {
     const fields = appFields(t);

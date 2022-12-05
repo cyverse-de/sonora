@@ -142,7 +142,8 @@ const SearchResultsTable = ({
                                         }}
                                     >
                                         {column.render("Header")}
-                                        {column.id !== "selection" ? (
+                                        {column.canSort &&
+                                        column.id !== "selection" ? (
                                             <TableSortLabel
                                                 active={column.isSorted}
                                                 direction={

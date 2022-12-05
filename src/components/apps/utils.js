@@ -20,6 +20,8 @@ import Text from "components/apps/launch/params/Text";
 import ReferenceGenomeSelect from "components/apps/launch/ReferenceGenomeSelect";
 
 import AppParamTypes from "components/models/AppParamTypes";
+import AppType from "components/models/AppType";
+import ToolTypes from "components/models/ToolTypes";
 import Permissions, {
     permissionHierarchy,
 } from "components/models/Permissions";
@@ -272,4 +274,21 @@ export const appUnavailable = (
         hasDeprecatedParams ||
         computeLimitExceeded
     );
+};
+
+export const getAppTypeDisplay = (app) => {
+    if (app?.system_id?.toLowerCase() === AppType.agave.value.toLowerCase()) {
+        return AppType.agave.display;
+    }
+
+    if (app?.step_count === 1) {
+        if (ToolTypes.INTERACTIVE === app?.overall_job_type) {
+            return AppType.interactive.display;
+        }
+        if (ToolTypes.OSG === app?.overall_job_type) {
+            return AppType.osg.display;
+        }
+    }
+
+    return "";
 };

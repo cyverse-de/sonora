@@ -106,6 +106,9 @@ function DetailsPanel(props) {
                                 />
                             </GridLabelValue>
                         )}
+                        <GridLabelValue label={t("systemId")}>
+                            {details.system_id}
+                        </GridLabelValue>
                         <GridLabelValue label={t("publishedOn")}>
                             {formatDateObject(
                                 details.integration_date &&

@@ -26,7 +26,10 @@ import { copyStringToClipboard } from "components/utils/copyStringToClipboard";
 import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboardHandler";
 import CopyLinkButton from "components/utils/CopyLinkButton";
 import { getHost } from "components/utils/getHost";
-import { getAppListingLinkRefs } from "components/apps/utils";
+import {
+    getAppListingLinkRefs,
+    getAppTypeDisplay,
+} from "components/apps/utils";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import { IconButton, Typography, Grid } from "@material-ui/core";
@@ -159,12 +162,12 @@ export default function AppSearchResults(props) {
                 ),
             },
             {
-                Header: appRecordFields.INTEGRATOR.fieldName,
-                accessor: appRecordFields.INTEGRATOR.key,
-            },
-            {
-                Header: appRecordFields.SYSTEM.fieldName,
-                accessor: appRecordFields.SYSTEM.key,
+                Header: appRecordFields.TYPE.fieldName,
+                accessor: appRecordFields.TYPE.key,
+                Cell: ({ row }) => {
+                    const app = row?.original;
+                    return getAppTypeDisplay(app);
+                },
             },
             {
                 Header: "",
@@ -182,16 +185,7 @@ export default function AppSearchResults(props) {
                 disableSortBy: true,
             },
         ],
-        [
-            appRecordFields.INTEGRATOR.fieldName,
-            appRecordFields.INTEGRATOR.key,
-            appRecordFields.NAME.fieldName,
-            appRecordFields.NAME.key,
-            appRecordFields.SYSTEM.fieldName,
-            appRecordFields.SYSTEM.key,
-            baseId,
-            searchTerm,
-        ]
+        [appRecordFields, baseId, searchTerm]
     );
     if (error) {
         return (

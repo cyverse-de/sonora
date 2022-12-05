@@ -4,6 +4,7 @@ const appFields = (appsI18n) => ({
     RATING: { fieldName: appsI18n("rating"), key: "average" },
     SYSTEM: { fieldName: appsI18n("systemId"), key: "system_id" },
     STATUS: { fieldName: "", key: "status" },
+    TYPE: { fieldName: appsI18n("appType"), key: "overall_job_type" },
     DOT_MENU: { fieldName: "", key: "dotMenu" },
 });
 

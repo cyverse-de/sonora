@@ -172,6 +172,7 @@ function TableView(props) {
         handleSelectAllClick,
         handleClick,
         handleInteractiveUrlClick,
+        handleTerminateSelected,
         handleBatchIconClick,
         handleDetailsClick,
         handleCheckboxClick,
@@ -341,6 +342,9 @@ function TableView(props) {
                                                     )}
                                                     handleInteractiveUrlClick={
                                                         handleInteractiveUrlClick
+                                                    }
+                                                    handleTerminateSelected={
+                                                        handleTerminateSelected
                                                     }
                                                     handleBatchIconClick={
                                                         handleBatchIconClick

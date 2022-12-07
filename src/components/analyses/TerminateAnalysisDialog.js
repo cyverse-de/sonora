@@ -13,8 +13,8 @@ import { Button, Typography } from "@material-ui/core";
 import { groupBy } from "common/functions";
 import DEDialog from "components/utils/DEDialog";
 import { useTranslation } from "i18n";
-import ids from "../ids";
-import { isInteractive } from "../utils";
+import ids from "./ids";
+import { isInteractive } from "./utils";
 
 function TerminateAnalysisDialog(props) {
     const {

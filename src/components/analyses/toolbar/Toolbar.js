@@ -41,7 +41,6 @@ import {
 import SharingButton from "components/sharing/SharingButton";
 import Sharing from "components/sharing";
 import { formatSharedAnalyses } from "components/sharing/util";
-import TerminateAnalysisDialog from "./TerminateAnalysisDialog";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -141,11 +140,10 @@ function AnalysesToolbar(props) {
         onAddToBagSelected,
         handleComments,
         handleInteractiveUrlClick,
-        handleCancel,
         handleDelete,
         handleRelaunch,
         handleRename,
-        handleSaveAndComplete,
+        handleTerminateSelected,
         handleBatchIconClick,
         canShare,
         setPendingTerminationDlgOpen,
@@ -159,14 +157,11 @@ function AnalysesToolbar(props) {
     const analysesNavId = buildID(baseId, ids.ANALYSES_NAVIGATION);
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
-    const [terminateAnalysisDlgOpen, setTerminateAnalysisDlgOpen] =
-        useState(false);
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
     const hasSelection = getSelectedAnalyses
         ? getSelectedAnalyses()?.length > 0
         : false;
     const sharingAnalyses = formatSharedAnalyses(getSelectedAnalyses());
-    const handleTerminateSelected = () => setTerminateAnalysisDlgOpen(true);
 
     return (
         <>
@@ -299,13 +294,6 @@ function AnalysesToolbar(props) {
                 open={sharingDlgOpen}
                 onClose={() => setSharingDlgOpen(false)}
                 resources={sharingAnalyses}
-            />
-            <TerminateAnalysisDialog
-                open={terminateAnalysisDlgOpen}
-                onClose={() => setTerminateAnalysisDlgOpen(false)}
-                getSelectedAnalyses={getSelectedAnalyses}
-                handleSaveAndComplete={handleSaveAndComplete}
-                handleCancel={handleCancel}
             />
         </>
     );

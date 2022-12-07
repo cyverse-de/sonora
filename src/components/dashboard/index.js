@@ -52,7 +52,7 @@ import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import { useUserProfile } from "contexts/userProfile";
 import Banner from "./dashboardItem/Banner";
 import Tour from "./dashboardItem/Tour";
-import TerminateAnalysisDialog from "components/analyses/toolbar/TerminateAnalysisDialog";
+import TerminateAnalysisDialog from "components/analyses/TerminateAnalysisDialog";
 import analysisStatus from "components/models/analysisStatus";
 import { cancelAnalysis } from "serviceFacades/analyses";
 import ResourceUsageItem from "./dashboardItem/ResourceUsageItem";

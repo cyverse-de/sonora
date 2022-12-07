@@ -33,7 +33,7 @@ import AnalysisStatusIcon from "../AnalysisStatusIcon";
 
 import NavigationConstants from "common/NavigationConstants";
 import ShareWithSupportDialog from "components/analyses/ShareWithSupportDialog";
-import TerminateAnalysisDialog from "components/analyses/toolbar/TerminateAnalysisDialog";
+import TerminateAnalysisDialog from "components/analyses/TerminateAnalysisDialog";
 import NotificationCategory from "components/models/NotificationCategory";
 import {
     allowAnalysesCancel,

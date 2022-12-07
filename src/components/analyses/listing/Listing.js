@@ -52,6 +52,7 @@ import AnalysisCommentDialog from "../AnalysisCommentDialog";
 import ShareWithSupportDialog from "../ShareWithSupportDialog";
 
 import TableView from "./TableView";
+import TerminateAnalysisDialog from "../TerminateAnalysisDialog";
 
 import AnalysesToolbar from "../toolbar/Toolbar";
 
@@ -128,8 +129,12 @@ function Listing(props) {
         useState(false);
     const [pendingTerminationDlgOpen, setPendingTerminationDlgOpen] =
         useState(false);
+    const [terminateAnalysisDlgOpen, setTerminateAnalysisDlgOpen] =
+        useState(false);
     const [timeLimitQueryEnabled, setTimeLimitQueryEnabled] = useState(false);
     const [timeLimit, setTimeLimit] = useState();
+
+    const handleTerminateSelected = () => setTerminateAnalysisDlgOpen(true);
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();
@@ -732,11 +737,10 @@ function Listing(props) {
                 onAddToBagSelected={onAddToBagSelected}
                 handleComments={handleComments}
                 handleInteractiveUrlClick={openInteractiveUrl}
-                handleCancel={handleCancel}
                 handleDelete={handleDelete}
                 handleRelaunch={handleRelaunch}
                 handleRename={handleRename}
-                handleSaveAndComplete={handleSaveAndComplete}
+                handleTerminateSelected={handleTerminateSelected}
                 handleBatchIconClick={handleBatchIconClick}
                 canShare={sharingEnabled}
                 setPendingTerminationDlgOpen={setPendingTerminationDlgOpen}
@@ -758,7 +762,7 @@ function Listing(props) {
                 handleCheckboxClick={handleCheckboxClick}
                 handleRequestSort={handleRequestSort}
                 handleInteractiveUrlClick={openInteractiveUrl}
-                handleRelaunch={handleRelaunch}
+                handleTerminateSelected={handleTerminateSelected}
                 handleBatchIconClick={handleBatchIconClick}
                 handleDetailsClick={onDetailsSelected}
                 handleStatusClick={handleStatusClick}
@@ -819,6 +823,14 @@ function Listing(props) {
                     onShareWithSupport={onShareWithSupport}
                 />
             )}
+
+            <TerminateAnalysisDialog
+                open={terminateAnalysisDlgOpen}
+                onClose={() => setTerminateAnalysisDlgOpen(false)}
+                getSelectedAnalyses={getSelectedAnalyses}
+                handleSaveAndComplete={handleSaveAndComplete}
+                handleCancel={handleCancel}
+            />
 
             <PendingTerminationDlg
                 open={pendingTerminationDlgOpen}

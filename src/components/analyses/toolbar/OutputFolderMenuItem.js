@@ -26,7 +26,6 @@ const OutputFolderMenuItem = React.forwardRef((props, ref) => {
     const terminated = isTerminated(analysis);
     return (
         <MenuItem
-            key={buildID(baseId, ids.MENUITEM_GO_TO_FOLDER)}
             id={buildID(baseId, ids.MENUITEM_GO_TO_FOLDER)}
             href={href}
             onClick={(event) => {

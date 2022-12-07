@@ -23,7 +23,7 @@ import {
 
 import { useConfig } from "contexts/config";
 
-import { IconButton } from "@material-ui/core";
+import { Grid, IconButton } from "@material-ui/core";
 import {
     HourglassEmptyRounded as HourGlass,
     Launch as LaunchIcon,
@@ -113,8 +113,9 @@ export default function Actions(props) {
         analysis?.resultfolderid
     );
     const isTerminatedAnalysis = isTerminated(analysis);
+
     return (
-        <>
+        <Grid container direction="row" wrap="nowrap">
             {isTerminatedAnalysis && (
                 <Link href={outputFolderHref} as={outputFolderAs} passHref>
                     <GotoOutputFolderButton
@@ -190,6 +191,6 @@ export default function Actions(props) {
             >
                 <Info fontSize="small" />
             </IconButton>
-        </>
+        </Grid>
     );
 }

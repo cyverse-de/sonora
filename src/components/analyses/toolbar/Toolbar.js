@@ -10,6 +10,9 @@ import { useTranslation } from "i18n";
 
 import AnalysesDotMenu from "./AnalysesDotMenu";
 import ids from "../ids";
+import { allowAnalysesCancel } from "../utils";
+
+import { useConfig } from "contexts/config";
 
 import AppsTypeFilter from "components/apps/AppsTypeFilter";
 
@@ -33,6 +36,7 @@ import {
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import {
+    Cancel as CancelIcon,
     FilterList as FilterListIcon,
     Info,
     Queue as AddToBagIcon,
@@ -154,14 +158,16 @@ function AnalysesToolbar(props) {
     const classes = useStyles();
     const theme = useTheme();
     const { t } = useTranslation("analyses");
+    const [config] = useConfig();
     const analysesNavId = buildID(baseId, ids.ANALYSES_NAVIGATION);
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-    const hasSelection = getSelectedAnalyses
-        ? getSelectedAnalyses()?.length > 0
-        : false;
-    const sharingAnalyses = formatSharedAnalyses(getSelectedAnalyses());
+    const selectedAnalyses = getSelectedAnalyses ? getSelectedAnalyses() : null;
+    const hasSelection = selectedAnalyses?.length > 0;
+    const sharingAnalyses = formatSharedAnalyses(selectedAnalyses);
+    const allowCancel =
+        hasSelection && allowAnalysesCancel(selectedAnalyses, username, config);
 
     return (
         <>
@@ -204,6 +210,20 @@ function AnalysesToolbar(props) {
                     <Hidden xsDown>{t("refresh")}</Hidden>
                 </Button>
                 <Hidden smDown>
+                    {allowCancel && (
+                        <Button
+                            id={buildID(analysesNavId, ids.CANCEL_BTN)}
+                            className={classes.toolbarItems}
+                            variant="outlined"
+                            disableElevation
+                            color="primary"
+                            onClick={handleTerminateSelected}
+                            startIcon={<CancelIcon color="error" />}
+                            size="small"
+                        >
+                            {t("terminate")}
+                        </Button>
+                    )}
                     {isSingleSelection && (
                         <Button
                             id={buildID(analysesNavId, ids.DETAILS_BTN)}

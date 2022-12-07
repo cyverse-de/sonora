@@ -50,6 +50,7 @@ export default {
     MENUITEM_GOTO_APPS: "gotoApps",
     MENUITEM_SHARE_WITH_SUPPORT: "shareWithSupport",
 
+    CANCEL_BTN: "cancelBtn",
     DETAILS_BTN: "detailsBtn",
     ADD_TO_BAG_BTN: "addToBagBtn",
     REFRESH_BTN: "refreshBtn",

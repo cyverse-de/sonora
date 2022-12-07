@@ -94,6 +94,20 @@ function DotMenuItems(props) {
 
     return [
         <Hidden mdUp key="hiddenMdUp">
+            {allowCancel && (
+                <MenuItem
+                    id={buildID(baseId, ids.MENUITEM_CANCEL)}
+                    onClick={() => {
+                        onClose();
+                        handleTerminateSelected();
+                    }}
+                >
+                    <ListItemIcon>
+                        <CancelIcon color="error" fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary={t("terminate")} />
+                </MenuItem>
+            )}
             {isSingleSelection && (
                 <MenuItem
                     id={buildID(baseId, ids.MENUITEM_DETAILS)}
@@ -245,21 +259,6 @@ function DotMenuItems(props) {
                 <ListItemText primary={t("viewLogs")} />
             </MenuItem>,
         ],
-        allowCancel && (
-            <MenuItem
-                key={buildID(baseId, ids.MENUITEM_CANCEL)}
-                id={buildID(baseId, ids.MENUITEM_CANCEL)}
-                onClick={() => {
-                    onClose();
-                    handleTerminateSelected();
-                }}
-            >
-                <ListItemIcon>
-                    <CancelIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText primary={t("terminate")} />
-            </MenuItem>
-        ),
         allowDelete && (
             <MenuItem
                 key={buildID(baseId, ids.MENUITEM_DELETE)}

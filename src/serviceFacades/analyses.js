@@ -154,13 +154,7 @@ function cancelAnalyses({
     return (
         analysisIds &&
         analysisIds.length > 0 &&
-        new Promise((resolve, reject) =>
-            Promise.all(
-                analysisIds.map((id) => cancelAnalysis({ id, job_status }))
-            )
-                .then((values) => resolve(values))
-                .catch((error) => reject(error))
-        )
+        Promise.all(analysisIds.map((id) => cancelAnalysis({ id, job_status })))
     );
 }
 

@@ -120,7 +120,7 @@ class AnalysisItem extends ItemBase {
                         }}
                         size="small"
                     >
-                        <Cancel color="primary" />
+                        <Cancel color="error" />
                     </IconButton>
                 </ItemAction>
             ),

@@ -113,18 +113,18 @@ const columnData = (t) => {
             key: fields.NAME.key,
         },
         {
-            id: ids.OWNER,
-            name: fields.OWNER.fieldName,
+            id: ids.STATUS,
+            name: fields.STATUS.fieldName,
             numeric: false,
-            enableSorting: false,
-            key: fields.OWNER.key,
+            enableSorting: true,
+            key: fields.STATUS.key,
         },
         {
-            id: ids.APP,
-            name: fields.APP.fieldName,
+            id: ids.ACTIONS,
+            name: fields.ACTIONS.fieldName,
             numeric: false,
             enableSorting: false,
-            key: fields.APP.key,
+            key: fields.ACTIONS.key,
         },
         {
             id: ids.START_DATE,
@@ -141,18 +141,18 @@ const columnData = (t) => {
             key: fields.END_DATE.key,
         },
         {
-            id: ids.STATUS,
-            name: fields.STATUS.fieldName,
-            numeric: false,
-            enableSorting: true,
-            key: fields.STATUS.key,
-        },
-        {
-            id: ids.ACTIONS,
-            name: fields.ACTIONS.fieldName,
+            id: ids.APP,
+            name: fields.APP.fieldName,
             numeric: false,
             enableSorting: false,
-            key: fields.ACTIONS.key,
+            key: fields.APP.key,
+        },
+        {
+            id: ids.OWNER,
+            name: fields.OWNER.fieldName,
+            numeric: false,
+            enableSorting: false,
+            key: fields.OWNER.key,
         },
     ];
 };
@@ -294,29 +294,6 @@ function TableView(props) {
                                                 parentId={parentId}
                                             />
                                         </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body2">
-                                                {user}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell
-                                            id={buildID(
-                                                rowId,
-                                                ids.APP_NAME_CELL
-                                            )}
-                                        >
-                                            <AppName analysis={analysis} />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body2">
-                                                {formatDate(analysis.startdate)}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body2">
-                                                {formatDate(analysis.enddate)}
-                                            </Typography>
-                                        </TableCell>
                                         <TableCell
                                             id={buildID(
                                                 rowId,
@@ -364,6 +341,29 @@ function TableView(props) {
                                                 />
                                             </TableCell>
                                         )}
+                                        <TableCell>
+                                            <Typography variant="body2">
+                                                {formatDate(analysis.startdate)}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography variant="body2">
+                                                {formatDate(analysis.enddate)}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell
+                                            id={buildID(
+                                                rowId,
+                                                ids.APP_NAME_CELL
+                                            )}
+                                        >
+                                            <AppName analysis={analysis} />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography variant="body2">
+                                                {user}
+                                            </Typography>
+                                        </TableCell>
                                     </DERow>
                                 );
                             })}

@@ -6,6 +6,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
+import Link from "next/link";
 
 import Actions from "./Actions";
 import ids from "../ids";
@@ -18,24 +19,24 @@ import DETableHead from "components/table/DETableHead";
 
 import analysisFields from "../analysisFields";
 
-import { getAnalysisUser } from "../utils";
+import { getAnalysisDetailsLinkRefs, getAnalysisUser } from "../utils";
 
 import buildID from "components/utils/DebugIDUtil";
 import { formatDate } from "components/utils/DateFormatter";
 import DECheckbox from "components/utils/DECheckbox";
+import DELink from "components/utils/DELink";
 import EmptyTable from "components/table/EmptyTable";
 
 import { useConfig } from "contexts/config";
 
 import {
     makeStyles,
-    Link,
+    Link as MUILink,
     Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
-    Tooltip,
     Typography,
     useMediaQuery,
     useTheme,
@@ -48,24 +49,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AnalysisName(props) {
-    const classes = useStyles();
     const analysis = props.analysis;
     const name = analysis.name;
     const baseId = props.baseId;
+    const [href, as] = getAnalysisDetailsLinkRefs(analysis.id);
+
     return (
-        <Tooltip
-            id={buildID(baseId, ids.ANALYSIS_NAME_CELL, ids.TOOLTIP)}
-            aria-label={name}
-            title={name}
-        >
-            <Typography
+        <Link href={href} as={as} passHref>
+            <DELink
                 id={buildID(baseId, ids.ANALYSIS_NAME_CELL)}
-                className={classes.name}
-                variant="body2"
-            >
-                {name}
-            </Typography>
-        </Tooltip>
+                text={name}
+                title={name}
+            />
+        </Link>
     );
 }
 
@@ -92,7 +88,7 @@ function Status(props) {
             analysisStatus.FAILED,
         ].includes(analysis.status)
     ) {
-        StatusDisplay = Link;
+        StatusDisplay = MUILink;
         statusDisplayProps.component = "button";
         statusDisplayProps.onClick = () => onStatusClick(analysis);
     }
@@ -183,6 +179,7 @@ function TableView(props) {
     } = props;
 
     const theme = useTheme();
+    const classes = useStyles();
     const { t } = useTranslation("analyses");
 
     const [config] = useConfig();
@@ -284,6 +281,7 @@ function TableView(props) {
                                             id={buildID(
                                                 rowId + ids.ANALYSIS_NAME_CELL
                                             )}
+                                            className={classes.name}
                                         >
                                             <AnalysisName
                                                 analysis={analysis}

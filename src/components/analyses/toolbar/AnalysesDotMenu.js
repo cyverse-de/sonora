@@ -10,7 +10,6 @@ import { useTranslation } from "i18n";
 import Link from "next/link";
 
 import ids from "../ids";
-import shareIds from "components/sharing/ids";
 
 import {
     allowAnalysesCancel,
@@ -92,11 +91,25 @@ function DotMenuItems(props) {
     const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
         selectedAnalyses[0]?.resultfolderid
     );
+
     return [
-        <Hidden mdUp>
+        <Hidden mdUp key="hiddenMdUp">
+            {allowCancel && (
+                <MenuItem
+                    id={buildID(baseId, ids.MENUITEM_CANCEL)}
+                    onClick={() => {
+                        onClose();
+                        handleTerminateSelected();
+                    }}
+                >
+                    <ListItemIcon>
+                        <CancelIcon color="error" fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary={t("terminate")} />
+                </MenuItem>
+            )}
             {isSingleSelection && (
                 <MenuItem
-                    key={buildID(baseId, ids.MENUITEM_DETAILS)}
                     id={buildID(baseId, ids.MENUITEM_DETAILS)}
                     onClick={() => {
                         onClose();
@@ -111,7 +124,6 @@ function DotMenuItems(props) {
             )}
             {canShare && (
                 <SharingMenuItem
-                    key={buildID(baseId, shareIds.SHARING_MENU_ITEM)}
                     baseId={baseId}
                     onClose={onClose}
                     setSharingDlgOpen={setSharingDlgOpen}
@@ -119,7 +131,12 @@ function DotMenuItems(props) {
             )}
         </Hidden>,
         isSingleSelection && (
-            <Link href={outputFolderHref} as={outputFolderAs} passHref>
+            <Link
+                key={buildID(baseId, ids.MENUITEM_GO_TO_FOLDER)}
+                href={outputFolderHref}
+                as={outputFolderAs}
+                passHref
+            >
                 <OutputFolderMenuItem
                     baseId={baseId}
                     analysis={selectedAnalyses[0]}
@@ -129,7 +146,12 @@ function DotMenuItems(props) {
             </Link>
         ),
         isSingleSelection && allowRelaunch && (
-            <Link href={href} as={as} passHref>
+            <Link
+                key={buildID(baseId, ids.MENUITEM_RELAUNCH)}
+                href={href}
+                as={as}
+                passHref
+            >
                 <RelaunchMenuItem baseId={baseId} />
             </Link>
         ),
@@ -237,21 +259,6 @@ function DotMenuItems(props) {
                 <ListItemText primary={t("viewLogs")} />
             </MenuItem>,
         ],
-        allowCancel && (
-            <MenuItem
-                key={buildID(baseId, ids.MENUITEM_CANCEL)}
-                id={buildID(baseId, ids.MENUITEM_CANCEL)}
-                onClick={() => {
-                    onClose();
-                    handleTerminateSelected();
-                }}
-            >
-                <ListItemIcon>
-                    <CancelIcon fontSize="small" />
-                </ListItemIcon>
-                <ListItemText primary={t("terminate")} />
-            </MenuItem>
-        ),
         allowDelete && (
             <MenuItem
                 key={buildID(baseId, ids.MENUITEM_DELETE)}

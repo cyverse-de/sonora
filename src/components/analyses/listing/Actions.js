@@ -13,18 +13,20 @@ import ids from "../ids";
 import buildID from "components/utils/DebugIDUtil";
 
 import {
-    isInteractive,
+    allowAnalysesCancel,
     allowAnalysisTimeExtn,
     isBatchAnalysis,
-    useRelaunchLink,
-    useGotoOutputFolderLink,
+    isInteractive,
     isTerminated,
+    useGotoOutputFolderLink,
+    useRelaunchLink,
 } from "../utils";
 
 import { useConfig } from "contexts/config";
 
-import { IconButton } from "@material-ui/core";
+import { Grid, IconButton } from "@material-ui/core";
 import {
+    Cancel as CancelIcon,
     HourglassEmptyRounded as HourGlass,
     Launch as LaunchIcon,
     PermMedia as OutputFolderIcon,
@@ -92,6 +94,7 @@ export default function Actions(props) {
         allowBatchDrillDown = true,
         handleDetailsClick,
         handleInteractiveUrlClick,
+        handleTerminateSelected,
         handleBatchIconClick,
         setPendingTerminationDlgOpen,
         baseId,
@@ -107,14 +110,26 @@ export default function Actions(props) {
 
     const isBatch = isBatchAnalysis(analysis);
     const isVICE = isInteractive(analysis);
+    const allowCancel = allowAnalysesCancel([analysis], username, config);
     const allowTimeExtn = allowAnalysisTimeExtn(analysis, username, config);
     const [relaunchHref, relaunchAs] = useRelaunchLink(analysis);
     const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
         analysis?.resultfolderid
     );
     const isTerminatedAnalysis = isTerminated(analysis);
+
     return (
-        <>
+        <Grid container direction="row" wrap="nowrap">
+            {allowCancel && (
+                <IconButton
+                    size="small"
+                    onClick={handleTerminateSelected}
+                    id={buildID(baseId, ids.TERMINATE_BTN, ids.BUTTON)}
+                    title={t("terminate")}
+                >
+                    <CancelIcon color="error" fontSize="small" />
+                </IconButton>
+            )}
             {isTerminatedAnalysis && (
                 <Link href={outputFolderHref} as={outputFolderAs} passHref>
                     <GotoOutputFolderButton
@@ -190,6 +205,6 @@ export default function Actions(props) {
             >
                 <Info fontSize="small" />
             </IconButton>
-        </>
+        </Grid>
     );
 }

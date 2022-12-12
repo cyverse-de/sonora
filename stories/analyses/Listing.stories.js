@@ -57,9 +57,6 @@ function ListingTest(props) {
                         idFilter
                     );
                 }}
-                handleGoToOutputFolder={(analysis) =>
-                    console.log("Go to output folder", analysis?.resultfolderid)
-                }
                 handleSingleRelaunch={(analysis) =>
                     console.log("Relaunch Analysis", analysis?.id)
                 }

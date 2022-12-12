@@ -17,7 +17,6 @@ const RelaunchMenuItem = React.forwardRef((props, ref) => {
     const { t } = useTranslation("analyses");
     return (
         <MenuItem
-            key={buildID(baseId, ids.MENUITEM_RELAUNCH)}
             id={buildID(baseId, ids.MENUITEM_RELAUNCH)}
             href={href}
             onClick={onClick}

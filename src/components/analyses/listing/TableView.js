@@ -135,13 +135,6 @@ const columnData = (t) => {
             key: fields.STATUS.key,
         },
         {
-            id: ids.ACTIONS,
-            name: fields.ACTIONS.fieldName,
-            numeric: false,
-            enableSorting: false,
-            key: fields.ACTIONS.key,
-        },
-        {
             id: ids.START_DATE,
             name: fields.START_DATE.fieldName,
             numeric: false,
@@ -168,6 +161,13 @@ const columnData = (t) => {
             numeric: false,
             enableSorting: false,
             key: fields.OWNER.key,
+        },
+        {
+            id: ids.ACTIONS,
+            name: fields.ACTIONS.fieldName,
+            numeric: false,
+            enableSorting: false,
+            key: fields.ACTIONS.key,
         },
     ];
 };
@@ -325,6 +325,29 @@ function TableView(props) {
                                                 }
                                             />
                                         </TableCell>
+                                        <TableCell>
+                                            <Typography variant="body2">
+                                                {formatDate(analysis.startdate)}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <AnalysisDuration
+                                                analysis={analysis}
+                                            />
+                                        </TableCell>
+                                        <TableCell
+                                            id={buildID(
+                                                rowId,
+                                                ids.APP_NAME_CELL
+                                            )}
+                                        >
+                                            <AppName analysis={analysis} />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography variant="body2">
+                                                {user}
+                                            </Typography>
+                                        </TableCell>
                                         {!isSmall && (
                                             <TableCell>
                                                 <Actions
@@ -358,29 +381,6 @@ function TableView(props) {
                                                 />
                                             </TableCell>
                                         )}
-                                        <TableCell>
-                                            <Typography variant="body2">
-                                                {formatDate(analysis.startdate)}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <AnalysisDuration
-                                                analysis={analysis}
-                                            />
-                                        </TableCell>
-                                        <TableCell
-                                            id={buildID(
-                                                rowId,
-                                                ids.APP_NAME_CELL
-                                            )}
-                                        >
-                                            <AppName analysis={analysis} />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body2">
-                                                {user}
-                                            </Typography>
-                                        </TableCell>
                                     </DERow>
                                 );
                             })}

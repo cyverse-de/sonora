@@ -44,7 +44,8 @@ import {
 
 const useStyles = makeStyles((theme) => ({
     name: {
-        paddingLeft: theme.spacing(1),
+        maxWidth: "12rem",
+        overflowWrap: "break-word",
     },
 }));
 
@@ -54,11 +55,17 @@ function AnalysisName(props) {
     const baseId = props.baseId;
     const [href, as] = getAnalysisDetailsLinkRefs(analysis.id);
 
+    // Inserting the <wbr> tag at underscores allows browsers to wrap long
+    // analysis names at those underscores.
+    const linkText = name
+        ?.split("_")
+        ?.reduce((acc, cur, i) => [...acc, "_", <wbr key={i} />, cur]);
+
     return (
         <Link href={href} as={as} passHref>
             <DELink
                 id={buildID(baseId, ids.ANALYSIS_NAME_CELL)}
-                text={name}
+                text={linkText}
                 title={name}
             />
         </Link>

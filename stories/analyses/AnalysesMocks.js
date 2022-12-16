@@ -42,7 +42,7 @@ export const listing = {
     analyses: [
         {
             description: "",
-            name: "DE_Word_Count_analysis1",
+            name: "DE_Word_Count_super_long_name_for_testing_purposes_Honorificabilitudinitatibus_califragilisticexpialidocious_Taumatawhakatangihangakoauauotamateaturipukakapikimaungahoronukupokaiwhenuakitanatahu_グレートブリテンおよび北アイルランド連合王国という言葉は本当に長い言葉-analysis1",
             can_share: true,
             username: "ipcdev@iplantcollaborative.org",
             app_id: "67d15627-22c5-42bd-8daf-9af5deecceab",

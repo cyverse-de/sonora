@@ -22,7 +22,10 @@ import analysisFields from "../analysisFields";
 import { getAnalysisDetailsLinkRefs, getAnalysisUser } from "../utils";
 
 import buildID from "components/utils/DebugIDUtil";
-import { formatDate } from "components/utils/DateFormatter";
+import {
+    getFormattedDuration,
+    formatDate,
+} from "components/utils/DateFormatter";
 import DECheckbox from "components/utils/DECheckbox";
 import DELink from "components/utils/DELink";
 import EmptyTable from "components/table/EmptyTable";
@@ -70,6 +73,15 @@ function AnalysisName(props) {
             />
         </Link>
     );
+}
+
+function AnalysisDuration({ analysis }) {
+    const duration = getFormattedDuration(
+        analysis.startdate?.slice(0, -3),
+        analysis.enddate?.slice(0, -3)
+    );
+
+    return <Typography variant="body2">{duration}</Typography>;
 }
 
 function AppName(props) {
@@ -137,11 +149,11 @@ const columnData = (t) => {
             key: fields.START_DATE.key,
         },
         {
-            id: ids.END_DATE,
-            name: fields.END_DATE.fieldName,
+            id: ids.DURATION,
+            name: fields.DURATION.fieldName,
             numeric: false,
-            enableSorting: true,
-            key: fields.END_DATE.key,
+            enableSorting: false,
+            key: fields.DURATION.key,
         },
         {
             id: ids.APP,
@@ -352,9 +364,9 @@ function TableView(props) {
                                             </Typography>
                                         </TableCell>
                                         <TableCell>
-                                            <Typography variant="body2">
-                                                {formatDate(analysis.enddate)}
-                                            </Typography>
+                                            <AnalysisDuration
+                                                analysis={analysis}
+                                            />
                                         </TableCell>
                                         <TableCell
                                             id={buildID(

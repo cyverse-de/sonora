@@ -8,31 +8,49 @@
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import TableView from "./TableView";
+import SubscriptionToolbar from "../toolbar/Toolbar";
+
 import withErrorAnnouncer from "../../error/withErrorAnnouncer";
 import {
     getSubscriptions,
-    SUBSCRIPTION_SEARCH_QUERY_KEY,
+    SUBSCRIPTIONS_QUERY_KEY,
 } from "serviceFacades/subscriptions";
 
 function Listing(props) {
+    const { baseId, isAdminView, onRouteToListing, searchTerm } = props;
     const [data, setData] = useState(null);
+    const [selected, setSelected] = useState([]);
+    // const [subscriptionsQueryKey, setSubscriptionsQueryKey] = useState(SUBSCRIPTIONS_QUERY_KEY)
+
+    // const {isFetching: getSubscriptionsStatus, error: getSubscriptionsError} =
     useQuery({
-        queryKey: SUBSCRIPTION_SEARCH_QUERY_KEY,
-        queryFn: () => getSubscriptions(),
+        queryKey: [
+            SUBSCRIPTIONS_QUERY_KEY,
+            {
+                searchTerm,
+            },
+        ],
+        queryFn: () => getSubscriptions({ searchTerm }),
         enabled: true,
         onSuccess: (resp) => {
-            setData(resp.result);
+            setData(resp.result.subscriptions); //array of objects
+            //[{id: , effective_start_date: , user:{usesrname: ""}, plan: {name: }}
         },
     });
+    console.log(selected);
+    const handleSearch = (term) => {
+        setSelected([]);
+        onRouteToListing && onRouteToListing(term);
+    };
 
-    // const {
-    //     mutate: null
-    //     isLoading: null
-    //     error: null
-    // } = useMutation ()
     return (
         <>
-            <TableView baseId="subscriptions" listing={data} />
+            <SubscriptionToolbar
+                handleSearch={handleSearch}
+                isAdminView={isAdminView}
+                searchTerm={searchTerm}
+            />
+            <TableView baseId={baseId} listing={data} />
         </>
     );
 }

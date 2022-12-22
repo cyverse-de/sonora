@@ -1,7 +1,8 @@
 {
     "ariaTableListing": "Subscriptions table listing",
-    "username": "Username",
-    "startDate": "Start date",
     "endDate": "End date",
-    "planName": "Plan name"
+    "planName": "Plan name",
+    "searchUsers": "Search users",
+    "startDate": "Start date",
+    "username": "Username"
 }

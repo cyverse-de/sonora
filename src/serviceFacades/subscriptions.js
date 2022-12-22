@@ -2,35 +2,54 @@
  * @author sboleyn
  *
  */
+
 import callApi from "../common/callApi";
 
-const SUBSCRIPTION_LISTING_QUERY_KEY = "searchSubscriptionsAdminQMS";
+const SUBSCRIPTIONS_QUERY_KEY = "searchSubscriptionsAdminQMS";
 
-// ****Requirements****
-// 2. Administrators can update a user's subscrption
-
-// 3. Administrators can add new subscriptions for users who haven't logged into the DE yet
-
-// Remove after testing
-// function getTest() {
-//     return getFeaturedApps();
-// }
-
-// ****Requirement 1****
 // Administrators can list existing subscriptions
-function getSubscriptions() {
+function getSubscriptions({ searchTerm }) {
+    const params = {};
+    params["search"] = searchTerm ? searchTerm : null;
+    console.log(params);
     return callApi({
         endpoint: "/api/admin/qms/subscriptions",
         method: "GET",
+        params: params,
     });
 }
 
-// function getSubs({ rowsPerPage, orderBy, order, page, appTypeFilter })
-// function getSubs(){
+// Administrators can update a user's subscriptions
+// function updateSubscription ({username, planName}){
 //     return callApi({
-//         endpoint: `api/terrain/admin/qms/subscriptions`,
+//         endpoint: `/api/admin/qms/users/${username}/plan/${planName}`,
+//         method: "PUT"
+//     })
+// }
+
+// Administrators can add new subscriptions for users who haven't logged into the DE yet
+// function addNewSubscription ({request}){
+//     return callApi({
+//         endpoint: `/api/admin/qms/subscriptions`,
+//         method: "POST",
+//         body: request
+//     })
+// }
+
+// Get plan names
+// function getPlanNames(){
+//     return callApi({
+//         endpoint: `/api/qms/plans`,
 //         method: "GET"
 //     })
 // }
 
-export { getSubscriptions, SUBSCRIPTION_LISTING_QUERY_KEY };
+// Get all users
+// function getUsers(){
+//     return callApi({
+//         endpoint: `/api/subjects`,
+//         method: "GET"
+//     })
+// }
+
+export { getSubscriptions, SUBSCRIPTIONS_QUERY_KEY };

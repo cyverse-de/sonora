@@ -9,24 +9,13 @@ import React from "react";
 import { useTranslation } from "i18n";
 
 import ids from "../ids";
-// Columns
-// Username
-// Subscription start date
-// Subscription end date
-// Plan name
-// ---- DETAILS
-// Quotas
-// -- CPU Usage
-// -- Data Storage
-// Usages
-// -- CPU Usage
-// -- Data Storage
 
 import { DERow } from "components/table/DERow";
 import DETableHead from "components/table/DETableHead";
 import subscriptionFields from "../subscriptionFields";
 
 import buildID from "components/utils/DebugIDUtil";
+import { formatDate } from "components/utils/DateFormatter";
 
 import {
     Paper,
@@ -81,9 +70,9 @@ function TableView(props) {
     const { t } = useTranslation("subscriptions");
     let columns = columnData(t);
 
-    const subscriptions = listing?.subscriptions;
+    const subscriptions = listing;
     const tableId = buildID(baseId, ids.LISTING_TABLE);
-    console.log(subscriptions);
+    // console.log(subscriptions?.length)
     return (
         <TableContainer component={Paper} style={{ overflow: "auto" }}>
             <Table
@@ -98,17 +87,16 @@ function TableView(props) {
                     columnData={columns}
                     order="asc"
                 />
-
                 <TableBody>
                     {subscriptions &&
                         subscriptions.length > 0 &&
                         subscriptions.map((subscription, index) => {
                             const id = subscription.id;
                             const rowId = buildID(baseId, tableId, id);
-                            const user = subscription["user"].username;
+                            const user = subscription.user.username;
                             const startDate = subscription.effective_start_date;
                             const endDate = subscription.effective_end_date;
-                            const planName = subscription["plan"].name;
+                            const planName = subscription.plan.name;
                             return (
                                 <DERow>
                                     <TableCell
@@ -118,12 +106,12 @@ function TableView(props) {
                                     </TableCell>
                                     <TableCell>
                                         <Typography variant="body2">
-                                            {startDate}
+                                            {formatDate(startDate)}
                                         </Typography>
                                     </TableCell>
                                     <TableCell>
                                         <Typography variant="body2">
-                                            {endDate}
+                                            {formatDate(endDate)}
                                         </Typography>
                                     </TableCell>
                                     <TableCell>

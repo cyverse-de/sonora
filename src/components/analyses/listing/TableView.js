@@ -19,7 +19,7 @@ import DETableHead from "components/table/DETableHead";
 
 import analysisFields from "../analysisFields";
 
-import { getAnalysisDetailsLinkRefs, getAnalysisUser } from "../utils";
+import { getAnalysisDetailsLinkRefs } from "../utils";
 
 import buildID from "components/utils/DebugIDUtil";
 import {
@@ -29,8 +29,6 @@ import {
 import DECheckbox from "components/utils/DECheckbox";
 import DELink from "components/utils/DELink";
 import EmptyTable from "components/table/EmptyTable";
-
-import { useConfig } from "contexts/config";
 
 import {
     makeStyles,
@@ -82,12 +80,6 @@ function AnalysisDuration({ analysis }) {
     );
 
     return <Typography variant="body2">{duration}</Typography>;
-}
-
-function AppName(props) {
-    const analysis = props.analysis;
-    const name = analysis.app_name;
-    return <Typography variant="body2">{name}</Typography>;
 }
 
 function Status(props) {
@@ -149,20 +141,6 @@ const columnData = (t) => {
             key: fields.DURATION.key,
         },
         {
-            id: ids.APP,
-            name: fields.APP.fieldName,
-            numeric: false,
-            enableSorting: false,
-            key: fields.APP.key,
-        },
-        {
-            id: ids.OWNER,
-            name: fields.OWNER.fieldName,
-            numeric: false,
-            enableSorting: false,
-            key: fields.OWNER.key,
-        },
-        {
             id: ids.ACTIONS,
             name: fields.ACTIONS.fieldName,
             numeric: false,
@@ -200,8 +178,6 @@ function TableView(props) {
     const theme = useTheme();
     const classes = useStyles();
     const { t } = useTranslation("analyses");
-
-    const [config] = useConfig();
 
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
     let columns = columnData(t);
@@ -255,9 +231,9 @@ function TableView(props) {
                             analyses.length > 0 &&
                             analyses.map((analysis, index) => {
                                 const id = analysis.id;
-                                const user = getAnalysisUser(analysis, config);
                                 const isSelected = selected.indexOf(id) !== -1;
                                 const rowId = buildID(baseId, tableId, id);
+
                                 return (
                                     <DERow
                                         onClick={(event) =>
@@ -334,19 +310,6 @@ function TableView(props) {
                                             <AnalysisDuration
                                                 analysis={analysis}
                                             />
-                                        </TableCell>
-                                        <TableCell
-                                            id={buildID(
-                                                rowId,
-                                                ids.APP_NAME_CELL
-                                            )}
-                                        >
-                                            <AppName analysis={analysis} />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body2">
-                                                {user}
-                                            </Typography>
                                         </TableCell>
                                         {!isSmall && (
                                             <TableCell>

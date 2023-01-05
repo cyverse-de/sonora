@@ -5,12 +5,7 @@
 import lightFormat from "date-fns/lightFormat";
 import toDate from "date-fns/toDate";
 import dateConstants from "./dateConstants";
-import {
-    formatDistance,
-    formatDuration,
-    fromUnixTime,
-    intervalToDuration,
-} from "date-fns";
+import { formatDistance, fromUnixTime } from "date-fns";
 
 /**
  * Format a date with the given format or return a `-`.
@@ -58,20 +53,9 @@ function getFormattedDistance(timestamp) {
     }
 }
 
-function getFormattedDuration(startTimestamp, endTimestamp) {
-    const start =
-        startTimestamp > 0 ? fromUnixTime(startTimestamp) : new Date();
-    const end = endTimestamp > 0 ? fromUnixTime(endTimestamp) : new Date();
-
-    const duration = intervalToDuration({ start, end });
-
-    return formatDuration(duration, { delimiter: ", " });
-}
-
 export {
     formatDate,
     formatCurrentDate,
     formatDateObject,
     getFormattedDistance,
-    getFormattedDuration,
 };

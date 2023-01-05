@@ -17,15 +17,13 @@ import TableLoading from "components/table/TableLoading";
 import { DERow } from "components/table/DERow";
 import DETableHead from "components/table/DETableHead";
 
+import useAnalysisRunTime from "../useAnalysisRunTime";
 import analysisFields from "../analysisFields";
 
 import { getAnalysisDetailsLinkRefs } from "../utils";
 
 import buildID from "components/utils/DebugIDUtil";
-import {
-    getFormattedDuration,
-    formatDate,
-} from "components/utils/DateFormatter";
+import { formatDate } from "components/utils/DateFormatter";
 import DECheckbox from "components/utils/DECheckbox";
 import DELink from "components/utils/DELink";
 import EmptyTable from "components/table/EmptyTable";
@@ -74,12 +72,11 @@ function AnalysisName(props) {
 }
 
 function AnalysisDuration({ analysis }) {
-    const duration = getFormattedDuration(
-        analysis.startdate?.slice(0, -3),
-        analysis.enddate?.slice(0, -3)
-    );
+    const { elapsedTime, totalRunTime } = useAnalysisRunTime(analysis);
 
-    return <Typography variant="body2">{duration}</Typography>;
+    return (
+        <Typography variant="body2">{totalRunTime || elapsedTime}</Typography>
+    );
 }
 
 function Status(props) {

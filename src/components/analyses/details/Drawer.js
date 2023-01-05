@@ -9,6 +9,7 @@ import React, { useState } from "react";
 
 import { useTranslation } from "i18n";
 
+import DetailsPanel from "./DetailsPanel";
 import InfoPanel from "./InfoPanel";
 import ParamsPanel from "./ParamsPanel";
 import ids from "../ids";
@@ -27,6 +28,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const TABS = {
     analysisInfo: "ANALYSIS INFORMATION",
+    analysisHistory: "ANALYSIS STATUS HISTORY",
     analysisParams: "ANALYSIS PARAMETERS",
 };
 
@@ -45,19 +47,7 @@ const useStyles = makeStyles((theme) => ({
 
     drawerHeader: {
         margin: theme.spacing(1),
-        display: "flex",
-        flexDirection: "row",
-        maxWidth: "100%",
-    },
-    drawerSubHeader: {
-        marginLeft: theme.spacing(2),
-        display: "flex",
-        flexDirection: "row",
-        maxWidth: "100%",
-    },
-
-    headerOperations: {
-        marginLeft: theme.spacing(1),
+        overflowWrap: "break-word",
     },
 }));
 
@@ -95,6 +85,7 @@ function DetailsDrawer(props) {
 
     const drawerId = buildID(baseId, ids.DETAILS_DRAWER);
     const infoTabId = buildID(drawerId, ids.INFO_TAB);
+    const historyTabId = buildID(drawerId, ids.INFO_TAB);
     const paramsTabId = buildID(drawerId, ids.PARAMS_TAB);
 
     return (
@@ -108,15 +99,21 @@ function DetailsDrawer(props) {
                 variant: "outlined",
             }}
         >
-            <div className={classes.drawerHeader}>
-                <Typography variant="h6">{analysisName}</Typography>
-            </div>
+            <Typography variant="h6" className={classes.drawerHeader}>
+                {analysisName}
+            </Typography>
             <DETabs value={selectedTab} onChange={onTabSelectionChange}>
                 <DETab
                     value={TABS.analysisInfo}
                     label={t("info")}
                     id={infoTabId}
                     aria-controls={buildID(infoTabId, ids.PANEL)}
+                />
+                <DETab
+                    value={TABS.analysisHistory}
+                    label={t("statusHistory")}
+                    id={historyTabId}
+                    aria-controls={buildID(historyTabId, ids.PANEL)}
                 />
                 <DETab
                     value={TABS.analysisParams}
@@ -130,11 +127,18 @@ function DetailsDrawer(props) {
                 value={TABS.analysisInfo}
                 selectedTab={selectedTab}
             >
+                <DetailsPanel baseId={baseId} analysis={selectedAnalysis} />
+            </DETabPanel>
+            <DETabPanel
+                tabId={historyTabId}
+                value={TABS.analysisHistory}
+                selectedTab={selectedTab}
+            >
                 <InfoPanel
                     info={history}
                     isInfoFetching={isInfoFetching}
                     infoFetchError={infoFetchError}
-                    baseId={infoTabId}
+                    baseId={historyTabId}
                 />
             </DETabPanel>
             <DETabPanel

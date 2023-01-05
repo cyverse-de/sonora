@@ -15,7 +15,6 @@ import ErrorTypography from "../../error/ErrorTypography";
 import DEErrorDialog from "../../error/DEErrorDialog";
 
 import buildID from "components/utils/DebugIDUtil";
-import CopyTextArea from "components/copy/CopyTextArea";
 import { formatDate } from "components/utils/DateFormatter";
 
 import {
@@ -28,7 +27,6 @@ import {
     Divider,
     makeStyles,
     Typography,
-    useTheme,
 } from "@material-ui/core";
 import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
 
@@ -102,7 +100,6 @@ function Step(props) {
 function InfoPanel(props) {
     const { info, isInfoFetching, infoFetchError, baseId } = props;
     const { t } = useTranslation("analyses");
-    const theme = useTheme();
 
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
 
@@ -134,25 +131,16 @@ function InfoPanel(props) {
             </>
         );
     }
-    return (
-        <>
-            <div style={{ marginBottom: theme.spacing(1) }}>
-                <CopyTextArea
-                    text={info?.analysis_id}
-                    btnText={t("copyAnalysisId")}
-                />
-            </div>
-            {info.steps.map((s, index) => {
-                return (
-                    <Step
-                        key={index}
-                        step={s}
-                        baseId={buildID(debugId, ids.INFO.STEP, index)}
-                    />
-                );
-            })}
-        </>
-    );
+
+    return info.steps?.map((s, index) => {
+        return (
+            <Step
+                key={index}
+                step={s}
+                baseId={buildID(debugId, ids.INFO.STEP, index)}
+            />
+        );
+    });
 }
 
 export default InfoPanel;

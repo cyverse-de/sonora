@@ -11,19 +11,19 @@ export default {
 export const AnalysisSubmissionLandingTest = () => {
     mockAxios
         .onGet(
-            "/api/analyses?filter=[{%22field%22%3A%22id%22%2C%22value%22%3A%22727c6ffe-7d8e-11ea-bedd-c2a97b34bb42%22}]"
+            `/api/analyses?filter=[{"field":"id","value":"${deWordCountAnalysis.id}"}]`
         )
-        .reply(200, deWordCountAnalysis);
+        .reply(200, { analyses: [deWordCountAnalysis] });
     mockAxios
-        .onGet("/api/analyses/727c6ffe-7d8e-11ea-bedd-c2a97b34bb42/history")
+        .onGet(`/api/analyses/${deWordCountAnalysis.id}/history`)
         .reply(200, info);
     mockAxios
-        .onGet("/api/analyses/727c6ffe-7d8e-11ea-bedd-c2a97b34bb42/parameters")
+        .onGet(`/api/analyses/${deWordCountAnalysis.id}/parameters`)
         .reply(200, params);
 
     return (
         <AnalysisSubmissionLanding
-            id="727c6ffe-7d8e-11ea-bedd-c2a97b34bb42"
+            id={deWordCountAnalysis.id}
             baseId="submissionLanding"
         />
     );

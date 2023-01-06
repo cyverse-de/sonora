@@ -6,6 +6,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
+import Link from "next/link";
 
 import Actions from "./Actions";
 import ids from "../ids";
@@ -16,26 +17,25 @@ import TableLoading from "components/table/TableLoading";
 import { DERow } from "components/table/DERow";
 import DETableHead from "components/table/DETableHead";
 
+import useAnalysisRunTime from "../useAnalysisRunTime";
 import analysisFields from "../analysisFields";
 
-import { getAnalysisUser } from "../utils";
+import { getAnalysisDetailsLinkRefs } from "../utils";
 
 import buildID from "components/utils/DebugIDUtil";
 import { formatDate } from "components/utils/DateFormatter";
 import DECheckbox from "components/utils/DECheckbox";
+import DELink from "components/utils/DELink";
 import EmptyTable from "components/table/EmptyTable";
-
-import { useConfig } from "contexts/config";
 
 import {
     makeStyles,
-    Link,
+    Link as MUILink,
     Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
-    Tooltip,
     Typography,
     useMediaQuery,
     useTheme,
@@ -43,36 +43,40 @@ import {
 
 const useStyles = makeStyles((theme) => ({
     name: {
-        paddingLeft: theme.spacing(1),
+        maxWidth: "12rem",
+        overflowWrap: "break-word",
     },
 }));
 
 function AnalysisName(props) {
-    const classes = useStyles();
     const analysis = props.analysis;
     const name = analysis.name;
     const baseId = props.baseId;
+    const [href, as] = getAnalysisDetailsLinkRefs(analysis.id);
+
+    // Inserting the <wbr> tag at underscores allows browsers to wrap long
+    // analysis names at those underscores.
+    const linkText = name
+        ?.split("_")
+        ?.reduce((acc, cur, i) => [...acc, "_", <wbr key={i} />, cur]);
+
     return (
-        <Tooltip
-            id={buildID(baseId, ids.ANALYSIS_NAME_CELL, ids.TOOLTIP)}
-            aria-label={name}
-            title={name}
-        >
-            <Typography
+        <Link href={href} as={as} passHref>
+            <DELink
                 id={buildID(baseId, ids.ANALYSIS_NAME_CELL)}
-                className={classes.name}
-                variant="body2"
-            >
-                {name}
-            </Typography>
-        </Tooltip>
+                text={linkText}
+                title={name}
+            />
+        </Link>
     );
 }
 
-function AppName(props) {
-    const analysis = props.analysis;
-    const name = analysis.app_name;
-    return <Typography variant="body2">{name}</Typography>;
+function AnalysisDuration({ analysis }) {
+    const { elapsedTime, totalRunTime } = useAnalysisRunTime(analysis);
+
+    return (
+        <Typography variant="body2">{totalRunTime || elapsedTime}</Typography>
+    );
 }
 
 function Status(props) {
@@ -92,7 +96,7 @@ function Status(props) {
             analysisStatus.FAILED,
         ].includes(analysis.status)
     ) {
-        StatusDisplay = Link;
+        StatusDisplay = MUILink;
         statusDisplayProps.component = "button";
         statusDisplayProps.onClick = () => onStatusClick(analysis);
     }
@@ -113,18 +117,11 @@ const columnData = (t) => {
             key: fields.NAME.key,
         },
         {
-            id: ids.OWNER,
-            name: fields.OWNER.fieldName,
+            id: ids.STATUS,
+            name: fields.STATUS.fieldName,
             numeric: false,
-            enableSorting: false,
-            key: fields.OWNER.key,
-        },
-        {
-            id: ids.APP,
-            name: fields.APP.fieldName,
-            numeric: false,
-            enableSorting: false,
-            key: fields.APP.key,
+            enableSorting: true,
+            key: fields.STATUS.key,
         },
         {
             id: ids.START_DATE,
@@ -134,18 +131,11 @@ const columnData = (t) => {
             key: fields.START_DATE.key,
         },
         {
-            id: ids.END_DATE,
-            name: fields.END_DATE.fieldName,
+            id: ids.DURATION,
+            name: fields.DURATION.fieldName,
             numeric: false,
-            enableSorting: true,
-            key: fields.END_DATE.key,
-        },
-        {
-            id: ids.STATUS,
-            name: fields.STATUS.fieldName,
-            numeric: false,
-            enableSorting: true,
-            key: fields.STATUS.key,
+            enableSorting: false,
+            key: fields.DURATION.key,
         },
         {
             id: ids.ACTIONS,
@@ -183,9 +173,8 @@ function TableView(props) {
     } = props;
 
     const theme = useTheme();
+    const classes = useStyles();
     const { t } = useTranslation("analyses");
-
-    const [config] = useConfig();
 
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
     let columns = columnData(t);
@@ -239,9 +228,9 @@ function TableView(props) {
                             analyses.length > 0 &&
                             analyses.map((analysis, index) => {
                                 const id = analysis.id;
-                                const user = getAnalysisUser(analysis, config);
                                 const isSelected = selected.indexOf(id) !== -1;
                                 const rowId = buildID(baseId, tableId, id);
+
                                 return (
                                     <DERow
                                         onClick={(event) =>
@@ -284,6 +273,7 @@ function TableView(props) {
                                             id={buildID(
                                                 rowId + ids.ANALYSIS_NAME_CELL
                                             )}
+                                            className={classes.name}
                                         >
                                             <AnalysisName
                                                 analysis={analysis}
@@ -293,29 +283,6 @@ function TableView(props) {
                                                 )}
                                                 parentId={parentId}
                                             />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body2">
-                                                {user}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell
-                                            id={buildID(
-                                                rowId,
-                                                ids.APP_NAME_CELL
-                                            )}
-                                        >
-                                            <AppName analysis={analysis} />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body2">
-                                                {formatDate(analysis.startdate)}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography variant="body2">
-                                                {formatDate(analysis.enddate)}
-                                            </Typography>
                                         </TableCell>
                                         <TableCell
                                             id={buildID(
@@ -329,6 +296,16 @@ function TableView(props) {
                                                 onStatusClick={
                                                     handleStatusClick
                                                 }
+                                            />
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography variant="body2">
+                                                {formatDate(analysis.startdate)}
+                                            </Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <AnalysisDuration
+                                                analysis={analysis}
                                             />
                                         </TableCell>
                                         {!isSmall && (

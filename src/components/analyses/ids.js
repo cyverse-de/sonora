@@ -5,6 +5,7 @@ export default {
     APP: "app",
     START_DATE: "start_date",
     END_DATE: "end_date",
+    DURATION: "duration",
     STATUS: "status",
     ACTIONS: "actions",
     TOOLBAR: "menuBar",

@@ -4,6 +4,7 @@ const analysisFields = (t) => ({
     APP: { fieldName: t("app"), key: "app_name" },
     START_DATE: { fieldName: t("startDate"), key: "startdate" },
     END_DATE: { fieldName: t("endDate"), key: "enddate" },
+    DURATION: { fieldName: t("duration"), key: "enddate" },
     STATUS: { fieldName: t("status"), key: "status" },
     ACTIONS: { key: "actions" },
     CHECKBOX: { name: "", key: "checkbox" },

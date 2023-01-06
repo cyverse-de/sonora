@@ -79,6 +79,10 @@ function RenameAnalysisDialog(props) {
                                             handleSubmit();
                                         }
                                     }}
+                                    // Intentionally different casing for
+                                    // `inputProps` here, since `maxLength`
+                                    // not accepted in `InputProps`:
+                                    inputProps={{ maxLength: 255 }}
                                     InputProps={{
                                         readOnly: isLoading,
                                         endAdornment: isLoading && (

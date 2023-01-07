@@ -1,22 +1,15 @@
 // .babelrc
 {
-  "presets": [
-    [
-      "next/babel", 
-      {
-        "preset-env" : {
-          "targets" : {
-            "node" : "current"
-          }
-        }
-      }
+    "presets": [
+        [
+            "next/babel",
+            {
+                "preset-env": {
+                    "targets": {
+                        "node": "current"
+                    }
+                }
+            }
+        ]
     ]
-  ],
-  "env": {
-    "test": {
-      "plugins": [
-        "babel-plugin-dynamic-import-node"
-      ]
-    }
-  }
 }

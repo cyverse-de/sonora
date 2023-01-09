@@ -46,6 +46,9 @@ export default {
         ANALYSES: {
             PAGE_SIZE: "sonora.analyses.pageSize",
         },
+        SUBSCRIPTIONS: {
+            PAGE_SIZE: "sonora.subscriptions.pageSize",
+        },
         TOOLS: {
             PAGE_SIZE: "sonora.tools.pageSize",
         },

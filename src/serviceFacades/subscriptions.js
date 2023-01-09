@@ -8,10 +8,20 @@ import callApi from "../common/callApi";
 const SUBSCRIPTIONS_QUERY_KEY = "searchSubscriptionsAdminQMS";
 
 // Administrators can list existing subscriptions
-function getSubscriptions({ searchTerm }) {
+function getSubscriptions({ searchTerm, order, orderBy }) {
     const params = {};
-    params["search"] = searchTerm ? searchTerm : null;
-    console.log(params);
+    const isOrdered = order && orderBy;
+
+    if (searchTerm) {
+        params["search"] = searchTerm;
+    }
+
+    if (isOrdered) {
+        params["sort-field"] = orderBy.toLowerCase();
+        params["sort-dir"] = order.toUpperCase();
+    }
+
+    // console.log(params);
     return callApi({
         endpoint: "/api/admin/qms/subscriptions",
         method: "GET",

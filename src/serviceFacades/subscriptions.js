@@ -8,9 +8,10 @@ import callApi from "../common/callApi";
 const SUBSCRIPTIONS_QUERY_KEY = "searchSubscriptionsAdminQMS";
 
 // Administrators can list existing subscriptions
-function getSubscriptions({ searchTerm, order, orderBy }) {
+function getSubscriptions({ searchTerm, order, orderBy, page, rowsPerPage }) {
     const params = {};
     const isOrdered = order && orderBy;
+    const isPaginated = (page || page === 0) && rowsPerPage;
 
     if (searchTerm) {
         params["search"] = searchTerm;
@@ -19,6 +20,11 @@ function getSubscriptions({ searchTerm, order, orderBy }) {
     if (isOrdered) {
         params["sort-field"] = orderBy.toLowerCase();
         params["sort-dir"] = order.toUpperCase();
+    }
+
+    if (isPaginated) {
+        params["limit"] = rowsPerPage;
+        params["offset"] = page * rowsPerPage;
     }
 
     // console.log(params);

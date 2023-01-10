@@ -8,11 +8,12 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 
+import TableLoading from "components/table/TableLoading";
 import ids from "../ids";
 
 import { DERow } from "components/table/DERow";
 import DETableHead from "components/table/DETableHead";
-import subscriptionFields from "../subscriptionFields";
+import subscriptionFields from "../subscriptionsFields";
 
 import buildID from "components/utils/DebugIDUtil";
 import { formatDate } from "components/utils/DateFormatter";
@@ -67,15 +68,33 @@ const columnData = (t) => {
     ];
 };
 
+function LoadingMask(props) {
+    const { columns, tableId } = props;
+    return (
+        <TableLoading
+            numColumns={columns.length + 1}
+            numRows={25}
+            baseId={tableId}
+        />
+    );
+}
+
 function TableView(props) {
-    const { baseId, handleRequestSort, isAdminView, listing, order, orderBy } =
-        props;
+    const {
+        baseId,
+        handleRequestSort,
+        isAdminView,
+        listing,
+        loading,
+        order,
+        orderBy,
+    } = props;
     const { t } = useTranslation("subscriptions");
     let columns = columnData(t);
 
-    const subscriptions = listing;
+    const subscriptions = listing?.subscriptions;
     const tableId = buildID(baseId, ids.LISTING_TABLE);
-    // console.log(subscriptions?.length)
+
     return (
         <PageWrapper appBarHeight={0}>
             {isAdminView && (
@@ -94,62 +113,70 @@ function TableView(props) {
                             order={order}
                             orderBy={orderBy}
                         />
-                        <TableBody>
-                            {subscriptions &&
-                                subscriptions.length > 0 &&
-                                subscriptions.map((subscription, index) => {
-                                    const id = subscription.id;
-                                    const rowId = buildID(baseId, tableId, id);
-                                    const user = subscription.user.username;
-                                    const startDate =
-                                        subscription.effective_start_date;
-                                    const endDate =
-                                        subscription.effective_end_date;
-                                    const planName = subscription.plan.name;
-                                    return (
-                                        <DERow id={rowId} key={id} hover>
-                                            <TableCell
-                                                id={buildID(
-                                                    rowId,
-                                                    ids.USERNAME_CELL
-                                                )}
-                                            >
-                                                <UserName username={user} />
-                                            </TableCell>
-                                            <TableCell
-                                                id={buildID(
-                                                    rowId,
-                                                    ids.START_DATE_CELL
-                                                )}
-                                            >
-                                                <Typography variant="body2">
-                                                    {formatDate(startDate)}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell
-                                                id={buildID(
-                                                    rowId,
-                                                    ids.END_DATE_CELL
-                                                )}
-                                            >
-                                                <Typography variant="body2">
-                                                    {formatDate(endDate)}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell
-                                                id={buildID(
-                                                    rowId,
-                                                    ids.PLAN_NAME_CELL
-                                                )}
-                                            >
-                                                <Typography variant="body2">
-                                                    {planName}
-                                                </Typography>
-                                            </TableCell>
-                                        </DERow>
-                                    );
-                                })}
-                        </TableBody>
+                        {loading ? (
+                            <LoadingMask columns={columns} tableId={tableId} />
+                        ) : (
+                            <TableBody>
+                                {subscriptions &&
+                                    subscriptions.length > 0 &&
+                                    subscriptions.map((subscription, index) => {
+                                        const id = subscription.id;
+                                        const rowId = buildID(
+                                            baseId,
+                                            tableId,
+                                            id
+                                        );
+                                        const user = subscription.user.username;
+                                        const startDate =
+                                            subscription.effective_start_date;
+                                        const endDate =
+                                            subscription.effective_end_date;
+                                        const planName = subscription.plan.name;
+                                        return (
+                                            <DERow id={rowId} key={id} hover>
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowId,
+                                                        ids.USERNAME_CELL
+                                                    )}
+                                                >
+                                                    <UserName username={user} />
+                                                </TableCell>
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowId,
+                                                        ids.START_DATE_CELL
+                                                    )}
+                                                >
+                                                    <Typography variant="body2">
+                                                        {formatDate(startDate)}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowId,
+                                                        ids.END_DATE_CELL
+                                                    )}
+                                                >
+                                                    <Typography variant="body2">
+                                                        {formatDate(endDate)}
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowId,
+                                                        ids.PLAN_NAME_CELL
+                                                    )}
+                                                >
+                                                    <Typography variant="body2">
+                                                        {planName}
+                                                    </Typography>
+                                                </TableCell>
+                                            </DERow>
+                                        );
+                                    })}
+                            </TableBody>
+                        )}
                     </Table>
                 </TableContainer>
             )}

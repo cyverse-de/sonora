@@ -22,6 +22,7 @@ export default function Subscriptions() {
     const searchTerm = query.searchTerm || "";
     const selectedOrder = query.selectedOrder || constants.SORT_ASCENDING;
     const selectedOrderBy = query.selectedOrderBy || "username";
+    const selectedPage = parseInt(query.selectedPage) || 0;
     const selectedRowsPerPage =
         parseInt(query.selectedRowsPerPage) ||
         parseInt(
@@ -33,12 +34,14 @@ export default function Subscriptions() {
     const isAdmin = profile?.admin;
 
     const onRouteToListing = useCallback(
-        (order, orderBy, searchTerm) => {
+        (order, orderBy, page, rowsPerPage, searchTerm) => {
             router.push({
                 pathname: `/${NavigationConstants.ADMIN}/${NavigationConstants.SUBSCRIPTIONS}`,
                 query: {
                     selectedOrder: order,
                     selectedOrderBy: orderBy,
+                    selectedPage: page,
+                    selectedRowsPerPage: rowsPerPage,
                     searchTerm: searchTerm,
                 },
             });
@@ -56,6 +59,7 @@ export default function Subscriptions() {
                     onRouteToListing={onRouteToListing}
                     order={selectedOrder}
                     orderBy={selectedOrderBy}
+                    page={selectedPage}
                     rowsPerPage={selectedRowsPerPage}
                     searchTerm={searchTerm}
                 />

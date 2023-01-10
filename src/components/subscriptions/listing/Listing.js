@@ -50,7 +50,6 @@ function Listing(props) {
             getSubscriptions({ searchTerm, order, orderBy, page, rowsPerPage }),
         enabled: true,
         onSuccess: (resp) => {
-            // setData(resp.result.subscriptions);
             setData(resp.result);
         },
     });
@@ -92,7 +91,7 @@ function Listing(props) {
     const handleSearch = (term) => {
         // setSelected([]);
         onRouteToListing &&
-            onRouteToListing(order, orderBy, page, rowsPerPage, term);
+            onRouteToListing(order, orderBy, 0, rowsPerPage, term);
     };
 
     return (

@@ -46,7 +46,6 @@ export default function TextViewer(props) {
     const [showLineNumbers, setShowLineNumbers] = useState(true);
     const [wrapText, setWrapText] = useState(false);
     const [editorValue, setEditorValue] = useState();
-    const [editorInstance, setEditorInstance] = useState(null);
     const [dirty, setDirty] = useState(false);
     const [isFileSaving, setFileSaving] = React.useState();
     const [detectedMode, setDetectedMode] = useState("");
@@ -54,15 +53,6 @@ export default function TextViewer(props) {
     const isMarkdown =
         mode === viewerConstants.GITHUB_FLAVOR_MARKDOWN ||
         detectedMode === viewerConstants.GITHUB_FLAVOR_MARKDOWN;
-
-    useEffect(() => {
-        if (editorInstance) {
-            editorInstance.setSize(
-                "100%",
-                viewerConstants.DEFAULT_VIEWER_HEIGHT
-            );
-        }
-    }, [editorInstance]);
 
     useEffect(() => {
         setEditorValue(data);
@@ -166,11 +156,9 @@ export default function TextViewer(props) {
                             showLineNumbers={showLineNumbers}
                             editable={editable}
                             wrapText={wrapText}
-                            editorInstance={editorInstance}
-                            setEditorInstance={setEditorInstance}
+                            editorValue={data}
                             setEditorValue={setEditorValue}
                             setDirty={setDirty}
-                            editorValue={editorValue}
                         />
                     }
                     rightPanel={<MarkdownPreview markdown={editorValue} />}
@@ -185,11 +173,9 @@ export default function TextViewer(props) {
                     showLineNumbers={showLineNumbers}
                     editable={editable}
                     wrapText={wrapText}
-                    editorInstance={editorInstance}
-                    setEditorInstance={setEditorInstance}
+                    editorValue={data}
                     setEditorValue={setEditorValue}
                     setDirty={setDirty}
-                    editorValue={editorValue}
                 />
             )}
         </>

@@ -50,21 +50,11 @@ export default function StructuredTextViewer(props) {
     const [firstRowHeader, setFirstRowHeader] = React.useState(false);
     const [dirty, setDirty] = React.useState(false);
     const [isFileSaving, setFileSaving] = React.useState();
-    const [editorInstance, setEditorInstance] = React.useState(null);
     const [editorValue, setEditorValue] = React.useState();
 
     useEffect(() => {
         setEditorValue(rawData);
     }, [rawData]);
-
-    useEffect(() => {
-        if (editorInstance) {
-            editorInstance.setSize(
-                "100%",
-                viewerConstants.DEFAULT_VIEWER_HEIGHT
-            );
-        }
-    }, [editorInstance]);
 
     let columns = useMemo(
         () => getColumns(structuredData, firstRowHeader),
@@ -196,11 +186,9 @@ export default function StructuredTextViewer(props) {
                                 )
                             }
                             editable={editable}
-                            editorInstance={editorInstance}
-                            setEditorInstance={setEditorInstance}
+                            editorValue={rawData}
                             setEditorValue={setEditorValue}
                             setDirty={setDirty}
-                            editorValue={editorValue}
                         />
                     }
                     rightPanel={<TableView />}

@@ -2,11 +2,14 @@
  *
  * Code mirror based Editor
  *
- * @author sriram
+ * @author sriram, psarando
  *
  */
-import React, { useEffect, useState } from "react";
-import { Controlled as CodeMirror } from "react-codemirror2";
+import React, { useEffect, useRef, useState } from "react";
+
+import { EditorView } from "@codemirror/view";
+import { EditorState } from "@codemirror/state";
+import { minimalSetup } from "codemirror";
 
 import buildID from "components/utils/DebugIDUtil";
 
@@ -18,59 +21,58 @@ import Skeleton from "@material-ui/lab/Skeleton";
 export default function Editor(props) {
     const {
         baseId,
-        mode = "",
-        showLineNumbers,
-        editable,
-        wrapText,
-        editorInstance,
-        setEditorInstance,
+        // mode = "",
+        // showLineNumbers,
+        // editable,
+        // wrapText,
+        editorValue,
         setEditorValue,
         setDirty,
-        editorValue,
     } = props;
 
-    const [ready, setReady] = useState(false);
+    const [editorView, setEditorView] = useState();
+    const [editorState] = useState(
+        EditorState.create({
+            doc: editorValue,
+            extensions: [
+                minimalSetup,
+                EditorView.baseTheme({
+                    "&": { height: viewerConstants.DEFAULT_VIEWER_HEIGHT },
+                }),
+                EditorView.updateListener.of((v) => {
+                    if (v.docChanged) {
+                        setEditorValue(v.state.doc.toString());
+                    }
+                    setDirty(v.docChanged);
+                }),
+            ],
+        })
+    );
+
+    const editor = useRef(null);
 
     useEffect(() => {
-        if (mode) {
-            require(`codemirror/mode/${mode}/${mode}.js`);
-        }
-        require("codemirror/lib/codemirror.css");
+        const view = new EditorView({
+            state: editorState,
+            parent: editor.current,
+        });
 
-        setReady(true);
-    }, [mode]);
+        setEditorView(view);
 
-    if (ready) {
-        return (
-            <CodeMirror
-                editorDidMount={(editor) => {
-                    setEditorInstance(editor);
-                }}
-                value={editorValue}
-                options={{
-                    mode,
-                    lineNumbers: showLineNumbers,
-                    readOnly: !editable,
-                    lineWrapping: wrapText,
-                }}
-                onBeforeChange={(editor, data, value) => {
-                    setEditorValue(value);
-                }}
-                onChange={(editor, value) => {
-                    setDirty(
-                        editorInstance ? !editorInstance.isClean() : false
-                    );
-                }}
-            />
-        );
-    } else {
-        return (
-            <Skeleton
-                id={buildID(baseId, ids.EDITOR_SKELETON)}
-                animation="wave"
-                width="100%"
-                height={viewerConstants.DEFAULT_VIEWER_HEIGHT}
-            />
-        );
-    }
+        return () => view.destroy();
+    }, [editor, editorState]);
+
+    return (
+        <>
+            <div ref={editor} />
+            {!editorView && (
+                <Skeleton
+                    id={buildID(baseId, ids.EDITOR_SKELETON)}
+                    animation="wave"
+                    width="100%"
+                    height={viewerConstants.DEFAULT_VIEWER_HEIGHT}
+                />
+            )}
+        </>
+    );
 }

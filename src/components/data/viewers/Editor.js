@@ -23,7 +23,7 @@ export default function Editor(props) {
         baseId,
         // mode = "",
         showLineNumbers,
-        // editable,
+        editable,
         wrapText,
         editorValue,
         setEditorValue,
@@ -32,6 +32,7 @@ export default function Editor(props) {
 
     const [wrapTextConfig] = useState(new Compartment());
     const [lineNumbersConfig] = useState(new Compartment());
+    const [readOnlyConfig] = useState(new Compartment());
     const [editorView, setEditorView] = useState();
     const [editorState] = useState(
         EditorState.create({
@@ -40,6 +41,7 @@ export default function Editor(props) {
                 minimalSetup,
                 wrapTextConfig.of(wrapText ? EditorView.lineWrapping : []),
                 lineNumbersConfig.of(showLineNumbers ? lineNumbers() : []),
+                readOnlyConfig.of(EditorState.readOnly.of(!editable)),
                 EditorView.baseTheme({
                     "&": { height: viewerConstants.DEFAULT_VIEWER_HEIGHT },
                 }),
@@ -85,6 +87,16 @@ export default function Editor(props) {
             });
         }
     }, [editorView, lineNumbersConfig, showLineNumbers]);
+
+    useEffect(() => {
+        if (editorView) {
+            editorView.dispatch({
+                effects: readOnlyConfig.reconfigure(
+                    EditorState.readOnly.of(!editable)
+                ),
+            });
+        }
+    }, [editorView, readOnlyConfig, editable]);
 
     return (
         <>

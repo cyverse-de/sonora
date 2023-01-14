@@ -95,12 +95,12 @@ const getViewerMode = (mimeType) => {
                 mode = CODE_MIRROR_MODES.YAML;
                 break;
             case mimeTypes.X_WEB_MARKDOWN:
-                mode = CODE_MIRROR_MODES.GITHUB_FLAVOR_MARKDOWN;
+                mode = CODE_MIRROR_MODES.GITHUB_FLAVORED_MARKDOWN;
                 break;
-            case mimeType.X_SH:
+            case mimeTypes.X_SH:
                 mode = CODE_MIRROR_MODES.SHELL;
                 break;
-            case mimeType.X_PERL:
+            case mimeTypes.X_PERL:
                 mode = CODE_MIRROR_MODES.PERL;
                 break;
             default:

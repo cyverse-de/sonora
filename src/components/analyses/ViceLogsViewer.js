@@ -138,7 +138,7 @@ function ViceLogsViewer(props) {
                     showLineNumbers={false}
                     editable={false}
                     wrapText={true}
-                    editorValue={logsToDisplay}
+                    initialValue={logsToDisplay}
                     setEditorValue={setLogsToDisplay}
                 />
             )}

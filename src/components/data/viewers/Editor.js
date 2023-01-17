@@ -35,9 +35,8 @@ export default function Editor(props) {
         showLineNumbers,
         editable,
         wrapText,
-        editorValue,
+        initialValue,
         setEditorValue,
-        setDirty,
     } = props;
 
     const [wrapTextConfig] = useState(new Compartment());
@@ -45,40 +44,66 @@ export default function Editor(props) {
     const [readOnlyConfig] = useState(new Compartment());
     const [languageConfig] = useState(new Compartment());
     const [editorView, setEditorView] = useState();
-    const [editorState] = useState(
-        EditorState.create({
-            doc: editorValue,
-            extensions: [
-                minimalSetup,
-                wrapTextConfig.of(wrapText ? EditorView.lineWrapping : []),
-                lineNumbersConfig.of(showLineNumbers ? lineNumbers() : []),
-                readOnlyConfig.of(EditorState.readOnly.of(!editable)),
-                languageConfig.of([]),
-                EditorView.baseTheme({
-                    "&": { height: viewerConstants.DEFAULT_VIEWER_HEIGHT },
-                }),
-                EditorView.updateListener.of((v) => {
-                    if (v.docChanged) {
-                        setEditorValue(v.state.doc.toString());
-                    }
-                    setDirty(v.docChanged);
-                }),
-            ],
-        })
-    );
 
     const editor = useRef(null);
 
     useEffect(() => {
+        const extensions = [
+            minimalSetup,
+            wrapTextConfig.of([]),
+            lineNumbersConfig.of([]),
+            readOnlyConfig.of([]),
+            languageConfig.of([]),
+            EditorView.baseTheme({
+                "&": { height: viewerConstants.DEFAULT_VIEWER_HEIGHT },
+            }),
+            EditorView.updateListener.of(
+                setEditorValue
+                    ? (viewUpdate) => {
+                          if (viewUpdate.docChanged) {
+                              setEditorValue(viewUpdate.state.doc.toString());
+                          }
+                      }
+                    : []
+            ),
+        ];
+
+        const state = EditorState.create({
+            doc: initialValue,
+            extensions,
+        });
         const view = new EditorView({
-            state: editorState,
+            state,
             parent: editor.current,
         });
 
         setEditorView(view);
 
         return () => view.destroy();
-    }, [editor, editorState]);
+    }, [
+        editor,
+        initialValue,
+        setEditorValue,
+        wrapTextConfig,
+        lineNumbersConfig,
+        readOnlyConfig,
+        languageConfig,
+    ]);
+
+    useEffect(() => {
+        if (editorView) {
+            editorView.dispatch(
+                editorView.state.update({
+                    changes: {
+                        insert: initialValue,
+                        from: 0,
+                        to: editorView.state.doc.length,
+                    },
+                    selection: editorView.state.selection,
+                })
+            );
+        }
+    }, [editorView, initialValue]);
 
     useEffect(() => {
         if (editorView) {

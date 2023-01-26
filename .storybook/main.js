@@ -7,10 +7,10 @@ module.exports = {
         "@storybook/addon-actions",
         "storybook-addon-next-router",
     ],
-    // framework: "@storybook/react",
-    // core: {
-    //     builder: "webpack5",
-    // },
+    framework: "@storybook/react",
+    core: {
+        builder: "webpack5",
+    },
     webpackFinal: async (config, { configType }) => {
         config.resolve.modules = [
             path.resolve(__dirname, "..", "src"),
@@ -21,14 +21,11 @@ module.exports = {
          * Fixes issue with `next-i18next` and is ready for webpack@5
          * @see https://github.com/i18next/next-i18next/issues/1012#issuecomment-818042184
          */
-        // config.resolve.fallback = {
-        //     ...config.resolve.fallback,
-        //     fs: false,
-        //     tls: false,
-        //     net: false,
-        //     module: false,
-        //     // path: require.resolve("path-browserify"),
-        // };
+        config.resolve.fallback = {
+            ...config.resolve.fallback,
+            fs: false,
+            vm: false,
+        };
 
         return config;
     },

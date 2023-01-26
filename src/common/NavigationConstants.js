@@ -25,6 +25,7 @@ export default {
     RELAUNCH: "relaunch",
     SEARCH: "search",
     SETTINGS: "settings",
+    SUBSCRIPTIONS: "subscriptions",
     TEAMS: "teams",
     TOOLS: "tools",
     VICE: "vice",

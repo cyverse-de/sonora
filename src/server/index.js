@@ -19,6 +19,7 @@ import quickLaunchRouter from "./api/quickLaunch";
 import instantlaunchRouter from "./api/instantlaunches";
 import refGenomeRouter from "./api/referenceGenomes";
 import sharingRouter from "./api/sharing";
+import subscriptionsRouter from "./api/subscriptions";
 import supportRouter from "./api/support";
 import tagsRouter from "./api/tags";
 import toolsRouter from "./api/tools";
@@ -143,6 +144,7 @@ app.prepare()
         server.use("/api", quickLaunchRouter());
         server.use("/api", instantlaunchRouter());
         server.use("/api", sharingRouter());
+        server.use("/api", subscriptionsRouter());
         server.use("/api", supportRouter());
         server.use("/api", refGenomeRouter());
         server.use("/api", tagsRouter());

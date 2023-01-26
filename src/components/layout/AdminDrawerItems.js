@@ -108,6 +108,28 @@ export default function AdminDrawerItems(props) {
                     {open && <ListItemText>{t("refGenomes")}</ListItemText>}
                 </ListItem>
             </Tooltip>
+
+            <Tooltip title={t("subscriptions")} placement="right" arrow>
+                <ListItem
+                    button
+                    id={buildID(ids.DRAWER_MENU, ids.TOOLS_ADMIN_MI)}
+                    className={clsx(classes.nested, classes.listItem)}
+                    onClick={() =>
+                        router.push(
+                            "/" +
+                                NavigationConstants.ADMIN +
+                                "/" +
+                                NavigationConstants.SUBSCRIPTIONS
+                        )
+                    }
+                >
+                    <ListItemIcon>
+                        <LabelImportantIcon className={classes.icon} />
+                    </ListItemIcon>
+                    {open && <ListItemText>{t("subscriptions")}</ListItemText>}
+                </ListItem>
+            </Tooltip>
+
             <Tooltip title={t("tools")} placement="right" arrow>
                 <ListItem
                     button
@@ -128,6 +150,7 @@ export default function AdminDrawerItems(props) {
                     {open && <ListItemText>{t("tools")}</ListItemText>}
                 </ListItem>
             </Tooltip>
+
             <Tooltip title={t("vice")} placement="right" arrow>
                 <ListItem
                     button

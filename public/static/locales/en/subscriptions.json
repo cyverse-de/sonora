@@ -1,9 +1,23 @@
 {
     "add": "Add",
+    "addSubscription": "Add subscription",
     "ariaTableListing": "Subscriptions table listing",
+    "cancel": "Cancel",
+    "colon": ":",
+    "details": "Details",
+    "editSubscription": "Edit subscription",
     "endDate": "End date",
+    "false": "False",
+    "mutateSubscriptionError": "Unable to submit this request.",
+    "newSubscriptionStatus": "New Subscription",
     "planName": "Plan name",
+    "quotas": "Quotas",
     "searchUsers": "Search users",
+    "selectedUser": "Selected User",
     "startDate": "Start date",
+    "submit": "Submit",
+    "subscriptionDetailsTabLabel": "Subscription details",
+    "true": "True",
+    "usages": "Usages",
     "username": "Username"
 }

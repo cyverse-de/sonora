@@ -5,7 +5,8 @@
 
 import callApi from "../common/callApi";
 
-const SUBSCRIPTIONS_QUERY_KEY = "searchSubscriptionsAdminQMS";
+const PLAN_TYPES_QUERY_KEY = "fetchPlanTypes";
+const SUBSCRIPTIONS_QUERY_KEY = "fetchSubscriptions";
 
 // Administrators can list existing subscriptions
 function getSubscriptions({ searchTerm, order, orderBy, page, rowsPerPage }) {
@@ -27,7 +28,6 @@ function getSubscriptions({ searchTerm, order, orderBy, page, rowsPerPage }) {
         params["offset"] = page * rowsPerPage;
     }
 
-    // console.log(params);
     return callApi({
         endpoint: "/api/admin/qms/subscriptions",
         method: "GET",
@@ -35,7 +35,7 @@ function getSubscriptions({ searchTerm, order, orderBy, page, rowsPerPage }) {
     });
 }
 
-// Administrators can update a user's subscriptions
+// Administrators can update a user's subscription
 // function updateSubscription ({username, planName}){
 //     return callApi({
 //         endpoint: `/api/admin/qms/users/${username}/plan/${planName}`,
@@ -44,21 +44,21 @@ function getSubscriptions({ searchTerm, order, orderBy, page, rowsPerPage }) {
 // }
 
 // Administrators can add new subscriptions for users who haven't logged into the DE yet
-// function addNewSubscription ({request}){
-//     return callApi({
-//         endpoint: `/api/admin/qms/subscriptions`,
-//         method: "POST",
-//         body: request
-//     })
-// }
+function postSubscription(subscription) {
+    return callApi({
+        endpoint: `/api/admin/qms/subscriptions`,
+        method: "POST",
+        body: { subscriptions: [subscription] },
+    });
+}
 
 // Get plan names
-// function getPlanNames(){
-//     return callApi({
-//         endpoint: `/api/qms/plans`,
-//         method: "GET"
-//     })
-// }
+function getPlanTypes() {
+    return callApi({
+        endpoint: `/api/qms/plans`,
+        method: "GET",
+    });
+}
 
 // Get all users
 // function getUsers(){
@@ -68,4 +68,10 @@ function getSubscriptions({ searchTerm, order, orderBy, page, rowsPerPage }) {
 //     })
 // }
 
-export { getSubscriptions, SUBSCRIPTIONS_QUERY_KEY };
+export {
+    postSubscription,
+    getPlanTypes,
+    getSubscriptions,
+    PLAN_TYPES_QUERY_KEY,
+    SUBSCRIPTIONS_QUERY_KEY,
+};

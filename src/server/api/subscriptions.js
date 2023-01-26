@@ -58,7 +58,7 @@ export default function subscriptionsRouter() {
     // Administrators can add new subscriptions for users who haven't logged into the DE yet
     // POST /terrain/admin/qms/subscriptions (one or multiple subscriptions) -- has more details after
     logger.info("adding the POST /admin/qms/subscriptions handler");
-    api.get(
+    api.post(
         "/admin/qms/subscriptions",
         auth.authnTokenMiddleware,
         terrainHandler({
@@ -82,14 +82,14 @@ export default function subscriptionsRouter() {
     );
 
     // User lookup
-    logger.info("adding the GET /subjects handler");
-    api.get(
-        "/subjects",
-        auth.authnTokenMiddleware,
-        terrainHandler({
-            method: "GET",
-            pathname: "/subjects",
-        })
-    );
+    // logger.info("adding the GET /subjects handler");
+    // api.get(
+    //     "/subjects",
+    //     auth.authnTokenMiddleware,
+    //     terrainHandler({
+    //         method: "GET",
+    //         pathname: "/subjects",
+    //     })
+    // );
     return api;
 }

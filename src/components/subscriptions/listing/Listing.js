@@ -5,11 +5,11 @@
  *
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import TableView from "./TableView";
 import SubscriptionToolbar from "../toolbar/Toolbar";
-
+import Drawer from "../details/Drawer";
 import DEPagination from "components/utils/DEPagination";
 
 import withErrorAnnouncer from "../../error/withErrorAnnouncer";
@@ -31,8 +31,30 @@ function Listing(props) {
         searchTerm,
     } = props;
     const [data, setData] = useState(null);
-    // const [selected, setSelected] = useState([]);
-    // const [subscriptionsQueryKey, setSubscriptionsQueryKey] = useState(SUBSCRIPTIONS_QUERY_KEY)
+    const [detailsOpen, setDetailsOpen] = useState(false);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [selected, setSelected] = useState([]);
+    const [selectedSubscription, setSelectedSubscription] = useState(null);
+
+    useEffect(() => {
+        // Reset selected whenever the data set changes,
+        // which can be due to the browser's back or forward navigation,
+        // in addition to the user changing categories or pages.
+        setSelected([]);
+    }, [data]);
+
+    useEffect(() => {
+        if (data?.subscriptions) {
+            const selectedId = selected[0];
+            setSelectedSubscription(
+                data.subscriptions.find(
+                    (subscription) => subscription.id === selectedId
+                )
+            );
+        } else {
+            setSelectedSubscription(null);
+        }
+    }, [data, selected]);
 
     const { isFetching, error } = useQuery({
         queryKey: [
@@ -76,6 +98,10 @@ function Listing(props) {
             );
     };
 
+    const handleClick = (_, id) => {
+        setSelected([id]); // This is the id of the subscription
+    };
+
     const handleRequestSort = (_, field) => {
         const isAsc = orderBy === field && order === constants.SORT_ASCENDING;
         onRouteToListing &&
@@ -89,9 +115,19 @@ function Listing(props) {
     };
 
     const handleSearch = (term) => {
-        // setSelected([]);
+        setSelected([]);
         onRouteToListing &&
             onRouteToListing(order, orderBy, 0, rowsPerPage, term);
+    };
+
+    const onCloseEdit = () => {
+        setEditDialogOpen(false);
+    };
+    const onDetailsSelected = () => {
+        setDetailsOpen(true);
+    };
+    const onEditSelected = () => {
+        setEditDialogOpen(true);
     };
 
     return (
@@ -104,14 +140,30 @@ function Listing(props) {
             />
             <TableView
                 baseId={baseId}
+                editDialogOpen={editDialogOpen}
                 error={error}
+                handleClick={handleClick}
                 handleRequestSort={handleRequestSort}
                 isAdminView={isAdminView}
                 listing={data}
                 loading={isFetching}
+                onCloseEdit={onCloseEdit}
+                onDetailsSelected={onDetailsSelected}
+                onEditSelected={onEditSelected}
                 order={order}
                 orderBy={orderBy}
+                selected={selected}
+                selectedSubscription={selectedSubscription}
             />
+            {detailsOpen && (
+                <Drawer
+                    anchor="right"
+                    baseId={baseId}
+                    onClose={() => setDetailsOpen(false)}
+                    open={detailsOpen}
+                    selectedSubscription={selectedSubscription}
+                />
+            )}
             {data && data.total > 0 && (
                 <DEPagination
                     baseId={baseId}
@@ -126,5 +178,4 @@ function Listing(props) {
     );
 }
 
-// Do i need this error announcer?
 export default withErrorAnnouncer(Listing);

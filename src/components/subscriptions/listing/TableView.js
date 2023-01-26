@@ -16,9 +16,14 @@ import DETableHead from "components/table/DETableHead";
 import subscriptionFields from "../subscriptionsFields";
 
 import buildID from "components/utils/DebugIDUtil";
+import DECheckbox from "components/utils/DECheckbox";
+
 import { formatDate } from "components/utils/DateFormatter";
 
 import PageWrapper from "components/layout/PageWrapper";
+import RowDotMenu from "./RowDotMenu";
+
+import EditSubscriptionDialog from "../edit/EditSubscription";
 
 import {
     Paper,
@@ -37,6 +42,13 @@ function UserName(props) {
 const columnData = (t) => {
     const fields = subscriptionFields(t);
     return [
+        {
+            name: "",
+            numeric: false,
+            enableSorting: false,
+            // key: fields.STATUS.key,
+            // id: fields.STATUS.key,
+        },
         {
             id: ids.USERNAME,
             name: fields.USERNAME.fieldName,
@@ -65,6 +77,13 @@ const columnData = (t) => {
             enableSorting: false,
             key: fields.PLAN_NAME.key,
         },
+        {
+            id: ids.ROW_DOT_MENU,
+            name: "",
+            enableSorting: false,
+            key: fields.ROW_DOT_MENU.key,
+            align: "right",
+        },
     ];
 };
 
@@ -82,12 +101,19 @@ function LoadingMask(props) {
 function TableView(props) {
     const {
         baseId,
+        editDialogOpen,
+        handleClick,
         handleRequestSort,
         isAdminView,
         listing,
         loading,
+        onCloseEdit,
+        onDetailsSelected,
+        onEditSelected,
         order,
         orderBy,
+        selected,
+        selectedSubscription,
     } = props;
     const { t } = useTranslation("subscriptions");
     let columns = columnData(t);
@@ -120,11 +146,11 @@ function TableView(props) {
                                 {subscriptions &&
                                     subscriptions.length > 0 &&
                                     subscriptions.map((subscription, index) => {
-                                        const id = subscription.id;
+                                        const subscriptionId = subscription.id;
                                         const rowId = buildID(
                                             baseId,
                                             tableId,
-                                            id
+                                            subscriptionId
                                         );
                                         const user = subscription.user.username;
                                         const startDate =
@@ -132,8 +158,31 @@ function TableView(props) {
                                         const endDate =
                                             subscription.effective_end_date;
                                         const planName = subscription.plan.name;
+                                        const isSelected =
+                                            selected?.indexOf(
+                                                subscriptionId
+                                            ) !== -1;
+
                                         return (
-                                            <DERow id={rowId} key={id} hover>
+                                            <DERow
+                                                id={rowId}
+                                                key={subscriptionId}
+                                                role="checkbox"
+                                                selected={isSelected}
+                                                aria-checked={isSelected}
+                                                hover
+                                                onClick={(event) => {
+                                                    if (handleClick) {
+                                                        handleClick(
+                                                            event,
+                                                            subscriptionId
+                                                        );
+                                                    }
+                                                }}
+                                            >
+                                                <TableCell padding="checkbox">
+                                                    <DECheckbox />
+                                                </TableCell>
                                                 <TableCell
                                                     id={buildID(
                                                         rowId,
@@ -172,6 +221,23 @@ function TableView(props) {
                                                         {planName}
                                                     </Typography>
                                                 </TableCell>
+                                                <TableCell
+                                                    id={buildID(
+                                                        rowId,
+                                                        ids.ROW_DOT_MENU
+                                                    )}
+                                                    align="right"
+                                                >
+                                                    <RowDotMenu
+                                                        baseId={baseId}
+                                                        onDetailsSelected={
+                                                            onDetailsSelected
+                                                        }
+                                                        onEditSelected={
+                                                            onEditSelected
+                                                        }
+                                                    />
+                                                </TableCell>
                                             </DERow>
                                         );
                                     })}
@@ -180,6 +246,13 @@ function TableView(props) {
                     </Table>
                 </TableContainer>
             )}
+
+            <EditSubscriptionDialog
+                open={editDialogOpen}
+                onClose={onCloseEdit}
+                parentId={baseId}
+                subscription={selectedSubscription}
+            />
         </PageWrapper>
     );
 }

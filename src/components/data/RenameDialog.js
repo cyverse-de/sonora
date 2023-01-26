@@ -17,7 +17,7 @@ import {
     Typography,
 } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 import { useMutation } from "react-query";
 
 import { ERROR_CODES, getErrorCode } from "../error/errorCode";

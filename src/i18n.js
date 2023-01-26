@@ -32,7 +32,7 @@ const RequiredNamespaces = ["common", "bags"];
  */
 function I18nProviderWrapper({ children }) {
     return (
-        <Suspense fallback={"Loading..."}>
+        <Suspense fallback={"Loading i18n..."}>
             <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
         </Suspense>
     );

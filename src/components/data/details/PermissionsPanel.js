@@ -19,7 +19,7 @@ import {
     Typography,
 } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 import { useMutation, useQuery } from "react-query";
 
 import Identity from "../Identity";

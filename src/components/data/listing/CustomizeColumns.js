@@ -21,7 +21,7 @@ import {
     useTheme,
 } from "@material-ui/core";
 import { Settings } from "@material-ui/icons";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import ids from "../ids";
 

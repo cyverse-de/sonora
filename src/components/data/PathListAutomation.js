@@ -9,8 +9,7 @@ import React, { useEffect, useState } from "react";
 
 import { useQueryClient, useQuery } from "react-query";
 import { Field, Form, Formik } from "formik";
-import { useTranslation } from "i18n";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "i18n";
 import { useMutation } from "react-query";
 
 import buildID from "components/utils/DebugIDUtil";

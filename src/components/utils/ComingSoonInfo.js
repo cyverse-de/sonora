@@ -5,9 +5,7 @@
  */
 import React from "react";
 
-import { Trans } from "react-i18next";
-
-import { useTranslation } from "i18n";
+import { Trans, useTranslation } from "i18n";
 import constants from "../../constants";
 import ExternalLink from "components/utils/ExternalLink";
 

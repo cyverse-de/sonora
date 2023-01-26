@@ -9,7 +9,7 @@ import React, { Fragment, useState } from "react";
 import buildID from "components/utils/DebugIDUtil";
 import { IconButton, ListItemIcon, Menu, MenuItem } from "@material-ui/core";
 import { Check, Edit } from "@material-ui/icons";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import ids from "../ids";
 import Permissions from "../../models/Permissions";

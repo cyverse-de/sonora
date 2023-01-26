@@ -9,7 +9,7 @@ import React, { useState } from "react";
 import buildID from "components/utils/DebugIDUtil";
 import { Drawer, makeStyles, Typography } from "@material-ui/core";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import DetailsTabPanel from "./DetailsPanel";
 import ids from "../ids";

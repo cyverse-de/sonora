@@ -7,7 +7,6 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 
-import { Trans } from "react-i18next";
 import TableView from "./TableView";
 
 import ids from "../ids";
@@ -60,7 +59,7 @@ import { announce } from "components/announcer/CyVerseAnnouncer";
 import { ERROR, INFO } from "components/announcer/AnnouncerConstants";
 import buildID from "components/utils/DebugIDUtil";
 
-import { useTranslation } from "i18n";
+import { Trans, useTranslation } from "i18n";
 import { useBagAddItems } from "serviceFacades/bags";
 
 import { useQueryClient, useMutation, useQuery } from "react-query";

@@ -24,8 +24,7 @@ import {
 import { BagInfoProvider, useBagInfo } from "../src/contexts/bagInfo";
 
 import { QueryClient, QueryClientProvider } from "react-query";
-import { i18n } from "../src/i18n";
-import { I18nextProvider } from "react-i18next";
+import { I18nProviderWrapper } from "../src/i18n";
 
 import { addDecorator } from "@storybook/react";
 import { withConsole } from "@storybook/addon-console";
@@ -88,14 +87,12 @@ export const decorators = [
                         <BootstrapInfoProvider>
                             <MockBootstrapInfo />
 
-                            <React.Suspense fallback={"Loading i18n..."}>
-                                <I18nextProvider i18n={i18n}>
-                                    <BagInfoProvider>
-                                        <MockBagInfo />
-                                        {Story()}
-                                    </BagInfoProvider>
-                                </I18nextProvider>
-                            </React.Suspense>
+                            <I18nProviderWrapper>
+                                <BagInfoProvider>
+                                    <MockBagInfo />
+                                    {Story()}
+                                </BagInfoProvider>
+                            </I18nProviderWrapper>
 
                             <CyVerseAnnouncer />
                         </BootstrapInfoProvider>

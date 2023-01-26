@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Field, Formik } from "formik";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 import { useMutation } from "react-query";
 
 import DEDialog from "components/utils/DEDialog";

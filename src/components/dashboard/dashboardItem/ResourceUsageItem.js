@@ -7,8 +7,7 @@
  */
 
 import React from "react";
-import { useTranslation } from "i18n";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "i18n";
 import {
     Button,
     Grid,

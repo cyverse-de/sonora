@@ -5,9 +5,17 @@ export default {
     DETAILS_MENU_ITEM: "detail",
     DETAILS_TAB: "detailsTab",
     EDIT_MENU_ITEM: "edit",
-    EDIT_SUBSCRIPTION_FORM: {
+    EDIT_QUOTAS_DLG: {
+        USERNAME: "username",
+        PLAN_NAME: "planName",
+    },
+    EDIT_SUB_DLG: {
         PLAN_NAME: "planName",
         PLAN_TYPES: "planTypes",
+        QUOTAS: "quotas",
+        QUOTAS_RESOURCE_TYPE: "quotasResourceType",
+        USAGES: "usages",
+        USAGES_RESOURCE_TYPE: "usagesResourceType",
         USERNAME: "username",
     },
     END_DATE: "endDate",
@@ -18,6 +26,7 @@ export default {
     NEW_SUBSCRIPTION_STATUS: "newSubscriptionStatus",
     PLAN_NAME: "planName",
     PLAN_NAME_CELL: "planNameCell",
+    QUOTAS_TABLE: "quotasTable",
     ROW_DOT_MENU: "rowDotMenu",
     SAVE_BUTTON: "saveButton",
     SEARCH_FIELD: "searchField",
@@ -26,6 +35,7 @@ export default {
     START_DATE_CELL: "startDateCell",
     SUBSCRIPTION_DETAILS: "subscriptionDetails",
     TOOLBAR: "toolbar",
+    USAGES_TABLE: "usagesTable",
     USERNAME: "username",
     USERNAME_CELL: "usernameCell",
 };

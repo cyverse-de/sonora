@@ -1,0 +1,196 @@
+import React from "react";
+
+import { useTranslation } from "i18n";
+import { Field } from "formik";
+import { MenuItem, Table, TableBody, TableCell } from "@material-ui/core";
+import SimpleExpansionPanel from "../SimpleExpansionPanel";
+import { DERow } from "components/table/DERow";
+import DETableHead from "components/table/DETableHead";
+
+import buildID from "components/utils/DebugIDUtil";
+import ids from "../ids";
+
+import EmptyTable from "components/table/EmptyTable";
+import FormSelectField from "components/forms/FormSelectField";
+// import FormTextField from "components/forms/FormTextField";
+import FormNumberField from "components/forms/FormNumberField";
+
+const TABLE_COLUMNS = [
+    { name: "Quota", numeric: true, enableSorting: false },
+    { name: "Unit", numeric: false, enableSorting: false },
+];
+
+function Quotas(props) {
+    const { parentId, subscription } = props;
+    const { t } = useTranslation("subscriptions");
+    const resourceTypes = [];
+    subscription.quotas.forEach((resource) => {
+        resourceTypes.push(resource.resource_type?.unit);
+    });
+
+    return (
+        <SimpleExpansionPanel header={t("quotas")} defaultExpanded={true}>
+            <Table>
+                <TableBody>
+                    {(!resourceTypes || resourceTypes.length === 0) && (
+                        <EmptyTable
+                            message={t("noQuotas")}
+                            numColumns={TABLE_COLUMNS.length}
+                        />
+                    )}
+                    {/* FIX THE KEY  */}
+                    <DERow tabIndex={-1} key={1}>
+                        <TableCell>
+                            <Field
+                                name={"quota"}
+                                id={buildID(
+                                    parentId,
+                                    ids.EDIT_SUB_DLG.QUOTAS // FIX
+                                )}
+                                fullWidth={false}
+                                component={FormNumberField}
+                            />
+                        </TableCell>
+                        <TableCell>
+                            <Field name="resource_type">
+                                {({
+                                    field: { onChange, ...field },
+                                    ...props
+                                }) => (
+                                    <FormSelectField
+                                        {...props}
+                                        id={buildID(
+                                            parentId,
+                                            ids.EDIT_SUB_DLG.PLAN_NAME //FIX
+                                        )}
+                                        field={field}
+                                        label={t("planName")} //FIX
+                                        onChange={(event) => {
+                                            onChange(event);
+                                        }}
+                                        required
+                                    >
+                                        {resourceTypes.map((type, index) => (
+                                            <MenuItem
+                                                id={buildID(
+                                                    parentId,
+                                                    ids.EDIT_SUB_DLG.PLAN_TYPES
+                                                )}
+                                                key={index}
+                                                value={type}
+                                            >
+                                                {type}
+                                            </MenuItem>
+                                        ))}
+                                    </FormSelectField>
+                                )}
+                            </Field>
+                        </TableCell>
+                    </DERow>
+                </TableBody>
+                <DETableHead
+                    selectable={false}
+                    rowCount={1}
+                    baseId={parentId}
+                    ids={ids.QUOTAS_TABLE}
+                    columnData={TABLE_COLUMNS}
+                />
+            </Table>
+        </SimpleExpansionPanel>
+    );
+}
+
+export default Quotas;
+
+// import React from 'react';
+
+// import { useTranslation } from "i18n";
+// import { Field, getIn } from "formik";
+// import {
+//     Table,
+//     TableBody,
+//     TableCell,
+// } from "@material-ui/core";
+// import SimpleExpansionPanel from "../SimpleExpansionPanel";
+// import { DERow } from "components/table/DERow";
+// import DETableHead from "components/table/DETableHead";
+
+// import buildID from "components/utils/DebugIDUtil";
+// import ids from "../ids";
+
+// import EmptyTable from "components/table/EmptyTable";
+// import FormTextField from "components/forms/FormTextField";
+// import FormNumberField from "components/forms/FormNumberField";
+
+// const TABLE_COLUMNS = [
+//     { name: "Quota", numeric: true, enableSorting: false},
+//     { name: "Unit", numeric: false, enableSorting: false },
+// ];
+
+// function Quotas(props){
+//     const {
+//         name,
+//         parentId,
+//         form: {values},
+//     } = props
+//     const { t } = useTranslation("subscriptions");
+
+//     let quotas = getIn(values, name)
+//     return (
+//         <SimpleExpansionPanel
+//             header={t("quotas")}
+//             defaultExpanded={false}
+//         >
+//             <Table>
+//                 <TableBody>
+//                     {(!quotas || quotas.length === 0) && (
+//                         <EmptyTable
+//                             message={t("noQuotas")}
+//                             numColumns={TABLE_COLUMNS.length}
+//                         />
+//                     )}
+//                     {quotas &&
+//                         quotas.length > 0 &&
+//                         quotas.map((_, index) => (
+//                             <DERow tabIndex={-1} key={index}>
+//                                 <TableCell>
+//                                     <Field
+//                                         name={`${name}.${index}.quota`}
+//                                         id={buildID(
+//                                             parentId,
+//                                             index,
+//                                             ids.EDIT_SUB_DLG.QUOTAS
+//                                         )}
+//                                         fullWidth={false}
+//                                         component={FormNumberField}
+//                                     />
+//                                 </TableCell>
+//                                 <TableCell>
+//                                     <Field
+//                                         name={`${name}.${index}.resource_type.unit`}
+//                                         id={buildID(
+//                                             parentId,
+//                                             index,
+//                                             ids.EDIT_SUB_DLG.QUOTAS_RESOURCE_TYPE
+//                                         )}
+//                                         fullWidth={false}
+//                                         disabled
+//                                         component={FormTextField}
+//                                     />
+//                                 </TableCell>
+//                             </DERow>
+//                         ))}
+//                 </TableBody>
+//                 <DETableHead
+//                     selectable={false}
+//
+//                     baseId={parentId}
+//                     ids={ids.QUOTAS_TABLE}
+//                     columnData={TABLE_COLUMNS}
+//                 />
+//             </Table>
+//         </SimpleExpansionPanel>
+//     )
+// }
+
+// export default Quotas;

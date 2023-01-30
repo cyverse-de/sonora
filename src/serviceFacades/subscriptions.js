@@ -8,6 +8,14 @@ import callApi from "../common/callApi";
 const PLAN_TYPES_QUERY_KEY = "fetchPlanTypes";
 const SUBSCRIPTIONS_QUERY_KEY = "fetchSubscriptions";
 
+// Get plan names
+function getPlanTypes() {
+    return callApi({
+        endpoint: `/api/qms/plans`,
+        method: "GET",
+    });
+}
+
 // Administrators can list existing subscriptions
 function getSubscriptions({ searchTerm, order, orderBy, page, rowsPerPage }) {
     const params = {};
@@ -35,15 +43,8 @@ function getSubscriptions({ searchTerm, order, orderBy, page, rowsPerPage }) {
     });
 }
 
-// Administrators can update a user's subscription
-// function updateSubscription ({username, planName}){
-//     return callApi({
-//         endpoint: `/api/admin/qms/users/${username}/plan/${planName}`,
-//         method: "PUT"
-//     })
-// }
-
 // Administrators can add new subscriptions for users who haven't logged into the DE yet
+// Administrators can edit existing subscriptions
 function postSubscription(subscription) {
     return callApi({
         endpoint: `/api/admin/qms/subscriptions`,
@@ -52,26 +53,27 @@ function postSubscription(subscription) {
     });
 }
 
-// Get plan names
-function getPlanTypes() {
+// Administrators can update user quotas for a specified resource type
+// function updateUserQuota(quotaValue, resourceType, username){
+//     return callApi({
+//         endpoint: `api/admin/qms/users/${username}/plan/${resourceType}/quota`,
+//         method: "POST",
+//         body: {quota: quotaValue}
+//     })
+// }
+function updateUserQuota(quota, resourceType, username) {
     return callApi({
-        endpoint: `/api/qms/plans`,
-        method: "GET",
+        endpoint: `/api/admin/qms/users/${username}/plan/${resourceType}/quota`,
+        method: "POST",
+        body: quota,
     });
 }
 
-// Get all users
-// function getUsers(){
-//     return callApi({
-//         endpoint: `/api/subjects`,
-//         method: "GET"
-//     })
-// }
-
 export {
-    postSubscription,
     getPlanTypes,
     getSubscriptions,
+    postSubscription,
+    updateUserQuota,
     PLAN_TYPES_QUERY_KEY,
     SUBSCRIPTIONS_QUERY_KEY,
 };

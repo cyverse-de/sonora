@@ -24,6 +24,7 @@ import PageWrapper from "components/layout/PageWrapper";
 import RowDotMenu from "./RowDotMenu";
 
 import EditSubscriptionDialog from "../edit/EditSubscription";
+import EditQuotasDialog from "../edit/EditQuotas";
 
 import {
     Paper,
@@ -101,15 +102,18 @@ function LoadingMask(props) {
 function TableView(props) {
     const {
         baseId,
-        editDialogOpen,
+        editQuotasDialogOpen,
+        editSubscriptionDialogOpen,
         handleClick,
         handleRequestSort,
         isAdminView,
         listing,
         loading,
-        onCloseEdit,
+        onCloseEditQuotas,
+        onCloseEditSubscription,
         onDetailsSelected,
-        onEditSelected,
+        onEditQuotasSelected,
+        onEditSubscriptionSelected,
         order,
         orderBy,
         selected,
@@ -233,8 +237,11 @@ function TableView(props) {
                                                         onDetailsSelected={
                                                             onDetailsSelected
                                                         }
-                                                        onEditSelected={
-                                                            onEditSelected
+                                                        onEditQuotasSelected={
+                                                            onEditQuotasSelected
+                                                        }
+                                                        onEditSubscriptionSelected={
+                                                            onEditSubscriptionSelected
                                                         }
                                                     />
                                                 </TableCell>
@@ -248,8 +255,15 @@ function TableView(props) {
             )}
 
             <EditSubscriptionDialog
-                open={editDialogOpen}
-                onClose={onCloseEdit}
+                open={editSubscriptionDialogOpen}
+                onClose={onCloseEditSubscription}
+                parentId={baseId}
+                subscription={selectedSubscription}
+            />
+
+            <EditQuotasDialog
+                open={editQuotasDialogOpen}
+                onClose={onCloseEditQuotas}
                 parentId={baseId}
                 subscription={selectedSubscription}
             />

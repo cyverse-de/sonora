@@ -30,9 +30,12 @@ function Listing(props) {
         rowsPerPage,
         searchTerm,
     } = props;
+
     const [data, setData] = useState(null);
     const [detailsOpen, setDetailsOpen] = useState(false);
-    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [editSubscriptionDialogOpen, setEditSubscriptionDialogOpen] =
+        useState(false);
+    const [editQuotasDialogOpen, setEditQuotasDialogOpen] = useState(false);
     const [selected, setSelected] = useState([]);
     const [selectedSubscription, setSelectedSubscription] = useState(null);
 
@@ -120,14 +123,23 @@ function Listing(props) {
             onRouteToListing(order, orderBy, 0, rowsPerPage, term);
     };
 
-    const onCloseEdit = () => {
-        setEditDialogOpen(false);
+    const onCloseEditSubscription = () => {
+        setEditSubscriptionDialogOpen(false);
     };
+
+    const onCloseEditQuotas = () => {
+        setEditQuotasDialogOpen(false);
+    };
+
     const onDetailsSelected = () => {
         setDetailsOpen(true);
     };
-    const onEditSelected = () => {
-        setEditDialogOpen(true);
+    const onEditSubscriptionSelected = () => {
+        setEditSubscriptionDialogOpen(true);
+    };
+
+    const onEditQuotasSelected = () => {
+        setEditQuotasDialogOpen(true);
     };
 
     return (
@@ -140,16 +152,19 @@ function Listing(props) {
             />
             <TableView
                 baseId={baseId}
-                editDialogOpen={editDialogOpen}
+                editQuotasDialogOpen={editQuotasDialogOpen}
+                editSubscriptionDialogOpen={editSubscriptionDialogOpen}
                 error={error}
                 handleClick={handleClick}
                 handleRequestSort={handleRequestSort}
                 isAdminView={isAdminView}
                 listing={data}
                 loading={isFetching}
-                onCloseEdit={onCloseEdit}
+                onCloseEditQuotas={onCloseEditQuotas}
+                onCloseEditSubscription={onCloseEditSubscription}
                 onDetailsSelected={onDetailsSelected}
-                onEditSelected={onEditSelected}
+                onEditQuotasSelected={onEditQuotasSelected}
+                onEditSubscriptionSelected={onEditSubscriptionSelected}
                 order={order}
                 orderBy={orderBy}
                 selected={selected}

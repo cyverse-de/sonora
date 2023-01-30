@@ -8,7 +8,7 @@ import buildID from "components/utils/DebugIDUtil";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import { Edit } from "@material-ui/icons";
 
-export default function EditMenuItem(props) {
+export default function EditQuotasMenuItem(props) {
     const { baseId, onEditSelected, onClose } = props;
 
     const { t } = useTranslation("subscriptions");
@@ -24,7 +24,7 @@ export default function EditMenuItem(props) {
             <ListItemIcon>
                 <Edit fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary={t("editSubscription")} />
+            <ListItemText primary={t("editQuotas")} />
         </MenuItem>
     );
 }

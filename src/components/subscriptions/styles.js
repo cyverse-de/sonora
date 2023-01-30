@@ -1,4 +1,8 @@
 const styles = (theme) => ({
+    expansionDetails: {
+        flexDirection: "column",
+    },
+
     paper: {
         padding: theme.spacing(1),
     },
@@ -20,17 +24,28 @@ const styles = (theme) => ({
         },
     },
 
-    // container: {
-    //     height:
-    //         "calc(100% - " +
-    //         theme.mixins.toolbar["@media (min-width:600px)"].minHeight +
-    //         "px)",
-    //     overflow: "auto",
-    // },
+    container: {
+        height:
+            "calc(100% - " +
+            theme.mixins.toolbar["@media (min-width:600px)"].minHeight +
+            "px)",
+        overflow: "auto",
+    },
 
-    // tablePagination: {
-    //     height: "40",
-    // },
+    tablePagination: {
+        height: "40",
+    },
+
+    deleteBtn: {
+        color: theme.palette.error.main,
+    },
+    paramsViewSummary: {
+        color: theme.palette.info.contrastText,
+        backgroundColor: theme.palette.info.main,
+    },
+    paramsViewsExpandIcon: {
+        color: theme.palette.info.contrastText,
+    },
 });
 
 export default styles;

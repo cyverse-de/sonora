@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
-import { formatDateObject } from "components/utils/DateFormatter";
 
 import {
     Box,
-    makeStyles,
-    Grid,
-    Typography,
     Drawer,
+    Grid,
+    //IconButton,
+    makeStyles,
+    Typography,
     useMediaQuery,
     useTheme,
 } from "@material-ui/core";
+//import { Edit } from "@material-ui/icons";
 
+import { formatDateObject } from "components/utils/DateFormatter";
 import GridLabelValue from "components/utils/GridLabelValue";
 import buildID from "components/utils/DebugIDUtil";
 import ids from "../ids";
@@ -75,7 +77,10 @@ function DetailsPanel(props) {
                             )}
                         </GridLabelValue>
                         <GridLabelValue label={t("endDate") + t("colon")}>
-                            {details?.effective_end_date}
+                            {formatDateObject(
+                                details.effective_end_date &&
+                                    new Date(details.effective_end_date)
+                            )}
                         </GridLabelValue>
                         <GridLabelValue label={t("planName") + t("colon")}>
                             {details?.plan.name}
@@ -111,7 +116,14 @@ function QuotasDetails(props) {
 }
 
 function SubscriptionDrawer(props) {
-    const { anchor, baseId, onClose, open, selectedSubscription } = props;
+    const {
+        anchor,
+        baseId,
+        onClose,
+        onEditQuotasSelected,
+        open,
+        selectedSubscription,
+    } = props;
     const classes = useStyles();
     const [selectedTab, setSelectedTab] = useState("Details");
     const drawerId = buildID(baseId, ids.DETAILS_DRAWER);
@@ -149,6 +161,7 @@ function SubscriptionDrawer(props) {
                     <DetailsPanel
                         baseId={baseId}
                         details={selectedSubscription}
+                        onEditQuotasSelected={onEditQuotasSelected}
                     />
                 </DETabPanel>
             </Drawer>

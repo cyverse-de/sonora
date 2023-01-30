@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "react-query";
 import { Field, FieldArray, Form, Formik } from "formik";
-import { mapPropsToValues, formatSubscriptions } from "./formatters";
+import { mapPropsToValues } from "./formatters";
 import DEDialog from "components/utils/DEDialog";
 import { Button, MenuItem } from "@material-ui/core";
 import FormTextField from "components/forms/FormTextField";
 import FormSelectField from "components/forms/FormSelectField";
 import styles from "../styles";
 import {
-    postSubscription,
+    //postSubscription,
     getPlanTypes,
     PLAN_TYPES_QUERY_KEY,
+    updateUserQuota,
 } from "serviceFacades/subscriptions";
-import { announce } from "components/announcer/CyVerseAnnouncer";
+//import { announce } from "components/announcer/CyVerseAnnouncer";
 import { useTranslation } from "react-i18next";
 import { withStyles } from "@material-ui/core/styles";
 import ids from "../ids";
@@ -22,12 +23,13 @@ import SubscriptionErrorTypographyWithDialog from "../error/SubscriptionErrorTyp
 import buildID from "components/utils/DebugIDUtil";
 
 import Usages from "./Usages";
-// import Quotas from "./Quotas";
+import Quotas from "./Quotas";
 
-function EditSubscriptionDialog(props) {
+function EditQuotasDialog(props) {
     const { open, onClose, parentId, subscription } = props;
     const [planTypes, setPlanTypes] = useState([]);
-    const [subscriptionSubmission, setSubscriptionSubmission] = useState(null);
+    //const [quotasSubmission, setQuotasSubmission] = useState(null);
+
     const [failureReason, setFailureReason] = useState(null);
     const [mutateSubscriptionError, setMutateSubscriptionError] =
         useState(null);
@@ -42,31 +44,46 @@ function EditSubscriptionDialog(props) {
         [setPlanTypes]
     );
 
-    const { mutate: mutateSubscription } = useMutation(
-        () => postSubscription(subscriptionSubmission),
+    // const { mutate: mutateSubscription } = useMutation(
+    //     () => postSubscription(subscriptionSubmission),
+    //     {
+    //         onSuccess: (data) => {
+    //             const dataResult = data?.result[0];
+    //             const isFailed = dataResult?.failure_reason;
+    //             isFailed ? setFailureReason(isFailed) : setFailureReason(null);
+    //             setMutateSubscriptionError(isFailed ? dataResult : null);
+    //             if (!isFailed) {
+    //                 announce({
+    //                     text: "Success",
+    //                 });
+    //                 onClose();
+    //             }
+    //         },
+    //         onError: (err) => {
+    //             setMutateSubscriptionError(err);
+    //             console.log(err);
+    //         },
+    //     }
+    // );
+
+    const { mutate: updateQuotas } = useMutation(
+        () => updateUserQuota({ quota: 50001 }, "data.size", "sboleyn"),
         {
             onSuccess: (data) => {
-                const dataResult = data?.result[0];
-                const isFailed = dataResult?.failure_reason;
-                isFailed ? setFailureReason(isFailed) : setFailureReason(null);
-                setMutateSubscriptionError(isFailed ? dataResult : null);
-                if (!isFailed) {
-                    announce({
-                        text: "Success",
-                    });
-                    onClose();
-                }
+                console.log(
+                    "!!!!!!!!!!!!!!!!!!!Success!!!!!!!!!!!!!!!!!!!!!!!!!!"
+                );
             },
             onError: (err) => {
-                setMutateSubscriptionError(err);
                 console.log(err);
+                setMutateSubscriptionError(err);
             },
         }
     );
 
     const handleSubmit = (values) => {
-        setSubscriptionSubmission(formatSubscriptions(values));
-        mutateSubscription();
+        //setQuotasSubmission(formatQuotas(values));
+        updateQuotas();
     };
 
     const onCloseForm = () => {
@@ -75,9 +92,9 @@ function EditSubscriptionDialog(props) {
     };
 
     const resetState = () => {
-        setMutateSubscriptionError(null);
+        //setMutateSubscriptionError(null);
         setFailureReason(null);
-        setSubscriptionSubmission(null);
+        //setSubscriptionSubmission(null);
     };
 
     useQuery({
@@ -108,11 +125,7 @@ function EditSubscriptionDialog(props) {
                                     props.resetForm();
                                 }}
                                 fullWidth={true}
-                                title={
-                                    subscription
-                                        ? t("editSubscription")
-                                        : t("addSubscription")
-                                }
+                                title={t("editQuotas")}
                                 actions={
                                     <>
                                         <Button
@@ -161,7 +174,7 @@ function EditSubscriptionDialog(props) {
                                         baseId={parentId}
                                     />
                                 )}
-                                <StyledEditSubscriptionForm
+                                <StyledEditQuotasForm
                                     parentId={parentId}
                                     planTypes={planTypes}
                                     subscription={subscription}
@@ -175,9 +188,9 @@ function EditSubscriptionDialog(props) {
     );
 }
 
-const StyledEditSubscriptionForm = withStyles(styles)(EditSubscriptionForm);
+const StyledEditQuotasForm = withStyles(styles)(EditQuotasForm);
 
-function EditSubscriptionForm(props) {
+function EditQuotasForm(props) {
     const { parentId, planTypes, subscription } = props;
     const { t } = useTranslation("subscriptions");
     const { t: i18nUtil } = useTranslation("util");
@@ -205,6 +218,7 @@ function EditSubscriptionForm(props) {
                             onChange(event);
                         }}
                         required
+                        disabled
                     >
                         {planTypes.map((type, index) => (
                             <MenuItem
@@ -222,15 +236,15 @@ function EditSubscriptionForm(props) {
                 )}
             </Field>
 
-            {/* {subscription && (
-                <Quotas 
+            {subscription && (
+                <Quotas
                     parentId={buildID(
                         parentId,
                         ids.EDIT_SUB_DLG.USAGES //FIX
                     )}
                     subscription={subscription}
                 />
-             )} */}
+            )}
 
             {/* {subscription && (
                 <FieldArray
@@ -265,4 +279,4 @@ function EditSubscriptionForm(props) {
     );
 }
 
-export default EditSubscriptionDialog;
+export default EditQuotasDialog;

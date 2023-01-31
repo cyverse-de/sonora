@@ -1,25 +1,18 @@
 import React, { useState } from "react";
-import { useQuery, useMutation } from "react-query";
+import { useMutation } from "react-query";
 import { Field, FieldArray, Form, Formik } from "formik";
-import { mapPropsToValues } from "./formatters";
+import { mapPropsToValues, formatQuotas } from "./formatters";
 import DEDialog from "components/utils/DEDialog";
-import { Button, MenuItem } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import FormTextField from "components/forms/FormTextField";
-import FormSelectField from "components/forms/FormSelectField";
 import styles from "../styles";
-import {
-    //postSubscription,
-    getPlanTypes,
-    PLAN_TYPES_QUERY_KEY,
-    updateUserQuota,
-} from "serviceFacades/subscriptions";
-//import { announce } from "components/announcer/CyVerseAnnouncer";
+import { updateUserQuota } from "serviceFacades/subscriptions";
+import { announce } from "components/announcer/CyVerseAnnouncer";
 import { useTranslation } from "react-i18next";
 import { withStyles } from "@material-ui/core/styles";
 import ids from "../ids";
 import { nonEmptyField } from "components/utils/validations";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
-import SubscriptionErrorTypographyWithDialog from "../error/SubscriptionErrorTypographyWithDialog";
 import buildID from "components/utils/DebugIDUtil";
 
 import Usages from "./Usages";
@@ -27,62 +20,36 @@ import Quotas from "./Quotas";
 
 function EditQuotasDialog(props) {
     const { open, onClose, parentId, subscription } = props;
-    const [planTypes, setPlanTypes] = useState([]);
-    //const [quotasSubmission, setQuotasSubmission] = useState(null);
-
-    const [failureReason, setFailureReason] = useState(null);
-    const [mutateSubscriptionError, setMutateSubscriptionError] =
-        useState(null);
+    const [quotasSubmission, setQuotasSubmission] = useState(null);
+    const [selectedResourceType, setSelectedResourceType] = useState(null);
+    const [selectedUsername, setSelectedUsername] = useState(null);
+    const [updateQuotasError, setUpdateQuotasError] = useState(null);
     const { t } = useTranslation("subscriptions");
 
-    const preProcessPlanTypes = React.useCallback(
-        (data) => {
-            if (data?.result?.length > 0) {
-                setPlanTypes(data.result.map((type) => type.name));
-            }
-        },
-        [setPlanTypes]
-    );
-
-    // const { mutate: mutateSubscription } = useMutation(
-    //     () => postSubscription(subscriptionSubmission),
-    //     {
-    //         onSuccess: (data) => {
-    //             const dataResult = data?.result[0];
-    //             const isFailed = dataResult?.failure_reason;
-    //             isFailed ? setFailureReason(isFailed) : setFailureReason(null);
-    //             setMutateSubscriptionError(isFailed ? dataResult : null);
-    //             if (!isFailed) {
-    //                 announce({
-    //                     text: "Success",
-    //                 });
-    //                 onClose();
-    //             }
-    //         },
-    //         onError: (err) => {
-    //             setMutateSubscriptionError(err);
-    //             console.log(err);
-    //         },
-    //     }
-    // );
-
     const { mutate: updateQuotas } = useMutation(
-        () => updateUserQuota({ quota: 50001 }, "data.size", "sboleyn"),
+        () =>
+            updateUserQuota(
+                quotasSubmission,
+                selectedResourceType,
+                selectedUsername
+            ),
         {
             onSuccess: (data) => {
-                console.log(
-                    "!!!!!!!!!!!!!!!!!!!Success!!!!!!!!!!!!!!!!!!!!!!!!!!"
-                );
+                announce({
+                    text: t("quotaUpdated"),
+                });
+                setUpdateQuotasError(null);
+                onClose();
             },
-            onError: (err) => {
-                console.log(err);
-                setMutateSubscriptionError(err);
-            },
+            onError: setUpdateQuotasError,
         }
     );
 
     const handleSubmit = (values) => {
-        //setQuotasSubmission(formatQuotas(values));
+        const { quota, resource_type, username } = values;
+        setQuotasSubmission(formatQuotas(quota));
+        setSelectedResourceType(resource_type);
+        setSelectedUsername(username);
         updateQuotas();
     };
 
@@ -92,19 +59,9 @@ function EditQuotasDialog(props) {
     };
 
     const resetState = () => {
-        //setMutateSubscriptionError(null);
-        setFailureReason(null);
-        //setSubscriptionSubmission(null);
+        setUpdateQuotasError(null);
+        setQuotasSubmission(null);
     };
-
-    useQuery({
-        queryKey: [PLAN_TYPES_QUERY_KEY],
-        queryFn: () => getPlanTypes(),
-        enabled: true,
-        staleTime: Infinity,
-        cacheTime: Infinity,
-        onSuccess: preProcessPlanTypes,
-    });
 
     return (
         <>
@@ -156,27 +113,16 @@ function EditQuotasDialog(props) {
                                     </>
                                 }
                             >
-                                {mutateSubscriptionError && !failureReason && (
+                                {updateQuotasError && (
                                     <ErrorTypographyWithDialog
-                                        errorObject={mutateSubscriptionError}
-                                        errorMessage={t(
-                                            "mutateSubscriptionError"
-                                        )}
+                                        errorObject={updateQuotasError}
+                                        errorMessage={t("updateQuotasError")}
                                         baseId={parentId}
                                     />
                                 )}
-                                {mutateSubscriptionError && failureReason && (
-                                    <SubscriptionErrorTypographyWithDialog
-                                        errorObject={mutateSubscriptionError}
-                                        errorMessage={t(
-                                            "mutateSubscriptionError"
-                                        )}
-                                        baseId={parentId}
-                                    />
-                                )}
+
                                 <StyledEditQuotasForm
                                     parentId={parentId}
-                                    planTypes={planTypes}
                                     subscription={subscription}
                                 />
                             </DEDialog>
@@ -191,7 +137,7 @@ function EditQuotasDialog(props) {
 const StyledEditQuotasForm = withStyles(styles)(EditQuotasForm);
 
 function EditQuotasForm(props) {
-    const { parentId, planTypes, subscription } = props;
+    const { parentId, subscription } = props;
     const { t } = useTranslation("subscriptions");
     const { t: i18nUtil } = useTranslation("util");
 
@@ -199,49 +145,27 @@ function EditQuotasForm(props) {
         <>
             <Field
                 component={FormTextField}
-                id={buildID(parentId, ids.EDIT_SUB_DLG.USERNAME)}
+                id={buildID(parentId, ids.EDIT_QUOTAS_DLG.USERNAME)}
                 label={t("username")}
                 name="username"
-                disabled={subscription ? true : false}
+                disabled
                 required
                 validate={(value) => nonEmptyField(value, i18nUtil)}
             />
 
-            <Field name="plan_name">
-                {({ field: { onChange, ...field }, ...props }) => (
-                    <FormSelectField
-                        {...props}
-                        id={buildID(parentId, ids.EDIT_SUB_DLG.PLAN_NAME)}
-                        field={field}
-                        label={t("planName")}
-                        onChange={(event) => {
-                            onChange(event);
-                        }}
-                        required
-                        disabled
-                    >
-                        {planTypes.map((type, index) => (
-                            <MenuItem
-                                id={buildID(
-                                    parentId,
-                                    ids.EDIT_SUB_DLG.PLAN_TYPES
-                                )}
-                                key={index}
-                                value={type}
-                            >
-                                {type}
-                            </MenuItem>
-                        ))}
-                    </FormSelectField>
-                )}
-            </Field>
+            <Field
+                component={FormTextField}
+                id={buildID(parentId, ids.EDIT_QUOTAS_DLG.PLAN_NAME)}
+                label={t("planName")}
+                name="plan_name"
+                disabled
+                required
+                validate={(value) => nonEmptyField(value, i18nUtil)}
+            />
 
             {subscription && (
                 <Quotas
-                    parentId={buildID(
-                        parentId,
-                        ids.EDIT_SUB_DLG.USAGES //FIX
-                    )}
+                    parentId={buildID(parentId, ids.EDIT_QUOTAS_DLG.QUOTAS)}
                     subscription={subscription}
                 />
             )}
@@ -253,7 +177,7 @@ function EditQuotasForm(props) {
                         <Quotas 
                             parentId={buildID(
                                 parentId,
-                                ids.EDIT_SUB_DLG.USAGES //FIX
+                                ids.EDIT_QUOTAS_DLG.QUOTAS
                             )}
                             {...arrayHelpers}
                         />

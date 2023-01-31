@@ -55,14 +55,14 @@ export default function subscriptionsRouter() {
 
     // Administrators can update user quotas for a specified resource type
     logger.info(
-        "adding the POST /admin/qms/users/:username/plan/:resource-type/quota"
+        "adding the POST /admin/qms/users/:username/plan/:resource_type/quota"
     );
     api.post(
-        "/admin/qms/users/:username/plan/:resource-type/quota",
+        "/admin/qms/users/:username/plan/:resource_type/quota",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
-            pathname: "/admin/qms/users/:username/plan/:resource-type/quota",
+            pathname: "/admin/qms/users/:username/plan/:resource_type/quota",
             headers: {
                 "Content-Type": "application/json",
             },

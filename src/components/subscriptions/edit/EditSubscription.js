@@ -22,7 +22,6 @@ import SubscriptionErrorTypographyWithDialog from "../error/SubscriptionErrorTyp
 import buildID from "components/utils/DebugIDUtil";
 
 import Usages from "./Usages";
-// import Quotas from "./Quotas";
 
 function EditSubscriptionDialog(props) {
     const { open, onClose, parentId, subscription } = props;
@@ -36,7 +35,9 @@ function EditSubscriptionDialog(props) {
     const preProcessPlanTypes = React.useCallback(
         (data) => {
             if (data?.result?.length > 0) {
-                setPlanTypes(data.result.map((type) => type.name));
+                let types = [];
+                data.result.forEach((type) => types.push(type.name));
+                setPlanTypes(types);
             }
         },
         [setPlanTypes]

@@ -67,28 +67,28 @@ function DetailsPanel(props) {
                         spacing={3}
                         id={buildID(baseId, details.id, "subscriptionDetails")}
                     >
-                        <GridLabelValue label={t("username") + t("colon")}>
+                        <GridLabelValue label={t("username")}>
                             {details?.user.username}
                         </GridLabelValue>
-                        <GridLabelValue label={t("startDate") + t("colon")}>
+                        <GridLabelValue label={t("startDate")}>
                             {formatDateObject(
                                 details.effective_start_date &&
                                     new Date(details.effective_start_date)
                             )}
                         </GridLabelValue>
-                        <GridLabelValue label={t("endDate") + t("colon")}>
+                        <GridLabelValue label={t("endDate")}>
                             {formatDateObject(
                                 details.effective_end_date &&
                                     new Date(details.effective_end_date)
                             )}
                         </GridLabelValue>
-                        <GridLabelValue label={t("planName") + t("colon")}>
+                        <GridLabelValue label={t("planName")}>
                             {details?.plan.name}
                         </GridLabelValue>
-                        <GridLabelValue label={t("quotas") + t("colon")}>
+                        <GridLabelValue label={t("quotas")}>
                             <QuotasDetails details={details} />
                         </GridLabelValue>
-                        <GridLabelValue label={t("usages") + t("colon")}>
+                        <GridLabelValue label={t("usages")}>
                             <UsagesDetails details={details} />
                         </GridLabelValue>
                     </Grid>

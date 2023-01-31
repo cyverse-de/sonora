@@ -16,7 +16,7 @@ export function mapPropsToValues(subscription) {
             username: user.username,
             plan_name: plan.name,
             quota: quotas[0].quota,
-            resource_type: quotas[0].resource_type.unit,
+            resource_type: quotas[0].resource_type.name,
         };
 
         if (usages.length) {
@@ -48,16 +48,12 @@ export function formatSubscriptions(values) {
     return submission;
 }
 
-export function formatQuotas(values) {
-    const { username, quotas } = values;
-
-    const submission = {
-        username,
-        quota: quotas.quota,
-        resource_type: quotas.resource_type,
+export function formatQuotas(quotaValue) {
+    const quota = {
+        quota: quotaValue,
     };
 
-    return submission;
+    return quota;
 }
 
 // export function mapPropsToValues(subscription) {

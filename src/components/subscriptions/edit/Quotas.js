@@ -2,30 +2,31 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 import { Field } from "formik";
-import { MenuItem, Table, TableBody, TableCell } from "@material-ui/core";
-import SimpleExpansionPanel from "../SimpleExpansionPanel";
-import { DERow } from "components/table/DERow";
-import DETableHead from "components/table/DETableHead";
-
-import buildID from "components/utils/DebugIDUtil";
 import ids from "../ids";
 
+import { MenuItem, Table, TableBody, TableCell } from "@material-ui/core";
+import SimpleExpansionPanel from "../SimpleExpansionPanel";
+
+import { DERow } from "components/table/DERow";
+import DETableHead from "components/table/DETableHead";
+import buildID from "components/utils/DebugIDUtil";
 import EmptyTable from "components/table/EmptyTable";
 import FormSelectField from "components/forms/FormSelectField";
-// import FormTextField from "components/forms/FormTextField";
 import FormNumberField from "components/forms/FormNumberField";
+import { nonEmptyMinValue } from "components/utils/validations";
 
 const TABLE_COLUMNS = [
     { name: "Quota", numeric: true, enableSorting: false },
-    { name: "Unit", numeric: false, enableSorting: false },
+    { name: "Name", numeric: false, enableSorting: false },
 ];
 
 function Quotas(props) {
     const { parentId, subscription } = props;
     const { t } = useTranslation("subscriptions");
+    const { t: i18nUtil } = useTranslation("util");
     const resourceTypes = [];
     subscription.quotas.forEach((resource) => {
-        resourceTypes.push(resource.resource_type?.unit);
+        resourceTypes.push(resource.resource_type?.name);
     });
 
     return (
@@ -38,16 +39,20 @@ function Quotas(props) {
                             numColumns={TABLE_COLUMNS.length}
                         />
                     )}
-                    {/* FIX THE KEY  */}
                     <DERow tabIndex={-1} key={1}>
                         <TableCell>
                             <Field
-                                name={"quota"}
+                                name="quota"
                                 id={buildID(
                                     parentId,
-                                    ids.EDIT_SUB_DLG.QUOTAS // FIX
+                                    ids.EDIT_QUOTAS_DLG.QUOTAS
                                 )}
                                 fullWidth={false}
+                                label={t("quota")}
+                                required
+                                validate={(value) =>
+                                    nonEmptyMinValue(value, i18nUtil)
+                                }
                                 component={FormNumberField}
                             />
                         </TableCell>
@@ -61,10 +66,10 @@ function Quotas(props) {
                                         {...props}
                                         id={buildID(
                                             parentId,
-                                            ids.EDIT_SUB_DLG.PLAN_NAME //FIX
+                                            ids.EDIT_QUOTAS_DLG.RESOURCE_TYPE
                                         )}
                                         field={field}
-                                        label={t("planName")} //FIX
+                                        label={t("resourceType")}
                                         onChange={(event) => {
                                             onChange(event);
                                         }}
@@ -74,7 +79,8 @@ function Quotas(props) {
                                             <MenuItem
                                                 id={buildID(
                                                     parentId,
-                                                    ids.EDIT_SUB_DLG.PLAN_TYPES
+                                                    ids.EDIT_QUOTAS_DLG
+                                                        .RESOURCE_NAME
                                                 )}
                                                 key={index}
                                                 value={type}
@@ -159,7 +165,7 @@ export default Quotas;
 //                                         id={buildID(
 //                                             parentId,
 //                                             index,
-//                                             ids.EDIT_SUB_DLG.QUOTAS
+//                                             ids.EDIT_QUOTAS_DLG.QUOTAS
 //                                         )}
 //                                         fullWidth={false}
 //                                         component={FormNumberField}
@@ -171,7 +177,7 @@ export default Quotas;
 //                                         id={buildID(
 //                                             parentId,
 //                                             index,
-//                                             ids.EDIT_SUB_DLG.QUOTAS_RESOURCE_TYPE
+//                                             ids.EDIT_QUOTAS_DLG.QUOTAS_RESOURCE_TYPE
 //                                         )}
 //                                         fullWidth={false}
 //                                         disabled

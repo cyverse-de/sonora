@@ -54,13 +54,6 @@ function postSubscription(subscription) {
 }
 
 // Administrators can update user quotas for a specified resource type
-// function updateUserQuota(quotaValue, resourceType, username){
-//     return callApi({
-//         endpoint: `api/admin/qms/users/${username}/plan/${resourceType}/quota`,
-//         method: "POST",
-//         body: {quota: quotaValue}
-//     })
-// }
 function updateUserQuota(quota, resourceType, username) {
     return callApi({
         endpoint: `/api/admin/qms/users/${username}/plan/${resourceType}/quota`,

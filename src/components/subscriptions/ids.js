@@ -8,6 +8,10 @@ export default {
     EDIT_QUOTAS_DLG: {
         USERNAME: "username",
         PLAN_NAME: "planName",
+        PLAN_TYPES: "planTypes",
+        QUOTAS: "quotas",
+        RESOURCE_NAME: "resourceName",
+        RESOURCE_TYPE: "resourceType",
     },
     EDIT_SUB_DLG: {
         PLAN_NAME: "planName",

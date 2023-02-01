@@ -6,8 +6,9 @@ import ids from "../ids";
 import buildID from "components/utils/DebugIDUtil";
 
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
-import { Edit } from "@material-ui/icons";
+//import { Edit } from "@material-ui/icons";
 
+import { EditOutlined } from "@material-ui/icons";
 export default function EditQuotasMenuItem(props) {
     const { baseId, onEditSelected, onClose } = props;
 
@@ -22,7 +23,7 @@ export default function EditQuotasMenuItem(props) {
             }}
         >
             <ListItemIcon>
-                <Edit fontSize="small" />
+                <EditOutlined fontSize="small" />
             </ListItemIcon>
             <ListItemText primary={t("editQuotas")} />
         </MenuItem>

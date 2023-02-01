@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { mapPropsToValues, formatQuotas } from "./formatters";
 import DEDialog from "components/utils/DEDialog";
 import { Button } from "@material-ui/core";
 import FormTextField from "components/forms/FormTextField";
 import styles from "../styles";
-import { updateUserQuota } from "serviceFacades/subscriptions";
+import {
+    updateUserQuota,
+    SUBSCRIPTIONS_QUERY_KEY,
+} from "serviceFacades/subscriptions";
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { useTranslation } from "react-i18next";
 import { withStyles } from "@material-ui/core/styles";
@@ -25,6 +28,7 @@ function EditQuotasDialog(props) {
     const [selectedUsername, setSelectedUsername] = useState(null);
     const [updateQuotasError, setUpdateQuotasError] = useState(null);
     const { t } = useTranslation("subscriptions");
+    const queryClient = useQueryClient();
 
     const { mutate: updateQuotas } = useMutation(
         () =>
@@ -38,6 +42,7 @@ function EditQuotasDialog(props) {
                 announce({
                     text: t("quotaUpdated"),
                 });
+                queryClient.invalidateQueries(SUBSCRIPTIONS_QUERY_KEY);
                 setUpdateQuotasError(null);
                 onClose();
             },

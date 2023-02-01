@@ -15,8 +15,8 @@ import FormTextField from "components/forms/FormTextField";
 import FormNumberField from "components/forms/FormNumberField";
 
 const TABLE_COLUMNS = [
-    { name: "Usage", numeric: true, enableSorting: false, align: "right" },
-    { name: "Unit", numeric: false, enableSorting: false },
+    { name: "Usage", numeric: false, enableSorting: false },
+    { name: "Name", numeric: false, enableSorting: false },
 ];
 
 function Usages(props) {
@@ -57,7 +57,7 @@ function Usages(props) {
                                 </TableCell>
                                 <TableCell>
                                     <Field
-                                        name={`${name}.${index}.resource_type.unit`}
+                                        name={`${name}.${index}.resource_type.name`}
                                         id={buildID(
                                             parentId,
                                             index,

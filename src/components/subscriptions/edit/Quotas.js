@@ -16,7 +16,7 @@ import FormNumberField from "components/forms/FormNumberField";
 import { nonEmptyMinValue } from "components/utils/validations";
 
 const TABLE_COLUMNS = [
-    { name: "Quota", numeric: true, enableSorting: false },
+    { name: "Quota", numeric: false, enableSorting: false },
     { name: "Name", numeric: false, enableSorting: false },
 ];
 

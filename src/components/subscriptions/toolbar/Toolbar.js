@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, Toolbar, useTheme } from "@material-ui/core";
+import { Button, Toolbar, useTheme, Tooltip } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
 import { useTranslation } from "i18n";
@@ -27,16 +27,22 @@ function SubscriptionsToolbar(props) {
                         value={searchTerm}
                         placeholder={t("searchUsers")}
                     />
-                    <Button
-                        id={buildID(toolbarId, ids.ADD_BUTTON)}
-                        variant="outlined"
-                        style={{ marginLeft: theme.spacing(2) }}
-                        color="primary"
-                        startIcon={<AddIcon />}
-                        onClick={() => setAddDialogOpen(true)}
+
+                    <Tooltip
+                        title={t("addTooltip")}
+                        id={buildID(baseId, ids.ADD_BUTTON_TOOLTIP)}
                     >
-                        {t("add")}
-                    </Button>
+                        <Button
+                            id={buildID(toolbarId, ids.ADD_BUTTON)}
+                            variant="outlined"
+                            style={{ marginLeft: theme.spacing(2) }}
+                            color="primary"
+                            startIcon={<AddIcon />}
+                            onClick={() => setAddDialogOpen(true)}
+                        >
+                            {t("add")}
+                        </Button>
+                    </Tooltip>
 
                     <EditSubscriptionDialog
                         open={addDialogOpen}

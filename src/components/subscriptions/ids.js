@@ -1,5 +1,6 @@
 export default {
     ADD_BUTTON: "addButton",
+    ADD_BUTTON_TOOLTIP: "addButtonTooltip",
     CANCEL_BUTTON: "cancelButton",
     DETAILS_DRAWER: "detailsDrawer",
     DETAILS_MENU_ITEM: "detail",

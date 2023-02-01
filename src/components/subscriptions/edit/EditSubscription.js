@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { mapPropsToValues, formatSubscriptions } from "./formatters";
 import DEDialog from "components/utils/DEDialog";
@@ -23,6 +23,8 @@ import buildID from "components/utils/DebugIDUtil";
 
 import Usages from "./Usages";
 
+import { SUBSCRIPTIONS_QUERY_KEY } from "serviceFacades/subscriptions";
+
 function EditSubscriptionDialog(props) {
     const { open, onClose, parentId, subscription } = props;
     const [planTypes, setPlanTypes] = useState([]);
@@ -31,6 +33,7 @@ function EditSubscriptionDialog(props) {
     const [mutateSubscriptionError, setMutateSubscriptionError] =
         useState(null);
     const { t } = useTranslation("subscriptions");
+    const queryClient = useQueryClient();
 
     const preProcessPlanTypes = React.useCallback(
         (data) => {
@@ -51,9 +54,10 @@ function EditSubscriptionDialog(props) {
                 const isFailed = dataResult?.failure_reason;
                 isFailed ? setFailureReason(isFailed) : setFailureReason(null);
                 setMutateSubscriptionError(isFailed ? dataResult : null);
+                queryClient.invalidateQueries(SUBSCRIPTIONS_QUERY_KEY);
                 if (!isFailed) {
                     announce({
-                        text: "Success",
+                        text: "Success", //FIX
                     });
                     onClose();
                 }

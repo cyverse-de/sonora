@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { useTranslation } from "i18n";
 
 import {
     Box,
+    Divider,
     Drawer,
     Grid,
-    //IconButton,
     makeStyles,
     Typography,
     useMediaQuery,
     useTheme,
 } from "@material-ui/core";
-//import { Edit } from "@material-ui/icons";
 
 import { formatDateObject } from "components/utils/DateFormatter";
 import GridLabelValue from "components/utils/GridLabelValue";
@@ -27,24 +26,24 @@ const TABS = {
 const useStyles = makeStyles((theme) => ({
     drawerPaper: {
         [theme.breakpoints.up("lg")]: {
-            width: "25%",
+            maxWidth: "25%",
         },
         [theme.breakpoints.down("lg")]: {
-            width: "50%",
+            maxWidth: "50%",
         },
         [theme.breakpoints.down("sm")]: {
-            width: "90%",
+            maxWidth: "90%",
         },
     },
     drawerHeader: {
         margin: theme.spacing(1),
-        height: "4em",
+        height: "3em",
         display: "flex",
         flexDirection: "row",
         maxWidth: "100%",
     },
     drawerSubheader: {
-        marginLeft: theme.spacing(1),
+        margin: theme.spacing(1),
         display: "flex",
         flexDirection: "row",
         maxWidth: "100%",
@@ -59,7 +58,6 @@ function DetailsPanel(props) {
 
     return (
         <>
-            {/* <Divider/> */}
             <Typography component="div">
                 <Box p={isMobile ? 1 : 3}>
                     <Grid
@@ -67,9 +65,6 @@ function DetailsPanel(props) {
                         spacing={3}
                         id={buildID(baseId, details.id, "subscriptionDetails")}
                     >
-                        <GridLabelValue label={t("username")}>
-                            {details?.user.username}
-                        </GridLabelValue>
                         <GridLabelValue label={t("startDate")}>
                             {formatDateObject(
                                 details.effective_start_date &&
@@ -125,12 +120,13 @@ function SubscriptionDrawer(props) {
         selectedSubscription,
     } = props;
     const classes = useStyles();
-    const [selectedTab, setSelectedTab] = useState("Details");
     const drawerId = buildID(baseId, ids.DETAILS_DRAWER);
     const detailsTabId = buildID(drawerId, ids.DETAILS_TAB);
     const { t } = useTranslation("subscriptions");
 
-    //const username = selectedSubscription?.user.username;
+    const selectedTab = t("details");
+
+    const username = selectedSubscription?.user.username;
     return (
         <>
             <Drawer
@@ -143,9 +139,7 @@ function SubscriptionDrawer(props) {
                     variant: "outlined",
                 }}
             >
-                {/* <SubscriptionHeader baseId={baseId} username={username}/> */}
-
-                <DETabs value={selectedTab} onChange={setSelectedTab}>
+                <DETabs value={selectedTab}>
                     <DETab
                         value={TABS.subscriptionDetails}
                         label={t("subscriptionDetailsTabLabel")}
@@ -157,6 +151,8 @@ function SubscriptionDrawer(props) {
                     value={TABS.subscriptionDetails}
                     selectedTab={selectedTab}
                 >
+                    <SubscriptionHeader baseId={baseId} username={username} />
+                    <Divider />
                     <SubscriptionSubheader />
                     <DetailsPanel
                         baseId={baseId}
@@ -169,22 +165,21 @@ function SubscriptionDrawer(props) {
     );
 }
 
-// function SubscriptionHeader(props){
-//     const {baseId, username} = props;
-//     const classes = useStyles();
-//     return(
-//         <>
-//             <div className={classes.drawerHeader}>
-//                 <Typography variant="h6" component="span">
-//                     {username}
-//                 </Typography>
-//             </div>
-//         </>
-//     )
-// }
+function SubscriptionHeader(props) {
+    const { username } = props;
+    const classes = useStyles();
+    return (
+        <>
+            <div className={classes.drawerHeader}>
+                <Typography variant="h6" component="span">
+                    {username}
+                </Typography>
+            </div>
+        </>
+    );
+}
 
 function SubscriptionSubheader() {
-    //const { baseId } = props;
     const { t } = useTranslation("subscriptions");
     const classes = useStyles();
 
@@ -201,6 +196,8 @@ function SubscriptionSubheader() {
 
 function UsagesDetails(props) {
     const { details } = props;
+    const { t } = useTranslation("subscriptions");
+
     return (
         <>
             {details &&
@@ -212,6 +209,10 @@ function UsagesDetails(props) {
                         </Typography>
                     );
                 })}
+
+            {details && !details.usages.length && (
+                <Typography>{t("noUsages")}</Typography>
+            )}
         </>
     );
 }

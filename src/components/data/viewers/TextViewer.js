@@ -45,8 +45,8 @@ export default function TextViewer(props) {
 
     const [showLineNumbers, setShowLineNumbers] = useState(true);
     const [wrapText, setWrapText] = useState(false);
+    const [initialValue, setInitialValue] = useState();
     const [editorValue, setEditorValue] = useState();
-    const [editorInstance, setEditorInstance] = useState(null);
     const [dirty, setDirty] = useState(false);
     const [isFileSaving, setFileSaving] = React.useState();
     const [detectedMode, setDetectedMode] = useState("");
@@ -56,17 +56,13 @@ export default function TextViewer(props) {
         detectedMode === viewerConstants.GITHUB_FLAVOR_MARKDOWN;
 
     useEffect(() => {
-        if (editorInstance) {
-            editorInstance.setSize(
-                "100%",
-                viewerConstants.DEFAULT_VIEWER_HEIGHT
-            );
-        }
-    }, [editorInstance]);
-
-    useEffect(() => {
+        setInitialValue(data);
         setEditorValue(data);
     }, [data]);
+
+    useEffect(() => {
+        setDirty(editorValue !== initialValue);
+    }, [initialValue, editorValue]);
 
     const getContent = () => {
         return editorValue;
@@ -144,6 +140,7 @@ export default function TextViewer(props) {
                 onSaveComplete={(details) => {
                     setFileSaving(false);
                     setDirty(false);
+                    setInitialValue(editorValue);
                     if (createFileType) {
                         updateNewFileMetadata(details);
                     }
@@ -166,11 +163,8 @@ export default function TextViewer(props) {
                             showLineNumbers={showLineNumbers}
                             editable={editable}
                             wrapText={wrapText}
-                            editorInstance={editorInstance}
-                            setEditorInstance={setEditorInstance}
+                            initialValue={initialValue}
                             setEditorValue={setEditorValue}
-                            setDirty={setDirty}
-                            editorValue={editorValue}
                         />
                     }
                     rightPanel={<MarkdownPreview markdown={editorValue} />}
@@ -185,11 +179,8 @@ export default function TextViewer(props) {
                     showLineNumbers={showLineNumbers}
                     editable={editable}
                     wrapText={wrapText}
-                    editorInstance={editorInstance}
-                    setEditorInstance={setEditorInstance}
+                    initialValue={initialValue}
                     setEditorValue={setEditorValue}
-                    setDirty={setDirty}
-                    editorValue={editorValue}
                 />
             )}
         </>

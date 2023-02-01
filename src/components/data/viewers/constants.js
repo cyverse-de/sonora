@@ -10,7 +10,7 @@ export const CODE_MIRROR_MODES = {
 
 export default {
     DEFAULT_PAGE_SIZE: 8388608,
-    DEFAULT_VIEWER_HEIGHT: "75vh",
+    DEFAULT_VIEWER_HEIGHT: "70vh",
     COMMA_DELIMITER: ",",
     TAB_DELIMITER: "\t",
     SPACE_DELIMITER: " ",

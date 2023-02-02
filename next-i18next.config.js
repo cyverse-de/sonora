@@ -1,7 +1,13 @@
 const path = require("path");
 
+const isProduction = process.env.NODE_ENV === "production";
+const localePath =
+    typeof window === "undefined"
+        ? path.resolve("./public/static/locales")
+        : "/static/locales";
+
 module.exports = {
-    debug: true,
+    debug: !isProduction,
     i18n: {
         defaultLocale: "en",
         locales: ["en"],
@@ -10,11 +16,11 @@ module.exports = {
          */
         localeDetection: false,
     },
-    // fallbackLng: ["en"],
-    localePath: path.resolve("./public/static/locales"),
+    fallbackLng: ["en"],
+    localePath,
     /**
      * updates to your translation JSON files without having
      * to restart your development server
      */
-    reloadOnPrerender: process.env.NODE_ENV !== "production",
+    reloadOnPrerender: !isProduction,
 };

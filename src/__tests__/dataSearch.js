@@ -4,7 +4,7 @@ import { mockAxios } from "../../stories/axiosMock";
 import TestRenderer from "react-test-renderer";
 import { ConfigProvider } from "contexts/config";
 import { UserProfileProvider } from "contexts/userProfile";
-import { I18nProviderWrapper } from "../i18n";
+import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { RQWrapper } from "../__mocks__/RQWrapper";
 import { clearEmptyValues } from "components/search/form";
 import { AdvancedSearchForm } from "../../stories/search/AdvancedSearchForm.stories";

@@ -7,7 +7,7 @@ import {
     KitchenSinkEditor,
 } from "../../../stories/apps/Editor.stories";
 
-import { I18nProviderWrapper } from "../../i18n";
+import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 
 beforeEach(() => {
     mockAxios.reset();

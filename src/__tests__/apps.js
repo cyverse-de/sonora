@@ -4,7 +4,7 @@ import TestRenderer from "react-test-renderer";
 import { AppsTableViewTest } from "../../stories/apps/TableView.stories";
 import { mockAxios } from "../../stories/axiosMock";
 import { AppsListingTest } from "../../stories/apps/Listing.stories";
-import { I18nProviderWrapper } from "../i18n";
+import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { UserProfileProvider } from "contexts/userProfile";
 import { ConfigProvider } from "contexts/config";
 import { RQWrapper } from "../__mocks__/RQWrapper";

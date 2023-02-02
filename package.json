@@ -145,6 +145,7 @@
         "eslint-plugin-react-hooks": "^1.7.0",
         "fetch-mock": "^9.5.0",
         "husky": "^4.0.10",
+        "i18next-http-backend": "^2.1.1",
         "jest": "^26.6.3",
         "jest-next-dynamic": "^1.0.1",
         "jsdoc": "^3.6.3",

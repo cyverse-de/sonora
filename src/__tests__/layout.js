@@ -2,7 +2,7 @@ import React from "react";
 import preloadAll from "jest-next-dynamic";
 import renderer from "react-test-renderer";
 import { NormalView } from "../../stories/AppBar.stories";
-import { I18nProviderWrapper } from "../i18n";
+import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { ConfigProvider } from "../contexts/config";
 import { BootstrapInfoProvider } from "contexts/bootstrap";
 import { RQWrapper } from "../__mocks__/RQWrapper";

@@ -1,6 +1,6 @@
 /**
  * @author sboleyn
- *  Wraps ErrorHandler in a Dialog
+ *  Wraps SubscriptionErrorHandler in a Dialog
  *
  **/
 

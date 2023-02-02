@@ -18,7 +18,7 @@ import subscriptionFields from "../subscriptionsFields";
 import buildID from "components/utils/DebugIDUtil";
 import DECheckbox from "components/utils/DECheckbox";
 
-import { formatDate } from "components/utils/DateFormatter";
+import { formatDateObject } from "components/utils/DateFormatter";
 
 import PageWrapper from "components/layout/PageWrapper";
 import RowDotMenu from "./RowDotMenu";
@@ -202,7 +202,12 @@ function TableView(props) {
                                                     )}
                                                 >
                                                     <Typography variant="body2">
-                                                        {formatDate(startDate)}
+                                                        {formatDateObject(
+                                                            startDate &&
+                                                                new Date(
+                                                                    startDate
+                                                                )
+                                                        )}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell
@@ -212,7 +217,12 @@ function TableView(props) {
                                                     )}
                                                 >
                                                     <Typography variant="body2">
-                                                        {formatDate(endDate)}
+                                                        {formatDateObject(
+                                                            endDate &&
+                                                                new Date(
+                                                                    endDate
+                                                                )
+                                                        )}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell

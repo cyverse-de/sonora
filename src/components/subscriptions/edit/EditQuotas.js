@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import { Field, FieldArray, Form, Formik } from "formik";
-import { mapPropsToValues, formatQuotas } from "./formatters";
+import { mapPropsToValues } from "./formatters";
 import DEDialog from "components/utils/DEDialog";
 import { Button } from "@material-ui/core";
 import FormTextField from "components/forms/FormTextField";
 import styles from "../styles";
 import {
-    updateUserQuota,
+    updateUserQuotas,
+    getSubscriptions,
     SUBSCRIPTIONS_QUERY_KEY,
 } from "serviceFacades/subscriptions";
 import { announce } from "components/announcer/CyVerseAnnouncer";
@@ -23,22 +24,30 @@ import Quotas from "./Quotas";
 
 function EditQuotasDialog(props) {
     const { open, onClose, parentId, subscription } = props;
-    const [quotasSubmission, setQuotasSubmission] = useState(null);
-    const [selectedResourceType, setSelectedResourceType] = useState(null);
+    const [quotasSubmission, setQuotasSubmission] = useState([]);
     const [selectedUsername, setSelectedUsername] = useState(null);
     const [updateQuotasError, setUpdateQuotasError] = useState(null);
     const { t } = useTranslation("subscriptions");
     const queryClient = useQueryClient();
+    const [selectedSubscription, setSelectedSubscription] = useState(null);
+
+    useQuery({
+        queryKey: [
+            SUBSCRIPTIONS_QUERY_KEY,
+            { parentId: parentId, user: subscription?.user.username },
+        ],
+        queryFn: () =>
+            getSubscriptions({ searchTerm: subscription?.user.username }),
+        enabled: true,
+        onSuccess: (data) => {
+            setSelectedSubscription(data.result.subscriptions[0]);
+        },
+    });
 
     const { mutate: updateQuotas } = useMutation(
-        () =>
-            updateUserQuota(
-                quotasSubmission,
-                selectedResourceType,
-                selectedUsername
-            ),
+        () => updateUserQuotas(quotasSubmission, selectedUsername),
         {
-            onSuccess: (data) => {
+            onSuccess: (_data) => {
                 announce({
                     text: t("quotaUpdated"),
                 });
@@ -51,10 +60,9 @@ function EditQuotasDialog(props) {
     );
 
     const handleSubmit = (values) => {
-        const { quota, resource_type, username } = values;
-        setQuotasSubmission(formatQuotas(quota));
-        setSelectedResourceType(resource_type);
+        const { quotas, username } = values;
         setSelectedUsername(username);
+        setQuotasSubmission(quotas);
         updateQuotas();
     };
 
@@ -69,73 +77,68 @@ function EditQuotasDialog(props) {
     };
 
     return (
-        <>
-            <Formik
-                initialValues={mapPropsToValues(subscription)}
-                onSubmit={handleSubmit}
-                enableReinitialize={true}
-            >
-                {({ handleSubmit, ...props }) => {
-                    return (
-                        <Form>
-                            <DEDialog
-                                {...props}
-                                id={parentId}
-                                open={open}
-                                onClose={() => {
-                                    onCloseForm();
-                                    props.resetForm();
-                                }}
-                                fullWidth={true}
-                                title={t("editQuotas")}
-                                actions={
-                                    <>
-                                        <Button
-                                            {...props}
-                                            id={buildID(
-                                                parentId,
-                                                ids.CANCEL_BUTTON
-                                            )}
-                                            onClick={() => {
-                                                onCloseForm();
-                                                props.resetForm();
-                                            }}
-                                        >
-                                            {t("cancel")}
-                                        </Button>
+        <Formik
+            initialValues={mapPropsToValues(selectedSubscription)}
+            onSubmit={handleSubmit}
+            enableReinitialize={true}
+        >
+            {({ handleSubmit, ...props }) => {
+                return (
+                    <Form>
+                        <DEDialog
+                            {...props}
+                            id={parentId}
+                            open={open}
+                            onClose={() => {
+                                onCloseForm();
+                                props.resetForm();
+                            }}
+                            fullWidth={true}
+                            title={t("editQuotas")}
+                            actions={
+                                <>
+                                    <Button
+                                        {...props}
+                                        id={buildID(
+                                            parentId,
+                                            ids.CANCEL_BUTTON
+                                        )}
+                                        onClick={() => {
+                                            onCloseForm();
+                                            props.resetForm();
+                                        }}
+                                    >
+                                        {t("cancel")}
+                                    </Button>
 
-                                        <Button
-                                            id={buildID(
-                                                parentId,
-                                                ids.SAVE_BUTTON
-                                            )}
-                                            type="submit"
-                                            color="primary"
-                                            onClick={handleSubmit}
-                                        >
-                                            {t("submit")}
-                                        </Button>
-                                    </>
-                                }
-                            >
-                                {updateQuotasError && (
-                                    <ErrorTypographyWithDialog
-                                        errorObject={updateQuotasError}
-                                        errorMessage={t("updateQuotasError")}
-                                        baseId={parentId}
-                                    />
-                                )}
-
-                                <StyledEditQuotasForm
-                                    parentId={parentId}
-                                    subscription={subscription}
+                                    <Button
+                                        id={buildID(parentId, ids.SAVE_BUTTON)}
+                                        type="submit"
+                                        color="primary"
+                                        onClick={handleSubmit}
+                                    >
+                                        {t("submit")}
+                                    </Button>
+                                </>
+                            }
+                        >
+                            {updateQuotasError && (
+                                <ErrorTypographyWithDialog
+                                    errorObject={updateQuotasError}
+                                    errorMessage={t("updateQuotasError")}
+                                    baseId={parentId}
                                 />
-                            </DEDialog>
-                        </Form>
-                    );
-                }}
-            </Formik>
-        </>
+                            )}
+
+                            <StyledEditQuotasForm
+                                parentId={parentId}
+                                subscription={selectedSubscription}
+                            />
+                        </DEDialog>
+                    </Form>
+                );
+            }}
+        </Formik>
     );
 }
 
@@ -145,7 +148,6 @@ function EditQuotasForm(props) {
     const { parentId, subscription } = props;
     const { t } = useTranslation("subscriptions");
     const { t: i18nUtil } = useTranslation("util");
-
     return (
         <>
             <Field
@@ -169,26 +171,20 @@ function EditQuotasForm(props) {
             />
 
             {subscription && (
-                <Quotas
-                    parentId={buildID(parentId, ids.EDIT_QUOTAS_DLG.QUOTAS)}
-                    subscription={subscription}
-                />
-            )}
-
-            {/* {subscription && (
                 <FieldArray
-                    name = {"quotas"}
+                    name={"quotas"}
                     render={(arrayHelpers) => (
-                        <Quotas 
+                        <Quotas
                             parentId={buildID(
                                 parentId,
                                 ids.EDIT_QUOTAS_DLG.QUOTAS
                             )}
+                            subscription={subscription}
                             {...arrayHelpers}
                         />
                     )}
                 />
-            )} */}
+            )}
 
             {subscription && (
                 <FieldArray

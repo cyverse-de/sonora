@@ -4,6 +4,7 @@ export default {
     CANCEL_BUTTON: "cancelButton",
     DETAILS_DRAWER: "detailsDrawer",
     DETAILS_MENU_ITEM: "detail",
+    DETAILS_PANEL: "detailsPanel",
     DETAILS_TAB: "detailsTab",
     EDIT_MENU_ITEM: "edit",
     EDIT_QUOTAS_DLG: {

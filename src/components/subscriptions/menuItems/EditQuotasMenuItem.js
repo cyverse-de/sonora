@@ -6,7 +6,6 @@ import ids from "../ids";
 import buildID from "components/utils/DebugIDUtil";
 
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
-//import { Edit } from "@material-ui/icons";
 
 import { EditOutlined } from "@material-ui/icons";
 export default function EditQuotasMenuItem(props) {

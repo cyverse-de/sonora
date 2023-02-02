@@ -8,7 +8,7 @@
 
 import React, { useCallback } from "react";
 import { useRouter } from "next/router";
-import Listing from "../../components/subscriptions/listing/Listing";
+import Listing from "components/subscriptions/listing/Listing";
 
 import NavigationConstants from "common/NavigationConstants";
 import { useUserProfile } from "contexts/userProfile";
@@ -52,18 +52,16 @@ export default function Subscriptions() {
         return <NotAuthorized />;
     } else {
         return (
-            <>
-                <Listing
-                    baseId="subscription"
-                    isAdminView={isAdmin}
-                    onRouteToListing={onRouteToListing}
-                    order={selectedOrder}
-                    orderBy={selectedOrderBy}
-                    page={selectedPage}
-                    rowsPerPage={selectedRowsPerPage}
-                    searchTerm={searchTerm}
-                />
-            </>
+            <Listing
+                baseId="subscription"
+                isAdminView={isAdmin}
+                onRouteToListing={onRouteToListing}
+                order={selectedOrder}
+                orderBy={selectedOrderBy}
+                page={selectedPage}
+                rowsPerPage={selectedRowsPerPage}
+                searchTerm={searchTerm}
+            />
         );
     }
 }

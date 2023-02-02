@@ -19,28 +19,26 @@ function RowDotMenu(props) {
     } = props;
 
     return (
-        <>
-            <DotMenu
-                baseId={baseId}
-                render={(onClose) => [
-                    <DetailsMenuItem
-                        baseId={baseId}
-                        onDetailsSelected={onDetailsSelected}
-                        onClose={onClose}
-                    />,
-                    <EditSubscriptionMenuItem
-                        baseId={baseId}
-                        onEditSelected={onEditSubscriptionSelected}
-                        onClose={onClose}
-                    />,
-                    <EditQuotasMenuItem
-                        baseId={baseId}
-                        onEditSelected={onEditQuotasSelected}
-                        onClose={onClose}
-                    />,
-                ]}
-            />
-        </>
+        <DotMenu
+            baseId={baseId}
+            render={(onClose) => [
+                <DetailsMenuItem
+                    baseId={baseId}
+                    onDetailsSelected={onDetailsSelected}
+                    onClose={onClose}
+                />,
+                <EditSubscriptionMenuItem
+                    baseId={baseId}
+                    onEditSelected={onEditSubscriptionSelected}
+                    onClose={onClose}
+                />,
+                <EditQuotasMenuItem
+                    baseId={baseId}
+                    onEditSelected={onEditQuotasSelected}
+                    onClose={onClose}
+                />,
+            ]}
+        />
     );
 }
 

@@ -32,8 +32,8 @@ function getSubscriptions({ searchTerm, order, orderBy, page, rowsPerPage }) {
     }
 
     if (isPaginated) {
-        params["limit"] = rowsPerPage;
-        params["offset"] = page * rowsPerPage;
+        params.limit = rowsPerPage;
+        params.offset = page * rowsPerPage;
     }
 
     return callApi({
@@ -62,11 +62,27 @@ function updateUserQuota(quota, resourceType, username) {
     });
 }
 
+function updateUserQuotas(quotas, username) {
+    return (
+        quotas &&
+        quotas.length > 0 &&
+        Promise.all(
+            quotas.map((resource) =>
+                updateUserQuota(
+                    { quota: resource.quota },
+                    resource.resource_type.name,
+                    username
+                )
+            )
+        )
+    );
+}
+
 export {
     getPlanTypes,
     getSubscriptions,
     postSubscription,
-    updateUserQuota,
+    updateUserQuotas,
     PLAN_TYPES_QUERY_KEY,
     SUBSCRIPTIONS_QUERY_KEY,
 };

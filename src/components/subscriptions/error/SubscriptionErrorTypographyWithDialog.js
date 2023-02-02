@@ -1,5 +1,6 @@
 /**
- * A wrapper component to display an ErrorTypography and a DEErrorDialog.
+ * A wrapper component to display an ErrorTypography and a SubscriptionErrorDialog.
+ * This component handles for custom error responses for subscription update errors.
  *
  * @author sboleyn
  */

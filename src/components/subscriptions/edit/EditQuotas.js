@@ -86,7 +86,6 @@ function EditQuotasDialog(props) {
                 return (
                     <Form>
                         <DEDialog
-                            {...props}
                             id={parentId}
                             open={open}
                             onClose={() => {
@@ -98,7 +97,6 @@ function EditQuotasDialog(props) {
                             actions={
                                 <>
                                     <Button
-                                        {...props}
                                         id={buildID(
                                             parentId,
                                             ids.CANCEL_BUTTON

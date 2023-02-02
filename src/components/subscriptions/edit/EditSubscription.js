@@ -106,7 +106,6 @@ function EditSubscriptionDialog(props) {
                 return (
                     <Form>
                         <DEDialog
-                            {...props}
                             id={parentId}
                             open={open}
                             onClose={() => {
@@ -122,7 +121,6 @@ function EditSubscriptionDialog(props) {
                             actions={
                                 <>
                                     <Button
-                                        {...props}
                                         id={buildID(
                                             parentId,
                                             ids.CANCEL_BUTTON

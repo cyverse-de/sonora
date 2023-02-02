@@ -79,64 +79,10 @@ function Quotas(props) {
                                 </TableCell>
                             </DERow>
                         ))}
-                    {/* <DERow tabIndex={-1} key={1}>
-                        <TableCell>
-                            <Field
-                                name="quota"
-                                id={buildID(
-                                    parentId,
-                                    ids.EDIT_QUOTAS_DLG.QUOTAS
-                                )}
-                                fullWidth={false}
-                                label={t("quota")}
-                                required
-                                validate={(value) =>
-                                    nonEmptyMinValue(value, i18nUtil)
-                                }
-                                component={FormNumberField}
-                            />
-                        </TableCell>
-                        <TableCell>
-                            <Field name="resource_type">
-                                {({
-                                    field: { onChange, ...field },
-                                    ...props
-                                }) => (
-                                    <FormSelectField
-                                        {...props}
-                                        id={buildID(
-                                            parentId,
-                                            ids.EDIT_QUOTAS_DLG.RESOURCE_TYPE
-                                        )}
-                                        field={field}
-                                        label={t("resourceType")}
-                                        onChange={(event) => {
-                                            onChange(event);
-                                        }}
-                                        required
-                                    >
-                                        {resourceTypes.map((type, index) => (
-                                            <MenuItem
-                                                id={buildID(
-                                                    parentId,
-                                                    ids.EDIT_QUOTAS_DLG
-                                                        .RESOURCE_NAME
-                                                )}
-                                                key={index}
-                                                value={type}
-                                            >
-                                                {type}
-                                            </MenuItem>
-                                        ))}
-                                    </FormSelectField>
-                                )}
-                            </Field>
-                        </TableCell>
-                    </DERow> */}
                 </TableBody>
                 <DETableHead
                     selectable={false}
-                    rowCount={1}
+                    rowCount={quotas ? quotas.length : 0}
                     baseId={parentId}
                     ids={ids.QUOTAS_TABLE}
                     columnData={TABLE_COLUMNS}

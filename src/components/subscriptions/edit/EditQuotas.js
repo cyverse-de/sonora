@@ -5,7 +5,7 @@ import { mapPropsToValues } from "./formatters";
 import DEDialog from "components/utils/DEDialog";
 import { Button } from "@material-ui/core";
 import FormTextField from "components/forms/FormTextField";
-import styles from "../styles";
+
 import {
     updateUserQuotas,
     getSubscriptions,
@@ -13,7 +13,7 @@ import {
 } from "serviceFacades/subscriptions";
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { useTranslation } from "react-i18next";
-import { withStyles } from "@material-ui/core/styles";
+
 import ids from "../ids";
 import { nonEmptyField } from "components/utils/validations";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
@@ -47,13 +47,13 @@ function EditQuotasDialog(props) {
     const { mutate: updateQuotas } = useMutation(
         () => updateUserQuotas(quotasSubmission, selectedUsername),
         {
-            onSuccess: (_data) => {
+            onSuccess: (data) => {
                 announce({
                     text: t("quotaUpdated"),
                 });
-                queryClient.invalidateQueries(SUBSCRIPTIONS_QUERY_KEY);
                 setUpdateQuotasError(null);
                 onClose();
+                queryClient.invalidateQueries(SUBSCRIPTIONS_QUERY_KEY);
             },
             onError: setUpdateQuotasError,
         }
@@ -130,7 +130,7 @@ function EditQuotasDialog(props) {
                                 />
                             )}
 
-                            <StyledEditQuotasForm
+                            <EditQuotasForm
                                 parentId={parentId}
                                 subscription={selectedSubscription}
                             />
@@ -141,8 +141,6 @@ function EditQuotasDialog(props) {
         </Formik>
     );
 }
-
-const StyledEditQuotasForm = withStyles(styles)(EditQuotasForm);
 
 function EditQuotasForm(props) {
     const { parentId, subscription } = props;

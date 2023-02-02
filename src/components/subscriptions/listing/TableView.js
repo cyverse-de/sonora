@@ -23,9 +23,6 @@ import { formatDateObject } from "components/utils/DateFormatter";
 import PageWrapper from "components/layout/PageWrapper";
 import RowDotMenu from "./RowDotMenu";
 
-import EditSubscriptionDialog from "../edit/EditSubscription";
-import EditQuotasDialog from "../edit/EditQuotas";
-
 import {
     Paper,
     Table,
@@ -47,8 +44,6 @@ const columnData = (t) => {
             name: "",
             numeric: false,
             enableSorting: false,
-            // key: fields.STATUS.key,
-            // id: fields.STATUS.key,
         },
         {
             id: ids.USERNAME,
@@ -102,22 +97,17 @@ function LoadingMask(props) {
 function TableView(props) {
     const {
         baseId,
-        editQuotasDialogOpen,
-        editSubscriptionDialogOpen,
         handleClick,
         handleRequestSort,
         isAdminView,
         listing,
         loading,
-        onCloseEditQuotas,
-        onCloseEditSubscription,
         onDetailsSelected,
         onEditQuotasSelected,
         onEditSubscriptionSelected,
         order,
         orderBy,
         selected,
-        selectedSubscription,
     } = props;
     const { t } = useTranslation("subscriptions");
     let columns = columnData(t);
@@ -263,20 +253,6 @@ function TableView(props) {
                     </Table>
                 </TableContainer>
             )}
-
-            <EditSubscriptionDialog
-                open={editSubscriptionDialogOpen}
-                onClose={onCloseEditSubscription}
-                parentId={baseId}
-                subscription={selectedSubscription}
-            />
-
-            <EditQuotasDialog
-                open={editQuotasDialogOpen}
-                onClose={onCloseEditQuotas}
-                parentId={baseId}
-                subscription={selectedSubscription}
-            />
         </PageWrapper>
     );
 }

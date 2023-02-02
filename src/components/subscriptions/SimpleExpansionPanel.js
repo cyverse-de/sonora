@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 
-//import ids from "./ids";
 import styles from "./styles";
-
-//import buildID from "components/utils/DebugIDUtil";
 
 import {
     Accordion,
@@ -30,10 +27,7 @@ function SimpleExpansionPanel(props) {
         <Accordion onChange={handleChange} expanded={expanded}>
             <AccordionSummary
                 expandIcon={
-                    <ExpandMore
-                        //id={buildID(parentId, ids.BUTTONS.EXPAND)}
-                        className={classes.paramsViewsExpandIcon}
-                    />
+                    <ExpandMore className={classes.paramsViewsExpandIcon} />
                 }
                 className={classes.paramsViewSummary}
             >

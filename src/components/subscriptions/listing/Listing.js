@@ -19,6 +19,9 @@ import {
 } from "serviceFacades/subscriptions";
 import constants from "../../../constants";
 
+import EditSubscriptionDialog from "../edit/EditSubscription";
+import EditQuotasDialog from "../edit/EditQuotas";
+
 function Listing(props) {
     const {
         baseId,
@@ -102,7 +105,7 @@ function Listing(props) {
     };
 
     const handleClick = (_, id) => {
-        setSelected([id]); // This is the id of the subscription
+        setSelected([id]);
     };
 
     const handleRequestSort = (_, field) => {
@@ -134,6 +137,7 @@ function Listing(props) {
     const onDetailsSelected = () => {
         setDetailsOpen(true);
     };
+
     const onEditSubscriptionSelected = () => {
         setEditSubscriptionDialogOpen(true);
     };
@@ -152,23 +156,18 @@ function Listing(props) {
             />
             <TableView
                 baseId={baseId}
-                editQuotasDialogOpen={editQuotasDialogOpen}
-                editSubscriptionDialogOpen={editSubscriptionDialogOpen}
                 error={error}
                 handleClick={handleClick}
                 handleRequestSort={handleRequestSort}
                 isAdminView={isAdminView}
                 listing={data}
                 loading={isFetching}
-                onCloseEditQuotas={onCloseEditQuotas}
-                onCloseEditSubscription={onCloseEditSubscription}
                 onDetailsSelected={onDetailsSelected}
                 onEditQuotasSelected={onEditQuotasSelected}
                 onEditSubscriptionSelected={onEditSubscriptionSelected}
                 order={order}
                 orderBy={orderBy}
                 selected={selected}
-                selectedSubscription={selectedSubscription}
             />
             {detailsOpen && (
                 <Drawer
@@ -179,6 +178,18 @@ function Listing(props) {
                     selectedSubscription={selectedSubscription}
                 />
             )}
+            <EditSubscriptionDialog
+                open={editSubscriptionDialogOpen}
+                onClose={onCloseEditSubscription}
+                parentId={baseId}
+                subscription={selectedSubscription}
+            />
+            <EditQuotasDialog
+                open={editQuotasDialogOpen}
+                onClose={onCloseEditQuotas}
+                parentId={baseId}
+                subscription={selectedSubscription}
+            />
             {data && data.total > 0 && (
                 <DEPagination
                     baseId={baseId}

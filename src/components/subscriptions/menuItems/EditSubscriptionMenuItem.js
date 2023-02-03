@@ -8,7 +8,7 @@ import buildID from "components/utils/DebugIDUtil";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 import { Edit } from "@material-ui/icons";
 
-export default function EditMenuItem(props) {
+export default function EditSubscriptionMenuItem(props) {
     const { baseId, onEditSelected, onClose } = props;
 
     const { t } = useTranslation("subscriptions");

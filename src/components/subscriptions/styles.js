@@ -1,36 +1,15 @@
 const styles = (theme) => ({
-    paper: {
-        padding: theme.spacing(1),
+    expansionDetails: {
+        flexDirection: "column",
     },
 
-    addBtn: {
-        marginRight: theme.spacing(1),
+    paramsViewSummary: {
+        color: theme.palette.info.contrastText,
+        backgroundColor: theme.palette.info.main,
     },
-
-    toolbar: {
-        backgroundColor: theme.palette.lightGray,
-        "& div": {
-            marginRight: theme.spacing(2),
-        },
-        "& button": {
-            marginRight: theme.spacing(2),
-        },
-        "& svg": {
-            color: theme.palette.darkBlue,
-        },
+    paramsViewsExpandIcon: {
+        color: theme.palette.info.contrastText,
     },
-
-    // container: {
-    //     height:
-    //         "calc(100% - " +
-    //         theme.mixins.toolbar["@media (min-width:600px)"].minHeight +
-    //         "px)",
-    //     overflow: "auto",
-    // },
-
-    // tablePagination: {
-    //     height: "40",
-    // },
 });
 
 export default styles;

@@ -6,30 +6,39 @@
 import React from "react";
 
 import DotMenu from "components/dotMenu/DotMenu";
-import EditMenuItem from "../menuItems/EditMenuItem";
+import EditSubscriptionMenuItem from "../menuItems/EditSubscriptionMenuItem";
+import EditQuotasMenuItem from "../menuItems/EditQuotasMenuItem";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
 
 function RowDotMenu(props) {
-    const { baseId, onDetailsSelected, onEditSelected } = props;
+    const {
+        baseId,
+        onDetailsSelected,
+        onEditQuotasSelected,
+        onEditSubscriptionSelected,
+    } = props;
 
     return (
-        <>
-            <DotMenu
-                baseId={baseId}
-                render={(onClose) => [
-                    <EditMenuItem
-                        baseId={baseId}
-                        onEditSelected={onEditSelected}
-                        onClose={onClose}
-                    />,
-                    <DetailsMenuItem
-                        baseId={baseId}
-                        onDetailsSelected={onDetailsSelected}
-                        onClose={onClose}
-                    />,
-                ]}
-            />
-        </>
+        <DotMenu
+            baseId={baseId}
+            render={(onClose) => [
+                <DetailsMenuItem
+                    baseId={baseId}
+                    onDetailsSelected={onDetailsSelected}
+                    onClose={onClose}
+                />,
+                <EditSubscriptionMenuItem
+                    baseId={baseId}
+                    onEditSelected={onEditSubscriptionSelected}
+                    onClose={onClose}
+                />,
+                <EditQuotasMenuItem
+                    baseId={baseId}
+                    onEditSelected={onEditQuotasSelected}
+                    onClose={onClose}
+                />,
+            ]}
+        />
     );
 }
 

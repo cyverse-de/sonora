@@ -16,6 +16,17 @@ export default function subscriptionsRouter() {
 
     logger.info("************ Adding subscription handlers **********");
 
+    // List of plan names
+    logger.info("adding the GET /qms/plans handler");
+    api.get(
+        "/qms/plans",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/qms/plans",
+        })
+    );
+
     // Get all subscriptions
     logger.info("adding the GET /admin/qms/subscriptions handler");
     api.get(
@@ -27,36 +38,8 @@ export default function subscriptionsRouter() {
         })
     );
 
-    // This info is also all returned after getting all subscriptions
-    // Administrators can list existing subscriptions for a user
-    logger.info("adding the GET /admin/qms/users/:username/plan handler");
-    api.get(
-        "/admin/qms/users/:username/plan",
-        auth.authnTokenMiddleware,
-        terrainHandler({
-            method: "GET",
-            pathname: "/admin/qms/users/:username/plan",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-    );
-
     // Administrators can update a user's subscrption
-    logger.info(
-        "adding the PUT /admin/qms/users/:username/plan/:plan-name handler"
-    );
-    api.put(
-        "/admin/qms/users/:username/plan/:plan-name",
-        auth.authnTokenMiddleware,
-        terrainHandler({
-            method: "PUT",
-            pathname: "/admin/qms/users/:username/plan/:plan-name",
-        })
-    );
-
     // Administrators can add new subscriptions for users who haven't logged into the DE yet
-    // POST /terrain/admin/qms/subscriptions (one or multiple subscriptions) -- has more details after
     logger.info("adding the POST /admin/qms/subscriptions handler");
     api.post(
         "/admin/qms/subscriptions",
@@ -70,26 +53,21 @@ export default function subscriptionsRouter() {
         })
     );
 
-    // List of plan names
-    logger.info("adding the GET /qms/plans handler");
-    api.get(
-        "/qms/plans",
+    // Administrators can update user quotas for a specified resource type
+    logger.info(
+        "adding the POST /admin/qms/users/:username/plan/:resource_type/quota"
+    );
+    api.post(
+        "/admin/qms/users/:username/plan/:resource_type/quota",
         auth.authnTokenMiddleware,
         terrainHandler({
-            method: "GET",
-            pathname: "/qms/plans",
+            method: "POST",
+            pathname: "/admin/qms/users/:username/plan/:resource_type/quota",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
     );
 
-    // User lookup
-    // logger.info("adding the GET /subjects handler");
-    // api.get(
-    //     "/subjects",
-    //     auth.authnTokenMiddleware,
-    //     terrainHandler({
-    //         method: "GET",
-    //         pathname: "/subjects",
-    //     })
-    // );
     return api;
 }

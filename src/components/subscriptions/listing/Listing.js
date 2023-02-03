@@ -19,6 +19,9 @@ import {
 } from "serviceFacades/subscriptions";
 import constants from "../../../constants";
 
+import EditSubscriptionDialog from "../edit/EditSubscription";
+import EditQuotasDialog from "../edit/EditQuotas";
+
 function Listing(props) {
     const {
         baseId,
@@ -30,9 +33,12 @@ function Listing(props) {
         rowsPerPage,
         searchTerm,
     } = props;
+
     const [data, setData] = useState(null);
     const [detailsOpen, setDetailsOpen] = useState(false);
-    const [editDialogOpen, setEditDialogOpen] = useState(false);
+    const [editSubscriptionDialogOpen, setEditSubscriptionDialogOpen] =
+        useState(false);
+    const [editQuotasDialogOpen, setEditQuotasDialogOpen] = useState(false);
     const [selected, setSelected] = useState([]);
     const [selectedSubscription, setSelectedSubscription] = useState(null);
 
@@ -99,7 +105,7 @@ function Listing(props) {
     };
 
     const handleClick = (_, id) => {
-        setSelected([id]); // This is the id of the subscription
+        setSelected([id]);
     };
 
     const handleRequestSort = (_, field) => {
@@ -120,14 +126,24 @@ function Listing(props) {
             onRouteToListing(order, orderBy, 0, rowsPerPage, term);
     };
 
-    const onCloseEdit = () => {
-        setEditDialogOpen(false);
+    const onCloseEditSubscription = () => {
+        setEditSubscriptionDialogOpen(false);
     };
+
+    const onCloseEditQuotas = () => {
+        setEditQuotasDialogOpen(false);
+    };
+
     const onDetailsSelected = () => {
         setDetailsOpen(true);
     };
-    const onEditSelected = () => {
-        setEditDialogOpen(true);
+
+    const onEditSubscriptionSelected = () => {
+        setEditSubscriptionDialogOpen(true);
+    };
+
+    const onEditQuotasSelected = () => {
+        setEditQuotasDialogOpen(true);
     };
 
     return (
@@ -140,20 +156,18 @@ function Listing(props) {
             />
             <TableView
                 baseId={baseId}
-                editDialogOpen={editDialogOpen}
                 error={error}
                 handleClick={handleClick}
                 handleRequestSort={handleRequestSort}
                 isAdminView={isAdminView}
                 listing={data}
                 loading={isFetching}
-                onCloseEdit={onCloseEdit}
                 onDetailsSelected={onDetailsSelected}
-                onEditSelected={onEditSelected}
+                onEditQuotasSelected={onEditQuotasSelected}
+                onEditSubscriptionSelected={onEditSubscriptionSelected}
                 order={order}
                 orderBy={orderBy}
                 selected={selected}
-                selectedSubscription={selectedSubscription}
             />
             {detailsOpen && (
                 <Drawer
@@ -164,6 +178,18 @@ function Listing(props) {
                     selectedSubscription={selectedSubscription}
                 />
             )}
+            <EditSubscriptionDialog
+                open={editSubscriptionDialogOpen}
+                onClose={onCloseEditSubscription}
+                parentId={baseId}
+                subscription={selectedSubscription}
+            />
+            <EditQuotasDialog
+                open={editQuotasDialogOpen}
+                onClose={onCloseEditQuotas}
+                parentId={baseId}
+                subscription={selectedSubscription}
+            />
             {data && data.total > 0 && (
                 <DEPagination
                     baseId={baseId}

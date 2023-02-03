@@ -170,7 +170,7 @@ export function mapPropsToValues(tool, isAdmin) {
                     })
                 );
             }
-
+            // container: container_volumnes = []
             if (container_volumes) {
                 values.container.container_volumes = container_volumes.map(
                     ({ container_path, host_path }) => ({

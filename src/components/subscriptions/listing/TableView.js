@@ -18,12 +18,10 @@ import subscriptionFields from "../subscriptionsFields";
 import buildID from "components/utils/DebugIDUtil";
 import DECheckbox from "components/utils/DECheckbox";
 
-import { formatDate } from "components/utils/DateFormatter";
+import { formatDateObject } from "components/utils/DateFormatter";
 
 import PageWrapper from "components/layout/PageWrapper";
 import RowDotMenu from "./RowDotMenu";
-
-import EditSubscriptionDialog from "../edit/EditSubscription";
 
 import {
     Paper,
@@ -46,8 +44,6 @@ const columnData = (t) => {
             name: "",
             numeric: false,
             enableSorting: false,
-            // key: fields.STATUS.key,
-            // id: fields.STATUS.key,
         },
         {
             id: ids.USERNAME,
@@ -101,19 +97,17 @@ function LoadingMask(props) {
 function TableView(props) {
     const {
         baseId,
-        editDialogOpen,
         handleClick,
         handleRequestSort,
         isAdminView,
         listing,
         loading,
-        onCloseEdit,
         onDetailsSelected,
-        onEditSelected,
+        onEditQuotasSelected,
+        onEditSubscriptionSelected,
         order,
         orderBy,
         selected,
-        selectedSubscription,
     } = props;
     const { t } = useTranslation("subscriptions");
     let columns = columnData(t);
@@ -198,7 +192,12 @@ function TableView(props) {
                                                     )}
                                                 >
                                                     <Typography variant="body2">
-                                                        {formatDate(startDate)}
+                                                        {formatDateObject(
+                                                            startDate &&
+                                                                new Date(
+                                                                    startDate
+                                                                )
+                                                        )}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell
@@ -208,7 +207,12 @@ function TableView(props) {
                                                     )}
                                                 >
                                                     <Typography variant="body2">
-                                                        {formatDate(endDate)}
+                                                        {formatDateObject(
+                                                            endDate &&
+                                                                new Date(
+                                                                    endDate
+                                                                )
+                                                        )}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell
@@ -233,8 +237,11 @@ function TableView(props) {
                                                         onDetailsSelected={
                                                             onDetailsSelected
                                                         }
-                                                        onEditSelected={
-                                                            onEditSelected
+                                                        onEditQuotasSelected={
+                                                            onEditQuotasSelected
+                                                        }
+                                                        onEditSubscriptionSelected={
+                                                            onEditSubscriptionSelected
                                                         }
                                                     />
                                                 </TableCell>
@@ -246,13 +253,6 @@ function TableView(props) {
                     </Table>
                 </TableContainer>
             )}
-
-            <EditSubscriptionDialog
-                open={editDialogOpen}
-                onClose={onCloseEdit}
-                parentId={baseId}
-                subscription={selectedSubscription}
-            />
         </PageWrapper>
     );
 }

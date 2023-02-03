@@ -58,8 +58,6 @@ function SubscriptionErrorHandler(props) {
         selectedUser,
         avatar = <ErrorIcon fontSize="large" color="error" />;
 
-    console.log(errorObject);
-    avatar = <ErrorIcon fontSize="large" color="error" />;
     title = (
         <Typography component="span" variant="h6">
             {errorObject.failure_reason}

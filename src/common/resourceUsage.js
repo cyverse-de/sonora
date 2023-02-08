@@ -16,16 +16,16 @@ const defaultQuotaFor = {
 };
 
 /**
- * Determines the quota to use for given resource type name and user plan. If the user plan doesn't contain any
- * quotas for the given resource type name, the default quota value for the resource type is returned. If there
+ * Determines the quota to use for given resource type name and subscription. If the subscription doesn't contain
+ * any quotas for the given resource type name, the default quota value for the resource type is returned. If there
  * is no known default then zero is returned.
  *
  * @param {string} resourceTypeName
- * @param {object} userPlan
+ * @param {object} subscription
  * @returns {number} the quota value to use.
  */
-export const getUserQuota = (resourceTypeName, userPlan) => {
-    const quotas = userPlan?.quotas;
+export const getUserQuota = (resourceTypeName, subscription) => {
+    const quotas = subscription?.quotas;
     const defaultQuotaValue = defaultQuotaFor[resourceTypeName] || 0;
 
     // Search for the quota with the given resource type name.

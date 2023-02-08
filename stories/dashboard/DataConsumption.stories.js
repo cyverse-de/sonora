@@ -31,7 +31,7 @@ EmptyPlan.args = {
         time: "2021-11-19T16:39:57-07:00",
         last_modified: "2021-11-19T16:39:57-07:00",
     },
-    userPlan: {},
+    subscription: {},
 };
 
 export const NoQuotas = DataConsumptionTemplate.bind({});
@@ -44,7 +44,7 @@ NoQuotas.args = {
         time: "2021-11-19T16:39:57-07:00",
         last_modified: "2021-11-19T16:39:57-07:00",
     },
-    userPlan: {
+    subscription: {
         id: "4cbf9500-c5af-11ec-8513-008cfa5ae621",
         effective_start_date: "2022-04-26T15:22:03.921406-07:00",
         effective_end_date: "2023-04-26T15:22:03.921406-07:00",
@@ -70,7 +70,7 @@ EmptyQuotas.args = {
         time: "2021-11-19T16:39:57-07:00",
         last_modified: "2021-11-19T16:39:57-07:00",
     },
-    userPlan: {
+    subscription: {
         id: "4cbf9500-c5af-11ec-8513-008cfa5ae621",
         effective_start_date: "2022-04-26T15:22:03.921406-07:00",
         effective_end_date: "2023-04-26T15:22:03.921406-07:00",
@@ -97,7 +97,7 @@ SpecifiedQuotas.args = {
         time: "2021-11-19T16:39:57-07:00",
         last_modified: "2021-11-19T16:39:57-07:00",
     },
-    userPlan: {
+    subscription: {
         id: "4cbf9500-c5af-11ec-8513-008cfa5ae621",
         effective_start_date: "2022-04-26T15:22:03.921406-07:00",
         effective_end_date: "2023-04-26T15:22:03.921406-07:00",
@@ -143,7 +143,7 @@ QuotaExceeded.args = {
         time: "2021-11-19T16:39:57-07:00",
         last_modified: "2021-11-19T16:39:57-07:00",
     },
-    userPlan: {
+    subscription: {
         id: "4cbf9500-c5af-11ec-8513-008cfa5ae621",
         effective_start_date: "2022-04-26T15:22:03.921406-07:00",
         effective_end_date: "2023-04-26T15:22:03.921406-07:00",

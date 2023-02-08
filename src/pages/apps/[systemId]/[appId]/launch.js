@@ -89,10 +89,10 @@ function Launch({ showErrorAnnouncer }) {
         enabled: !!config?.subscriptions?.enforce,
         onSuccess: (respData) => {
             const usage = respData?.cpu_usage?.total || 0;
-            const userPlan = respData?.user_plan;
+            const subscription = respData?.subscription;
             const quota = getUserQuota(
                 globalConstants.CPU_HOURS_RESOURCE_NAME,
-                userPlan
+                subscription
             );
             setComputeLimitExceeded(usage >= quota);
         },

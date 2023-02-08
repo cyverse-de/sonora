@@ -33,7 +33,7 @@ EmptyPlan.args = {
         effective_end: "2023-02-03T00:34:41.88739Z",
         last_modified: "2022-02-03T02:38:17.906799Z",
     },
-    userPlan: {},
+    subscription: {},
 };
 
 export const NoQuotas = CPUConsumptionTemplate.bind({});
@@ -47,7 +47,7 @@ NoQuotas.args = {
         effective_end: "2023-02-03T00:34:41.88739Z",
         last_modified: "2022-02-03T02:38:17.906799Z",
     },
-    userPlan: {
+    subscription: {
         id: "4cbf9500-c5af-11ec-8513-008cfa5ae621",
         effective_start_date: "2022-04-26T15:22:03.921406-07:00",
         effective_end_date: "2023-04-26T15:22:03.921406-07:00",
@@ -74,7 +74,7 @@ EmptyQuotas.args = {
         effective_end: "2023-02-03T00:34:41.88739Z",
         last_modified: "2022-02-03T02:38:17.906799Z",
     },
-    userPlan: {
+    subscription: {
         id: "4cbf9500-c5af-11ec-8513-008cfa5ae621",
         effective_start_date: "2022-04-26T15:22:03.921406-07:00",
         effective_end_date: "2023-04-26T15:22:03.921406-07:00",
@@ -102,7 +102,7 @@ SpecifiedQuotas.args = {
         effective_end: "2023-02-03T00:34:41.88739Z",
         last_modified: "2022-02-03T02:38:17.906799Z",
     },
-    userPlan: {
+    subscription: {
         id: "4cbf9500-c5af-11ec-8513-008cfa5ae621",
         effective_start_date: "2022-04-26T15:22:03.921406-07:00",
         effective_end_date: "2023-04-26T15:22:03.921406-07:00",
@@ -149,7 +149,7 @@ QuotaExceeded.args = {
         effective_end: "2023-02-03T00:34:41.88739Z",
         last_modified: "2022-02-03T02:38:17.906799Z",
     },
-    userPlan: {
+    subscription: {
         id: "4cbf9500-c5af-11ec-8513-008cfa5ae621",
         effective_start_date: "2022-04-26T15:22:03.921406-07:00",
         effective_end_date: "2023-04-26T15:22:03.921406-07:00",

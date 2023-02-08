@@ -140,8 +140,8 @@ const getFormattedData = (usage, quota, theme) => {
 };
 
 export default function CPUConsumption(props) {
-    const { isLoading, userPlan, data, errors } = props;
-    const quota = getUserQuota(constants.CPU_HOURS_RESOURCE_NAME, userPlan);
+    const { isLoading, subscription, data, errors } = props;
+    const quota = getUserQuota(constants.CPU_HOURS_RESOURCE_NAME, subscription);
     const theme = useTheme();
     const { t } = useTranslation("dashboard");
 

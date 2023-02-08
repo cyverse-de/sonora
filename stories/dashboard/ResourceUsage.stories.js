@@ -24,7 +24,7 @@ const resourceUsageSummary = {
         time: "2021-11-19T16:39:57-07:00",
         last_modified: "2021-11-19T16:39:57-07:00",
     },
-    user_plan: {
+    subscription: {
         added_by: "",
         effective_end_date: "",
         effective_start_date: "2022-02-25T10:45:34.630382-07:00",

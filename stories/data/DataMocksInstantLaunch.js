@@ -154,7 +154,7 @@ export const usageSummaryResponse = {
         time: "2022-08-16T15:33:38.352429-07:00",
         last_modified: "2022-08-16T15:33:38.348854-07:00",
     },
-    user_plan: {
+    subscription: {
         id: "3ae507e4-07d5-11ed-b0ae-008cfa5ae621",
         effective_start_date: "2022-07-19T19:39:51.58586-07:00",
         effective_end_date: "2023-07-19T19:39:51.58586-07:00",
@@ -209,7 +209,7 @@ export const usageSummaryStorageLimitExceededResponse = {
         time: "2022-08-16T15:33:38.352429-07:00",
         last_modified: "2022-08-16T15:33:38.348854-07:00",
     },
-    user_plan: {
+    subscription: {
         id: "3ae507e4-07d5-11ed-b0ae-008cfa5ae621",
         effective_start_date: "2022-07-19T19:39:51.58586-07:00",
         effective_end_date: "2023-07-19T19:39:51.58586-07:00",
@@ -264,7 +264,7 @@ export const usageSummaryComputeLimitExceededResponse = {
         time: "2022-08-16T15:33:38.352429-07:00",
         last_modified: "2022-08-16T15:33:38.348854-07:00",
     },
-    user_plan: {
+    subscription: {
         id: "3ae507e4-07d5-11ed-b0ae-008cfa5ae621",
         effective_start_date: "2022-07-19T19:39:51.58586-07:00",
         effective_end_date: "2023-07-19T19:39:51.58586-07:00",

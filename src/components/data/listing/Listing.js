@@ -252,14 +252,14 @@ function Listing(props) {
         onSuccess: (respData) => {
             const dataUsage = respData?.data_usage?.total || 0;
             const computeUsage = respData?.cpu_usage?.total || 0;
-            const userPlan = respData?.user_plan;
+            const subscription = respData?.subscription;
             const storageQuota = getUserQuota(
                 globalConstants.DATA_STORAGE_RESOURCE_NAME,
-                userPlan
+                subscription
             );
             const computeQuota = getUserQuota(
                 globalConstants.CPU_HOURS_RESOURCE_NAME,
-                userPlan
+                subscription
             );
             setUploadsEnabled(dataUsage < storageQuota);
             setComputeLimitExceeded(computeUsage >= computeQuota);

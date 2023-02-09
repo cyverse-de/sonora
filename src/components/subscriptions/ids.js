@@ -6,7 +6,8 @@ export default {
     DETAILS_MENU_ITEM: "detail",
     DETAILS_PANEL: "detailsPanel",
     DETAILS_TAB: "detailsTab",
-    EDIT_MENU_ITEM: "edit",
+    EDIT_QUOTAS_MENU_ITEM: "editQuotasMenuItem",
+    EDIT_SUBSCRIPTION_MENU_ITEM: "editSubscriptionMenuItem",
     EDIT_QUOTAS_DLG: {
         USERNAME: "username",
         PLAN_NAME: "planName",

@@ -46,7 +46,6 @@ SimpleExpansionPanel.defaultProps = {
 
 SimpleExpansionPanel.propTypes = {
     header: PropTypes.any.isRequired,
-    parentId: PropTypes.string.isRequired,
     defaultExpanded: PropTypes.bool,
     hasErrors: PropTypes.bool,
     children: PropTypes.any.isRequired,

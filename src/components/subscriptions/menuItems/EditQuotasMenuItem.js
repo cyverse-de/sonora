@@ -15,7 +15,7 @@ export default function EditQuotasMenuItem(props) {
 
     return (
         <MenuItem
-            id={buildID(baseId, ids.EDIT_MENU_ITEM)}
+            id={buildID(baseId, ids.EDIT_QUOTAS_MENU_ITEM)}
             onClick={() => {
                 onEditSelected();
                 onClose();

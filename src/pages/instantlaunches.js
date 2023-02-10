@@ -15,11 +15,8 @@ export default function InstantLaunches() {
 export async function getStaticProps({ locale }) {
     return {
         props: {
-            ...(await serverSideTranslations(locale, [
-                "instantlaunches",
-                "dashboard",
-                ...RequiredNamespaces,
-            ])),
+            // "instantlaunches" already included by RequiredNamespaces
+            ...(await serverSideTranslations(locale, RequiredNamespaces)),
         },
     };
 }

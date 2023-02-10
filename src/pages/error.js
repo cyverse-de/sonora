@@ -20,10 +20,7 @@ export default function Error() {
 export async function getStaticProps({ locale }) {
     return {
         props: {
-            ...(await serverSideTranslations(locale, [
-                "util",
-                ...RequiredNamespaces,
-            ])),
+            ...(await serverSideTranslations(locale, RequiredNamespaces)),
         },
     };
 }

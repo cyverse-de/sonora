@@ -15,8 +15,19 @@ import {
 } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-// The two always-needed namespaces
-const RequiredNamespaces = ["common", "bags"];
+// The always-needed namespaces, mainly from the components in the global
+// toolbars, such as bags, global search, and the notifications menu.
+const RequiredNamespaces = [
+    "analyses",
+    "apps",
+    "bags",
+    "common",
+    "instantlaunches",
+    "notifications",
+    "search",
+    "sharing",
+    "util",
+];
 
 // reexport everything
 export {

@@ -15,10 +15,8 @@ export default function Notifications() {
 export async function getStaticProps({ locale }) {
     return {
         props: {
-            ...(await serverSideTranslations(locale, [
-                "notifications",
-                ...RequiredNamespaces,
-            ])),
+            // "notifications" already included by RequiredNamespaces
+            ...(await serverSideTranslations(locale, RequiredNamespaces)),
         },
     };
 }

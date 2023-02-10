@@ -15,7 +15,7 @@ export async function getStaticProps(context) {
         props: {
             ...(await serverSideTranslations(locale ?? defaultLocale, [
                 "dashboard",
-                "apps",
+                "intro",
                 ...RequiredNamespaces,
             ])),
         },

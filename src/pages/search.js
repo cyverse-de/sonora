@@ -54,8 +54,9 @@ export async function getStaticProps({ locale }) {
     return {
         props: {
             ...(await serverSideTranslations(locale, [
-                "search",
-                "analyses",
+                "data",
+                "teams",
+                // "search" already included by RequiredNamespaces
                 ...RequiredNamespaces,
             ])),
         },

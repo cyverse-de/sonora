@@ -32,7 +32,8 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             ...(await serverSideTranslations(locale, [
-                "analyses",
+                // "analyses" already included by RequiredNamespaces
+                "dashboard",
                 ...RequiredNamespaces,
             ])),
         },

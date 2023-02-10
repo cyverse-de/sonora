@@ -192,7 +192,10 @@ export async function getServerSideProps({ locale }) {
         props: {
             ...(await serverSideTranslations(locale, [
                 "data",
-                "util",
+                "launch",
+                "metadata",
+                "upload",
+                "urlImport",
                 ...RequiredNamespaces,
             ])),
         },

@@ -80,8 +80,8 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             ...(await serverSideTranslations(locale, [
-                "apps",
-                "util",
+                "collections",
+                // "apps" already included by RequiredNamespaces
                 ...RequiredNamespaces,
             ])),
         },

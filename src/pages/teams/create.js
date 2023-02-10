@@ -29,7 +29,6 @@ export async function getStaticProps({ locale }) {
         props: {
             ...(await serverSideTranslations(locale, [
                 "teams",
-                "sharing",
                 ...RequiredNamespaces,
             ])),
         },

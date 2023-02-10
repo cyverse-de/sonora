@@ -19,24 +19,14 @@ export function EditSubscriptionTest({ newSubscription }) {
     const parentId = "editSubscriptionDlg";
     const onClose = () => console.log("Dialog closed.");
 
-    if (newSubscription) {
         return (
             <EditSubscriptionDialog
                 open={true}
                 onClose={onClose}
                 parentId={parentId}
+                subscription={!newSubscription && subscription}
             />
         );
-    } else {
-        return (
-            <EditSubscriptionDialog
-                open={true}
-                onClose={onClose}
-                parentId={parentId}
-                subscription={subscription}
-            />
-        );
-    }
 }
 
 EditSubscriptionTest.argTypes = {

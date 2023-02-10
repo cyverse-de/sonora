@@ -1,10 +1,7 @@
 export function mapPropsToValues(subscription) {
     let values = {
         username: "",
-        plan: {
-            name: "",
-            plan_quota_defaults: [],
-        },
+        plan_name: "",
         usages: [],
         quotas: [],
     };

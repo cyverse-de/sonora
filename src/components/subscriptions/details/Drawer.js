@@ -128,9 +128,9 @@ function QuotasDetails(props) {
         <>
             {selectedSubscription &&
                 selectedSubscription.quotas.length > 0 &&
-                selectedSubscription.quotas.map((item, _) => {
+                selectedSubscription.quotas.map((item, index) => {
                     return (
-                        <Typography>
+                        <Typography key={index}>
                             {item.quota} {item.resource_type.unit}
                         </Typography>
                     );
@@ -145,7 +145,7 @@ function SubscriptionDrawer(props) {
     const drawerId = buildID(baseId, ids.DETAILS_DRAWER);
     const detailsTabId = buildID(drawerId, ids.DETAILS_TAB);
     const { t } = useTranslation("subscriptions");
-    const selectedTab = t("details");
+    const selectedTab = TABS.subscriptionDetails;
 
     const username = selectedSubscription?.user.username;
 

@@ -15,7 +15,7 @@ export default function EditSubscriptionMenuItem(props) {
 
     return (
         <MenuItem
-            id={buildID(baseId, ids.EDIT_MENU_ITEM)}
+            id={buildID(baseId, ids.EDIT_SUBSCRIPTION_MENU_ITEM)}
             onClick={() => {
                 onEditSelected();
                 onClose();

@@ -102,7 +102,7 @@ function EditSubscriptionDialog(props) {
             }}
             enableReinitialize={true}
         >
-            {({ handleSubmit, ...props }) => {
+            {({ handleSubmit, resetForm }) => {
                 return (
                     <Form>
                         <DEDialog
@@ -110,7 +110,7 @@ function EditSubscriptionDialog(props) {
                             open={open}
                             onClose={() => {
                                 onCloseForm();
-                                props.resetForm();
+                                resetForm();
                             }}
                             fullWidth={true}
                             title={
@@ -127,7 +127,7 @@ function EditSubscriptionDialog(props) {
                                         )}
                                         onClick={() => {
                                             onCloseForm();
-                                            props.resetForm();
+                                            resetForm();
                                         }}
                                     >
                                         {t("cancel")}
@@ -192,31 +192,24 @@ function EditSubscriptionForm(props) {
                 validate={(value) => nonEmptyField(value, i18nUtil)}
             />
 
-            <Field name="plan_name">
-                {({ ...props }) => (
-                    <FastField
-                        component={FormTextField}
-                        variant="outlined"
-                        select
-                        size="small"
-                        {...props}
-                        {...selectProps}
+            <FastField
+                name="plan_name"
+                component={FormTextField}
+                variant="outlined"
+                select
+                size="small"
+                {...selectProps}
+            >
+                {planTypes.map((type, index) => (
+                    <MenuItem
+                        id={buildID(parentId, ids.EDIT_SUB_DLG.PLAN_TYPES)}
+                        key={index}
+                        value={type}
                     >
-                        {planTypes.map((type, index) => (
-                            <MenuItem
-                                id={buildID(
-                                    parentId,
-                                    ids.EDIT_SUB_DLG.PLAN_TYPES
-                                )}
-                                key={index}
-                                value={type}
-                            >
-                                {type}
-                            </MenuItem>
-                        ))}
-                    </FastField>
-                )}
-            </Field>
+                        {type}
+                    </MenuItem>
+                ))}
+            </FastField>
 
             {subscription && (
                 <FieldArray

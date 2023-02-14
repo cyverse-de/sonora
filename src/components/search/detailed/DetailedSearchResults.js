@@ -134,7 +134,7 @@ function DetailedSearchResults(props) {
                 <Typography className={classes.searchInfo}>
                     {advancedDataQuery
                         ? t("search:searchInfoAdvancedData")
-                        : t("search:searchInfo", { term: `"${searchTerm}"` })}
+                        : t("search:searchInfo", { term: searchTerm })}
                     <AnimatedNumber
                         value={totalResults}
                         formatValue={(value) => value.toFixed(0)}

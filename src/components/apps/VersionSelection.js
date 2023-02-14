@@ -31,7 +31,7 @@ export default function VersionSelection({
         <>
             <TextField
                 id={buildID(baseId, ids.APP_VERSION_SELECTION)}
-                label={t("Version")}
+                label={t("appVersion")}
                 select
                 variant="outlined"
                 size="small"

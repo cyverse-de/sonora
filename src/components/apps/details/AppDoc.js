@@ -252,7 +252,7 @@ function AppDocDialog(props) {
     const [dirty, setDirty] = useState(false);
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
-    const { t } = useTranslation("apps");
+    const { t } = useTranslation(["apps", "common"]);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
@@ -302,7 +302,7 @@ function AppDocDialog(props) {
                     {t("documentation")}
                     <IconButton
                         id={buildID(docBaseId, ids.CLOSE_BTN)}
-                        aria-label={t("close")}
+                        aria-label={t("common:close")}
                         onClick={handleClose}
                         style={{
                             position: "absolute",

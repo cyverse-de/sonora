@@ -48,6 +48,7 @@
     "removedFromDashboard": "Instant Launch removed from the dashboard.",
     "removedFromInstantLaunchListing": "Instant Launch removed from Instant Launch listing.",
     "removedFromNavDrawer": "Instant Launch removed from the navigation drawer",
+    "savedLaunch": "Saved Launch",
     "submissionInProgress": "Please wait, this should only take a few seconds. Your analysis will open in a new tab.",
     "submittingInstantLaunch": "Sending Launch Request",
     "updateDataMapping": "Data Mapping"

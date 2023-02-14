@@ -97,7 +97,7 @@ function DetailsDialog(props) {
                                     />
                                     <Field
                                         name="description"
-                                        label={t("description")}
+                                        label={t("descriptionLabel")}
                                         id={buildID(
                                             parentId,
                                             ids.TOOL_REQUEST.DESCRIPTION
@@ -157,7 +157,7 @@ function DetailsDialog(props) {
                                     />
                                     <Field
                                         name="version"
-                                        label={t("version")}
+                                        label={t("versionLbl")}
                                         id={buildID(
                                             parentId,
                                             ids.TOOL_REQUEST.VERSION

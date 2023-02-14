@@ -606,7 +606,7 @@ function GlobalSearchField(props) {
                 orderBy: analysisRecordFields.START_DATE.key,
                 order: constants.SORT_DESCENDING,
                 page: searchConstants.GLOBAL_SEARCH_PAGE,
-                filter: getAnalysesSearchQueryFilter(searchTerm, t),
+                filter: getAnalysesSearchQueryFilter(searchTerm, analysesI18n),
             },
         ]);
 
@@ -653,7 +653,6 @@ function GlobalSearchField(props) {
         config,
         filter,
         searchTerm,
-        t,
         userHomeDir,
         userProfile,
     ]);

@@ -254,7 +254,7 @@ function DataToolbar(props) {
                         onClose={() => {
                             setDeleteConfirmOpen(false);
                         }}
-                        title={t("Delete")}
+                        title={t("delete")}
                         contentText={t("deleteConfirmation")}
                         onConfirm={() => {
                             onDeleteSelected();

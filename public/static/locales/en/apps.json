@@ -30,6 +30,7 @@
     "appPubRequestsFetchError": "Unable to fetch publication requests. Please try again.",
     "appPublicationError": "Unable to publish {{appName}}. Please check the details.",
     "appType": "Type",
+    "appVersion": "Version",
     "apps_under_development": "Apps Under Development",
     "ariaCheckbox": "{{label}} checkbox",
     "ariaTableListing": "Apps table listing",

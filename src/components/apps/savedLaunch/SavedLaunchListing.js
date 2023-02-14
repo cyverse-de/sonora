@@ -168,7 +168,7 @@ function ActionsPopper(props) {
 
 function ListSavedLaunches(props) {
     const { appId, systemId, baseDebugId } = props;
-    const { t } = useTranslation("apps");
+    const { t } = useTranslation(["apps", "common"]);
     const theme = useTheme();
     const [userProfile] = useUserProfile();
     const [config] = useConfig();
@@ -362,7 +362,7 @@ function ListSavedLaunches(props) {
                     <DialogTitle>
                         {t("embedLbl")}{" "}
                         <IconButton
-                            aria-label={t("close")}
+                            aria-label={t("common:close")}
                             onClick={() => setEmbedDialogOpen(false)}
                             style={{
                                 position: "absolute",
@@ -389,7 +389,7 @@ function ListSavedLaunches(props) {
                     <DialogTitle>
                         {t("shareLbl")}
                         <IconButton
-                            aria-label={t("close")}
+                            aria-label={t("common:close")}
                             onClick={() => setShareDialogOpen(false)}
                             style={{
                                 position: "absolute",

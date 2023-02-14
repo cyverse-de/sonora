@@ -26,7 +26,7 @@
     "permissions": "Permissions",
     "read": "Read",
     "search": "Search",
-    "searchInfo": "Searching for {{term}}. Found ",
+    "searchInfo": "Searching for \"{{term}}\". Found ",
     "searchInfoAdvancedData": "Running advanced data search. Found ",
     "searchPagePrompt": "Begin searching by typing in the search field.",
     "size": "File Size",

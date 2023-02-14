@@ -91,14 +91,23 @@ export default function AnalysesSearchResults(props) {
                     rowsPerPage: searchConstants.DETAILED_SEARCH_PAGE_SIZE,
                     orderBy: orderBy,
                     order: order,
-                    filter: getAnalysesSearchQueryFilter(searchTerm, t),
+                    filter: getAnalysesSearchQueryFilter(
+                        searchTerm,
+                        analysisI18n
+                    ),
                 },
             ]);
             setAnalysesSearchQueryEnabled(true);
         } else {
             setAnalysesSearchQueryEnabled(false);
         }
-    }, [setAnalysesSearchQueryEnabled, order, orderBy, searchTerm, t]);
+    }, [
+        setAnalysesSearchQueryEnabled,
+        order,
+        orderBy,
+        searchTerm,
+        analysisI18n,
+    ]);
 
     useEffect(() => {
         trackIntercomEvent(IntercomEvents.SEARCHED_ANALYSES, {

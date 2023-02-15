@@ -67,5 +67,5 @@ export default function Subscriptions() {
 }
 
 Subscriptions.getInitialProps = async () => ({
-    namespacesRequired: ["subscriptions"],
+    namespacesRequired: ["subscriptions", "common", "util"],
 });

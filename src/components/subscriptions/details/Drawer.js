@@ -70,7 +70,7 @@ function DetailsPanel(props) {
             getSubscriptions({
                 searchTerm: selectedSubscription?.user.username,
             }),
-        enabled: true,
+        enabled: !!selectedSubscription,
         onSuccess: (data) => {
             setSubscriptionDetails(data.result.subscriptions[0]);
         },
@@ -189,13 +189,11 @@ function SubscriptionHeader(props) {
     const { username } = props;
     const classes = useStyles();
     return (
-        <>
-            <div className={classes.drawerHeader}>
-                <Typography variant="h6" component="span">
-                    {username}
-                </Typography>
-            </div>
-        </>
+        <div className={classes.drawerHeader}>
+            <Typography variant="h6" component="span">
+                {username}
+            </Typography>
+        </div>
     );
 }
 

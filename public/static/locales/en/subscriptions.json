@@ -12,6 +12,7 @@
     "mutateSubscriptionError": "Unable to submit this request.",
     "newSubscriptionStatus": "New Subscription",
     "noQuotas": "No quotas",
+    "noSubscriptions": "No subscriptions",
     "noUsages": "No usages",
     "planName": "Plan Name",
     "quota": "Quota",

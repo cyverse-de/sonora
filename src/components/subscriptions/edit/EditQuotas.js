@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { Field, FieldArray, Form, Formik } from "formik";
+import { FieldArray, Form, Formik } from "formik";
 import { mapPropsToValues } from "./formatters";
 import DEDialog from "components/utils/DEDialog";
-import { Button } from "@material-ui/core";
-import FormTextField from "components/forms/FormTextField";
+import { Button, Grid, Typography } from "@material-ui/core";
+import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
 
 import {
     updateUserQuotas,
@@ -15,17 +15,15 @@ import { announce } from "components/announcer/CyVerseAnnouncer";
 import { useTranslation } from "react-i18next";
 
 import ids from "../ids";
-import { nonEmptyField } from "components/utils/validations";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import buildID from "components/utils/DebugIDUtil";
 
 import Usages from "./Usages";
 import Quotas from "./Quotas";
+import GridLabelValue from "components/utils/GridLabelValue";
 
 function EditQuotasDialog(props) {
     const { open, onClose, parentId, subscription } = props;
-    const [quotasSubmission, setQuotasSubmission] = useState([]);
-    const [selectedUsername, setSelectedUsername] = useState(null);
     const [updateQuotasError, setUpdateQuotasError] = useState(null);
     const { t } = useTranslation("subscriptions");
     const queryClient = useQueryClient();
@@ -34,20 +32,20 @@ function EditQuotasDialog(props) {
     useQuery({
         queryKey: [
             SUBSCRIPTIONS_QUERY_KEY,
-            { parentId: parentId, user: subscription?.user.username },
+            { user: subscription?.user?.username },
         ],
         queryFn: () =>
-            getSubscriptions({ searchTerm: subscription?.user.username }),
-        enabled: true,
+            getSubscriptions({ searchTerm: subscription?.user?.username }),
+        enabled: !!subscription,
         onSuccess: (data) => {
             setSelectedSubscription(data.result.subscriptions[0]);
         },
     });
 
     const { mutate: updateQuotas } = useMutation(
-        () => updateUserQuotas(quotasSubmission, selectedUsername),
+        ({ quotas, username }) => updateUserQuotas(quotas, username),
         {
-            onSuccess: (data) => {
+            onSuccess: (_data) => {
                 announce({
                     text: t("quotaUpdated"),
                 });
@@ -60,10 +58,7 @@ function EditQuotasDialog(props) {
     );
 
     const handleSubmit = (values) => {
-        const { quotas, username } = values;
-        setSelectedUsername(username);
-        setQuotasSubmission(quotas);
-        updateQuotas();
+        updateQuotas(values);
     };
 
     const onCloseForm = () => {
@@ -73,7 +68,6 @@ function EditQuotasDialog(props) {
 
     const resetState = () => {
         setUpdateQuotasError(null);
-        setQuotasSubmission(null);
     };
 
     return (
@@ -82,7 +76,7 @@ function EditQuotasDialog(props) {
             onSubmit={handleSubmit}
             enableReinitialize={true}
         >
-            {({ handleSubmit, ...props }) => {
+            {({ handleSubmit }) => {
                 return (
                     <Form>
                         <DEDialog
@@ -90,7 +84,6 @@ function EditQuotasDialog(props) {
                             open={open}
                             onClose={() => {
                                 onCloseForm();
-                                props.resetForm();
                             }}
                             fullWidth={true}
                             title={t("editQuotas")}
@@ -103,7 +96,6 @@ function EditQuotasDialog(props) {
                                         )}
                                         onClick={() => {
                                             onCloseForm();
-                                            props.resetForm();
                                         }}
                                     >
                                         {t("cancel")}
@@ -143,28 +135,22 @@ function EditQuotasDialog(props) {
 function EditQuotasForm(props) {
     const { parentId, subscription } = props;
     const { t } = useTranslation("subscriptions");
-    const { t: i18nUtil } = useTranslation("util");
     return (
         <>
-            <Field
-                component={FormTextField}
-                id={buildID(parentId, ids.EDIT_QUOTAS_DLG.USERNAME)}
-                label={t("username")}
-                name="username"
-                disabled
-                required
-                validate={(value) => nonEmptyField(value, i18nUtil)}
-            />
-
-            <Field
-                component={FormTextField}
-                id={buildID(parentId, ids.EDIT_QUOTAS_DLG.PLAN_NAME)}
-                label={t("planName")}
-                name="plan_name"
-                disabled
-                required
-                validate={(value) => nonEmptyField(value, i18nUtil)}
-            />
+            <SimpleExpansionPanel
+                parentId={parentId}
+                header={t("details")}
+                defaultExpanded={true}
+            >
+                <Grid container spacing={2}>
+                    <GridLabelValue label="Username">
+                        <Typography>{subscription?.user?.username}</Typography>
+                    </GridLabelValue>
+                    <GridLabelValue label="Plan Name">
+                        <Typography>{subscription?.plan?.name}</Typography>
+                    </GridLabelValue>
+                </Grid>
+            </SimpleExpansionPanel>
 
             {subscription && (
                 <FieldArray
@@ -183,17 +169,9 @@ function EditQuotasForm(props) {
             )}
 
             {subscription && (
-                <FieldArray
-                    name={"usages"}
-                    render={(arrayHelpers) => (
-                        <Usages
-                            parentId={buildID(
-                                parentId,
-                                ids.EDIT_SUB_DLG.USAGES
-                            )}
-                            {...arrayHelpers}
-                        />
-                    )}
+                <Usages
+                    parentId={buildID(parentId, ids.EDIT_SUB_DLG.USAGES)}
+                    usages={subscription.usages}
                 />
             )}
         </>

@@ -28,9 +28,11 @@ function EditSubscriptionDialog(props) {
     const [failureReason, setFailureReason] = useState(null);
     const [mutateSubscriptionError, setMutateSubscriptionError] =
         useState(null);
+    const [planTypesQueryEnabled, setPlanTypesQueryEnabled] = useState();
 
     const { t } = useTranslation("subscriptions");
     const queryClient = useQueryClient();
+    const planTypesCache = queryClient.getQueryData(PLAN_TYPES_QUERY_KEY);
 
     const preProcessPlanTypes = React.useCallback(
         (data) => {
@@ -42,6 +44,14 @@ function EditSubscriptionDialog(props) {
         },
         [setPlanTypes]
     );
+
+    React.useEffect(() => {
+        if (planTypesCache) {
+            preProcessPlanTypes(planTypesCache);
+        } else {
+            setPlanTypesQueryEnabled(true);
+        }
+    }, [preProcessPlanTypes, planTypesCache]);
 
     const { mutate: mutateSubscription } = useMutation(
         (subscriptionSubmission) => postSubscription(subscriptionSubmission),
@@ -86,8 +96,8 @@ function EditSubscriptionDialog(props) {
 
     useQuery({
         queryKey: [PLAN_TYPES_QUERY_KEY],
-        queryFn: () => getPlanTypes(),
-        enabled: true,
+        queryFn: getPlanTypes,
+        enabled: planTypesQueryEnabled,
         staleTime: Infinity,
         cacheTime: Infinity,
         onSuccess: preProcessPlanTypes,

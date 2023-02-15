@@ -49,7 +49,6 @@ function ViceLogsViewer(props) {
     const [logsToDisplay, setLogsToDisplay] = React.useState("");
     const [followLogs, setFollowLogs] = React.useState(false);
     const [sinceTime, setSinceTime] = React.useState("0");
-    const [editorInstance, setEditorInstance] = React.useState(null);
 
     const analysis = getSelectedAnalyses()[0];
 
@@ -139,11 +138,8 @@ function ViceLogsViewer(props) {
                     showLineNumbers={false}
                     editable={false}
                     wrapText={true}
-                    editorInstance={editorInstance}
-                    setEditorInstance={setEditorInstance}
+                    initialValue={logsToDisplay}
                     setEditorValue={setLogsToDisplay}
-                    setDirty={() => {}}
-                    editorValue={logsToDisplay}
                 />
             )}
         </DEDialog>

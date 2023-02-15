@@ -68,10 +68,10 @@ function Listing(props) {
         enabled: !!config?.subscriptions?.enforce,
         onSuccess: (respData) => {
             const computeUsage = respData?.cpu_usage?.total || 0;
-            const userPlan = respData?.user_plan;
+            const subscription = respData?.subscription;
             const computeQuota = getUserQuota(
                 globalConstants.CPU_HOURS_RESOURCE_NAME,
-                userPlan
+                subscription
             );
             setComputeLimitExceeded(computeUsage >= computeQuota);
         },

@@ -40,12 +40,14 @@ export default function ResourceUsageItem(props) {
         return <Skeleton variant="rect" width={800} height={200} />;
     }
 
-    const userPlan = resourceUsageSummary?.user_plan;
+    const subscription = resourceUsageSummary.subscription;
     const startDate = formatDateObject(
-        new Date(userPlan?.effective_start_date)
+        new Date(subscription?.effective_start_date)
     );
-    const endDate = formatDateObject(new Date(userPlan?.effective_end_date));
-    const currentPlanName = userPlan?.plan?.name;
+    const endDate = formatDateObject(
+        new Date(subscription?.effective_end_date)
+    );
+    const currentPlanName = subscription?.plan?.name;
     const dataUsage = resourceUsageSummary?.data_usage;
     const cpuUsage = resourceUsageSummary?.cpu_usage;
     const usageSummaryErrors = resourceUsageSummary?.errors;
@@ -124,7 +126,7 @@ export default function ResourceUsageItem(props) {
                                 <Card>
                                     <DataConsumption
                                         data={dataUsage}
-                                        userPlan={userPlan}
+                                        subscription={subscription}
                                         isLoading={isLoading}
                                         errors={usageSummaryErrors}
                                     />
@@ -137,7 +139,7 @@ export default function ResourceUsageItem(props) {
                                 <Card>
                                     <CPUConsumption
                                         data={cpuUsage}
-                                        userPlan={userPlan}
+                                        subscription={subscription}
                                         isLoading={isLoading}
                                         errors={usageSummaryErrors}
                                     />

@@ -1,18 +1,14 @@
 import React from "react";
 
 import { useTranslation } from "i18n";
-import { Field, getIn } from "formik";
-import { Table, TableBody, TableCell } from "@material-ui/core";
-import SimpleExpansionPanel from "../SimpleExpansionPanel";
+import { Table, TableBody, TableCell, Typography } from "@material-ui/core";
+import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
 import { DERow } from "components/table/DERow";
 import DETableHead from "components/table/DETableHead";
 
-import buildID from "components/utils/DebugIDUtil";
 import ids from "../ids";
 
 import EmptyTable from "components/table/EmptyTable";
-import FormTextField from "components/forms/FormTextField";
-import FormNumberField from "components/forms/FormNumberField";
 
 const TABLE_COLUMNS = [
     { name: "Usage", numeric: false, enableSorting: false },
@@ -20,16 +16,15 @@ const TABLE_COLUMNS = [
 ];
 
 function Usages(props) {
-    const {
-        name,
-        parentId,
-        form: { values },
-    } = props;
+    const { parentId, usages } = props;
     const { t } = useTranslation("subscriptions");
 
-    let usages = getIn(values, name);
     return (
-        <SimpleExpansionPanel header={t("usages")} defaultExpanded={false}>
+        <SimpleExpansionPanel
+            parentId={parentId}
+            header={t("usages")}
+            defaultExpanded={false}
+        >
             <Table>
                 <TableBody>
                     {(!usages || usages.length === 0) && (
@@ -40,34 +35,15 @@ function Usages(props) {
                     )}
                     {usages &&
                         usages.length > 0 &&
-                        usages.map((_, index) => (
+                        usages.map((resource, index) => (
                             <DERow tabIndex={-1} key={index}>
                                 <TableCell>
-                                    <Field
-                                        name={`${name}.${index}.usage`}
-                                        id={buildID(
-                                            parentId,
-                                            index,
-                                            ids.EDIT_SUB_DLG.USAGES
-                                        )}
-                                        fullWidth={false}
-                                        disabled
-                                        component={FormNumberField}
-                                    />
+                                    <Typography>{resource.usage}</Typography>
                                 </TableCell>
                                 <TableCell>
-                                    <Field
-                                        name={`${name}.${index}.resource_type.name`}
-                                        id={buildID(
-                                            parentId,
-                                            index,
-                                            ids.EDIT_SUB_DLG
-                                                .USAGES_RESOURCE_TYPE
-                                        )}
-                                        fullWidth={false}
-                                        disabled
-                                        component={FormTextField}
-                                    />
+                                    <Typography>
+                                        {resource.resource_type.unit}
+                                    </Typography>
                                 </TableCell>
                             </DERow>
                         ))}

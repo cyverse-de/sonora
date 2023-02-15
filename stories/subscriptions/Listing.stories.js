@@ -1,18 +1,26 @@
 import React from "react";
 import { mockAxios } from "../axiosMock";
 import Listing from "../../src/components/subscriptions/listing/Listing";
-import { invalidSortField, listing, planTypes } from "./SubscriptionMocks";
+import {
+    emptyListing,
+    erroredListing,
+    invalidSortField,
+    listing,
+    planTypes,
+} from "./SubscriptionMocks";
 import constants from "../../src/constants";
 
 export default {
     title: "Subscriptions / Listing",
 };
 
+const subscriptionListingUriRegexp = /\/api\/admin\/qms\/subscriptions.*/;
+
 function ListingTest(props) {
     return (
         <Listing
             baseId="subscriptions"
-            isAdminView={props.adminView}
+            isAdminView={props.isAdminView}
             order={constants.SORT_ASCENDING}
             orderBy={"username"}
             page={0}
@@ -86,18 +94,35 @@ function sortSubscriptionsByUsername(subscriptions, sortAscending) {
     return subscriptions.sort(compareSubscriptions);
 }
 
-export const SubscriptionListingTest = ({ adminView }) => {
+export const SubscriptionListingTest = ({ isAdminView }) => {
     mockAxios.onGet("api/qms/plans").reply(200, planTypes);
     mockAxios
-        .onGet(/\/api\/admin\/qms\/subscriptions.*/)
+        .onGet(subscriptionListingUriRegexp)
         .reply(parameterizedSubscriptionListing);
-    return <ListingTest adminView={adminView} />;
+    return <ListingTest isAdminView={isAdminView} />;
+};
+
+/**
+ * Covers the case where there are no subscriptions to be displayed.
+ */
+export const EmptySubscriptionListingTest = ({ isAdminView }) => {
+    mockAxios.onGet("api/qms/plans").reply(200, planTypes);
+    mockAxios.onGet(subscriptionListingUriRegexp).reply(200, emptyListing);
+    return <ListingTest isAdminView={isAdminView} />;
+};
+
+/**
+ * Covers the case where the subscription listing endpoint returns an error.
+ */
+export const ErroredListingTest = ({ isAdminView }) => {
+    mockAxios.onGet(subscriptionListingUriRegexp).reply(400, erroredListing);
+    return <ListingTest isAdminView={isAdminView} />;
 };
 
 /**
  * Returns a function that can be used to compare subscriptions by username. A higher-order
  * function is used here so that we can easily determine the sort order.
- * @param {Boolean} sortAscending - true if the tools should be sorted in ascending order
+ * @param {Boolean} sortAscending - true if the subscriptions should be sorted in ascending order
  */
 function subscriptionUsernameComparison(sortAscending) {
     const applyDirection = (n) => (sortAscending ? n : -n);
@@ -113,8 +138,7 @@ function subscriptionUsernameComparison(sortAscending) {
 }
 
 SubscriptionListingTest.argTypes = {
-    adminView: {
-        name: "Admin View",
+    isAdminView: {
         control: {
             type: "boolean",
         },
@@ -122,5 +146,17 @@ SubscriptionListingTest.argTypes = {
 };
 
 SubscriptionListingTest.args = {
-    adminView: true,
+    isAdminView: true,
+};
+
+EmptySubscriptionListingTest.argTypes = {
+    isAdminView: {
+        control: {
+            type: "boolean",
+        },
+    },
+};
+
+EmptySubscriptionListingTest.args = {
+    isAdminView: true,
 };

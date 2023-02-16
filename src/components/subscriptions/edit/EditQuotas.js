@@ -146,7 +146,7 @@ function EditQuotasForm(props) {
                     <GridLabelValue label={t("username")}>
                         <Typography>{subscription?.user?.username}</Typography>
                     </GridLabelValue>
-                    <GridLabelValue label="Plan Name">
+                    <GridLabelValue label={t("planName")}>
                         <Typography>{subscription?.plan?.name}</Typography>
                     </GridLabelValue>
                 </Grid>

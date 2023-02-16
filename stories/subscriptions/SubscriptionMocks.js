@@ -1,3 +1,15 @@
+export const emptyListing = {
+    result: {
+        subscriptions: [],
+        total: 0,
+    },
+};
+
+export const erroredListing = {
+    error_code: "ERR_SOMETHING_BAD_HAPPENED",
+    reason: "something bad happened",
+};
+
 export const invalidSortField = {
     error_code: "ERR_INVALID_QUERY_PARAM",
     reason: "invalid sort field",

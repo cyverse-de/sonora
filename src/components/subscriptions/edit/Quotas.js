@@ -5,7 +5,7 @@ import { Field, getIn } from "formik";
 import ids from "../ids";
 
 import { Table, TableBody, TableCell } from "@material-ui/core";
-import SimpleExpansionPanel from "../SimpleExpansionPanel";
+import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
 
 import { DERow } from "components/table/DERow";
 import DETableHead from "components/table/DETableHead";
@@ -35,7 +35,11 @@ function Quotas(props) {
     });
     let quotas = getIn(values, name);
     return (
-        <SimpleExpansionPanel header={t("quotas")} defaultExpanded={true}>
+        <SimpleExpansionPanel
+            parentId={parentId}
+            header={t("quotas")}
+            defaultExpanded={true}
+        >
             <Table>
                 <TableBody>
                     {(!resourceTypes || resourceTypes.length === 0) && (
@@ -57,6 +61,7 @@ function Quotas(props) {
                                             ids.EDIT_QUOTAS_DLG.QUOTAS
                                         )}
                                         fullWidth={false}
+                                        required
                                         validate={(value) =>
                                             nonEmptyMinValue(value, i18nUtil)
                                         }

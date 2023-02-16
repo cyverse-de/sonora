@@ -22,6 +22,8 @@ import { formatDateObject } from "components/utils/DateFormatter";
 
 import PageWrapper from "components/layout/PageWrapper";
 import RowDotMenu from "./RowDotMenu";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import EmptyTable from "components/table/EmptyTable";
 
 import {
     Paper,
@@ -94,9 +96,133 @@ function LoadingMask(props) {
     );
 }
 
+/**
+ * Returns the table contents to return when the API returns an empty result set.
+ * @param {Object} props - the component properties
+ */
+function NoSubscriptions(props) {
+    const { columns, t } = props;
+    return (
+        <EmptyTable
+            message={t("noSubscriptions")}
+            numColumns={columns.length + 1}
+        />
+    );
+}
+
+function SubscriptionListing(props) {
+    const {
+        baseId,
+        handleClick,
+        onDetailsSelected,
+        onEditQuotasSelected,
+        onEditSubscriptionSelected,
+        subscriptions,
+        selected,
+        tableId,
+    } = props;
+
+    return (
+        subscriptions &&
+        subscriptions.length > 0 &&
+        subscriptions.map((subscription, index) => {
+            const subscriptionId = subscription.id;
+            const rowId = buildID(baseId, tableId, subscriptionId);
+            const user = subscription.user.username;
+            const startDate = subscription.effective_start_date;
+            const endDate = subscription.effective_end_date;
+            const planName = subscription.plan.name;
+            const isSelected = selected?.indexOf(subscriptionId) !== -1;
+
+            return (
+                <DERow
+                    id={rowId}
+                    key={subscriptionId}
+                    role="checkbox"
+                    selected={isSelected}
+                    aria-checked={isSelected}
+                    hover
+                    onClick={(event) => {
+                        if (handleClick) {
+                            handleClick(event, subscriptionId);
+                        }
+                    }}
+                >
+                    <TableCell padding="checkbox">
+                        <DECheckbox />
+                    </TableCell>
+                    <TableCell id={buildID(rowId, ids.USERNAME_CELL)}>
+                        <UserName username={user} />
+                    </TableCell>
+                    <TableCell id={buildID(rowId, ids.START_DATE_CELL)}>
+                        <Typography variant="body2">
+                            {formatDateObject(startDate && new Date(startDate))}
+                        </Typography>
+                    </TableCell>
+                    <TableCell id={buildID(rowId, ids.END_DATE_CELL)}>
+                        <Typography variant="body2">
+                            {formatDateObject(endDate && new Date(endDate))}
+                        </Typography>
+                    </TableCell>
+                    <TableCell id={buildID(rowId, ids.PLAN_NAME_CELL)}>
+                        <Typography variant="body2">{planName}</Typography>
+                    </TableCell>
+                    <TableCell
+                        id={buildID(rowId, ids.ROW_DOT_MENU)}
+                        align="right"
+                    >
+                        <RowDotMenu
+                            baseId={baseId}
+                            onDetailsSelected={onDetailsSelected}
+                            onEditQuotasSelected={onEditQuotasSelected}
+                            onEditSubscriptionSelected={
+                                onEditSubscriptionSelected
+                            }
+                        />
+                    </TableCell>
+                </DERow>
+            );
+        })
+    );
+}
+
+function SubscriptionListingTableBody(props) {
+    const {
+        baseId,
+        columns,
+        handleClick,
+        onDetailsSelected,
+        onEditQuotasSelected,
+        onEditSubscriptionSelected,
+        subscriptions,
+        selected,
+        tableId,
+        t,
+    } = props;
+    return (
+        <TableBody>
+            {!subscriptions?.length ? (
+                <NoSubscriptions columns={columns} t={t} />
+            ) : (
+                <SubscriptionListing
+                    baseId={baseId}
+                    handleClick={handleClick}
+                    onDetailsSelected={onDetailsSelected}
+                    onEditQuotasSelected={onEditQuotasSelected}
+                    onEditSubscriptionSelected={onEditSubscriptionSelected}
+                    subscriptions={subscriptions}
+                    selected={selected}
+                    tableId={tableId}
+                />
+            )}
+        </TableBody>
+    );
+}
+
 function TableView(props) {
     const {
         baseId,
+        error,
         handleClick,
         handleRequestSort,
         isAdminView,
@@ -110,10 +236,15 @@ function TableView(props) {
         selected,
     } = props;
     const { t } = useTranslation("subscriptions");
-    let columns = columnData(t);
+    const columns = columnData(t);
 
     const subscriptions = listing?.subscriptions;
+
     const tableId = buildID(baseId, ids.LISTING_TABLE);
+
+    if (error) {
+        return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
+    }
 
     return (
         <PageWrapper appBarHeight={0}>
@@ -136,119 +267,20 @@ function TableView(props) {
                         {loading ? (
                             <LoadingMask columns={columns} tableId={tableId} />
                         ) : (
-                            <TableBody>
-                                {subscriptions &&
-                                    subscriptions.length > 0 &&
-                                    subscriptions.map((subscription, index) => {
-                                        const subscriptionId = subscription.id;
-                                        const rowId = buildID(
-                                            baseId,
-                                            tableId,
-                                            subscriptionId
-                                        );
-                                        const user = subscription.user.username;
-                                        const startDate =
-                                            subscription.effective_start_date;
-                                        const endDate =
-                                            subscription.effective_end_date;
-                                        const planName = subscription.plan.name;
-                                        const isSelected =
-                                            selected?.indexOf(
-                                                subscriptionId
-                                            ) !== -1;
-
-                                        return (
-                                            <DERow
-                                                id={rowId}
-                                                key={subscriptionId}
-                                                role="checkbox"
-                                                selected={isSelected}
-                                                aria-checked={isSelected}
-                                                hover
-                                                onClick={(event) => {
-                                                    if (handleClick) {
-                                                        handleClick(
-                                                            event,
-                                                            subscriptionId
-                                                        );
-                                                    }
-                                                }}
-                                            >
-                                                <TableCell padding="checkbox">
-                                                    <DECheckbox />
-                                                </TableCell>
-                                                <TableCell
-                                                    id={buildID(
-                                                        rowId,
-                                                        ids.USERNAME_CELL
-                                                    )}
-                                                >
-                                                    <UserName username={user} />
-                                                </TableCell>
-                                                <TableCell
-                                                    id={buildID(
-                                                        rowId,
-                                                        ids.START_DATE_CELL
-                                                    )}
-                                                >
-                                                    <Typography variant="body2">
-                                                        {formatDateObject(
-                                                            startDate &&
-                                                                new Date(
-                                                                    startDate
-                                                                )
-                                                        )}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell
-                                                    id={buildID(
-                                                        rowId,
-                                                        ids.END_DATE_CELL
-                                                    )}
-                                                >
-                                                    <Typography variant="body2">
-                                                        {formatDateObject(
-                                                            endDate &&
-                                                                new Date(
-                                                                    endDate
-                                                                )
-                                                        )}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell
-                                                    id={buildID(
-                                                        rowId,
-                                                        ids.PLAN_NAME_CELL
-                                                    )}
-                                                >
-                                                    <Typography variant="body2">
-                                                        {planName}
-                                                    </Typography>
-                                                </TableCell>
-                                                <TableCell
-                                                    id={buildID(
-                                                        rowId,
-                                                        ids.ROW_DOT_MENU
-                                                    )}
-                                                    align="right"
-                                                >
-                                                    <RowDotMenu
-                                                        baseId={baseId}
-                                                        onDetailsSelected={
-                                                            onDetailsSelected
-                                                        }
-                                                        onEditQuotasSelected={
-                                                            onEditQuotasSelected
-                                                        }
-                                                        onEditSubscriptionSelected={
-                                                            onEditSubscriptionSelected
-                                                        }
-                                                    />
-                                                </TableCell>
-                                            </DERow>
-                                        );
-                                    })}
-                            </TableBody>
+                            <SubscriptionListingTableBody
+                                baseId={baseId}
+                                columns={columns}
+                                handleClick={handleClick}
+                                onDetailsSelected={onDetailsSelected}
+                                onEditQuotasSelected={onEditQuotasSelected}
+                                onEditSubscriptionSelected={
+                                    onEditSubscriptionSelected
+                                }
+                                subscriptions={subscriptions}
+                                selected={selected}
+                                t={t}
+                                tableId={tableId}
+                            />
                         )}
                     </Table>
                 </TableContainer>

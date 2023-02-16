@@ -143,7 +143,7 @@ function EditQuotasForm(props) {
                 defaultExpanded={true}
             >
                 <Grid container spacing={2}>
-                    <GridLabelValue label="Username">
+                    <GridLabelValue label={t("username")}>
                         <Typography>{subscription?.user?.username}</Typography>
                     </GridLabelValue>
                     <GridLabelValue label="Plan Name">

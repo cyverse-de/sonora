@@ -24,6 +24,7 @@ import PageWrapper from "components/layout/PageWrapper";
 import RowDotMenu from "./RowDotMenu";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 import EmptyTable from "components/table/EmptyTable";
+import dateConstants from "components/utils/dateConstants";
 
 import {
     Paper,
@@ -156,12 +157,18 @@ function SubscriptionListing(props) {
                     </TableCell>
                     <TableCell id={buildID(rowId, ids.START_DATE_CELL)}>
                         <Typography variant="body2">
-                            {formatDateObject(startDate && new Date(startDate))}
+                            {formatDateObject(
+                                startDate && new Date(startDate),
+                                dateConstants.DATE_FORMAT
+                            )}
                         </Typography>
                     </TableCell>
                     <TableCell id={buildID(rowId, ids.END_DATE_CELL)}>
                         <Typography variant="body2">
-                            {formatDateObject(endDate && new Date(endDate))}
+                            {formatDateObject(
+                                endDate && new Date(endDate),
+                                dateConstants.DATE_FORMAT
+                            )}
                         </Typography>
                     </TableCell>
                     <TableCell id={buildID(rowId, ids.PLAN_NAME_CELL)}>

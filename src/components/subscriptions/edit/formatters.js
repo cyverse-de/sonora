@@ -1,3 +1,5 @@
+const bytesInGiB = 1024 ** 3;
+
 export function mapPropsToValues(subscription) {
     let values = {
         username: "",
@@ -15,7 +17,9 @@ export function mapPropsToValues(subscription) {
 
         if (quotas.length) {
             values.quotas = quotas.map(({ quota, resource_type }) => ({
-                quota,
+                // Convert data size quota from B to GiB
+                quota:
+                    resource_type.unit === "bytes" ? quota / bytesInGiB : quota,
                 resource_type,
             }));
         }
@@ -32,4 +36,16 @@ export function formatSubscriptions(values) {
         plan_name,
     };
     return submission;
+}
+
+export function formatQuotas(values) {
+    const { quotas } = values;
+    const isBytes = (item) => item.resource_type.unit.toLowerCase() === "bytes";
+    const dataSizeQuotaIndex = quotas.findIndex(isBytes);
+
+    // Format the quota submission from GiB to B
+    values.quotas[dataSizeQuotaIndex].quota =
+        parseInt(values.quotas[dataSizeQuotaIndex].quota) * bytesInGiB;
+
+    return values;
 }

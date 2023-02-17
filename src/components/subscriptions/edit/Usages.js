@@ -9,6 +9,7 @@ import DETableHead from "components/table/DETableHead";
 import ids from "../ids";
 
 import EmptyTable from "components/table/EmptyTable";
+import { formatFileSize } from "components/data/utils";
 
 const TABLE_COLUMNS = [
     { name: "Usage", numeric: false, enableSorting: false },
@@ -36,16 +37,7 @@ function Usages(props) {
                     {usages &&
                         usages.length > 0 &&
                         usages.map((resource, index) => (
-                            <DERow tabIndex={-1} key={index}>
-                                <TableCell>
-                                    <Typography>{resource.usage}</Typography>
-                                </TableCell>
-                                <TableCell>
-                                    <Typography>
-                                        {resource.resource_type.unit}
-                                    </Typography>
-                                </TableCell>
-                            </DERow>
+                            <UsageAmounts index={index} resource={resource} />
                         ))}
                 </TableBody>
                 <DETableHead
@@ -58,6 +50,38 @@ function Usages(props) {
             </Table>
         </SimpleExpansionPanel>
     );
+}
+
+function UsageAmounts(props) {
+    const { index, resource } = props;
+    let usageInBytes = resource.resource_type.unit.toLowerCase() === "bytes";
+    if (usageInBytes) {
+        return (
+            <DERow tabIndex={-1} key={index}>
+                <TableCell>
+                    <Typography>
+                        {formatFileSize(resource.usage).split(" ")[0]}
+                    </Typography>
+                </TableCell>
+                <TableCell>
+                    <Typography>
+                        {formatFileSize(resource.usage).split(" ")[1]}
+                    </Typography>
+                </TableCell>
+            </DERow>
+        );
+    } else {
+        return (
+            <DERow tabIndex={-1} key={index}>
+                <TableCell>
+                    <Typography>{resource.usage}</Typography>
+                </TableCell>
+                <TableCell>
+                    <Typography>{resource.resource_type.unit}</Typography>
+                </TableCell>
+            </DERow>
+        );
+    }
 }
 
 export default Usages;

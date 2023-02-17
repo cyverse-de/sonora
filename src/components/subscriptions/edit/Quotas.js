@@ -4,14 +4,13 @@ import { useTranslation } from "i18n";
 import { Field, getIn } from "formik";
 import ids from "../ids";
 
-import { Table, TableBody, TableCell } from "@material-ui/core";
+import { Table, TableBody, TableCell, Typography } from "@material-ui/core";
 import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
 
 import { DERow } from "components/table/DERow";
 import DETableHead from "components/table/DETableHead";
 import buildID from "components/utils/DebugIDUtil";
 import EmptyTable from "components/table/EmptyTable";
-import FormTextField from "components/forms/FormTextField";
 import FormNumberField from "components/forms/FormNumberField";
 import { nonEmptyMinValue } from "components/utils/validations";
 
@@ -50,7 +49,7 @@ function Quotas(props) {
                     )}
                     {quotas &&
                         quotas.length > 0 &&
-                        quotas.map((_, index) => (
+                        quotas.map((quota, index) => (
                             <DERow tabIndex={-1} key={index}>
                                 <TableCell>
                                     <Field
@@ -69,17 +68,10 @@ function Quotas(props) {
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    <Field
-                                        name={`${name}.${index}.resource_type.unit`}
-                                        id={buildID(
-                                            parentId,
-                                            index,
-                                            ids.EDIT_QUOTAS_DLG
-                                                .QUOTAS_RESOURCE_TYPE
-                                        )}
-                                        fullWidth={false}
-                                        disabled
-                                        component={FormTextField}
+                                    <QuotaResourceType
+                                        quota={quota}
+                                        index={index}
+                                        t={t}
                                     />
                                 </TableCell>
                             </DERow>
@@ -95,6 +87,16 @@ function Quotas(props) {
             </Table>
         </SimpleExpansionPanel>
     );
+}
+
+function QuotaResourceType(props) {
+    const { index, quota, t } = props;
+    let resourceInBytes = quota.resource_type.unit.toLowerCase() === "bytes";
+    if (resourceInBytes) {
+        return <Typography key={index}>{t("gib")}</Typography>;
+    } else {
+        return <Typography key={index}>{quota.resource_type.unit}</Typography>;
+    }
 }
 
 export default Quotas;

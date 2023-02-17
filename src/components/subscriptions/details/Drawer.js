@@ -20,6 +20,8 @@ import ids from "../ids";
 import GridLoading from "components/utils/GridLoading";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import { DETab, DETabPanel, DETabs } from "../../utils/DETabs";
+import dateConstants from "components/utils/dateConstants";
+import { formatFileSize } from "components/data/utils";
 
 import {
     getSubscriptions,
@@ -99,13 +101,15 @@ function DetailsPanel(props) {
                 <GridLabelValue label={t("startDate")}>
                     {formatDateObject(
                         subscriptionDetails?.effective_start_date &&
-                            new Date(subscriptionDetails?.effective_start_date)
+                            new Date(subscriptionDetails?.effective_start_date),
+                        dateConstants.DATE_FORMAT
                     )}
                 </GridLabelValue>
                 <GridLabelValue label={t("endDate")}>
                     {formatDateObject(
                         subscriptionDetails?.effective_end_date &&
-                            new Date(subscriptionDetails?.effective_end_date)
+                            new Date(subscriptionDetails?.effective_end_date),
+                        dateConstants.DATE_FORMAT
                     )}
                 </GridLabelValue>
                 <GridLabelValue label={t("planName")}>
@@ -129,11 +133,22 @@ function QuotasDetails(props) {
             {selectedSubscription &&
                 selectedSubscription.quotas.length > 0 &&
                 selectedSubscription.quotas.map((item, index) => {
-                    return (
-                        <Typography key={index}>
-                            {item.quota} {item.resource_type.unit}
-                        </Typography>
-                    );
+                    // Only format data storage resources to human readable format
+                    let resourceInBytes =
+                        item.resource_type.unit.toLowerCase() === "bytes";
+                    if (resourceInBytes) {
+                        return (
+                            <Typography key={index}>
+                                {formatFileSize(item.quota)}
+                            </Typography>
+                        );
+                    } else {
+                        return (
+                            <Typography key={index}>
+                                {item.quota} {item.resource_type.unit}
+                            </Typography>
+                        );
+                    }
                 })}
         </>
     );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { FieldArray, Form, Formik } from "formik";
-import { mapPropsToValues } from "./formatters";
+import { mapPropsToValues, formatQuotas } from "./formatters";
 import DEDialog from "components/utils/DEDialog";
 import { Button, Grid, Typography } from "@material-ui/core";
 import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
@@ -58,7 +58,7 @@ function EditQuotasDialog(props) {
     );
 
     const handleSubmit = (values) => {
-        updateQuotas(values);
+        updateQuotas(formatQuotas(values));
     };
 
     const onCloseForm = () => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { FastField, Field, FieldArray, Form, Formik } from "formik";
+import { FastField, Field, Form, Formik } from "formik";
 import { mapPropsToValues, formatSubscriptions } from "./formatters";
 
 import DEDialog from "components/utils/DEDialog";
@@ -222,17 +222,9 @@ function EditSubscriptionForm(props) {
             </FastField>
 
             {subscription && (
-                <FieldArray
-                    name={"usages"}
-                    render={(arrayHelpers) => (
-                        <Usages
-                            parentId={buildID(
-                                parentId,
-                                ids.EDIT_SUB_DLG.USAGES
-                            )}
-                            {...arrayHelpers}
-                        />
-                    )}
+                <Usages
+                    parentId={buildID(parentId, ids.EDIT_SUB_DLG.USAGES)}
+                    usages={subscription.usages}
                 />
             )}
         </>

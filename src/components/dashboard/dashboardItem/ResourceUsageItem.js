@@ -40,7 +40,7 @@ export default function ResourceUsageItem(props) {
         return <Skeleton variant="rect" width={800} height={200} />;
     }
 
-    const subscription = resourceUsageSummary.subscription;
+    const subscription = resourceUsageSummary?.subscription;
     const startDate = formatDateObject(
         new Date(subscription?.effective_start_date)
     );

@@ -101,7 +101,7 @@ function Listing(props) {
     } = props;
     const [config] = useConfig();
 
-    const { t } = useTranslation(["data", "dashboard"]);
+    const { t } = useTranslation(["data", "common"]);
 
     const uploadTracker = useUploadTrackingState();
     const theme = useTheme();
@@ -264,7 +264,7 @@ function Listing(props) {
             setComputeLimitExceeded(computeUsage >= computeQuota);
         },
         onError: (e) => {
-            showErrorAnnouncer(t("dashboard:usageSummaryError"), e);
+            showErrorAnnouncer(t("common:usageSummaryError"), e);
         },
     });
 

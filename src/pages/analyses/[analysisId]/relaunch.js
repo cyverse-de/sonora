@@ -28,7 +28,7 @@ import { useUserProfile } from "contexts/userProfile";
 import { APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY } from "pages/apps/[systemId]/[appId]/launch";
 
 const Relaunch = ({ showErrorAnnouncer }) => {
-    const { t } = useTranslation("dashboard");
+    const { t } = useTranslation("common");
     const [config] = useConfig();
     const [userProfile] = useUserProfile();
     const [relaunchKey, setRelaunchKey] = React.useState(
@@ -124,7 +124,6 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             ...(await serverSideTranslations(locale, [
-                "dashboard",
                 "data",
                 "launch",
                 "upload",

@@ -38,7 +38,7 @@ export const APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY =
     RESOURCE_USAGE_QUERY_KEY + "AppLaunch";
 
 function Launch({ showErrorAnnouncer }) {
-    const { t } = useTranslation("dashboard");
+    const { t } = useTranslation("common");
     const [config] = useConfig();
     const [userProfile] = useUserProfile();
     const [app, setApp] = React.useState(null);
@@ -122,7 +122,6 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             ...(await serverSideTranslations(locale, [
-                "dashboard",
                 "data",
                 "launch",
                 "upload",

@@ -31,7 +31,7 @@ import { Skeleton } from "@material-ui/lab";
 
 export default function ResourceUsageItem(props) {
     const { resourceUsageSummary, resourceUsageError, isLoading } = props;
-    const { t } = useTranslation("dashboard");
+    const { t } = useTranslation(["dashboard", "common"]);
 
     const [config] = useConfig();
     const theme = useTheme();
@@ -70,7 +70,7 @@ export default function ResourceUsageItem(props) {
             />
             {resourceUsageError && (
                 <ErrorTypographyWithDialog
-                    errorMessage={t("usageSummaryError")}
+                    errorMessage={t("common:usageSummaryError")}
                     errorObject={resourceUsageError}
                 />
             )}

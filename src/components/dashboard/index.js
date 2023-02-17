@@ -111,7 +111,7 @@ const DashboardSkeleton = () => {
 const Dashboard = (props) => {
     const { showErrorAnnouncer } = props;
     const classes = useStyles();
-    const { t } = useTranslation("dashboard");
+    const { t } = useTranslation(["dashboard", "common"]);
     const { t: i18nPref } = useTranslation("preferences");
     const { t: i18nIntro } = useTranslation("intro");
     const { t: i18Analyses } = useTranslation("analyses");
@@ -167,7 +167,7 @@ const Dashboard = (props) => {
         },
         onError: (e) => {
             setResourceUsageError(e);
-            showErrorAnnouncer(t("usageSummaryError"), e);
+            showErrorAnnouncer(t("common:usageSummaryError"), e);
         },
     });
 

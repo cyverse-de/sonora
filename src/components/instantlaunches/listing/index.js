@@ -43,7 +43,7 @@ function Listing(props) {
         !!config?.subscriptions?.enforce
     );
 
-    const { t } = useTranslation(["instantlaunches", "dashboard"]);
+    const { t } = useTranslation(["instantlaunches", "common"]);
     const instantLaunchLocationAttr =
         constants.METADATA.INSTANT_LAUNCH_LOCATION_ATTR;
     const instantLaunchListing = constants.METADATA.INSTANT_LAUNCH_LISTING;
@@ -76,7 +76,7 @@ function Listing(props) {
             setComputeLimitExceeded(computeUsage >= computeQuota);
         },
         onError: (e) => {
-            showErrorAnnouncer(t("dashboard:usageSummaryError"), e);
+            showErrorAnnouncer(t("common:usageSummaryError"), e);
         },
     });
 

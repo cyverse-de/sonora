@@ -6,13 +6,11 @@
  */
 
 import React, { useCallback } from "react";
-import { useRouter } from "next/router";
 
-import {
-    serverSideTranslations,
-    RequiredNamespaces,
-    useTranslation,
-} from "i18n";
+import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces, useTranslation } from "i18n";
 
 import constants from "../constants";
 

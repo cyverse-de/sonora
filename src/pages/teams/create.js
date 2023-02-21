@@ -7,8 +7,9 @@
 import React from "react";
 
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { serverSideTranslations, RequiredNamespaces } from "i18n";
+import { RequiredNamespaces } from "i18n";
 
 import NavigationConstants from "common/NavigationConstants";
 import TeamForm from "components/teams/form/";

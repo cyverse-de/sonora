@@ -7,7 +7,9 @@
 import React from "react";
 
 import { useRouter } from "next/router";
-import { serverSideTranslations, RequiredNamespaces } from "i18n";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces } from "i18n";
 import ViceLoading from "components/vice/loading";
 
 export default function Loading() {

@@ -1,7 +1,8 @@
 import React from "react";
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Hidden } from "@material-ui/core";
-import { serverSideTranslations, RequiredNamespaces } from "i18n";
+import { RequiredNamespaces } from "i18n";
 import GlobalSearchField from "components/search/GlobalSearchField";
 import DetailedSearchResults from "components/search/detailed/DetailedSearchResults";
 import SEARCH_RESULTS_TABS from "components/search/detailed/tabs";

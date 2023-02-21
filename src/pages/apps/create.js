@@ -5,7 +5,9 @@
  */
 import React from "react";
 
-import { serverSideTranslations, RequiredNamespaces } from "i18n";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces } from "i18n";
 
 import AppEditor from "components/apps/editor";
 import NewAppDefaults from "components/apps/editor/NewAppDefaults";

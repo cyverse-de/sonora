@@ -9,11 +9,9 @@
 import React, { useCallback } from "react";
 
 import { useRouter } from "next/router";
-import {
-    serverSideTranslations,
-    RequiredNamespaces,
-    useTranslation,
-} from "i18n";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces, useTranslation } from "i18n";
 
 import { getLocalStorage } from "components/utils/localStorage";
 

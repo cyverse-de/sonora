@@ -3,12 +3,13 @@
  *
  */
 import React, { useCallback, useState } from "react";
-import dynamic from "next/dynamic";
 
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useQuery } from "react-query";
 
-import { serverSideTranslations, RequiredNamespaces } from "i18n";
+import { RequiredNamespaces } from "i18n";
 import constants from "../../../constants";
 import { NavigationParams } from "common/NavigationConstants";
 

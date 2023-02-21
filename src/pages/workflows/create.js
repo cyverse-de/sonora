@@ -5,7 +5,9 @@
  */
 import React from "react";
 
-import { serverSideTranslations, RequiredNamespaces } from "i18n";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces } from "i18n";
 
 import WorkflowEditor from "components/apps/workflows/Editor";
 import NewWorkflowDefaults from "components/apps/workflows/NewWorkflowDefaults";

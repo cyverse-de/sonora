@@ -13,7 +13,6 @@ import {
     appWithTranslation,
     Trans,
 } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 // The always-needed namespaces, mainly from the components in the global
 // toolbars, such as bags, global search, and the notifications menu.
@@ -36,6 +35,5 @@ export {
     withTranslation,
     appWithTranslation,
     Trans,
-    serverSideTranslations,
     RequiredNamespaces,
 };

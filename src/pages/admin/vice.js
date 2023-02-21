@@ -3,11 +3,9 @@ import React, { useState } from "react";
 import { useUserProfile } from "contexts/userProfile";
 import NotAuthorized from "components/error/NotAuthorized";
 
-import {
-    serverSideTranslations,
-    RequiredNamespaces,
-    useTranslation,
-} from "i18n";
+import { RequiredNamespaces, useTranslation } from "i18n";
+
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { useQuery } from "react-query";
 

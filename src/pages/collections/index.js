@@ -5,9 +5,10 @@
  */
 
 import React from "react";
-import { serverSideTranslations, RequiredNamespaces } from "i18n";
 import CollectionsView from "components/collections";
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { RequiredNamespaces } from "i18n";
 import NavigationConstants from "../../common/NavigationConstants";
 
 export default function Collections() {

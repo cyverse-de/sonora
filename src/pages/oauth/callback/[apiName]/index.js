@@ -2,9 +2,11 @@
  * @author sarahr
  */
 import React from "react";
-import { useRouter } from "next/router";
 
-import { serverSideTranslations, RequiredNamespaces } from "i18n";
+import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces } from "i18n";
 
 import OAuthCodeHandler from "components/oauth/OAuthCodeHandler";
 import OAuthErrorHandler from "components/oauth/OAuthErrorHandler";

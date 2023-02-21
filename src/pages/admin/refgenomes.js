@@ -1,5 +1,8 @@
 import React from "react";
-import { serverSideTranslations, RequiredNamespaces } from "i18n";
+
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces } from "i18n";
 import ReferenceGenomes from "../../components/apps/admin/referenceGenomes/ReferenceGenomes";
 import { useUserProfile } from "contexts/userProfile";
 import NotAuthorized from "components/error/NotAuthorized";

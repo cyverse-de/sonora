@@ -6,9 +6,10 @@
 import React from "react";
 
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useQuery } from "react-query";
 
-import { serverSideTranslations, RequiredNamespaces } from "i18n";
+import { RequiredNamespaces } from "i18n";
 
 import {
     getAppDescription,

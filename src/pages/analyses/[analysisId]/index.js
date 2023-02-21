@@ -5,8 +5,11 @@
  *
  */
 import React from "react";
+
 import { useRouter } from "next/router";
-import { serverSideTranslations, RequiredNamespaces } from "i18n";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces } from "i18n";
 import AnalysisSubmissionLanding from "components/analyses/landing/AnalysisSubmissionLanding";
 
 /**

@@ -3,9 +3,11 @@
  * @author sriram, aramsey
  */
 import React, { Fragment, useEffect } from "react";
-import { useRouter } from "next/router";
 
-import { serverSideTranslations, RequiredNamespaces } from "i18n";
+import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces } from "i18n";
 
 import constants from "../../constants";
 import {

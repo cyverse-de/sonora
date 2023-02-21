@@ -1,6 +1,8 @@
 import React from "react";
 
-import { serverSideTranslations, RequiredNamespaces } from "i18n";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces } from "i18n";
 import Dashboard from "components/dashboard";
 
 function DashboardPage() {

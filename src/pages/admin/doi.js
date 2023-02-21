@@ -8,7 +8,8 @@
 
 import React, { useCallback } from "react";
 import { useRouter } from "next/router";
-import { serverSideTranslations, RequiredNamespaces } from "i18n";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { RequiredNamespaces } from "i18n";
 import Listing from "components/doi/Listing";
 import NotAuthorized from "components/error/NotAuthorized";
 import { useUserProfile } from "contexts/userProfile";

@@ -20,7 +20,7 @@ export default function Error() {
     return <ErrorHandler errorObject={errorObj} baseId="error" />;
 }
 
-export async function getStaticProps({ locale }) {
+export async function getServerSideProps({ locale }) {
     return {
         props: {
             ...(await serverSideTranslations(locale, RequiredNamespaces)),

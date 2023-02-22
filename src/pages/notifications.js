@@ -14,7 +14,7 @@ export default function Notifications() {
     return <NotificationsListing baseDebugId="notifications" />;
 }
 
-export async function getStaticProps({ locale }) {
+export async function getServerSideProps({ locale }) {
     return {
         props: {
             // "notifications" already included by RequiredNamespaces

@@ -14,7 +14,7 @@ export default function InstantLaunches() {
     return <Listing baseId="instantLaunches" />;
 }
 
-export async function getStaticProps({ locale }) {
+export async function getServerSideProps({ locale }) {
     return {
         props: {
             // "instantlaunches" already included by RequiredNamespaces

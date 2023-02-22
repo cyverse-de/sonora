@@ -8,7 +8,7 @@ import Preferences from "../components/preferences/Preferences";
 export default function Settings() {
     return <Preferences baseId="preferences" />;
 }
-export async function getStaticProps({ locale }) {
+export async function getServerSideProps({ locale }) {
     return {
         props: {
             ...(await serverSideTranslations(locale, [

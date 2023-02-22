@@ -78,7 +78,7 @@ export default function Apps() {
     );
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
     const { locale } = context;
     return {
         props: {

@@ -17,7 +17,7 @@ export default function Help() {
     return <HelpTopics baseId="help" />;
 }
 
-export async function getStaticProps({ locale }) {
+export async function getServerSideProps({ locale }) {
     return {
         props: {
             ...(await serverSideTranslations(locale, [

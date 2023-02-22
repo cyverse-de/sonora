@@ -220,7 +220,7 @@ export default function VICEAdminPage() {
     }
 }
 
-export async function getStaticProps({ locale }) {
+export async function getServerSideProps({ locale }) {
     return {
         props: {
             ...(await serverSideTranslations(locale, [

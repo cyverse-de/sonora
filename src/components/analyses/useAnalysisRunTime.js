@@ -63,12 +63,15 @@ function useAnalysisRunTime(
         }
 
         const endDate = analysis?.enddate;
-        if (isComplete && runningStart && endDate) {
+        if (isComplete && runningStart) {
+            const startDate = new Date(runningStart);
+
+            // The analysis end date can be "0" if the user has just cancelled
+            // the analysis, but not refreshed the listing from the service.
             setTotalRunTime(
-                formatDistance(
-                    new Date(runningStart),
-                    new Date(parseInt(endDate))
-                )
+                endDate > 0
+                    ? formatDistance(startDate, new Date(parseInt(endDate)))
+                    : formatDistanceToNow(startDate)
             );
         }
 

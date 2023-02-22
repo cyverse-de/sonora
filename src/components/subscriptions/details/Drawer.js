@@ -229,7 +229,11 @@ function SubscriptionHeader(props) {
         <div className={classes.drawerHeader}>
             {portalId && (
                 <Tooltip title={linkToUserPortal}>
-                    <IconButton href={linkToUserPortal} target="_blank">
+                    <IconButton
+                        href={linkToUserPortal}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <VerifiedUser fontSize="small" color="primary" />
                     </IconButton>
                 </Tooltip>

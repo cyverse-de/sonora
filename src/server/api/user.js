@@ -166,5 +166,16 @@ export default function userRouter() {
         })
     );
 
+    logger.info("adding the User Portal's GET /users/:user/ handler");
+    api.get(
+        "/users/:username",
+        auth.authnTokenMiddleware,
+        cyRealmHandler({
+            method: "GET",
+            url: userPortalAPIURL,
+            pathname: "/users/:username",
+        })
+    );
+
     return api;
 }

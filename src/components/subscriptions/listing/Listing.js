@@ -17,6 +17,12 @@ import {
     getSubscriptions,
     SUBSCRIPTIONS_QUERY_KEY,
 } from "serviceFacades/subscriptions";
+
+import {
+    getUserPortalDetails,
+    USER_PORTAL_DETAILS_QUERY_KEY,
+} from "serviceFacades/users";
+
 import constants from "../../../constants";
 
 import EditSubscriptionDialog from "../edit/EditSubscription";
@@ -41,6 +47,7 @@ function Listing(props) {
     const [editQuotasDialogOpen, setEditQuotasDialogOpen] = useState(false);
     const [selected, setSelected] = useState([]);
     const [selectedSubscription, setSelectedSubscription] = useState(null);
+    const [selectedUserPortalId, setSelectedUserPortalId] = useState(null);
 
     useEffect(() => {
         // Reset selected whenever the data set changes,
@@ -79,6 +86,24 @@ function Listing(props) {
         enabled: true,
         onSuccess: (resp) => {
             setData(resp.result);
+        },
+    });
+
+    useQuery({
+        queryKey: [
+            USER_PORTAL_DETAILS_QUERY_KEY,
+            {
+                selectedSubscription,
+            },
+        ],
+        queryFn: () =>
+            getUserPortalDetails(selectedSubscription?.user.username),
+        enabled: !!selectedSubscription,
+        onSuccess: (resp) => {
+            setSelectedUserPortalId(resp.id);
+        },
+        onError: () => {
+            setSelectedUserPortalId(null);
         },
     });
 
@@ -176,6 +201,7 @@ function Listing(props) {
                     onClose={() => setDetailsOpen(false)}
                     open={detailsOpen}
                     selectedSubscription={selectedSubscription}
+                    selectedUserPortalId={selectedUserPortalId}
                 />
             )}
             <EditSubscriptionDialog

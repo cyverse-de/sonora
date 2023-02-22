@@ -7,11 +7,15 @@ import {
     Divider,
     Drawer,
     Grid,
+    IconButton,
     makeStyles,
+    Tooltip,
     Typography,
     useMediaQuery,
     useTheme,
 } from "@material-ui/core";
+
+import { VerifiedUser } from "@material-ui/icons";
 
 import { formatDateObject } from "components/utils/DateFormatter";
 import GridLabelValue from "components/utils/GridLabelValue";
@@ -21,6 +25,8 @@ import GridLoading from "components/utils/GridLoading";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import { DETab, DETabPanel, DETabs } from "../../utils/DETabs";
 import dateConstants from "components/utils/dateConstants";
+import constants from "../../../../src/constants";
+import navigationConstants from "../../../common/NavigationConstants";
 import { formatFileSize } from "components/data/utils";
 
 import {
@@ -46,10 +52,11 @@ const useStyles = makeStyles((theme) => ({
     },
     drawerHeader: {
         margin: theme.spacing(1),
-        height: "3em",
+        height: "2em",
         display: "flex",
         flexDirection: "row",
         maxWidth: "100%",
+        alignItems: "center",
     },
     drawerSubheader: {
         margin: theme.spacing(1),
@@ -155,7 +162,15 @@ function QuotasDetails(props) {
 }
 
 function SubscriptionDrawer(props) {
-    const { anchor, baseId, data, onClose, open, selectedSubscription } = props;
+    const {
+        anchor,
+        baseId,
+        data,
+        onClose,
+        open,
+        selectedSubscription,
+        selectedUserPortalId,
+    } = props;
     const classes = useStyles();
     const drawerId = buildID(baseId, ids.DETAILS_DRAWER);
     const detailsTabId = buildID(drawerId, ids.DETAILS_TAB);
@@ -187,7 +202,11 @@ function SubscriptionDrawer(props) {
                 value={TABS.subscriptionDetails}
                 selectedTab={selectedTab}
             >
-                <SubscriptionHeader baseId={baseId} username={username} />
+                <SubscriptionHeader
+                    baseId={baseId}
+                    username={username}
+                    portalId={selectedUserPortalId}
+                />
                 <Divider />
                 <SubscriptionSubheader />
                 <DetailsPanel
@@ -201,10 +220,25 @@ function SubscriptionDrawer(props) {
 }
 
 function SubscriptionHeader(props) {
-    const { username } = props;
+    const { portalId, username } = props;
     const classes = useStyles();
+    const baseURL = constants.DEFAULT_USER_PORTAL_URL;
+    const subURL = navigationConstants.ADMIN_USER_PORTAL_USERS;
+    const linkToUserPortal = `${baseURL}${subURL}/${portalId}`;
     return (
         <div className={classes.drawerHeader}>
+            {portalId && (
+                <Tooltip title={linkToUserPortal}>
+                    <IconButton
+                        href={linkToUserPortal}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <VerifiedUser fontSize="small" color="primary" />
+                    </IconButton>
+                </Tooltip>
+            )}
+
             <Typography variant="h6" component="span">
                 {username}
             </Typography>

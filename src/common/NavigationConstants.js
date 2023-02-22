@@ -4,6 +4,7 @@
  */
 export default {
     ADMIN: "admin",
+    ADMIN_USER_PORTAL_USERS: "/administrative/users",
     ANALYSES: "analyses",
     APPS: "apps",
     COLLECTIONS: "collections",

@@ -1,4 +1,5 @@
 const config = require("config");
+console.log("NODE_CONFIG_DIR: " + config.util.getEnv("NODE_CONFIG_DIR"));
 const { i18n } = require("./next-i18next.config");
 
 const withBundleAnalyzer = require("@next/bundle-analyzer")({

@@ -5,11 +5,9 @@
  */
 import React from "react";
 
-import { Trans } from "react-i18next";
-
 import ids from "./ids";
 
-import { useTranslation } from "i18n";
+import { Trans, useTranslation } from "i18n";
 
 import ResourceIcon from "components/data/listing/ResourceIcon";
 

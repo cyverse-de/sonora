@@ -1,4 +1,5 @@
 const config = require("config");
+const { i18n } = require("./next-i18next.config");
 
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
     enabled: process.env.ANALYZE === "true",
@@ -7,9 +8,15 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 const ONE_GiB = 2 ** 30;
 
 module.exports = withBundleAnalyzer({
-    future: {
-        webpack5: true,
+    webpack: (config) => {
+        config.resolve.fallback = {
+            ...config.resolve.fallback,
+            fs: false,
+        };
+
+        return config;
     },
+    i18n,
     publicRuntimeConfig: {
         INTERCOM_APP_ID: config.get("intercom.app_id"),
         INTERCOM_ENABLED: config.get("intercom.enabled"),

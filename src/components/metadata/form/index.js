@@ -4,11 +4,10 @@
 import React from "react";
 
 import { FieldArray, Formik } from "formik";
-import { Trans } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import PropTypes from "prop-types";
 
-import { useTranslation } from "i18n";
+import { Trans, useTranslation } from "i18n";
 
 import constants from "../../../constants";
 

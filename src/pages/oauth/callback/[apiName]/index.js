@@ -2,7 +2,11 @@
  * @author sarahr
  */
 import React from "react";
+
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces } from "i18n";
 
 import OAuthCodeHandler from "components/oauth/OAuthCodeHandler";
 import OAuthErrorHandler from "components/oauth/OAuthErrorHandler";
@@ -47,6 +51,17 @@ function OAuthCallbackHandler() {
             stateId={query.state}
         />
     );
+}
+
+export async function getServerSideProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "oauth",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
 }
 
 export default OAuthCallbackHandler;

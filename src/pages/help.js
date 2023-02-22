@@ -8,12 +8,23 @@
 
 import React from "react";
 
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces } from "i18n";
 import HelpTopics from "components/help/HelpTopics";
 
 export default function Help() {
     return <HelpTopics baseId="help" />;
 }
 
-Help.getInitialProps = async () => ({
-    namespacesRequired: ["help", "common", "util"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "help",
+                "intro",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

@@ -22,7 +22,7 @@ import {
 } from "@material-ui/core";
 import { Directions } from "@material-ui/icons";
 import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import ids from "./ids";
 import Listing from "components/data/listing/Listing";
@@ -155,29 +155,30 @@ function SelectionToolbar(props) {
                     {t("cancel")}
                 </Button>
 
-                {acceptedType === ResourceTypes.FOLDER && selectedTotal === 0 && (
-                    <>
-                        <Button
-                            startIcon={<FolderIcon />}
-                            id={buildID(
-                                baseId,
-                                ids.CURRENT_FOLDER_BTN,
-                                ids.FOLDER
-                            )}
-                            color={"primary"}
-                            onClick={handleCurrentFolderConfirm}
-                            variant="outlined"
-                            style={{
-                                margin: isMobile
-                                    ? theme.spacing(0.5)
-                                    : theme.spacing(1),
-                            }}
-                            size="small"
-                        >
-                            {t("selCurrentFolder")}
-                        </Button>
-                    </>
-                )}
+                {acceptedType === ResourceTypes.FOLDER &&
+                    selectedTotal === 0 && (
+                        <>
+                            <Button
+                                startIcon={<FolderIcon />}
+                                id={buildID(
+                                    baseId,
+                                    ids.CURRENT_FOLDER_BTN,
+                                    ids.FOLDER
+                                )}
+                                color={"primary"}
+                                onClick={handleCurrentFolderConfirm}
+                                variant="outlined"
+                                style={{
+                                    margin: isMobile
+                                        ? theme.spacing(0.5)
+                                        : theme.spacing(1),
+                                }}
+                                size="small"
+                            >
+                                {t("selCurrentFolder")}
+                            </Button>
+                        </>
+                    )}
                 {hasValidSelection && (
                     <Button
                         id={buildID(baseId, ids.SELECTION_TOOLBAR, ids.OK_BTN)}

@@ -4,9 +4,8 @@
  * The App Launch Wizard header that displays the app name and description.
  */
 import React from "react";
-import { useTranslation } from "i18n";
+import { Trans, useTranslation } from "i18n";
 import { useRouter } from "next/router";
-import { Trans } from "react-i18next";
 
 import styles from "./styles";
 

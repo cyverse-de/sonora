@@ -5,6 +5,10 @@
  */
 import React from "react";
 
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces } from "i18n";
+
 import AppEditor from "components/apps/editor";
 import NewAppDefaults from "components/apps/editor/NewAppDefaults";
 import ids from "components/apps/editor/ids";
@@ -34,13 +38,20 @@ export default function AppCreate() {
     );
 }
 
-AppCreate.getInitialProps = async () => ({
-    namespacesRequired: [
-        "app_editor",
-        "app_editor_help",
-        "app_param_types",
-        "common",
-        "data",
-        "launch",
-    ],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "app_editor",
+                "app_editor_help",
+                "app_param_types",
+                "data",
+                "launch",
+                "tools",
+                "upload",
+                "urlImport",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

@@ -7,8 +7,11 @@
  */
 
 import React, { useCallback } from "react";
-import { useRouter } from "next/router";
 
+import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces } from "i18n";
 import constants from "../constants";
 import { getLocalStorage } from "components/utils/localStorage";
 import Listing from "components/tools/listing/Listing";
@@ -59,6 +62,13 @@ export default function Tools() {
     );
 }
 
-Tools.getInitialProps = async () => ({
-    namespacesRequired: ["tools", "common", "util"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "tools",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

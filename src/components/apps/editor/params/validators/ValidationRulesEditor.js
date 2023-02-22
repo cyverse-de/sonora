@@ -6,9 +6,8 @@
 import React from "react";
 
 import { FastField } from "formik";
-import { Trans } from "react-i18next";
 
-import { useTranslation } from "i18n";
+import { Trans, useTranslation } from "i18n";
 
 import ids from "../../ids";
 import styles from "../../styles";

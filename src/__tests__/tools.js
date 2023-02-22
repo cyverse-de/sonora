@@ -1,6 +1,8 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
+import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
+
 import { ConfigProvider } from "contexts/config";
 import { UserProfileProvider } from "contexts/userProfile";
 
@@ -20,41 +22,39 @@ afterEach(() => {
     mockAxios.reset();
 });
 
+const TestProviderWrapper = ({ children }) => (
+    <RQWrapper>
+        <I18nProviderWrapper>
+            <ConfigProvider>
+                <UserProfileProvider>{children}</UserProfileProvider>
+            </ConfigProvider>
+        </I18nProviderWrapper>
+    </RQWrapper>
+);
+
 test("Tool Table View renders", () => {
     const component = renderer.create(
-        <RQWrapper>
-            <ConfigProvider>
-                <UserProfileProvider>
-                    <ToolListingTest />
-                </UserProfileProvider>
-            </ConfigProvider>
-        </RQWrapper>
+        <TestProviderWrapper>
+            <ToolListingTest />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("Tool Table View renders without tools", () => {
     const component = renderer.create(
-        <RQWrapper>
-            <ConfigProvider>
-                <UserProfileProvider>
-                    <EmptyToolListingTest />
-                </UserProfileProvider>
-            </ConfigProvider>
-        </RQWrapper>
+        <TestProviderWrapper>
+            <EmptyToolListingTest />
+        </TestProviderWrapper>
     );
     component.unmount();
 });
 
 test("Errored Tool Listing renders", () => {
     const component = renderer.create(
-        <RQWrapper>
-            <ConfigProvider>
-                <UserProfileProvider>
-                    <ErroredListingTest />
-                </UserProfileProvider>
-            </ConfigProvider>
-        </RQWrapper>
+        <TestProviderWrapper>
+            <ErroredListingTest />
+        </TestProviderWrapper>
     );
     component.unmount();
 });

@@ -5,8 +5,7 @@
  *
  */
 import React from "react";
-import { useTranslation } from "i18n";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "i18n";
 import { intercomShow } from "common/intercom";
 import { ERROR_CODES } from "components/error/errorCode";
 import { Link } from "@material-ui/core";

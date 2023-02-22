@@ -19,7 +19,7 @@ import {
 import { HighlightOff } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
 import { useQueryClient, useMutation, useQuery } from "react-query";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import ids from "./ids";
 import {

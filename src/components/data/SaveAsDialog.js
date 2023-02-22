@@ -7,7 +7,7 @@ import React from "react";
 
 import { Field, Form, Formik } from "formik";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import buildID from "components/utils/DebugIDUtil";
 

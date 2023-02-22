@@ -9,7 +9,9 @@
 import React, { useCallback } from "react";
 
 import { useRouter } from "next/router";
-import { useTranslation } from "i18n";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces, useTranslation } from "i18n";
 
 import { getLocalStorage } from "components/utils/localStorage";
 
@@ -141,6 +143,16 @@ export default function Apps() {
         );
     }
 }
-Apps.getInitialProps = async () => ({
-    namespacesRequired: ["apps", "tools", "common", "util"],
-});
+
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "collections",
+                "tools",
+                // "apps" already included by RequiredNamespaces
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

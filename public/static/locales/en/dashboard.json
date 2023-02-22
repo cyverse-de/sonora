@@ -77,7 +77,6 @@
     "totalJobs": "Total: {{jobTotal}}",
     "transitionMessage": "CyVerse is ready for its next Evolution. While we have made great strides in diversifying our funding, over the next two years, we will explore more possibilities with <bio>Phoenix Bioinformatics</bio>, a pioneer in helping research infrastructures define their futures. We look forward to sharing our progress, but in the meantime, we would value your thoughts via this survey.",
     "tweetAria": "tweet",
-    "usageSummaryError": "Unable to get usage summary.",
     "videosFeed": "Videos",
     "welcome": "Welcome to Discovery Environment"
 }

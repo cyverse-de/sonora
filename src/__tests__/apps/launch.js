@@ -15,7 +15,7 @@ import { Pipeline } from "../../../stories/apps/launch/Pipeline.stories";
 import { ReferenceGenomeParams } from "../../../stories/apps/launch/ReferenceGenomeParams.stories";
 import { SelectParams } from "../../../stories/apps/launch/SelectParams.stories";
 import { TextParams } from "../../../stories/apps/launch/TextParams.stories";
-import { I18nProviderWrapper } from "../../i18n";
+import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { BootstrapInfoProvider } from "contexts/bootstrap";
 import { ConfigProvider } from "contexts/config";
 import { UserProfileProvider } from "contexts/userProfile";

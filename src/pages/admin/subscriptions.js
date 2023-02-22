@@ -7,7 +7,12 @@
  */
 
 import React, { useCallback } from "react";
+
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces } from "i18n";
+
 import Listing from "components/subscriptions/listing/Listing";
 
 import NavigationConstants from "common/NavigationConstants";
@@ -66,6 +71,13 @@ export default function Subscriptions() {
     }
 }
 
-Subscriptions.getInitialProps = async () => ({
-    namespacesRequired: ["subscriptions", "common", "util"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "subscriptions",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

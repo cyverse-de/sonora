@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { SearchField } from "../../stories/search/GlobalSearchField.stories";
-import { I18nProviderWrapper } from "../i18n";
+import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { UserProfileProvider } from "../contexts/userProfile";
 import { RQWrapper } from "../__mocks__/RQWrapper";
 import { ConfigProvider } from "contexts/config";

@@ -3,11 +3,13 @@
  *
  */
 import React, { useCallback, useState } from "react";
-import dynamic from "next/dynamic";
 
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useQuery } from "react-query";
 
+import { RequiredNamespaces } from "i18n";
 import constants from "../../../constants";
 import { NavigationParams } from "common/NavigationConstants";
 
@@ -186,6 +188,17 @@ export default function DataStore() {
     );
 }
 
-DataStore.getInitialProps = async () => ({
-    namespacesRequired: ["data", "util"],
-});
+export async function getServerSideProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "data",
+                "launch",
+                "metadata",
+                "upload",
+                "urlImport",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

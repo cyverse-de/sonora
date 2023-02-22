@@ -4,7 +4,7 @@ import renderer from "react-test-renderer";
 import { DataTableViewTest } from "../../stories/data/TableView.stories";
 import { PathListFileViewerTest } from "../../stories/data/viewers/PathListViewer.stories";
 import { PlainTextFileViewerTest } from "../../stories/data/viewers/TextViewer.stories";
-import { I18nProviderWrapper } from "../i18n";
+import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { ConfigProvider } from "../contexts/config";
 import { RQWrapper } from "../__mocks__/RQWrapper";
 

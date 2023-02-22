@@ -90,7 +90,7 @@ function DEAppBar(props) {
 
     const ref = useRef();
     const [config, setConfig] = useConfig();
-    const { t } = useTranslation(["common", "dashboard"]);
+    const { t } = useTranslation("common");
 
     const searchTerm = router?.query?.searchTerm || "";
     let filter = searchConstants.ALL;
@@ -168,7 +168,7 @@ function DEAppBar(props) {
             setComputeLimitExceeded(usage >= quota);
         },
         onError: (e) => {
-            showErrorAnnouncer(t("dashboard:usageSummaryError"), e);
+            showErrorAnnouncer(t("usageSummaryError"), e);
         },
     });
 

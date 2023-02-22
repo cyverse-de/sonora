@@ -24,12 +24,11 @@ import {
 import { BagInfoProvider, useBagInfo } from "../src/contexts/bagInfo";
 
 import { QueryClient, QueryClientProvider } from "react-query";
-import { i18n } from "../src/i18n";
-import { I18nextProvider } from "react-i18next";
+import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 
 import { addDecorator } from "@storybook/react";
 import { withConsole } from "@storybook/addon-console";
-import { withNextRouter } from "storybook-addon-next-router";
+import { RouterContext } from "next/dist/shared/lib/router-context";
 
 function MockUserProfile() {
     const [userProfile, setUserProfile] = useUserProfile();
@@ -76,14 +75,6 @@ const queryClient = new QueryClient({
 });
 
 addDecorator((storyFn, context) => withConsole()(storyFn)(context));
-addDecorator(
-    withNextRouter({
-        path: "/", // defaults to `/`
-        asPath: "/", // defaults to `/`
-        query: {}, // defaults to `{}`
-        // push() {}, // defaults to using addon actions integration, can override any method in the router
-    })
-);
 
 export const decorators = [
     (Story) => (
@@ -96,14 +87,12 @@ export const decorators = [
                         <BootstrapInfoProvider>
                             <MockBootstrapInfo />
 
-                            <React.Suspense fallback={"Loading i18n..."}>
-                                <I18nextProvider i18n={i18n}>
-                                    <BagInfoProvider>
-                                        <MockBagInfo />
-                                        {Story()}
-                                    </BagInfoProvider>
-                                </I18nextProvider>
-                            </React.Suspense>
+                            <I18nProviderWrapper>
+                                <BagInfoProvider>
+                                    <MockBagInfo />
+                                    {Story()}
+                                </BagInfoProvider>
+                            </I18nProviderWrapper>
 
                             <CyVerseAnnouncer />
                         </BootstrapInfoProvider>
@@ -115,4 +104,11 @@ export const decorators = [
 ];
 export const parameters = {
     chromatic: { delay: AXIOS_DELAY + 500 },
+    nextRouter: {
+        Provider: RouterContext.Provider,
+        path: "/", // defaults to `/`
+        asPath: "/", // defaults to `/`
+        query: {}, // defaults to `{}`
+        // push() {}, // defaults to using addon actions integration, can override any method in the router
+    },
 };

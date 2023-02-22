@@ -28,9 +28,8 @@ import { AddTeamIcon } from "./Icons";
 import ids from "./ids";
 import styles from "./styles";
 import { TEAM_FILTER } from "./index";
-import { useTranslation } from "i18n";
+import { Trans, useTranslation } from "i18n";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { Trans } from "react-i18next";
 import DEDialog from "../utils/DEDialog";
 
 const useStyles = makeStyles(styles);

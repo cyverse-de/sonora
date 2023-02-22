@@ -6,8 +6,11 @@
  */
 
 import React, { useCallback } from "react";
+
 import { useRouter } from "next/router";
-import { useTranslation } from "i18n";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces, useTranslation } from "i18n";
 
 import constants from "../constants";
 
@@ -82,6 +85,14 @@ export default function Analyses() {
     );
 }
 
-Analyses.getInitialProps = async () => ({
-    namespacesRequired: ["analyses", "common", "data", "util"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "data",
+                // "analyses" already included by RequiredNamespaces
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

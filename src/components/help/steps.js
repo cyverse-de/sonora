@@ -1,4 +1,4 @@
-import { Trans } from "react-i18next";
+import { Trans } from "i18n";
 
 export function getSteps(t, isMobile) {
     if (isMobile) {

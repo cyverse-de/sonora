@@ -8,7 +8,7 @@ import {
     SimplePipeline,
 } from "../../../stories/apps/Workflow.stories";
 
-import { I18nProviderWrapper } from "../../i18n";
+import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { RQWrapper } from "../../__mocks__/RQWrapper";
 
 beforeEach(() => {

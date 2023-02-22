@@ -7,8 +7,10 @@
 import React from "react";
 
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useQuery } from "react-query";
-import { useTranslation } from "i18n";
+
+import { RequiredNamespaces, useTranslation } from "i18n";
 
 import constants from "../../../constants";
 import {
@@ -27,7 +29,7 @@ import { useUserProfile } from "contexts/userProfile";
 import { APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY } from "pages/apps/[systemId]/[appId]/launch";
 
 const Relaunch = ({ showErrorAnnouncer }) => {
-    const { t } = useTranslation("dashboard");
+    const { t } = useTranslation("common");
     const [config] = useConfig();
     const [userProfile] = useUserProfile();
     const [relaunchKey, setRelaunchKey] = React.useState(
@@ -119,7 +121,19 @@ const Relaunch = ({ showErrorAnnouncer }) => {
     );
 };
 
+export async function getServerSideProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "data",
+                "launch",
+                "upload",
+                "urlImport",
+                // "apps" already included by RequiredNamespaces
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}
+
 export default withErrorAnnouncer(Relaunch);
-Relaunch.getInitialProps = async () => ({
-    namespacesRequired: ["launch", "dashboard"],
-});

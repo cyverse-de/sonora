@@ -5,11 +5,10 @@
  */
 import React from "react";
 
-import { Trans } from "react-i18next";
 import { FastField, getIn } from "formik";
 
 import GlobalConstants from "../../../constants";
-import { useTranslation } from "i18n";
+import { Trans, useTranslation } from "i18n";
 
 import { intercomShow } from "common/intercom";
 

@@ -6,7 +6,10 @@
 import React from "react";
 
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useQuery } from "react-query";
+
+import { RequiredNamespaces } from "i18n";
 
 import {
     getAppDescription,
@@ -72,6 +75,17 @@ export default function Launch() {
     );
 }
 
-Launch.getInitialProps = async () => ({
-    namespacesRequired: ["apps", "launch", "common", "util"],
-});
+export async function getServerSideProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "data",
+                "launch",
+                "upload",
+                "urlImport",
+                // "apps" already included by RequiredNamespaces
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

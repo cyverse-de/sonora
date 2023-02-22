@@ -9,7 +9,7 @@ import React from "react";
 
 import ids from "../ids";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
 
 import buildID from "components/utils/DebugIDUtil";

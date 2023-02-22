@@ -2,7 +2,7 @@ import React from "react";
 
 import renderer from "react-test-renderer";
 
-import { I18nProviderWrapper } from "../i18n";
+import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 
 import { ConfigProvider } from "../contexts/config";
 import { BootstrapInfoProvider } from "../contexts/bootstrap";

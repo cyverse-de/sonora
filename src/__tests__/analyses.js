@@ -4,7 +4,7 @@ import { mockAxios } from "../../stories/axiosMock";
 import TestRenderer from "react-test-renderer";
 import { AnalysesTableViewTest } from "../../stories/analyses/TableView.stories";
 import { ConfigProvider } from "contexts/config";
-import { I18nProviderWrapper } from "../i18n";
+import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { RQWrapper } from "../__mocks__/RQWrapper";
 beforeEach(() => {
     mockAxios.reset();

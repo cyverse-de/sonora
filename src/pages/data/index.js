@@ -3,7 +3,11 @@
  * @author sriram, aramsey
  */
 import React, { Fragment, useEffect } from "react";
+
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
+import { RequiredNamespaces } from "i18n";
 
 import constants from "../../constants";
 import {
@@ -46,6 +50,13 @@ export default function Data() {
     return <Fragment />;
 }
 
-Data.getInitialProps = async () => ({
-    namespacesRequired: ["data"],
-});
+export async function getStaticProps({ locale }) {
+    return {
+        props: {
+            ...(await serverSideTranslations(locale, [
+                "data",
+                ...RequiredNamespaces,
+            ])),
+        },
+    };
+}

@@ -185,7 +185,14 @@ export default function AppSearchResults(props) {
                 disableSortBy: true,
             },
         ],
-        [appRecordFields, baseId, searchTerm]
+        [
+            appRecordFields.NAME.fieldName,
+            appRecordFields.NAME.key,
+            appRecordFields.TYPE.fieldName,
+            appRecordFields.TYPE.key,
+            baseId,
+            searchTerm,
+        ]
     );
     if (error) {
         return (

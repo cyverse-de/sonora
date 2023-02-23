@@ -10,12 +10,11 @@ function DashboardPage() {
 }
 
 export async function getServerSideProps(context) {
-    // The `locale` prop is undefined in this page for some reason.
-    const { locale, defaultLocale } = context;
+    const { locale } = context;
 
     return {
         props: {
-            ...(await serverSideTranslations(locale ?? defaultLocale, [
+            ...(await serverSideTranslations(locale, [
                 "dashboard",
                 "intro",
                 ...RequiredNamespaces,

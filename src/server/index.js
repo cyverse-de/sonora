@@ -171,10 +171,6 @@ app.prepare()
             }
         });
 
-        server.get("/", (req, res) => {
-            app.render(req, res, "/dashboard", undefined);
-        });
-
         // URL paths that might appear in the browser address bar should match this route.
         const userRouteRegexp = buildNavigationRouteRegexp();
         server.get(userRouteRegexp, keycloakClient.checkSso(), (req, res) => {

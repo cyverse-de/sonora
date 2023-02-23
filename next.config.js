@@ -9,6 +9,14 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 const ONE_GiB = 2 ** 30;
 
 module.exports = withBundleAnalyzer({
+    async rewrites() {
+        return [
+            {
+                source: "/",
+                destination: "/dashboard",
+            },
+        ];
+    },
     webpack: (config) => {
         config.resolve.fallback = {
             ...config.resolve.fallback,

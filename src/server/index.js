@@ -81,6 +81,14 @@ app.prepare()
         const server = express();
         server.enable("trust proxy");
 
+        if (config.isDevelopment) {
+            // Appears this needs to be added before other middleware.
+            logger.info("configuring /_next/webpack-hmr handler for dev mode");
+            server.all("/_next/webpack-hmr/*", (req, res) => {
+                return nextHandler(req, res);
+            });
+        }
+
         logger.info("configuring the express logging middleware");
         server.use(errorLogger);
         server.use(requestLogger);

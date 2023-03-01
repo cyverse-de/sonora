@@ -5,9 +5,12 @@ import { mapPropsToValues, formatSubscriptions } from "./formatters";
 
 import DEDialog from "components/utils/DEDialog";
 import { Button, MenuItem } from "@material-ui/core";
+
+import FormCheckbox from "components/forms/FormCheckbox";
 import FormTextField from "components/forms/FormTextField";
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { nonEmptyField } from "components/utils/validations";
+
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import SubscriptionErrorTypographyWithDialog from "../error/SubscriptionErrorTypographyWithDialog";
 import buildID from "components/utils/DebugIDUtil";
@@ -220,6 +223,13 @@ function EditSubscriptionForm(props) {
                     </MenuItem>
                 ))}
             </FastField>
+
+            <Field
+                name="paid"
+                label={t("paid")}
+                id={buildID(parentId, ids.EDIT_SUB_DLG.PAID)}
+                component={FormCheckbox}
+            />
 
             {subscription && (
                 <Usages

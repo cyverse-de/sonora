@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useQuery } from "react-query";
+import React from "react";
 import { useTranslation } from "i18n";
 
 import {
@@ -21,18 +20,11 @@ import { formatDateObject } from "components/utils/DateFormatter";
 import GridLabelValue from "components/utils/GridLabelValue";
 import buildID from "components/utils/DebugIDUtil";
 import ids from "../ids";
-import GridLoading from "components/utils/GridLoading";
-import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import { DETab, DETabPanel, DETabs } from "../../utils/DETabs";
 import dateConstants from "components/utils/dateConstants";
 import constants from "../../../../src/constants";
 import navigationConstants from "../../../common/NavigationConstants";
 import { formatFileSize } from "components/data/utils";
-
-import {
-    getSubscriptions,
-    SUBSCRIPTIONS_QUERY_KEY,
-} from "serviceFacades/subscriptions";
 
 const TABS = {
     subscriptionDetails: "Details",
@@ -71,62 +63,45 @@ function DetailsPanel(props) {
     const { t } = useTranslation("subscriptions");
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
-    const [subscriptionDetails, setSubscriptionDetails] = useState(null);
-
-    const { isFetching: isInfoFetching, error: infoFetchError } = useQuery({
-        queryKey: [SUBSCRIPTIONS_QUERY_KEY, { baseId: baseId }],
-        queryFn: () =>
-            getSubscriptions({
-                searchTerm: selectedSubscription?.user.username,
-            }),
-        enabled: !!selectedSubscription,
-        onSuccess: (data) => {
-            setSubscriptionDetails(data.result.subscriptions[0]);
-        },
-    });
-
-    if (isInfoFetching) {
-        return <GridLoading rows={10} baseId={baseId} />;
-    }
-
-    if (infoFetchError) {
-        return (
-            <ErrorTypographyWithDialog
-                errorObject={infoFetchError}
-                errorMessage={t("subscriptionInfoError")}
-            />
-        );
-    }
 
     return (
         <Box p={isMobile ? 1 : 3}>
             <Grid
                 container
                 spacing={3}
-                id={buildID(baseId, subscriptionDetails?.id, ids.DETAILS_PANEL)}
+                id={buildID(baseId, selectedSubscription.id, ids.DETAILS_PANEL)}
             >
                 <GridLabelValue label={t("startDate")}>
                     {formatDateObject(
-                        subscriptionDetails?.effective_start_date &&
-                            new Date(subscriptionDetails?.effective_start_date),
+                        selectedSubscription?.effective_start_date &&
+                            new Date(
+                                selectedSubscription?.effective_start_date
+                            ),
                         dateConstants.DATE_FORMAT
                     )}
                 </GridLabelValue>
                 <GridLabelValue label={t("endDate")}>
                     {formatDateObject(
-                        subscriptionDetails?.effective_end_date &&
-                            new Date(subscriptionDetails?.effective_end_date),
+                        selectedSubscription?.effective_end_date &&
+                            new Date(selectedSubscription?.effective_end_date),
                         dateConstants.DATE_FORMAT
                     )}
                 </GridLabelValue>
                 <GridLabelValue label={t("planName")}>
-                    {subscriptionDetails?.plan.name}
+                    {selectedSubscription?.plan.name}
+                </GridLabelValue>
+                <GridLabelValue label={t("paid")}>
+                    {selectedSubscription?.paid ? t("true") : t("false")}
                 </GridLabelValue>
                 <GridLabelValue label={t("quotas")}>
-                    <QuotasDetails selectedSubscription={subscriptionDetails} />
+                    <QuotasDetails
+                        selectedSubscription={selectedSubscription}
+                    />
                 </GridLabelValue>
                 <GridLabelValue label={t("usages")}>
-                    <UsagesDetails selectedSubscription={subscriptionDetails} />
+                    <UsagesDetails
+                        selectedSubscription={selectedSubscription}
+                    />
                 </GridLabelValue>
             </Grid>
         </Box>
@@ -269,12 +244,23 @@ function UsagesDetails(props) {
         <>
             {selectedSubscription &&
                 selectedSubscription.usages.length > 0 &&
-                selectedSubscription.usages.map((item, _) => {
-                    return (
-                        <Typography>
-                            {item.usage} {item.resource_type.unit}
-                        </Typography>
-                    );
+                selectedSubscription.usages.map((item, index) => {
+                    // Only format data usage to human readable format
+                    let resourceInBytes =
+                        item.resource_type.unit.toLowerCase() === "bytes";
+                    if (resourceInBytes) {
+                        return (
+                            <Typography key={index}>
+                                {formatFileSize(item.usage)}
+                            </Typography>
+                        );
+                    } else {
+                        return (
+                            <Typography>
+                                {item.usage} {item.resource_type.unit}
+                            </Typography>
+                        );
+                    }
                 })}
 
             {selectedSubscription && !selectedSubscription.usages.length && (

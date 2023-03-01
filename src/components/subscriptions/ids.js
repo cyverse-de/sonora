@@ -17,6 +17,7 @@ export default {
         RESOURCE_TYPE: "resourceType",
     },
     EDIT_SUB_DLG: {
+        PAID: "paid",
         PLAN_NAME: "planName",
         PLAN_TYPES: "planTypes",
         QUOTAS: "quotas",

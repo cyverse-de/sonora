@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { FieldArray, Form, Formik } from "formik";
 import { mapPropsToValues, formatQuotas } from "./formatters";
 import DEDialog from "components/utils/DEDialog";
@@ -8,7 +8,6 @@ import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
 
 import {
     updateUserQuotas,
-    getSubscriptions,
     SUBSCRIPTIONS_QUERY_KEY,
 } from "serviceFacades/subscriptions";
 import { announce } from "components/announcer/CyVerseAnnouncer";
@@ -27,20 +26,6 @@ function EditQuotasDialog(props) {
     const [updateQuotasError, setUpdateQuotasError] = useState(null);
     const { t } = useTranslation("subscriptions");
     const queryClient = useQueryClient();
-    const [selectedSubscription, setSelectedSubscription] = useState(null);
-
-    useQuery({
-        queryKey: [
-            SUBSCRIPTIONS_QUERY_KEY,
-            { user: subscription?.user?.username },
-        ],
-        queryFn: () =>
-            getSubscriptions({ searchTerm: subscription?.user?.username }),
-        enabled: !!subscription,
-        onSuccess: (data) => {
-            setSelectedSubscription(data.result.subscriptions[0]);
-        },
-    });
 
     const { mutate: updateQuotas } = useMutation(
         ({ quotas, username }) => updateUserQuotas(quotas, username),
@@ -72,7 +57,7 @@ function EditQuotasDialog(props) {
 
     return (
         <Formik
-            initialValues={mapPropsToValues(selectedSubscription)}
+            initialValues={mapPropsToValues(subscription)}
             onSubmit={handleSubmit}
             enableReinitialize={true}
         >
@@ -122,7 +107,7 @@ function EditQuotasDialog(props) {
 
                             <EditQuotasForm
                                 parentId={parentId}
-                                subscription={selectedSubscription}
+                                subscription={subscription}
                             />
                         </DEDialog>
                     </Form>

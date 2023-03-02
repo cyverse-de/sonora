@@ -7,16 +7,18 @@ const bytesToGiB = (quota) => {
 export function mapPropsToValues(subscription) {
     let values = {
         username: "",
+        paid: true,
         plan_name: "",
         quotas: [],
     };
 
     if (subscription) {
-        const { user, plan, quotas } = subscription;
+        const { user, paid, plan, quotas } = subscription;
 
         values = {
             username: user.username,
             plan_name: plan.name,
+            paid,
         };
 
         if (quotas.length) {
@@ -33,11 +35,12 @@ export function mapPropsToValues(subscription) {
 }
 
 export function formatSubscriptions(values) {
-    const { username, plan_name } = values;
+    const { username, paid, plan_name } = values;
 
     const submission = {
         username,
         plan_name,
+        paid,
     };
     return submission;
 }

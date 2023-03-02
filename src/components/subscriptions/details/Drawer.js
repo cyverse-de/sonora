@@ -248,19 +248,13 @@ function UsagesDetails(props) {
                     // Only format data usage to human readable format
                     let resourceInBytes =
                         item.resource_type.unit.toLowerCase() === "bytes";
-                    if (resourceInBytes) {
-                        return (
-                            <Typography key={index}>
-                                {formatFileSize(item.usage)}
-                            </Typography>
-                        );
-                    } else {
-                        return (
-                            <Typography>
-                                {item.usage} {item.resource_type.unit}
-                            </Typography>
-                        );
-                    }
+                    return (
+                        <Typography key={index}>
+                            {resourceInBytes
+                                ? formatFileSize(item.usage)
+                                : `${item.usage} ${item.resource_type.unit}`}
+                        </Typography>
+                    );
                 })}
 
             {selectedSubscription && !selectedSubscription.usages.length && (

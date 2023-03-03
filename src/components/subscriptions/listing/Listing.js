@@ -129,7 +129,7 @@ function Listing(props) {
             );
     };
 
-    const deselect = (id) => {
+    const deselect = () => {
         setSelected([]);
     };
 
@@ -144,7 +144,7 @@ function Listing(props) {
     const isSelected = (id) => selected.includes(id);
 
     const toggleSelection = (id) => {
-        isSelected(id) ? deselect(id) : setSelected([id]);
+        isSelected(id) ? deselect() : setSelected([id]);
     };
 
     const handleRequestSort = (_, field) => {

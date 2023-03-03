@@ -85,11 +85,11 @@ function AddOnListing(props) {
         t,
         tableId,
     } = props;
-    console.log(selected);
+
     return (
         addons &&
         addons.length > 0 &&
-        addons.map((addon, index) => {
+        addons.map((addon) => {
             const addonUUID = addon.uuid;
             const rowId = buildID(baseId, tableId, addonUUID);
             const isSelected = selected?.indexOf(addonUUID) !== -1;
@@ -103,7 +103,7 @@ function AddOnListing(props) {
                     aria-checked={isSelected}
                     onClick={(event) => {
                         if (handleClick) {
-                            handleClick(event, addonUUID, index);
+                            handleClick(event, addonUUID);
                         }
                     }}
                 >

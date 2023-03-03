@@ -20,7 +20,6 @@ function AddOnsListing(props) {
     const { baseId, isAdminView } = props;
     const [addonsData, setAddonsData] = useState(null);
     const [selected, setSelected] = useState([]);
-    const [selectedAddon, setSelectedAddon] = useState(null);
 
     useEffect(() => {
         // Reset selected whenever the data set changes,
@@ -28,18 +27,6 @@ function AddOnsListing(props) {
         // in addition to the user changing categories or pages.
         setSelected([]);
     }, [addonsData]);
-
-    useEffect(() => {
-        if (addonsData?.addons) {
-            const selectedId = selected[0];
-            setSelectedAddon(
-                addonsData.addons.find((addon) => addon.uuid === selectedId)
-            );
-            console.log(selectedAddon);
-        } else {
-            setSelectedAddon(null);
-        }
-    }, [addonsData, selected, selectedAddon]);
 
     const { isFetching, error } = useQuery({
         queryKey: [AVAILABLE_ADDONS_QUERY_KEY],
@@ -50,8 +37,7 @@ function AddOnsListing(props) {
         },
     });
 
-    // Deselects an add-on
-    const deselect = (uuid) => {
+    const deselect = () => {
         setSelected([]);
     };
 
@@ -66,7 +52,7 @@ function AddOnsListing(props) {
     const isSelected = (uuid) => selected.includes(uuid);
 
     const toggleSelection = (uuid) => {
-        isSelected(uuid) ? deselect([uuid]) : setSelected([uuid]);
+        isSelected(uuid) ? deselect() : setSelected([uuid]);
     };
 
     return (

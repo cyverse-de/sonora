@@ -6,24 +6,33 @@
  *
  */
 
-import React, { useCallback } from "react";
+import React, { useState, useCallback } from "react";
 
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { RequiredNamespaces } from "i18n";
+import { RequiredNamespaces, useTranslation } from "i18n";
 
 import Listing from "components/subscriptions/listing/Listing";
+import AddOnsListing from "components/subscriptions/addons/AddOnsListing";
+import { DETabs, DETab, DETabPanel } from "components/utils/DETabs";
+import NotAuthorized from "components/error/NotAuthorized";
+import { getLocalStorage } from "components/utils/localStorage";
 
 import NavigationConstants from "common/NavigationConstants";
 import { useUserProfile } from "contexts/userProfile";
-import NotAuthorized from "components/error/NotAuthorized";
 import constants from "../../constants";
-import { getLocalStorage } from "components/utils/localStorage";
+import ids from "components/subscriptions/ids";
+
+const TABS = {
+    listing: "LISTING",
+    addons: "ADD-ONS",
+};
 
 export default function Subscriptions() {
     const router = useRouter();
     const query = router.query;
+    const { t } = useTranslation("subscriptions");
     const searchTerm = query.searchTerm || "";
     const selectedOrder = query.selectedOrder || constants.SORT_ASCENDING;
     const selectedOrderBy = query.selectedOrderBy || "username";
@@ -37,6 +46,12 @@ export default function Subscriptions() {
 
     const profile = useUserProfile()[0];
     const isAdmin = profile?.admin;
+
+    const [selectedTab, setSelectedTab] = useState(TABS.listing);
+
+    const onTabSelectionChange = (_event, selectedTab) => {
+        setSelectedTab(selectedTab);
+    };
 
     const onRouteToListing = useCallback(
         (order, orderBy, page, rowsPerPage, searchTerm) => {
@@ -57,16 +72,43 @@ export default function Subscriptions() {
         return <NotAuthorized />;
     } else {
         return (
-            <Listing
-                baseId="subscription"
-                isAdminView={isAdmin}
-                onRouteToListing={onRouteToListing}
-                order={selectedOrder}
-                orderBy={selectedOrderBy}
-                page={selectedPage}
-                rowsPerPage={selectedRowsPerPage}
-                searchTerm={searchTerm}
-            />
+            <>
+                <DETabs value={selectedTab} onChange={onTabSelectionChange}>
+                    <DETab
+                        value={TABS.listing}
+                        label={t("listing")}
+                        id={ids.SUBSCRIPTION_LISTING_TAB}
+                    />
+                    <DETab
+                        value={TABS.addons}
+                        label={t("addons")}
+                        id={ids.ADDONS.LISTING_TAB}
+                    />
+                </DETabs>
+                <DETabPanel
+                    tabId={ids.SUBSCRIPTION_LISTING}
+                    value={TABS.listing}
+                    selectedTab={selectedTab}
+                >
+                    <Listing
+                        baseId="subscription"
+                        isAdminView={isAdmin}
+                        onRouteToListing={onRouteToListing}
+                        order={selectedOrder}
+                        orderBy={selectedOrderBy}
+                        page={selectedPage}
+                        rowsPerPage={selectedRowsPerPage}
+                        searchTerm={searchTerm}
+                    />
+                </DETabPanel>
+                <DETabPanel
+                    tabId={ids.ADDONS.LISTING}
+                    value={TABS.addons}
+                    selectedTab={selectedTab}
+                >
+                    <AddOnsListing baseId="addons" isAdminView={isAdmin} />
+                </DETabPanel>
+            </>
         );
     }
 }

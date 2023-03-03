@@ -129,8 +129,22 @@ function Listing(props) {
             );
     };
 
+    const deselect = (id) => {
+        setSelected([]);
+    };
+
     const handleClick = (_, id) => {
         setSelected([id]);
+    };
+
+    const handleCheckboxClick = (_event, id) => {
+        toggleSelection(id);
+    };
+
+    const isSelected = (id) => selected.includes(id);
+
+    const toggleSelection = (id) => {
+        isSelected(id) ? deselect(id) : setSelected([id]);
     };
 
     const handleRequestSort = (_, field) => {
@@ -182,6 +196,7 @@ function Listing(props) {
             <TableView
                 baseId={baseId}
                 error={error}
+                handleCheckboxClick={handleCheckboxClick}
                 handleClick={handleClick}
                 handleRequestSort={handleRequestSort}
                 isAdminView={isAdminView}

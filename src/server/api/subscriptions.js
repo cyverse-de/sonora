@@ -38,6 +38,17 @@ export default function subscriptionsRouter() {
         })
     );
 
+    // Get all available add-ons
+    logger.info("adding the GET /admin/qms/addons handler");
+    api.get(
+        "/admin/qms/addons",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/qms/addons",
+        })
+    );
+
     // Administrators can update a user's subscrption
     // Administrators can add new subscriptions for users who haven't logged into the DE yet
     logger.info("adding the POST /admin/qms/subscriptions handler");

@@ -114,6 +114,7 @@ function NoSubscriptions(props) {
 function SubscriptionListing(props) {
     const {
         baseId,
+        handleCheckboxClick,
         handleClick,
         onDetailsSelected,
         onEditQuotasSelected,
@@ -150,7 +151,12 @@ function SubscriptionListing(props) {
                     }}
                 >
                     <TableCell padding="checkbox">
-                        <DECheckbox />
+                        <DECheckbox
+                            checked={isSelected}
+                            onChange={(event) =>
+                                handleCheckboxClick(event, subscriptionId)
+                            }
+                        />
                     </TableCell>
                     <TableCell id={buildID(rowId, ids.USERNAME_CELL)}>
                         <UserName username={user} />
@@ -197,6 +203,7 @@ function SubscriptionListingTableBody(props) {
     const {
         baseId,
         columns,
+        handleCheckboxClick,
         handleClick,
         onDetailsSelected,
         onEditQuotasSelected,
@@ -213,6 +220,7 @@ function SubscriptionListingTableBody(props) {
             ) : (
                 <SubscriptionListing
                     baseId={baseId}
+                    handleCheckboxClick={handleCheckboxClick}
                     handleClick={handleClick}
                     onDetailsSelected={onDetailsSelected}
                     onEditQuotasSelected={onEditQuotasSelected}
@@ -230,6 +238,7 @@ function TableView(props) {
     const {
         baseId,
         error,
+        handleCheckboxClick,
         handleClick,
         handleRequestSort,
         isAdminView,
@@ -277,6 +286,7 @@ function TableView(props) {
                             <SubscriptionListingTableBody
                                 baseId={baseId}
                                 columns={columns}
+                                handleCheckboxClick={handleCheckboxClick}
                                 handleClick={handleClick}
                                 onDetailsSelected={onDetailsSelected}
                                 onEditQuotasSelected={onEditQuotasSelected}

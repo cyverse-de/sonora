@@ -32,9 +32,7 @@ function AddOnsListing(props) {
         queryKey: [AVAILABLE_ADDONS_QUERY_KEY],
         queryFn: getAvailableAddOns,
         enabled: true,
-        onSuccess: (resp) => {
-            setAddonsData(resp);
-        },
+        onSuccess: setAddonsData,
     });
 
     const deselect = () => {

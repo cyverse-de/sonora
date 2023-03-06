@@ -6,8 +6,16 @@
 import callApi from "../common/callApi";
 
 const PLAN_TYPES_QUERY_KEY = "fetchPlanTypes";
+const AVAILABLE_ADDONS_QUERY_KEY = "fetchAvailableAddons";
 const SUBSCRIPTIONS_QUERY_KEY = "fetchSubscriptions";
 
+// Get available add-ons
+function getAvailableAddOns() {
+    return callApi({
+        endpoint: `/api/admin/qms/addons`,
+        method: "GET",
+    });
+}
 // Get plan names
 function getPlanTypes() {
     return callApi({
@@ -79,10 +87,12 @@ function updateUserQuotas(quotas, username) {
 }
 
 export {
+    getAvailableAddOns,
     getPlanTypes,
     getSubscriptions,
     postSubscription,
     updateUserQuotas,
+    AVAILABLE_ADDONS_QUERY_KEY,
     PLAN_TYPES_QUERY_KEY,
     SUBSCRIPTIONS_QUERY_KEY,
 };

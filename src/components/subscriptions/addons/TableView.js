@@ -186,7 +186,7 @@ function TableView(props) {
     }
 
     return (
-        <PageWrapper appbarheight={0}>
+        <PageWrapper>
             {isAdminView && (
                 <TableContainer component={Paper} style={{ overflow: "auto" }}>
                     <Table

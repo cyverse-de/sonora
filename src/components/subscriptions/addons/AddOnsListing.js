@@ -14,6 +14,7 @@ import {
     AVAILABLE_ADDONS_QUERY_KEY,
 } from "serviceFacades/subscriptions";
 
+import AddonsToolbar from "./Toolbar";
 import TableView from "./TableView";
 
 function AddOnsListing(props) {
@@ -54,16 +55,19 @@ function AddOnsListing(props) {
     };
 
     return (
-        <TableView
-            baseId={baseId}
-            error={error}
-            handleCheckboxClick={handleCheckboxClick}
-            handleClick={handleClick}
-            isAdminView={isAdminView}
-            listing={addonsData}
-            loading={isFetching}
-            selected={selected}
-        />
+        <>
+            <AddonsToolbar baseId={baseId} isAdminView={isAdminView} />
+            <TableView
+                baseId={baseId}
+                error={error}
+                handleCheckboxClick={handleCheckboxClick}
+                handleClick={handleClick}
+                isAdminView={isAdminView}
+                listing={addonsData}
+                loading={isFetching}
+                selected={selected}
+            />
+        </>
     );
 }
 

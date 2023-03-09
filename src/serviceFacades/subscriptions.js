@@ -5,8 +5,10 @@
 
 import callApi from "../common/callApi";
 
-const PLAN_TYPES_QUERY_KEY = "fetchPlanTypes";
 const AVAILABLE_ADDONS_QUERY_KEY = "fetchAvailableAddons";
+const PLAN_TYPES_QUERY_KEY = "fetchPlanTypes";
+const RESOURCE_TYPES_QUERY_KEY = "fetchResourceTypes";
+const SUBSCRIPTION_ADDONS_QUERY_KEY = "fetchSubscriptionAddons";
 const SUBSCRIPTIONS_QUERY_KEY = "fetchSubscriptions";
 
 // Get available add-ons
@@ -24,6 +26,13 @@ function getPlanTypes() {
     });
 }
 
+// Get resource types
+function getResourceTypes() {
+    return callApi({
+        endpoint: `/api/qms/resource-types`,
+        method: "GET",
+    });
+}
 // Administrators can list existing subscriptions
 function getSubscriptions({ searchTerm, order, orderBy, page, rowsPerPage }) {
     const params = {};
@@ -48,6 +57,14 @@ function getSubscriptions({ searchTerm, order, orderBy, page, rowsPerPage }) {
         endpoint: "/api/admin/qms/subscriptions",
         method: "GET",
         params: params,
+    });
+}
+
+// List the add-ons to a user's subscription
+function getSubscriptionAddons(subscription_uuid) {
+    return callApi({
+        endpoint: `/api/admin/qms/subscriptions/${subscription_uuid}/addons`,
+        method: "GET",
     });
 }
 
@@ -86,13 +103,27 @@ function updateUserQuotas(quotas, username) {
     );
 }
 
+// Administrators can create an available add-on
+function postAddon(addon) {
+    return callApi({
+        endpoint: `/api/admin/qms/addons`,
+        method: "POST",
+        body: addon,
+    });
+}
+
 export {
     getAvailableAddOns,
     getPlanTypes,
+    getResourceTypes,
+    getSubscriptionAddons,
     getSubscriptions,
+    postAddon,
     postSubscription,
     updateUserQuotas,
     AVAILABLE_ADDONS_QUERY_KEY,
     PLAN_TYPES_QUERY_KEY,
+    RESOURCE_TYPES_QUERY_KEY,
+    SUBSCRIPTION_ADDONS_QUERY_KEY,
     SUBSCRIPTIONS_QUERY_KEY,
 };

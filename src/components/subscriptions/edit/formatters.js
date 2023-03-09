@@ -1,8 +1,4 @@
-const bytesInGiB = 1024 ** 3;
-
-const bytesToGiB = (quota) => {
-    return parseFloat(quota / bytesInGiB).toFixed(1);
-};
+import { bytesInGiB, bytesToGiB } from "../utils";
 
 export function mapPropsToValues(subscription) {
     let values = {

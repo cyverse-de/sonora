@@ -8,16 +8,14 @@
 import React from "react";
 
 import { useTranslation } from "i18n";
-
-import TableLoading from "components/table/TableLoading";
 import ids from "../ids";
 
+import TableLoading from "components/table/TableLoading";
+import { formatFileSize } from "components/data/utils";
 import { DERow } from "components/table/DERow";
 import DETableHead from "components/table/DETableHead";
-
 import buildID from "components/utils/DebugIDUtil";
 import DECheckbox from "components/utils/DECheckbox";
-
 import PageWrapper from "components/layout/PageWrapper";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
@@ -93,6 +91,8 @@ function AddOnListing(props) {
             const addonUUID = addon.uuid;
             const rowId = buildID(baseId, tableId, addonUUID);
             const isSelected = selected?.indexOf(addonUUID) !== -1;
+            const resourceInBytes =
+                addon.resource_type.unit.toLowerCase() === "bytes";
             return (
                 <DERow
                     hover
@@ -127,7 +127,9 @@ function AddOnListing(props) {
                         id={buildID(rowId, ids.ADDONS.DEFAULT_AMOUNT_CELL)}
                     >
                         <Typography variant="body2">
-                            {addon.default_amount}
+                            {resourceInBytes
+                                ? formatFileSize(addon.default_amount)
+                                : `${addon.default_amount}`}
                         </Typography>
                     </TableCell>
                     <TableCell

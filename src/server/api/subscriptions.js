@@ -27,6 +27,17 @@ export default function subscriptionsRouter() {
         })
     );
 
+    // List of resource types
+    logger.info("adding the GET /qms/resource-types");
+    api.get(
+        "/qms/resource-types",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "qms/resource-types",
+        })
+    );
+
     // Get all subscriptions
     logger.info("adding the GET /admin/qms/subscriptions handler");
     api.get(
@@ -49,6 +60,19 @@ export default function subscriptionsRouter() {
         })
     );
 
+    // List the add-ons to a user's subscription
+    logger.info(
+        "adding the GET /admin/qms/subscriptions/:subscription_uuid/addons handler"
+    );
+    api.get(
+        "/admin/qms/subscriptions/:subscription_uuid/addons",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/qms/subscriptions/:subscription_uuid/addons",
+        })
+    );
+
     // Administrators can update a user's subscrption
     // Administrators can add new subscriptions for users who haven't logged into the DE yet
     logger.info("adding the POST /admin/qms/subscriptions handler");
@@ -66,7 +90,7 @@ export default function subscriptionsRouter() {
 
     // Administrators can update user quotas for a specified resource type
     logger.info(
-        "adding the POST /admin/qms/users/:username/plan/:resource_type/quota"
+        "adding the POST /admin/qms/users/:username/plan/:resource_type/quota handler"
     );
     api.post(
         "/admin/qms/users/:username/plan/:resource_type/quota",
@@ -80,5 +104,16 @@ export default function subscriptionsRouter() {
         })
     );
 
+    // Administrators can create an available add-on
+    logger.info("adding the POST /admin/qms/addons/ handler");
+    api.post(
+        "/admin/qms/addons",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/qms/addons",
+            headers: { "Content-Type": "application/json" },
+        })
+    );
     return api;
 }

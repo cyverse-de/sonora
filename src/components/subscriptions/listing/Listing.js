@@ -14,7 +14,9 @@ import DEPagination from "components/utils/DEPagination";
 
 import withErrorAnnouncer from "../../error/withErrorAnnouncer";
 import {
+    getSubscriptionAddons,
     getSubscriptions,
+    SUBSCRIPTION_ADDONS_QUERY_KEY,
     SUBSCRIPTIONS_QUERY_KEY,
 } from "serviceFacades/subscriptions";
 
@@ -48,6 +50,8 @@ function Listing(props) {
     const [selected, setSelected] = useState([]);
     const [selectedSubscription, setSelectedSubscription] = useState(null);
     const [selectedUserPortalId, setSelectedUserPortalId] = useState(null);
+    const [selectedSubscriptionAddons, setSelectedSubscriptionAddons] =
+        useState(null);
 
     useEffect(() => {
         // Reset selected whenever the data set changes,
@@ -104,6 +108,20 @@ function Listing(props) {
         },
         onError: () => {
             setSelectedUserPortalId(null);
+        },
+    });
+
+    useQuery({
+        queryKey: [
+            SUBSCRIPTION_ADDONS_QUERY_KEY,
+            {
+                selectedSubscription,
+            },
+        ],
+        queryFn: () => getSubscriptionAddons(selectedSubscription?.id),
+        enabled: !!selectedSubscription,
+        onSuccess: (resp) => {
+            setSelectedSubscriptionAddons(resp.subscription_addons);
         },
     });
 
@@ -215,7 +233,9 @@ function Listing(props) {
                     baseId={baseId}
                     onClose={() => setDetailsOpen(false)}
                     open={detailsOpen}
+                    parentId={baseId}
                     selectedSubscription={selectedSubscription}
+                    selectedSubscriptionAddons={selectedSubscriptionAddons}
                     selectedUserPortalId={selectedUserPortalId}
                 />
             )}

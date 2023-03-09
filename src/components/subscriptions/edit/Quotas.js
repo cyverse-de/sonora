@@ -12,7 +12,7 @@ import DETableHead from "components/table/DETableHead";
 import buildID from "components/utils/DebugIDUtil";
 import EmptyTable from "components/table/EmptyTable";
 import FormNumberField from "components/forms/FormNumberField";
-import { nonEmptyMinValue } from "components/utils/validations";
+import { nonZeroValue } from "components/utils/validations";
 
 const TABLE_COLUMNS = [
     { name: "Quota", numeric: false, enableSorting: false },
@@ -62,7 +62,7 @@ function Quotas(props) {
                                         fullWidth={false}
                                         required
                                         validate={(value) =>
-                                            nonEmptyMinValue(value, i18nUtil)
+                                            nonZeroValue(value, i18nUtil)
                                         }
                                         component={FormNumberField}
                                     />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
 import {
@@ -8,6 +8,9 @@ import {
     Grid,
     IconButton,
     makeStyles,
+    Table,
+    TableBody,
+    TableCell,
     Tooltip,
     Typography,
     useMediaQuery,
@@ -15,20 +18,30 @@ import {
 } from "@material-ui/core";
 
 import { VerifiedUser } from "@material-ui/icons";
-
+import EmptyTable from "components/table/EmptyTable";
 import { formatDateObject } from "components/utils/DateFormatter";
 import GridLabelValue from "components/utils/GridLabelValue";
 import buildID from "components/utils/DebugIDUtil";
 import ids from "../ids";
+import { DERow } from "components/table/DERow";
 import { DETab, DETabPanel, DETabs } from "../../utils/DETabs";
+import DETableHead from "components/table/DETableHead";
 import dateConstants from "components/utils/dateConstants";
 import constants from "../../../../src/constants";
 import navigationConstants from "../../../common/NavigationConstants";
 import { formatFileSize } from "components/data/utils";
 
 const TABS = {
-    subscriptionDetails: "Details",
+    subscriptionDetails: "details",
+    addonsDetails: "addonsDetails",
 };
+
+const ADDONS_TABLE_COLUMNS = [
+    { name: "Add-on", numeric: false, enableSorting: false },
+    { name: "Amount", numeric: false, enableSorting: false },
+    { name: "Resource Type", numeric: false, enableSorting: false },
+    { name: "Paid", numeric: false, enableSorting: false },
+];
 
 const useStyles = makeStyles((theme) => ({
     drawerPaper: {
@@ -37,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
         },
         [theme.breakpoints.down("lg")]: {
             maxWidth: "50%",
+            minWidth: "45%",
         },
         [theme.breakpoints.down("sm")]: {
             maxWidth: "90%",
@@ -51,16 +65,70 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center",
     },
     drawerSubheader: {
-        margin: theme.spacing(1),
+        margin: theme.spacing(2),
         display: "flex",
         flexDirection: "row",
         maxWidth: "100%",
     },
 }));
 
+function AddonsDetails(props) {
+    const { addons, parentId, t } = props;
+
+    return (
+        <Table>
+            <DETableHead
+                selectable={false}
+                rowCount={addons ? addons.length : 0}
+                baseId={parentId}
+                ids={ids.ADDONS.DETAILS_TABLE}
+                columnData={ADDONS_TABLE_COLUMNS}
+            />
+            <TableBody>
+                {addons && !addons.length && (
+                    <EmptyTable
+                        message={t("noAddons")}
+                        numColumns={ADDONS_TABLE_COLUMNS.length}
+                    />
+                )}
+                {addons &&
+                    addons.length > 0 &&
+                    addons.map((item, index) => {
+                        let resourceInBytes =
+                            item.addon.resource_type.unit.toLowerCase() ===
+                            "bytes";
+                        return (
+                            <DERow key={index}>
+                                <TableCell>
+                                    <Typography>{item.addon.name}</Typography>
+                                </TableCell>
+                                <TableCell>
+                                    <Typography>
+                                        {resourceInBytes
+                                            ? formatFileSize(item.amount)
+                                            : `${item.amount}`}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell>
+                                    <Typography>
+                                        {item.addon.resource_type.unit}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell>
+                                    <Typography>
+                                        {item.paid ? t("true") : t("false")}
+                                    </Typography>
+                                </TableCell>
+                            </DERow>
+                        );
+                    })}
+            </TableBody>
+        </Table>
+    );
+}
+
 function DetailsPanel(props) {
-    const { baseId, selectedSubscription } = props;
-    const { t } = useTranslation("subscriptions");
+    const { baseId, selectedSubscription, t } = props;
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
@@ -101,6 +169,7 @@ function DetailsPanel(props) {
                 <GridLabelValue label={t("usages")}>
                     <UsagesDetails
                         selectedSubscription={selectedSubscription}
+                        t={t}
                     />
                 </GridLabelValue>
             </Grid>
@@ -118,19 +187,13 @@ function QuotasDetails(props) {
                     // Only format data storage resources to human readable format
                     let resourceInBytes =
                         item.resource_type.unit.toLowerCase() === "bytes";
-                    if (resourceInBytes) {
-                        return (
-                            <Typography key={index}>
-                                {formatFileSize(item.quota)}
-                            </Typography>
-                        );
-                    } else {
-                        return (
-                            <Typography key={index}>
-                                {item.quota} {item.resource_type.unit}
-                            </Typography>
-                        );
-                    }
+                    return (
+                        <Typography key={index}>
+                            {resourceInBytes
+                                ? formatFileSize(item.quota)
+                                : `${item.quota} ${item.resource_type.unit}`}
+                        </Typography>
+                    );
                 })}
         </>
     );
@@ -143,17 +206,24 @@ function SubscriptionDrawer(props) {
         data,
         onClose,
         open,
+        parentId,
         selectedSubscription,
+        selectedSubscriptionAddons,
         selectedUserPortalId,
     } = props;
     const classes = useStyles();
     const drawerId = buildID(baseId, ids.DETAILS_DRAWER);
-    const detailsTabId = buildID(drawerId, ids.DETAILS_TAB);
+    const subscriptionDetailsTabId = buildID(
+        drawerId,
+        ids.SUBSCRIPTION_DETAILS_TAB
+    );
+    const addonsDetailsTabId = buildID(drawerId, ids.ADDONS.DETAILS_TAB);
     const { t } = useTranslation("subscriptions");
-    const selectedTab = TABS.subscriptionDetails;
-
+    const [selectedTab, setSelectedTab] = useState(TABS.subscriptionDetails);
     const username = selectedSubscription?.user.username;
-
+    const onTabSelectionChange = (_event, selectedTab) => {
+        setSelectedTab(selectedTab);
+    };
     return (
         <Drawer
             anchor={anchor}
@@ -165,15 +235,20 @@ function SubscriptionDrawer(props) {
                 variant: "outlined",
             }}
         >
-            <DETabs value={selectedTab}>
+            <DETabs value={selectedTab} onChange={onTabSelectionChange}>
                 <DETab
                     value={TABS.subscriptionDetails}
                     label={t("subscriptionDetailsTabLabel")}
-                    id={detailsTabId}
+                    id={subscriptionDetailsTabId}
+                />
+                <DETab
+                    value={TABS.addonsDetails}
+                    label={t("addons")}
+                    id={addonsDetailsTabId}
                 />
             </DETabs>
             <DETabPanel
-                tabId={detailsTabId}
+                tabId={subscriptionDetailsTabId}
                 value={TABS.subscriptionDetails}
                 selectedTab={selectedTab}
             >
@@ -188,6 +263,25 @@ function SubscriptionDrawer(props) {
                     baseId={baseId}
                     data={data}
                     selectedSubscription={selectedSubscription}
+                    selectedSubscriptionAddons={selectedSubscriptionAddons}
+                    t={t}
+                />
+            </DETabPanel>
+            <DETabPanel
+                tabId={subscriptionDetailsTabId}
+                value={TABS.addonsDetails}
+                selectedTab={selectedTab}
+            >
+                <SubscriptionHeader
+                    baseId={baseId}
+                    username={username}
+                    portalId={selectedUserPortalId}
+                />
+                <Divider />
+                <AddonsDetails
+                    addons={selectedSubscriptionAddons}
+                    parentId={parentId}
+                    t={t}
                 />
             </DETabPanel>
         </Drawer>
@@ -237,8 +331,7 @@ function SubscriptionSubheader() {
 }
 
 function UsagesDetails(props) {
-    const { selectedSubscription } = props;
-    const { t } = useTranslation("subscriptions");
+    const { selectedSubscription, t } = props;
 
     return (
         <>

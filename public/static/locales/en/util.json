@@ -19,6 +19,7 @@
     "history": "History",
     "host": "Host",
     "invalidUrl": "A valid URL must begin with either ftp or http or https.",
+    "mustBeMoreThanZero": "Must be greater than 0",
     "mustBeNumber": "Value must be a number",
     "mustBeZeroOrMore": "Must be at least 0",
     "needAccount": "Need a free account? ",

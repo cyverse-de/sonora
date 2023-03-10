@@ -34,7 +34,7 @@ export default function subscriptionsRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
-            pathname: "qms/resource-types",
+            pathname: "/qms/resource-types",
         })
     );
 

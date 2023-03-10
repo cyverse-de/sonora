@@ -40,9 +40,8 @@ function EditAddonDialog(props) {
     const preProcessResourceTypes = useCallback(
         (data) => {
             if (data?.result?.length > 0) {
-                let types = [];
-                data.result.forEach((type) => types.push(type));
-                setResourceTypes(types);
+                let types = data.result;
+                setResourceTypes([...types]);
             }
         },
         [setResourceTypes]

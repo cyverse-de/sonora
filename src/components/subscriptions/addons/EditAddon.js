@@ -75,9 +75,7 @@ function EditAddonDialog(props) {
                 onClose();
                 queryClient.invalidateQueries(AVAILABLE_ADDONS_QUERY_KEY);
             },
-            onError: (err) => {
-                setPostAddonError(err);
-            },
+            onError: setPostAddonError,
         }
     );
 

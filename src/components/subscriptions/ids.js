@@ -10,6 +10,7 @@ export default {
         DESCRIPTION_CELL: "description",
         DETAILS_TAB: "detailsTab",
         DETAILS_TABLE: "detailsTable",
+        EDIT_MENU_ITEM: "editMenuItem",
         LISTING: "listing",
         LISTING_TAB: "listingTab",
         LISTING_TABLE: "listingTable",

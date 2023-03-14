@@ -48,7 +48,7 @@ export function formatQuotas(values) {
 
     // Format the quota submission from GiB to B
     values.quotas[dataSizeQuotaIndex].quota =
-        parseInt(values.quotas[dataSizeQuotaIndex].quota) * bytesInGiB;
+        parseFloat(values.quotas[dataSizeQuotaIndex].quota) * bytesInGiB;
 
     return values;
 }

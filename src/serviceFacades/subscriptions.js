@@ -68,6 +68,15 @@ function getSubscriptionAddons(subscription_uuid) {
     });
 }
 
+// Adminstrators can update an available add-on
+function putAddon(addon) {
+    return callApi({
+        endpoint: `/api/admin/qms/addons`,
+        method: "PUT",
+        body: addon,
+    });
+}
+
 // Administrators can add new subscriptions for users who haven't logged into the DE yet
 // Administrators can edit existing subscriptions
 function postSubscription(subscription) {
@@ -120,6 +129,7 @@ export {
     getSubscriptions,
     postAddon,
     postSubscription,
+    putAddon,
     updateUserQuotas,
     AVAILABLE_ADDONS_QUERY_KEY,
     PLAN_TYPES_QUERY_KEY,

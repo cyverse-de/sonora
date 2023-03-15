@@ -37,7 +37,7 @@ import {
     upgradeListener,
     notificationsHandler,
     setUpAmqpForNotifications,
-} from "./amqp";
+} from "./notifications";
 
 export const app = next({
     dev: config.isDevelopment,

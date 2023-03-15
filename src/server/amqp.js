@@ -62,10 +62,10 @@ export const notificationsHandler = (req, res) => {
  *
  */
 export function setUpAmqpForNotifications() {
-    logger.info("Connecting to amqp...");
+    logger.info("AMQP Connecting...");
     const open = amqplib.connect(config.amqpUri);
     open.then(function (conn) {
-        logger.info("*************amqp connection created****************");
+        logger.info("*************AMQP connection created****************");
         connection = conn;
         process.once("SIGINT", conn.close.bind(conn));
         return conn.createChannel();
@@ -75,12 +75,12 @@ export function setUpAmqpForNotifications() {
             return channel;
         })
         .catch((exception) => {
-            logger.error("Amqp error: " + exception);
+            logger.error("AMQP error: " + exception);
             if (connection) {
-                logger.info("!!!!!!!!!!!!Closing amqp connection!!!!!!!!!");
+                logger.info("!!!!!!!!!!!!AMQP Closing connection!!!!!!!!!");
                 connection.close();
             }
-            logger.info("Attempting to reconnect to amqp...");
+            logger.info("AMQP Attempting to reconnect...");
             setUpAmqpForNotifications();
         });
 }
@@ -95,7 +95,7 @@ export function setUpAmqpForNotifications() {
 export function getNotifications(user, ws) {
     let consumerTag = "";
     if (!user) {
-        logger.error("User not found. Unable to get notifications!");
+        logger.error("WEBSOCKET User not found. Unable to get notifications!");
         ws.close();
         return;
     }
@@ -105,7 +105,7 @@ export function getNotifications(user, ws) {
     const connectionCleanUp = () => {
         msgChannel.cancel(consumerTag);
         logger.info(
-            "Websocket closed. Consumer canceled for user: " +
+            "WEBSOCKET Closed. Consumer canceled for user: " +
                 user +
                 " consumer Tag: " +
                 consumerTag +
@@ -119,7 +119,7 @@ export function getNotifications(user, ws) {
     });
 
     ws.on("error", function (error) {
-        logger.info("Websocket error: " + error);
+        logger.info("WEBSOCKET error: " + error);
         connectionCleanUp();
     });
 
@@ -130,17 +130,21 @@ export function getNotifications(user, ws) {
             config.amqpExchangeName,
             NOTIFICATION_ROUTING_KEY + user
         );
-        logger.info("Channel bound for user: " + user);
+        logger.info("AMQP Channel bound for user: " + user);
         msgChannel
             .consume(
                 QUEUE,
                 function (msg) {
-                    logger.info("Received message:" + msg.content.toString());
+                    logger.info(
+                        "AMQP Received message:" + msg.content.toString()
+                    );
                     try {
                         ws.send(msg.content.toString());
                         msgChannel.ack(msg);
                     } catch (e) {
-                        logger.error("Error when sending message: " + e);
+                        logger.error(
+                            "WEBSOCKET Error when sending message: " + e
+                        );
                         msgChannel.nack(msg);
                     }
                 },
@@ -150,7 +154,7 @@ export function getNotifications(user, ws) {
             )
             .then((tag) => {
                 logger.info(
-                    "Consumer Tag is: " +
+                    "AMQP Consumer Tag is: " +
                         tag?.consumerTag +
                         " for user: " +
                         user
@@ -158,6 +162,6 @@ export function getNotifications(user, ws) {
                 consumerTag = tag?.consumerTag;
             });
     } else {
-        logger.error("No channel found");
+        logger.error("AMQP No channel found");
     }
 }

@@ -46,11 +46,11 @@ function formatAddonSubmission(values, resourceTypes, update = false) {
         resourceType,
     } = values;
 
-    const resourceObj = resourceTypes.filter(
+    const resourceObj = resourceTypes.find(
         (resource) => resourceType === resource.unit
     );
 
-    const { id, unit, name } = resourceObj[0];
+    const { id, unit, name } = resourceObj;
 
     const submission = {
         name: addonName,

@@ -115,7 +115,7 @@ function Listing(props) {
         queryKey: [
             SUBSCRIPTION_ADDONS_QUERY_KEY,
             {
-                selectedSubscription,
+                id: selectedSubscription?.id,
             },
         ],
         queryFn: () => getSubscriptionAddons(selectedSubscription?.id),

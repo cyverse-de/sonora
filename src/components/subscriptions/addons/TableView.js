@@ -9,6 +9,7 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 import ids from "../ids";
+import RowDotMenu from "./RowDotMenu";
 
 import TableLoading from "components/table/TableLoading";
 import { formatFileSize } from "components/data/utils";
@@ -70,6 +71,13 @@ const columnData = (t) => {
             enableSorting: false,
             key: "resourceType",
         },
+        {
+            id: ids.ROW_DOT_MENU,
+            name: "",
+            enableSorting: false,
+            key: "dotMenu",
+            align: "right",
+        },
     ];
 };
 
@@ -79,6 +87,7 @@ function AddOnListing(props) {
         baseId,
         handleCheckboxClick,
         handleClick,
+        onEditSelected,
         selected,
         t,
         tableId,
@@ -146,6 +155,15 @@ function AddOnListing(props) {
                             {addon.resource_type.unit}
                         </Typography>
                     </TableCell>
+                    <TableCell
+                        id={buildID(rowId, ids.ROW_DOT_MENU)}
+                        align="right"
+                    >
+                        <RowDotMenu
+                            baseId={baseId}
+                            onEditSelected={onEditSelected}
+                        />
+                    </TableCell>
                 </DERow>
             );
         })
@@ -172,6 +190,7 @@ function TableView(props) {
         isAdminView,
         listing,
         loading,
+        onEditSelected,
         selected,
     } = props;
     const { t } = useTranslation("subscriptions");
@@ -213,6 +232,7 @@ function TableView(props) {
                                             handleCheckboxClick
                                         }
                                         handleClick={handleClick}
+                                        onEditSelected={onEditSelected}
                                         selected={selected}
                                         t={t}
                                         tableId={tableId}

@@ -16,7 +16,7 @@ export default function subscriptionsRouter() {
 
     logger.info("************ Adding subscription handlers **********");
 
-    // List of plan names
+    // Get plan names
     logger.info("adding the GET /qms/plans handler");
     api.get(
         "/qms/plans",
@@ -27,7 +27,7 @@ export default function subscriptionsRouter() {
         })
     );
 
-    // List of resource types
+    // Get resource types
     logger.info("adding the GET /qms/resource-types");
     api.get(
         "/qms/resource-types",
@@ -60,7 +60,7 @@ export default function subscriptionsRouter() {
         })
     );
 
-    // List the add-ons to a user's subscription
+    // Get add-ons of a user's subscription
     logger.info(
         "adding the GET /admin/qms/subscriptions/:subscription_uuid/addons handler"
     );
@@ -88,6 +88,19 @@ export default function subscriptionsRouter() {
         })
     );
 
+    // Administrators can update an avilalable add-on
+    logger.info("adding the PUT /admin/qms/addons handler");
+    api.put(
+        "/admin/qms/addons",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PUT",
+            pathname: "/admin/qms/addons",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
     // Administrators can update user quotas for a specified resource type
     logger.info(
         "adding the POST /admin/qms/users/:username/plan/:resource_type/quota handler"

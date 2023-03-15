@@ -19,13 +19,14 @@ import { formatAddonSubmission, mapPropsToValues } from "./formatters";
 import {
     getResourceTypes,
     postAddon,
+    putAddon,
     AVAILABLE_ADDONS_QUERY_KEY,
     RESOURCE_TYPES_QUERY_KEY,
 } from "serviceFacades/subscriptions";
 import { announce } from "components/announcer/CyVerseAnnouncer";
 
 function EditAddonDialog(props) {
-    const { open, onClose, parentId } = props;
+    const { addon, open, onClose, parentId } = props;
     const { t } = useTranslation("subscriptions");
     const queryClient = useQueryClient();
     const resourceTypesCache = queryClient.getQueryData(
@@ -35,7 +36,7 @@ function EditAddonDialog(props) {
     const [resourceTypes, setResourceTypes] = useState();
     const [resourceTypesQueryEnabled, setResourceTypesQueryEnabled] =
         useState();
-    const [postAddonError, setPostAddonError] = useState();
+    const [subscriptionAddonError, setSubscriptionAddonError] = useState();
 
     const preProcessResourceTypes = useCallback(
         (data) => {
@@ -74,7 +75,21 @@ function EditAddonDialog(props) {
                 onClose();
                 queryClient.invalidateQueries(AVAILABLE_ADDONS_QUERY_KEY);
             },
-            onError: setPostAddonError,
+            onError: setSubscriptionAddonError,
+        }
+    );
+
+    const { mutate: updateAddon } = useMutation(
+        (addonSubmission) => putAddon(addonSubmission),
+        {
+            onSuccess: () => {
+                announce({
+                    text: t("addonUpdated"),
+                });
+                onClose();
+                queryClient.invalidateQueries(AVAILABLE_ADDONS_QUERY_KEY);
+            },
+            onError: setSubscriptionAddonError,
         }
     );
 
@@ -84,16 +99,20 @@ function EditAddonDialog(props) {
     };
 
     const resetState = () => {
-        setPostAddonError(null);
+        setSubscriptionAddonError(null);
     };
 
     const handleSubmit = (values) => {
-        createAddon(formatAddonSubmission(values));
+        if (addon) {
+            updateAddon(formatAddonSubmission(values, resourceTypes, true));
+        } else {
+            createAddon(formatAddonSubmission(values, resourceTypes));
+        }
     };
 
     return (
         <Formik
-            initialValues={mapPropsToValues()}
+            initialValues={mapPropsToValues(addon)}
             onSubmit={(values, { resetForm }) => {
                 handleSubmit(values);
                 resetForm();
@@ -138,10 +157,10 @@ function EditAddonDialog(props) {
                                 </>
                             }
                         >
-                            {postAddonError && (
+                            {subscriptionAddonError && (
                                 <ErrorTypographyWithDialog
-                                    errorObject={postAddonError}
-                                    errorMessage={t("postAddonError")}
+                                    errorObject={subscriptionAddonError}
+                                    errorMessage={t("subscriptionAddonError")}
                                     baseId={parentId}
                                 />
                             )}
@@ -167,7 +186,7 @@ function EditAddonForm(props) {
                 component={FormTextField}
                 id={buildID(parentId, ids.ADDONS_DLG.NAME)}
                 label={t("name")}
-                name="name"
+                name="addonName"
                 required
                 validate={(value) => nonEmptyField(value, i18nUtil)}
             />
@@ -180,23 +199,26 @@ function EditAddonForm(props) {
                 validate={(value) => nonEmptyField(value, i18nUtil)}
             />
             <FastField
+                name="resourceType"
                 component={FormTextField}
                 id={buildID(parentId, ids.ADDONS_DLG.RESOURCE_TYPE)}
                 label={t("resourceType")}
-                name="resourceType"
+                variant="outlined"
                 select
             >
-                {resourceTypes?.map((type, index) => (
-                    <MenuItem
-                        id={buildID(parentId, ids.ADDONS_DLG.RESOURCE_UNIT)}
-                        key={index}
-                        value={type}
-                    >
-                        {type.unit.toLowerCase() === "bytes"
-                            ? t("gib")
-                            : type.unit}
-                    </MenuItem>
-                ))}
+                {resourceTypes.map((type, index) => {
+                    return (
+                        <MenuItem
+                            id={buildID(parentId, ids.ADDONS_DLG.RESOURCE_UNIT)}
+                            key={index}
+                            value={type.unit}
+                        >
+                            {type.unit.toLowerCase() === "bytes"
+                                ? t("gib")
+                                : type.unit}
+                        </MenuItem>
+                    );
+                })}
             </FastField>
             <Field
                 component={FormNumberField}

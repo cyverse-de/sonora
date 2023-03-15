@@ -16,11 +16,14 @@ import {
 
 import AddonsToolbar from "./Toolbar";
 import TableView from "./TableView";
+import EditAddonDialog from "./EditAddon";
 
 function AddOnsListing(props) {
     const { baseId, isAdminView } = props;
     const [addonsData, setAddonsData] = useState(null);
+    const [editDialogOpen, setEditDialogOpen] = useState();
     const [selected, setSelected] = useState([]);
+    const [selectedAddon, setSelectedAddon] = useState();
 
     useEffect(() => {
         // Reset selected whenever the data set changes,
@@ -28,6 +31,17 @@ function AddOnsListing(props) {
         // in addition to the user changing categories or pages.
         setSelected([]);
     }, [addonsData]);
+
+    useEffect(() => {
+        if (addonsData?.addons) {
+            const selectedId = selected[0];
+            setSelectedAddon(
+                addonsData.addons.find((addon) => addon.uuid === selectedId)
+            );
+        } else {
+            setSelectedAddon(null);
+        }
+    }, [addonsData, selected]);
 
     const { isFetching, error } = useQuery({
         queryKey: [AVAILABLE_ADDONS_QUERY_KEY],
@@ -50,6 +64,14 @@ function AddOnsListing(props) {
 
     const isSelected = (uuid) => selected.includes(uuid);
 
+    const onEditSelected = () => {
+        setEditDialogOpen(true);
+    };
+
+    const onCloseEdit = () => {
+        setEditDialogOpen(false);
+    };
+
     const toggleSelection = (uuid) => {
         isSelected(uuid) ? deselect() : setSelected([uuid]);
     };
@@ -65,7 +87,14 @@ function AddOnsListing(props) {
                 isAdminView={isAdminView}
                 listing={addonsData}
                 loading={isFetching}
+                onEditSelected={onEditSelected}
                 selected={selected}
+            />
+            <EditAddonDialog
+                open={editDialogOpen}
+                onClose={onCloseEdit}
+                parentId={baseId}
+                addon={selectedAddon}
             />
         </>
     );

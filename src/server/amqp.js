@@ -4,15 +4,57 @@
  *
  */
 
+import * as http from "http";
+import * as ws from "ws";
 import amqplib from "amqplib";
+import UUID from "uuid/v4";
+
+import NavigationConstants from "../common/NavigationConstants";
+import * as authn from "./auth";
 import * as config from "./configuration";
 import logger from "./logging";
-import UUID from "uuid/v4";
 
 const NOTIFICATION_ROUTING_KEY = "notification.";
 const NOTIFICATION_QUEUE = "de_notifications.";
 
 let connection, msgChannel;
+
+// From https://github.com/raimohanska/next-websockets-hmr-error-repro/blob/1b7d32680d3e77c755b76e633c9ccdf8009b230d/server/server.ts#L41-L45:
+// Use `noServer` here to avoid creating a new HTTP server,
+// or capturing all WebSocket upgrades of an existing one.
+const wss = new ws.Server({
+    noServer: true,
+    path: NavigationConstants.NOTIFICATION_WS,
+});
+
+export const upgradeListener = (expressServer) => (req, socket, head) => {
+    // Only handle WebSocket upgrades for the NOTIFICATION_WS path.
+    if (req.url === NavigationConstants.NOTIFICATION_WS) {
+        // The following based on
+        // https://gist.github.com/porsager/eb754973e9e1c43842ca9c04001236d8
+        const res = new http.ServerResponse(req);
+        res.assignSocket(socket);
+        res.on("finish", () => {
+            logger.info("WEBSOCKET Finished, destroying...");
+            res.socket.destroy();
+        });
+
+        req.ws = true;
+        res.ws = (callback) => wss.handleUpgrade(req, socket, head, callback);
+
+        expressServer(req, res);
+    }
+};
+
+export const notificationsHandler = (req, res) => {
+    // Only handle requests with a callback setup by the upgradeListener.
+    if (req.ws) {
+        res.ws((ws) => {
+            logger.info("WEBSOCKET Connected for Notifications.");
+            getNotifications(authn.getUserID(req), ws);
+        });
+    }
+};
 
 /**
  *

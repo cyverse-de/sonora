@@ -1,5 +1,4 @@
 import express from "express";
-import expressWs from "express-ws";
 import next from "next";
 
 import analysesRouter from "./api/analyses";
@@ -34,7 +33,11 @@ import compression from "compression";
 import logger, { errorLogger, requestLogger } from "./logging";
 
 import NavigationConstants from "../common/NavigationConstants";
-import { getNotifications, setUpAmqpForNotifications } from "./amqp";
+import {
+    upgradeListener,
+    notificationsHandler,
+    setUpAmqpForNotifications,
+} from "./amqp";
 
 export const app = next({
     dev: config.isDevelopment,
@@ -81,14 +84,6 @@ app.prepare()
         const server = express();
         server.enable("trust proxy");
 
-        if (config.isDevelopment) {
-            // Appears this needs to be added before other middleware.
-            logger.info("configuring /_next/webpack-hmr handler for dev mode");
-            server.all("/_next/webpack-hmr/*", (req, res) => {
-                return nextHandler(req, res);
-            });
-        }
-
         logger.info("configuring the express logging middleware");
         server.use(errorLogger);
         server.use(requestLogger);
@@ -128,10 +123,7 @@ app.prepare()
         //get notifications from amqp
         logger.info("Set up notification queue and websocket");
         setUpAmqpForNotifications();
-        expressWs(server);
-        server.ws(NavigationConstants.NOTIFICATION_WS, function (ws, request) {
-            getNotifications(authn.getUserID(request), ws);
-        });
+        server.get(NavigationConstants.NOTIFICATION_WS, notificationsHandler);
 
         logger.info(
             "$$$$$$$$ adding the api router to the express server $$$$$$$$$"
@@ -189,10 +181,12 @@ app.prepare()
             return nextHandler(req, res);
         });
 
-        server.listen(config.listenPort, (err) => {
+        const httpServer = server.listen(config.listenPort, (err) => {
             if (err) throw err;
             console.log(`> Ready on http://localhost:${config.listenPort}`);
         });
+
+        httpServer.on("upgrade", upgradeListener(server));
     })
 
     .catch((exception) => {

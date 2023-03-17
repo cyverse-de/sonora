@@ -128,5 +128,16 @@ export default function subscriptionsRouter() {
             headers: { "Content-Type": "application/json" },
         })
     );
+
+    // Administrators can delete an available add-on
+    logger.info("adding the DELETE /admin/qms/addons/:uuid handler");
+    api.delete(
+        "/admin/qms/addons/:uuid",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/admin/qms/addons/:uuid",
+        })
+    );
     return api;
 }

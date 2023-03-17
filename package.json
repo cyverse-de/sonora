@@ -89,7 +89,6 @@
         "express": "^4.17.1",
         "express-session": "^1.17.1",
         "express-winston": "^4.0.2",
-        "express-ws": "^5.0.2",
         "formik": "^2.2.5",
         "i18next": "^22.4.9",
         "is-plain-object": "^3.0.0",
@@ -116,7 +115,8 @@
         "sockette": "^2.0.6",
         "unleash-client": "^3.8.1",
         "uuid": "^3.4.0",
-        "winston": "^3.2.1"
+        "winston": "^3.2.1",
+        "ws": "^8.13.0"
     },
     "optionalDependencies": {
         "fsevents": "^1.2.11"

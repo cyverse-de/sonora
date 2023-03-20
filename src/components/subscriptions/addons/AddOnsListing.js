@@ -70,7 +70,6 @@ function AddOnsListing(props) {
             },
             onError: (error) => {
                 showErrorAnnouncer(t("deleteAddonError"), error);
-                setSelected([]);
                 queryClient.invalidateQueries(AVAILABLE_ADDONS_QUERY_KEY);
             },
         }
@@ -117,7 +116,7 @@ function AddOnsListing(props) {
         for (let i = start; i <= end; i++) {
             rangeIds.push(addonsData?.addons[i].uuid);
         }
-        // Toggle the selection based on the last tool clicked.
+        // Toggle the selection based on the last add-on clicked.
         isSelected(targetId) ? deselect(rangeIds) : select(rangeIds);
     };
 

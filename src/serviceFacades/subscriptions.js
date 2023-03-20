@@ -121,7 +121,23 @@ function postAddon(addon) {
     });
 }
 
+function deleteAddon(uuid) {
+    return callApi({
+        endpoint: `/api/admin/qms/addons/${uuid}`,
+        method: "DELETE",
+    });
+}
+
+function deleteAddons(uuids) {
+    return (
+        uuids &&
+        uuids.length > 0 &&
+        Promise.all(uuids.map((uuid) => deleteAddon(uuid)))
+    );
+}
+
 export {
+    deleteAddons,
     getAvailableAddOns,
     getPlanTypes,
     getResourceTypes,

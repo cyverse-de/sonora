@@ -21,21 +21,28 @@ import PageWrapper from "components/layout/PageWrapper";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
 import {
+    makeStyles,
     Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
+    TableRow,
     Typography,
 } from "@material-ui/core";
 
+const useStyles = makeStyles(() => ({
+    container: {
+        overflow: "auto",
+    },
+    // Prevent row text from being highlighted when in a multiselection
+    row: {
+        userSelect: "none",
+    },
+}));
+
 const columnData = (t) => {
     return [
-        {
-            name: "",
-            numeric: false,
-            enableSorting: false,
-        },
         {
             id: ids.ADDONS.NAME,
             name: t("name"),
@@ -87,40 +94,49 @@ function AddOnListing(props) {
         baseId,
         handleCheckboxClick,
         handleClick,
+        onDeleteSelected,
         onEditSelected,
         selected,
         t,
         tableId,
     } = props;
 
+    const classes = useStyles();
+
     return (
         addons &&
         addons.length > 0 &&
-        addons.map((addon) => {
+        addons.map((addon, index) => {
             const addonUUID = addon.uuid;
             const rowId = buildID(baseId, tableId, addonUUID);
-            const isSelected = selected?.indexOf(addonUUID) !== -1;
+            const isSelected = selected.includes(addonUUID);
             const resourceInBytes =
                 addon.resource_type.unit.toLowerCase() === "bytes";
+
+            // DERow styling will override selected-row highlight styling.
+            const Row = isSelected ? TableRow : DERow;
             return (
-                <DERow
+                <Row
                     hover
                     id={rowId}
                     key={addonUUID}
                     role="checkbox"
                     selected={isSelected}
+                    tabIndex={-1}
                     aria-checked={isSelected}
+                    className={classes.row}
                     onClick={(event) => {
                         if (handleClick) {
-                            handleClick(event, addonUUID);
+                            handleClick(event, addonUUID, index);
                         }
                     }}
                 >
                     <TableCell padding="checkbox">
                         <DECheckbox
                             checked={isSelected}
+                            tabIndex={0}
                             onChange={(event) =>
-                                handleCheckboxClick(event, addonUUID)
+                                handleCheckboxClick(event, addonUUID, index)
                             }
                         />
                     </TableCell>
@@ -162,9 +178,10 @@ function AddOnListing(props) {
                         <RowDotMenu
                             baseId={baseId}
                             onEditSelected={onEditSelected}
+                            onDeleteSelected={onDeleteSelected}
                         />
                     </TableCell>
-                </DERow>
+                </Row>
             );
         })
     );
@@ -187,9 +204,11 @@ function TableView(props) {
         error,
         handleCheckboxClick,
         handleClick,
+        handleSelectAllClick,
         isAdminView,
         listing,
         loading,
+        onDeleteSelected,
         onEditSelected,
         selected,
     } = props;
@@ -197,9 +216,8 @@ function TableView(props) {
 
     const tableId = buildID(baseId, ids.ADDONS.LISTING_TABLE);
     const addons = listing?.addons;
-
     const columns = columnData(t);
-
+    const classes = useStyles();
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
     }
@@ -207,7 +225,7 @@ function TableView(props) {
     return (
         <PageWrapper>
             {isAdminView && (
-                <TableContainer component={Paper} style={{ overflow: "auto" }}>
+                <TableContainer component={Paper} className={classes.container}>
                     <Table
                         stickyHeader={true}
                         size="small"
@@ -215,9 +233,12 @@ function TableView(props) {
                         id={tableId}
                     >
                         <DETableHead
+                            selectable={true}
                             baseId={baseId}
-                            selectable={false}
                             columnData={columns}
+                            numSelected={selected?.length}
+                            onSelectAllClick={handleSelectAllClick}
+                            rowsInPage={!!addons ? listing.addons.length : 0}
                         />
 
                         {loading ? (
@@ -232,6 +253,7 @@ function TableView(props) {
                                             handleCheckboxClick
                                         }
                                         handleClick={handleClick}
+                                        onDeleteSelected={onDeleteSelected}
                                         onEditSelected={onEditSelected}
                                         selected={selected}
                                         t={t}

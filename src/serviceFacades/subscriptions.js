@@ -60,11 +60,20 @@ function getSubscriptions({ searchTerm, order, orderBy, page, rowsPerPage }) {
     });
 }
 
-// List the add-ons to a user's subscription
+// Administrators can list the add-ons to a user's subscription
 function getSubscriptionAddons(subscription_uuid) {
     return callApi({
         endpoint: `/api/admin/qms/subscriptions/${subscription_uuid}/addons`,
         method: "GET",
+    });
+}
+
+// Administrators can add an add-on to a subscription
+function postSubAddon(subscription_uuid, addon_uuid) {
+    return callApi({
+        endpoint: `/api/admin/qms/subscriptions/${subscription_uuid}/addons`,
+        method: "POST",
+        body: addon_uuid,
     });
 }
 
@@ -128,6 +137,7 @@ function deleteAddon(uuid) {
     });
 }
 
+// Administrators can delete available add-ons
 function deleteAddons(uuids) {
     return (
         uuids &&
@@ -146,6 +156,7 @@ export {
     postAddon,
     postSubscription,
     putAddon,
+    postSubAddon,
     updateUserQuotas,
     AVAILABLE_ADDONS_QUERY_KEY,
     PLAN_TYPES_QUERY_KEY,

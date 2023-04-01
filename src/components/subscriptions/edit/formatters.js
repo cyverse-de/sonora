@@ -52,3 +52,29 @@ export function formatQuotas(values) {
 
     return values;
 }
+
+export function mapSubAddonsPropsToValues(selectedSubAddons) {
+    let values = {
+        addons: [],
+    };
+
+    if (selectedSubAddons?.length) {
+        values.addons = selectedSubAddons.map(({ addon, amount, paid }) => ({
+            name: addon.name,
+            amount:
+                addon.resource_type.unit === "bytes"
+                    ? bytesToGiB(amount)
+                    : amount,
+            paid,
+            resource_type: addon.resource_type.unit,
+        }));
+    }
+
+    return values;
+}
+
+export function formatSubAddonSubmission(values) {
+    const { addon_uuid } = values;
+    const submission = { uuid: addon_uuid };
+    return submission;
+}

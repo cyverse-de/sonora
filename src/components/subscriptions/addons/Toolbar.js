@@ -6,7 +6,7 @@ import { Delete } from "@material-ui/icons";
 import { useTranslation } from "i18n";
 import ids from "../ids";
 import buildID from "components/utils/DebugIDUtil";
-import EditAddonDialog from "./EditAddon";
+import EditAddonDialog from "./edit/EditAddon";
 
 const useStyles = makeStyles((theme) => ({
     toolbarItems: {

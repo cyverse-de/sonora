@@ -6,25 +6,25 @@ import ids from "../ids";
 import buildID from "components/utils/DebugIDUtil";
 
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
-import { Delete } from "@material-ui/icons";
+import { Extension } from "@material-ui/icons";
 
-export default function EditSubscriptionMenuItem(props) {
-    const { baseId, onDeleteSelected, onClose } = props;
+export default function EditAddonsMenuItem(props) {
+    const { baseId, onEditAddonsSelected, onClose } = props;
 
     const { t } = useTranslation("subscriptions");
 
     return (
         <MenuItem
-            id={buildID(baseId, ids.ADDONS.DELETE_MENU_ITEM)}
+            id={buildID(baseId, ids.ADDONS_MENU_ITEM)}
             onClick={() => {
-                onDeleteSelected();
+                onEditAddonsSelected();
                 onClose();
             }}
         >
             <ListItemIcon>
-                <Delete fontSize="small" />
+                <Extension fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary={t("deleteAddon")} />
+            <ListItemText primary={t("editAddons")} />
         </MenuItem>
     );
 }

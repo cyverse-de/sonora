@@ -29,9 +29,12 @@ import constants from "../../../constants";
 
 import EditSubscriptionDialog from "../edit/EditSubscription";
 import EditQuotasDialog from "../edit/EditQuotas";
+import EditSubAddonsDialog from "../edit/EditSubAddons";
+import AddSubAddonsDialog from "../edit/AddSubAddon";
 
 function Listing(props) {
     const {
+        availableAddons,
         baseId,
         isAdminView,
         onRouteToListing,
@@ -43,6 +46,9 @@ function Listing(props) {
     } = props;
 
     const [data, setData] = useState(null);
+    const [subAddonsDialogOpen, setSubAddonsDialogOpen] = useState(false);
+    const [editSubAddonsDialogOpen, setEditSubAddonsDialogOpen] =
+        useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [editSubscriptionDialogOpen, setEditSubscriptionDialogOpen] =
         useState(false);
@@ -93,7 +99,7 @@ function Listing(props) {
         },
     });
 
-    useQuery({
+    const { isFetchingSubAddons } = useQuery({
         queryKey: [
             USER_PORTAL_DETAILS_QUERY_KEY,
             {
@@ -191,6 +197,24 @@ function Listing(props) {
         setEditQuotasDialogOpen(false);
     };
 
+    const onCloseAddSubAddons = () => {
+        setSubAddonsDialogOpen(false);
+        onEditAddonsSelected();
+    };
+
+    const onCloseEditSubAddons = () => {
+        setEditSubAddonsDialogOpen(false);
+    };
+
+    const onAddAddonsSelected = () => {
+        setSubAddonsDialogOpen(true);
+        onCloseEditSubAddons();
+    };
+
+    const onEditAddonsSelected = () => {
+        setEditSubAddonsDialogOpen(true);
+    };
+
     const onDetailsSelected = () => {
         setDetailsOpen(true);
     };
@@ -220,6 +244,7 @@ function Listing(props) {
                 isAdminView={isAdminView}
                 listing={data}
                 loading={isFetching}
+                onEditAddonsSelected={onEditAddonsSelected}
                 onDetailsSelected={onDetailsSelected}
                 onEditQuotasSelected={onEditQuotasSelected}
                 onEditSubscriptionSelected={onEditSubscriptionSelected}
@@ -239,6 +264,13 @@ function Listing(props) {
                     selectedUserPortalId={selectedUserPortalId}
                 />
             )}
+            <AddSubAddonsDialog
+                availableAddons={availableAddons?.addons}
+                open={subAddonsDialogOpen}
+                onClose={onCloseAddSubAddons}
+                parentId={baseId}
+                subscriptionId={selected[0]}
+            />
             <EditSubscriptionDialog
                 open={editSubscriptionDialogOpen}
                 onClose={onCloseEditSubscription}
@@ -250,6 +282,14 @@ function Listing(props) {
                 onClose={onCloseEditQuotas}
                 parentId={baseId}
                 subscription={selectedSubscription}
+            />
+            <EditSubAddonsDialog
+                isFetchingSubAddons={isFetchingSubAddons}
+                open={editSubAddonsDialogOpen}
+                onAddAddonsSelected={onAddAddonsSelected}
+                onClose={onCloseEditSubAddons}
+                parentId={baseId}
+                selectedSubscriptionAddons={selectedSubscriptionAddons}
             />
             {data && data.total > 0 && (
                 <DEPagination

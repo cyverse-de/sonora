@@ -117,6 +117,7 @@ function SubscriptionListing(props) {
         handleCheckboxClick,
         handleClick,
         onDetailsSelected,
+        onEditAddonsSelected,
         onEditQuotasSelected,
         onEditSubscriptionSelected,
         subscriptions,
@@ -186,6 +187,7 @@ function SubscriptionListing(props) {
                     >
                         <RowDotMenu
                             baseId={baseId}
+                            onEditAddonsSelected={onEditAddonsSelected}
                             onDetailsSelected={onDetailsSelected}
                             onEditQuotasSelected={onEditQuotasSelected}
                             onEditSubscriptionSelected={
@@ -205,6 +207,7 @@ function SubscriptionListingTableBody(props) {
         columns,
         handleCheckboxClick,
         handleClick,
+        onEditAddonsSelected,
         onDetailsSelected,
         onEditQuotasSelected,
         onEditSubscriptionSelected,
@@ -222,6 +225,7 @@ function SubscriptionListingTableBody(props) {
                     baseId={baseId}
                     handleCheckboxClick={handleCheckboxClick}
                     handleClick={handleClick}
+                    onEditAddonsSelected={onEditAddonsSelected}
                     onDetailsSelected={onDetailsSelected}
                     onEditQuotasSelected={onEditQuotasSelected}
                     onEditSubscriptionSelected={onEditSubscriptionSelected}
@@ -244,6 +248,7 @@ function TableView(props) {
         isAdminView,
         listing,
         loading,
+        onEditAddonsSelected,
         onDetailsSelected,
         onEditQuotasSelected,
         onEditSubscriptionSelected,
@@ -288,6 +293,7 @@ function TableView(props) {
                                 columns={columns}
                                 handleCheckboxClick={handleCheckboxClick}
                                 handleClick={handleClick}
+                                onEditAddonsSelected={onEditAddonsSelected}
                                 onDetailsSelected={onDetailsSelected}
                                 onEditQuotasSelected={onEditQuotasSelected}
                                 onEditSubscriptionSelected={

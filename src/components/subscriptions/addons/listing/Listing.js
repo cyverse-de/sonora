@@ -7,27 +7,32 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { useMutation, useQueryClient, useQuery } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 import {
     deleteAddons,
-    getAvailableAddOns,
     AVAILABLE_ADDONS_QUERY_KEY,
 } from "serviceFacades/subscriptions";
 
 import { useTranslation } from "i18n";
 
-import AddonsToolbar from "./Toolbar";
+import AddonsToolbar from "../Toolbar";
 import TableView from "./TableView";
-import EditAddonDialog from "./EditAddon";
+import EditAddonDialog from "../edit/EditAddon";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import { announce } from "components/announcer/CyVerseAnnouncer";
-import constants from "../../../constants";
+import constants from "../../../../constants";
 
 function AddOnsListing(props) {
-    const { baseId, isAdminView, showErrorAnnouncer } = props;
-    const [addonsData, setAddonsData] = useState(null);
+    const {
+        addonsData,
+        baseId,
+        errorFetchingAvailableAddons,
+        isAdminView,
+        isFetchingAvailableAddons,
+        showErrorAnnouncer,
+    } = props;
     const [deleteDialogOpen, setDeleteDialogOpen] = useState();
     const [editDialogOpen, setEditDialogOpen] = useState();
     const [selected, setSelected] = useState([]);
@@ -75,14 +80,7 @@ function AddOnsListing(props) {
         }
     );
 
-    const { isFetching, error } = useQuery({
-        queryKey: [AVAILABLE_ADDONS_QUERY_KEY],
-        queryFn: getAvailableAddOns,
-        enabled: true,
-        onSuccess: setAddonsData,
-    });
-
-    // Handles a request to select all tools.
+    // Handles a request to select all add-ons.
     const handleSelectAllClick = (event) => {
         setSelected(
             event.target.checked && !selected.length
@@ -101,7 +99,7 @@ function AddOnsListing(props) {
 
     const isSelected = (uuid) => selected.includes(uuid);
 
-    // Selects all of the tools in an index range
+    // Selects all of the add-ons in an index range
     const rangeSelect = (start, end, targetId) => {
         // Ensure the start index comes before the end index
         if (start > end) {
@@ -179,13 +177,16 @@ function AddOnsListing(props) {
             />
             <TableView
                 baseId={baseId}
-                error={error}
+                error={errorFetchingAvailableAddons}
                 handleCheckboxClick={handleCheckboxClick}
                 handleClick={handleClick}
                 handleSelectAllClick={handleSelectAllClick}
                 isAdminView={isAdminView}
                 listing={addonsData}
-                loading={isFetching || deleteAddonStatus === constants.LOADING}
+                loading={
+                    isFetchingAvailableAddons ||
+                    deleteAddonStatus === constants.LOADING
+                }
                 onDeleteSelected={onDeleteSelected}
                 onEditSelected={onEditSelected}
                 selected={selected}

@@ -13,7 +13,7 @@ import FormTextField from "components/forms/FormTextField";
 import { nonEmptyField, nonZeroValue } from "components/utils/validations";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
-import ids from "../ids";
+import ids from "../../ids";
 import { formatAddonSubmission, mapPropsToValues } from "./formatters";
 
 import {

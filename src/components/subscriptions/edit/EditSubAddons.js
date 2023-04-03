@@ -3,7 +3,7 @@ import React from "react";
 import { mapSubAddonsPropsToValues } from "./formatters";
 import ids from "../ids";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 import { FieldArray, Field, Form, Formik, getIn } from "formik";
 import {
     Button,

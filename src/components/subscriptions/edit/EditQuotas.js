@@ -11,7 +11,7 @@ import {
     SUBSCRIPTIONS_QUERY_KEY,
 } from "serviceFacades/subscriptions";
 import { announce } from "components/announcer/CyVerseAnnouncer";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import ids from "../ids";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";

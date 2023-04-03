@@ -10,7 +10,7 @@ import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialo
 
 import ids from "../ids";
 import buildID from "components/utils/DebugIDUtil";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "i18n";
 import { formatSubAddonSubmission } from "./formatters";
 import {
     postSubAddon,

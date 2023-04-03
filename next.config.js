@@ -95,5 +95,8 @@ module.exports = withBundleAnalyzer({
         LEGACY_DE_URL: config.get("legacy_de_url"),
         USERNAME_SUFFIX: config.get("username.suffix"),
         USER_PORTAL_URL: config.get("user_portal_url"),
+        SUPPORT_EMAIL: config.get("support_email"),
+        DE_FAQ: config.get("de_faq"),
+        CYVERSE_URL: config.get("cyverse_url"),
     },
 });

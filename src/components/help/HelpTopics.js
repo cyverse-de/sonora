@@ -12,6 +12,7 @@ import constants from "../../constants";
 import ProductTour from "components/help/ProductTour";
 import Feedback from "components/help/Feedback";
 import { intercomShow } from "common/intercom";
+import getConfig from "next/config";
 
 import buildID from "components/utils/DebugIDUtil";
 
@@ -81,6 +82,11 @@ export default function HelpTopics(props) {
     const [feedbackOpen, setFeedbackOpen] = useState();
     const classes = useStyles();
     const { t } = useTranslation("help");
+
+    const { publicRuntimeConfig = {} } = getConfig() || {};
+    const support_email = publicRuntimeConfig.SUPPORT_EMAIL;
+    const de_faq = publicRuntimeConfig.DE_FAQ;
+
     return (
         <div style={{ overflow: "auto" }}>
             <Typography variant="h6" color="primary" className={classes.topics}>
@@ -97,9 +103,7 @@ export default function HelpTopics(props) {
                                 size="small"
                                 color="primary"
                                 className={classes.action}
-                                onClick={() =>
-                                    window.open(constants.DE_FAQ, "_blank")
-                                }
+                                onClick={() => window.open(de_faq, "_blank")}
                                 startIcon={<LaunchIcon />}
                             >
                                 {t("faq_button_label")}
@@ -116,7 +120,7 @@ export default function HelpTopics(props) {
                                 <Button
                                     id={buildID(baseId, ids.EMAIL_BTN)}
                                     color="primary"
-                                    href={`mailto:${constants.SUPPORT_EMAIL}`}
+                                    href={`mailto:${support_email}`}
                                     startIcon={<LaunchIcon />}
                                     size="small"
                                 >

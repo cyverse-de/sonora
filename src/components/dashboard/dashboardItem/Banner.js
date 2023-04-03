@@ -22,6 +22,7 @@ import {
 } from "@material-ui/core";
 import constants from "../../../constants";
 import ExternalLink from "components/utils/ExternalLink";
+import getConfig from "next/config";
 
 export default function Banner(props) {
     const theme = useTheme();
@@ -29,6 +30,9 @@ export default function Banner(props) {
     const { t } = useTranslation("dashboard");
     const router = useRouter();
     const [config] = useConfig();
+
+    const { publicRuntimeConfig = {} } = getConfig() || {};
+    const cyverse_url = publicRuntimeConfig.CYVERSE_URL;
 
     const onLoginClick = (event) => {
         router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
@@ -89,7 +93,7 @@ export default function Banner(props) {
                                 style={{
                                     margin: theme.spacing(0.4),
                                 }}
-                                href={constants.CYVERSE_URL}
+                                href={cyverse_url}
                             >
                                 {t("learnMore")} |
                             </ExternalLink>

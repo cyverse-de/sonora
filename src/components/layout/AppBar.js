@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import clsx from "clsx";
+import getConfig from "next/config";
 
 import NavigationConstants from "common/NavigationConstants";
 import Bag from "components/bags";
@@ -74,6 +75,9 @@ import { getUserQuota } from "common/resourceUsage";
 const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
 
 const ENTITLEMENT = "entitlement";
+
+const { publicRuntimeConfig = {} } = getConfig() || {};
+const cyverse_url = publicRuntimeConfig.CYVERSE_URL;
 
 const useStyles = makeStyles(styles);
 
@@ -364,7 +368,7 @@ function DEAppBar(props) {
                     </Hidden>
                     <Hidden xsDown>
                         <a
-                            href={constants.CYVERSE_URL}
+                            href={cyverse_url}
                             target="_blank"
                             rel="noopener noreferrer"
                         >

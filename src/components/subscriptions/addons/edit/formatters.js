@@ -1,4 +1,4 @@
-import { bytesInGiB, bytesToGiB } from "../utils";
+import { bytesInGiB, bytesToGiB } from "../../utils";
 
 function mapPropsToValues(addon) {
     let values = {

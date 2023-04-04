@@ -8,7 +8,7 @@
 import React from "react";
 
 import { useTranslation } from "i18n";
-import ids from "../ids";
+import ids from "../../ids";
 import RowDotMenu from "./RowDotMenu";
 
 import TableLoading from "components/table/TableLoading";

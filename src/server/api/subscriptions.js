@@ -73,6 +73,22 @@ export default function subscriptionsRouter() {
         })
     );
 
+    // Administrators can add an add-on to a subscription
+    logger.info(
+        "adding the POST /admin/qms/subscriptions/:subscription_uuid/addons handler"
+    );
+    api.post(
+        "/admin/qms/subscriptions/:subscription_uuid/addons",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/qms/subscriptions/:subscription_uuid/addons",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     // Administrators can update a user's subscrption
     // Administrators can add new subscriptions for users who haven't logged into the DE yet
     logger.info("adding the POST /admin/qms/subscriptions handler");
@@ -88,7 +104,7 @@ export default function subscriptionsRouter() {
         })
     );
 
-    // Administrators can update an avilalable add-on
+    // Administrators can update an available add-on
     logger.info("adding the PUT /admin/qms/addons handler");
     api.put(
         "/admin/qms/addons",

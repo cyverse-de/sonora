@@ -59,15 +59,18 @@ export function mapSubAddonsPropsToValues(selectedSubAddons) {
     };
 
     if (selectedSubAddons?.length) {
-        values.addons = selectedSubAddons.map(({ addon, amount, paid }) => ({
-            name: addon.name,
-            amount:
-                addon.resource_type.unit === "bytes"
-                    ? bytesToGiB(amount)
-                    : amount,
-            paid,
-            resource_type: addon.resource_type.unit,
-        }));
+        values.addons = selectedSubAddons.map(
+            ({ uuid, addon, amount, paid }) => ({
+                uuid,
+                name: addon.name,
+                amount:
+                    addon.resource_type.unit === "bytes"
+                        ? bytesToGiB(amount)
+                        : amount,
+                paid,
+                resource_type: addon.resource_type.unit,
+            })
+        );
     }
 
     return values;
@@ -76,5 +79,19 @@ export function mapSubAddonsPropsToValues(selectedSubAddons) {
 export function formatSubAddonSubmission(values) {
     const { addon_uuid } = values;
     const submission = { uuid: addon_uuid };
+    return submission;
+}
+
+export function formatUpdatedAddonSubmission(values, selectedAddon) {
+    let filteredValues = values.addons.filter(
+        (addon) => addon.uuid === selectedAddon.uuid
+    );
+    let resourceType = selectedAddon.addon.resource_type.unit;
+    const { amount, paid } = filteredValues[0];
+    const submissionAmount =
+        resourceType.toLowerCase() === "bytes"
+            ? parseFloat(amount * bytesInGiB)
+            : amount;
+    const submission = { amount: submissionAmount, paid };
     return submission;
 }

@@ -117,6 +117,7 @@ function Listing(props) {
         },
     });
 
+    // Get subscription add-ons for the selected user
     useQuery({
         queryKey: [
             SUBSCRIPTION_ADDONS_QUERY_KEY,
@@ -290,6 +291,7 @@ function Listing(props) {
                 onClose={onCloseEditSubAddons}
                 parentId={baseId}
                 selectedSubscriptionAddons={selectedSubscriptionAddons}
+                subscriptionId={selected[0]}
             />
             {data && data.total > 0 && (
                 <DEPagination

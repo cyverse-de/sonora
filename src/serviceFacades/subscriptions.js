@@ -68,12 +68,21 @@ function getSubscriptionAddons(subscription_uuid) {
     });
 }
 
-// Administrators can add an add-on to a subscription
+// Administrators can add a subscription add-on
 function postSubAddon(subscription_uuid, addon_uuid) {
     return callApi({
         endpoint: `/api/admin/qms/subscriptions/${subscription_uuid}/addons`,
         method: "POST",
         body: addon_uuid,
+    });
+}
+
+// Administrators can update a subscription add-on
+function putSubAddon(subscription_uuid, addon_uuid, submission) {
+    return callApi({
+        endpoint: `/api/admin/qms/subscriptions/${subscription_uuid}/addons/${addon_uuid}`,
+        method: "PUT",
+        body: submission,
     });
 }
 
@@ -154,9 +163,10 @@ export {
     getSubscriptionAddons,
     getSubscriptions,
     postAddon,
+    postSubAddon,
     postSubscription,
     putAddon,
-    postSubAddon,
+    putSubAddon,
     updateUserQuotas,
     AVAILABLE_ADDONS_QUERY_KEY,
     PLAN_TYPES_QUERY_KEY,

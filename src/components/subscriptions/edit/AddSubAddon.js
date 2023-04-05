@@ -99,10 +99,10 @@ function AddSubAddonsDialog(props) {
                             id={ids.SUB_ADDONS.UUID_FIELD}
                             label={t("addonName")}
                         >
-                            {availableAddons?.map((addon, index) => (
+                            {availableAddons?.map((addon) => (
                                 <MenuItem
                                     id={ids.SUB_ADDONS.AVAILABLE_ADDONS}
-                                    key={index}
+                                    key={addon.uuid}
                                     value={addon.uuid}
                                 >
                                     {addon.name}

@@ -82,16 +82,16 @@ export function formatSubAddonSubmission(values) {
     return submission;
 }
 
-export function formatUpdatedAddonSubmission(values, selectedAddon) {
-    let filteredValues = values.addons.filter(
-        (addon) => addon.uuid === selectedAddon.uuid
-    );
-    let resourceType = selectedAddon.addon.resource_type.unit;
-    const { amount, paid } = filteredValues[0];
-    const submissionAmount =
-        resourceType.toLowerCase() === "bytes"
-            ? parseFloat(amount * bytesInGiB)
-            : amount;
-    const submission = { amount: submissionAmount, paid };
+export function formatUpdatedAddonSubmission(values) {
+    let submission = values.addons.map((addon) => {
+        const { uuid, amount, paid, resource_type } = addon;
+        const submissionAmount =
+            resource_type.toLowerCase() === "bytes"
+                ? parseFloat(amount * bytesInGiB)
+                : amount;
+        const submissionBody = { amount: submissionAmount, paid };
+        return { uuid, submissionBody };
+    });
+
     return submission;
 }

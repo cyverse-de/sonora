@@ -67,7 +67,7 @@ export default {
     PLAN_NAME_CELL: "planNameCell",
     QUOTAS_TABLE: "quotasTable",
     ROW_DOT_MENU: "rowDotMenu",
-    SAVE_BUTTON: "saveButton",
+    SUBMIT_BUTTON: "submitButton",
     SEARCH_FIELD: "searchField",
     SELECTED_USER: "selectedUser",
     START_DATE: "startDate",

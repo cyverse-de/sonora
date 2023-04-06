@@ -268,7 +268,7 @@ function SubscriptionDrawer(props) {
                 />
             </DETabPanel>
             <DETabPanel
-                tabId={subscriptionDetailsTabId}
+                tabId={addonsDetailsTabId}
                 value={TABS.addonsDetails}
                 selectedTab={selectedTab}
             >

@@ -78,12 +78,25 @@ function postSubAddon(subscription_uuid, addon_uuid) {
 }
 
 // Administrators can update a subscription add-on
-function putSubAddon(subscription_uuid, addon_uuid, submission) {
+function putSubAddons(subscription_uuid, addon_uuid, submission) {
     return callApi({
         endpoint: `/api/admin/qms/subscriptions/${subscription_uuid}/addons/${addon_uuid}`,
         method: "PUT",
         body: submission,
     });
+}
+
+function putSubAddon(subscription_uuid, submission) {
+    return (
+        submission &&
+        submission.length > 0 &&
+        Promise.all(
+            submission.map((addon) => {
+                const { uuid, submissionBody } = addon;
+                return putSubAddons(subscription_uuid, uuid, submissionBody);
+            })
+        )
+    );
 }
 
 // Adminstrators can update an available add-on

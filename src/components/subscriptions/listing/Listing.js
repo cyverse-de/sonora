@@ -6,14 +6,18 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useTranslation } from "i18n";
+
 import TableView from "./TableView";
 import SubscriptionToolbar from "../toolbar/Toolbar";
 import Drawer from "../details/Drawer";
 import DEPagination from "components/utils/DEPagination";
+import ConfirmationDialog from "components/utils/ConfirmationDialog";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
-import withErrorAnnouncer from "../../error/withErrorAnnouncer";
 import {
+    deleteSubAddon,
     getSubscriptionAddons,
     getSubscriptions,
     SUBSCRIPTION_ADDONS_QUERY_KEY,
@@ -31,6 +35,7 @@ import EditSubscriptionDialog from "../edit/EditSubscription";
 import EditQuotasDialog from "../edit/EditQuotas";
 import EditSubAddonsDialog from "../edit/EditSubAddons";
 import AddSubAddonsDialog from "../edit/AddSubAddon";
+import { announce } from "components/announcer/CyVerseAnnouncer";
 
 function Listing(props) {
     const {
@@ -43,9 +48,13 @@ function Listing(props) {
         page,
         rowsPerPage,
         searchTerm,
+        showErrorAnnouncer,
     } = props;
 
+    const { t } = useTranslation("subscriptions");
+
     const [data, setData] = useState(null);
+    const [deleteAddonDialogOpen, setDeleteAddonDialogOpen] = useState(false);
     const [subAddonsDialogOpen, setSubAddonsDialogOpen] = useState(false);
     const [editSubAddonsDialogOpen, setEditSubAddonsDialogOpen] =
         useState(false);
@@ -53,11 +62,14 @@ function Listing(props) {
     const [editSubscriptionDialogOpen, setEditSubscriptionDialogOpen] =
         useState(false);
     const [editQuotasDialogOpen, setEditQuotasDialogOpen] = useState(false);
+    const [removeSelectedAddon, setRemoveSelectedAddon] = useState(null);
     const [selected, setSelected] = useState([]);
     const [selectedSubscription, setSelectedSubscription] = useState(null);
     const [selectedUserPortalId, setSelectedUserPortalId] = useState(null);
     const [selectedSubscriptionAddons, setSelectedSubscriptionAddons] =
         useState(null);
+
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         // Reset selected whenever the data set changes,
@@ -154,6 +166,20 @@ function Listing(props) {
             );
     };
 
+    const { mutate: removeAddon, status: deleteAddonStatus } = useMutation(
+        (addon_uuid) => deleteSubAddon(selected[0], addon_uuid),
+        {
+            onSuccess: () => {
+                announce({ text: t("subscriptionUpdated") });
+                queryClient.invalidateQueries(SUBSCRIPTION_ADDONS_QUERY_KEY);
+            },
+            onError: (err) => {
+                showErrorAnnouncer(t("removeAddonError"), err);
+                queryClient.invalidateQueries(SUBSCRIPTION_ADDONS_QUERY_KEY);
+            },
+        }
+    );
+
     const deselect = () => {
         setSelected([]);
     };
@@ -164,6 +190,11 @@ function Listing(props) {
 
     const handleCheckboxClick = (_event, id) => {
         toggleSelection(id);
+    };
+
+    const handleRemoveAddon = (addonUUID) => {
+        setDeleteAddonDialogOpen(true);
+        setRemoveSelectedAddon(addonUUID);
     };
 
     const isSelected = (id) => selected.includes(id);
@@ -207,7 +238,12 @@ function Listing(props) {
         setEditSubAddonsDialogOpen(false);
     };
 
-    const onAddAddonsSelected = () => {
+    const onCloseRemoveAddon = () => {
+        setRemoveSelectedAddon(null);
+        setDeleteAddonDialogOpen(false);
+    };
+
+    const onAddonsSelected = () => {
         setSubAddonsDialogOpen(true);
         onCloseEditSubAddons();
     };
@@ -285,13 +321,28 @@ function Listing(props) {
                 subscription={selectedSubscription}
             />
             <EditSubAddonsDialog
-                isFetchingSubAddons={isFetchingSubAddons}
+                handleRemoveAddon={handleRemoveAddon}
+                isFetchingSubAddons={
+                    isFetchingSubAddons ||
+                    deleteAddonStatus === constants.LOADING
+                }
                 open={editSubAddonsDialogOpen}
-                onAddAddonsSelected={onAddAddonsSelected}
+                onAddonsSelected={onAddonsSelected}
                 onClose={onCloseEditSubAddons}
                 parentId={baseId}
                 selectedSubscriptionAddons={selectedSubscriptionAddons}
                 subscriptionId={selected[0]}
+            />
+            <ConfirmationDialog
+                baseId={baseId}
+                open={deleteAddonDialogOpen}
+                onConfirm={() => {
+                    onCloseRemoveAddon();
+                    removeAddon(removeSelectedAddon);
+                }}
+                onClose={onCloseRemoveAddon}
+                title={t("deleteAddon")}
+                contentText={t("confirmDeleteAddon")}
             />
             {data && data.total > 0 && (
                 <DEPagination

@@ -78,7 +78,7 @@ function EditSubAddonsDialog(props) {
                 announce({ text: t("subAddonsUpdated") });
                 onClose();
             },
-            onError: { setSubAddonUpdateError },
+            onError: setSubAddonUpdateError,
         }
     );
 

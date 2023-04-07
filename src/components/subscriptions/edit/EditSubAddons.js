@@ -277,7 +277,6 @@ function FormBody(props) {
                                         <Field
                                             name={`${name}.${index}.paid`}
                                             component={FormCheckbox}
-                                            disabled={false}
                                             id={ids.SUB_ADDONS.PAID_FIELD}
                                         />
                                     </TableCell>

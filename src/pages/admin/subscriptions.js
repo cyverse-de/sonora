@@ -54,7 +54,7 @@ export default function Subscriptions() {
     const onTabSelectionChange = (_event, selectedTab) => {
         setSelectedTab(selectedTab);
     };
-    const [addonsData, setAddonsData] = useState(null);
+    const [availableAddons, setAvailableAddons] = useState(null);
     const [getAddonsQueryEnabled, setGetAddonsQueryEnabled] = useState(false);
     const queryClient = useQueryClient();
     const availableAddonsCache = queryClient.getQueryData(
@@ -64,10 +64,10 @@ export default function Subscriptions() {
     const preProcessAvailableAddons = React.useCallback(
         (data) => {
             if (data?.addons?.length > 0) {
-                setAddonsData(data);
+                setAvailableAddons(data);
             }
         },
-        [setAddonsData]
+        [setAvailableAddons]
     );
 
     React.useEffect(() => {
@@ -126,7 +126,7 @@ export default function Subscriptions() {
                     selectedTab={selectedTab}
                 >
                     <Listing
-                        availableAddons={addonsData}
+                        availableAddons={availableAddons}
                         baseId="subscription"
                         isAdminView={isAdmin}
                         onRouteToListing={onRouteToListing}
@@ -143,7 +143,7 @@ export default function Subscriptions() {
                     selectedTab={selectedTab}
                 >
                     <AddOnsListing
-                        addonsData={addonsData}
+                        availableAddons={availableAddons}
                         isFetchingAvailableAddons={isFetchingAvailableAddons}
                         errorFetchingAvailableAddons={
                             errorFetchingAvailableAddons

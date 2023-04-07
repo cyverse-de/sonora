@@ -51,6 +51,9 @@ const useStyles = makeStyles(() => ({
     tableCell: {
         padding: "0px 16px 0px 16px",
     },
+    table: {
+        margin: "10px 0px 10px 0px",
+    },
 }));
 
 function LoadingMask(props) {
@@ -164,6 +167,7 @@ function EditSubAddonsDialog(props) {
                             id={buildID(parentId, ids.ADD_BUTTON)}
                             variant="outlined"
                             color="primary"
+                            size="small"
                             startIcon={<AddIcon />}
                             onClick={onAddonsSelected}
                         >
@@ -202,10 +206,10 @@ function EditSubAddonsForm(props) {
     } = props;
 
     const { t } = useTranslation("subscriptions");
-
+    const classes = useStyles();
     return (
         <>
-            <Table>
+            <Table className={classes.table}>
                 <DETableHead
                     baseId={parentId}
                     columnData={TABLE_COLUMNS}

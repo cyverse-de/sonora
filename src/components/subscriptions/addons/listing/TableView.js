@@ -27,7 +27,6 @@ import {
     TableBody,
     TableCell,
     TableContainer,
-    TableRow,
     Typography,
 } from "@material-ui/core";
 
@@ -114,10 +113,8 @@ function AddOnListing(props) {
             const resourceInBytes =
                 addon.resource_type.unit.toLowerCase() === "bytes";
 
-            // DERow styling will override selected-row highlight styling.
-            const Row = isSelected ? TableRow : DERow;
             return (
-                <Row
+                <DERow
                     hover
                     id={rowId}
                     key={addonUUID}
@@ -183,7 +180,7 @@ function AddOnListing(props) {
                             onDeleteSelected={onDeleteSelected}
                         />
                     </TableCell>
-                </Row>
+                </DERow>
             );
         })
     );

@@ -245,7 +245,7 @@ function FormBody(props) {
                                             )}
                                             size="small"
                                         >
-                                            <Remove></Remove>
+                                            <Remove />
                                         </IconButton>
                                     </TableCell>
                                     <TableCell>

@@ -87,7 +87,7 @@ function EditSubAddonsDialog(props) {
                 announce({ text: t("subAddonsUpdated") });
                 onClose();
             },
-            onError: { setSubAddonUpdateError },
+            onError: setSubAddonUpdateError,
         }
     );
 
@@ -275,7 +275,7 @@ function FormBody(props) {
                                                 handleRemoveAddon(addonUUID)
                                             }
                                         >
-                                            <Remove></Remove>
+                                            <Remove />
                                         </IconButton>
                                     </TableCell>
                                     <TableCell className={classes.tableCell}>
@@ -288,7 +288,6 @@ function FormBody(props) {
                                         <Field
                                             name={`${name}.${index}.amount`}
                                             component={FormNumberField}
-                                            disabled={false}
                                             fullWidth={false}
                                             id={ids.SUB_ADDONS.NAME_FIELD}
                                             required
@@ -308,7 +307,6 @@ function FormBody(props) {
                                         <Field
                                             name={`${name}.${index}.paid`}
                                             component={FormCheckbox}
-                                            disabled={false}
                                             id={ids.SUB_ADDONS.PAID_FIELD}
                                         />
                                     </TableCell>

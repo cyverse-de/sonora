@@ -264,7 +264,6 @@ function FormBody(props) {
                                         <Field
                                             name={`${name}.${index}.amount`}
                                             component={FormNumberField}
-                                            disabled={false}
                                             fullWidth={false}
                                             id={ids.SUB_ADDONS.NAME_FIELD}
                                             required

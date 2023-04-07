@@ -87,7 +87,10 @@ function EditQuotasDialog(props) {
                                     </Button>
 
                                     <Button
-                                        id={buildID(parentId, ids.SAVE_BUTTON)}
+                                        id={buildID(
+                                            parentId,
+                                            ids.SUBMIT_BUTTON
+                                        )}
                                         type="submit"
                                         color="primary"
                                         onClick={handleSubmit}

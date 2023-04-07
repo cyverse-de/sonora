@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
 
-import { mapSubAddonsPropsToValues } from "./formatters";
+import {
+    formatUpdatedAddonSubmission,
+    mapSubAddonsPropsToValues,
+} from "./formatters";
 import ids from "../ids";
 
 import { useTranslation } from "i18n";
-import { FieldArray, Field, Form, Formik, getIn } from "formik";
+import { FieldArray, Field, Form, Formik } from "formik";
 import {
     Button,
+    IconButton,
     Table,
     TableBody,
     TableCell,
     Typography,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import { Remove } from "@material-ui/icons";
 
 import DEDialog from "components/utils/DEDialog";
 import buildID from "components/utils/DebugIDUtil";
@@ -22,8 +28,17 @@ import EmptyTable from "components/table/EmptyTable";
 import FormNumberField from "components/forms/FormNumberField";
 import FormCheckbox from "components/forms/FormCheckbox";
 import TableLoading from "components/table/TableLoading";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
+
+import {
+    putSubAddon,
+    SUBSCRIPTION_ADDONS_QUERY_KEY,
+} from "serviceFacades/subscriptions";
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { nonZeroValue } from "components/utils/validations";
 
 const TABLE_COLUMNS = [
+    { name: "", numeric: false, enableSorting: false },
     { name: "Name", numeric: false, enableSorting: false },
     { name: "Resource Type", numeric: false, enableSorting: false },
     { name: "Amount", numeric: false, enableSorting: false },
@@ -49,156 +64,226 @@ function EditSubAddonsDialog(props) {
         open,
         parentId,
         selectedSubscriptionAddons,
+        subscriptionId,
     } = props;
     const { t } = useTranslation("subscriptions");
+    const queryClient = useQueryClient();
+    const [subAddonUpdateError, setSubAddonUpdateError] = useState(null);
+
+    const { mutate: updateSubAddon } = useMutation(
+        (submission) => putSubAddon(subscriptionId, submission),
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(SUBSCRIPTION_ADDONS_QUERY_KEY);
+                announce({ text: t("subAddonsUpdated") });
+                onClose();
+            },
+            onError: setSubAddonUpdateError,
+        }
+    );
+
+    const handleSubmit = (values) => {
+        updateSubAddon(formatUpdatedAddonSubmission(values));
+    };
+
+    const resetState = () => {
+        setSubAddonUpdateError(null);
+    };
 
     return (
         <Formik
             initialValues={mapSubAddonsPropsToValues(
                 selectedSubscriptionAddons
             )}
+            onSubmit={handleSubmit}
             enableReinitialize={true}
         >
-            <Form>
-                <DEDialog
-                    id={parentId}
-                    open={open}
-                    onClose={onClose}
-                    fullWidth={true}
-                    title={t("editAddons")}
-                    actions={
-                        <>
-                            <Button
-                                id={buildID(parentId, ids.CANCEL_BUTTON)}
-                                variant="outlined"
-                                onClick={onClose}
-                            >
-                                {t("close")}
-                            </Button>
-                        </>
-                    }
-                >
-                    <Button
-                        id={buildID(parentId, ids.ADD_BUTTON)}
-                        variant="outlined"
-                        color="primary"
-                        startIcon={<AddIcon />}
-                        onClick={onAddAddonsSelected}
+            {({ handleSubmit, resetForm }) => (
+                <Form>
+                    <DEDialog
+                        id={parentId}
+                        open={open}
+                        onClose={() => {
+                            onClose();
+                            resetForm();
+                            resetState();
+                        }}
+                        fullWidth={true}
+                        title={t("editAddons")}
+                        actions={
+                            <>
+                                <Button
+                                    id={buildID(parentId, ids.CANCEL_BUTTON)}
+                                    variant="outlined"
+                                    onClick={() => {
+                                        onClose();
+                                        resetForm();
+                                        resetState();
+                                    }}
+                                >
+                                    {t("cancel")}
+                                </Button>
+                                <Button
+                                    id={buildID(parentId, ids.SUBMIT_BUTTON)}
+                                    variant="outlined"
+                                    type="submit"
+                                    color="primary"
+                                    onClick={handleSubmit}
+                                >
+                                    {t("submit")}
+                                </Button>
+                            </>
+                        }
                     >
-                        {t("add")}
-                    </Button>
-                    <EditSubAddonsForm
-                        addons={selectedSubscriptionAddons}
-                        onAddAddonsSelected={onAddAddonsSelected}
-                        isFetchingSubAddons={isFetchingSubAddons}
-                        parentId={parentId}
-                    />
-                </DEDialog>
-            </Form>
+                        <Button
+                            id={buildID(parentId, ids.ADD_BUTTON)}
+                            variant="outlined"
+                            color="primary"
+                            startIcon={<AddIcon />}
+                            onClick={onAddAddonsSelected}
+                        >
+                            {t("add")}
+                        </Button>
+                        {subAddonUpdateError && (
+                            <ErrorTypographyWithDialog
+                                errorObject={subAddonUpdateError}
+                                errorMessage={t("updateSubAddonError")}
+                                baseId={parentId}
+                            />
+                        )}
+                        <EditSubAddonsForm
+                            addons={selectedSubscriptionAddons}
+                            handleSubmit={handleSubmit}
+                            onAddAddonsSelected={onAddAddonsSelected}
+                            isFetchingSubAddons={isFetchingSubAddons}
+                            resetForm={resetForm}
+                            parentId={parentId}
+                        />
+                    </DEDialog>
+                </Form>
+            )}
         </Formik>
     );
 }
 
 function EditSubAddonsForm(props) {
-    const { addons, isFetchingSubAddons, onAddAddonsSelected, parentId } =
-        props;
-    return (
-        <>
-            {addons && (
-                <FieldArray
-                    name={"addons"}
-                    render={(arrayHelpers) => (
-                        <Addons
-                            parentId={buildID(
-                                parentId,
-                                ids.ADDONS.EDIT_SUB_ADDONS
-                            )}
-                            addons={addons}
-                            isFetchingSubAddons={isFetchingSubAddons}
-                            onAddAddonsSelected={onAddAddonsSelected}
-                            {...arrayHelpers}
-                        />
-                    )}
-                />
-            )}
-        </>
-    );
-}
-
-function Addons(props) {
     const {
-        form: { values },
+        addons,
+        handleSubmit,
         isFetchingSubAddons,
-        name,
+        onAddAddonsSelected,
         parentId,
+        resetForm,
     } = props;
+
     const { t } = useTranslation("subscriptions");
-    const addons = getIn(values, name);
-    const tableId = buildID(parentId, ids.SUB_ADDONS.EDIT_ADDONS_TABLE);
+
     return (
         <>
             <Table>
-                {(!addons || addons.length === 0) && (
-                    <EmptyTable
-                        message={t("noAddons")}
-                        numColumns={TABLE_COLUMNS.length}
-                    />
-                )}
                 <DETableHead
                     baseId={parentId}
                     columnData={TABLE_COLUMNS}
                     rowsInPage={addons ? addons.length : 0}
                     selectable={false}
                 />
-                {isFetchingSubAddons ? (
-                    <LoadingMask columns={TABLE_COLUMNS} tableId={tableId} />
-                ) : (
-                    <TableBody>
-                        {addons &&
-                            addons.length > 0 &&
-                            addons.map((addon, index) => {
-                                let resourceInBytes =
-                                    addon.resource_type.toLowerCase() ===
-                                    "bytes";
-                                return (
-                                    <DERow tabIndex={-1} key={index}>
-                                        <TableCell>
-                                            <Typography>
-                                                {addon.name}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography>
-                                                {resourceInBytes
-                                                    ? "GiB"
-                                                    : addon.resource_type}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Field
-                                                name={`${name}.${index}.amount`}
-                                                component={FormNumberField}
-                                                disabled
-                                                fullWidth={false}
-                                                id={ids.SUB_ADDONS.NAME_FIELD}
-                                                required
-                                            />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Field
-                                                name={`${name}.${index}.paid`}
-                                                component={FormCheckbox}
-                                                disabled
-                                                id={ids.SUB_ADDONS.PAID_FIELD}
-                                                required
-                                            />
-                                        </TableCell>
-                                    </DERow>
-                                );
-                            })}
-                    </TableBody>
+                {(!addons || addons.length === 0) && (
+                    <EmptyTable
+                        message={t("noAddons")}
+                        numColumns={TABLE_COLUMNS.length}
+                    />
+                )}
+
+                {addons && (
+                    <FieldArray
+                        name={"addons"}
+                        render={(arrayHelpers) => (
+                            <FormBody
+                                parentId={buildID(
+                                    parentId,
+                                    ids.ADDONS.EDIT_SUB_ADDONS
+                                )}
+                                addons={addons}
+                                handleSubmit={handleSubmit}
+                                isFetchingSubAddons={isFetchingSubAddons}
+                                onAddAddonsSelected={onAddAddonsSelected}
+                                resetForm={resetForm}
+                                {...arrayHelpers}
+                            />
+                        )}
+                    />
                 )}
             </Table>
+        </>
+    );
+}
+
+function FormBody(props) {
+    const { addons, isFetchingSubAddons, name, parentId } = props;
+    const { t } = useTranslation("subscriptions");
+    const { t: i18nUtil } = useTranslation("util");
+    const tableId = buildID(parentId, ids.SUB_ADDONS.EDIT_ADDONS_TABLE);
+    return (
+        <>
+            {isFetchingSubAddons ? (
+                <LoadingMask columns={TABLE_COLUMNS} tableId={tableId} />
+            ) : (
+                <TableBody>
+                    {addons &&
+                        addons.length > 0 &&
+                        addons.map((item, index) => {
+                            let resourceInBytes =
+                                item.addon.resource_type.unit.toLowerCase() ===
+                                "bytes";
+                            let addonUUID = item.uuid;
+                            return (
+                                <DERow tabIndex={-1} key={addonUUID}>
+                                    <TableCell>
+                                        <IconButton
+                                            aria-label={t(
+                                                "removeAddonAriaLabel"
+                                            )}
+                                            size="small"
+                                        >
+                                            <Remove />
+                                        </IconButton>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography>
+                                            {item.addon.name}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography>
+                                            {resourceInBytes
+                                                ? "GiB"
+                                                : item.addon.resource_type.unit}
+                                        </Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Field
+                                            name={`${name}.${index}.amount`}
+                                            component={FormNumberField}
+                                            fullWidth={false}
+                                            id={ids.SUB_ADDONS.NAME_FIELD}
+                                            required
+                                            validate={(value) =>
+                                                nonZeroValue(value, i18nUtil)
+                                            }
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <Field
+                                            name={`${name}.${index}.paid`}
+                                            component={FormCheckbox}
+                                            id={ids.SUB_ADDONS.PAID_FIELD}
+                                        />
+                                    </TableCell>
+                                </DERow>
+                            );
+                        })}
+                </TableBody>
+            )}
         </>
     );
 }

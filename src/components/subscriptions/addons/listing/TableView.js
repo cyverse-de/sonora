@@ -64,19 +64,20 @@ const columnData = (t) => {
             enableSorting: false,
             key: "defaultAmount",
         },
-        {
-            id: ids.ADDONS.DEFAULT_PAID,
-            name: t("defaultPaid"),
-            numeric: false,
-            enableSorting: false,
-            key: "defaultPaid",
-        },
+
         {
             id: ids.ADDONS.RESOURCE_TYPE,
             name: t("resourceType"),
             numeric: false,
             enableSorting: false,
             key: "resourceType",
+        },
+        {
+            id: ids.ADDONS.DEFAULT_PAID,
+            name: t("defaultPaid"),
+            numeric: false,
+            enableSorting: false,
+            key: "defaultPaid",
         },
         {
             id: ids.ROW_DOT_MENU,
@@ -158,19 +159,20 @@ function AddOnListing(props) {
                         </Typography>
                     </TableCell>
                     <TableCell
-                        id={buildID(rowId, ids.ADDONS.DEFAULT_PAID_CELL)}
-                    >
-                        <Typography variant="body2">
-                            {addon.default_paid ? t("true") : t("false")}
-                        </Typography>
-                    </TableCell>
-                    <TableCell
                         id={buildID(rowId, ids.ADDONS.RESOURCE_TYPE_CELL)}
                     >
                         <Typography variant="body2">
                             {addon.resource_type.unit}
                         </Typography>
                     </TableCell>
+                    <TableCell
+                        id={buildID(rowId, ids.ADDONS.DEFAULT_PAID_CELL)}
+                    >
+                        <Typography variant="body2">
+                            {addon.default_paid ? t("true") : t("false")}
+                        </Typography>
+                    </TableCell>
+
                     <TableCell
                         id={buildID(rowId, ids.ROW_DOT_MENU)}
                         align="right"

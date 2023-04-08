@@ -142,6 +142,7 @@ function EditSubscriptionDialog(props) {
                                             onCloseForm();
                                             resetForm();
                                         }}
+                                        variant="outlined"
                                     >
                                         {t("cancel")}
                                     </Button>
@@ -153,6 +154,7 @@ function EditSubscriptionDialog(props) {
                                         )}
                                         type="submit"
                                         color="primary"
+                                        variant="outlined"
                                         onClick={handleSubmit}
                                     >
                                         {t("submit")}

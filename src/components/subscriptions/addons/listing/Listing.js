@@ -65,7 +65,7 @@ function AddOnsListing(props) {
         setMultipleSelected(!!selected && selected.length > 1);
     }, [selected]);
 
-    const { mutate: removeAddon, status: deleteAddonStatus } = useMutation(
+    const { mutate: discardAddon, status: deleteAddonStatus } = useMutation(
         deleteAddons,
         {
             onSuccess: () => {
@@ -203,7 +203,7 @@ function AddOnsListing(props) {
                 open={deleteDialogOpen}
                 onConfirm={() => {
                     onCloseDelete();
-                    removeAddon(selected);
+                    discardAddon(selected);
                 }}
                 onClose={onCloseDelete}
                 title={t("confirmDelete")}

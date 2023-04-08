@@ -39,10 +39,9 @@ import { announce } from "components/announcer/CyVerseAnnouncer";
 import { nonZeroValue } from "components/utils/validations";
 
 const TABLE_COLUMNS = [
-    { name: "", numeric: false, enableSorting: false, padding: "0px;" },
+    { name: "", numeric: false, enableSorting: false },
     { name: "Name", numeric: false, enableSorting: false },
-
-    { name: "Amount", numeric: false, enableSorting: false },
+    { name: "Amount", numeric: true, enableSorting: false },
     { name: "Type", numeric: false, enableSorting: false },
     { name: "Paid", numeric: false, enableSorting: false },
 ];
@@ -53,6 +52,9 @@ const useStyles = makeStyles(() => ({
     },
     table: {
         margin: "10px 0px 10px 0px",
+    },
+    alignRight: {
+        textAlign: "right",
     },
 }));
 
@@ -288,16 +290,21 @@ function FormBody(props) {
                                         </Typography>
                                     </TableCell>
 
-                                    <TableCell className={classes.tableCell}>
+                                    <TableCell
+                                        className={`${classes.tableCell} ${classes.alignRight}`}
+                                        width="40%"
+                                    >
                                         <Field
                                             name={`${name}.${index}.amount`}
                                             component={FormNumberField}
-                                            fullWidth={false}
                                             id={ids.SUB_ADDONS.NAME_FIELD}
                                             required
                                             validate={(value) =>
                                                 nonZeroValue(value, i18nUtil)
                                             }
+                                            inputProps={{
+                                                className: classes.alignRight,
+                                            }}
                                         />
                                     </TableCell>
                                     <TableCell className={classes.tableCell}>

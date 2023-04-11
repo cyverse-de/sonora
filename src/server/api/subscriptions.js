@@ -137,6 +137,21 @@ export default function subscriptionsRouter() {
             },
         })
     );
+
+    // Administrators can remove an add-on applied to a subscription
+    logger.info(
+        "adding the DELETE /admin/qms/subscriptions/:subscription_uuid/addons/:uuid handler"
+    );
+    api.delete(
+        "/admin/qms/subscriptions/:subscription_uuid/addons/:uuid",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname:
+                "/admin/qms/subscriptions/:subscription_uuid/addons/:uuid",
+        })
+    );
+
     // Administrators can create an available add-on
     logger.info("adding the POST /admin/qms/addons/ handler");
     api.post(

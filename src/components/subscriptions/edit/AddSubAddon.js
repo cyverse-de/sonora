@@ -75,6 +75,7 @@ function AddSubAddonsDialog(props) {
                                         onCloseForm();
                                         resetForm();
                                     }}
+                                    variant="outlined"
                                 >
                                     {t("cancel")}
                                 </Button>
@@ -82,6 +83,7 @@ function AddSubAddonsDialog(props) {
                                     id={buildID(parentId, ids.SUBMIT_BUTTON)}
                                     type="submit"
                                     color="primary"
+                                    variant="outlined"
                                     onClick={handleSubmit}
                                 >
                                     {t("submit")}

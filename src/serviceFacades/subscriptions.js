@@ -99,6 +99,14 @@ function putSubAddon(subscription_uuid, submission) {
     );
 }
 
+// Administrators can remove an add-on from a subscription
+function deleteSubAddon(subscription_uuid, addon_uuid) {
+    return callApi({
+        endpoint: `/api/admin/qms/subscriptions/${subscription_uuid}/addons/${addon_uuid}`,
+        method: "DELETE",
+    });
+}
+
 // Adminstrators can update an available add-on
 function putAddon(addon) {
     return callApi({
@@ -170,6 +178,7 @@ function deleteAddons(uuids) {
 
 export {
     deleteAddons,
+    deleteSubAddon,
     getAvailableAddOns,
     getPlanTypes,
     getResourceTypes,

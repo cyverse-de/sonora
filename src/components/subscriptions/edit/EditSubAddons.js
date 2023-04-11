@@ -12,6 +12,7 @@ import { FieldArray, Field, Form, Formik } from "formik";
 import {
     Button,
     IconButton,
+    makeStyles,
     Table,
     TableBody,
     TableCell,
@@ -40,17 +41,29 @@ import { nonZeroValue } from "components/utils/validations";
 const TABLE_COLUMNS = [
     { name: "", numeric: false, enableSorting: false },
     { name: "Name", numeric: false, enableSorting: false },
-    { name: "Resource Type", numeric: false, enableSorting: false },
-    { name: "Amount", numeric: false, enableSorting: false },
+    { name: "Amount", numeric: true, enableSorting: false },
+    { name: "Type", numeric: false, enableSorting: false },
     { name: "Paid", numeric: false, enableSorting: false },
 ];
+
+const useStyles = makeStyles(() => ({
+    tableCell: {
+        padding: "0px 16px 0px 16px",
+    },
+    table: {
+        margin: "10px 0px 10px 0px",
+    },
+    alignRight: {
+        textAlign: "right",
+    },
+}));
 
 function LoadingMask(props) {
     const { columns, tableId } = props;
     return (
         <TableLoading
             numColumns={columns.length + 1}
-            numRows={5}
+            numRows={2}
             baseId={tableId}
         />
     );
@@ -58,8 +71,9 @@ function LoadingMask(props) {
 
 function EditSubAddonsDialog(props) {
     const {
+        handleRemoveAddon,
         isFetchingSubAddons,
-        onAddAddonsSelected,
+        onAddonsSelected,
         onClose,
         open,
         parentId,
@@ -98,7 +112,7 @@ function EditSubAddonsDialog(props) {
             onSubmit={handleSubmit}
             enableReinitialize={true}
         >
-            {({ handleSubmit, resetForm }) => (
+            {({ dirty, handleSubmit, resetForm }) => (
                 <Form>
                     <DEDialog
                         id={parentId}
@@ -112,26 +126,42 @@ function EditSubAddonsDialog(props) {
                         title={t("editAddons")}
                         actions={
                             <>
-                                <Button
-                                    id={buildID(parentId, ids.CANCEL_BUTTON)}
-                                    variant="outlined"
-                                    onClick={() => {
-                                        onClose();
-                                        resetForm();
-                                        resetState();
-                                    }}
-                                >
-                                    {t("cancel")}
-                                </Button>
-                                <Button
-                                    id={buildID(parentId, ids.SUBMIT_BUTTON)}
-                                    variant="outlined"
-                                    type="submit"
-                                    color="primary"
-                                    onClick={handleSubmit}
-                                >
-                                    {t("submit")}
-                                </Button>
+                                {selectedSubscriptionAddons &&
+                                    selectedSubscriptionAddons.length > 0 && (
+                                        <>
+                                            <Button
+                                                id={buildID(
+                                                    parentId,
+                                                    ids.CANCEL_BUTTON
+                                                )}
+                                                variant="outlined"
+                                                onClick={() => {
+                                                    onClose();
+                                                    resetForm();
+                                                    resetState();
+                                                }}
+                                            >
+                                                {dirty
+                                                    ? t("cancel")
+                                                    : t("close")}
+                                            </Button>
+
+                                            {dirty && (
+                                                <Button
+                                                    id={buildID(
+                                                        parentId,
+                                                        ids.SUBMIT_BUTTON
+                                                    )}
+                                                    variant="outlined"
+                                                    type="submit"
+                                                    color="primary"
+                                                    onClick={handleSubmit}
+                                                >
+                                                    {t("submit")}
+                                                </Button>
+                                            )}
+                                        </>
+                                    )}
                             </>
                         }
                     >
@@ -139,8 +169,9 @@ function EditSubAddonsDialog(props) {
                             id={buildID(parentId, ids.ADD_BUTTON)}
                             variant="outlined"
                             color="primary"
+                            size="small"
                             startIcon={<AddIcon />}
-                            onClick={onAddAddonsSelected}
+                            onClick={onAddonsSelected}
                         >
                             {t("add")}
                         </Button>
@@ -153,8 +184,8 @@ function EditSubAddonsDialog(props) {
                         )}
                         <EditSubAddonsForm
                             addons={selectedSubscriptionAddons}
-                            handleSubmit={handleSubmit}
-                            onAddAddonsSelected={onAddAddonsSelected}
+                            handleRemoveAddon={handleRemoveAddon}
+                            onAddonsSelected={onAddonsSelected}
                             isFetchingSubAddons={isFetchingSubAddons}
                             resetForm={resetForm}
                             parentId={parentId}
@@ -169,18 +200,18 @@ function EditSubAddonsDialog(props) {
 function EditSubAddonsForm(props) {
     const {
         addons,
-        handleSubmit,
+        handleRemoveAddon,
         isFetchingSubAddons,
-        onAddAddonsSelected,
+        onAddonsSelected,
         parentId,
         resetForm,
     } = props;
 
     const { t } = useTranslation("subscriptions");
-
+    const classes = useStyles();
     return (
         <>
-            <Table>
+            <Table className={classes.table}>
                 <DETableHead
                     baseId={parentId}
                     columnData={TABLE_COLUMNS}
@@ -204,9 +235,9 @@ function EditSubAddonsForm(props) {
                                     ids.ADDONS.EDIT_SUB_ADDONS
                                 )}
                                 addons={addons}
-                                handleSubmit={handleSubmit}
+                                handleRemoveAddon={handleRemoveAddon}
                                 isFetchingSubAddons={isFetchingSubAddons}
-                                onAddAddonsSelected={onAddAddonsSelected}
+                                onAddonsSelected={onAddonsSelected}
                                 resetForm={resetForm}
                                 {...arrayHelpers}
                             />
@@ -219,10 +250,12 @@ function EditSubAddonsForm(props) {
 }
 
 function FormBody(props) {
-    const { addons, isFetchingSubAddons, name, parentId } = props;
+    const { addons, handleRemoveAddon, isFetchingSubAddons, name, parentId } =
+        props;
     const { t } = useTranslation("subscriptions");
     const { t: i18nUtil } = useTranslation("util");
     const tableId = buildID(parentId, ids.SUB_ADDONS.EDIT_ADDONS_TABLE);
+    const classes = useStyles();
     return (
         <>
             {isFetchingSubAddons ? (
@@ -238,41 +271,50 @@ function FormBody(props) {
                             let addonUUID = item.uuid;
                             return (
                                 <DERow tabIndex={-1} key={addonUUID}>
-                                    <TableCell>
+                                    <TableCell className={classes.tableCell}>
                                         <IconButton
                                             aria-label={t(
                                                 "removeAddonAriaLabel"
                                             )}
                                             size="small"
+                                            onClick={() =>
+                                                handleRemoveAddon(addonUUID)
+                                            }
                                         >
                                             <Remove />
                                         </IconButton>
                                     </TableCell>
-                                    <TableCell>
+                                    <TableCell className={classes.tableCell}>
                                         <Typography>
                                             {item.addon.name}
                                         </Typography>
                                     </TableCell>
-                                    <TableCell>
+
+                                    <TableCell
+                                        className={`${classes.tableCell} ${classes.alignRight}`}
+                                        width="40%"
+                                    >
+                                        <Field
+                                            name={`${name}.${index}.amount`}
+                                            component={FormNumberField}
+                                            id={ids.SUB_ADDONS.NAME_FIELD}
+                                            required
+                                            validate={(value) =>
+                                                nonZeroValue(value, i18nUtil)
+                                            }
+                                            inputProps={{
+                                                className: classes.alignRight,
+                                            }}
+                                        />
+                                    </TableCell>
+                                    <TableCell className={classes.tableCell}>
                                         <Typography>
                                             {resourceInBytes
                                                 ? "GiB"
                                                 : item.addon.resource_type.unit}
                                         </Typography>
                                     </TableCell>
-                                    <TableCell>
-                                        <Field
-                                            name={`${name}.${index}.amount`}
-                                            component={FormNumberField}
-                                            fullWidth={false}
-                                            id={ids.SUB_ADDONS.NAME_FIELD}
-                                            required
-                                            validate={(value) =>
-                                                nonZeroValue(value, i18nUtil)
-                                            }
-                                        />
-                                    </TableCell>
-                                    <TableCell>
+                                    <TableCell className={classes.tableCell}>
                                         <Field
                                             name={`${name}.${index}.paid`}
                                             component={FormCheckbox}

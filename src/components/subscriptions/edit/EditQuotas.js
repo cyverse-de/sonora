@@ -82,6 +82,7 @@ function EditQuotasDialog(props) {
                                         onClick={() => {
                                             onCloseForm();
                                         }}
+                                        variant="outlined"
                                     >
                                         {t("cancel")}
                                     </Button>
@@ -93,6 +94,7 @@ function EditQuotasDialog(props) {
                                         )}
                                         type="submit"
                                         color="primary"
+                                        variant="outlined"
                                         onClick={handleSubmit}
                                     >
                                         {t("submit")}

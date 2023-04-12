@@ -71,6 +71,17 @@ const allResourceTypes = [TYPE.DATA, TYPE.APPS, TYPE.ANALYSES, TYPE.TOOLS];
  */
 const getResponseType = (resp) => Object.keys(resp)[0];
 
+const irodsGrouperPrefix = "@grouper-";
+const irodsNameToSubject = (username) => {
+    let source_id = "ldap";
+    let user_id = username;
+    if (username.startsWith(irodsGrouperPrefix)) {
+        source_id = "g:gsa";
+        user_id = username.slice(irodsGrouperPrefix.length);
+    }
+    return { source_id: source_id, id: user_id };
+};
+
 /**
  * Helper functions for retrieving information across the different types of
  * permission-lister responses.
@@ -85,8 +96,17 @@ export const getSharingFns = (type) => {
                 getPermList: (sharing) => sharing["user-permissions"],
                 getUserId: (permission) => permission.user,
                 formatSubject: (user) => {
+                    let subject = {
+                        source_id: "ldap",
+                        id: user.id,
+                    };
+                    if (user.source_id) {
+                        subject.source_id = user.source_id;
+                    } else {
+                        subject = irodsNameToSubject(user.id);
+                    }
                     return {
-                        user: user.id,
+                        subject: subject,
                     };
                 },
                 formatSharing: (resource) => {

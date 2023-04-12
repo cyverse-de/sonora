@@ -345,7 +345,7 @@ it("tests sharing updates with data change", () => {
                         permission: "own",
                     },
                 ],
-                user: "alfred",
+                subject: { id: "alfred", source_id: "ldap" },
             },
         ],
     };
@@ -354,7 +354,7 @@ it("tests sharing updates with data change", () => {
         paths: [
             {
                 paths: ["/iplant/home/aramsey/CORE-9077-path.list"],
-                user: "alfred",
+                subject: { id: "alfred", source_id: "ldap" },
             },
         ],
     };

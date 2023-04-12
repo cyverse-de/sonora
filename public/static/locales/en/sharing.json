@@ -1,7 +1,6 @@
 {
     "addRecentContactError": "Failed to update recent contacts",
     "cannotAddSelf": "Cannot add yourself for sharing",
-    "dataGroupSharingDisabled": "Data and/or analyses resources cannot be shared with groups at this time",
     "fetchPermissionsError": "Failed to fetch resource permissions",
     "fetchRecentContactsError": "Failed to fetch recent contacts",
     "fetchUserInfoError": "Failed to fetch user information",

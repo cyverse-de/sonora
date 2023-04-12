@@ -7,8 +7,6 @@
 
 import React, { useEffect, useState } from "react";
 import buildID from "components/utils/DebugIDUtil";
-import { announce } from "components/announcer/CyVerseAnnouncer";
-import { INFO } from "components/announcer/AnnouncerConstants";
 import {
     Button,
     Dialog,
@@ -35,9 +33,7 @@ import {
     getUnsharingUpdates,
     getUserMap,
     getUserSet,
-    isGroup,
 } from "./util";
-import { TYPE } from "./constants";
 import { ADMIN_APPS_QUERY_KEY } from "serviceFacades/apps";
 import { getUserInfo } from "serviceFacades/users";
 import { USER_INFO_QUERY_KEY } from "serviceFacades/filesystem";
@@ -68,7 +64,6 @@ function Sharing(props) {
     const [permissions, setPermissions] = useState([]);
     const [originalUsers, setOriginalUsers] = useState({});
     const [userIdList, setUserIdList] = useState([]);
-    const [hasData, setHasData] = useState(false);
     const [userMap, setUserMap] = useState({});
     const [resourceTotal, setResourceTotal] = useState(0);
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
@@ -123,11 +118,6 @@ function Sharing(props) {
 
     useEffect(() => {
         if (resources) {
-            const data = resources[TYPE.DATA];
-            const analyses = resources[TYPE.ANALYSES];
-            setHasData(
-                (data && data.length > 0) || (analyses && analyses.length > 0)
-            );
             setResourceTotal(getResourceTotal(resources));
         }
     }, [resources]);
@@ -145,16 +135,6 @@ function Sharing(props) {
     const onPermissionChange = (user, permission) => {
         setErrorDetails(null);
         const userId = user.id;
-
-        // Cannot update permissions for groups if data (which also means
-        // analyses) are included
-        if (isGroup(user) && hasData) {
-            announce({
-                text: tSharing("dataGroupSharingDisabled"),
-                variant: INFO,
-            });
-            return;
-        }
 
         // Add any missing resources to the users resources list
         const updatedUser = addMissingResourcesToUser(user, resources);
@@ -176,10 +156,6 @@ function Sharing(props) {
             : userExist
             ? setErrorDetails({
                   message: tSharing("userAlreadyAdded"),
-              })
-            : isGroup(user) && hasData
-            ? setErrorDetails({
-                  message: tSharing("dataGroupSharingDisabled"),
               })
             : addUser(user, onUserAdded);
     };

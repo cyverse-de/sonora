@@ -144,19 +144,34 @@ const containsFolders = (resources) => {
     return false;
 };
 
-const useHomePath = () => {
-    const [config] = useConfig();
-    const [userProfile] = useUserProfile();
+const useBaseHomePath = () => {
     const [bootstrapInfo] = useBootstrapInfo();
+    const [config] = useConfig();
+
+    const userHomeFromDataInfo = bootstrapInfo?.data_info?.user_home_path;
+    if (userHomeFromDataInfo) {
+        return userHomeFromDataInfo.split("/").slice(0, -1).join("/");
+    }
+
+    const irodsHomePath = config?.irods?.home_path;
+    if (irodsHomePath) {
+        return irodsHomePath;
+    }
+
+    return "";
+};
+
+const useUserHomePath = () => {
+    const [bootstrapInfo] = useBootstrapInfo();
+    const [userProfile] = useUserProfile();
+    const irodsHomePath = useBaseHomePath();
 
     const userHomeFromDataInfo = bootstrapInfo?.data_info?.user_home_path;
     if (userHomeFromDataInfo) {
         return userHomeFromDataInfo;
     }
 
-    const irodsHomePath = config?.irods?.home_path;
     const username = userProfile?.id;
-
     if (irodsHomePath && username) {
         return `${irodsHomePath}/${username}`;
     }
@@ -164,8 +179,43 @@ const useHomePath = () => {
     return "";
 };
 
+const useBaseTrashPath = () => {
+    const [bootstrapInfo] = useBootstrapInfo();
+    const [config] = useConfig();
+
+    const baseTrashFromDataInfo = bootstrapInfo?.data_info?.base_trash_path;
+    if (baseTrashFromDataInfo) {
+        return baseTrashFromDataInfo;
+    }
+
+    const irodsTrashPath = config?.irods?.trash_path;
+    if (irodsTrashPath) {
+        return irodsTrashPath;
+    }
+
+    return "";
+};
+
+const useTrashPath = () => {
+    const [bootstrapInfo] = useBootstrapInfo();
+    const [userProfile] = useUserProfile();
+    const irodsTrashPath = useBaseTrashPath();
+
+    const userTrashFromDataInfo = bootstrapInfo?.data_info?.user_trash_path;
+    if (userTrashFromDataInfo) {
+        return userTrashFromDataInfo;
+    }
+
+    const username = userProfile?.id;
+    if (irodsTrashPath && username) {
+        return `${irodsTrashPath}/${username}`;
+    }
+
+    return "";
+};
+
 const useSelectorDefaultFolderPath = () => {
-    const homePath = useHomePath();
+    const homePath = useUserHomePath();
     const [bootstrapInfo] = useBootstrapInfo();
 
     const preferences = bootstrapInfo?.preferences;
@@ -176,7 +226,7 @@ const useSelectorDefaultFolderPath = () => {
 };
 
 const useDefaultOutputDir = () => {
-    const homePath = useHomePath();
+    const homePath = useUserHomePath();
     const [bootstrapInfo] = useBootstrapInfo();
     const preferences = bootstrapInfo?.preferences;
 
@@ -215,7 +265,10 @@ export {
     parseNameFromPath,
     getParentPath,
     useDataNavigationLink,
-    useHomePath,
+    useBaseHomePath,
+    useUserHomePath,
+    useBaseTrashPath,
+    useTrashPath,
     useSelectorDefaultFolderPath,
     useDefaultOutputDir,
     containsFolders,

@@ -14,12 +14,10 @@ import DataDotMenu from "./DataDotMenu";
 import UploadMenuBtn from "./UploadMenuBtn";
 import Navigation from "./Navigation";
 
-import { useConfig } from "contexts/config";
-
 import ids from "../ids";
 import styles from "../styles";
 import CreateFolderDialog from "../CreateFolderDialog";
-import { isOwner, isWritable, isPathInTrash } from "../utils";
+import { isOwner, isWritable, isPathInTrash, useBaseTrashPath } from "../utils";
 import SharingButton from "components/sharing/SharingButton";
 
 import buildID from "components/utils/DebugIDUtil";
@@ -80,7 +78,7 @@ function DataToolbar(props) {
     } = props;
 
     const { t } = useTranslation("data");
-    const [config] = useConfig();
+    const baseTrashPath = useBaseTrashPath();
     const [createFolderDlgOpen, setCreateFolderDlgOpen] = useState(false);
     const onCreateFolderDlgClose = () => setCreateFolderDlgOpen(false);
     const onCreateFolderClicked = () => setCreateFolderDlgOpen(true);
@@ -91,7 +89,7 @@ function DataToolbar(props) {
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-    const inTrash = isPathInTrash(path, config?.irods?.trash_path);
+    const inTrash = isPathInTrash(path, baseTrashPath);
     const uploadEnabled = !inTrash && isWritable(permission);
     const sharingEnabled = !inTrash && canShare;
     const bagEnabled = !inTrash && selected && selected.length > 0;

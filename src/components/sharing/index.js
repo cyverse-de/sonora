@@ -196,7 +196,17 @@ function Sharing(props) {
                         }
                     });
                 });
-                if (failures.length > 0) {
+                if (failures.length === 1) {
+                    const { error_code: code, ...rest } = failures[0].error;
+                    setErrorDetails({
+                        message: tSharing("sharingUnsuccessful"),
+                        error: {
+                            response: {
+                                data: { error_code: code, reason: rest },
+                            },
+                        },
+                    });
+                } else if (failures.length > 0) {
                     setErrorDetails({
                         message: tSharing("sharingUnsuccessful"),
                         error: failures,

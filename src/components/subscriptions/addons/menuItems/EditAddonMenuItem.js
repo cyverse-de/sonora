@@ -24,7 +24,7 @@ export default function EditSubscriptionMenuItem(props) {
             <ListItemIcon>
                 <Edit fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary={t("editAddon")} />
+            <ListItemText primary={t("edit")} />
         </MenuItem>
     );
 }

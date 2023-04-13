@@ -1,6 +1,6 @@
 import React from "react";
 import { mockAxios } from "../axiosMock";
-import Listing from "../../src/components/subscriptions/listing/Listing";
+import Listing from "components/subscriptions/listing/Listing";
 import {
     emptyListing,
     erroredListing,

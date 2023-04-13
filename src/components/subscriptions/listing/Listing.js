@@ -111,11 +111,12 @@ function Listing(props) {
         },
     });
 
+    // Get user portal details for the selected user
     const { isFetchingSubAddons } = useQuery({
         queryKey: [
             USER_PORTAL_DETAILS_QUERY_KEY,
             {
-                selectedSubscription,
+                username: selectedSubscription?.user.username,
             },
         ],
         queryFn: () =>

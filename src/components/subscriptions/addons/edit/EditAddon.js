@@ -130,7 +130,7 @@ function EditAddonDialog(props) {
                                 onCloseForm();
                                 resetForm();
                             }}
-                            title={t("createAddons")}
+                            title={addon ? t("editAddon") : t("createAddons")}
                             actions={
                                 <>
                                     <Button
@@ -142,6 +142,7 @@ function EditAddonDialog(props) {
                                             onCloseForm();
                                             resetForm();
                                         }}
+                                        variant="outlined"
                                     >
                                         {t("cancel")}
                                     </Button>
@@ -151,6 +152,7 @@ function EditAddonDialog(props) {
                                             parentId,
                                             ids.SUBMIT_BUTTON
                                         )}
+                                        variant="outlined"
                                         type="submit"
                                         color="primary"
                                         onClick={handleSubmit}
@@ -209,7 +211,7 @@ function EditAddonForm(props) {
                 variant="outlined"
                 select
             >
-                {resourceTypes.map((type, index) => {
+                {resourceTypes?.map((type, index) => {
                     return (
                         <MenuItem
                             id={buildID(parentId, ids.ADDONS_DLG.RESOURCE_UNIT)}

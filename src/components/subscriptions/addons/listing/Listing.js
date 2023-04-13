@@ -160,10 +160,10 @@ function AddOnsListing(props) {
             selected &&
             selected.length > 0 &&
             selected.map((selectedAddon) => {
-                let entry = availableAddons.addons.find(
+                let entry = availableAddons?.addons.find(
                     (addon) => addon.uuid === selectedAddon
                 );
-                return <li key={selectedAddon}>{entry.name}</li>;
+                return <li key={selectedAddon}>{entry?.name}</li>;
             })
         );
     };

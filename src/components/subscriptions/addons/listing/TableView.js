@@ -19,6 +19,7 @@ import buildID from "components/utils/DebugIDUtil";
 import DECheckbox from "components/utils/DECheckbox";
 import PageWrapper from "components/layout/PageWrapper";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import EmptyTable from "components/table/EmptyTable";
 
 import {
     makeStyles,
@@ -197,6 +198,13 @@ function LoadingMask(props) {
     );
 }
 
+function NoAvailableAddons(props) {
+    const { columns, t } = props;
+    return (
+        <EmptyTable message={t("noAddons")} numColumns={columns.length + 1} />
+    );
+}
+
 function TableView(props) {
     const {
         baseId,
@@ -244,7 +252,7 @@ function TableView(props) {
                             <LoadingMask columns={columns} tableId={tableId} />
                         ) : (
                             <TableBody>
-                                {addons?.length && (
+                                {addons?.length ? (
                                     <AddOnListing
                                         addons={addons}
                                         baseId={baseId}
@@ -257,6 +265,11 @@ function TableView(props) {
                                         selected={selected}
                                         t={t}
                                         tableId={tableId}
+                                    />
+                                ) : (
+                                    <NoAvailableAddons
+                                        columns={columns}
+                                        t={t}
                                     />
                                 )}
                             </TableBody>

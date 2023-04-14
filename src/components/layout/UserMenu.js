@@ -68,16 +68,20 @@ export default function UserMenu(props) {
         onManageAccountClick,
         baseId,
     } = props;
-    const { t } = useTranslation(["common"]);
+    const { t } = useTranslation(["common", "subscriptions"]);
     const theme = useTheme();
     const classes = useStyles();
+
     const formattedEndDate = formatDateObject(
         new Date(subscription?.effective_end_date),
         dateConstants.DATE_FORMAT
     );
-    const subscriptionInfo = `${subscription?.plan?.name} ${t(
-        "until"
-    ).toLowerCase()} ${formattedEndDate}`;
+
+    const subscriptionInfo = t("subscriptions:subscriptionUntil", {
+        planName: subscription?.plan?.name,
+        endDate: formattedEndDate,
+    });
+
     return (
         <Paper className={classes.paper}>
             <Grid

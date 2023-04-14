@@ -25,6 +25,7 @@ const RequiredNamespaces = [
     "notifications",
     "search",
     "sharing",
+    "subscriptions",
     "util",
 ];
 

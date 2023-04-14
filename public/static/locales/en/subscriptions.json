@@ -49,6 +49,7 @@
     "searchUsers": "Search Users",
     "selectedUser": "Selected User",
     "subAddonsUpdated": "Add-ons successfully updated.",
+    "subscriptionUntil": "{{planName}} until {{endDate}}",
     "startDate": "Start Date",
     "submit": "Submit",
     "subscriptionAddonError": "Failed to submit add-on request.",

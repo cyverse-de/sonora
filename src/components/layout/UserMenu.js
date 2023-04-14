@@ -127,15 +127,17 @@ export default function UserMenu(props) {
                         {email}
                     </Typography>
                 </Grid>
-                <Grid item>
-                    <Typography
-                        id={buildID(baseId, ids.SUBSCRIPTION_LBL)}
-                        variant="caption"
-                        className={classes.typography}
-                    >
-                        {subscriptionInfo}
-                    </Typography>
-                </Grid>
+                {!!subscription && (
+                    <Grid item>
+                        <Typography
+                            id={buildID(baseId, ids.SUBSCRIPTION_LBL)}
+                            variant="caption"
+                            className={classes.typography}
+                        >
+                            {subscriptionInfo}
+                        </Typography>
+                    </Grid>
+                )}
                 <Grid item>
                     <Button
                         id={buildID(baseId, ids.MANAGE_ACCOUNT_BTN)}

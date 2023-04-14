@@ -84,6 +84,7 @@
     "sortLabel": "Sort",
     "submit": "Submit",
     "subscriptions": "Subscriptions",
+    "subscriptionUntil": "{{planName}} until {{endDate}}",
     "teams": "Teams",
     "timestamp": "{{timestamp}} ago",
     "tools": "Tools",

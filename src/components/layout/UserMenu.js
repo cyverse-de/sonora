@@ -68,7 +68,7 @@ export default function UserMenu(props) {
         onManageAccountClick,
         baseId,
     } = props;
-    const { t } = useTranslation(["common", "subscriptions"]);
+    const { t } = useTranslation(["common"]);
     const theme = useTheme();
     const classes = useStyles();
 
@@ -77,7 +77,7 @@ export default function UserMenu(props) {
         dateConstants.DATE_FORMAT
     );
 
-    const subscriptionInfo = t("subscriptions:subscriptionUntil", {
+    const subscriptionInfo = t("subscriptionUntil", {
         planName: subscription?.plan?.name,
         endDate: formattedEndDate,
     });

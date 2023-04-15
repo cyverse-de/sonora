@@ -94,7 +94,8 @@ export const getSharingFns = (type) => {
             return {
                 getId: (sharing) => sharing.path,
                 getPermList: (sharing) => sharing["user-permissions"],
-                getUserId: (permission) => permission.user,
+                getUserId: (permission) =>
+                    irodsNameToSubject(permission.user).id,
                 formatSubject: (user) => {
                     let subject = {
                         source_id: "ldap",

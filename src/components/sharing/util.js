@@ -106,7 +106,7 @@ export const getSharingFns = (type) => {
                         subject = irodsNameToSubject(user.id);
                     }
                     return {
-                        subject: subject,
+                        subject,
                     };
                 },
                 formatSharing: (resource) => {

@@ -209,7 +209,14 @@ function Sharing(props) {
                 } else if (failures.length > 0) {
                     setErrorDetails({
                         message: tSharing("sharingUnsuccessful"),
-                        error: failures,
+                        error: {
+                            response: {
+                                data: {
+                                    error_code: "Multiple Errors",
+                                    reason: failures,
+                                },
+                            },
+                        },
                     });
                 } else {
                     handleClose();

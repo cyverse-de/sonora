@@ -9,6 +9,7 @@ const AVAILABLE_ADDONS_QUERY_KEY = "fetchAvailableAddons";
 const PLAN_TYPES_QUERY_KEY = "fetchPlanTypes";
 const RESOURCE_TYPES_QUERY_KEY = "fetchResourceTypes";
 const SUBSCRIPTION_ADDONS_QUERY_KEY = "fetchSubscriptionAddons";
+const SUBSCRIPTION_DETAILS_QUERY_KEY = "fetchSubscriptionDetails";
 const SUBSCRIPTIONS_QUERY_KEY = "fetchSubscriptions";
 
 // Get available add-ons
@@ -135,6 +136,14 @@ function updateUserQuota(quota, resourceType, username) {
     });
 }
 
+// Return details about the subscription
+function getSubscriptionDetails(username) {
+    return callApi({
+        endpoint: `/api/admin/qms/users/${username}/plan`,
+        method: "GET",
+    });
+}
+
 function updateUserQuotas(quotas, username) {
     return (
         quotas &&
@@ -183,6 +192,7 @@ export {
     getPlanTypes,
     getResourceTypes,
     getSubscriptionAddons,
+    getSubscriptionDetails,
     getSubscriptions,
     postAddon,
     postSubAddon,
@@ -194,5 +204,6 @@ export {
     PLAN_TYPES_QUERY_KEY,
     RESOURCE_TYPES_QUERY_KEY,
     SUBSCRIPTION_ADDONS_QUERY_KEY,
+    SUBSCRIPTION_DETAILS_QUERY_KEY,
     SUBSCRIPTIONS_QUERY_KEY,
 };

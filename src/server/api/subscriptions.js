@@ -80,6 +80,17 @@ export default function subscriptionsRouter() {
         })
     );
 
+    // Return details about a subscription
+    logger.info("adding the GET /admin/qms/users/:username/plan handler");
+    api.get(
+        "/admin/qms/users/:username/plan",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/qms/users/:username/plan",
+        })
+    );
+
     // Subscription add-ons
     // Get all available add-ons
     logger.info("adding the GET /admin/qms/addons handler");

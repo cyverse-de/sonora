@@ -36,6 +36,7 @@ export default {
     SEARCH_BTN: "searchButton",
     SEARCH_MI: "searchMenuItem",
     SETTINGS_MI: "settingsMenuItem",
+    SUBSCRIPTION_LBL: "subscription",
     TEAMS_MI: "teamsMenuItem",
     TOOLS_ADMIN_MI: "toolsAdminMenuItem",
     TOOLS_MI: "toolsMenuItem",

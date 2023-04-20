@@ -13,6 +13,8 @@ import constants from "../../constants";
 
 import ExternalLink from "components/utils/ExternalLink";
 import buildID from "components/utils/DebugIDUtil";
+import { formatDateObject } from "components/utils/DateFormatter";
+import dateConstants from "components/utils/dateConstants";
 
 import {
     Avatar,
@@ -61,6 +63,7 @@ export default function UserMenu(props) {
             id,
             attributes: { email, name },
         },
+        subscription,
         onLogoutClick,
         onManageAccountClick,
         baseId,
@@ -68,6 +71,17 @@ export default function UserMenu(props) {
     const { t } = useTranslation(["common"]);
     const theme = useTheme();
     const classes = useStyles();
+
+    const formattedEndDate = formatDateObject(
+        new Date(subscription?.effective_end_date),
+        dateConstants.DATE_FORMAT
+    );
+
+    const subscriptionInfo = t("subscriptionUntil", {
+        planName: subscription?.plan?.name,
+        endDate: formattedEndDate,
+    });
+
     return (
         <Paper className={classes.paper}>
             <Grid
@@ -113,6 +127,17 @@ export default function UserMenu(props) {
                         {email}
                     </Typography>
                 </Grid>
+                {!!subscription && (
+                    <Grid item>
+                        <Typography
+                            id={buildID(baseId, ids.SUBSCRIPTION_LBL)}
+                            variant="caption"
+                            className={classes.typography}
+                        >
+                            {subscriptionInfo}
+                        </Typography>
+                    </Grid>
+                )}
                 <Grid item>
                     <Button
                         id={buildID(baseId, ids.MANAGE_ACCOUNT_BTN)}

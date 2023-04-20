@@ -25,6 +25,11 @@ import {
     useBootStrap,
     USER_PROFILE_QUERY_KEY,
 } from "serviceFacades/users";
+import {
+    getSubscriptionDetails,
+    SUBSCRIPTION_DETAILS_QUERY_KEY,
+} from "serviceFacades/subscriptions";
+
 import constants from "../../constants";
 import withErrorAnnouncer from "../error/withErrorAnnouncer";
 import CustomIntercom from "./CustomIntercom";
@@ -104,6 +109,7 @@ function DEAppBar(props) {
         showErrorAnnouncer,
     } = props;
     const [userProfile, setUserProfile] = useUserProfile();
+    const [userSubscription, setUserSubscription] = useState(null);
     const { currentNotification } = useNotifications();
     const isXsDown = useMediaQuery(theme.breakpoints.down("xs"));
     const [avatarLetter, setAvatarLetter] = useState("");
@@ -145,6 +151,16 @@ function DEAppBar(props) {
         enabled: profileRefetchInterval != null,
         onSuccess: updateUserProfile,
         refetchInterval: profileRefetchInterval,
+    });
+
+    useQuery({
+        queryKey: [
+            SUBSCRIPTION_DETAILS_QUERY_KEY,
+            { username: userProfile?.id },
+        ],
+        queryFn: () => getSubscriptionDetails(userProfile?.id),
+        enabled: !!userProfile?.id,
+        onSuccess: setUserSubscription,
     });
 
     useEffect(() => {
@@ -446,6 +462,7 @@ function DEAppBar(props) {
                                     ids.ACCOUNT_MI
                                 )}
                                 profile={userProfile}
+                                subscription={userSubscription?.result}
                                 onLogoutClick={onLogoutClick}
                                 onManageAccountClick={() =>
                                     window.open(
@@ -488,6 +505,7 @@ function DEAppBar(props) {
                 <UserMenu
                     baseId={buildID(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}
                     profile={userProfile}
+                    subscription={userSubscription?.result}
                     onLogoutClick={onLogoutClick}
                     onManageAccountClick={() =>
                         window.open(userPortalURLRef.current, "_blank")

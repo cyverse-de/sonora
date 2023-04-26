@@ -165,10 +165,17 @@ function DEAppBar(props) {
 
     useEffect(() => {
         if (clientConfig) {
+            // Enable Intercom for non-basic subscriptions
+            if (userSubscription) {
+                let isBasic =
+                    userSubscription.result?.plan?.name?.toLowerCase() ===
+                    "basic";
+                clientConfig.intercom.enabled = !isBasic;
+            }
             setConfig(clientConfig);
             setProfileRefetchInterval(clientConfig.sessions.poll_interval_ms);
         }
-    }, [clientConfig, setConfig]);
+    }, [clientConfig, setConfig, userSubscription]);
 
     useQuery({
         queryKey: [RESOURCE_USAGE_QUERY_KEY],

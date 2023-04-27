@@ -123,6 +123,14 @@ function MyApp({ Component, pageProps }) {
             })
     );
 
+    const [planName, setPlanName] = useState(null);
+    const [isBasic, setIsBasic] = useState(null);
+
+    const updatePlanAndSubscriptionState = (planName, isBasic) => {
+        setPlanName(planName);
+        setIsBasic(isBasic);
+    };
+
     useEffect(() => {
         const analytics_id = publicRuntimeConfig.ANALYTICS_ID;
         const handleRouteChange = (url) => {
@@ -137,7 +145,8 @@ function MyApp({ Component, pageProps }) {
     React.useEffect(() => {
         const intercom = {
             appId: publicRuntimeConfig.INTERCOM_APP_ID,
-            enabled: publicRuntimeConfig.INTERCOM_ENABLED,
+            enabled:
+                publicRuntimeConfig.INTERCOM_ENABLED && planName && !isBasic,
             companyId: publicRuntimeConfig.INTERCOM_COMPANY_ID,
             companyName: publicRuntimeConfig.INTERCOM_COMPANY_NAME,
             userProfileUrl: publicRuntimeConfig.INTERCOM_USER_PROFILE_URL,
@@ -243,7 +252,7 @@ function MyApp({ Component, pageProps }) {
                 );
             }
         }
-    }, [publicRuntimeConfig, setConfig, unReadCount]);
+    }, [isBasic, planName, publicRuntimeConfig, setConfig, unReadCount]);
 
     return (
         <ThemeProvider theme={theme}>
@@ -263,6 +272,9 @@ function MyApp({ Component, pageProps }) {
                                             activeView={pathname}
                                             intercomUnreadCount={unReadCount}
                                             clientConfig={config}
+                                            updatePlanAndSubscriptionState={
+                                                updatePlanAndSubscriptionState
+                                            }
                                         >
                                             <Head>
                                                 <title>{t("deTitle")}</title>

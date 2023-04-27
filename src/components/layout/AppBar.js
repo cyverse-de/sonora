@@ -104,6 +104,7 @@ function DEAppBar(props) {
         children,
         activeView,
         setAppBarRef,
+        updatePlanAndSubscriptionState,
         intercomUnreadCount,
         clientConfig,
         showErrorAnnouncer,
@@ -163,19 +164,23 @@ function DEAppBar(props) {
         onSuccess: setUserSubscription,
     });
 
+    // Check if Intercom should be disabled if userSubscription changes
+    useEffect(() => {
+        if (userSubscription) {
+            let planName = userSubscription.result?.plan?.name;
+            let isBasic = planName?.toLowerCase() === "basic";
+            updatePlanAndSubscriptionState(planName, isBasic);
+        } else {
+            updatePlanAndSubscriptionState(false, false);
+        }
+    }, [userSubscription, updatePlanAndSubscriptionState]);
+
     useEffect(() => {
         if (clientConfig) {
-            // Enable Intercom for non-basic subscriptions
-            if (userSubscription) {
-                let isBasic =
-                    userSubscription.result?.plan?.name?.toLowerCase() ===
-                    "basic";
-                clientConfig.intercom.enabled = !isBasic;
-            }
             setConfig(clientConfig);
             setProfileRefetchInterval(clientConfig.sessions.poll_interval_ms);
         }
-    }, [clientConfig, setConfig, userSubscription]);
+    }, [clientConfig, setConfig]);
 
     useQuery({
         queryKey: [RESOURCE_USAGE_QUERY_KEY],

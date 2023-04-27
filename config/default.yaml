@@ -29,7 +29,7 @@ keycloak:
 
 intercom:
     app_id: appId
-    enabled: false
+    enabled: true
     company_id: DE-DEV
     company_name: DISCOVERY ENVIRONMENT
     user_profile_url: https://app.intercom.com/apps/appId/users/show?user_id=

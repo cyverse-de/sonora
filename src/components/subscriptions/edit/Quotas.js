@@ -5,7 +5,7 @@ import { Field, getIn } from "formik";
 import ids from "../ids";
 
 import { Table, TableBody, TableCell, Typography } from "@material-ui/core";
-import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
+import SimpleExpansionPanel from "components/utils/SimpleExpansionPanel";
 
 import { DERow } from "components/table/DERow";
 import DETableHead from "components/table/DETableHead";

@@ -3,7 +3,7 @@ import React from "react";
 import { useTranslation } from "i18n";
 
 import ids from "../ids";
-import SimpleExpansionPanel from "../SimpleExpansionPanel";
+import SimpleExpansionPanel from "components/utils/SimpleExpansionPanel";
 import { nonEmptyField } from "components/utils/validations";
 
 import buildID from "components/utils/DebugIDUtil";

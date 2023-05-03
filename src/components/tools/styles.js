@@ -1,8 +1,4 @@
 const styles = (theme) => ({
-    expansionDetails: {
-        flexDirection: "column",
-    },
-
     paper: {
         padding: theme.spacing(1),
     },
@@ -38,13 +34,6 @@ const styles = (theme) => ({
 
     deleteBtn: {
         color: theme.palette.error.main,
-    },
-    paramsViewSummary: {
-        color: theme.palette.info.contrastText,
-        backgroundColor: theme.palette.info.main,
-    },
-    paramsViewsExpandIcon: {
-        color: theme.palette.info.contrastText,
     },
 });
 

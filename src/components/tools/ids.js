@@ -60,7 +60,6 @@ export default {
         CANCEL: "cancelBtn",
         ADD: "addBtn",
         DELETE: "deleteBtn",
-        EXPAND: "expandBtn",
         SUBMIT: "submitBtn",
         OK: "okBtn",
     },

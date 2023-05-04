@@ -18,7 +18,7 @@ import { SubjectTableCell } from "components/sharing/UserTable";
 import { getUserPrimaryText } from "components/sharing/util";
 import BasicTable from "components/table/BasicTable";
 import HelpIconButton from "components/teams/form/HelpIconButton";
-import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
+import SimpleExpansionPanel from "components/utils/SimpleExpansionPanel";
 import { useUserProfile } from "contexts/userProfile";
 import buildID from "components/utils/DebugIDUtil";
 import DeleteButton from "components/utils/DeleteButton";

@@ -17,7 +17,7 @@ import GlobalSearchField from "components/search/GlobalSearchField";
 import SearchConstants from "components/search/constants";
 import AppSearchDrawer from "components/search/detailed/AppSearchDrawer";
 import { getSorting, stableSort } from "components/table/TableSort";
-import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
+import SimpleExpansionPanel from "components/utils/SimpleExpansionPanel";
 import buildID from "components/utils/DebugIDUtil";
 
 import constants from "constants.js";

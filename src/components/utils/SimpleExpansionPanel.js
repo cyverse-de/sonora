@@ -1,7 +1,13 @@
+/**
+ *
+ * A MUI accordion that allows for displaying and
+ * hiding additional content when clicked.
+ *
+ */
+
 import React, { useState } from "react";
 
 import ids from "./ids";
-import styles from "./styles";
 
 import buildID from "components/utils/DebugIDUtil";
 
@@ -14,6 +20,19 @@ import {
 } from "@material-ui/core";
 import { ExpandMore } from "@material-ui/icons";
 import PropTypes from "prop-types";
+
+const styles = (theme) => ({
+    expansionDetails: {
+        flexDirection: "column",
+    },
+    paramsViewSummary: {
+        color: theme.palette.info.contrastText,
+        backgroundColor: theme.palette.info.main,
+    },
+    paramsViewsExpandIcon: {
+        color: theme.palette.info.contrastText,
+    },
+});
 
 const useStyles = makeStyles(styles);
 

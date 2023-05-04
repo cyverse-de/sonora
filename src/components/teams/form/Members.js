@@ -25,7 +25,7 @@ import { Field, getIn } from "formik";
 import SubjectSearchField from "components/sharing/SubjectSearchField";
 import { useUserProfile } from "contexts/userProfile";
 import { MemberPrivileges } from "components/models/Privilege";
-import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
+import SimpleExpansionPanel from "components/utils/SimpleExpansionPanel";
 import { SubjectTableCell } from "components/sharing/UserTable";
 import { getUserPrimaryText } from "components/sharing/util";
 import BasicTable from "components/table/BasicTable";

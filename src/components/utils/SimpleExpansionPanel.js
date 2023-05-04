@@ -1,6 +1,6 @@
 /**
  *
- * A MUI accordinon that allows for displaying and
+ * A MUI accordion that allows for displaying and
  * hiding additional content when clicked.
  *
  */

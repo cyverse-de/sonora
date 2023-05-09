@@ -10,12 +10,20 @@ import React, { useEffect, useState } from "react";
 
 import styles from "../styles";
 import ids from "../ids";
+import {
+    useBaseHomePath,
+    useBaseTrashPath,
+    useUserHomePath,
+    useTrashPath,
+} from "../utils";
+
 import constants from "../../../constants";
 import {
     getFilesystemRoots,
     DATA_ROOTS_QUERY_KEY,
-} from "../../../serviceFacades/filesystem";
-import { useUserProfile } from "../../../contexts/userProfile";
+} from "serviceFacades/filesystem";
+import { useUserProfile } from "contexts/userProfile";
+import { useBootstrapInfo } from "contexts/bootstrap";
 
 import buildID from "components/utils/DebugIDUtil";
 
@@ -43,7 +51,6 @@ import {
     Tooltip,
     Typography,
 } from "@material-ui/core";
-import { useConfig } from "contexts/config";
 
 const useStyles = makeStyles(styles);
 
@@ -89,10 +96,13 @@ function pathToRoute(root, relativePath, selectedPathItemIndex) {
  * relative path since their path overlaps
  * COMMUNITY_DATA_PATH: "/iplant/home/shared",
  * SHARED_WITH_ME_PATH: "/iplant/home",
- *  * @example
+ * @example
  * // returns "/analyses/wordcount/logs"
- * getRelativePath("/iplant/home/ipctest/analyses/wordcount/logs","/iplant/home/ipctest",
- * "/iplant/trash/home/de-irods/ipctest");
+ * getRelativePath(
+ *     "/iplant/home/ipctest/analyses/wordcount/logs",
+ *     "/iplant/home/ipctest",
+ *     "/iplant/trash/home/ipctest"
+ * );
  * @param {string} path -  CyVerse Data Store path
  * @param {string} userHomePath - Users home folder path
  * @param {string} userTrashPath - Users trash folder path
@@ -320,15 +330,15 @@ function Navigation(props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [dataRoots, setDataRoots] = useState([]);
-    const [userHomePath, setUserHomePath] = useState("");
-    const [userTrashPath, setUserTrashPath] = useState("");
     const [sharedWithMePath, setSharedWithMePath] = useState("");
     const [communityDataPath, setCommunityDataPath] = useState("");
     const dataNavId = buildID(baseId, ids.DATA_NAVIGATION);
     const [userProfile] = useUserProfile();
-    const [config] = useConfig();
-    const irodsHomePath = config?.irods?.home_path;
-    const irodsTrashPath = config?.irods?.trash_path;
+    const [bootstrapInfo, setBootstrapInfo] = useBootstrapInfo();
+    const irodsHomePath = useBaseHomePath();
+    const irodsTrashPath = useBaseTrashPath();
+    const userHomePath = useUserHomePath();
+    const userTrashPath = useTrashPath();
     const [rootsQueryKeyArray, setRootsQueryKeyArray] = useState([
         DATA_ROOTS_QUERY_KEY,
         {
@@ -343,37 +353,63 @@ function Navigation(props) {
 
     const preProcessData = (respData) => {
         if (respData) {
-            const respRoots = respData.roots;
-            const home = userProfile
-                ? respRoots.find((root) => root.label === userProfile.id)
-                : {
-                      label: t("home"),
-                      path: `${irodsHomePath}/${constants.ANONYMOUS_USER}`,
-                  };
-            home.icon = <HomeIcon fontSize="small" />;
-            const sharedWithMe = respRoots.find(
-                (root) => root.label === constants.SHARED_WITH_ME
-            );
-            setSharedWithMePath(sharedWithMe.path);
-            sharedWithMe.icon = <FolderSharedIcon fontSize="small" />;
-            const communityData = respRoots.find(
-                (root) => root.label === constants.COMMUNITY_DATA
-            );
-            setCommunityDataPath(communityData.path);
-            communityData.icon = <GroupIcon fontSize="small" />;
-            const trash = respRoots.find(
-                (root) => root.label === constants.TRASH
-            );
-            trash.icon = <DeleteIcon fontSize="small" />;
+            let home, sharedWithMe, communityData, trash;
+            respData.roots.forEach(({ label, path }) => {
+                switch (label) {
+                    case constants.SHARED_WITH_ME:
+                        setSharedWithMePath(path);
+                        sharedWithMe = {
+                            label,
+                            path,
+                            icon: <FolderSharedIcon fontSize="small" />,
+                        };
+                        break;
+
+                    case constants.COMMUNITY_DATA:
+                        setCommunityDataPath(path);
+                        communityData = {
+                            label,
+                            path,
+                            icon: <GroupIcon fontSize="small" />,
+                        };
+                        break;
+
+                    case constants.TRASH:
+                        trash = {
+                            label,
+                            path,
+                            icon: <DeleteIcon fontSize="small" />,
+                        };
+                        break;
+
+                    default:
+                        // Must be the user's home
+                        home = {
+                            label: userProfile ? label : t("home"),
+                            path,
+                            icon: <HomeIcon fontSize="small" />,
+                        };
+                        break;
+                }
+            });
 
             const basePaths = respData["base-paths"];
-            setUserHomePath(basePaths["user_home_path"]);
-            setUserTrashPath(basePaths["user_trash_path"]);
+            if (
+                basePaths.user_home_path !== userHomePath ||
+                basePaths.user_trash_path !== userTrashPath
+            ) {
+                setBootstrapInfo({
+                    ...bootstrapInfo,
+                    data_info: { ...basePaths },
+                });
+            }
+
             setDataRoots(
                 userProfile
                     ? [home, sharedWithMe, communityData, trash]
                     : [communityData, home, sharedWithMe, trash]
             );
+
             handleDataNavError(null);
         }
     };
@@ -401,9 +437,7 @@ function Navigation(props) {
         queryFn: () => getFilesystemRoots(rootsQueryKeyArray[1]),
         enabled: true,
         onSuccess: preProcessData,
-        onError: (e) => {
-            handleDataNavError(e);
-        },
+        onError: handleDataNavError,
         staleTime: Infinity,
         cacheTime: Infinity,
     });

@@ -8,7 +8,7 @@
 import React from "react";
 
 import { useTranslation } from "i18n";
-import ids from "../ids";
+import ids from "../../ids";
 import RowDotMenu from "./RowDotMenu";
 
 import TableLoading from "components/table/TableLoading";
@@ -19,6 +19,7 @@ import buildID from "components/utils/DebugIDUtil";
 import DECheckbox from "components/utils/DECheckbox";
 import PageWrapper from "components/layout/PageWrapper";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import EmptyTable from "components/table/EmptyTable";
 
 import {
     makeStyles,
@@ -27,7 +28,6 @@ import {
     TableBody,
     TableCell,
     TableContainer,
-    TableRow,
     Typography,
 } from "@material-ui/core";
 
@@ -64,19 +64,20 @@ const columnData = (t) => {
             enableSorting: false,
             key: "defaultAmount",
         },
-        {
-            id: ids.ADDONS.DEFAULT_PAID,
-            name: t("defaultPaid"),
-            numeric: false,
-            enableSorting: false,
-            key: "defaultPaid",
-        },
+
         {
             id: ids.ADDONS.RESOURCE_TYPE,
             name: t("resourceType"),
             numeric: false,
             enableSorting: false,
             key: "resourceType",
+        },
+        {
+            id: ids.ADDONS.DEFAULT_PAID,
+            name: t("defaultPaid"),
+            numeric: false,
+            enableSorting: false,
+            key: "defaultPaid",
         },
         {
             id: ids.ROW_DOT_MENU,
@@ -113,10 +114,8 @@ function AddOnListing(props) {
             const resourceInBytes =
                 addon.resource_type.unit.toLowerCase() === "bytes";
 
-            // DERow styling will override selected-row highlight styling.
-            const Row = isSelected ? TableRow : DERow;
             return (
-                <Row
+                <DERow
                     hover
                     id={rowId}
                     key={addonUUID}
@@ -158,19 +157,20 @@ function AddOnListing(props) {
                         </Typography>
                     </TableCell>
                     <TableCell
-                        id={buildID(rowId, ids.ADDONS.DEFAULT_PAID_CELL)}
-                    >
-                        <Typography variant="body2">
-                            {addon.default_paid ? t("true") : t("false")}
-                        </Typography>
-                    </TableCell>
-                    <TableCell
                         id={buildID(rowId, ids.ADDONS.RESOURCE_TYPE_CELL)}
                     >
                         <Typography variant="body2">
                             {addon.resource_type.unit}
                         </Typography>
                     </TableCell>
+                    <TableCell
+                        id={buildID(rowId, ids.ADDONS.DEFAULT_PAID_CELL)}
+                    >
+                        <Typography variant="body2">
+                            {addon.default_paid ? t("true") : t("false")}
+                        </Typography>
+                    </TableCell>
+
                     <TableCell
                         id={buildID(rowId, ids.ROW_DOT_MENU)}
                         align="right"
@@ -181,7 +181,7 @@ function AddOnListing(props) {
                             onDeleteSelected={onDeleteSelected}
                         />
                     </TableCell>
-                </Row>
+                </DERow>
             );
         })
     );
@@ -195,6 +195,13 @@ function LoadingMask(props) {
             numRows={25}
             baseId={tableId}
         />
+    );
+}
+
+function NoAvailableAddons(props) {
+    const { columns, t } = props;
+    return (
+        <EmptyTable message={t("noAddons")} numColumns={columns.length + 1} />
     );
 }
 
@@ -245,7 +252,7 @@ function TableView(props) {
                             <LoadingMask columns={columns} tableId={tableId} />
                         ) : (
                             <TableBody>
-                                {addons?.length && (
+                                {addons?.length ? (
                                     <AddOnListing
                                         addons={addons}
                                         baseId={baseId}
@@ -258,6 +265,11 @@ function TableView(props) {
                                         selected={selected}
                                         t={t}
                                         tableId={tableId}
+                                    />
+                                ) : (
+                                    <NoAvailableAddons
+                                        columns={columns}
+                                        t={t}
                                     />
                                 )}
                             </TableBody>

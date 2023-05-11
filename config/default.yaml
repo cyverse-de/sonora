@@ -48,7 +48,7 @@ analysis:
 
 irods:
     home_path: /iplant/home
-    trash_path: /iplant/trash/home/de-irods
+    trash_path: /iplant/trash/home
     community_path: /iplant/home/shared
     web_dav:
         anon_uri: https://data.cyverse.org/dav-anon  

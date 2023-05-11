@@ -5,7 +5,7 @@ import { Field, getIn } from "formik";
 import ids from "../ids";
 
 import { Table, TableBody, TableCell, Typography } from "@material-ui/core";
-import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
+import SimpleExpansionPanel from "components/utils/SimpleExpansionPanel";
 
 import { DERow } from "components/table/DERow";
 import DETableHead from "components/table/DETableHead";
@@ -15,7 +15,7 @@ import FormNumberField from "components/forms/FormNumberField";
 import { nonZeroValue } from "components/utils/validations";
 
 const TABLE_COLUMNS = [
-    { name: "Quota", numeric: false, enableSorting: false },
+    { name: "Quota", numeric: true, enableSorting: false },
     { name: "Name", numeric: false, enableSorting: false },
 ];
 
@@ -51,7 +51,10 @@ function Quotas(props) {
                         quotas.length > 0 &&
                         quotas.map((quota, index) => (
                             <DERow tabIndex={-1} key={index}>
-                                <TableCell>
+                                <TableCell
+                                    style={{ textAlign: "right" }}
+                                    width="50%"
+                                >
                                     <Field
                                         name={`${name}.${index}.quota`}
                                         id={buildID(
@@ -65,6 +68,9 @@ function Quotas(props) {
                                             nonZeroValue(value, i18nUtil)
                                         }
                                         component={FormNumberField}
+                                        inputProps={{
+                                            style: { textAlign: "right" },
+                                        }}
                                     />
                                 </TableCell>
                                 <TableCell>

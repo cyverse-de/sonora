@@ -49,6 +49,49 @@ export default function subscriptionsRouter() {
         })
     );
 
+    // Administrators can update a user's subscrption
+    // Administrators can add new subscriptions for users who haven't logged into the DE yet
+    logger.info("adding the POST /admin/qms/subscriptions handler");
+    api.post(
+        "/admin/qms/subscriptions",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/qms/subscriptions",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    // Administrators can update user quotas for a specified resource type
+    logger.info(
+        "adding the POST /admin/qms/users/:username/plan/:resource_type/quota handler"
+    );
+    api.post(
+        "/admin/qms/users/:username/plan/:resource_type/quota",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/qms/users/:username/plan/:resource_type/quota",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    // Return details about a subscription
+    logger.info("adding the GET /admin/qms/users/:username/plan handler");
+    api.get(
+        "/admin/qms/users/:username/plan",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/qms/users/:username/plan",
+        })
+    );
+
+    // Subscription add-ons
     // Get all available add-ons
     logger.info("adding the GET /admin/qms/addons handler");
     api.get(
@@ -73,47 +116,50 @@ export default function subscriptionsRouter() {
         })
     );
 
-    // Administrators can update a user's subscrption
-    // Administrators can add new subscriptions for users who haven't logged into the DE yet
-    logger.info("adding the POST /admin/qms/subscriptions handler");
+    // Administrators can add an add-on to a subscription
+    logger.info(
+        "adding the POST /admin/qms/subscriptions/:subscription_uuid/addons handler"
+    );
     api.post(
-        "/admin/qms/subscriptions",
+        "/admin/qms/subscriptions/:subscription_uuid/addons",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
-            pathname: "/admin/qms/subscriptions",
+            pathname: "/admin/qms/subscriptions/:subscription_uuid/addons",
             headers: {
                 "Content-Type": "application/json",
             },
         })
     );
 
-    // Administrators can update an avilalable add-on
-    logger.info("adding the PUT /admin/qms/addons handler");
+    // Administrators can update an add-on to a subscription
+    logger.info(
+        "adding the PUT /admin/qms/subscriptions/:subscription_uuid/addons/:uuid handler"
+    );
     api.put(
-        "/admin/qms/addons",
+        "/admin/qms/subscriptions/:subscription_uuid/addons/:uuid",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "PUT",
-            pathname: "/admin/qms/addons",
+            pathname:
+                "/admin/qms/subscriptions/:subscription_uuid/addons/:uuid",
             headers: {
                 "Content-Type": "application/json",
             },
         })
     );
-    // Administrators can update user quotas for a specified resource type
+
+    // Administrators can remove an add-on applied to a subscription
     logger.info(
-        "adding the POST /admin/qms/users/:username/plan/:resource_type/quota handler"
+        "adding the DELETE /admin/qms/subscriptions/:subscription_uuid/addons/:uuid handler"
     );
-    api.post(
-        "/admin/qms/users/:username/plan/:resource_type/quota",
+    api.delete(
+        "/admin/qms/subscriptions/:subscription_uuid/addons/:uuid",
         auth.authnTokenMiddleware,
         terrainHandler({
-            method: "POST",
-            pathname: "/admin/qms/users/:username/plan/:resource_type/quota",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            method: "DELETE",
+            pathname:
+                "/admin/qms/subscriptions/:subscription_uuid/addons/:uuid",
         })
     );
 
@@ -126,6 +172,20 @@ export default function subscriptionsRouter() {
             method: "POST",
             pathname: "/admin/qms/addons",
             headers: { "Content-Type": "application/json" },
+        })
+    );
+
+    // Administrators can update an available add-on
+    logger.info("adding the PUT /admin/qms/addons handler");
+    api.put(
+        "/admin/qms/addons",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PUT",
+            pathname: "/admin/qms/addons",
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
     );
 

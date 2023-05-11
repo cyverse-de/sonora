@@ -3,7 +3,7 @@ import { useTranslation } from "i18n";
 
 import { DeleteBtn, AddBtn } from "../Buttons";
 import ids from "../ids";
-import SimpleExpansionPanel from "../SimpleExpansionPanel";
+import SimpleExpansionPanel from "components/utils/SimpleExpansionPanel";
 import { nonEmptyField } from "components/utils/validations";
 
 import { DERow } from "components/table/DERow";

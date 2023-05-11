@@ -2,7 +2,7 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 import { Table, TableBody, TableCell, Typography } from "@material-ui/core";
-import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
+import SimpleExpansionPanel from "components/utils/SimpleExpansionPanel";
 import { DERow } from "components/table/DERow";
 import DETableHead from "components/table/DETableHead";
 
@@ -12,7 +12,7 @@ import EmptyTable from "components/table/EmptyTable";
 import { formatFileSize } from "components/data/utils";
 
 const TABLE_COLUMNS = [
-    { name: "Usage", numeric: false, enableSorting: false },
+    { name: "Usage", numeric: true, enableSorting: false },
     { name: "Name", numeric: false, enableSorting: false },
 ];
 
@@ -58,7 +58,7 @@ function UsageAmounts(props) {
     if (usageInBytes) {
         return (
             <DERow tabIndex={-1} key={index}>
-                <TableCell>
+                <TableCell width="50%" style={{ textAlign: "right" }}>
                     <Typography>
                         {formatFileSize(resource.usage).split(" ")[0]}
                     </Typography>
@@ -73,7 +73,7 @@ function UsageAmounts(props) {
     } else {
         return (
             <DERow tabIndex={-1} key={index}>
-                <TableCell>
+                <TableCell style={{ textAlign: "right" }}>
                     <Typography>{resource.usage}</Typography>
                 </TableCell>
                 <TableCell>

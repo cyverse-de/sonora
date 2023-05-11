@@ -1,6 +1,6 @@
 import React from "react";
 import { mockAxios } from "../axiosMock";
-import Listing from "../../src/components/subscriptions/listing/Listing";
+import Listing from "components/subscriptions/listing/Listing";
 import {
     emptyListing,
     erroredListing,
@@ -8,6 +8,8 @@ import {
     listing,
     planTypes,
 } from "./SubscriptionMocks";
+
+import { availableAddons } from "./SubscriptionAddonsMocks";
 import constants from "../../src/constants";
 
 export default {
@@ -19,6 +21,7 @@ const subscriptionListingUriRegexp = /\/api\/admin\/qms\/subscriptions.*/;
 function ListingTest(props) {
     return (
         <Listing
+            availableAddons={availableAddons}
             baseId="subscriptions"
             isAdminView={props.isAdminView}
             order={constants.SORT_ASCENDING}

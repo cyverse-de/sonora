@@ -52,3 +52,46 @@ export function formatQuotas(values) {
 
     return values;
 }
+
+export function mapSubAddonsPropsToValues(selectedSubAddons) {
+    let values = {
+        addons: [],
+    };
+
+    if (selectedSubAddons?.length) {
+        values.addons = selectedSubAddons.map(
+            ({ uuid, addon, amount, paid }) => ({
+                uuid,
+                name: addon.name,
+                amount:
+                    addon.resource_type.unit === "bytes"
+                        ? bytesToGiB(amount)
+                        : amount,
+                paid,
+                resource_type: addon.resource_type.unit,
+            })
+        );
+    }
+
+    return values;
+}
+
+export function formatSubAddonSubmission(values) {
+    const { addon_uuid } = values;
+    const submission = { uuid: addon_uuid };
+    return submission;
+}
+
+export function formatUpdatedAddonSubmission(values) {
+    let submission = values.addons.map((addon) => {
+        const { uuid, amount, paid, resource_type } = addon;
+        const submissionAmount =
+            resource_type.toLowerCase() === "bytes"
+                ? parseFloat(amount * bytesInGiB)
+                : amount;
+        const submissionBody = { amount: submissionAmount, paid };
+        return { uuid, submissionBody };
+    });
+
+    return submission;
+}

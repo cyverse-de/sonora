@@ -4,14 +4,14 @@ import { FieldArray, Form, Formik } from "formik";
 import { mapPropsToValues, formatQuotas } from "./formatters";
 import DEDialog from "components/utils/DEDialog";
 import { Button, Grid, Typography } from "@material-ui/core";
-import SimpleExpansionPanel from "components/tools/SimpleExpansionPanel";
+import SimpleExpansionPanel from "components/utils/SimpleExpansionPanel";
 
 import {
     updateUserQuotas,
     SUBSCRIPTIONS_QUERY_KEY,
 } from "serviceFacades/subscriptions";
 import { announce } from "components/announcer/CyVerseAnnouncer";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 
 import ids from "../ids";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
@@ -82,14 +82,19 @@ function EditQuotasDialog(props) {
                                         onClick={() => {
                                             onCloseForm();
                                         }}
+                                        variant="outlined"
                                     >
                                         {t("cancel")}
                                     </Button>
 
                                     <Button
-                                        id={buildID(parentId, ids.SAVE_BUTTON)}
+                                        id={buildID(
+                                            parentId,
+                                            ids.SUBMIT_BUTTON
+                                        )}
                                         type="submit"
                                         color="primary"
+                                        variant="outlined"
                                         onClick={handleSubmit}
                                     >
                                         {t("submit")}

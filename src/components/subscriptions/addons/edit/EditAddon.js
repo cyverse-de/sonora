@@ -13,7 +13,7 @@ import FormTextField from "components/forms/FormTextField";
 import { nonEmptyField, nonZeroValue } from "components/utils/validations";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
-import ids from "../ids";
+import ids from "../../ids";
 import { formatAddonSubmission, mapPropsToValues } from "./formatters";
 
 import {
@@ -130,7 +130,7 @@ function EditAddonDialog(props) {
                                 onCloseForm();
                                 resetForm();
                             }}
-                            title={t("createAddons")}
+                            title={addon ? t("editAddon") : t("createAddons")}
                             actions={
                                 <>
                                     <Button
@@ -142,12 +142,17 @@ function EditAddonDialog(props) {
                                             onCloseForm();
                                             resetForm();
                                         }}
+                                        variant="outlined"
                                     >
                                         {t("cancel")}
                                     </Button>
 
                                     <Button
-                                        id={buildID(parentId, ids.SAVE_BUTTON)}
+                                        id={buildID(
+                                            parentId,
+                                            ids.SUBMIT_BUTTON
+                                        )}
+                                        variant="outlined"
                                         type="submit"
                                         color="primary"
                                         onClick={handleSubmit}
@@ -206,7 +211,7 @@ function EditAddonForm(props) {
                 variant="outlined"
                 select
             >
-                {resourceTypes.map((type, index) => {
+                {resourceTypes?.map((type, index) => {
                     return (
                         <MenuItem
                             id={buildID(parentId, ids.ADDONS_DLG.RESOURCE_UNIT)}

@@ -9,6 +9,7 @@ import DotMenu from "components/dotMenu/DotMenu";
 import EditSubscriptionMenuItem from "../menuItems/EditSubscriptionMenuItem";
 import EditQuotasMenuItem from "../menuItems/EditQuotasMenuItem";
 import DetailsMenuItem from "../menuItems/DetailsMenuItem";
+import EditAddonsMenuItem from "../menuItems/EditAddonsMenuItem";
 import buildID from "components/utils/DebugIDUtil";
 import ids from "../ids";
 
@@ -16,6 +17,7 @@ function RowDotMenu(props) {
     const {
         baseId,
         onDetailsSelected,
+        onEditAddonsSelected,
         onEditQuotasSelected,
         onEditSubscriptionSelected,
     } = props;
@@ -41,6 +43,12 @@ function RowDotMenu(props) {
                     onEditSelected={onEditQuotasSelected}
                     onClose={onClose}
                     key={buildID(baseId, ids.EDIT_QUOTAS_MENU_ITEM)}
+                />,
+                <EditAddonsMenuItem
+                    baseId={baseId}
+                    onEditAddonsSelected={onEditAddonsSelected}
+                    onClose={onClose}
+                    key={buildID(baseId, ids.ADDONS_MENU_ITEM)}
                 />,
             ]}
         />

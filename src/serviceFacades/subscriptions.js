@@ -9,6 +9,7 @@ const AVAILABLE_ADDONS_QUERY_KEY = "fetchAvailableAddons";
 const PLAN_TYPES_QUERY_KEY = "fetchPlanTypes";
 const RESOURCE_TYPES_QUERY_KEY = "fetchResourceTypes";
 const SUBSCRIPTION_ADDONS_QUERY_KEY = "fetchSubscriptionAddons";
+const SUBSCRIPTION_DETAILS_QUERY_KEY = "fetchSubscriptionDetails";
 const SUBSCRIPTIONS_QUERY_KEY = "fetchSubscriptions";
 
 // Get available add-ons
@@ -60,11 +61,50 @@ function getSubscriptions({ searchTerm, order, orderBy, page, rowsPerPage }) {
     });
 }
 
-// List the add-ons to a user's subscription
+// Administrators can list the add-ons to a user's subscription
 function getSubscriptionAddons(subscription_uuid) {
     return callApi({
         endpoint: `/api/admin/qms/subscriptions/${subscription_uuid}/addons`,
         method: "GET",
+    });
+}
+
+// Administrators can add a subscription add-on
+function postSubAddon(subscription_uuid, addon_uuid) {
+    return callApi({
+        endpoint: `/api/admin/qms/subscriptions/${subscription_uuid}/addons`,
+        method: "POST",
+        body: addon_uuid,
+    });
+}
+
+// Administrators can update a subscription add-on
+function putSubAddons(subscription_uuid, addon_uuid, submission) {
+    return callApi({
+        endpoint: `/api/admin/qms/subscriptions/${subscription_uuid}/addons/${addon_uuid}`,
+        method: "PUT",
+        body: submission,
+    });
+}
+
+function putSubAddon(subscription_uuid, submission) {
+    return (
+        submission &&
+        submission.length > 0 &&
+        Promise.all(
+            submission.map((addon) => {
+                const { uuid, submissionBody } = addon;
+                return putSubAddons(subscription_uuid, uuid, submissionBody);
+            })
+        )
+    );
+}
+
+// Administrators can remove an add-on from a subscription
+function deleteSubAddon(subscription_uuid, addon_uuid) {
+    return callApi({
+        endpoint: `/api/admin/qms/subscriptions/${subscription_uuid}/addons/${addon_uuid}`,
+        method: "DELETE",
     });
 }
 
@@ -93,6 +133,14 @@ function updateUserQuota(quota, resourceType, username) {
         endpoint: `/api/admin/qms/users/${username}/plan/${resourceType}/quota`,
         method: "POST",
         body: quota,
+    });
+}
+
+// Return details about the subscription
+function getSubscriptionDetails(username) {
+    return callApi({
+        endpoint: `/api/admin/qms/users/${username}/plan`,
+        method: "GET",
     });
 }
 
@@ -128,6 +176,7 @@ function deleteAddon(uuid) {
     });
 }
 
+// Administrators can delete available add-ons
 function deleteAddons(uuids) {
     return (
         uuids &&
@@ -138,18 +187,23 @@ function deleteAddons(uuids) {
 
 export {
     deleteAddons,
+    deleteSubAddon,
     getAvailableAddOns,
     getPlanTypes,
     getResourceTypes,
     getSubscriptionAddons,
+    getSubscriptionDetails,
     getSubscriptions,
     postAddon,
+    postSubAddon,
     postSubscription,
     putAddon,
+    putSubAddon,
     updateUserQuotas,
     AVAILABLE_ADDONS_QUERY_KEY,
     PLAN_TYPES_QUERY_KEY,
     RESOURCE_TYPES_QUERY_KEY,
     SUBSCRIPTION_ADDONS_QUERY_KEY,
+    SUBSCRIPTION_DETAILS_QUERY_KEY,
     SUBSCRIPTIONS_QUERY_KEY,
 };

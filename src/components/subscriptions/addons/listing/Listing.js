@@ -7,27 +7,32 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { useMutation, useQueryClient, useQuery } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 import {
     deleteAddons,
-    getAvailableAddOns,
     AVAILABLE_ADDONS_QUERY_KEY,
 } from "serviceFacades/subscriptions";
 
 import { useTranslation } from "i18n";
 
-import AddonsToolbar from "./Toolbar";
+import AddonsToolbar from "../Toolbar";
 import TableView from "./TableView";
-import EditAddonDialog from "./EditAddon";
+import EditAddonDialog from "../edit/EditAddon";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import { announce } from "components/announcer/CyVerseAnnouncer";
-import constants from "../../../constants";
+import constants from "../../../../constants";
 
 function AddOnsListing(props) {
-    const { baseId, isAdminView, showErrorAnnouncer } = props;
-    const [addonsData, setAddonsData] = useState(null);
+    const {
+        availableAddons,
+        baseId,
+        errorFetchingAvailableAddons,
+        isAdminView,
+        isFetchingAvailableAddons,
+        showErrorAnnouncer,
+    } = props;
     const [deleteDialogOpen, setDeleteDialogOpen] = useState();
     const [editDialogOpen, setEditDialogOpen] = useState();
     const [selected, setSelected] = useState([]);
@@ -41,24 +46,26 @@ function AddOnsListing(props) {
         // which can be due to the browser's back or forward navigation,
         // in addition to the user changing categories or pages.
         setSelected([]);
-    }, [addonsData]);
+    }, [availableAddons]);
 
     useEffect(() => {
-        if (addonsData?.addons) {
+        if (availableAddons?.addons) {
             const selectedId = selected[0];
             setSelectedAddon(
-                addonsData.addons.find((addon) => addon.uuid === selectedId)
+                availableAddons.addons.find(
+                    (addon) => addon.uuid === selectedId
+                )
             );
         } else {
             setSelectedAddon(null);
         }
-    }, [addonsData, selected]);
+    }, [availableAddons, selected]);
 
     useEffect(() => {
         setMultipleSelected(!!selected && selected.length > 1);
     }, [selected]);
 
-    const { mutate: removeAddon, status: deleteAddonStatus } = useMutation(
+    const { mutate: discardAddon, status: deleteAddonStatus } = useMutation(
         deleteAddons,
         {
             onSuccess: () => {
@@ -75,18 +82,11 @@ function AddOnsListing(props) {
         }
     );
 
-    const { isFetching, error } = useQuery({
-        queryKey: [AVAILABLE_ADDONS_QUERY_KEY],
-        queryFn: getAvailableAddOns,
-        enabled: true,
-        onSuccess: setAddonsData,
-    });
-
-    // Handles a request to select all tools.
+    // Handles a request to select all add-ons.
     const handleSelectAllClick = (event) => {
         setSelected(
             event.target.checked && !selected.length
-                ? addonsData?.addons?.map((addon) => addon.uuid) || []
+                ? availableAddons?.addons?.map((addon) => addon.uuid) || []
                 : []
         );
     };
@@ -101,7 +101,7 @@ function AddOnsListing(props) {
 
     const isSelected = (uuid) => selected.includes(uuid);
 
-    // Selects all of the tools in an index range
+    // Selects all of the add-ons in an index range
     const rangeSelect = (start, end, targetId) => {
         // Ensure the start index comes before the end index
         if (start > end) {
@@ -114,13 +114,12 @@ function AddOnsListing(props) {
 
         const rangeIds = [];
         for (let i = start; i <= end; i++) {
-            rangeIds.push(addonsData?.addons[i].uuid);
+            rangeIds.push(availableAddons?.addons[i].uuid);
         }
         // Toggle the selection based on the last add-on clicked.
         isSelected(targetId) ? deselect(rangeIds) : select(rangeIds);
     };
 
-    // User clicks on a checkbox
     const handleCheckboxClick = (_, uuid, index) => {
         toggleSelection(uuid);
         setLastSelectedIndex(index);
@@ -161,10 +160,10 @@ function AddOnsListing(props) {
             selected &&
             selected.length > 0 &&
             selected.map((selectedAddon) => {
-                let entry = addonsData.addons.find(
+                let entry = availableAddons?.addons.find(
                     (addon) => addon.uuid === selectedAddon
                 );
-                return <li key={selectedAddon}>{entry.name}</li>;
+                return <li key={selectedAddon}>{entry?.name}</li>;
             })
         );
     };
@@ -179,13 +178,16 @@ function AddOnsListing(props) {
             />
             <TableView
                 baseId={baseId}
-                error={error}
+                error={errorFetchingAvailableAddons}
                 handleCheckboxClick={handleCheckboxClick}
                 handleClick={handleClick}
                 handleSelectAllClick={handleSelectAllClick}
                 isAdminView={isAdminView}
-                listing={addonsData}
-                loading={isFetching || deleteAddonStatus === constants.LOADING}
+                listing={availableAddons}
+                loading={
+                    isFetchingAvailableAddons ||
+                    deleteAddonStatus === constants.LOADING
+                }
                 onDeleteSelected={onDeleteSelected}
                 onEditSelected={onEditSelected}
                 selected={selected}
@@ -201,7 +203,7 @@ function AddOnsListing(props) {
                 open={deleteDialogOpen}
                 onConfirm={() => {
                     onCloseDelete();
-                    removeAddon(selected);
+                    discardAddon(selected);
                 }}
                 onClose={onCloseDelete}
                 title={t("confirmDelete")}

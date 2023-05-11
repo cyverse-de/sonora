@@ -19,8 +19,7 @@ import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
 import WrappedErrorHandler from "../../error/WrappedErrorHandler";
 import { DERow } from "components/table/DERow";
 import DETableHead from "components/table/DETableHead";
-import { isPathInTrash, formatFileSize } from "../utils";
-import { useConfig } from "contexts/config";
+import { isPathInTrash, formatFileSize, useBaseTrashPath } from "../utils";
 
 import buildID from "components/utils/DebugIDUtil";
 import DECheckbox from "components/utils/DECheckbox";
@@ -158,7 +157,7 @@ function TableView(props) {
     const { t } = useTranslation("data");
     const dataRecordFields = dataFields(t);
     const tableId = buildID(baseId, ids.LISTING_TABLE);
-    const [config] = useConfig();
+    const trashPath = useBaseTrashPath();
 
     const [displayColumns, setDisplayColumns] = useState(
         getLocalStorageCols(rowDotMenuVisibility, dataRecordFields) ||
@@ -170,7 +169,7 @@ function TableView(props) {
         setDisplayColumns(columns);
     };
 
-    const inTrash = isPathInTrash(path, config?.irods?.trash_path);
+    const inTrash = isPathInTrash(path, trashPath);
 
     const optionalColumns = () => {
         return [

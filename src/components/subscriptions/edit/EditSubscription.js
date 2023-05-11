@@ -20,7 +20,7 @@ import {
     getPlanTypes,
     PLAN_TYPES_QUERY_KEY,
 } from "serviceFacades/subscriptions";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "i18n";
 import ids from "../ids";
 import Usages from "./Usages";
 import { SUBSCRIPTIONS_QUERY_KEY } from "serviceFacades/subscriptions";
@@ -142,14 +142,19 @@ function EditSubscriptionDialog(props) {
                                             onCloseForm();
                                             resetForm();
                                         }}
+                                        variant="outlined"
                                     >
                                         {t("cancel")}
                                     </Button>
 
                                     <Button
-                                        id={buildID(parentId, ids.SAVE_BUTTON)}
+                                        id={buildID(
+                                            parentId,
+                                            ids.SUBMIT_BUTTON
+                                        )}
                                         type="submit"
                                         color="primary"
+                                        variant="outlined"
                                         onClick={handleSubmit}
                                     >
                                         {t("submit")}

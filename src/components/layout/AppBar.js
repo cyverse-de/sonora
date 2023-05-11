@@ -26,6 +26,11 @@ import {
     useBootStrap,
     USER_PROFILE_QUERY_KEY,
 } from "serviceFacades/users";
+import {
+    getSubscriptionDetails,
+    SUBSCRIPTION_DETAILS_QUERY_KEY,
+} from "serviceFacades/subscriptions";
+
 import constants from "../../constants";
 import withErrorAnnouncer from "../error/withErrorAnnouncer";
 import CustomIntercom from "./CustomIntercom";
@@ -108,6 +113,7 @@ function DEAppBar(props) {
         showErrorAnnouncer,
     } = props;
     const [userProfile, setUserProfile] = useUserProfile();
+    const [userSubscription, setUserSubscription] = useState(null);
     const { currentNotification } = useNotifications();
     const isXsDown = useMediaQuery(theme.breakpoints.down("xs"));
     const [avatarLetter, setAvatarLetter] = useState("");
@@ -151,12 +157,39 @@ function DEAppBar(props) {
         refetchInterval: profileRefetchInterval,
     });
 
+    useQuery({
+        queryKey: [
+            SUBSCRIPTION_DETAILS_QUERY_KEY,
+            { username: userProfile?.id },
+        ],
+        queryFn: () => getSubscriptionDetails(userProfile?.id),
+        enabled: !!userProfile?.id,
+        onSuccess: setUserSubscription,
+    });
+
     useEffect(() => {
         if (clientConfig) {
-            setConfig(clientConfig);
+            let config = { ...clientConfig };
+            // Disable Intercom if a subscription is Basic
+            if (userSubscription) {
+                let planName = userSubscription.result?.plan?.name;
+                let isBasic = planName?.toLowerCase() === "basic";
+                config.intercom = {
+                    ...clientConfig.intercom,
+                    enabled:
+                        clientConfig.intercom.enabled && planName && !isBasic,
+                };
+            } else {
+                // Disable Intercom if user subscription isn't loaded
+                config.intercom = {
+                    ...clientConfig.intercom,
+                    enabled: false,
+                };
+            }
+            setConfig(config);
             setProfileRefetchInterval(clientConfig.sessions.poll_interval_ms);
         }
-    }, [clientConfig, setConfig]);
+    }, [clientConfig, setConfig, userSubscription]);
 
     useQuery({
         queryKey: [RESOURCE_USAGE_QUERY_KEY],
@@ -450,6 +483,7 @@ function DEAppBar(props) {
                                     ids.ACCOUNT_MI
                                 )}
                                 profile={userProfile}
+                                subscription={userSubscription?.result}
                                 onLogoutClick={onLogoutClick}
                                 onManageAccountClick={() =>
                                     window.open(
@@ -492,6 +526,7 @@ function DEAppBar(props) {
                 <UserMenu
                     baseId={buildID(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}
                     profile={userProfile}
+                    subscription={userSubscription?.result}
                     onLogoutClick={onLogoutClick}
                     onManageAccountClick={() =>
                         window.open(userPortalURLRef.current, "_blank")

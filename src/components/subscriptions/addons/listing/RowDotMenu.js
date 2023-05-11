@@ -9,7 +9,7 @@ import DotMenu from "components/dotMenu/DotMenu";
 import EditAddonMenuItem from "../menuItems/EditAddonMenuItem";
 import DeleteAddonMenuItem from "../menuItems/DeleteAddonMenuItem";
 import buildID from "components/utils/DebugIDUtil";
-import ids from "../ids";
+import ids from "../../ids";
 
 function RowDotMenu(props) {
     const { baseId, onDeleteSelected, onEditSelected } = props;

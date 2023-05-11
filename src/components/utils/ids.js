@@ -31,6 +31,7 @@ export default {
     },
     BUTTONS: {
         DELETE: "deleteBtn",
+        EXPAND: "expandBtn",
     },
     errorHandlerDlg: "errorHandlerDlg",
     HELPER_TEXT: "helper-text",

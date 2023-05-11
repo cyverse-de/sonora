@@ -1,30 +1,30 @@
 import React from "react";
 
 import { useTranslation } from "i18n";
-import ids from "../ids";
+import ids from "../../ids";
 
 import buildID from "components/utils/DebugIDUtil";
 
 import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
-import { Delete } from "@material-ui/icons";
+import { Edit } from "@material-ui/icons";
 
 export default function EditSubscriptionMenuItem(props) {
-    const { baseId, onDeleteSelected, onClose } = props;
+    const { baseId, onEditSelected, onClose } = props;
 
     const { t } = useTranslation("subscriptions");
 
     return (
         <MenuItem
-            id={buildID(baseId, ids.ADDONS.DELETE_MENU_ITEM)}
+            id={buildID(baseId, ids.EDIT_SUBSCRIPTION_MENU_ITEM)}
             onClick={() => {
-                onDeleteSelected();
+                onEditSelected();
                 onClose();
             }}
         >
             <ListItemIcon>
-                <Delete fontSize="small" />
+                <Edit fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary={t("deleteAddon")} />
+            <ListItemText primary={t("edit")} />
         </MenuItem>
     );
 }

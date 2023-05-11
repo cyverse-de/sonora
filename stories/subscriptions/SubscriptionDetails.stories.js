@@ -6,7 +6,7 @@ import { listing, subscription } from "./SubscriptionMocks";
 export default {
     title: "Subscriptions / Details",
 };
-export function DetailsDrawer() {
+export function DetailsDrawerTest() {
     mockAxios.onGet(/\/api\/admin\/qms\/subscriptions.*/).reply(200, listing);
 
     const onClose = () => {

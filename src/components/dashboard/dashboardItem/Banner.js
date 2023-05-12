@@ -30,6 +30,8 @@ export default function Banner(props) {
     const router = useRouter();
     const [config] = useConfig();
 
+    const cyverse_url = config?.cyverseURL;
+
     const onLoginClick = (event) => {
         router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
     };
@@ -89,7 +91,7 @@ export default function Banner(props) {
                                 style={{
                                     margin: theme.spacing(0.4),
                                 }}
-                                href={constants.CYVERSE_URL}
+                                href={cyverse_url}
                             >
                                 {t("learnMore")} |
                             </ExternalLink>

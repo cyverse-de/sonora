@@ -97,6 +97,7 @@ function DEAppBar(props) {
     const [config, setConfig] = useConfig();
     const { t } = useTranslation("common");
 
+    const cyverse_url = config?.cyverseURL;
     const searchTerm = router?.query?.searchTerm || "";
     let filter = searchConstants.ALL;
 
@@ -397,7 +398,7 @@ function DEAppBar(props) {
                     </Hidden>
                     <Hidden xsDown>
                         <a
-                            href={constants.CYVERSE_URL}
+                            href={cyverse_url}
                             target="_blank"
                             rel="noopener noreferrer"
                         >

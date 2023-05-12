@@ -2,7 +2,6 @@
 
 export default {
     // The CyVerse page for DE. Not the DE base URL.
-    CYVERSE_URL: "https://cyverse.org/discovery-environment",
     CYVERSE_POLICY_URL: "https://cyverse.org/policies",
     CYVERSE_ABOUT_URL: "https://cyverse.org/about",
     OLD_DE_LINK: "https://legacy-de.cyverse.org",
@@ -81,11 +80,9 @@ export default {
     URL_REGEX: /^(?:ftp|FTP|HTTPS?|https?):\/\/[^/]+\.[^/]+.*/i,
     EMAIL_REGEX:
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-    DE_FAQ: "https://learning.cyverse.org/faq/",
     DE_GUIDE: "https://learning.cyverse.org/de/",
     CYVERSE_LC: "https://learning.cyverse.org/",
     DEFAULT_EMAIL: "no-reply@cyverse.org",
-    SUPPORT_EMAIL: "support@cyverse.org",
     GETTING_STARTED: "https://learning.cyverse.org/",
     DOI_GUIDE: "https://learning.cyverse.org/ds/doi/",
     DC_USER_AGREEMENT:

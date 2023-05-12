@@ -211,6 +211,9 @@ function MyApp({ Component, pageProps }) {
         const legacyDeUrl = publicRuntimeConfig.LEGACY_DE_URL;
         const usernameSuffix = publicRuntimeConfig.USERNAME_SUFFIX;
         const userPortalURL = publicRuntimeConfig.USER_PORTAL_URL;
+        const supportEmail = publicRuntimeConfig.SUPPORT_EMAIL;
+        const deFaq = publicRuntimeConfig.DE_FAQ;
+        const cyverseURL = publicRuntimeConfig.CYVERSE_URL;
 
         setConfig({
             intercom,
@@ -226,6 +229,9 @@ function MyApp({ Component, pageProps }) {
             legacyDeUrl,
             usernameSuffix,
             userPortalURL,
+            supportEmail,
+            deFaq,
+            cyverseURL,
         });
 
         const jssStyles = document.querySelector("#jss-server-side");

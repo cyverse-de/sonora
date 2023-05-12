@@ -27,6 +27,7 @@ import {
 import LaunchIcon from "@material-ui/icons/Launch";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import { makeStyles } from "@material-ui/core/styles";
+import { useConfig } from "contexts/config";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -81,6 +82,11 @@ export default function HelpTopics(props) {
     const [feedbackOpen, setFeedbackOpen] = useState();
     const classes = useStyles();
     const { t } = useTranslation("help");
+    const [config] = useConfig();
+
+    const support_email = config?.supportEmail;
+    const de_faq = config?.deFaq;
+
     return (
         <div style={{ overflow: "auto" }}>
             <Typography variant="h6" color="primary" className={classes.topics}>
@@ -97,9 +103,7 @@ export default function HelpTopics(props) {
                                 size="small"
                                 color="primary"
                                 className={classes.action}
-                                onClick={() =>
-                                    window.open(constants.DE_FAQ, "_blank")
-                                }
+                                onClick={() => window.open(de_faq, "_blank")}
                                 startIcon={<LaunchIcon />}
                             >
                                 {t("faq_button_label")}
@@ -116,7 +120,7 @@ export default function HelpTopics(props) {
                                 <Button
                                     id={buildID(baseId, ids.EMAIL_BTN)}
                                     color="primary"
-                                    href={`mailto:${constants.SUPPORT_EMAIL}`}
+                                    href={`mailto:${support_email}`}
                                     startIcon={<LaunchIcon />}
                                     size="small"
                                 >

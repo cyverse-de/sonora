@@ -12,7 +12,6 @@ import constants from "../../constants";
 import ProductTour from "components/help/ProductTour";
 import Feedback from "components/help/Feedback";
 import { intercomShow } from "common/intercom";
-import getConfig from "next/config";
 
 import buildID from "components/utils/DebugIDUtil";
 
@@ -28,6 +27,7 @@ import {
 import LaunchIcon from "@material-ui/icons/Launch";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import { makeStyles } from "@material-ui/core/styles";
+import { useConfig } from "contexts/config";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -82,10 +82,10 @@ export default function HelpTopics(props) {
     const [feedbackOpen, setFeedbackOpen] = useState();
     const classes = useStyles();
     const { t } = useTranslation("help");
+    const [config] = useConfig();
 
-    const { publicRuntimeConfig = {} } = getConfig() || {};
-    const support_email = publicRuntimeConfig.SUPPORT_EMAIL;
-    const de_faq = publicRuntimeConfig.DE_FAQ;
+    const support_email = config?.supportEmail;
+    const de_faq = config?.deFaq;
 
     return (
         <div style={{ overflow: "auto" }}>

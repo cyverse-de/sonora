@@ -11,7 +11,6 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import clsx from "clsx";
-import getConfig from "next/config";
 
 import NavigationConstants from "common/NavigationConstants";
 import Bag from "components/bags";
@@ -81,9 +80,6 @@ const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
 
 const ENTITLEMENT = "entitlement";
 
-const { publicRuntimeConfig = {} } = getConfig() || {};
-const cyverse_url = publicRuntimeConfig.CYVERSE_URL;
-
 const useStyles = makeStyles(styles);
 
 const BagMenu = () => {
@@ -101,6 +97,7 @@ function DEAppBar(props) {
     const [config, setConfig] = useConfig();
     const { t } = useTranslation("common");
 
+    const cyverse_url = config?.cyverseURL;
     const searchTerm = router?.query?.searchTerm || "";
     let filter = searchConstants.ALL;
 

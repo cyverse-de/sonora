@@ -247,7 +247,7 @@ function MyApp({ Component, pageProps }) {
                 );
             }
         }
-    }, [publicRuntimeConfig, setConfig, unReadCount]);
+    }, [publicRuntimeConfig]);
 
     return (
         <ThemeProvider theme={theme}>

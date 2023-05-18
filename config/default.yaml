@@ -2,7 +2,6 @@ base_url: http://localhost:3000
 terrain_url: http://terrain
 listen_port: 3000
 user_portal_url: https://portaldev.cyverse.org
-legacy_de_url: https://legacy-qa.cyverse.org
 support_email: support@cyverse.org
 de_faq: https://learning.cyverse.org/faq/
 cyverse_url: https://cyverse.org/discovery-environment #// The CyVerse page for DE. Not the DE base URL.

@@ -208,7 +208,6 @@ function MyApp({ Component, pageProps }) {
             enforce: publicRuntimeConfig.SUBSCRIPTIONS_ENFORCE,
         };
 
-        const legacyDeUrl = publicRuntimeConfig.LEGACY_DE_URL;
         const usernameSuffix = publicRuntimeConfig.USERNAME_SUFFIX;
         const userPortalURL = publicRuntimeConfig.USER_PORTAL_URL;
         const supportEmail = publicRuntimeConfig.SUPPORT_EMAIL;
@@ -226,7 +225,6 @@ function MyApp({ Component, pageProps }) {
             vice,
             grouper,
             subscriptions,
-            legacyDeUrl,
             usernameSuffix,
             userPortalURL,
             supportEmail,

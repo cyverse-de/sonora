@@ -52,7 +52,6 @@ function SubscriptionErrorHandler(props) {
     }, [errorObject]);
 
     let title,
-        subHeader,
         contents,
         newSubscriptionStatus,
         selectedUser,
@@ -88,7 +87,7 @@ function SubscriptionErrorHandler(props) {
 
     return (
         <Card id={errBaseId}>
-            <CardHeader avatar={avatar} title={title} subheader={subHeader} />
+            <CardHeader avatar={avatar} title={title} />
             <Divider orientation="horizontal" />
             <CardContent className={classes.cardContent}>
                 {contents}

@@ -6,6 +6,7 @@
 
 import React from "react";
 import { useTranslation } from "i18n";
+import PropTypes from "prop-types";
 
 import {
     Dialog,
@@ -27,10 +28,18 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function DEErrorDialog(props) {
-    const { errorObject, open, baseId, handleClose } = props;
+const DEErrorDialog = ({
+    baseId,
+    handleClose,
+    errorHandler,
+    errorObject,
+    open,
+}) => {
     const { t } = useTranslation("util");
     const classes = useStyles();
+
+    const ErrorHandlerComponent = errorHandler || ErrorHandler;
+
     return (
         <Dialog open={open} onClose={handleClose} scroll="body">
             <DialogTitle>
@@ -43,10 +52,21 @@ function DEErrorDialog(props) {
                 </IconButton>
             </DialogTitle>
             <DialogContent>
-                <ErrorHandler errorObject={errorObject} baseId={baseId} />
+                <ErrorHandlerComponent
+                    errorObject={errorObject}
+                    baseId={baseId}
+                />
             </DialogContent>
         </Dialog>
     );
-}
+};
+
+DEErrorDialog.propTypes = {
+    baseId: PropTypes.string,
+    handleClose: PropTypes.func.isRequired,
+    errorHandler: PropTypes.elementType,
+    errorObject: PropTypes.object.isRequired,
+    open: PropTypes.bool.isRequired,
+};
 
 export default DEErrorDialog;

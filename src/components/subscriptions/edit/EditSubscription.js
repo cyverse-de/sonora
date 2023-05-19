@@ -12,7 +12,8 @@ import { announce } from "components/announcer/CyVerseAnnouncer";
 import { nonEmptyField } from "components/utils/validations";
 
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
-import SubscriptionErrorTypographyWithDialog from "../error/SubscriptionErrorTypographyWithDialog";
+import SubscriptionErrorHandler from "../error/SubscriptionErrorHandler";
+
 import buildID from "components/utils/DebugIDUtil";
 
 import {
@@ -74,8 +75,8 @@ function EditSubscriptionDialog(props) {
                     queryClient.invalidateQueries(SUBSCRIPTIONS_QUERY_KEY);
                 }
 
-                isFailed ? setFailureReason(isFailed) : setFailureReason(null);
                 setMutateSubscriptionError(isFailed ? dataResult : null);
+                setFailureReason(isFailed);
             },
             onError: (err) => {
                 setMutateSubscriptionError(err);
@@ -162,20 +163,19 @@ function EditSubscriptionDialog(props) {
                                 </>
                             }
                         >
-                            {mutateSubscriptionError && !failureReason && (
+                            {mutateSubscriptionError && (
                                 <ErrorTypographyWithDialog
+                                    errorHandler={
+                                        failureReason
+                                            ? SubscriptionErrorHandler
+                                            : null
+                                    }
                                     errorObject={mutateSubscriptionError}
                                     errorMessage={t("mutateSubscriptionError")}
                                     baseId={parentId}
                                 />
                             )}
-                            {mutateSubscriptionError && failureReason && (
-                                <SubscriptionErrorTypographyWithDialog
-                                    errorObject={mutateSubscriptionError}
-                                    errorMessage={t("mutateSubscriptionError")}
-                                    baseId={parentId}
-                                />
-                            )}
+
                             <EditSubscriptionForm
                                 parentId={parentId}
                                 planTypes={planTypes}

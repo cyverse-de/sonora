@@ -1,5 +1,5 @@
 import React from "react";
-import { mockAxios } from "../axiosMock";
+import { AXIOS_DELAY, mockAxios } from "../axiosMock";
 import { deWordCountAnalysis, params, info } from "./AnalysesMocks";
 
 import AnalysisSubmissionLanding from "components/analyses/landing/AnalysisSubmissionLanding";
@@ -27,4 +27,7 @@ export const AnalysisSubmissionLandingTest = () => {
             baseId="submissionLanding"
         />
     );
+};
+AnalysisSubmissionLandingTest.parameters = {
+    chromatic: { delay: AXIOS_DELAY * 2 },
 };

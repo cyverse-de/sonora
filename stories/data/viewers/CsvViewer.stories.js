@@ -1,7 +1,7 @@
 import React from "react";
 
 import FileViewer from "components/data/viewers/FileViewer";
-import { mockAxios } from "../../axiosMock";
+import { AXIOS_DELAY, mockAxios } from "../../axiosMock";
 import { fileTypesResp, csvMainfestResp, csvChunkResp } from "../DataMocks";
 export default {
     title: "Data / Viewers / CSV",
@@ -33,3 +33,4 @@ export const CSVFileViewerTest = () => {
 
     return <CSVViewerTest />;
 };
+CSVFileViewerTest.parameters = { chromatic: { delay: AXIOS_DELAY * 2 } };

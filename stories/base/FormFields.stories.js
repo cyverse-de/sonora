@@ -286,7 +286,8 @@ export const Timestamp = ({ label, helperText, readOnly }) => {
     return (
         <TestForm
             initialValue={formatDateObject(
-                new Date(),
+                // Using a static date for chromatic tests.
+                new Date(2021, 6, 22, 12, 24, 55),
                 dateConstants.LONG_DATE_FORMAT
             )}
         >

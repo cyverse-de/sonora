@@ -65,6 +65,8 @@ export const ViceLoadingTest = ({
     return <ViceLoading accessUrl={accessUrl} />;
 };
 
+ViceLoadingTest.parameters = { chromatic: { disableSnapshot: true } };
+
 ViceLoadingTest.argTypes = {
     statusEndpointError: {
         defaultValue: false,

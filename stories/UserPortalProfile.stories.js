@@ -1,5 +1,5 @@
 import React from "react";
-import { mockAxios } from "./axiosMock";
+import { AXIOS_DELAY, mockAxios } from "./axiosMock";
 import { portalUserStatus, STATUS } from "./UserPortalMocks";
 import DEAppBar from "../src/components/layout/AppBar";
 import { UserProfileProvider } from "../src/contexts/userProfile";
@@ -30,6 +30,7 @@ export function GracePeriod() {
         </UserProfileProvider>
     );
 }
+GracePeriod.parameters = { chromatic: { delay: AXIOS_DELAY * 2 } };
 
 export function Expired() {
     mockAxios.onGet("/api/profile").reply(200, mockUser);
@@ -42,3 +43,4 @@ export function Expired() {
         </UserProfileProvider>
     );
 }
+Expired.parameters = { chromatic: { delay: AXIOS_DELAY * 2 } };

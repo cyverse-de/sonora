@@ -1,7 +1,7 @@
 import React from "react";
 import { UserProfileProvider } from "../src/contexts/userProfile";
 import DEAppBar from "../src/components/layout/AppBar";
-import { mockAxios } from "./axiosMock";
+import { AXIOS_DELAY, mockAxios } from "./axiosMock";
 import { NotificationsProvider } from "../src/contexts/pushNotifications";
 import notificationsData from "./notifications/notificationsData";
 import testConfig from "./configMock";
@@ -174,6 +174,7 @@ NormalView.args = {
     mockInstantLaunches: instantLaunchNavDrawerMock,
     mockUsageSummary: usageSummaryResponse,
 };
+NormalView.parameters = { chromatic: { delay: AXIOS_DELAY * 2 } };
 
 export const ComputeLimitExceeded = appBarTestTemplate.bind({});
 ComputeLimitExceeded.args = {
@@ -185,6 +186,7 @@ ComputeLimitExceeded.args = {
     mockInstantLaunches: instantLaunchNavDrawerMock,
     mockUsageSummary: usageSummaryComputeLimitExceededResponse,
 };
+ComputeLimitExceeded.parameters = { chromatic: { delay: AXIOS_DELAY * 2 } };
 
 export default {
     title: "AppBar",

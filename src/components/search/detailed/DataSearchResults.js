@@ -23,6 +23,7 @@ import { useDataSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
 import ids from "../ids";
 import styles from "./styles";
+import { extractTotal } from "../utils";
 
 import {
     DATA_SEARCH_QUERY_KEY,
@@ -150,7 +151,8 @@ function DataSearchResults(props) {
         dataSearchQueryEnabled,
         (lastGroup, allGroups) => {
             const totalPages = Math.ceil(
-                lastGroup?.total / searchConstants.DETAILED_SEARCH_PAGE_SIZE
+                extractTotal(lastGroup) /
+                    searchConstants.DETAILED_SEARCH_PAGE_SIZE
             );
             if (allGroups.length < totalPages) {
                 return allGroups.length;
@@ -191,10 +193,10 @@ function DataSearchResults(props) {
         trackIntercomEvent(IntercomEvents.SEARCHED_DATA, {
             search: searchTerm,
             advancedDataQuery,
-            total: data?.pages[0] ? data.pages[0].total : 0,
+            total: data?.pages[0] ? extractTotal(data.pages[0]) : 0,
         });
         if (data && data.pages.length > 0) {
-            updateResultCount(data.pages[0].total);
+            updateResultCount(extractTotal(data.pages[0]));
         }
     }, [advancedDataQuery, data, searchTerm, updateResultCount]);
 

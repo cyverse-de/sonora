@@ -5,6 +5,7 @@ import { useTranslation } from "i18n";
 
 import AnalysisSubheader from "./AnalysisSubheader";
 import buildID from "components/utils/DebugIDUtil";
+import analysisStatus from "components/models/analysisStatus";
 
 import {
     Avatar,
@@ -12,11 +13,14 @@ import {
     CardContent,
     CardHeader,
     Link,
+    makeStyles,
     Tooltip,
     Typography,
     useMediaQuery,
     useTheme,
 } from "@material-ui/core";
+
+import styles from "components/utils/runningAnimation";
 
 import ids from "../ids";
 import * as constants from "../constants";
@@ -26,6 +30,8 @@ import useStyles from "./styles";
 import { useConfig } from "contexts/config";
 
 import { getUserName } from "../../utils/getUserName";
+
+const useRunningAnalysesStyles = makeStyles(styles);
 
 const DashboardLink = ({ target, kind, children }) => {
     const isNewTab =
@@ -64,6 +70,7 @@ const DashboardItem = ({ item }) => {
         height: item.height,
         color,
     });
+    const running = useRunningAnalysesStyles();
 
     const { t } = useTranslation(["dashboard", "apps"]);
 
@@ -75,6 +82,9 @@ const DashboardItem = ({ item }) => {
     const description = fns.cleanDescription(item.content.description);
     const [origination, date] = item.getOrigination(t);
 
+    const isRunningAnalysis =
+        item.kind === "analyses" &&
+        item.content.status === analysisStatus.RUNNING;
     return (
         <Card
             classes={{ root: classes.dashboardCard }}
@@ -82,6 +92,7 @@ const DashboardItem = ({ item }) => {
             elevation={4}
         >
             <CardHeader
+                className={isRunningAnalysis && running.backdrop}
                 avatar={
                     isMediumOrLarger && (
                         <Avatar className={classes.avatar}>

@@ -41,12 +41,16 @@ import {
     useTheme,
 } from "@material-ui/core";
 
+import styles from "components/utils/runningAnimation";
+
 const useStyles = makeStyles((theme) => ({
     name: {
         maxWidth: "12rem",
         overflowWrap: "break-word",
     },
 }));
+
+const useRunningAnalysesStyles = makeStyles(styles);
 
 function AnalysisName(props) {
     const analysis = props.analysis;
@@ -174,6 +178,7 @@ function TableView(props) {
 
     const theme = useTheme();
     const classes = useStyles();
+    const running = useRunningAnalysesStyles();
     const { t } = useTranslation("analyses");
 
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
@@ -235,6 +240,12 @@ function TableView(props) {
                                     <DERow
                                         onClick={(event) =>
                                             handleClick(event, id, index)
+                                        }
+                                        className={
+                                            !isSelected &&
+                                            analysis.status ===
+                                                analysisStatus.RUNNING &&
+                                            running.backdrop
                                         }
                                         role="checkbox"
                                         aria-checked={isSelected}

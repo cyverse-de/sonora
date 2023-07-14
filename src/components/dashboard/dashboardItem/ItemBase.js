@@ -5,6 +5,7 @@ import { useTranslation } from "i18n";
 
 import AnalysisSubheader from "./AnalysisSubheader";
 import buildID from "components/utils/DebugIDUtil";
+import analysisStatus from "components/models/analysisStatus";
 
 import {
     Avatar,
@@ -75,6 +76,9 @@ const DashboardItem = ({ item }) => {
     const description = fns.cleanDescription(item.content.description);
     const [origination, date] = item.getOrigination(t);
 
+    const isRunningAnalysis =
+        item.kind === "analyses" &&
+        item.content.status === analysisStatus.RUNNING;
     return (
         <Card
             classes={{ root: classes.dashboardCard }}
@@ -82,6 +86,7 @@ const DashboardItem = ({ item }) => {
             elevation={4}
         >
             <CardHeader
+                className={isRunningAnalysis && classes.backdrop}
                 avatar={
                     isMediumOrLarger && (
                         <Avatar className={classes.avatar}>

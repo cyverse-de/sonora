@@ -41,29 +41,16 @@ import {
     useTheme,
 } from "@material-ui/core";
 
+import styles from "components/utils/runningAnimation";
+
 const useStyles = makeStyles((theme) => ({
     name: {
         maxWidth: "12rem",
         overflowWrap: "break-word",
     },
-    backdrop: {
-        backgroundColor: theme.palette.leaf,
-        animation: "$strobe 3.5s infinite",
-    },
-    "@keyframes strobe": {
-        "0%": { backgroundColor: "rgba(55, 143, 67, 0.25)" },
-        "10%": { backgroundColor: "rgba(55, 143, 67, 0.23)" },
-        "20%": { backgroundColor: "rgba(55, 143, 67, 0.2)" },
-        "30%": { backgroundColor: "rgba(55, 143, 67, 0.15)" },
-        "40%": { backgroundColor: "rgba(55, 143, 67, 0.1)" },
-        "50%": { backgroundColor: "rgba(55, 143, 67, 0.07)" },
-        "60%": { backgroundColor: "rgba(55, 143, 67, 0.1)" },
-        "70%": { backgroundColor: "rgba(55, 143, 67, 0.15)" },
-        "80%": { backgroundColor: "rgba(55, 143, 67, 0.2)" },
-        "90%": { backgroundColor: "rgba(55, 143, 67, 0.23)" },
-        "100%": { backgroundColor: "rgba(55, 143, 67, .25)" },
-    },
 }));
+
+const useRunningAnalysesStyles = makeStyles(styles);
 
 function AnalysisName(props) {
     const analysis = props.analysis;
@@ -191,6 +178,7 @@ function TableView(props) {
 
     const theme = useTheme();
     const classes = useStyles();
+    const running = useRunningAnalysesStyles();
     const { t } = useTranslation("analyses");
 
     const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
@@ -257,7 +245,7 @@ function TableView(props) {
                                             !isSelected &&
                                             analysis.status ===
                                                 analysisStatus.RUNNING &&
-                                            classes.backdrop
+                                            running.backdrop
                                         }
                                         role="checkbox"
                                         aria-checked={isSelected}

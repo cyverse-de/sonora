@@ -13,11 +13,14 @@ import {
     CardContent,
     CardHeader,
     Link,
+    makeStyles,
     Tooltip,
     Typography,
     useMediaQuery,
     useTheme,
 } from "@material-ui/core";
+
+import styles from "components/utils/runningAnimation";
 
 import ids from "../ids";
 import * as constants from "../constants";
@@ -27,6 +30,8 @@ import useStyles from "./styles";
 import { useConfig } from "contexts/config";
 
 import { getUserName } from "../../utils/getUserName";
+
+const useRunningAnalysesStyles = makeStyles(styles);
 
 const DashboardLink = ({ target, kind, children }) => {
     const isNewTab =
@@ -65,6 +70,7 @@ const DashboardItem = ({ item }) => {
         height: item.height,
         color,
     });
+    const running = useRunningAnalysesStyles();
 
     const { t } = useTranslation(["dashboard", "apps"]);
 
@@ -86,7 +92,7 @@ const DashboardItem = ({ item }) => {
             elevation={4}
         >
             <CardHeader
-                className={isRunningAnalysis && classes.backdrop}
+                className={isRunningAnalysis && running.backdrop}
                 avatar={
                     isMediumOrLarger && (
                         <Avatar className={classes.avatar}>

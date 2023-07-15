@@ -156,9 +156,11 @@ const getFormattedData = (data, theme) => {
 export default function AnalysesStats() {
     const { t } = useTranslation("dashboard");
     const theme = useTheme();
-    const { status, data, error } = useQuery([ANALYSES_STATS_QUERY_KEY], () =>
-        getAnalysesStats()
+    const { status, data, error } = useQuery(
+        [ANALYSES_STATS_QUERY_KEY],
+        getAnalysesStats
     );
+
     if (status === "error") {
         return (
             <div style={{ padding: theme.spacing(1) }}>

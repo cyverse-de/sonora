@@ -154,6 +154,30 @@ const appBarTestTemplate = (args) => {
     mockAxios
         .onGet(/\/api\/resource-usage\/summary.*/)
         .reply(200, mockUsageSummary);
+    mockAxios.onGet("/api/analyses/stats").reply(200, {
+        "status-count": [
+            {
+                count: 32,
+                status: "Canceled",
+            },
+            {
+                count: 703,
+                status: "Completed",
+            },
+            {
+                count: 296,
+                status: "Failed",
+            },
+            {
+                count: 150,
+                status: "Submitted",
+            },
+            {
+                count: 2,
+                status: "Running",
+            },
+        ],
+    });
 
     return (
         <UserProfileProvider>

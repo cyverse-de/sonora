@@ -9,7 +9,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "i18n";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import clsx from "clsx";
 
 import NavigationConstants from "common/NavigationConstants";
@@ -65,13 +65,18 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useNotifications } from "contexts/pushNotifications";
 import { useRunningViceJobs } from "serviceFacades/analyses";
-import { isViceNotification } from "components/notifications/utils";
+import {
+    isAnalysisNotification,
+    isViceNotification,
+} from "components/notifications/utils";
 import analysisStatus from "components/models/analysisStatus";
 import UserPortalUpdatePrompts from "./UserPortalUpdatePrompts";
 import useFirstClassInstantLaunch from "../instantlaunches/useFirstClassInstantLaunch";
 import {
-    getResourceUsageSummary,
+    ANALYSES_STATS_QUERY_KEY,
     RESOURCE_USAGE_QUERY_KEY,
+    getAnalysesStats,
+    getResourceUsageSummary,
 } from "serviceFacades/dashboard";
 import { getUserQuota } from "common/resourceUsage";
 
@@ -92,6 +97,7 @@ function DEAppBar(props) {
     const classes = useStyles();
     const theme = useTheme();
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const ref = useRef();
     const [config, setConfig] = useConfig();
@@ -206,6 +212,11 @@ function DEAppBar(props) {
         },
     });
 
+    const { data: analysesStats } = useQuery(
+        [ANALYSES_STATS_QUERY_KEY],
+        getAnalysesStats
+    );
+
     useEffect(() => {
         if (bootstrapError) {
             const errorString = JSON.stringify(bootstrapError);
@@ -269,27 +280,33 @@ function DEAppBar(props) {
     }, [adminUser, setUserProfile, userProfile]);
 
     useEffect(() => {
-        if (isViceNotification(currentNotification)) {
-            const analysis = currentNotification?.message?.payload;
+        if (isAnalysisNotification(currentNotification)) {
+            const analysis = currentNotification.message.payload;
             const status = analysis.analysisstatus;
 
-            if (analysisStatus.RUNNING === status) {
-                setRunningViceJobs([analysis, ...runningViceJobs]);
-            }
-
             if (
-                [analysisStatus.CANCELED, analysisStatus.COMPLETED].includes(
-                    status
-                )
+                [
+                    analysisStatus.RUNNING,
+                    analysisStatus.CANCELED,
+                    analysisStatus.COMPLETED,
+                ].includes(status)
             ) {
-                setRunningViceJobs(
-                    runningViceJobs.filter(
-                        (running) => running.id !== analysis.id
-                    )
-                );
+                queryClient.invalidateQueries([ANALYSES_STATS_QUERY_KEY]);
+
+                if (isViceNotification(currentNotification)) {
+                    if (analysisStatus.RUNNING === status) {
+                        setRunningViceJobs([analysis, ...runningViceJobs]);
+                    } else {
+                        setRunningViceJobs(
+                            runningViceJobs.filter(
+                                (running) => running.id !== analysis.id
+                            )
+                        );
+                    }
+                }
             }
         }
-    }, [currentNotification, runningViceJobs]);
+    }, [currentNotification, runningViceJobs, queryClient]);
 
     let userPortalURLRef = useRef(constants.DEFAULT_USER_PORTAL_URL);
     useEffect(() => {
@@ -501,6 +518,7 @@ function DEAppBar(props) {
                     toggleDrawer={toggleDrawer}
                     isXsDown={isXsDown}
                     adminUser={adminUser}
+                    analysesStats={analysesStats}
                     runningViceJobs={runningViceJobs}
                     instantLaunches={instantLaunches}
                     computeLimitExceeded={computeLimitExceeded}

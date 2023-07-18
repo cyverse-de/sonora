@@ -5,7 +5,12 @@ import DEAppBar from "../src/components/layout/AppBar";
 import { UserProfileProvider } from "../src/contexts/userProfile";
 import testConfig from "./configMock";
 
-export default { title: "User Portal Status" };
+export default {
+    title: "User Portal Status",
+    parameters: {
+        chromatic: { delay: AXIOS_DELAY * 2 },
+    },
+};
 
 const mockUser = {
     id: "mockUser",
@@ -30,7 +35,6 @@ export function GracePeriod() {
         </UserProfileProvider>
     );
 }
-GracePeriod.parameters = { chromatic: { delay: AXIOS_DELAY * 2 } };
 
 export function Expired() {
     mockAxios.onGet("/api/profile").reply(200, mockUser);
@@ -43,4 +47,3 @@ export function Expired() {
         </UserProfileProvider>
     );
 }
-Expired.parameters = { chromatic: { delay: AXIOS_DELAY * 2 } };

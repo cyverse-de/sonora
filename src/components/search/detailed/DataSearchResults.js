@@ -62,7 +62,7 @@ const useStyles = makeStyles(styles);
 function Name(props) {
     const { resource, searchTerm } = props;
 
-    const type = resource._type;
+    const type = resource?._type || resource?._source?.doc_type;
     let path = resource._source.path;
 
     const [href, as] = useDataNavigationLink(path, resource?._id, type);
@@ -207,7 +207,13 @@ function DataSearchResults(props) {
                 accessor: "icon",
                 Cell: ({ row }) => {
                     const original = row?.original;
-                    return <ResourceIcon type={original._type} />;
+                    return (
+                        <ResourceIcon
+                            type={
+                                original?._type || original?._source?.doc_type
+                            }
+                        />
+                    );
                 },
                 disableSortBy: true,
             },
@@ -232,7 +238,7 @@ function DataSearchResults(props) {
                     const partialLink = useDataNavigationLink(
                         original?._source.path,
                         original?._id,
-                        original?._type
+                        original?._type || original?._source?.doc_type
                     )[1];
                     return (
                         <Grid spacing={1}>

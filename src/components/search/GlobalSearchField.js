@@ -237,7 +237,7 @@ function ViewAllOption(props) {
 
 function DataSearchOption(props) {
     const { baseId, selectedOption, searchTerm } = props;
-    const type = selectedOption._type;
+    const type = selectedOption?._type || selectedOption?._source?.doc_type;
     const path = selectedOption._source?.path;
     const resourceId = selectedOption._source?.id;
     const name = selectedOption.name;

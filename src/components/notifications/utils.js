@@ -25,11 +25,16 @@ export function getDisplayMessage(notification) {
     }
 }
 
-export function isViceNotification(notification) {
-    const message = notification?.message;
-
+export function isAnalysisNotification(notification) {
     return (
-        NotificationCategory.ANALYSIS.toLowerCase() === message?.type &&
-        message?.payload?.interactive_urls?.length > 0
+        NotificationCategory.ANALYSIS.toLowerCase() ===
+        notification?.message?.type
+    );
+}
+
+export function isViceNotification(notification) {
+    return (
+        isAnalysisNotification(notification) &&
+        notification.message.payload?.interactive_urls?.length > 0
     );
 }

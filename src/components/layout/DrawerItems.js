@@ -10,11 +10,12 @@ import { useTranslation } from "i18n";
 import DrawerItem from "./DrawerItem";
 import ids from "./ids";
 import NavigationConstants from "common/NavigationConstants";
+import analysisStatus from "components/models/analysisStatus";
 import AnalysesIcon from "components/icons/AnalysesIcon";
 import DataIcon from "components/icons/DataIcon";
 import { TeamIcon } from "components/teams/Icons";
 import AdminDrawerItems from "./AdminDrawerItems";
-import { Divider, Hidden, List } from "@material-ui/core";
+import { Badge, Divider, Hidden, List } from "@material-ui/core";
 import { useUserProfile } from "contexts/userProfile";
 import AppsIcon from "@material-ui/icons/Apps";
 import HelpIcon from "@material-ui/icons/Help";
@@ -37,6 +38,22 @@ function InstantLaunchIcon(props) {
     return <InstantLaunchDefaultIcon {...props} />;
 }
 
+function WrappedAnalysesIcon(analysesStats) {
+    const runningStats =
+        analysesStats &&
+        analysesStats["status-count"].find(
+            (stat) => stat.status === analysisStatus.RUNNING
+        );
+
+    return runningStats?.count > 0
+        ? (props) => (
+              <Badge badgeContent={runningStats.count} color="error">
+                  <AnalysesIcon {...props} />
+              </Badge>
+          )
+        : AnalysesIcon;
+}
+
 function DrawerItems(props) {
     const {
         open,
@@ -44,6 +61,7 @@ function DrawerItems(props) {
         toggleDrawer,
         isXsDown,
         adminUser,
+        analysesStats,
         runningViceJobs,
         instantLaunches,
         computeLimitExceeded,
@@ -110,7 +128,7 @@ function DrawerItems(props) {
             <DrawerItem
                 title={t("analyses")}
                 id={ids.ANALYSES_MI}
-                icon={AnalysesIcon}
+                icon={WrappedAnalysesIcon(analysesStats)}
                 thisView={NavigationConstants.ANALYSES}
                 clsxBase={"analyses-intro"}
                 activeView={activeView}

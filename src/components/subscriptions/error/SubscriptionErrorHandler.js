@@ -59,7 +59,7 @@ function SubscriptionErrorHandler(props) {
 
     title = (
         <Typography component="span" variant="h6">
-            {errorObject.failure_reason}
+            {errorObject?.failure_reason}
         </Typography>
     );
 

@@ -65,7 +65,7 @@ DEErrorDialog.propTypes = {
     baseId: PropTypes.string,
     handleClose: PropTypes.func.isRequired,
     errorHandler: PropTypes.elementType,
-    errorObject: PropTypes.object.isRequired,
+    errorObject: PropTypes.object,
     open: PropTypes.bool.isRequired,
 };
 

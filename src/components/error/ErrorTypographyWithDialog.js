@@ -45,7 +45,7 @@ const ErrorTypographyWithDialog = ({
 ErrorTypographyWithDialog.propTypes = {
     baseId: PropTypes.string,
     errorMessage: PropTypes.string.isRequired,
-    errorObject: PropTypes.object.isRequired,
+    errorObject: PropTypes.object,
     errorHandler: PropTypes.elementType,
 };
 

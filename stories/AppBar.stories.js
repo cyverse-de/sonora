@@ -16,6 +16,9 @@ import { instantLaunchNavDrawerMock } from "./instantlaunches/admin/SavedLaunchL
 import {
     usageSummaryResponse,
     usageSummaryComputeLimitExceededResponse,
+    usageSummaryDiskUsage50percentResponse,
+    usageSummaryDiskUsage75percentResponse,
+    usageSummaryDiskUsage100percentResponse,
 } from "./usageSummaryMock";
 
 const mockUser = {
@@ -208,6 +211,39 @@ ComputeLimitExceeded.args = {
     mockRunningViceJobs: runningViceJobs,
     mockInstantLaunches: instantLaunchNavDrawerMock,
     mockUsageSummary: usageSummaryComputeLimitExceededResponse,
+};
+
+export const DataUsage50percent = appBarTestTemplate.bind({});
+DataUsage50percent.args = {
+    mockUserProfile: mockUser,
+    mockBootstrapResponse: bootStrap,
+    mockNotificationsData: notificationsData,
+    mockBagData: bag_data,
+    mockRunningViceJobs: runningViceJobs,
+    mockInstantLaunches: instantLaunchNavDrawerMock,
+    mockUsageSummary: usageSummaryDiskUsage50percentResponse,
+};
+
+export const DataUsage75percent = appBarTestTemplate.bind({});
+DataUsage75percent.args = {
+    mockUserProfile: mockUser,
+    mockBootstrapResponse: bootStrap,
+    mockNotificationsData: notificationsData,
+    mockBagData: bag_data,
+    mockRunningViceJobs: runningViceJobs,
+    mockInstantLaunches: instantLaunchNavDrawerMock,
+    mockUsageSummary: usageSummaryDiskUsage75percentResponse,
+};
+
+export const DataUsage100percent = appBarTestTemplate.bind({});
+DataUsage100percent.args = {
+    mockUserProfile: mockUser,
+    mockBootstrapResponse: bootStrap,
+    mockNotificationsData: notificationsData,
+    mockBagData: bag_data,
+    mockRunningViceJobs: runningViceJobs,
+    mockInstantLaunches: instantLaunchNavDrawerMock,
+    mockUsageSummary: usageSummaryDiskUsage100percentResponse,
 };
 
 export default {

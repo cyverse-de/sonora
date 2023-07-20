@@ -90,7 +90,7 @@ const Relaunch = ({ showErrorAnnouncer }) => {
     const { isFetching: fetchingUsageSummary } = useQuery({
         queryKey: [APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY],
         queryFn: getResourceUsageSummary,
-        enabled: !!config?.subscriptions?.enforce,
+        enabled: !!config?.subscriptions?.enforce && !!userProfile?.id,
         onSuccess: (respData) => {
             const usage = respData?.cpu_usage?.total || 0;
             const subscription = respData?.subscription;

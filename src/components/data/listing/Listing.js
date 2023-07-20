@@ -74,6 +74,7 @@ import MoveDialog from "../MoveDialog";
 import SearchForm from "components/search/form";
 
 import { useConfig } from "contexts/config";
+import { useUserProfile } from "contexts/userProfile";
 
 import {
     getResourceUsageSummary,
@@ -103,6 +104,7 @@ function Listing(props) {
 
     const { t } = useTranslation(["data", "common"]);
 
+    const [userProfile] = useUserProfile();
     const uploadTracker = useUploadTrackingState();
     const theme = useTheme();
     const [isGridView, setGridView] = useState(false);
@@ -247,7 +249,7 @@ function Listing(props) {
     const { isFetching: isFetchingUsageSummary } = useQuery({
         queryKey: [RESOURCE_USAGE_QUERY_KEY],
         queryFn: getResourceUsageSummary,
-        enabled: !!config?.subscriptions?.enforce,
+        enabled: !!config?.subscriptions?.enforce && !!userProfile?.id,
         onSuccess: (respData) => {
             const dataUsage = respData?.data_usage?.total || 0;
             const computeUsage = respData?.cpu_usage?.total || 0;

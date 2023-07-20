@@ -32,6 +32,7 @@ import {
 } from "serviceFacades/dashboard";
 import { getUserQuota } from "common/resourceUsage";
 import { useConfig } from "contexts/config";
+import { useUserProfile } from "contexts/userProfile";
 import globalConstants from "../../../constants";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
@@ -39,6 +40,7 @@ function Listing(props) {
     const { baseId, showErrorAnnouncer } = props;
     const [showAppDetails, setShowAppDetails] = useState(null);
     const [config] = useConfig();
+    const [userProfile] = useUserProfile();
     const [computeLimitExceeded, setComputeLimitExceeded] = useState(
         !!config?.subscriptions?.enforce
     );
@@ -65,7 +67,7 @@ function Listing(props) {
     const { isFetching: isFetchingUsageSummary } = useQuery({
         queryKey: [RESOURCE_USAGE_QUERY_KEY],
         queryFn: getResourceUsageSummary,
-        enabled: !!config?.subscriptions?.enforce,
+        enabled: !!config?.subscriptions?.enforce && !!userProfile?.id,
         onSuccess: (respData) => {
             const computeUsage = respData?.cpu_usage?.total || 0;
             const subscription = respData?.subscription;

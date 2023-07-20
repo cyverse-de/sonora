@@ -154,7 +154,7 @@ const Dashboard = (props) => {
     const { isFetching: fetchingUsageSummary } = useQuery({
         queryKey: [RESOURCE_USAGE_QUERY_KEY],
         queryFn: getResourceUsageSummary,
-        enabled: !!config?.subscriptions?.enforce,
+        enabled: !!config?.subscriptions?.enforce && !!userProfile?.id,
         onSuccess: (respData) => {
             const usage = respData?.cpu_usage?.total || 0;
             const subscription = respData?.subscription;

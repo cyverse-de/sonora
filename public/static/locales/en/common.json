@@ -20,6 +20,7 @@
     "create": "Create",
     "cyverse": "CyVerse",
     "data": "Data",
+    "dataNavUsageTitle": "{{percentage}}% usage",
     "description": "Description",
     "deTitle": "Discovery Environment",
     "delete": "Delete",

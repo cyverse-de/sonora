@@ -4,4 +4,7 @@ const bytesToGiB = (bytes) => {
     return parseFloat(bytes / bytesInGiB);
 };
 
-export { bytesInGiB, bytesToGiB };
+const formatUsagePercentage = (usage, quota) =>
+    quota ? ((usage / quota) * 100).toFixed(2) : 0;
+
+export { bytesInGiB, bytesToGiB, formatUsagePercentage };

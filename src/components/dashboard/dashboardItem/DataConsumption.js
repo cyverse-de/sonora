@@ -32,6 +32,7 @@ import {
     getFormattedDistance,
     formatDateObject,
 } from "components/utils/DateFormatter";
+import { formatUsagePercentage } from "components/subscriptions/utils";
 import ExternalLink from "components/utils/ExternalLink";
 
 import { getUserQuota } from "../../../common/resourceUsage";
@@ -71,7 +72,7 @@ const options = (usage, quota, date, distance, title, theme, t) => {
                 text: [
                     title,
                     t("consumptionChartSecondaryTitle", {
-                        percentage: ((usage / quota) * 100).toFixed(2),
+                        percentage: formatUsagePercentage(usage, quota),
                         timestamp: date,
                     }),
                 ],

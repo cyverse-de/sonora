@@ -15,7 +15,14 @@ import AnalysesIcon from "components/icons/AnalysesIcon";
 import DataIcon from "components/icons/DataIcon";
 import { TeamIcon } from "components/teams/Icons";
 import AdminDrawerItems from "./AdminDrawerItems";
-import { Badge, Divider, Hidden, List, Tooltip } from "@material-ui/core";
+import {
+    Badge,
+    Divider,
+    Hidden,
+    List,
+    Tooltip,
+    useTheme,
+} from "@material-ui/core";
 import { useUserProfile } from "contexts/userProfile";
 import AppsIcon from "@material-ui/icons/Apps";
 import HelpIcon from "@material-ui/icons/Help";
@@ -41,31 +48,31 @@ function InstantLaunchIcon(props) {
     return <InstantLaunchDefaultIcon {...props} />;
 }
 
-function WrappedDataIcon(dataUsagePercentage, t) {
-    if (dataUsagePercentage >= 50) {
-        const usageTitle = t("dataNavUsageTitle", {
-            percentage: dataUsagePercentage,
-        });
-
-        const BadgeContent =
-            dataUsagePercentage >= 100 ? (
-                <ErrorIcon color="error" />
-            ) : dataUsagePercentage >= 75 ? (
-                <WarningIcon color="secondary" />
-            ) : (
-                <InfoIcon color="secondary" />
-            );
-
-        return (props) => (
-            <Tooltip title={usageTitle} placement="top-start">
-                <Badge badgeContent={BadgeContent}>
-                    <DataIcon {...props} />
-                </Badge>
-            </Tooltip>
-        );
+function WrappedDataIcon(dataUsagePercentage, t, theme) {
+    if (dataUsagePercentage < 50) {
+        return DataIcon;
     }
 
-    return DataIcon;
+    const usageTitle = t("dataNavUsageTitle", {
+        percentage: dataUsagePercentage,
+    });
+
+    const BadgeContent =
+        dataUsagePercentage >= 100 ? (
+            <ErrorIcon color="error" />
+        ) : dataUsagePercentage >= 75 ? (
+            <WarningIcon style={{ color: theme.palette.yellow }} />
+        ) : (
+            <InfoIcon color="secondary" />
+        );
+
+    return (props) => (
+        <Tooltip title={usageTitle} placement="top-start">
+            <Badge badgeContent={BadgeContent}>
+                <DataIcon {...props} />
+            </Badge>
+        </Tooltip>
+    );
 }
 
 function WrappedAnalysesIcon(analysesStats) {
@@ -98,6 +105,7 @@ function DrawerItems(props) {
         dataUsagePercentage,
     } = props;
     const { t } = useTranslation(["common"]);
+    const theme = useTheme();
     const [userProfile] = useUserProfile();
 
     return (
@@ -115,7 +123,7 @@ function DrawerItems(props) {
             <DrawerItem
                 title={t("data")}
                 id={ids.DATA_MI}
-                icon={WrappedDataIcon(dataUsagePercentage, t)}
+                icon={WrappedDataIcon(dataUsagePercentage, t, theme)}
                 thisView={NavigationConstants.DATA}
                 clsxBase={"data-intro"}
                 activeView={activeView}

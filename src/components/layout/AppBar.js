@@ -15,6 +15,7 @@ import clsx from "clsx";
 import NavigationConstants from "common/NavigationConstants";
 import Bag from "components/bags";
 import searchConstants from "components/search/constants";
+import { formatUsagePercentage } from "components/subscriptions/utils";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import { useBootstrapInfo } from "contexts/bootstrap";
@@ -131,6 +132,7 @@ function DEAppBar(props) {
     const [computeLimitExceeded, setComputeLimitExceeded] = useState(
         !!config?.subscriptions?.enforce
     );
+    const [dataUsagePercentage, setDataUsagePercentage] = useState(0);
 
     if (activeView === NavigationConstants.APPS) {
         filter = searchConstants.APPS;
@@ -199,13 +201,23 @@ function DEAppBar(props) {
         queryFn: getResourceUsageSummary,
         enabled: !!config?.subscriptions?.enforce && !!userProfile?.id,
         onSuccess: (respData) => {
-            const usage = respData?.cpu_usage?.total || 0;
+            const computeUsage = respData?.cpu_usage?.total || 0;
+            const dataUsage = respData?.data_usage?.total || 0;
             const subscription = respData?.subscription;
-            const quota = getUserQuota(
+
+            const computeQuota = getUserQuota(
                 constants.CPU_HOURS_RESOURCE_NAME,
                 subscription
             );
-            setComputeLimitExceeded(usage >= quota);
+            const storageQuota = getUserQuota(
+                constants.DATA_STORAGE_RESOURCE_NAME,
+                subscription
+            );
+
+            setComputeLimitExceeded(computeUsage >= computeQuota);
+            setDataUsagePercentage(
+                formatUsagePercentage(dataUsage, storageQuota)
+            );
         },
         onError: (e) => {
             showErrorAnnouncer(t("usageSummaryError"), e);
@@ -457,7 +469,7 @@ function DEAppBar(props) {
                         [classes.drawerClose]: !open,
                     }),
                 }}
-                open={isXsDown ? open : false}
+                open={isXsDown ? open : true}
                 onClose={isXsDown ? toggleDrawer(false) : undefined}
             >
                 <Hidden xsDown>
@@ -522,6 +534,7 @@ function DEAppBar(props) {
                     runningViceJobs={runningViceJobs}
                     instantLaunches={instantLaunches}
                     computeLimitExceeded={computeLimitExceeded}
+                    dataUsagePercentage={dataUsagePercentage}
                 />
             </Drawer>
             <CyVerseAnnouncer />

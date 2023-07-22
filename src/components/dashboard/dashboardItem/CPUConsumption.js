@@ -26,6 +26,7 @@ import { getErrorCode } from "components/error/errorCode";
 import { Typography, useTheme } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import { formatDateObject } from "components/utils/DateFormatter";
+import { formatUsagePercentage } from "components/subscriptions/utils";
 
 import { getUserQuota } from "../../../common/resourceUsage";
 
@@ -64,7 +65,7 @@ const options = (usage, quota, timestamp, title, theme, t) => {
                 text: [
                     title,
                     t("consumptionChartSecondaryTitle", {
-                        percentage: ((usage / quota) * 100).toFixed(2),
+                        percentage: formatUsagePercentage(usage, quota),
                         timestamp,
                     }),
                 ],

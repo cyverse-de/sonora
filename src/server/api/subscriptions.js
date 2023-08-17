@@ -80,7 +80,7 @@ export default function subscriptionsRouter() {
         })
     );
 
-    // Return details about a subscription
+    // Administrators can return details about a subscription
     logger.info("adding the GET /admin/qms/users/:username/plan handler");
     api.get(
         "/admin/qms/users/:username/plan",
@@ -88,6 +88,17 @@ export default function subscriptionsRouter() {
         terrainHandler({
             method: "GET",
             pathname: "/admin/qms/users/:username/plan",
+        })
+    );
+
+    // Return details about a user's subscription
+    logger.info("adding the GET /qms/user/plan handler");
+    api.get(
+        "/qms/user/plan",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/qms/user/plan",
         })
     );
 

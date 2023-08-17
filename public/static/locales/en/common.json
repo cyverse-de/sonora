@@ -92,6 +92,7 @@
     "update": "Update",
     "updateAccountInformation": "Update Account Information",
     "updateNow": "Update Now",
+    "userPlanError": "Unable to get user plan details.",
     "usageSummaryError": "Unable to get usage summary.",
     "useOldDEForThisFeature": "Please use the <oldDELink>previous version of the Discovery Environment</oldDELink> for access to this feature, until we can add it to this version.",
     "userMenuAriaLabel": "user menu",

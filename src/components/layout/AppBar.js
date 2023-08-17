@@ -26,10 +26,7 @@ import {
     useBootStrap,
     USER_PROFILE_QUERY_KEY,
 } from "serviceFacades/users";
-import {
-    getSubscriptionDetails,
-    SUBSCRIPTION_DETAILS_QUERY_KEY,
-} from "serviceFacades/subscriptions";
+import { getUserPlan, USER_PLAN_QUERY_KEY } from "serviceFacades/subscriptions";
 
 import constants from "../../constants";
 import withErrorAnnouncer from "../error/withErrorAnnouncer";
@@ -156,20 +153,19 @@ function DEAppBar(props) {
     useQuery({
         queryKey: USER_PROFILE_QUERY_KEY,
         queryFn: getUserProfile,
-
         enabled: profileRefetchInterval != null,
         onSuccess: updateUserProfile,
         refetchInterval: profileRefetchInterval,
     });
 
     useQuery({
-        queryKey: [
-            SUBSCRIPTION_DETAILS_QUERY_KEY,
-            { username: userProfile?.id },
-        ],
-        queryFn: () => getSubscriptionDetails(userProfile?.id),
-        enabled: !!userProfile?.id,
+        queryKey: USER_PLAN_QUERY_KEY,
+        queryFn: getUserPlan,
+        enabled: !!config?.subscriptions?.enforce && !!userProfile?.id,
         onSuccess: setUserSubscription,
+        onError: (e) => {
+            showErrorAnnouncer(t("userPlanError"), e);
+        },
     });
 
     useEffect(() => {

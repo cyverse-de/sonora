@@ -13,10 +13,10 @@ import GlobalFilter from "./GlobalFilter";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import { makeStyles } from "@material-ui/core/styles";
-import Toolbar from "@material-ui/core/Toolbar";
-import { Button } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+import makeStyles from "@mui/styles/makeStyles";
+import Toolbar from "@mui/material/Toolbar";
+import { Button } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 const useToolbarStyles = makeStyles((theme) => ({
     root: {
@@ -24,7 +24,7 @@ const useToolbarStyles = makeStyles((theme) => ({
         paddingRight: theme.spacing(1),
     },
     toolbarItems: {
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(0.5),
         },
         [theme.breakpoints.up("sm")]: {

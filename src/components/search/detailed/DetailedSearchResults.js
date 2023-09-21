@@ -28,16 +28,16 @@ import DataIcon from "components/icons/DataIcon";
 import {
     Divider,
     IconButton,
-    makeStyles,
     Paper,
     Tab,
     Tabs,
     Typography,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
-import AppsIcon from "@material-ui/icons/Apps";
-import SearchIcon from "@material-ui/icons/Search";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import AppsIcon from "@mui/icons-material/Apps";
+import SearchIcon from "@mui/icons-material/Search";
 
 import { useConfig } from "contexts/config";
 
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(0.25),
         margin: 0,
         height: 72,
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             height: 68,
         },
     },
@@ -81,7 +81,7 @@ function DetailedSearchResults(props) {
     } = props;
     const classes = useStyles();
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { t } = useTranslation(["common", "search"]);
 
     const [appsCount, setAppsCount] = useState(0);
@@ -121,7 +121,7 @@ function DetailedSearchResults(props) {
         return (
             <div>
                 <span>
-                    <IconButton disabled>
+                    <IconButton disabled size="large">
                         <SearchIcon color="primary" />
                     </IconButton>
                 </span>

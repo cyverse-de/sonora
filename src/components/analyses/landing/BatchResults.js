@@ -28,8 +28,8 @@ import {
     AccordionSummary,
     Button,
     Typography,
-} from "@material-ui/core";
-import { ExpandMore } from "@material-ui/icons";
+} from "@mui/material";
+import { ExpandMore } from "@mui/icons-material";
 
 export default function BatchResults(props) {
     const { baseId, parentId, enabled } = props;

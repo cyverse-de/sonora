@@ -73,13 +73,13 @@ import {
     Hidden,
     Typography,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 import {
     ContactSupport,
     ExpandMore,
     Refresh,
     Launch,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import BackButton from "components/utils/BackButton";
 import PendingTerminationDlg from "components/analyses/PendingTerminationDlg";
 import { openInteractiveUrl } from "../utils";
@@ -357,7 +357,7 @@ export default function AnalysisSubmissionLanding(props) {
                     </Grid>
                     <Grid item>
                         <Grid container spacing={1}>
-                            <Hidden smDown>
+                            <Hidden mdDown>
                                 {isVICE && !isTerminatedAnalysis && (
                                     <Grid item>
                                         <Button
@@ -376,7 +376,7 @@ export default function AnalysisSubmissionLanding(props) {
                                             }
                                             startIcon={<Launch />}
                                         >
-                                            <Hidden xsDown>
+                                            <Hidden smDown>
                                                 {t("goToVice")}
                                             </Hidden>
                                         </Button>
@@ -392,7 +392,7 @@ export default function AnalysisSubmissionLanding(props) {
                                         onClick={refreshAnalysis}
                                         startIcon={<Refresh />}
                                     >
-                                        <Hidden xsDown>{t("refresh")}</Hidden>
+                                        <Hidden smDown>{t("refresh")}</Hidden>
                                     </Button>
                                 </Grid>
                                 <Grid item>

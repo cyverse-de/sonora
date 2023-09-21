@@ -11,9 +11,11 @@ import ids from "../ids";
 import styles from "../styles";
 
 import buildID from "components/utils/DebugIDUtil";
-import { Button, makeStyles, Menu } from "@material-ui/core";
+import { Button, Menu } from "@mui/material";
 
-import { ArrowDropDown, Delete } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { ArrowDropDown, Delete } from "@mui/icons-material";
 import TrashMenuItems from "./TrashMenuItems";
 
 const useStyles = makeStyles(styles);

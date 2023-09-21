@@ -14,13 +14,13 @@ import {
     Hidden,
     ListItemIcon,
     ListItemText,
-    makeStyles,
     MenuItem,
     TextField,
     Toolbar,
     Typography,
-} from "@material-ui/core";
-import { Add, Help } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Add, Help } from "@mui/icons-material";
 
 import ids from "./ids";
 import styles from "./styles";
@@ -72,7 +72,7 @@ function CollectionToolbar(props) {
                 </MenuItem>
             </TextField>
             <div className={classes.divider} />
-            <Hidden xsDown>
+            <Hidden smDown>
                 <Button
                     color="primary"
                     variant="outlined"
@@ -84,7 +84,7 @@ function CollectionToolbar(props) {
                     {t("createCollection")}
                 </Button>
             </Hidden>
-            <Hidden xsDown>
+            <Hidden smDown>
                 <Button
                     color="primary"
                     variant="outlined"

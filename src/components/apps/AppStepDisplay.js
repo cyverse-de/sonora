@@ -14,15 +14,16 @@ import {
     CardActions,
     CardContent,
     CardHeader,
-    makeStyles,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { Skeleton } from "@material-ui/lab";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { Skeleton } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     cardContent: {
         overflow: "auto",
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             padding: theme.spacing(1),
         },
     },
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const BottomNavigationSkeleton = React.forwardRef((props, ref) => (
-    <Skeleton variant="rect" width="100%" ref={ref}>
+    <Skeleton variant="rectangular" width="100%" ref={ref}>
         <ButtonGroup>
             <Button>&nbsp;</Button>
             <Button>&nbsp;</Button>

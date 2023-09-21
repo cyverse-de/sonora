@@ -1,4 +1,4 @@
-import { createTheme } from "@material-ui/core/styles";
+import { createTheme } from "@mui/material/styles";
 import palette from "./CyVersePalette";
 
 /**
@@ -10,7 +10,7 @@ import palette from "./CyVersePalette";
 const getMuiTheme = () =>
     createTheme({
         palette: {
-            type: "light",
+            mode: "light",
 
             // All intentions should be defined with references to colors from the new palette.
             primary: {

@@ -13,14 +13,14 @@ import {
     Drawer,
     IconButton,
     InputAdornment,
-    makeStyles,
     TextField,
     Toolbar,
     Typography,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
-import { Directions } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Directions } from "@mui/icons-material";
 import PropTypes from "prop-types";
 import { useTranslation } from "i18n";
 
@@ -34,7 +34,7 @@ import useComponentHeight from "../utils/useComponentHeight";
 import { DEFAULT_PAGE_SETTINGS } from "components/data/utils";
 import { getLocalStorage } from "components/utils/localStorage";
 
-import FolderIcon from "@material-ui/icons/Folder";
+import FolderIcon from "@mui/icons-material/Folder";
 
 const useStyles = makeStyles(styles);
 
@@ -101,7 +101,7 @@ function SelectionToolbar(props) {
     const classes = useStyles();
     const { t } = useTranslation("data");
     const [displayPath, setDisplayPath] = useState("");
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const toolbarRef = useRef(null);
 

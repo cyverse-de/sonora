@@ -12,7 +12,7 @@ export default (theme) => ({
         [theme.breakpoints.up("md")]: {
             minWidth: "50%",
         },
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down("lg")]: {
             width: "90%",
         },
     },

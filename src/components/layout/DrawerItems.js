@@ -15,26 +15,19 @@ import AnalysesIcon from "components/icons/AnalysesIcon";
 import DataIcon from "components/icons/DataIcon";
 import { TeamIcon } from "components/teams/Icons";
 import AdminDrawerItems from "./AdminDrawerItems";
-import {
-    Badge,
-    Divider,
-    Hidden,
-    List,
-    Tooltip,
-    useTheme,
-} from "@material-ui/core";
+import { Badge, Divider, Hidden, List, Tooltip, useTheme } from "@mui/material";
 import { useUserProfile } from "contexts/userProfile";
-import AppsIcon from "@material-ui/icons/Apps";
-import HelpIcon from "@material-ui/icons/Help";
-import HomeIcon from "@material-ui/icons/Home";
-import NestedIcon from "@material-ui/icons/LabelImportant";
-import InstantLaunchDefaultIcon from "@material-ui/icons/PlayCircleOutlineOutlined";
-import SearchIcon from "@material-ui/icons/Search";
-import SettingsIcon from "@material-ui/icons/Settings";
-import InfoIcon from "@material-ui/icons/Info";
-import ErrorIcon from "@material-ui/icons/Error";
-import WarningIcon from "@material-ui/icons/Warning";
-import { Web } from "@material-ui/icons";
+import AppsIcon from "@mui/icons-material/Apps";
+import HelpIcon from "@mui/icons-material/Help";
+import HomeIcon from "@mui/icons-material/Home";
+import NestedIcon from "@mui/icons-material/LabelImportant";
+import InstantLaunchDefaultIcon from "@mui/icons-material/PlayCircleOutlineOutlined";
+import SearchIcon from "@mui/icons-material/Search";
+import SettingsIcon from "@mui/icons-material/Settings";
+import InfoIcon from "@mui/icons-material/Info";
+import ErrorIcon from "@mui/icons-material/Error";
+import WarningIcon from "@mui/icons-material/Warning";
+import { Web } from "@mui/icons-material";
 import { openInteractiveUrl } from "../analyses/utils";
 import { CollectionIcon } from "../collections/Icons";
 import InstantLaunchButtonWrapper from "../instantlaunches/InstantLaunchButtonWrapper";

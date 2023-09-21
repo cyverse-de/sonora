@@ -29,7 +29,6 @@ import DELink from "components/utils/DELink";
 import EmptyTable from "components/table/EmptyTable";
 
 import {
-    makeStyles,
     Link as MUILink,
     Paper,
     Table,
@@ -39,7 +38,9 @@ import {
     Typography,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import styles from "components/utils/runningAnimation";
 
@@ -181,7 +182,7 @@ function TableView(props) {
     const running = useRunningAnalysesStyles();
     const { t } = useTranslation("analyses");
 
-    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+    const isSmall = useMediaQuery(theme.breakpoints.down("md"));
     let columns = columnData(t);
     //hide actions on small screens
     if (isSmall) {

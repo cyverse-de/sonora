@@ -20,8 +20,8 @@ import DEDialog from "components/utils/DEDialog";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 import { Field, Form, Formik } from "formik";
-import { Button } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Button } from "@mui/material";
+import { Skeleton } from "@mui/material";
 
 function DetailsDialog(props) {
     const { open, requestId, onClose } = props;
@@ -71,7 +71,7 @@ function DetailsDialog(props) {
                             {isDetailsFetching && (
                                 <Skeleton
                                     animation="wave"
-                                    variant="rect"
+                                    variant="rectangular"
                                     height={400}
                                 />
                             )}

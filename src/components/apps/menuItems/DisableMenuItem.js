@@ -8,9 +8,9 @@ import ids from "../ids";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 
-import { Block as DisableIcon } from "@material-ui/icons";
+import { Block as DisableIcon } from "@mui/icons-material";
 
 export default function DisableMenuItem(props) {
     const { baseId, isDisabled, handleDisable, onClose } = props;

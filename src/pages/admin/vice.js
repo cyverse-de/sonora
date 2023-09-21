@@ -9,7 +9,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { useQuery } from "react-query";
 
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
@@ -25,7 +25,7 @@ import efcs from "components/vice/admin/filter/efcs";
 import ids from "components/vice/admin/ids";
 import { BASE_ID } from "components/vice/admin/constants";
 
-import { Skeleton } from "@material-ui/lab";
+import { Skeleton } from "@mui/material";
 
 import { JSONPath } from "jsonpath-plus";
 
@@ -47,7 +47,7 @@ const VICEAdminSkeleton = () => {
     return (
         <>
             <Skeleton
-                variant="rect"
+                variant="rectangular"
                 animation="wave"
                 height={100}
                 width="100%"
@@ -55,7 +55,7 @@ const VICEAdminSkeleton = () => {
                 classes={{ root: classes.filterSkeleton }}
             />
             <Skeleton
-                variant="rect"
+                variant="rectangular"
                 animation="wave"
                 height={300}
                 width="100%"
@@ -70,12 +70,12 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(3),
         paddingRight: theme.spacing(3),
         paddingTop: theme.spacing(3),
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             paddingLeft: theme.spacing(1),
             paddingRight: theme.spacing(1),
             paddingTop: theme.spacing(1),
         },
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             paddingLeft: theme.spacing(0.5),
             paddingRight: theme.spacing(0.5),
             paddingTop: theme.spacing(0.5),

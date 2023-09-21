@@ -4,7 +4,7 @@ import { useTranslation } from "i18n";
 import { Field, getIn } from "formik";
 import ids from "../ids";
 
-import { Table, TableBody, TableCell, Typography } from "@material-ui/core";
+import { Table, TableBody, TableCell, Typography } from "@mui/material";
 import SimpleExpansionPanel from "components/utils/SimpleExpansionPanel";
 
 import { DERow } from "components/table/DERow";

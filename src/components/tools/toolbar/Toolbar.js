@@ -29,13 +29,14 @@ import {
     DialogActions,
     DialogContent,
     Hidden,
-    makeStyles,
     TextField,
     Toolbar,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { Info } from "@material-ui/icons";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { Info } from "@mui/icons-material";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     filter: {
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             width: 175,
             margin: theme.spacing(0.2),
         },
@@ -55,13 +56,13 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     filterIcon: {
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(0.2),
             paddingLeft: 0,
         },
     },
     toolbarItems: {
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(0.5),
         },
         [theme.breakpoints.up("sm")]: {
@@ -84,7 +85,7 @@ function PermissionsFilter(props) {
                 handleFilterChange(filter?.value);
             }}
             getOptionLabel={(option) => option.name}
-            getOptionSelected={(option, value) => option.name === value.name}
+            isOptionEqualToValue={(option, value) => option.name === value.name}
             className={classes.filter}
             renderInput={(params) => (
                 <TextField
@@ -149,7 +150,7 @@ export default function ToolsToolbar(props) {
     return (
         <>
             <Toolbar variant="dense">
-                <Hidden xsDown>
+                <Hidden smDown>
                     {!(isAdmin || filterDisabled) && (
                         <PermissionsFilter
                             baseId={baseId}
@@ -165,7 +166,7 @@ export default function ToolsToolbar(props) {
                         placeholder={t("searchTools")}
                     />
                 </Hidden>
-                <Hidden smDown>
+                <Hidden mdDown>
                     {isSingleSelection && (
                         <Button
                             id={buildID(baseId, ids.MANAGE_TOOLS.TOOL_INFO_BTN)}

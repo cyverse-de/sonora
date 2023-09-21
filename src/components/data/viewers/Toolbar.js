@@ -48,8 +48,8 @@ import {
     useTheme,
     useMediaQuery,
     Tooltip,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import {
     Add,
     CloudDownload,
@@ -60,7 +60,7 @@ import {
     Save,
     Visibility as ReadOnlyIcon,
     Edit as EditableIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -125,7 +125,7 @@ function ViewerToolbar(props) {
     const [fileSavePath, setFileSavePath] = useState();
 
     const classes = useStyles();
-    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+    const isSmall = useMediaQuery(theme.breakpoints.down("md"));
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();
@@ -232,7 +232,7 @@ function ViewerToolbar(props) {
                 color="primary"
                 {...props}
             >
-                <Hidden xsDown>{text}</Hidden>
+                <Hidden smDown>{text}</Hidden>
             </Button>
         );
     };

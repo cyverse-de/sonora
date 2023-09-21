@@ -9,11 +9,12 @@ import {
     IconButton,
     List,
     ListItem,
-    makeStyles,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { Cancel as CancelIcon, Close } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { Cancel as CancelIcon, Close } from "@mui/icons-material";
 
 import buildID from "components/utils/DebugIDUtil";
 
@@ -84,6 +85,7 @@ const DownloadLinksDialog = ({
                         constants.CLOSE,
                         constants.button
                     )}
+                    size="large"
                 >
                     <Close />
                 </IconButton>
@@ -120,6 +122,7 @@ const DownloadLinksDialog = ({
                             constants.CANCEL,
                             constants.BUTTON
                         )}
+                        size="large"
                     >
                         <CancelIcon />
                     </IconButton>

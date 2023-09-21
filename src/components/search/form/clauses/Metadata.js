@@ -14,7 +14,7 @@ import { FormTextField } from "components/forms/FormField";
 import buildID from "components/utils/DebugIDUtil";
 import { useTranslation } from "i18n";
 import ids from "../ids";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 const METADATA_TYPE = "metadata";
 const METADATA_ARGS_DEFAULT = { attribute: "", value: "" };

@@ -55,7 +55,7 @@ const LayoutStyles = (theme) => ({
         [theme.breakpoints.up("sm")]: {
             margin: theme.spacing(2),
         },
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(0.2),
         },
     },

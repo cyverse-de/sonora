@@ -6,6 +6,9 @@ import { AnalysesTableViewTest } from "../../stories/analyses/TableView.stories"
 import { ConfigProvider } from "contexts/config";
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { RQWrapper } from "../__mocks__/RQWrapper";
+
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "components/theme/default";
 beforeEach(() => {
     mockAxios.reset();
 });
@@ -19,7 +22,9 @@ test("renders Analyses Listing Table without crashing", () => {
         <RQWrapper>
             <I18nProviderWrapper>
                 <ConfigProvider>
-                    <AnalysesTableViewTest />
+                    <ThemeProvider theme={theme}>
+                        <AnalysesTableViewTest />
+                    </ThemeProvider>
                 </ConfigProvider>
             </I18nProviderWrapper>
         </RQWrapper>

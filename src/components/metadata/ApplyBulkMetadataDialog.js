@@ -23,12 +23,7 @@ import FileInput from "components/apps/launch/params/FileInput";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import { applyBulkMetadataFromFile } from "serviceFacades/metadata";
 
-import {
-    Button,
-    CircularProgress,
-    Typography,
-    useTheme,
-} from "@material-ui/core";
+import { Button, CircularProgress, Typography, useTheme } from "@mui/material";
 
 export default function ApplyBulkMetadataDialog(props) {
     const { open, handleClose, destFolder } = props;

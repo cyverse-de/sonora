@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
-import { Button } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Button } from "@mui/material";
+import { Skeleton } from "@mui/material";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { ERROR, SUCCESS } from "components/announcer/AnnouncerConstants";
@@ -15,7 +15,12 @@ import { asyncData } from "../../../../serviceFacades/vice/admin";
 
 const ActionButtonsSkeleton = () => {
     return (
-        <Skeleton variant="rect" animation="wave" height={75} width="100%" />
+        <Skeleton
+            variant="rectangular"
+            animation="wave"
+            height={75}
+            width="100%"
+        />
     );
 };
 

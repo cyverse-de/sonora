@@ -5,7 +5,7 @@ import {
     OpenInBrowser,
     Link,
     RssFeed,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { formatDate } from "components/utils/DateFormatter";
 
 import * as fns from "../functions";

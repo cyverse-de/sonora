@@ -3,8 +3,8 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 import appType from "components/models/AppType";
 import buildID from "components/utils/DebugIDUtil";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { TextField } from "@material-ui/core";
+import Autocomplete from "@mui/material/Autocomplete";
+import { TextField } from "@mui/material";
 
 function getFilters() {
     return Object.values(appType);
@@ -25,7 +25,9 @@ export default function AppsTypeFilter(props) {
                 handleFilterChange(newValue);
             }}
             getOptionLabel={(option) => option.display}
-            getOptionSelected={(option, value) => option.value === value.value}
+            isOptionEqualToValue={(option, value) =>
+                option.value === value.value
+            }
             className={classes.filter}
             renderInput={(params) => (
                 <TextField

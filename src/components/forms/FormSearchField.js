@@ -4,9 +4,7 @@
 import React from "react";
 import { useTranslation } from "i18n";
 
-import Autocomplete, {
-    createFilterOptions,
-} from "@material-ui/lab/Autocomplete";
+import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 
 import FormTextField from "./FormTextField";
 
@@ -50,7 +48,7 @@ const FormSearchField = ({
     return (
         <Autocomplete
             id={id}
-            getOptionSelected={(option, value) =>
+            isOptionEqualToValue={(option, value) =>
                 option[labelKey] === value[labelKey]
             }
             getOptionLabel={(option) => (option && option[labelKey]) || ""}
@@ -62,7 +60,9 @@ const FormSearchField = ({
             handleHomeEndKeys={true}
             onInputChange={handleSearch}
             onChange={onOptionSelected}
-            renderOption={(option, state) => renderCustomOption(option)}
+            renderOption={(props, option) => (
+                <li {...props}>{renderCustomOption(option)}</li>
+            )}
             filterOptions={(options, params) => {
                 const filtered = filter(options, params);
                 const { inputValue } = params;

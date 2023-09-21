@@ -13,7 +13,7 @@ import ids from "./ids";
 import Toolbar from "./Toolbar";
 import buildID from "components/utils/DebugIDUtil";
 
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
 export default function DocumentViewer(props) {
     const { baseId, path, resourceId, handlePathChange, onRefresh, fileName } =

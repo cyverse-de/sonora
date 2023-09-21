@@ -9,7 +9,9 @@
  */
 import React from "react";
 
-import { Grid, makeStyles, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import { useTranslation } from "i18n";
 import GridLabelValue from "components/utils/GridLabelValue";

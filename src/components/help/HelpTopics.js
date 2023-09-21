@@ -23,16 +23,16 @@ import {
     CardContent,
     Button,
     Typography,
-} from "@material-ui/core";
-import LaunchIcon from "@material-ui/icons/Launch";
-import LiveHelpIcon from "@material-ui/icons/LiveHelp";
-import { makeStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import LaunchIcon from "@mui/icons-material/Launch";
+import LiveHelpIcon from "@mui/icons-material/LiveHelp";
+import makeStyles from "@mui/styles/makeStyles";
 import { useConfig } from "contexts/config";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         width: 350,
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             marginLeft: theme.spacing(1),
             width: 275,
             height: 210,

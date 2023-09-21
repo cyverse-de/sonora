@@ -23,9 +23,9 @@ import {
     MenuItem,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { Add, Delete, Info, Edit, FilterList, Send } from "@material-ui/icons";
+import { Add, Delete, Info, Edit, FilterList, Send } from "@mui/icons-material";
 
 function DotMenuItems(props) {
     const {
@@ -47,7 +47,7 @@ function DotMenuItems(props) {
 
     const { t } = useTranslation("tools");
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     return [
         <Hidden mdUp key="hiddenMdUp">

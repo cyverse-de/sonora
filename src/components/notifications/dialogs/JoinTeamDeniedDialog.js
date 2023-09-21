@@ -11,7 +11,7 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 import DEDialog from "../../utils/DEDialog";
 import buildID from "components/utils/DebugIDUtil";
-import { Button, TextField, Typography } from "@material-ui/core";
+import { Button, TextField, Typography } from "@mui/material";
 import { useNotifications } from "contexts/pushNotifications";
 
 function JoinTeamDeniedDialog(props) {

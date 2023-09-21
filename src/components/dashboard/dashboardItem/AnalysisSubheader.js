@@ -8,7 +8,7 @@
 import React from "react";
 import { Trans, useTranslation } from "i18n";
 
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
 import useAnalysisRunTime from "components/analyses/useAnalysisRunTime";
 import analysisStatus from "components/models/analysisStatus";
 

@@ -6,10 +6,11 @@ import {
     TextField,
     Typography,
     CardHeader,
-    makeStyles,
     Button,
     FormControl,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import { useMutation } from "react-query";
 import { useTranslation } from "i18n";
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         marginBottom: theme.spacing(4),
         width: "100%",
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             flexDirection: "column",
             justifyContent: "center",
         },
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     button: {
         marginLeft: theme.spacing(1),
         marginTop: theme.spacing(1),
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             width: "100%",
             marginLeft: 0,
         },

@@ -16,20 +16,20 @@ import {
     Hidden,
     ListItemIcon,
     ListItemText,
-    makeStyles,
     MenuItem,
     TextField,
     Toolbar,
     Typography,
-} from "@material-ui/core";
-import { Help } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Help } from "@mui/icons-material";
 import { AddTeamIcon } from "./Icons";
 
 import ids from "./ids";
 import styles from "./styles";
 import { TEAM_FILTER } from "./index";
 import { Trans, useTranslation } from "i18n";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import Autocomplete from "@mui/material/Autocomplete";
 import DEDialog from "../utils/DEDialog";
 
 const useStyles = makeStyles(styles);
@@ -74,7 +74,7 @@ function TeamToolbar(props) {
                 )}
             />
             <div className={classes.divider} />
-            <Hidden xsDown>
+            <Hidden smDown>
                 <Button
                     color="primary"
                     variant="outlined"

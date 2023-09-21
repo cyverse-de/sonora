@@ -15,7 +15,7 @@ import {
     DialogTitle,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import buildID from "components/utils/DebugIDUtil";
 
@@ -34,7 +34,7 @@ function ConfirmationDialog(props) {
 
     const theme = useTheme();
     const { t } = useTranslation("common");
-    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+    const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
     const dialogTitleId = buildID(baseId, ids.DIALOG.TITLE);
 

@@ -15,7 +15,7 @@ import {
     Divider,
     useTheme,
     Card,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import DataConsumption from "./DataConsumption";
 import AnalysesStats from "./AnalysesStats";
@@ -27,7 +27,7 @@ import { formatDateObject } from "components/utils/DateFormatter";
 import { FEATURE_MATRIX_URL } from "../constants";
 import { useConfig } from "contexts/config";
 
-import { Skeleton } from "@material-ui/lab";
+import { Skeleton } from "@mui/material";
 
 export default function ResourceUsageItem(props) {
     const { resourceUsageSummary, resourceUsageError, isLoading } = props;
@@ -36,7 +36,7 @@ export default function ResourceUsageItem(props) {
     const [config] = useConfig();
     const theme = useTheme();
     if (isLoading) {
-        return <Skeleton variant="rect" width={800} height={200} />;
+        return <Skeleton variant="rectangular" width={800} height={200} />;
     }
 
     const subscription = resourceUsageSummary?.subscription;

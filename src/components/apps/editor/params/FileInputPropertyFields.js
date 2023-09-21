@@ -20,7 +20,7 @@ import VisibleField from "./common/VisibleField";
 
 import FileInput from "components/apps/launch/params/FileInput";
 
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 export default function FileInputPropertyFields(props) {
     const { baseId, cosmeticOnly, fieldName } = props;

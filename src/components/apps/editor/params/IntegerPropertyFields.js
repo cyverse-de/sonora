@@ -22,7 +22,7 @@ import { ValidatorTypes } from "components/models/AppParamTypes";
 import buildID from "components/utils/DebugIDUtil";
 import FormIntegerField from "components/forms/FormIntegerField";
 
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 export default function IntegerPropertyFields(props) {
     const { baseId, cosmeticOnly, fieldName, param } = props;

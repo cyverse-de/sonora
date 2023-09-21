@@ -21,11 +21,12 @@ import {
     Card,
     CardContent,
     CardHeader,
-    makeStyles,
     TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { ArrowDownward, ArrowUpward } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 
 const useStyles = makeStyles(styles);
 

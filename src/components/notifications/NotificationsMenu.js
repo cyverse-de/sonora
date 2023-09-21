@@ -11,7 +11,7 @@ import ids from "./ids";
 import withErrorAnnouncer from "../error/withErrorAnnouncer";
 
 import buildID from "components/utils/DebugIDUtil";
-import { ListItem, Menu } from "@material-ui/core";
+import { ListItem, Menu } from "@mui/material";
 import NotLoggedIn from "../error/NotLoggedIn";
 import { DETab, DETabPanel, DETabs } from "../utils/DETabs";
 import NotificationsTab from "./NotificationsTab";

@@ -6,7 +6,7 @@
  */
 
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@mui/material";
 
 // A grid where the secondary column, values, intentionally take up more
 // space than the first column, labels

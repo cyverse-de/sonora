@@ -41,7 +41,7 @@ import {
     RadioGroup,
     TextField,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 const InfoGridValue = (props) => <Typography variant="body2" {...props} />;
 

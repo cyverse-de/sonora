@@ -22,7 +22,7 @@ import { ValidatorTypes } from "components/models/AppParamTypes";
 import buildID from "components/utils/DebugIDUtil";
 import FormNumberField from "components/forms/FormNumberField";
 
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 export default function DoublePropertyFields(props) {
     const { baseId, cosmeticOnly, fieldName, param } = props;

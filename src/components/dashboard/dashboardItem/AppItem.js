@@ -3,8 +3,8 @@ import { useQueryClient, useMutation } from "react-query";
 
 import Link from "next/link";
 
-import { PlayArrow, Info, Apps } from "@material-ui/icons";
-import { IconButton } from "@material-ui/core";
+import { PlayArrow, Info, Apps } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 
 import { formatDate } from "components/utils/DateFormatter";
 
@@ -15,7 +15,7 @@ import ItemBase, { ItemAction } from "./ItemBase";
 import { useTranslation } from "i18n";
 import AppFavorite from "components/apps/AppFavorite";
 import { useAppLaunchLink } from "components/apps/utils";
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
 
 class AppItem extends ItemBase {
     constructor(props) {

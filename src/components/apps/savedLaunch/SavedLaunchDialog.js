@@ -9,14 +9,9 @@ import buildID from "components/utils/DebugIDUtil";
 
 import ids from "../ids";
 
-import {
-    Dialog,
-    DialogContent,
-    DialogTitle,
-    IconButton,
-    makeStyles,
-} from "@material-ui/core";
-import { Close } from "@material-ui/icons";
+import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Close } from "@mui/icons-material";
 import ListSavedLaunches from "./SavedLaunchListing";
 
 const useStyles = makeStyles((theme) => ({

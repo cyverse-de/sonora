@@ -29,15 +29,16 @@ import {
     Button,
     Hidden,
     Link,
-    makeStyles,
     Typography,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { Info, MenuBook } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
 
-import { Skeleton } from "@material-ui/lab";
+import { Info, MenuBook } from "@mui/icons-material";
+
+import { Skeleton } from "@mui/material";
 
 import { appUnavailable } from "../utils";
 
@@ -147,7 +148,7 @@ const AppInfo = (props) => {
     const { t } = useTranslation("apps");
     const classes = useStyles();
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const router = useRouter();
 
     const [detailsDrawerOpen, setDetailsDrawerOpen] = React.useState(false);
@@ -168,7 +169,7 @@ const AppInfo = (props) => {
                 size="small"
                 startIcon={<Info color="primary" fontSize="small" />}
             >
-                <Hidden xsDown>{t("details")}</Hidden>
+                <Hidden smDown>{t("details")}</Hidden>
             </Button>
             <Button
                 id={buildID(baseId, ids.BUTTONS.DOCUMENTATION)}
@@ -178,7 +179,7 @@ const AppInfo = (props) => {
                 size="small"
                 startIcon={<MenuBook color="primary" fontSize="small" />}
             >
-                <Hidden xsDown>{t("documentation")}</Hidden>
+                <Hidden smDown>{t("documentation")}</Hidden>
             </Button>
             {loadingError ? (
                 <LoadingErrorDisplay
@@ -195,7 +196,7 @@ const AppInfo = (props) => {
                     {app?.name}
                 </Typography>
             )}
-            <Hidden xsDown>
+            <Hidden smDown>
                 <Typography
                     className={classes.appInfoTypography}
                     variant="body2"

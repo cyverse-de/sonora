@@ -29,10 +29,11 @@ import {
     CardContent,
     Grid,
     Typography,
-    makeStyles,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { Add, ExpandMore } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { Add, ExpandMore } from "@mui/icons-material";
 
 const useStyles = makeStyles(styles);
 

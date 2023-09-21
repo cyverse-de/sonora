@@ -12,9 +12,9 @@ import {
     IconButton,
     Typography,
     CardHeader,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { ExpandMore } from "@material-ui/icons";
+import { ExpandMore } from "@mui/icons-material";
 
 import useStyles from "./styles";
 import ids from "./ids";
@@ -90,6 +90,7 @@ const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {
                     onClick={() => setIsExpanded(!isExpanded)}
                     aria-expanded={isExpanded}
                     aria-label={t("showFilterOptions")}
+                    size="large"
                 >
                     <ExpandMore />
                 </IconButton>

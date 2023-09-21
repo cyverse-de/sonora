@@ -16,7 +16,7 @@ import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
 import FormFieldLoading from "components/forms/FormFieldLoading";
 
-import { MenuItem } from "@material-ui/core";
+import { MenuItem } from "@mui/material";
 
 export default function FileInfoTypesSelector(props) {
     const { baseId, disabled, fieldName, label } = props;

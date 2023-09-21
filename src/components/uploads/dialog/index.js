@@ -17,10 +17,11 @@ import {
     IconButton,
     useMediaQuery,
     useTheme,
-    makeStyles,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { Close as CloseIcon } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { Close as CloseIcon } from "@mui/icons-material";
 import buildID from "components/utils/DebugIDUtil";
 import UploadQueue from "../queue";
 import ids from "./ids";
@@ -46,7 +47,7 @@ const UploadDialog = ({ open, handleClose = () => {} }) => {
     const classes = useStyles();
     const theme = useTheme();
     const { t } = useTranslation("upload");
-    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+    const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
     return (
         <Dialog
@@ -67,6 +68,7 @@ const UploadDialog = ({ open, handleClose = () => {} }) => {
                         id={buildID(ids.BASE, ids.CLOSE_X)}
                         className={classes.closeDialog}
                         onClick={handleClose}
+                        size="large"
                     >
                         <CloseIcon />
                     </IconButton>

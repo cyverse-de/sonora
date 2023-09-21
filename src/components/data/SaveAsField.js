@@ -14,8 +14,9 @@ import styles from "./styles";
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
 
-import { CircularProgress, IconButton, makeStyles } from "@material-ui/core";
-import ClearIcon from "@material-ui/icons/Clear";
+import { CircularProgress, IconButton } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const useStyles = makeStyles(styles);
 

@@ -24,9 +24,9 @@ import {
     DialogTitle,
     IconButton,
     Tooltip,
-    makeStyles,
-} from "@material-ui/core";
-import { Close } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Close } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
     closeButton: {

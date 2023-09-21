@@ -9,19 +9,19 @@ import React from "react";
 import { useTranslation } from "i18n";
 
 import ids from "./ids";
-import { Hidden, IconButton, Tooltip } from "@material-ui/core";
+import { Hidden, IconButton, Tooltip } from "@mui/material";
 import buildID from "components/utils/DebugIDUtil";
 
 import {
     GridOn as GridIcon,
     FormatListBulleted as TableIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 function DisplayTypeSelector(props) {
     const { isGridView, baseId, toggleDisplay } = props;
     const { t } = useTranslation("util");
     return (
-        <Hidden smDown>
+        <Hidden mdDown>
             {isGridView && (
                 <Tooltip
                     id={buildID(baseId, ids.TABLE_VIEW_BTN, ids.TOOLTIP)}
@@ -33,6 +33,7 @@ function DisplayTypeSelector(props) {
                         edge="start"
                         onClick={() => toggleDisplay()}
                         color="primary"
+                        size="large"
                     >
                         <TableIcon />
                     </IconButton>
@@ -49,6 +50,7 @@ function DisplayTypeSelector(props) {
                         edge="start"
                         onClick={() => toggleDisplay()}
                         color="primary"
+                        size="large"
                     >
                         <GridIcon />
                     </IconButton>

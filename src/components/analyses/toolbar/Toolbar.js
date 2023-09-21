@@ -24,16 +24,17 @@ import {
     DialogActions,
     DialogContent,
     Hidden,
-    makeStyles,
     TextField,
     Toolbar,
     Tooltip,
     Typography,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import makeStyles from "@mui/styles/makeStyles";
+
+import Autocomplete from "@mui/material/Autocomplete";
 
 import {
     Cancel as CancelIcon,
@@ -41,7 +42,7 @@ import {
     Info,
     Queue as AddToBagIcon,
     Refresh,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import SharingButton from "components/sharing/SharingButton";
 import Sharing from "components/sharing";
 import { formatSharedAnalyses } from "components/sharing/util";
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(0.5),
     },
     filterIcon: {
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(0.2),
             paddingLeft: 0,
         },
@@ -82,7 +83,7 @@ function PermissionsFilter(props) {
                 handleFilterChange(newValue);
             }}
             getOptionLabel={(option) => option.name}
-            getOptionSelected={(option, value) => option.name === value.name}
+            isOptionEqualToValue={(option, value) => option.name === value.name}
             className={classes.filter}
             renderInput={(params) => (
                 <TextField
@@ -162,7 +163,7 @@ function AnalysesToolbar(props) {
     const analysesNavId = buildID(baseId, ids.ANALYSES_NAVIGATION);
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
     const [sharingDlgOpen, setSharingDlgOpen] = useState(false);
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const selectedAnalyses = getSelectedAnalyses ? getSelectedAnalyses() : null;
     const hasSelection = selectedAnalyses?.length > 0;
     const sharingAnalyses = formatSharedAnalyses(selectedAnalyses);
@@ -172,7 +173,7 @@ function AnalysesToolbar(props) {
     return (
         <>
             <Toolbar variant="dense" id={analysesNavId} style={{ padding: 0 }}>
-                <Hidden xsDown>
+                <Hidden smDown>
                     <>
                         <PermissionsFilter
                             baseId={analysesNavId}
@@ -207,9 +208,9 @@ function AnalysesToolbar(props) {
                     className={classes.button}
                     startIcon={<Refresh />}
                 >
-                    <Hidden xsDown>{t("refresh")}</Hidden>
+                    <Hidden smDown>{t("refresh")}</Hidden>
                 </Button>
-                <Hidden smDown>
+                <Hidden mdDown>
                     {allowCancel && (
                         <Button
                             id={buildID(analysesNavId, ids.CANCEL_BTN)}

@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import Typography from "@material-ui/core/Typography";
+import TableCell from "@mui/material/TableCell";
+import TableRow from "@mui/material/TableRow";
+import Typography from "@mui/material/Typography";
 
 /**
  * A component for displaying a message in a table when the table doesn't otherwise have

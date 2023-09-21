@@ -19,7 +19,7 @@ import { getInfoTypes, INFO_TYPES_QUERY_KEY } from "serviceFacades/filesystem";
 
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
-import { Skeleton } from "@material-ui/lab";
+import { Skeleton } from "@mui/material";
 
 import ids from "components/instantlaunches/ids";
 
@@ -35,13 +35,14 @@ import {
     TableRow,
     TableBody,
     TextField,
-    makeStyles,
     MenuItem,
     Typography,
     IconButton,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { Add as AddIcon, Delete as DeleteIcon } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
 import { useTranslation } from "i18n";
 import { useFormik } from "formik";
@@ -342,7 +343,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
         <div>
             {isLoading ? (
                 <Skeleton
-                    variant="rect"
+                    variant="rectangular"
                     animation="wave"
                     height={300}
                     width="100%"
@@ -475,6 +476,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
 
                                                             deleteEntry(name);
                                                         }}
+                                                        size="large"
                                                     >
                                                         <DeleteIcon />
                                                     </IconButton>

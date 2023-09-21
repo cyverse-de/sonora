@@ -31,13 +31,14 @@ import { defaultInstantLaunch } from "serviceFacades/instantlaunches";
 
 import {
     alpha,
-    makeStyles,
     Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import RowDotMenu from "./RowDotMenu";
 

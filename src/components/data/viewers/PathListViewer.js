@@ -39,7 +39,7 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-} from "@material-ui/core";
+} from "@mui/material";
 
 const IndeterminateCheckbox = React.forwardRef(
     ({ indeterminate, ...rest }, ref) => {

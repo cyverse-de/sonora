@@ -7,7 +7,7 @@ import {
     addAction,
 } from "../src/contexts/uploadTracking";
 
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 
 import UploadDialog from "../src/components/uploads/dialog";
 

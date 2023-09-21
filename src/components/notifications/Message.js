@@ -27,7 +27,7 @@ import { getFolderPage, getParentPath } from "components/data/utils";
 import DELink from "components/utils/DELink";
 import systemIds from "components/models/systemId";
 
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import { getTeamLinkRefs } from "../teams/util";
 import ExternalLink from "../utils/ExternalLink";
 import { useTranslation } from "../../i18n";

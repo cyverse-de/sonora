@@ -24,9 +24,9 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import Skeleton from "@material-ui/lab/Skeleton";
+import Skeleton from "@mui/material/Skeleton";
 
 export default function StructuredTextViewer(props) {
     const {

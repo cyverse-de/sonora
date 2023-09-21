@@ -28,10 +28,10 @@ import {
     MenuItem,
     CircularProgress,
     useTheme,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import ErrorIcon from "@material-ui/icons/Error";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ErrorIcon from "@mui/icons-material/Error";
 
 const useStyles = makeStyles(styles);
 

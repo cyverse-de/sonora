@@ -6,7 +6,7 @@
  */
 import React from "react";
 import ErrorHandler from "./ErrorHandler";
-import { Container } from "@material-ui/core";
+import { Container } from "@mui/material";
 
 export default function WrappedErrorHandler(props) {
     return (

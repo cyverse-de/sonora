@@ -42,7 +42,7 @@ import {
     CardActions,
     CardContent,
     CardHeader,
-} from "@material-ui/core";
+} from "@mui/material";
 
 function ParamPreview(props) {
     const { baseId, cosmeticOnly, fieldName, param } = props;

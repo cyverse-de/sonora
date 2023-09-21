@@ -20,7 +20,7 @@ import { announce } from "components/announcer/CyVerseAnnouncer";
 import FormMultilineTextField from "components/forms/FormMultilineTextField";
 import FormTextField from "components/forms/FormTextField";
 
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 
 export default function NewToolRequestDialog(props) {
     const { open, onClose } = props;

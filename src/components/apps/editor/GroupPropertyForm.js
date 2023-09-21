@@ -14,7 +14,7 @@ import ids from "./ids";
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
 
-import { Button, Card, CardActions } from "@material-ui/core";
+import { Button, Card, CardActions } from "@mui/material";
 
 export default function GroupPropertyForm(props) {
     const { baseId, fieldName, onDone } = props;

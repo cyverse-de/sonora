@@ -32,8 +32,8 @@ import {
 } from "components/apps/utils";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
-import { IconButton, Typography, Grid } from "@material-ui/core";
-import { Info } from "@material-ui/icons";
+import { IconButton, Typography, Grid } from "@mui/material";
+import { Info } from "@mui/icons-material";
 
 function Name(props) {
     const { selectedOption, searchTerm } = props;

@@ -33,17 +33,18 @@ import {
     TableRow,
     Toolbar,
     Typography,
-    makeStyles,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import {
     Add as ContentAdd,
     Delete as ContentRemove,
     Edit as ContentEdit,
     List as ContentView,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 const useStyles = makeStyles(styles);
 
@@ -53,7 +54,7 @@ const MetadataGridToolbar = (props) => {
     const { t } = useTranslation("metadata");
     const classes = useStyles();
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     return (
         <Toolbar>
@@ -71,6 +72,7 @@ const MetadataGridToolbar = (props) => {
                         color="primary"
                         aria-label={t("addMetadata")}
                         onClick={onAddAVU}
+                        size="large"
                     >
                         <ContentAdd />
                     </IconButton>

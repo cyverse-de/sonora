@@ -28,14 +28,14 @@ import {
     MenuItem,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 import {
     FilterList,
     Build,
     Info,
     Queue as AddToBagIcon,
     PlayArrowRounded,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import SharingMenuItem from "components/sharing/SharingMenuItem";
 
 function AppsDotMenu(props) {
@@ -54,7 +54,7 @@ function AppsDotMenu(props) {
     } = props;
     const { t } = useTranslation(["apps", "common"]);
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     if (!detailsEnabled && !canShare && !isMobile) {
         return null;
     }

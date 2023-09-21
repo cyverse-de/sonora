@@ -16,9 +16,9 @@ import {
     useMediaQuery,
     IconButton,
     TableSortLabel,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { KeyboardArrowUp, KeyboardArrowDown } from "@material-ui/icons";
+import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
 
 import { useTable, useExpanded, useSortBy } from "react-table";
 

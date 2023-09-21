@@ -24,7 +24,7 @@ import {
     DialogContent,
     DialogTitle,
     InputAdornment,
-} from "@material-ui/core";
+} from "@mui/material";
 
 function RenameAnalysisDialog(props) {
     const {

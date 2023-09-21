@@ -27,17 +27,17 @@ import { useBootstrapInfo } from "contexts/bootstrap";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import { useTranslation } from "i18n";
 import { useQueryClient, useQuery } from "react-query";
 
-import HomeIcon from "@material-ui/icons/Home";
-import FolderSharedIcon from "@material-ui/icons/FolderShared";
-import GroupIcon from "@material-ui/icons/Group";
-import DeleteIcon from "@material-ui/icons/Delete";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ArrowRightIcon from "@material-ui/icons/ArrowRight";
-import FolderIcon from "@material-ui/icons/Folder";
+import HomeIcon from "@mui/icons-material/Home";
+import FolderSharedIcon from "@mui/icons-material/FolderShared";
+import GroupIcon from "@mui/icons-material/Group";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import FolderIcon from "@mui/icons-material/Folder";
 
 import {
     Breadcrumbs,
@@ -50,7 +50,7 @@ import {
     Menu,
     Tooltip,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 const useStyles = makeStyles(styles);
 
@@ -568,7 +568,7 @@ function Navigation(props) {
                     </ListItem>
                 ))}
             </Menu>
-            <Hidden smDown>
+            <Hidden mdDown>
                 {path && (!error || error.length === 0) ? (
                     <BreadCrumb
                         baseId={dataNavId}

@@ -38,9 +38,9 @@ import {
     TextField,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
-import { Close } from "@material-ui/icons";
-import { Autocomplete } from "@material-ui/lab";
+} from "@mui/material";
+import { Close } from "@mui/icons-material";
+import { Autocomplete } from "@mui/material";
 import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import ids from "./ids";
@@ -55,7 +55,7 @@ import { searchSubjects } from "serviceFacades/sharing";
 import isQueryLoading from "../utils/isQueryLoading";
 import { useTranslation } from "i18n";
 import { groupName, isGroup } from "components/sharing/util";
-import PersonIcon from "@material-ui/icons/Person";
+import PersonIcon from "@mui/icons-material/Person";
 import { TeamIcon } from "../teams/Icons";
 import withErrorAnnouncer from "../error/withErrorAnnouncer";
 import DeleteButton from "../utils/DeleteButton";
@@ -82,7 +82,7 @@ function SubjectSearchField(props) {
     const [searchResults, setSearchResults] = useState([]);
     const [recentContacts, setRecentContacts] = useState(null);
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();
@@ -232,7 +232,7 @@ function SubjectSearchField(props) {
                 }
             }}
             onInputChange={onInputChange}
-            getOptionSelected={(option, value) => option?.id === value?.id}
+            isOptionEqualToValue={(option, value) => option?.id === value?.id}
             getOptionLabel={(option) => {
                 if (typeof option === "string") {
                     return option;
@@ -255,7 +255,9 @@ function SubjectSearchField(props) {
             noOptionsText={t("noUsersFound")}
             popupIcon={null}
             clearOnBlur={true}
-            renderOption={(option, state) => renderCustomOption(option)}
+            renderOption={(props, option) => (
+                <li {...props}>{renderCustomOption(option)}</li>
+            )}
             renderInput={(params) => (
                 <TextField
                     {...params}

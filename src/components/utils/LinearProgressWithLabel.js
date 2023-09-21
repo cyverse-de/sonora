@@ -6,7 +6,7 @@
  */
 
 import React from "react";
-import { Box, LinearProgress, Typography } from "@material-ui/core";
+import { Box, LinearProgress, Typography } from "@mui/material";
 
 function LinearProgressWithLabel(props) {
     const { value } = props;

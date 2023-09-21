@@ -7,9 +7,9 @@ import { useTranslation } from "i18n";
 import { intercomShow } from "../../common/intercom";
 
 import buildID from "components/utils/DebugIDUtil";
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 import ids from "../utils/ids";
-import LiveHelpIcon from "@material-ui/icons/LiveHelp";
+import LiveHelpIcon from "@mui/icons-material/LiveHelp";
 
 function ContactSupport(props) {
     const { baseId } = props;

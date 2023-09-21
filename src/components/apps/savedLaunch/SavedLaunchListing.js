@@ -35,21 +35,21 @@ import { useUserProfile } from "contexts/userProfile";
 import buildID from "components/utils/DebugIDUtil";
 import CopyTextArea from "components/copy/CopyTextArea";
 
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import Paper from "@material-ui/core/Paper";
-import Popover from "@material-ui/core/Popover";
-import Typography from "@material-ui/core/Typography";
-import { Link as MuiLink } from "@material-ui/core";
-import { useTheme } from "@material-ui/core";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
+import Popover from "@mui/material/Popover";
+import Typography from "@mui/material/Typography";
+import { Link as MuiLink } from "@mui/material";
+import { useTheme } from "@mui/material";
 
-import Code from "@material-ui/icons/Code";
-import Play from "@material-ui/icons/PlayArrow";
-import Share from "@material-ui/icons/Share";
-import CloseIcon from "@material-ui/icons/Close";
+import Code from "@mui/icons-material/Code";
+import Play from "@mui/icons-material/PlayArrow";
+import Share from "@mui/icons-material/Share";
+import CloseIcon from "@mui/icons-material/Close";
 
 function SavedLaunchChipLink(props) {
     const {
@@ -89,6 +89,7 @@ function SavedLaunchButtonLink(props) {
                 fontSize="small"
                 onClick={onClick}
                 title={t("savedLaunchToolTip")}
+                size="large"
             >
                 <Play color="primary" />
             </IconButton>
@@ -144,6 +145,7 @@ function ActionsPopper(props) {
                         fontSize="small"
                         onClick={embedCodeClickHandler}
                         title={t("savedLaunchEmbedToolTip")}
+                        size="large"
                     >
                         <Code color="primary" />
                     </IconButton>
@@ -155,6 +157,7 @@ function ActionsPopper(props) {
                         fontSize="small"
                         onClick={shareClickHandler}
                         title={t("savedLaunchShareToolTip")}
+                        size="large"
                     >
                         <Share color="primary" />
                     </IconButton>
@@ -370,6 +373,7 @@ function ListSavedLaunches(props) {
                                 top: theme.spacing(0.5),
                                 margin: 0,
                             }}
+                            size="large"
                         >
                             <CloseIcon />
                         </IconButton>
@@ -397,6 +401,7 @@ function ListSavedLaunches(props) {
                                 top: theme.spacing(0.5),
                                 margin: 0,
                             }}
+                            size="large"
                         >
                             <CloseIcon />
                         </IconButton>

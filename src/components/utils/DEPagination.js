@@ -9,7 +9,7 @@ import { setLocalStorage } from "components/utils/localStorage";
 import constants from "../../constants";
 import NavigationConstants from "common/NavigationConstants";
 
-import Pagination from "@material-ui/lab/Pagination";
+import Pagination from "@mui/material/Pagination";
 import {
     Button,
     ClickAwayListener,
@@ -22,9 +22,9 @@ import {
     Tooltip,
     useMediaQuery,
     useTheme,
-    makeStyles,
-} from "@material-ui/core";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -162,7 +162,7 @@ function DEPagination(props) {
     const theme = useTheme();
     const { onChange, page, totalPages, onPageSizeChange, pageSize, baseId } =
         props;
-    const matches = useMediaQuery(theme.breakpoints.down("sm"));
+    const matches = useMediaQuery(theme.breakpoints.down("md"));
     return (
         <Paper className={classes.paper}>
             <Grid container justifyContent="center">

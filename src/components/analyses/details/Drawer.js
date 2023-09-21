@@ -22,9 +22,9 @@ import {
 
 import buildID from "components/utils/DebugIDUtil";
 
-import { Drawer, Typography } from "@material-ui/core";
+import { Drawer, Typography } from "@mui/material";
 
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@mui/styles/makeStyles";
 
 const TABS = {
     analysisInfo: "ANALYSIS INFORMATION",
@@ -37,10 +37,10 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up("lg")]: {
             maxWidth: "25%",
         },
-        [theme.breakpoints.down("lg")]: {
+        [theme.breakpoints.down("xl")]: {
             maxWidth: "50%",
         },
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             maxWidth: "90%",
         },
     },

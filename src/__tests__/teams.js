@@ -8,6 +8,8 @@ import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { getAllPrivileges, getPrivilegeUpdates } from "components/teams/util";
 import Privilege from "components/models/Privilege";
 import { RQWrapper } from "../__mocks__/RQWrapper";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "components/theme/default";
 
 beforeEach(() => {
     mockAxios.reset();
@@ -25,7 +27,9 @@ test("Team view renders", () => {
         <RQWrapper>
             <UserProfileProvider>
                 <I18nProviderWrapper>
-                    <View />
+                    <ThemeProvider theme={theme}>
+                        <View />
+                    </ThemeProvider>
                 </I18nProviderWrapper>
             </UserProfileProvider>
         </RQWrapper>
@@ -38,7 +42,9 @@ test("Team search results renders", () => {
         <RQWrapper>
             <UserProfileProvider>
                 <I18nProviderWrapper>
-                    <SearchResults />
+                    <ThemeProvider theme={theme}>
+                        <SearchResults />
+                    </ThemeProvider>
                 </I18nProviderWrapper>
             </UserProfileProvider>
         </RQWrapper>

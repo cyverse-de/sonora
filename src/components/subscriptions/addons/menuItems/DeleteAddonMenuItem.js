@@ -5,8 +5,8 @@ import ids from "../../ids";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
-import { Delete } from "@material-ui/icons";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
+import { Delete } from "@mui/icons-material";
 
 export default function EditSubscriptionMenuItem(props) {
     const { baseId, onDeleteSelected, onClose } = props;

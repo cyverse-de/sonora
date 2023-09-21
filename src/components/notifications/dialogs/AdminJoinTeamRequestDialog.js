@@ -17,7 +17,6 @@ import {
     FormControl,
     FormControlLabel,
     Grid,
-    makeStyles,
     MenuItem,
     Paper,
     Radio,
@@ -25,8 +24,9 @@ import {
     Select,
     TextField,
     Typography,
-} from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Skeleton } from "@mui/material";
 import { useMutation } from "react-query";
 
 import Privilege, { MemberPrivileges } from "components/models/Privilege";
@@ -327,9 +327,9 @@ function AdminJoinTeamRequestDialog(props) {
             {loading && (
                 <div id={buildID(baseId, ids.LOADING_SKELETON)}>
                     <Skeleton variant="text" height={40} />
-                    <Skeleton variant="rect" height={100} />
+                    <Skeleton variant="rectangular" height={100} />
                     <Skeleton variant="text" height={40} />
-                    <Skeleton variant="rect" height={100} />
+                    <Skeleton variant="rectangular" height={100} />
                 </div>
             )}
             {!loading && (

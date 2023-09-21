@@ -5,8 +5,8 @@
  *
  */
 
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
-import { Repeat as RelaunchIcon } from "@material-ui/icons";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
+import { Repeat as RelaunchIcon } from "@mui/icons-material";
 import buildID from "components/utils/DebugIDUtil";
 import { useTranslation } from "i18n";
 import React from "react";

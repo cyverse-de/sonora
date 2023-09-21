@@ -37,12 +37,7 @@ import {
 
 import DotMenu from "components/dotMenu/DotMenu";
 import buildID from "components/utils/DebugIDUtil";
-import {
-    Divider,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-} from "@material-ui/core";
+import { Divider, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import {
     CreateNewFolder,
     ListAlt,
@@ -51,11 +46,11 @@ import {
     Send as RequestIcon,
     Description,
     Create,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import NavigationConstants from "common/NavigationConstants";
 import TrashMenuItems from "./TrashMenuItems";
 import ApplyBulkMetadataDialog from "components/metadata/ApplyBulkMetadataDialog";
-import SearchIcon from "@material-ui/icons/Search";
+import SearchIcon from "@mui/icons-material/Search";
 
 function DataDotMenu(props) {
     const {

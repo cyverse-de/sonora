@@ -16,11 +16,11 @@ import {
     Hidden,
     ListItemIcon,
     ListItemText,
-    makeStyles,
     MenuItem,
     Toolbar,
-} from "@material-ui/core";
-import { Delete, EmojiPeople, ExitToApp, Save } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Delete, EmojiPeople, ExitToApp, Save } from "@mui/icons-material";
 
 import BackButton from "components/utils/BackButton";
 import { useTranslation } from "i18n";
@@ -74,7 +74,7 @@ function EditTeamToolbar(props) {
                 </Button>
             )}
             <div className={classes.divider} />
-            <Hidden xsDown>
+            <Hidden smDown>
                 {leaveEnabled && (
                     <Button
                         color="primary"

@@ -17,8 +17,8 @@ import {
     IconButton,
     InputAdornment,
     Typography,
-} from "@material-ui/core";
-import { Close } from "@material-ui/icons";
+} from "@mui/material";
+import { Close } from "@mui/icons-material";
 import { Field, Form, Formik } from "formik";
 import { useTranslation } from "i18n";
 import { useMutation } from "react-query";
@@ -28,7 +28,7 @@ import ids from "./ids";
 import { validateDiskResourceName } from "./utils";
 import { createFolder } from "../../serviceFacades/filesystem";
 import isQueryLoading from "../utils/isQueryLoading";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import styles from "./styles";
 
 const useStyles = makeStyles(styles);

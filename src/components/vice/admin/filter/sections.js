@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
-import { Typography, Button, TextField, FormControl } from "@material-ui/core";
+import { Typography, Button, TextField, FormControl } from "@mui/material";
 
 import {
     deploymentFields,

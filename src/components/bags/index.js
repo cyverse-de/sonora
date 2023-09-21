@@ -16,7 +16,6 @@ import {
     Avatar,
     ListItemText,
     ListItemSecondaryAction,
-    makeStyles,
     MenuItem,
     Button,
     useMediaQuery,
@@ -26,14 +25,15 @@ import {
     FormControl,
     InputLabel,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import {
     GetApp,
     People,
     ClearAll,
     Close,
     ShoppingBasket as ShoppingBasketIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 import buildID from "components/utils/DebugIDUtil";
 import DeleteButton from "components/utils/DeleteButton";
@@ -44,7 +44,7 @@ import withErrorAnnouncer from "../error/withErrorAnnouncer";
 import DownloadLinksDialog from "./downloads";
 
 import * as facade from "../../serviceFacades/bags";
-import { Skeleton } from "@material-ui/lab";
+import { Skeleton } from "@mui/material";
 import { TYPE as SHARING_TYPE } from "components/sharing/constants";
 
 import { FILE_TYPE, FOLDER_TYPE, ANALYSIS_TYPE, APP_TYPE } from "./classes";
@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(2),
         width: theme.spacing(20),
 
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             // width: "100%",
             margin: theme.spacing(1),
             width: theme.spacing(20),
@@ -97,7 +97,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const BagSkeleton = () => (
-    <Skeleton variant="rect" animation="wave" height={100} width="100%" />
+    <Skeleton
+        variant="rectangular"
+        animation="wave"
+        height={100}
+        width="100%"
+    />
 );
 
 export const BagUI = ({ removeItem, allItems, isLoading, fullScreen }) => {
@@ -230,7 +235,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
     const theme = useTheme();
     const classes = useStyles();
     const { t } = useTranslation(["bags", "common"]);
-    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+    const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
     const [bagInfo, setBagInfo] = useBagInfo();
     const [badgeCount, setBadgeCount] = useState(0);
@@ -348,6 +353,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                     className={menuIconClass}
                     onClick={handleMenuClick}
                     id={buildID(constants.BASEID, constants.MENU)}
+                    size="large"
                 >
                     <Badge
                         badgeContent={badgeCount}
@@ -392,6 +398,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                             constants.CLOSE,
                             constants.button
                         )}
+                        size="large"
                     >
                         <Close />
                     </IconButton>
@@ -429,13 +436,13 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                                     constants.CLEARALL,
                                     constants.BUTTON
                                 )}
+                                size="large"
                             >
                                 <ClearAll />
                             </IconButton>
                         ) : (
                             <Button
                                 variant="contained"
-                                color="default"
                                 className={classes.button}
                                 startIcon={<ClearAll />}
                                 size="small"
@@ -459,6 +466,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                                         constants.DOWNLOAD,
                                         constants.BUTTON
                                     )}
+                                    size="large"
                                 >
                                     <GetApp />
                                 </IconButton>
@@ -490,6 +498,7 @@ const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
                                         constants.SHARE,
                                         constants.BUTTON
                                     )}
+                                    size="large"
                                 >
                                     <People />
                                 </IconButton>

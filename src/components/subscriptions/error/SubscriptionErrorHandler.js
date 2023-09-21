@@ -20,22 +20,22 @@ import {
     CardHeader,
     Divider,
     Grid,
-    makeStyles,
     Typography,
-} from "@material-ui/core";
-import ErrorIcon from "@material-ui/icons/Error";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import ErrorIcon from "@mui/icons-material/Error";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 const useStyles = makeStyles((theme) => ({
     cardContent: {
         padding: theme.spacing(2),
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             padding: theme.spacing(1),
         },
     },
     container: {
         margin: theme.spacing(1),
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(0),
         },
     },

@@ -15,14 +15,14 @@ import {
     Typography,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+} from "@mui/material";
+import { Skeleton } from "@mui/material";
 
 export default (props) => {
     const { baseId, header } = props;
 
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     return (
         <Paper>
@@ -41,7 +41,7 @@ export default (props) => {
                 <Skeleton variant="text" width="100%">
                     <TextField fullWidth label="..." helperText="..." />
                 </Skeleton>
-                <Skeleton variant="rect" width="100%">
+                <Skeleton variant="rectangular" width="100%">
                     <TextField
                         fullWidth
                         rows={3}

@@ -49,7 +49,7 @@ import buildID from "components/utils/DebugIDUtil";
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
-import { AppBar, Tab, Tabs } from "@material-ui/core";
+import { AppBar, Tab, Tabs } from "@mui/material";
 
 const MetadataFormListing = (props) => {
     const {

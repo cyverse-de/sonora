@@ -17,13 +17,13 @@ import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import {
     CheckCircle,
     Publish as PublishIcon,
     Close as CloseIcon,
     Error,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 import {
     Button,
@@ -36,7 +36,7 @@ import {
     useTheme,
     TextField,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: "center", // without this the import button balloons in size vertically.
 
         // Align things vertically on mobile.
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             justifyContent: "center",
             flexDirection: "column",
         },
@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
         width: "100%",
         margin: theme.spacing(0, 2, 0, 0),
 
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             margin: 0, // The textbox shifts to the left without this.
         },
     },
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     importDefault: {
         background: theme.palette.primary.main,
 
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             width: "100%", // Easier to hit on mobile.
             marginTop: theme.spacing(2),
             marginBottom: theme.spacing(0),
@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
             backgroundColor: theme.palette.error.dark,
         },
 
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             width: "100%", // Easier to hit on mobile.
             marginTop: theme.spacing(2),
             marginBottom: theme.spacing(0),
@@ -252,6 +252,7 @@ const URLImportDialog = (props) => {
                         setErrorMsg("");
                         onClose();
                     }}
+                    size="large"
                 >
                     <CloseIcon />
                 </IconButton>

@@ -44,15 +44,9 @@ import { copyLinkToClipboardHandler } from "components/utils/copyLinkToClipboard
 import CopyLinkButton from "components/utils/CopyLinkButton";
 import { IntercomEvents, trackIntercomEvent } from "common/intercom";
 
-import {
-    Grid,
-    IconButton,
-    Toolbar,
-    Tooltip,
-    Typography,
-} from "@material-ui/core";
-import { Info, Label } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/styles";
+import { Grid, IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
+import { Info, Label } from "@mui/icons-material";
+import { makeStyles } from "@mui/styles";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import SearchButton from "../form/SearchButton";

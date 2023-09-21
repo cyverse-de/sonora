@@ -33,8 +33,8 @@ import {
     ListItemAvatar,
     IconButton,
     useTheme,
-} from "@material-ui/core";
-import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
+} from "@mui/material";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 function MoveDialog(props) {
     const { path, open, selectedResources, onClose, onRemoveResource } = props;

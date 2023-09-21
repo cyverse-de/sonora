@@ -6,14 +6,9 @@ import ids from "./ids";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import {
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-    Tooltip,
-} from "@material-ui/core";
+import { ListItem, ListItemIcon, ListItemText, Tooltip } from "@mui/material";
 
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles(styles);
 

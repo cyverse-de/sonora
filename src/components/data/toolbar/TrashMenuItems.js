@@ -11,12 +11,12 @@ import ids from "../ids";
 import { useTranslation } from "i18n";
 
 import buildID from "components/utils/DebugIDUtil";
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import {
     DeleteForever,
     RestoreFromTrash,
     DeleteSweep,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 export default function TrashMenuItems(props) {
     const { baseId, selected, handleDelete, handleRestore, handleEmptyTrash } =

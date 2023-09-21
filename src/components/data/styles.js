@@ -49,10 +49,10 @@ const dataStyles = (theme) => ({
         [theme.breakpoints.up("lg")]: {
             maxWidth: "25%",
         },
-        [theme.breakpoints.down("lg")]: {
+        [theme.breakpoints.down("xl")]: {
             maxWidth: "50%",
         },
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             maxWidth: "90%",
         },
     },
@@ -93,7 +93,7 @@ const dataStyles = (theme) => ({
         [theme.breakpoints.up("md")]: {
             minWidth: "50%",
         },
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down("lg")]: {
             width: "90%",
         },
     },
@@ -127,7 +127,7 @@ const dataStyles = (theme) => ({
         border: `1px solid ${theme.palette.primary.main}`,
     },
     list: {
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             maxWidth: 130,
         },
         padding: 0,

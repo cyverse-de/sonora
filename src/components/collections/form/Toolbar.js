@@ -14,11 +14,11 @@ import {
     Hidden,
     ListItemIcon,
     ListItemText,
-    makeStyles,
     MenuItem,
     Toolbar,
-} from "@material-ui/core";
-import { Delete, EmojiPeople, ExitToApp, Save } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Delete, EmojiPeople, ExitToApp, Save } from "@mui/icons-material";
 
 import DotMenu from "components/dotMenu/DotMenu";
 import BackButton from "components/utils/BackButton";
@@ -77,7 +77,7 @@ function EditCollectionToolbar(props) {
                 </Button>
             )}
             <div className={classes.divider} />
-            <Hidden xsDown>
+            <Hidden smDown>
                 {unfollowEnabled && (
                     <Button
                         color="primary"

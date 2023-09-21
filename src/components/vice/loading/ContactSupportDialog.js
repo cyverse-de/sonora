@@ -11,7 +11,7 @@
 import React, { useState } from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { Button, TextField, Typography } from "@material-ui/core";
+import { Button, TextField, Typography } from "@mui/material";
 import { useMutation } from "react-query";
 
 import DEDialog from "components/utils/DEDialog";

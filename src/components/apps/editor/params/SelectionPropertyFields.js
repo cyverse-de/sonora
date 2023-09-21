@@ -27,7 +27,6 @@ import {
     Button,
     ButtonGroup,
     Grid,
-    makeStyles,
     MenuItem,
     Table,
     TableBody,
@@ -36,9 +35,11 @@ import {
     TableHead,
     TableRow,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { Add, ArrowUpward, ArrowDownward, Delete } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { Add, ArrowUpward, ArrowDownward, Delete } from "@mui/icons-material";
 
 const useStyles = makeStyles(styles);
 

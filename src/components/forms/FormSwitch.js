@@ -11,7 +11,7 @@ import {
     FormControlLabel,
     FormHelperText,
     Switch,
-} from "@material-ui/core";
+} from "@mui/material";
 
 const FormSwitch = (props) => {
     const {

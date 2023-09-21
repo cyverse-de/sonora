@@ -1,13 +1,7 @@
 import React, { useState } from "react";
 import clsx from "clsx";
 
-import {
-    Typography,
-    Collapse,
-    Button,
-    useTheme,
-    Divider,
-} from "@material-ui/core";
+import { Typography, Collapse, Button, useTheme, Divider } from "@mui/material";
 
 import getItem from "./dashboardItem";
 

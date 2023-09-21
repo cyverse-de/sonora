@@ -5,7 +5,7 @@
  */
 
 import React from "react";
-import { GroupAddOutlined, PeopleAltOutlined } from "@material-ui/icons";
+import { GroupAddOutlined, PeopleAltOutlined } from "@mui/icons-material";
 
 export function TeamIcon(props) {
     return <PeopleAltOutlined {...props} />;

@@ -18,7 +18,7 @@ import {
     DATA_DETAILS_QUERY_KEY,
 } from "serviceFacades/filesystem";
 
-import { CircularProgress, InputAdornment } from "@material-ui/core";
+import { CircularProgress, InputAdornment } from "@mui/material";
 
 export default function DiskResourceSelector({ param, ...props }) {
     const {

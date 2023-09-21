@@ -6,12 +6,13 @@ import {
     DialogTitle,
     IconButton,
     LinearProgress,
-    makeStyles,
     Typography,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { PlayCircleOutlineOutlined } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { PlayCircleOutlineOutlined } from "@mui/icons-material";
 import { useTranslation } from "i18n";
 
 import buildID from "components/utils/DebugIDUtil";

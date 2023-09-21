@@ -7,13 +7,13 @@ import { useTranslation } from "i18n";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import Typography from "@material-ui/core/Typography";
-import { Grid } from "@material-ui/core";
+import Typography from "@mui/material/Typography";
+import { Grid } from "@mui/material";
 import GridLabelValue from "components/utils/GridLabelValue";
 import GridLoading from "components/utils/GridLoading";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";

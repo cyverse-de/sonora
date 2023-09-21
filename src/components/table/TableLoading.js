@@ -8,8 +8,9 @@
 import React from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { makeStyles, TableBody, TableCell, TableRow } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { TableBody, TableCell, TableRow } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Skeleton } from "@mui/material";
 
 import ids from "../utils/ids";
 

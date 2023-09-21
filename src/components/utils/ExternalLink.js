@@ -5,7 +5,7 @@
  */
 import React from "react";
 
-import { Link } from "@material-ui/core";
+import { Link } from "@mui/material";
 
 const ExternalLink = (props) => {
     return <Link target="_blank" rel="noopener noreferrer" {...props} />;

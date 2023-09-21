@@ -7,7 +7,7 @@
 import React, { useEffect } from "react";
 
 import Listing from "components/teams/Listing";
-import { Paper, TableContainer } from "@material-ui/core";
+import { Paper, TableContainer } from "@mui/material";
 
 export default function TeamSearchResults(props) {
     const { searchTerm, updateResultCount } = props;

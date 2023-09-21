@@ -30,7 +30,7 @@ import { openInteractiveUrl } from "components/analyses/utils";
 import { useUserProfile } from "contexts/userProfile";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
 function Name(props) {
     const { analysis, searchTerm } = props;

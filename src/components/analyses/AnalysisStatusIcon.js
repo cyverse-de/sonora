@@ -7,7 +7,7 @@
 import React from "react";
 
 import analysisStatus from "components/models/analysisStatus";
-import { Avatar, useTheme } from "@material-ui/core";
+import { Avatar, useTheme } from "@mui/material";
 import palette from "components/theme/default/CyVersePalette";
 
 import {
@@ -16,7 +16,7 @@ import {
     Done as CompletedIcon,
     Cancel as CancelledIcon,
     Error as FailedIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 export default function AnalysisStatusIcon({ status }) {
     const theme = useTheme();

@@ -9,7 +9,7 @@
  */
 import React from "react";
 
-import { Grid, MenuItem } from "@material-ui/core";
+import { Grid, MenuItem } from "@mui/material";
 import { FastField } from "formik";
 
 import { FormNumberField, FormTextField } from "components/forms/FormField";

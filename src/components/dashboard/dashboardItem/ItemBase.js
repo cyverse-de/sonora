@@ -13,12 +13,13 @@ import {
     CardContent,
     CardHeader,
     Link,
-    makeStyles,
     Tooltip,
     Typography,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import styles from "components/utils/runningAnimation";
 

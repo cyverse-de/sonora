@@ -18,7 +18,7 @@ import DEDialog from "components/utils/DEDialog";
 import MultiInputSelector from "components/apps/launch/MultiInputSelector";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
-import { Button, CircularProgress, Typography } from "@material-ui/core";
+import { Button, CircularProgress, Typography } from "@mui/material";
 
 export default function CopyMetadataDialog(props) {
     const { open, handleClose, resourceToCopyFrom, copying, error, doCopy } =

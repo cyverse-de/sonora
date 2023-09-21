@@ -13,7 +13,7 @@ import { useTranslation } from "i18n";
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { ERROR } from "components/announcer/AnnouncerConstants";
 
-import { Button, Typography, useTheme } from "@material-ui/core";
+import { Button, Typography, useTheme } from "@mui/material";
 
 import DEErrorDialog from "./DEErrorDialog";
 import ids from "../utils/ids";

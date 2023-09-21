@@ -26,9 +26,9 @@ import {
     Hidden,
     TextField,
     Toolbar,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import {
     Add as CreateAppIcon,
     Build,
@@ -36,8 +36,8 @@ import {
     Info,
     PlayArrowRounded,
     Queue as AddToBagIcon,
-} from "@material-ui/icons";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+} from "@mui/icons-material";
+import Autocomplete from "@mui/material/Autocomplete";
 import SharingButton from "components/sharing/SharingButton";
 
 export const ADMIN_APPS_FILTER_VALUES = {
@@ -60,7 +60,9 @@ function PermissionsFilter(props) {
                 handleFilterChange(filter);
             }}
             getOptionLabel={(option) => option.name}
-            getOptionSelected={(option, value) => option?.name === value?.name}
+            isOptionEqualToValue={(option, value) =>
+                option?.name === value?.name
+            }
             className={classes.filter}
             renderInput={(params) => (
                 <TextField
@@ -108,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
     },
     toolbarItems: {
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(0.5),
         },
         [theme.breakpoints.up("sm")]: {
@@ -186,7 +188,7 @@ function AppsToolbar(props) {
                         </Button>
                     )}
                     <div className={classes.divider} />
-                    <Hidden xsDown>
+                    <Hidden smDown>
                         <AppsTypeFilter
                             baseId={appsToolbarId}
                             classes={classes}
@@ -198,7 +200,7 @@ function AppsToolbar(props) {
                             }
                         />
                     </Hidden>
-                    <Hidden smDown>
+                    <Hidden mdDown>
                         {addToBagEnabled && (
                             <Button
                                 id={buildID(appsToolbarId, ids.ADD_TO_BAG_BTN)}
@@ -214,7 +216,7 @@ function AppsToolbar(props) {
                             </Button>
                         )}
                     </Hidden>
-                    <Hidden smDown>
+                    <Hidden mdDown>
                         {detailsEnabled && (
                             <Button
                                 id={buildID(appsToolbarId, ids.DETAILS_BTN)}
@@ -237,7 +239,7 @@ function AppsToolbar(props) {
                             />
                         )}
                     </Hidden>
-                    <Hidden xsDown>
+                    <Hidden smDown>
                         <Link href={`/${NavigationConstants.TOOLS}`}>
                             <Button
                                 id={buildID(appsToolbarId, ids.TOOLS_BTN)}
@@ -268,7 +270,7 @@ function AppsToolbar(props) {
                             </Button>
                         </Link>
                     </Hidden>
-                    <Hidden xsDown>
+                    <Hidden smDown>
                         <DotMenu
                             baseId={buildID(appsToolbarId, ids.CREATE_APP_BTN)}
                             ButtonProps={{

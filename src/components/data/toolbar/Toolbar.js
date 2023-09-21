@@ -25,18 +25,19 @@ import buildID from "components/utils/DebugIDUtil";
 import {
     Button,
     Hidden,
-    makeStyles,
     Toolbar,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import {
     CreateNewFolder,
     Info,
     Queue as AddToBagIcon,
     Refresh,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { TrashMenu } from "./TrashMenu";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
@@ -87,7 +88,7 @@ function DataToolbar(props) {
     const selectedResources = getSelectedResources();
     const canShare = isOwner(selectedResources);
     const theme = useTheme();
-    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+    const isSmall = useMediaQuery(theme.breakpoints.down("md"));
 
     const inTrash = isPathInTrash(path, baseTrashPath);
     const uploadEnabled = !inTrash && isWritable(permission);
@@ -110,7 +111,7 @@ function DataToolbar(props) {
             <div className={classes.divider} />
             {toolbarVisibility && (
                 <>
-                    <Hidden smDown>
+                    <Hidden mdDown>
                         <Button
                             id={buildID(toolbarId, ids.REFRESH_BTN)}
                             variant="outlined"
@@ -121,7 +122,7 @@ function DataToolbar(props) {
                             className={classes.button}
                             startIcon={<Refresh />}
                         >
-                            <Hidden xsDown>{t("refresh")}</Hidden>
+                            <Hidden smDown>{t("refresh")}</Hidden>
                         </Button>
                         {detailsEnabled && (
                             <Button
@@ -134,7 +135,7 @@ function DataToolbar(props) {
                                 className={classes.button}
                                 startIcon={<Info />}
                             >
-                                <Hidden xsDown>{t("details")}</Hidden>
+                                <Hidden smDown>{t("details")}</Hidden>
                             </Button>
                         )}
                         {uploadEnabled && (
@@ -149,7 +150,7 @@ function DataToolbar(props) {
                                     className={classes.button}
                                     startIcon={<CreateNewFolder />}
                                 >
-                                    <Hidden xsDown>{t("folder")}</Hidden>
+                                    <Hidden smDown>{t("folder")}</Hidden>
                                 </Button>
                                 <UploadMenuBtn
                                     uploadMenuId={uploadMenuId}
@@ -171,7 +172,7 @@ function DataToolbar(props) {
                                 onClick={onAddToBagSelected}
                                 startIcon={<AddToBagIcon />}
                             >
-                                <Hidden xsDown>{t("addToBag")}</Hidden>
+                                <Hidden smDown>{t("addToBag")}</Hidden>
                             </Button>
                         )}
                         {sharingEnabled && (

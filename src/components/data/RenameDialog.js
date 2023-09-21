@@ -15,7 +15,7 @@ import {
     CircularProgress,
     InputAdornment,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import { useTranslation } from "i18n";
 import { useMutation } from "react-query";
@@ -30,7 +30,7 @@ import {
 } from "./utils";
 import { rename } from "serviceFacades/filesystem";
 import isQueryLoading from "components/utils/isQueryLoading";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import styles from "./styles";
 
 const useStyles = makeStyles(styles);

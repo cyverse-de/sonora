@@ -16,9 +16,9 @@ import {
     AccordionDetails,
     AccordionSummary,
     Typography,
-    makeStyles,
-} from "@material-ui/core";
-import { ExpandMore } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { ExpandMore } from "@mui/icons-material";
 import PropTypes from "prop-types";
 
 const styles = (theme) => ({

@@ -14,10 +14,10 @@ import {
     TIMEOUT,
     WARNING,
 } from "components/announcer/AnnouncerConstants";
-import CloseIcon from "@material-ui/icons/Close";
-import IconButton from "@material-ui/core/IconButton";
-import { Snackbar, useTheme } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
+import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
+import { Snackbar, useTheme } from "@mui/material";
+import Alert from "@mui/material/Alert";
 
 function getTextColor(theme, severity) {
     let color;
@@ -38,12 +38,13 @@ function getTextColor(theme, severity) {
     return color;
 }
 
-function MySnackbarContent(props) {
+const MySnackbarContent = React.forwardRef((props, ref) => {
     const { message, onClose, variant: severity, action } = props;
     const theme = useTheme();
     return (
         <Alert
             elevation={6}
+            ref={ref}
             variant="filled"
             severity={severity}
             onClose={onClose}
@@ -53,7 +54,7 @@ function MySnackbarContent(props) {
             {message}
         </Alert>
     );
-}
+});
 
 MySnackbarContent.propTypes = {
     message: PropTypes.node,

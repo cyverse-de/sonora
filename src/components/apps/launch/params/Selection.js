@@ -7,7 +7,7 @@ import React from "react";
 
 import FormTextField from "components/forms/FormTextField";
 
-import { MenuItem } from "@material-ui/core";
+import { MenuItem } from "@mui/material";
 
 export default function Selection({ param, ...props }) {
     return (

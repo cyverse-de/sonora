@@ -64,7 +64,7 @@ import { useBagAddItems } from "serviceFacades/bags";
 
 import { useQueryClient, useMutation, useQuery } from "react-query";
 
-import { Button, Typography, useTheme } from "@material-ui/core";
+import { Button, Typography, useTheme } from "@mui/material";
 import DEDialog from "components/utils/DEDialog";
 import PublicLinks from "../PublicLinks";
 import constants from "../../../constants";

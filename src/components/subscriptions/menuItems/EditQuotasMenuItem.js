@@ -5,9 +5,9 @@ import ids from "../ids";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 
-import { Storage } from "@material-ui/icons";
+import { Storage } from "@mui/icons-material";
 export default function EditQuotasMenuItem(props) {
     const { baseId, onEditSelected, onClose } = props;
 

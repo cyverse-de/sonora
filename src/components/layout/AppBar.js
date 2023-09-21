@@ -55,12 +55,12 @@ import {
     Typography,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import MenuIcon from "@material-ui/icons/Menu";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useNotifications } from "contexts/pushNotifications";
 import { useRunningViceJobs } from "serviceFacades/analyses";
 import {
@@ -116,7 +116,7 @@ function DEAppBar(props) {
     const [userProfile, setUserProfile] = useUserProfile();
     const [userSubscription, setUserSubscription] = useState(null);
     const { currentNotification } = useNotifications();
-    const isXsDown = useMediaQuery(theme.breakpoints.down("xs"));
+    const isXsDown = useMediaQuery(theme.breakpoints.down("sm"));
     const [avatarLetter, setAvatarLetter] = useState("");
     const [open, setOpen] = useState(false);
     const [adminUser, setAdminUser] = useState(false);
@@ -419,12 +419,13 @@ function DEAppBar(props) {
                             onClick={handleDrawerOpen}
                             edge="start"
                             className={classes.menuIcon}
+                            size="large"
                         >
                             <MenuIcon className={"menu-intro"} />
                         </IconButton>
                         <Typography>{t("deTitle")}</Typography>
                     </Hidden>
-                    <Hidden xsDown>
+                    <Hidden smDown>
                         <a
                             href={cyverse_url}
                             target="_blank"
@@ -449,7 +450,7 @@ function DEAppBar(props) {
                             isFetchingRunningVice={isFetchingRunningVice}
                         />
                     </div>
-                    <Hidden xsDown>
+                    <Hidden smDown>
                         <div id={buildID(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}>
                             {accountAvatar}
                         </div>
@@ -471,7 +472,7 @@ function DEAppBar(props) {
                 open={isXsDown ? open : true}
                 onClose={isXsDown ? toggleDrawer(false) : undefined}
             >
-                <Hidden xsDown>
+                <Hidden smDown>
                     <div>
                         <IconButton
                             className={classes.menuIcon}
@@ -480,6 +481,7 @@ function DEAppBar(props) {
                             }
                             aria-label={open ? t("closeMenu") : t("openMenu")}
                             edge={open ? false : "start"}
+                            size="large"
                         >
                             {open ? (
                                 theme.direction === "rtl" ? (

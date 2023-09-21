@@ -5,10 +5,10 @@
  */
 import React from "react";
 import PropTypes from "prop-types";
-import Chip from "@material-ui/core/Chip";
-import PublicIcon from "@material-ui/icons/Public";
-import LockIcon from "@material-ui/icons/Lock";
-import { withStyles } from "@material-ui/core/styles";
+import Chip from "@mui/material/Chip";
+import PublicIcon from "@mui/icons-material/Public";
+import LockIcon from "@mui/icons-material/Lock";
+import withStyles from "@mui/styles/withStyles";
 
 const styles1 = (theme) => ({
     chip: {

@@ -4,8 +4,9 @@ import ids from "./ids";
 import styles from "./styles";
 
 import buildID from "components/utils/DebugIDUtil";
-import { Fab, IconButton, makeStyles } from "@material-ui/core";
-import { Add, Delete } from "@material-ui/icons";
+import { Fab, IconButton } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Add, Delete } from "@mui/icons-material";
 import PropTypes from "prop-types";
 
 const useStyles = makeStyles(styles);

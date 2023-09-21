@@ -16,12 +16,7 @@ import buildID from "components/utils/DebugIDUtil";
 
 import ids from "../ids";
 import { openInteractiveUrl } from "../utils";
-import {
-    Hidden,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-} from "@material-ui/core";
+import { Hidden, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import {
     Apps,
     Cancel as CancelIcon,
@@ -31,7 +26,7 @@ import {
     Launch as LaunchIcon,
     Refresh,
     ContactSupport,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 export default function DotMenuItems(props) {
     const {

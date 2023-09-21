@@ -24,7 +24,7 @@ import {
 
 import { useConfig } from "contexts/config";
 
-import { Grid, IconButton } from "@material-ui/core";
+import { Grid, IconButton } from "@mui/material";
 import {
     Cancel as CancelIcon,
     HourglassEmptyRounded as HourGlass,
@@ -34,7 +34,7 @@ import {
     UnfoldMore as UnfoldMoreIcon,
     Info,
     Notes as LogsIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 const RelaunchButton = React.forwardRef((props, ref) => {
     const { baseId, className, onClick, href } = props;

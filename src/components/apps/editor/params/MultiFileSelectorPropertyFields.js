@@ -23,7 +23,7 @@ import RequiredField from "./common/RequiredField";
 import buildID from "components/utils/DebugIDUtil";
 import FormCheckbox from "components/forms/FormCheckbox";
 
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 export default function MultiFileSelectorPropertyFields(props) {
     const { baseId, cosmeticOnly, fieldName } = props;

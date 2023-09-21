@@ -4,7 +4,7 @@ import { FastField, Field, Form, Formik } from "formik";
 import { mapPropsToValues, formatSubscriptions } from "./formatters";
 
 import DEDialog from "components/utils/DEDialog";
-import { Button, MenuItem } from "@material-ui/core";
+import { Button, MenuItem } from "@mui/material";
 
 import FormCheckbox from "components/forms/FormCheckbox";
 import FormTextField from "components/forms/FormTextField";

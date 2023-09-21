@@ -11,7 +11,7 @@
  */
 import React from "react";
 
-import { Grid, MenuItem } from "@material-ui/core";
+import { Grid, MenuItem } from "@mui/material";
 import { FastField, FieldArray, getIn } from "formik";
 
 import { FormSelectField } from "components/forms/FormField";

@@ -23,7 +23,7 @@ import {
 
 import buildID from "components/utils/DebugIDUtil";
 
-import Skeleton from "@material-ui/lab/Skeleton";
+import Skeleton from "@mui/material/Skeleton";
 
 export default function TextViewer(props) {
     const {

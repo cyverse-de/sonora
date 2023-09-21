@@ -19,8 +19,8 @@ import {
     MenuItem,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
-import { Settings } from "@material-ui/icons";
+} from "@mui/material";
+import { Settings } from "@mui/icons-material";
 import { useTranslation } from "i18n";
 
 import ids from "../ids";
@@ -29,7 +29,7 @@ function CustomizeColumns(props) {
     const { baseId, allTableColumns, displayColumns, setDisplayColumns } =
         props;
     const theme = useTheme();
-    const isSmall = useMediaQuery(theme.breakpoints.down("xs"));
+    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
     const { t } = useTranslation("data");
 
     const [columnSettingEl, setColumnSettingEl] = useState(null);
@@ -83,7 +83,7 @@ function CustomizeColumns(props) {
                 <Hidden smUp>
                     <Settings />
                 </Hidden>
-                <Hidden xsDown>{t("customizeColumns")}</Hidden>
+                <Hidden smDown>{t("customizeColumns")}</Hidden>
             </ButtonType>
             <Menu
                 id={menuId}

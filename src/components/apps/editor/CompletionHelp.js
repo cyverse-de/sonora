@@ -7,7 +7,7 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
 export default function CompletionHelp(props) {
     const { dirty, hasErrors, hasTool } = props;

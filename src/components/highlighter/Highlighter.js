@@ -1,7 +1,7 @@
 import React from "react";
 import { Highlight } from "react-highlighter-ts";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles/index";
+import withStyles from "@mui/styles/withStyles";
 
 /**
  * @author aramsey

@@ -6,7 +6,7 @@ import GridLabelValue from "components/utils/GridLabelValue";
 import GridLoading from "components/utils/GridLoading";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@mui/material";
 
 export default function ToolDetails(props) {
     const { baseDebugId, tool, isInfoFetching, infoFetchError } = props;

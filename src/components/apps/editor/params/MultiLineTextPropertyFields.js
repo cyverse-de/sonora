@@ -15,7 +15,7 @@ import VisibleField from "./common/VisibleField";
 
 import FormMultilineTextField from "components/forms/FormMultilineTextField";
 
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 export default function MultiLineTextPropertyFields(props) {
     const { baseId, cosmeticOnly, fieldName } = props;

@@ -6,12 +6,12 @@
 import React from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { Delete } from "@material-ui/icons";
-import { Button, IconButton } from "@material-ui/core";
+import { Delete } from "@mui/icons-material";
+import { Button, IconButton } from "@mui/material";
 import PropTypes from "prop-types";
 
 import ids from "./ids";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 import { useTranslation } from "../../i18n";
 
 const useStyles = makeStyles((theme) => ({

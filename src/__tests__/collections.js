@@ -7,6 +7,9 @@ import { UserProfileProvider } from "contexts/userProfile";
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { RQWrapper } from "../__mocks__/RQWrapper";
 
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "components/theme/default";
+
 beforeEach(() => {
     mockAxios.reset();
 });
@@ -20,7 +23,9 @@ test("Collection view renders", () => {
         <RQWrapper>
             <UserProfileProvider>
                 <I18nProviderWrapper>
-                    <View />
+                    <ThemeProvider theme={theme}>
+                        <View />
+                    </ThemeProvider>
                 </I18nProviderWrapper>
             </UserProfileProvider>
         </RQWrapper>

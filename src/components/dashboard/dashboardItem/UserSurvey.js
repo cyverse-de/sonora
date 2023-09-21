@@ -9,8 +9,8 @@ import {
     CardHeader,
     Typography,
     useTheme,
-} from "@material-ui/core";
-import { NewReleases } from "@material-ui/icons";
+} from "@mui/material";
+import { NewReleases } from "@mui/icons-material";
 
 import ids from "../ids";
 import { Trans, useTranslation } from "i18n";

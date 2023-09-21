@@ -35,8 +35,8 @@ import {
     Tooltip,
     Typography,
     useTheme,
-} from "@material-ui/core";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+} from "@mui/material";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 const GotoOutputFolderButton = React.forwardRef((props, ref) => {
     const { onClick, href } = props;
@@ -163,6 +163,7 @@ function Notifications(props) {
                     aria-label={t("newNotificationAriaLabel")}
                     style={{ color: theme.palette.primary.contrastText }}
                     onClick={handleClick}
+                    size="large"
                 >
                     <Badge badgeContent={unSeenCount} color="error">
                         <NotificationsIcon className={"notifications-intro"} />

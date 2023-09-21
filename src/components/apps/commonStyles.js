@@ -1,7 +1,7 @@
 export default (theme) => ({
     accordionDetails: {
         flexDirection: "column",
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             padding: theme.spacing(1),
         },
     },

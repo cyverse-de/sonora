@@ -13,8 +13,8 @@ import {
     CircularProgress,
     InputAdornment,
     Typography,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { Field, Formik } from "formik";
 import { useTranslation } from "i18n";
 import { useMutation } from "react-query";

@@ -7,7 +7,6 @@ import {
     Drawer,
     Grid,
     IconButton,
-    makeStyles,
     Table,
     TableBody,
     TableCell,
@@ -15,9 +14,11 @@ import {
     Typography,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { VerifiedUser } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { VerifiedUser } from "@mui/icons-material";
 import EmptyTable from "components/table/EmptyTable";
 import { formatDateObject } from "components/utils/DateFormatter";
 import GridLabelValue from "components/utils/GridLabelValue";
@@ -48,11 +49,11 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up("lg")]: {
             maxWidth: "25%",
         },
-        [theme.breakpoints.down("lg")]: {
+        [theme.breakpoints.down("xl")]: {
             maxWidth: "50%",
             minWidth: "45%",
         },
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             maxWidth: "90%",
         },
     },
@@ -130,7 +131,7 @@ function AddonsDetails(props) {
 function DetailsPanel(props) {
     const { baseId, selectedSubscription, t } = props;
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     return (
         <Box p={isMobile ? 1 : 3}>
@@ -302,6 +303,7 @@ function SubscriptionHeader(props) {
                         href={linkToUserPortal}
                         target="_blank"
                         rel="noopener noreferrer"
+                        size="large"
                     >
                         <VerifiedUser fontSize="small" color="primary" />
                     </IconButton>

@@ -34,7 +34,7 @@ import {
     MenuItem,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import {
     Cancel as CancelIcon,
@@ -49,7 +49,7 @@ import {
     Repeat as RelaunchIcon,
     UnfoldMore as UnfoldMoreIcon,
     Notes as LogsIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import SharingMenuItem from "../../sharing/SharingMenuItem";
 
 import { useConfig } from "contexts/config";
@@ -86,7 +86,7 @@ function DotMenuItems(props) {
     } = props;
     const { t } = useTranslation("analyses");
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const [href, as] = useRelaunchLink(selectedAnalyses[0]);
     const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
         selectedAnalyses[0]?.resultfolderid

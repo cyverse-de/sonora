@@ -20,7 +20,7 @@ import {
     TableContainer,
     TableRow,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 /**
  * Returns localized column header information for the tool listing table.

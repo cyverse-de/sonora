@@ -12,7 +12,7 @@ import { useUserProfile } from "../../contexts/userProfile";
 
 import buildID from "components/utils/DebugIDUtil";
 import ids from "../utils/ids";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
 function ClientInfo(props) {
     const [browser, setBrowser] = useState();

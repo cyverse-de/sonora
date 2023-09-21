@@ -19,6 +19,9 @@ import { EditAddonTest } from "../../stories/subscriptions/EditAddon.stories";
 import { mockAxios } from "../../stories/axiosMock";
 import { RQWrapper } from "../__mocks__/RQWrapper";
 
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "components/theme/default";
+
 beforeEach(() => {
     mockAxios.reset();
 });
@@ -31,7 +34,9 @@ const TestProviderWrapper = ({ children }) => (
     <RQWrapper>
         <I18nProviderWrapper>
             <ConfigProvider>
-                <UserProfileProvider>{children}</UserProfileProvider>
+                <ThemeProvider theme={theme}>
+                    <UserProfileProvider>{children}</UserProfileProvider>
+                </ThemeProvider>
             </ConfigProvider>
         </I18nProviderWrapper>
     </RQWrapper>

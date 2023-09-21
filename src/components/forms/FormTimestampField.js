@@ -9,9 +9,9 @@ import dateConstants from "components/utils/dateConstants";
 
 import getFormError from "./getFormError";
 
-import FormControl from "@material-ui/core/FormControl";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import TextField from "@material-ui/core/TextField";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import TextField from "@mui/material/TextField";
 
 const onDateChange = (prevDate, fieldName, setFieldValue) => (event) => {
     const newValue = event.target.value;

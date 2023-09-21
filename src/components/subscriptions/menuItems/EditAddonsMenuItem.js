@@ -5,8 +5,8 @@ import ids from "../ids";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
-import { Extension } from "@material-ui/icons";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
+import { Extension } from "@mui/icons-material";
 
 export default function EditAddonsMenuItem(props) {
     const { baseId, onEditAddonsSelected, onClose } = props;

@@ -30,10 +30,11 @@ import {
     AccordionDetails,
     Tooltip,
     Typography,
-    makeStyles,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import makeStyles from "@mui/styles/makeStyles";
+
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const useStyles = makeStyles(styles);
 

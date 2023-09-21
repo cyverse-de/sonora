@@ -23,8 +23,8 @@ import { Bar } from "react-chartjs-2";
 import constants from "../../../constants";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import { getErrorCode } from "components/error/errorCode";
-import { Typography, useTheme } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Typography, useTheme } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import { formatDateObject } from "components/utils/DateFormatter";
 import { formatUsagePercentage } from "components/subscriptions/utils";
 
@@ -174,7 +174,7 @@ export default function CPUConsumption(props) {
         }
     }
     if (isLoading) {
-        return <Skeleton variant="rect" width={300} height={200} />;
+        return <Skeleton variant="rectangular" width={300} height={200} />;
     }
 
     const usage = Number.parseFloat(data?.total).toFixed(2);

@@ -17,7 +17,7 @@ import {
     InputLabel,
     FormControl,
     MenuItem,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import { CODE_MIRROR_MODES } from "./constants";
 

@@ -30,7 +30,6 @@ import FormTextField from "components/forms/FormTextField";
 import {
     Button,
     ListItemText,
-    makeStyles,
     Menu,
     MenuItem,
     Table,
@@ -40,9 +39,11 @@ import {
     TableHead,
     TableRow,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { Add, Delete } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { Add, Delete } from "@mui/icons-material";
 
 const useStyles = makeStyles(styles);
 

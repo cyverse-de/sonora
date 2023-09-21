@@ -22,9 +22,9 @@ import BasicTable from "components/table/BasicTable";
 import ExternalLink from "components/utils/ExternalLink";
 import { useConfig } from "contexts/config";
 
-import { IconButton, Typography } from "@material-ui/core";
-import ThumbDownIcon from "@material-ui/icons/ThumbDown";
-import ThumbUpIcon from "@material-ui/icons/ThumbUp";
+import { IconButton, Typography } from "@mui/material";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 
 export default function TableView(props) {
     const { baseId, loading, data, onUpdateRequest, emptyDataMessage } = props;
@@ -81,6 +81,7 @@ export default function TableView(props) {
                                     ACCESS_REQUEST_APPROVED
                                 )
                             }
+                            size="large"
                         >
                             <ThumbUpIcon />
                         </IconButton>
@@ -107,6 +108,7 @@ export default function TableView(props) {
                                     ACCESS_REQUEST_REJECTED
                                 )
                             }
+                            size="large"
                         >
                             <ThumbDownIcon />
                         </IconButton>

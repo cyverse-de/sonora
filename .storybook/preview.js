@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import CyVerseAnnouncer from "components/announcer/CyVerseAnnouncer";
-import { ThemeProvider } from "@material-ui/core/styles";
+import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 
 import theme from "../src/components/theme/default";
 
@@ -78,28 +78,30 @@ addDecorator((storyFn, context) => withConsole()(storyFn)(context));
 
 export const decorators = [
     (Story) => (
-        <ThemeProvider theme={theme}>
-            <ConfigProvider>
-                <MockConfig />
-                <UserProfileProvider>
-                    <QueryClientProvider client={queryClient}>
-                        <MockUserProfile />
-                        <BootstrapInfoProvider>
-                            <MockBootstrapInfo />
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+                <ConfigProvider>
+                    <MockConfig />
+                    <UserProfileProvider>
+                        <QueryClientProvider client={queryClient}>
+                            <MockUserProfile />
+                            <BootstrapInfoProvider>
+                                <MockBootstrapInfo />
 
-                            <I18nProviderWrapper>
-                                <BagInfoProvider>
-                                    <MockBagInfo />
-                                    {Story()}
-                                </BagInfoProvider>
-                            </I18nProviderWrapper>
+                                <I18nProviderWrapper>
+                                    <BagInfoProvider>
+                                        <MockBagInfo />
+                                        {Story()}
+                                    </BagInfoProvider>
+                                </I18nProviderWrapper>
 
-                            <CyVerseAnnouncer />
-                        </BootstrapInfoProvider>
-                    </QueryClientProvider>
-                </UserProfileProvider>
-            </ConfigProvider>
-        </ThemeProvider>
+                                <CyVerseAnnouncer />
+                            </BootstrapInfoProvider>
+                        </QueryClientProvider>
+                    </UserProfileProvider>
+                </ConfigProvider>
+            </ThemeProvider>
+        </StyledEngineProvider>
     ),
 ];
 export const parameters = {

@@ -20,12 +20,13 @@ import {
     MenuItem,
     ListItemIcon,
     ListItemText,
-    makeStyles,
     useTheme,
     useMediaQuery,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { Delete, Edit, ArrowDownward, ArrowUpward } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { Delete, Edit, ArrowDownward, ArrowUpward } from "@mui/icons-material";
 
 const useStyles = makeStyles(styles);
 
@@ -42,7 +43,7 @@ export default function ParamLayoutActions(props) {
     } = props;
 
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const classes = useStyles();
     const { t } = useTranslation("common");
 

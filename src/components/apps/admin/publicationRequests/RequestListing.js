@@ -28,8 +28,8 @@ import {
     TableCell,
     TableRow,
     Tooltip,
-} from "@material-ui/core";
-import PublicIcon from "@material-ui/icons/Public";
+} from "@mui/material";
+import PublicIcon from "@mui/icons-material/Public";
 
 /**
  *
@@ -239,6 +239,7 @@ function AppPublicationRequests(props) {
                                                         request.app
                                                     )
                                                 }
+                                                size="large"
                                             >
                                                 <PublicIcon fontSize="small" />
                                             </IconButton>

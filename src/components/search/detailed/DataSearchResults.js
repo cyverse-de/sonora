@@ -324,7 +324,7 @@ function DataSearchResults(props) {
     }
     if (
         status !== constants.LOADING &&
-        (!data || data.pages.length === 0 || data.pages[0]?.hits.length === 0)
+        (!data || data.pages.length === 0 || data.pages[0]?.hits?.length === 0)
     ) {
         return (
             <>
@@ -335,7 +335,7 @@ function DataSearchResults(props) {
     }
 
     let flatData = [];
-    if (data && data.pages[0].hits.length > 0) {
+    if (data && data.pages[0].hits?.length > 0) {
         data.pages.forEach((page) => {
             flatData = [...flatData, ...page.hits];
         });

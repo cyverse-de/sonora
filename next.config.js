@@ -97,5 +97,6 @@ module.exports = withBundleAnalyzer({
         SUPPORT_EMAIL: config.get("support_email"),
         DE_FAQ: config.get("de_faq"),
         CYVERSE_URL: config.get("cyverse_url"),
+        ELASTIC_ENABLED: config.get("elastic.enabled"),
     },
 });

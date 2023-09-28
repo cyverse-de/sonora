@@ -213,6 +213,7 @@ function MyApp({ Component, pageProps }) {
         const supportEmail = publicRuntimeConfig.SUPPORT_EMAIL;
         const deFaq = publicRuntimeConfig.DE_FAQ;
         const cyverseURL = publicRuntimeConfig.CYVERSE_URL;
+        const elasticEnabled = publicRuntimeConfig.ELASTIC_ENABLED;
 
         setConfig({
             intercom,
@@ -230,6 +231,7 @@ function MyApp({ Component, pageProps }) {
             supportEmail,
             deFaq,
             cyverseURL,
+            elasticEnabled,
         });
 
         const jssStyles = document.querySelector("#jss-server-side");

@@ -362,6 +362,8 @@ function GlobalSearchField(props) {
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [userHomeDir, setUserHomeDir] = useState(null);
 
+    const [defaultTab, setDefaultTab] = useState(null);
+
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
@@ -433,6 +435,14 @@ function GlobalSearchField(props) {
     useEffect(() => {
         setFilter(selectedFilter);
     }, [selectedFilter]);
+
+    useEffect(() => {
+        setDefaultTab(
+            config?.elasticEnabled
+                ? SEARCH_RESULTS_TABS.data
+                : SEARCH_RESULTS_TABS.apps
+        );
+    }, [config]);
 
     const { isFetching: searchingAnalyses, error: analysesSearchError } =
         useAnalysesSearch(
@@ -825,7 +835,7 @@ function GlobalSearchField(props) {
                         selectedTab:
                             filter && filter !== searchConstants.ALL
                                 ? filter.toUpperCase()
-                                : SEARCH_RESULTS_TABS.data,
+                                : defaultTab,
                     });
                 }
             }}

@@ -407,6 +407,7 @@ function GlobalSearchField(props) {
         },
     };
 
+    // Return 'view all data' option if data search is enabled; otherwise, return false. False values are filtered out from the options array.
     const viewAllDataOptions = () => {
         return config?.elasticEnabled
             ? {

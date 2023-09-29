@@ -407,10 +407,14 @@ function GlobalSearchField(props) {
         },
     };
 
-    const viewAllDataOptions = {
-        id: searchConstants.VIEW_ALL_DATA_ID,
-        name: searchTerm,
-        resultType: { type: t("data"), id: searchConstants.DATA },
+    const viewAllDataOptions = () => {
+        return config?.elasticEnabled
+            ? {
+                  id: searchConstants.VIEW_ALL_DATA_ID,
+                  name: searchTerm,
+                  resultType: { type: t("data"), id: searchConstants.DATA },
+              }
+            : false;
     };
 
     const viewAllAppOptions = {
@@ -447,14 +451,16 @@ function GlobalSearchField(props) {
                         filter === searchConstants.ANALYSES &&
                         !singleSearchOption
                     ) {
-                        setOptions([
-                            ...options,
-                            ...analyses,
-                            viewAllAnalysesOptions,
-                            viewAllAppOptions,
-                            viewAllDataOptions,
-                            viewAllTeamOptions,
-                        ]);
+                        setOptions(
+                            [
+                                ...options,
+                                ...analyses,
+                                viewAllAnalysesOptions,
+                                viewAllAppOptions,
+                                viewAllDataOptions(),
+                                viewAllTeamOptions,
+                            ].filter(Boolean)
+                        );
                     } else {
                         setOptions([
                             ...options,
@@ -479,14 +485,16 @@ function GlobalSearchField(props) {
                     };
                 });
                 if (filter === searchConstants.APPS && !singleSearchOption) {
-                    setOptions([
-                        ...options,
-                        ...apps,
-                        viewAllAppOptions,
-                        viewAllAnalysesOptions,
-                        viewAllDataOptions,
-                        viewAllTeamOptions,
-                    ]);
+                    setOptions(
+                        [
+                            ...options,
+                            ...apps,
+                            viewAllAppOptions,
+                            viewAllAnalysesOptions,
+                            viewAllDataOptions(),
+                            viewAllTeamOptions,
+                        ].filter(Boolean)
+                    );
                 } else {
                     setOptions([...options, ...apps, viewAllAppOptions]);
                 }
@@ -508,19 +516,25 @@ function GlobalSearchField(props) {
                     };
                 });
                 if (filter === searchConstants.DATA && !singleSearchOption) {
-                    setOptions([
-                        ...options,
-                        ...data,
-                        viewAllDataOptions,
-                        viewAllAnalysesOptions,
-                        viewAllAppOptions,
-                        viewAllTeamOptions,
-                    ]);
+                    setOptions(
+                        [
+                            ...options,
+                            ...data,
+                            viewAllDataOptions(),
+                            viewAllAnalysesOptions,
+                            viewAllAppOptions,
+                            viewAllTeamOptions,
+                        ].filter(Boolean)
+                    );
                 } else {
-                    setOptions([...options, ...data, viewAllDataOptions]);
+                    setOptions(
+                        [...options, ...data, viewAllDataOptions()].filter(
+                            Boolean
+                        )
+                    );
                 }
             } else {
-                setOptions([...options, viewAllDataOptions]);
+                setOptions([...options, viewAllDataOptions()].filter(Boolean));
             }
         }
     );
@@ -536,14 +550,16 @@ function GlobalSearchField(props) {
                     };
                 });
                 if (filter === searchConstants.TEAMS && !singleSearchOption) {
-                    setOptions([
-                        ...options,
-                        ...teams,
-                        viewAllTeamOptions,
-                        viewAllDataOptions,
-                        viewAllAppOptions,
-                        viewAllAnalysesOptions,
-                    ]);
+                    setOptions(
+                        [
+                            ...options,
+                            ...teams,
+                            viewAllTeamOptions,
+                            viewAllDataOptions(),
+                            viewAllAppOptions,
+                            viewAllAnalysesOptions,
+                        ].filter(Boolean)
+                    );
                 } else {
                     setOptions([...options, ...teams, viewAllTeamOptions]);
                 }

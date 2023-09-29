@@ -614,7 +614,7 @@ function GlobalSearchField(props) {
         const isLoggedIn = !!userProfile?.id;
         switch (filter) {
             case searchConstants.DATA:
-                setDataSearchQueryEnabled(true);
+                setDataSearchQueryEnabled(config?.elasticEnabled);
                 setAppsSearchQueryEnabled(false);
                 setAnalysesSearchQueryEnabled(false);
                 setTeamSearchQueryEnabled(false);
@@ -642,7 +642,7 @@ function GlobalSearchField(props) {
                 break;
 
             default:
-                setDataSearchQueryEnabled(true);
+                setDataSearchQueryEnabled(config?.elasticEnabled);
                 setAppsSearchQueryEnabled(true);
                 setAnalysesSearchQueryEnabled(isLoggedIn);
                 setTeamSearchQueryEnabled(isLoggedIn);
@@ -816,14 +816,17 @@ function GlobalSearchField(props) {
     );
 
     const searchFilterId = buildID(ids.SEARCH, ids.SEARCH_FILTER_MENU);
+    const allFilterOptions = [
+        searchConstants.ALL,
+        searchConstants.DATA,
+        searchConstants.APPS,
+        searchConstants.ANALYSES,
+    ];
     const filterOptions = singleSearchOption
         ? [selectedFilter]
-        : [
-              searchConstants.ALL,
-              searchConstants.DATA,
-              searchConstants.APPS,
-              searchConstants.ANALYSES,
-          ];
+        : config?.elasticEnabled
+        ? allFilterOptions
+        : allFilterOptions.filter((option) => option !== searchConstants.DATA);
 
     return (
         <>

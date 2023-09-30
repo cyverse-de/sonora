@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Hidden } from "@material-ui/core";
@@ -7,12 +7,22 @@ import GlobalSearchField from "components/search/GlobalSearchField";
 import DetailedSearchResults from "components/search/detailed/DetailedSearchResults";
 import SEARCH_RESULTS_TABS from "components/search/detailed/tabs";
 import NavigationConstants from "common/NavigationConstants";
+import { useConfig } from "contexts/config";
 
 export default function Search() {
+    const [config] = useConfig();
     const router = useRouter();
+    const [defaultTab, setDefaultTab] = useState(null);
     const { searchTerm, filter, selectedTab, advancedDataQuery } =
         router?.query;
-    let tab = selectedTab || SEARCH_RESULTS_TABS.data;
+    useEffect(() => {
+        setDefaultTab(
+            config?.elasticEnabled
+                ? SEARCH_RESULTS_TABS.data
+                : SEARCH_RESULTS_TABS.apps
+        );
+    }, [config]);
+    let tab = selectedTab || defaultTab;
     const onShowDetailedSearch = (query) => {
         router.push({
             pathname: `/${NavigationConstants.SEARCH}`,
@@ -33,7 +43,7 @@ export default function Search() {
                 baseId="search"
                 searchTerm={searchTerm}
                 advancedDataQuery={advancedDataQuery}
-                filter={filter}
+                //filter={filter}
                 selectedTab={tab}
                 onTabSelectionChange={(event, selection) => {
                     router.push({

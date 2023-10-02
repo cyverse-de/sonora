@@ -43,7 +43,7 @@ export default function Search() {
                 baseId="search"
                 searchTerm={searchTerm}
                 advancedDataQuery={advancedDataQuery}
-                //filter={filter}
+                filter={filter}
                 selectedTab={tab}
                 onTabSelectionChange={(event, selection) => {
                     router.push({

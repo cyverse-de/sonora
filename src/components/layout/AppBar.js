@@ -407,6 +407,7 @@ function DEAppBar(props) {
                 id={ids.APP_BAR_BASE}
                 position="static"
                 variant="outlined"
+                elevation={0}
                 ref={ref}
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: open,

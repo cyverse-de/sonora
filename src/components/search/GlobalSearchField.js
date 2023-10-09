@@ -339,6 +339,9 @@ function GlobalSearchField(props) {
     const { t: analysesI18n } = useTranslation("analyses");
     const { t: i18NSearch } = useTranslation("search");
     const appRecordFields = appFields(appsI18n);
+    const defaultTab = config?.elasticEnabled
+        ? SEARCH_RESULTS_TABS.data
+        : SEARCH_RESULTS_TABS.apps;
 
     const [searchTerm, setSearchTerm] = useState(search);
     const [filter, setFilter] = useState(selectedFilter || searchConstants.ALL);
@@ -361,8 +364,6 @@ function GlobalSearchField(props) {
 
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
     const [userHomeDir, setUserHomeDir] = useState(null);
-
-    const [defaultTab, setDefaultTab] = useState(null);
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -435,14 +436,6 @@ function GlobalSearchField(props) {
     useEffect(() => {
         setFilter(selectedFilter);
     }, [selectedFilter]);
-
-    useEffect(() => {
-        setDefaultTab(
-            config?.elasticEnabled
-                ? SEARCH_RESULTS_TABS.data
-                : SEARCH_RESULTS_TABS.apps
-        );
-    }, [config]);
 
     const { isFetching: searchingAnalyses, error: analysesSearchError } =
         useAnalysesSearch(

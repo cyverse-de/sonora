@@ -47,4 +47,5 @@ export default {
             "https://cyverse-subscription-sandbox.phoenixbioinformatics.org",
         enforce: true,
     },
+    elasticEnabled: true,
 };

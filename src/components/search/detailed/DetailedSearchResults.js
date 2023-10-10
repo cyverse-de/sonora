@@ -39,6 +39,8 @@ import {
 import AppsIcon from "@material-ui/icons/Apps";
 import SearchIcon from "@material-ui/icons/Search";
 
+import { useConfig } from "contexts/config";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -91,6 +93,8 @@ function DetailedSearchResults(props) {
     const appsTabId = buildID(baseId, ids.APPS_SEARCH_RESULTS_TAB);
     const analysesTabId = buildID(baseId, ids.ANALYSES_SEARCH_RESULTS_TAB);
     const teamTabId = buildID(baseId, ids.TEAM_SEARCH_RESULTS_TAB);
+
+    const [config] = useConfig();
 
     const dataTabIcon =
         selectedTab === SEARCH_RESULTS_TABS.data ? (
@@ -153,17 +157,21 @@ function DetailedSearchResults(props) {
                 centered={!isMobile}
                 variant={isMobile ? "fullWidth" : "standard"}
             >
-                <DETab
-                    value={SEARCH_RESULTS_TABS.data}
-                    key={dataTabId}
-                    id={dataTabId}
-                    label={
-                        isMobile
-                            ? `(${dataCount})`
-                            : t("search:dataSearchTab", { count: dataCount })
-                    }
-                    icon={dataTabIcon}
-                />
+                {config?.elasticEnabled && (
+                    <DETab
+                        value={SEARCH_RESULTS_TABS.data}
+                        key={dataTabId}
+                        id={dataTabId}
+                        label={
+                            isMobile
+                                ? `(${dataCount})`
+                                : t("search:dataSearchTab", {
+                                      count: dataCount,
+                                  })
+                        }
+                        icon={dataTabIcon}
+                    />
+                )}
                 <DETab
                     value={SEARCH_RESULTS_TABS.apps}
                     key={appsTabId}
@@ -202,19 +210,20 @@ function DetailedSearchResults(props) {
                     icon={<TeamIcon />}
                 />
             </Tabs>
-
-            <DETabPanel
-                tabId={dataTabId}
-                value={SEARCH_RESULTS_TABS.data}
-                selectedTab={selectedTab}
-            >
-                <DataSearchResults
-                    searchTerm={searchTerm}
-                    advancedDataQuery={advancedDataQuery}
-                    updateResultCount={(count) => setDataCount(count)}
-                    baseId={dataTabId}
-                />
-            </DETabPanel>
+            {config?.elasticEnabled && (
+                <DETabPanel
+                    tabId={dataTabId}
+                    value={SEARCH_RESULTS_TABS.data}
+                    selectedTab={selectedTab}
+                >
+                    <DataSearchResults
+                        searchTerm={searchTerm}
+                        advancedDataQuery={advancedDataQuery}
+                        updateResultCount={(count) => setDataCount(count)}
+                        baseId={dataTabId}
+                    />
+                </DETabPanel>
+            )}
             <DETabPanel
                 tabId={appsTabId}
                 value={SEARCH_RESULTS_TABS.apps}

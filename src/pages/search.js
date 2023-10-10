@@ -7,12 +7,18 @@ import GlobalSearchField from "components/search/GlobalSearchField";
 import DetailedSearchResults from "components/search/detailed/DetailedSearchResults";
 import SEARCH_RESULTS_TABS from "components/search/detailed/tabs";
 import NavigationConstants from "common/NavigationConstants";
+import { useConfig } from "contexts/config";
 
 export default function Search() {
+    const [config] = useConfig();
     const router = useRouter();
+    const defaultTab = config?.elasticEnabled
+        ? SEARCH_RESULTS_TABS.data
+        : SEARCH_RESULTS_TABS.apps;
     const { searchTerm, filter, selectedTab, advancedDataQuery } =
         router?.query;
-    let tab = selectedTab || SEARCH_RESULTS_TABS.data;
+
+    let tab = selectedTab || defaultTab;
     const onShowDetailedSearch = (query) => {
         router.push({
             pathname: `/${NavigationConstants.SEARCH}`,

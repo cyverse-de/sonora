@@ -135,7 +135,10 @@ function DEAppBar(props) {
         filter = searchConstants.APPS;
     } else if (activeView === NavigationConstants.ANALYSES) {
         filter = searchConstants.ANALYSES;
-    } else if (activeView === NavigationConstants.DATA) {
+    } else if (
+        activeView === NavigationConstants.DATA &&
+        config?.elasticEnabled
+    ) {
         filter = searchConstants.DATA;
     } else {
         filter = searchConstants.ALL;

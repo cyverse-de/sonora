@@ -339,6 +339,9 @@ function GlobalSearchField(props) {
     const { t: analysesI18n } = useTranslation("analyses");
     const { t: i18NSearch } = useTranslation("search");
     const appRecordFields = appFields(appsI18n);
+    const defaultTab = config?.elasticEnabled
+        ? SEARCH_RESULTS_TABS.data
+        : SEARCH_RESULTS_TABS.apps;
 
     const [searchTerm, setSearchTerm] = useState(search);
     const [filter, setFilter] = useState(selectedFilter || searchConstants.ALL);
@@ -407,10 +410,15 @@ function GlobalSearchField(props) {
         },
     };
 
-    const viewAllDataOptions = {
-        id: searchConstants.VIEW_ALL_DATA_ID,
-        name: searchTerm,
-        resultType: { type: t("data"), id: searchConstants.DATA },
+    // Return 'view all data' option if data search is enabled; otherwise, return false. False values are filtered out from the options array.
+    const viewAllDataOptions = () => {
+        return config?.elasticEnabled
+            ? {
+                  id: searchConstants.VIEW_ALL_DATA_ID,
+                  name: searchTerm,
+                  resultType: { type: t("data"), id: searchConstants.DATA },
+              }
+            : false;
     };
 
     const viewAllAppOptions = {
@@ -447,14 +455,16 @@ function GlobalSearchField(props) {
                         filter === searchConstants.ANALYSES &&
                         !singleSearchOption
                     ) {
-                        setOptions([
-                            ...options,
-                            ...analyses,
-                            viewAllAnalysesOptions,
-                            viewAllAppOptions,
-                            viewAllDataOptions,
-                            viewAllTeamOptions,
-                        ]);
+                        setOptions(
+                            [
+                                ...options,
+                                ...analyses,
+                                viewAllAnalysesOptions,
+                                viewAllAppOptions,
+                                viewAllDataOptions(),
+                                viewAllTeamOptions,
+                            ].filter(Boolean)
+                        );
                     } else {
                         setOptions([
                             ...options,
@@ -479,14 +489,16 @@ function GlobalSearchField(props) {
                     };
                 });
                 if (filter === searchConstants.APPS && !singleSearchOption) {
-                    setOptions([
-                        ...options,
-                        ...apps,
-                        viewAllAppOptions,
-                        viewAllAnalysesOptions,
-                        viewAllDataOptions,
-                        viewAllTeamOptions,
-                    ]);
+                    setOptions(
+                        [
+                            ...options,
+                            ...apps,
+                            viewAllAppOptions,
+                            viewAllAnalysesOptions,
+                            viewAllDataOptions(),
+                            viewAllTeamOptions,
+                        ].filter(Boolean)
+                    );
                 } else {
                     setOptions([...options, ...apps, viewAllAppOptions]);
                 }
@@ -508,19 +520,25 @@ function GlobalSearchField(props) {
                     };
                 });
                 if (filter === searchConstants.DATA && !singleSearchOption) {
-                    setOptions([
-                        ...options,
-                        ...data,
-                        viewAllDataOptions,
-                        viewAllAnalysesOptions,
-                        viewAllAppOptions,
-                        viewAllTeamOptions,
-                    ]);
+                    setOptions(
+                        [
+                            ...options,
+                            ...data,
+                            viewAllDataOptions(),
+                            viewAllAnalysesOptions,
+                            viewAllAppOptions,
+                            viewAllTeamOptions,
+                        ].filter(Boolean)
+                    );
                 } else {
-                    setOptions([...options, ...data, viewAllDataOptions]);
+                    setOptions(
+                        [...options, ...data, viewAllDataOptions()].filter(
+                            Boolean
+                        )
+                    );
                 }
             } else {
-                setOptions([...options, viewAllDataOptions]);
+                setOptions([...options, viewAllDataOptions()].filter(Boolean));
             }
         }
     );
@@ -536,14 +554,16 @@ function GlobalSearchField(props) {
                     };
                 });
                 if (filter === searchConstants.TEAMS && !singleSearchOption) {
-                    setOptions([
-                        ...options,
-                        ...teams,
-                        viewAllTeamOptions,
-                        viewAllDataOptions,
-                        viewAllAppOptions,
-                        viewAllAnalysesOptions,
-                    ]);
+                    setOptions(
+                        [
+                            ...options,
+                            ...teams,
+                            viewAllTeamOptions,
+                            viewAllDataOptions(),
+                            viewAllAppOptions,
+                            viewAllAnalysesOptions,
+                        ].filter(Boolean)
+                    );
                 } else {
                     setOptions([...options, ...teams, viewAllTeamOptions]);
                 }
@@ -614,7 +634,7 @@ function GlobalSearchField(props) {
         const isLoggedIn = !!userProfile?.id;
         switch (filter) {
             case searchConstants.DATA:
-                setDataSearchQueryEnabled(true);
+                setDataSearchQueryEnabled(config?.elasticEnabled);
                 setAppsSearchQueryEnabled(false);
                 setAnalysesSearchQueryEnabled(false);
                 setTeamSearchQueryEnabled(false);
@@ -642,7 +662,7 @@ function GlobalSearchField(props) {
                 break;
 
             default:
-                setDataSearchQueryEnabled(true);
+                setDataSearchQueryEnabled(config?.elasticEnabled);
                 setAppsSearchQueryEnabled(true);
                 setAnalysesSearchQueryEnabled(isLoggedIn);
                 setTeamSearchQueryEnabled(isLoggedIn);
@@ -808,7 +828,7 @@ function GlobalSearchField(props) {
                         selectedTab:
                             filter && filter !== searchConstants.ALL
                                 ? filter.toUpperCase()
-                                : SEARCH_RESULTS_TABS.data,
+                                : defaultTab,
                     });
                 }
             }}
@@ -816,14 +836,17 @@ function GlobalSearchField(props) {
     );
 
     const searchFilterId = buildID(ids.SEARCH, ids.SEARCH_FILTER_MENU);
+    const allFilterOptions = [
+        searchConstants.ALL,
+        searchConstants.DATA,
+        searchConstants.APPS,
+        searchConstants.ANALYSES,
+    ];
     const filterOptions = singleSearchOption
         ? [selectedFilter]
-        : [
-              searchConstants.ALL,
-              searchConstants.DATA,
-              searchConstants.APPS,
-              searchConstants.ANALYSES,
-          ];
+        : config?.elasticEnabled
+        ? allFilterOptions
+        : allFilterOptions.filter((option) => option !== searchConstants.DATA);
 
     return (
         <>

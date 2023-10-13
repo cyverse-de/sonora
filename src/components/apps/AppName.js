@@ -1,9 +1,9 @@
 /**
  * A component that displays app's name.
  *
- * @author sriram
+ * @author sriram, psarando
  */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "i18n";
 import PropTypes from "prop-types";
 
@@ -11,49 +11,15 @@ import Link from "next/link";
 import DELink from "components/utils/DELink";
 import { ERROR_CODES } from "components/error/errorCode";
 import AccessRequestDialog from "components/vice/AccessRequestDialog";
+import RunErrorDialog from "components/vice/RunErrorDialog";
 import VicePendingRequestDlg from "components/vice/VicePendingRequestDlg";
 
 import { useUserProfile } from "contexts/userProfile";
-import DEDialog from "components/utils/DEDialog";
-import RunError from "./RunError";
 import { useAppLaunchLink } from "./utils";
 import ids from "./ids";
 
 import Highlighter from "components/highlighter/Highlighter";
-import { Button, Link as MuiLink, Typography } from "@material-ui/core";
-
-function RunErrorDialog(props) {
-    const { baseId, code, open, viceQuota, runningJobs, onClose } = props;
-    const { t } = useTranslation("launch");
-    const { t: i18Common } = useTranslation("common");
-    let title;
-    if (code === ERROR_CODES.ERR_LIMIT_REACHED) {
-        title = t("jobLimitReached");
-    } else if (code === ERROR_CODES.ERR_FORBIDDEN) {
-        title = t("accessDenied");
-    }
-    return (
-        <DEDialog
-            baseId={baseId}
-            title={title}
-            open={open}
-            actions={
-                <Button color="primary" onClick={onClose}>
-                    {i18Common("ok")}
-                </Button>
-            }
-            onClose={onClose}
-        >
-            <Typography>
-                <RunError
-                    code={code}
-                    viceQuota={viceQuota}
-                    runningJobs={runningJobs}
-                />
-            </Typography>
-        </DEDialog>
-    );
-}
+import { Link as MuiLink } from "@material-ui/core";
 
 function AppName(props) {
     const {
@@ -65,10 +31,7 @@ function AppName(props) {
         searchTerm,
         limitChecks,
     } = props;
-    const [runErrorCodes, setRunErrorCodes] = useState(null);
     const [userProfile] = useUserProfile();
-    const [viceQuota, setViceQuota] = useState();
-    const [runningJobs, setRunningJobs] = useState();
     const [accessRequestDialogOpen, setAccessRequestDialogOpen] =
         useState(false);
     const [pendingRequestDlgOpen, setPendingRequestDlgOpen] = useState(false);
@@ -76,13 +39,15 @@ function AppName(props) {
     const [href, as] = useAppLaunchLink(systemId, appId);
     const { t } = useTranslation("apps");
 
-    useEffect(() => {
-        if (limitChecks && !limitChecks.canRun) {
-            setRunErrorCodes(limitChecks.results[0]?.reasonCodes);
-            setViceQuota(limitChecks.results[0]?.additionalInfo?.maxJobs);
-            setRunningJobs(limitChecks.results[0]?.additionalInfo?.runningJobs);
-        }
-    }, [limitChecks]);
+    let runErrorCodes;
+    let viceQuota;
+    let runningJobs;
+
+    if (limitChecks?.results) {
+        runErrorCodes = limitChecks.results[0]?.reasonCodes;
+        viceQuota = limitChecks.results[0]?.additionalInfo?.maxJobs;
+        runningJobs = limitChecks.results[0]?.additionalInfo?.runningJobs;
+    }
 
     let title = "";
     if (isDisabled) {

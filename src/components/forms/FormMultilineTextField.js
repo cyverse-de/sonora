@@ -5,7 +5,7 @@ import React from "react";
 import FormTextField from "./FormTextField";
 
 const FormMultilineTextField = (props) => (
-    <FormTextField multiline rows={3} {...props} />
+    <FormTextField multiline minRows={3} {...props} />
 );
 
 export default FormMultilineTextField;

@@ -6,6 +6,8 @@ import fetchMock from "fetch-mock";
 import { mockAxios } from "../axiosMock";
 
 import { appDetails, listingById } from "./appDetails";
+
+import { instantLaunchAppInfo } from "../data/DataMocksInstantLaunch";
 import {
     usageSummaryResponse,
     usageSummaryComputeLimitExceededResponse,
@@ -17,7 +19,10 @@ export default {
     title: "Dashboard / Display",
 };
 
-const DashboardTestTemplate = ({ usageSummaryResponseBody }) => {
+const DashboardTestTemplate = ({
+    instantLaunchAppInfoResponse,
+    usageSummaryResponseBody,
+}) => {
     const favoriteUriRegexp = /\/api\/apps\/[^/]+\/[^/]+\/favorite/;
     mockAxios
         .onGet(/\/api\/apps\/[^/]+\/[^/]+\/details/)
@@ -28,6 +33,9 @@ const DashboardTestTemplate = ({ usageSummaryResponseBody }) => {
     mockAxios.onGet("/api/dashboard?limit=8").reply(200, testData);
     mockAxios.onPut(favoriteUriRegexp).reply(200);
     mockAxios.onDelete(favoriteUriRegexp).reply(200);
+    mockAxios
+        .onGet(new RegExp("/api/quicklaunches/.*app-info"))
+        .reply(200, instantLaunchAppInfoResponse);
     mockAxios
         .onGet(/\/api\/resource-usage\/summary.*/)
         .reply(200, usageSummaryResponseBody);
@@ -258,10 +266,104 @@ const DashboardTestTemplate = ({ usageSummaryResponseBody }) => {
 
 export const NoLimitsExceeded = DashboardTestTemplate.bind({});
 NoLimitsExceeded.args = {
+    instantLaunchAppInfoResponse: instantLaunchAppInfo,
     usageSummaryResponseBody: usageSummaryResponse,
 };
 
 export const ComputeLimitExceeded = DashboardTestTemplate.bind({});
 ComputeLimitExceeded.args = {
+    instantLaunchAppInfoResponse: instantLaunchAppInfo,
     usageSummaryResponseBody: usageSummaryComputeLimitExceededResponse,
+};
+
+export const InstantLaunchLimitReached = DashboardTestTemplate.bind({});
+InstantLaunchLimitReached.args = {
+    instantLaunchAppInfoResponse: {
+        ...instantLaunchAppInfo,
+        limitChecks: {
+            canRun: false,
+            results: [
+                {
+                    limitCheckID: "CONCURRENT_VICE_ANALYSES",
+                    reasonCodes: ["ERR_LIMIT_REACHED"],
+                    additionalInfo: {
+                        runningJobs: 2,
+                        maxJobs: 2,
+                        usingDefaultSetting: false,
+                        pendingRequest: false,
+                    },
+                },
+            ],
+        },
+    },
+    usageSummaryResponse: usageSummaryResponse,
+};
+
+export const InstantLaunchVICEForbidden = DashboardTestTemplate.bind({});
+InstantLaunchVICEForbidden.args = {
+    instantLaunchAppInfoResponse: {
+        ...instantLaunchAppInfo,
+        limitChecks: {
+            canRun: false,
+            results: [
+                {
+                    limitCheckID: "CONCURRENT_VICE_ANALYSES",
+                    reasonCodes: ["ERR_FORBIDDEN"],
+                    additionalInfo: {
+                        runningJobs: 0,
+                        maxJobs: 0,
+                        usingDefaultSetting: false,
+                        pendingRequest: false,
+                    },
+                },
+            ],
+        },
+    },
+    usageSummaryResponse: usageSummaryResponse,
+};
+
+export const InstantLaunchPermissionNeeded = DashboardTestTemplate.bind({});
+InstantLaunchPermissionNeeded.args = {
+    instantLaunchAppInfoResponse: {
+        ...instantLaunchAppInfo,
+        limitChecks: {
+            canRun: false,
+            results: [
+                {
+                    limitCheckID: "CONCURRENT_VICE_ANALYSES",
+                    reasonCodes: ["ERR_PERMISSION_NEEDED"],
+                    additionalInfo: {
+                        runningJobs: 0,
+                        maxJobs: 0,
+                        usingDefaultSetting: false,
+                        pendingRequest: false,
+                    },
+                },
+            ],
+        },
+    },
+    usageSummaryResponse: usageSummaryResponse,
+};
+
+export const InstantLaunchPermissionPending = DashboardTestTemplate.bind({});
+InstantLaunchPermissionPending.args = {
+    instantLaunchAppInfoResponse: {
+        ...instantLaunchAppInfo,
+        limitChecks: {
+            canRun: false,
+            results: [
+                {
+                    limitCheckID: "CONCURRENT_VICE_ANALYSES",
+                    reasonCodes: ["ERR_PERMISSION_NEEDED"],
+                    additionalInfo: {
+                        runningJobs: 0,
+                        maxJobs: 0,
+                        usingDefaultSetting: false,
+                        pendingRequest: true,
+                    },
+                },
+            ],
+        },
+    },
+    usageSummaryResponse: usageSummaryResponse,
 };

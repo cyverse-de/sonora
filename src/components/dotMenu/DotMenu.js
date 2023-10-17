@@ -43,7 +43,7 @@ function DotMenu(props) {
         render,
         ButtonProps,
         buttonText,
-        iconOnlyBreakpoint = "xs",
+        iconOnlyBreakpoint = "sm",
         MenuProps,
     } = props;
     const [anchorEl, setAnchorEl] = useState(null);

@@ -36,4 +36,6 @@ export default {
     ADD_LISTING: "addToListing",
     RM_LISTING: "removeFromListing",
     ADD_NAV_DRAWER: "addToDrawer",
+    ACCESS_REQUEST_DLG: "accessRequestDlg",
+    RUN_ERROR_DLG: "runErrorDlg",
 };

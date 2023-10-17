@@ -1,14 +1,22 @@
 /**
- * @author sriram
- *
  * Return a Translation component based on the App launch run error code.
  *
+ * @author sriram, psarando
  */
 import React from "react";
 import { Trans, useTranslation } from "i18n";
 import { intercomShow } from "common/intercom";
 import { ERROR_CODES } from "components/error/errorCode";
 import { Link } from "@material-ui/core";
+
+const SupportLink = (props) => (
+    <Link
+        variant="body1"
+        component="button"
+        onClick={intercomShow}
+        {...props}
+    />
+);
 
 export default function RunError(props) {
     const { code, runningJobs, viceQuota } = props;
@@ -22,17 +30,7 @@ export default function RunError(props) {
                 components={{
                     b: <b />,
                     br: <br />,
-                    support: (
-                        <Link
-                            href="#"
-                            component="button"
-                            onClick={(event) => {
-                                // prevent form submission
-                                event.preventDefault();
-                                intercomShow();
-                            }}
-                        />
-                    ),
+                    support: <SupportLink />,
                 }}
             />
         );
@@ -42,17 +40,7 @@ export default function RunError(props) {
                 t={t}
                 i18nKey="launchForbiddenPrompt"
                 components={{
-                    support: (
-                        <Link
-                            href="#"
-                            component="button"
-                            onClick={(event) => {
-                                // prevent form submission
-                                event.preventDefault();
-                                intercomShow();
-                            }}
-                        />
-                    ),
+                    support: <SupportLink />,
                 }}
             />
         );

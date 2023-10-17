@@ -61,6 +61,14 @@ export const usageSummaryComputeLimitExceededResponse = {
     },
 };
 
+export const usageSummaryStorageLimitExceededResponse = {
+    ...usageSummaryResponse,
+    data_usage: {
+        ...usageSummaryResponse.data_usage,
+        total: 1261218220900000,
+    },
+};
+
 export const usageSummaryDiskUsage50percentResponse = {
     ...usageSummaryResponse,
     data_usage: { ...usageSummaryResponse.data_usage, total: 1649267441664 },

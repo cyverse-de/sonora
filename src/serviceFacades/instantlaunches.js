@@ -340,9 +340,7 @@ export const instantlyLaunch = ({ instantLaunch, resource, output_dir }) => {
 
         // We'll need to get the saved launch info from the API since it contains the
         // submission, which isn't provided from the data window.
-        savedLaunchPromise = getSavedLaunch(savedLaunchId).catch((e) =>
-            console.log(e)
-        );
+        savedLaunchPromise = getSavedLaunch(savedLaunchId);
     } else {
         // The dashboard logic.
         // The saved launch ID is a top-level property of the object passed in.
@@ -358,13 +356,28 @@ export const instantlyLaunch = ({ instantLaunch, resource, output_dir }) => {
     // Contains the Promises that resolve to the data needed to perform a job submission.
     const promiseList = [
         savedLaunchPromise,
-        getAppInfo({ launchId: savedLaunchId }).catch((e) => console.log(e)),
+        getAppInfo({ launchId: savedLaunchId }),
     ];
 
     return Promise.all(promiseList)
         .then((values) => {
             const [ql, app] = values;
             const { app_version_id, submission } = ql;
+
+            if (app.limitChecks && !app.limitChecks.canRun) {
+                const checkResults = app.limitChecks.results[0];
+                const details = checkResults.additionalInfo;
+                return Promise.reject({
+                    status: 400,
+                    message: checkResults.reasonCodes[0],
+                    response: {
+                        data: {
+                            error_code: checkResults.reasonCodes[0],
+                            details,
+                        },
+                    },
+                });
+            }
 
             // Ensure submission for the correct app version,
             // since older QL submissions do not have version IDs saved.

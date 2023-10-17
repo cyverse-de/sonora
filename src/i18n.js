@@ -15,17 +15,20 @@ import {
 } from "next-i18next";
 
 // The always-needed namespaces, mainly from the components in the global
-// toolbars, such as bags, global search, and the notifications menu.
+// toolbars, such as instant launch drawer items, bags, global search, and the
+// notifications menu.
 const RequiredNamespaces = [
     "analyses",
     "apps",
     "bags",
     "common",
     "instantlaunches",
+    "launch",
     "notifications",
     "search",
     "sharing",
     "util",
+    "vice",
 ];
 
 // reexport everything

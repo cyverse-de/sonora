@@ -28,7 +28,6 @@ import DotMenu from "components/dotMenu/DotMenu";
 import { OutputFolderMenuItem } from "./OutputFolderMenuItem";
 import { RelaunchMenuItem } from "./RelaunchMenuItem";
 import {
-    Hidden,
     ListItemIcon,
     ListItemText,
     MenuItem,
@@ -51,8 +50,10 @@ import {
     Notes as LogsIcon,
 } from "@mui/icons-material";
 import SharingMenuItem from "../../sharing/SharingMenuItem";
+import shareIds from "components/sharing/ids";
 
 import { useConfig } from "contexts/config";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 function DotMenuItems(props) {
     const {
@@ -91,45 +92,47 @@ function DotMenuItems(props) {
     const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
         selectedAnalyses[0]?.resultfolderid
     );
+    const { isMdUp } = useBreakpoints();
 
     return [
-        <Hidden mdUp key="hiddenMdUp">
-            {allowCancel && (
-                <MenuItem
-                    id={buildID(baseId, ids.MENUITEM_CANCEL)}
-                    onClick={() => {
-                        onClose();
-                        handleTerminateSelected();
-                    }}
-                >
-                    <ListItemIcon>
-                        <CancelIcon color="error" fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText primary={t("terminate")} />
-                </MenuItem>
-            )}
-            {isSingleSelection && (
-                <MenuItem
-                    id={buildID(baseId, ids.MENUITEM_DETAILS)}
-                    onClick={() => {
-                        onClose();
-                        onDetailsSelected();
-                    }}
-                >
-                    <ListItemIcon>
-                        <Info fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText primary={t("details")} />
-                </MenuItem>
-            )}
-            {canShare && (
-                <SharingMenuItem
-                    baseId={baseId}
-                    onClose={onClose}
-                    setSharingDlgOpen={setSharingDlgOpen}
-                />
-            )}
-        </Hidden>,
+        !isMdUp && allowCancel && (
+            <MenuItem
+                id={buildID(baseId, ids.MENUITEM_CANCEL)}
+                key={buildID(baseId, ids.MENUITEM_CANCEL)}
+                onClick={() => {
+                    onClose();
+                    handleTerminateSelected();
+                }}
+            >
+                <ListItemIcon>
+                    <CancelIcon color="error" fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("terminate")} />
+            </MenuItem>
+        ),
+        !isMdUp && isSingleSelection && (
+            <MenuItem
+                id={buildID(baseId, ids.MENUITEM_DETAILS)}
+                key={buildID(baseId, ids.MENUITEM_DETAILS)}
+                onClick={() => {
+                    onClose();
+                    onDetailsSelected();
+                }}
+            >
+                <ListItemIcon>
+                    <Info fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("details")} />
+            </MenuItem>
+        ),
+        !isMdUp && canShare && (
+            <SharingMenuItem
+                key={buildID(baseId, shareIds.SHARING_MENU_ITEM)}
+                baseId={baseId}
+                onClose={onClose}
+                setSharingDlgOpen={setSharingDlgOpen}
+            />
+        ),
         isSingleSelection && (
             <Link
                 key={buildID(baseId, ids.MENUITEM_GO_TO_FOLDER)}

@@ -22,13 +22,7 @@ import SharingButton from "components/sharing/SharingButton";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import {
-    Button,
-    Hidden,
-    Toolbar,
-    useMediaQuery,
-    useTheme,
-} from "@mui/material";
+import { Button, Toolbar, useMediaQuery, useTheme } from "@mui/material";
 
 import makeStyles from "@mui/styles/makeStyles";
 
@@ -40,6 +34,7 @@ import {
 } from "@mui/icons-material";
 import { TrashMenu } from "./TrashMenu";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 const useStyles = makeStyles(styles);
 
@@ -98,6 +93,7 @@ function DataToolbar(props) {
         (selectedResources && selectedResources.length > 0 && !inTrash) ||
         (isWritable(permission) && !inTrash) ||
         isSmall;
+    const { isMdDown, isSmDown } = useBreakpoints();
 
     let toolbarId = buildID(baseId, ids.TOOLBAR);
     return (
@@ -111,78 +107,85 @@ function DataToolbar(props) {
             <div className={classes.divider} />
             {toolbarVisibility && (
                 <>
-                    <Hidden mdDown>
-                        <Button
-                            id={buildID(toolbarId, ids.REFRESH_BTN)}
-                            variant="outlined"
-                            size="small"
-                            disableElevation
-                            color="primary"
-                            onClick={onRefreshSelected}
-                            className={classes.button}
-                            startIcon={<Refresh />}
-                        >
-                            <Hidden smDown>{t("refresh")}</Hidden>
-                        </Button>
-                        {detailsEnabled && (
+                    {!isMdDown && (
+                        <>
                             <Button
-                                id={buildID(toolbarId, ids.DETAILS_BTN)}
+                                id={buildID(toolbarId, ids.REFRESH_BTN)}
                                 variant="outlined"
                                 size="small"
                                 disableElevation
                                 color="primary"
-                                onClick={onDetailsSelected}
+                                onClick={onRefreshSelected}
                                 className={classes.button}
-                                startIcon={<Info />}
+                                startIcon={<Refresh />}
                             >
-                                <Hidden smDown>{t("details")}</Hidden>
+                                {!isSmDown && <>{t("refresh")}</>}
                             </Button>
-                        )}
-                        {uploadEnabled && (
-                            <>
+                            {detailsEnabled && (
                                 <Button
-                                    id={buildID(toolbarId, ids.CREATE_BTN)}
+                                    id={buildID(toolbarId, ids.DETAILS_BTN)}
                                     variant="outlined"
                                     size="small"
                                     disableElevation
                                     color="primary"
-                                    onClick={onCreateFolderClicked}
+                                    onClick={onDetailsSelected}
                                     className={classes.button}
-                                    startIcon={<CreateNewFolder />}
+                                    startIcon={<Info />}
                                 >
-                                    <Hidden smDown>{t("folder")}</Hidden>
+                                    {!isSmDown && <>{t("details")}</>}
                                 </Button>
-                                <UploadMenuBtn
-                                    uploadMenuId={uploadMenuId}
-                                    localUploadId={localUploadId}
-                                    path={path}
-                                    setUploadDialogOpen={setUploadDialogOpen}
-                                    setImportDialogOpen={setImportDialogOpen}
-                                    uploadsEnabled={uploadsEnabled}
+                            )}
+                            {uploadEnabled && (
+                                <>
+                                    <Button
+                                        id={buildID(toolbarId, ids.CREATE_BTN)}
+                                        variant="outlined"
+                                        size="small"
+                                        disableElevation
+                                        color="primary"
+                                        onClick={onCreateFolderClicked}
+                                        className={classes.button}
+                                        startIcon={<CreateNewFolder />}
+                                    >
+                                        {!isSmDown && <>{t("folder")}</>}
+                                    </Button>
+                                    <UploadMenuBtn
+                                        uploadMenuId={uploadMenuId}
+                                        localUploadId={localUploadId}
+                                        path={path}
+                                        setUploadDialogOpen={
+                                            setUploadDialogOpen
+                                        }
+                                        setImportDialogOpen={
+                                            setImportDialogOpen
+                                        }
+                                        uploadsEnabled={uploadsEnabled}
+                                    />
+                                </>
+                            )}
+                            {bagEnabled && (
+                                <Button
+                                    id={buildID(toolbarId, ids.ADD_TO_BAG_BTN)}
+                                    variant="outlined"
+                                    size="small"
+                                    disableElevation
+                                    color="primary"
+                                    onClick={onAddToBagSelected}
+                                    startIcon={<AddToBagIcon />}
+                                >
+                                    {!isSmDown && <>{t("addToBag")}</>}
+                                </Button>
+                            )}
+                            {sharingEnabled && (
+                                <SharingButton
+                                    size="small"
+                                    baseId={toolbarId}
+                                    setSharingDlgOpen={setSharingDlgOpen}
                                 />
-                            </>
-                        )}
-                        {bagEnabled && (
-                            <Button
-                                id={buildID(toolbarId, ids.ADD_TO_BAG_BTN)}
-                                variant="outlined"
-                                size="small"
-                                disableElevation
-                                color="primary"
-                                onClick={onAddToBagSelected}
-                                startIcon={<AddToBagIcon />}
-                            >
-                                <Hidden smDown>{t("addToBag")}</Hidden>
-                            </Button>
-                        )}
-                        {sharingEnabled && (
-                            <SharingButton
-                                size="small"
-                                baseId={toolbarId}
-                                setSharingDlgOpen={setSharingDlgOpen}
-                            />
-                        )}
-                    </Hidden>
+                            )}
+                        </>
+                    )}
+
                     {inTrash && !isSmall && (
                         <TrashMenu
                             baseId={baseId}

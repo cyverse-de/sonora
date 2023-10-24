@@ -16,7 +16,7 @@ import buildID from "components/utils/DebugIDUtil";
 
 import ids from "../ids";
 import { openInteractiveUrl } from "../utils";
-import { Hidden, ListItemIcon, ListItemText, MenuItem } from "@mui/material";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import {
     Apps,
     Cancel as CancelIcon,
@@ -27,6 +27,7 @@ import {
     Refresh,
     ContactSupport,
 } from "@mui/icons-material";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 export default function DotMenuItems(props) {
     const {
@@ -57,9 +58,9 @@ export default function DotMenuItems(props) {
         analysis?.resultfolderid
     );
     const interactiveUrls = analysis?.interactive_urls;
-
+    const { isSmUp } = useBreakpoints();
     return [
-        <Hidden smUp>
+        !isSmUp && (
             <MenuItem
                 key={buildID(baseId, ids.MENUITEM_REFRESH)}
                 id={buildID(baseId, ids.MENUITEM_REFRESH)}
@@ -73,24 +74,22 @@ export default function DotMenuItems(props) {
                 </ListItemIcon>
                 <ListItemText primary={t("refresh")} />
             </MenuItem>
-        </Hidden>,
-        <Hidden smUp>
-            {allowShareWithSupport && (
-                <MenuItem
-                    key={buildID(baseId, ids.MENUITEM_SHARE_WITH_SUPPORT)}
-                    id={buildID(baseId, ids.MENUITEM_SHARE_WITH_SUPPORT)}
-                    onClick={() => {
-                        onClose();
-                        handleShareWithSupport();
-                    }}
-                >
-                    <ListItemIcon>
-                        <ContactSupport fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText primary={t("requestHelp")} />
-                </MenuItem>
-            )}
-        </Hidden>,
+        ),
+        !isSmUp && allowShareWithSupport && (
+            <MenuItem
+                key={buildID(baseId, ids.MENUITEM_SHARE_WITH_SUPPORT)}
+                id={buildID(baseId, ids.MENUITEM_SHARE_WITH_SUPPORT)}
+                onClick={() => {
+                    onClose();
+                    handleShareWithSupport();
+                }}
+            >
+                <ListItemIcon>
+                    <ContactSupport fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("requestHelp")} />
+            </MenuItem>
+        ),
         !isTerminatedAnalysis && isVICE && (
             <MenuItem
                 key={buildID(baseId, ids.MENUITEM_GOTO_VICE)}

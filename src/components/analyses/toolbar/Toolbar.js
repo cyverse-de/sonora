@@ -23,7 +23,6 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    Hidden,
     TextField,
     Toolbar,
     Tooltip,
@@ -46,6 +45,7 @@ import {
 import SharingButton from "components/sharing/SharingButton";
 import Sharing from "components/sharing";
 import { formatSharedAnalyses } from "components/sharing/util";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -169,11 +169,12 @@ function AnalysesToolbar(props) {
     const sharingAnalyses = formatSharedAnalyses(selectedAnalyses);
     const allowCancel =
         hasSelection && allowAnalysesCancel(selectedAnalyses, username, config);
+    const { isSmDown, isMdDown } = useBreakpoints();
 
     return (
         <>
             <Toolbar variant="dense" id={analysesNavId} style={{ padding: 0 }}>
-                <Hidden smDown>
+                {!isSmDown && (
                     <>
                         <PermissionsFilter
                             baseId={analysesNavId}
@@ -189,7 +190,7 @@ function AnalysesToolbar(props) {
                             disabled={false}
                         />
                     </>
-                </Hidden>
+                )}
                 {viewFiltered && (
                     <ClearFilter
                         baseId={analysesNavId}
@@ -208,59 +209,61 @@ function AnalysesToolbar(props) {
                     className={classes.button}
                     startIcon={<Refresh />}
                 >
-                    <Hidden smDown>{t("refresh")}</Hidden>
+                    {!isSmDown && <>{t("refresh")}</>}
                 </Button>
-                <Hidden mdDown>
-                    {allowCancel && (
-                        <Button
-                            id={buildID(analysesNavId, ids.CANCEL_BTN)}
-                            className={classes.toolbarItems}
-                            variant="outlined"
-                            disableElevation
-                            color="primary"
-                            onClick={handleTerminateSelected}
-                            startIcon={<CancelIcon color="error" />}
-                            size="small"
-                        >
-                            {t("terminate")}
-                        </Button>
-                    )}
-                    {isSingleSelection && (
-                        <Button
-                            id={buildID(analysesNavId, ids.DETAILS_BTN)}
-                            className={classes.toolbarItems}
-                            variant="outlined"
-                            disableElevation
-                            color="primary"
-                            onClick={onDetailsSelected}
-                            startIcon={<Info />}
-                            size="small"
-                        >
-                            {t("details")}
-                        </Button>
-                    )}
-                    {hasSelection && (
-                        <Button
-                            id={buildID(analysesNavId, ids.ADD_TO_BAG_BTN)}
-                            className={classes.toolbarItems}
-                            variant="outlined"
-                            disableElevation
-                            color="primary"
-                            onClick={onAddToBagSelected}
-                            startIcon={<AddToBagIcon />}
-                            size="small"
-                        >
-                            {t("addToBag")}
-                        </Button>
-                    )}
-                    {canShare && (
-                        <SharingButton
-                            baseId={baseId}
-                            setSharingDlgOpen={setSharingDlgOpen}
-                            size="small"
-                        />
-                    )}
-                </Hidden>
+                {!isMdDown && (
+                    <>
+                        {allowCancel && (
+                            <Button
+                                id={buildID(analysesNavId, ids.CANCEL_BTN)}
+                                className={classes.toolbarItems}
+                                variant="outlined"
+                                disableElevation
+                                color="primary"
+                                onClick={handleTerminateSelected}
+                                startIcon={<CancelIcon color="error" />}
+                                size="small"
+                            >
+                                {t("terminate")}
+                            </Button>
+                        )}
+                        {isSingleSelection && (
+                            <Button
+                                id={buildID(analysesNavId, ids.DETAILS_BTN)}
+                                className={classes.toolbarItems}
+                                variant="outlined"
+                                disableElevation
+                                color="primary"
+                                onClick={onDetailsSelected}
+                                startIcon={<Info />}
+                                size="small"
+                            >
+                                {t("details")}
+                            </Button>
+                        )}
+                        {hasSelection && (
+                            <Button
+                                id={buildID(analysesNavId, ids.ADD_TO_BAG_BTN)}
+                                className={classes.toolbarItems}
+                                variant="outlined"
+                                disableElevation
+                                color="primary"
+                                onClick={onAddToBagSelected}
+                                startIcon={<AddToBagIcon />}
+                                size="small"
+                            >
+                                {t("addToBag")}
+                            </Button>
+                        )}
+                        {canShare && (
+                            <SharingButton
+                                baseId={baseId}
+                                setSharingDlgOpen={setSharingDlgOpen}
+                                size="small"
+                            />
+                        )}
+                    </>
+                )}
                 {(hasSelection || isMobile) && (
                     <AnalysesDotMenu
                         baseId={analysesNavId}

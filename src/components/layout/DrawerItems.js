@@ -15,7 +15,7 @@ import AnalysesIcon from "components/icons/AnalysesIcon";
 import DataIcon from "components/icons/DataIcon";
 import { TeamIcon } from "components/teams/Icons";
 import AdminDrawerItems from "./AdminDrawerItems";
-import { Badge, Divider, Hidden, List, Tooltip, useTheme } from "@mui/material";
+import { Badge, Divider, List, Tooltip, useTheme } from "@mui/material";
 import { useUserProfile } from "contexts/userProfile";
 import AppsIcon from "@mui/icons-material/Apps";
 import HelpIcon from "@mui/icons-material/Help";
@@ -32,6 +32,7 @@ import { openInteractiveUrl } from "../analyses/utils";
 import { CollectionIcon } from "../collections/Icons";
 import InstantLaunchButtonWrapper from "../instantlaunches/InstantLaunchButtonWrapper";
 import TerminalIcon from "../icons/TerminalIcon";
+import useBreakpoints from "./useBreakpoints";
 
 function InstantLaunchIcon(props) {
     const { instantLaunch } = props;
@@ -100,6 +101,7 @@ function DrawerItems(props) {
     const { t } = useTranslation(["common"]);
     const theme = useTheme();
     const [userProfile] = useUserProfile();
+    const { isSmUp } = useBreakpoints();
 
     return (
         <List style={{ overflowY: "auto", overflowX: "hidden" }}>
@@ -225,7 +227,7 @@ function DrawerItems(props) {
                 toggleDrawer={toggleDrawer}
                 open={open}
             />
-            <Hidden smUp>
+            {!isSmUp && (
                 <DrawerItem
                     title={t("search")}
                     id={ids.SEARCH_MI}
@@ -236,7 +238,7 @@ function DrawerItems(props) {
                     toggleDrawer={toggleDrawer}
                     open={open}
                 />
-            </Hidden>
+            )}
             <Divider />
             {userProfile?.id && (
                 <DrawerItem

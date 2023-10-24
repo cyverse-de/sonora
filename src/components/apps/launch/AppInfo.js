@@ -24,15 +24,7 @@ import ids from "./ids";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import {
-    Box,
-    Button,
-    Hidden,
-    Link,
-    Typography,
-    useMediaQuery,
-    useTheme,
-} from "@mui/material";
+import { Box, Button, Link, Typography, useTheme } from "@mui/material";
 
 import makeStyles from "@mui/styles/makeStyles";
 
@@ -44,6 +36,7 @@ import { appUnavailable } from "../utils";
 
 import { useConfig } from "contexts/config";
 import ExternalLink from "components/utils/ExternalLink";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 const useStyles = makeStyles(styles);
 
@@ -148,38 +141,38 @@ const AppInfo = (props) => {
     const { t } = useTranslation("apps");
     const classes = useStyles();
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const router = useRouter();
 
     const [detailsDrawerOpen, setDetailsDrawerOpen] = React.useState(false);
     const [docDialogOpen, setDocDialogOpen] = React.useState(false);
+    const { isSmDown } = useBreakpoints();
 
     return (
         <>
             <BackButton
                 style={{
-                    margin: isMobile ? theme.spacing(0) : theme.spacing(0.5),
+                    margin: isSmDown ? theme.spacing(0) : theme.spacing(0.5),
                 }}
             />
             <Button
                 id={buildID(baseId, ids.BUTTONS.DETAILS)}
                 className={classes.detailsButton}
                 onClick={() => setDetailsDrawerOpen(true)}
-                variant={isMobile ? "text" : "outlined"}
+                variant={isSmDown ? "text" : "outlined"}
                 size="small"
                 startIcon={<Info color="primary" fontSize="small" />}
             >
-                <Hidden smDown>{t("details")}</Hidden>
+                {!isSmDown && <>{t("details")}</>}
             </Button>
             <Button
                 id={buildID(baseId, ids.BUTTONS.DOCUMENTATION)}
                 className={classes.detailsButton}
                 onClick={() => setDocDialogOpen(true)}
-                variant={isMobile ? "text" : "outlined"}
+                variant={isSmDown ? "text" : "outlined"}
                 size="small"
                 startIcon={<MenuBook color="primary" fontSize="small" />}
             >
-                <Hidden smDown>{t("documentation")}</Hidden>
+                {!isSmDown && <>{t("documentation")}</>}
             </Button>
             {loadingError ? (
                 <LoadingErrorDisplay
@@ -190,13 +183,13 @@ const AppInfo = (props) => {
                 <Skeleton width={250} />
             ) : (
                 <Typography
-                    variant={isMobile ? "subtitle2" : "h6"}
+                    variant={isSmDown ? "subtitle2" : "h6"}
                     className={classes.appInfoTypography}
                 >
                     {app?.name}
                 </Typography>
             )}
-            <Hidden smDown>
+            {!isSmDown && (
                 <Typography
                     className={classes.appInfoTypography}
                     variant="body2"
@@ -205,7 +198,7 @@ const AppInfo = (props) => {
                 >
                     {loading ? <Skeleton /> : app?.description}
                 </Typography>
-            </Hidden>
+            )}
             {loading && !loadingError ? (
                 <Skeleton />
             ) : (

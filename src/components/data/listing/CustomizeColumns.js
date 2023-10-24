@@ -12,7 +12,6 @@ import DECheckbox from "components/utils/DECheckbox";
 
 import {
     Button,
-    Hidden,
     IconButton,
     ListItemIcon,
     Menu,
@@ -24,6 +23,7 @@ import { Settings } from "@mui/icons-material";
 import { useTranslation } from "i18n";
 
 import ids from "../ids";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 function CustomizeColumns(props) {
     const { baseId, allTableColumns, displayColumns, setDisplayColumns } =
@@ -69,6 +69,7 @@ function CustomizeColumns(props) {
     const ButtonType = isSmall ? IconButton : Button;
 
     const menuId = buildID(baseId, ids.CUSTOM_COLS);
+    const { isSmUp, isSmDown } = useBreakpoints();
 
     return (
         <>
@@ -80,10 +81,9 @@ function CustomizeColumns(props) {
                 variant={!isSmall ? "outlined" : null}
                 onClick={handleColumnSettingClick}
             >
-                <Hidden smUp>
-                    <Settings />
-                </Hidden>
-                <Hidden smDown>{t("customizeColumns")}</Hidden>
+                {!isSmUp && <Settings />}
+
+                {!isSmDown && <>{t("customizeColumns")}</>}
             </ButtonType>
             <Menu
                 id={menuId}

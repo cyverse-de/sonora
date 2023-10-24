@@ -38,11 +38,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import FolderIcon from "@mui/icons-material/Folder";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 import {
     Breadcrumbs,
     Button,
-    Hidden,
     List,
     ListItem,
     ListItemIcon,
@@ -347,6 +347,7 @@ function Navigation(props) {
             trashPath: irodsTrashPath,
         },
     ]);
+    const { isMdDown, isMdUp } = useBreakpoints();
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();
@@ -568,38 +569,35 @@ function Navigation(props) {
                     </ListItem>
                 ))}
             </Menu>
-            <Hidden mdDown>
-                {path && (!error || error.length === 0) ? (
-                    <BreadCrumb
-                        baseId={dataNavId}
-                        root={dataRoots[selectedIndex].path}
-                        path={path}
-                        handlePathChange={handlePathChange}
-                        userHomePath={userHomePath}
-                        userTrashPath={userTrashPath}
-                        sharedWithMePath={sharedWithMePath}
-                        communityDataPath={communityDataPath}
-                    />
-                ) : (
-                    <div></div>
-                )}
-            </Hidden>
-            <Hidden only={["md", "lg", "xl"]}>
-                {path && (!error || error.length === 0) ? (
-                    <FolderSelectorMenu
-                        baseId={dataNavId}
-                        root={dataRoots[selectedIndex].path}
-                        path={path}
-                        handlePathChange={handlePathChange}
-                        userHomePath={userHomePath}
-                        userTrashPath={userTrashPath}
-                        sharedWithMePath={sharedWithMePath}
-                        communityDataPath={communityDataPath}
-                    />
-                ) : (
-                    <div></div>
-                )}
-            </Hidden>
+            {!isMdDown && path && (!error || error.length === 0) ? (
+                <BreadCrumb
+                    baseId={dataNavId}
+                    root={dataRoots[selectedIndex].path}
+                    path={path}
+                    handlePathChange={handlePathChange}
+                    userHomePath={userHomePath}
+                    userTrashPath={userTrashPath}
+                    sharedWithMePath={sharedWithMePath}
+                    communityDataPath={communityDataPath}
+                />
+            ) : (
+                <div></div>
+            )}
+
+            {!isMdUp && path && (!error || error.length === 0) ? (
+                <FolderSelectorMenu
+                    baseId={dataNavId}
+                    root={dataRoots[selectedIndex].path}
+                    path={path}
+                    handlePathChange={handlePathChange}
+                    userHomePath={userHomePath}
+                    userTrashPath={userTrashPath}
+                    sharedWithMePath={sharedWithMePath}
+                    communityDataPath={communityDataPath}
+                />
+            ) : (
+                <div></div>
+            )}
         </>
     );
 }

@@ -14,13 +14,14 @@ import { useTranslation } from "i18n";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import { Button, Hidden, MenuItem, TextField, Toolbar } from "@mui/material";
+import { Button, MenuItem, TextField, Toolbar } from "@mui/material";
 
 import makeStyles from "@mui/styles/makeStyles";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import { Refresh } from "@mui/icons-material";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 const useStyles = makeStyles(styles);
 
@@ -41,6 +42,7 @@ const NotificationToolbar = (props) => {
     const { t } = useTranslation(["notifications", "common"]);
     const baseId = buildID(baseDebugId, ids.TOOLBAR);
     const filterId = buildID(baseId, ids.NOTIFICATION_FILTER);
+    const { isSmDown } = useBreakpoints();
 
     return (
         <Toolbar variant="dense">
@@ -75,7 +77,7 @@ const NotificationToolbar = (props) => {
                 className={classes.toolbarButton}
             >
                 <Refresh color="primary" />
-                <Hidden smDown>{t("refresh")}</Hidden>
+                {!isSmDown && <>{t("refresh")}</>}
             </Button>
 
             {markAsSeenEnabled && (
@@ -87,7 +89,7 @@ const NotificationToolbar = (props) => {
                     onClick={onMarkSeenClicked}
                 >
                     <CheckIcon color="primary" />
-                    <Hidden smDown>{t("markSeen")}</Hidden>
+                    {!isSmDown && <>{t("markSeen")}</>}
                 </Button>
             )}
             {deleteEnabled && (
@@ -99,7 +101,7 @@ const NotificationToolbar = (props) => {
                     className={classes.toolbarButton}
                 >
                     <DeleteIcon color="primary" />
-                    <Hidden smDown>{t("common:delete")}</Hidden>
+                    {!isSmDown && <>{t("common:delete")}</>}
                 </Button>
             )}
         </Toolbar>

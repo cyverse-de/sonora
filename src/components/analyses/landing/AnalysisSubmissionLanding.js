@@ -70,7 +70,6 @@ import {
     Button,
     Divider,
     Grid,
-    Hidden,
     Typography,
     useTheme,
 } from "@mui/material";
@@ -83,6 +82,7 @@ import {
 import BackButton from "components/utils/BackButton";
 import PendingTerminationDlg from "components/analyses/PendingTerminationDlg";
 import { openInteractiveUrl } from "../utils";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 export default function AnalysisSubmissionLanding(props) {
     const { id, baseId, view, showErrorAnnouncer } = props;
@@ -129,6 +129,8 @@ export default function AnalysisSubmissionLanding(props) {
     const sharable = analysis ? canShare([analysis]) : false;
     const interactiveUrls = analysis?.interactive_urls;
     const queryClient = useQueryClient();
+
+    const { isMdDown, isSmDown } = useBreakpoints();
 
     React.useEffect(() => {
         const message = currentNotification?.message;
@@ -357,8 +359,32 @@ export default function AnalysisSubmissionLanding(props) {
                     </Grid>
                     <Grid item>
                         <Grid container spacing={1}>
-                            <Hidden mdDown>
-                                {isVICE && !isTerminatedAnalysis && (
+                            {!isMdDown && (
+                                <>
+                                    {isVICE && !isTerminatedAnalysis && (
+                                        <Grid item>
+                                            <Button
+                                                id={buildID(
+                                                    baseId,
+                                                    ids.REFRESH_BTN
+                                                )}
+                                                variant="outlined"
+                                                size="small"
+                                                disableElevation
+                                                color="primary"
+                                                onClick={() =>
+                                                    openInteractiveUrl(
+                                                        interactiveUrls[0]
+                                                    )
+                                                }
+                                                startIcon={<Launch />}
+                                            >
+                                                {!isSmDown && (
+                                                    <>{t("goToVice")}</>
+                                                )}
+                                            </Button>
+                                        </Grid>
+                                    )}
                                     <Grid item>
                                         <Button
                                             id={buildID(
@@ -369,53 +395,37 @@ export default function AnalysisSubmissionLanding(props) {
                                             size="small"
                                             disableElevation
                                             color="primary"
-                                            onClick={() =>
-                                                openInteractiveUrl(
-                                                    interactiveUrls[0]
-                                                )
-                                            }
-                                            startIcon={<Launch />}
+                                            onClick={refreshAnalysis}
+                                            startIcon={<Refresh />}
                                         >
-                                            <Hidden smDown>
-                                                {t("goToVice")}
-                                            </Hidden>
+                                            {!isSmDown && <>{t("refresh")}</>}
                                         </Button>
                                     </Grid>
-                                )}
-                                <Grid item>
-                                    <Button
-                                        id={buildID(baseId, ids.REFRESH_BTN)}
-                                        variant="outlined"
-                                        size="small"
-                                        disableElevation
-                                        color="primary"
-                                        onClick={refreshAnalysis}
-                                        startIcon={<Refresh />}
-                                    >
-                                        <Hidden smDown>{t("refresh")}</Hidden>
-                                    </Button>
-                                </Grid>
-                                <Grid item>
-                                    {allowShareWithSupport && (
-                                        <Button
-                                            id={buildID(
-                                                baseId,
-                                                ids.SHARE_WITH_SUPPORT
-                                            )}
-                                            variant="outlined"
-                                            onClick={() => setHelpOpen(true)}
-                                            size="small"
-                                            startIcon={
-                                                <ContactSupport fontSize="small" />
-                                            }
-                                            color="primary"
-                                            title={t("requestHelp")}
-                                        >
-                                            {t("requestHelp")}
-                                        </Button>
-                                    )}
-                                </Grid>
-                            </Hidden>
+                                    <Grid item>
+                                        {allowShareWithSupport && (
+                                            <Button
+                                                id={buildID(
+                                                    baseId,
+                                                    ids.SHARE_WITH_SUPPORT
+                                                )}
+                                                variant="outlined"
+                                                onClick={() =>
+                                                    setHelpOpen(true)
+                                                }
+                                                size="small"
+                                                startIcon={
+                                                    <ContactSupport fontSize="small" />
+                                                }
+                                                color="primary"
+                                                title={t("requestHelp")}
+                                            >
+                                                {t("requestHelp")}
+                                            </Button>
+                                        )}
+                                    </Grid>
+                                </>
+                            )}
+
                             <Grid item>
                                 <DotMenu
                                     baseId={buildID(

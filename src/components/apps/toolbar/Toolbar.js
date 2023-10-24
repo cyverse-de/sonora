@@ -23,7 +23,6 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    Hidden,
     TextField,
     Toolbar,
 } from "@mui/material";
@@ -39,6 +38,7 @@ import {
 } from "@mui/icons-material";
 import Autocomplete from "@mui/material/Autocomplete";
 import SharingButton from "components/sharing/SharingButton";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 export const ADMIN_APPS_FILTER_VALUES = {
     PRIVATE: "private",
@@ -147,6 +147,7 @@ function AppsToolbar(props) {
     const classes = useStyles();
     const appsToolbarId = buildID(baseId, ids.APPS_TOOLBAR);
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
+    const { isSmDown, isMdDown, isMdUp } = useBreakpoints();
 
     return (
         <>
@@ -188,7 +189,7 @@ function AppsToolbar(props) {
                         </Button>
                     )}
                     <div className={classes.divider} />
-                    <Hidden smDown>
+                    {!isSmDown && (
                         <AppsTypeFilter
                             baseId={appsToolbarId}
                             classes={classes}
@@ -199,78 +200,84 @@ function AppsToolbar(props) {
                                 appType.agave.value.toLowerCase()
                             }
                         />
-                    </Hidden>
-                    <Hidden mdDown>
-                        {addToBagEnabled && (
-                            <Button
-                                id={buildID(appsToolbarId, ids.ADD_TO_BAG_BTN)}
-                                className={classes.toolbarItems}
-                                variant="outlined"
-                                disableElevation
-                                color="primary"
-                                onClick={onAddToBagClicked}
-                                startIcon={<AddToBagIcon />}
-                                size="small"
+                    )}
+
+                    {!isMdDown && addToBagEnabled && (
+                        <Button
+                            id={buildID(appsToolbarId, ids.ADD_TO_BAG_BTN)}
+                            className={classes.toolbarItems}
+                            variant="outlined"
+                            disableElevation
+                            color="primary"
+                            onClick={onAddToBagClicked}
+                            startIcon={<AddToBagIcon />}
+                            size="small"
+                        >
+                            {t("addToBag")}
+                        </Button>
+                    )}
+                    {!isMdDown && (
+                        <>
+                            {detailsEnabled && (
+                                <Button
+                                    id={buildID(appsToolbarId, ids.DETAILS_BTN)}
+                                    className={classes.toolbarItems}
+                                    variant="outlined"
+                                    disableElevation
+                                    color="primary"
+                                    onClick={onDetailsSelected}
+                                    startIcon={<Info />}
+                                    size="small"
+                                >
+                                    {t("details")}
+                                </Button>
+                            )}
+                            {canShare && (
+                                <SharingButton
+                                    baseId={baseId}
+                                    setSharingDlgOpen={setSharingDlgOpen}
+                                    size="small"
+                                />
+                            )}
+                        </>
+                    )}
+
+                    {!isSmDown && (
+                        <>
+                            <Link href={`/${NavigationConstants.TOOLS}`}>
+                                <Button
+                                    id={buildID(appsToolbarId, ids.TOOLS_BTN)}
+                                    className={classes.toolbarItems}
+                                    variant="outlined"
+                                    disableElevation
+                                    color="primary"
+                                    startIcon={<Build />}
+                                    size="small"
+                                >
+                                    {t("manageTools")}
+                                </Button>
+                            </Link>
+                            <Link
+                                href={`/${NavigationConstants.INSTANT_LAUNCHES}`}
                             >
-                                {t("addToBag")}
-                            </Button>
-                        )}
-                    </Hidden>
-                    <Hidden mdDown>
-                        {detailsEnabled && (
-                            <Button
-                                id={buildID(appsToolbarId, ids.DETAILS_BTN)}
-                                className={classes.toolbarItems}
-                                variant="outlined"
-                                disableElevation
-                                color="primary"
-                                onClick={onDetailsSelected}
-                                startIcon={<Info />}
-                                size="small"
-                            >
-                                {t("details")}
-                            </Button>
-                        )}
-                        {canShare && (
-                            <SharingButton
-                                baseId={baseId}
-                                setSharingDlgOpen={setSharingDlgOpen}
-                                size="small"
-                            />
-                        )}
-                    </Hidden>
-                    <Hidden smDown>
-                        <Link href={`/${NavigationConstants.TOOLS}`}>
-                            <Button
-                                id={buildID(appsToolbarId, ids.TOOLS_BTN)}
-                                className={classes.toolbarItems}
-                                variant="outlined"
-                                disableElevation
-                                color="primary"
-                                startIcon={<Build />}
-                                size="small"
-                            >
-                                {t("manageTools")}
-                            </Button>
-                        </Link>
-                        <Link href={`/${NavigationConstants.INSTANT_LAUNCHES}`}>
-                            <Button
-                                id={buildID(
-                                    appsToolbarId,
-                                    ids.INSTANT_LAUNCH_BTN
-                                )}
-                                className={classes.toolbarItems}
-                                variant="outlined"
-                                disableElevation
-                                color="primary"
-                                startIcon={<PlayArrowRounded />}
-                                size="small"
-                            >
-                                {t("instantLaunches")}
-                            </Button>
-                        </Link>
-                    </Hidden>
-                    <Hidden smDown>
+                                <Button
+                                    id={buildID(
+                                        appsToolbarId,
+                                        ids.INSTANT_LAUNCH_BTN
+                                    )}
+                                    className={classes.toolbarItems}
+                                    variant="outlined"
+                                    disableElevation
+                                    color="primary"
+                                    startIcon={<PlayArrowRounded />}
+                                    size="small"
+                                >
+                                    {t("instantLaunches")}
+                                </Button>
+                            </Link>
+                        </>
+                    )}
+                    {!isSmDown && (
                         <DotMenu
                             baseId={buildID(appsToolbarId, ids.CREATE_APP_BTN)}
                             ButtonProps={{
@@ -289,8 +296,9 @@ function AppsToolbar(props) {
                                 />,
                             ]}
                         />
-                    </Hidden>
-                    <Hidden mdUp>
+                    )}
+
+                    {!isMdUp && (
                         <AppsDotMenu
                             baseId={appsToolbarId}
                             detailsEnabled={detailsEnabled}
@@ -303,7 +311,7 @@ function AppsToolbar(props) {
                             onDocSelected={onDocSelected}
                             onQLSelected={onQLSelected}
                         />
-                    </Hidden>
+                    )}
                 </Toolbar>
             )}
 

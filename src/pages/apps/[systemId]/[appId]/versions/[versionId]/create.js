@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useQuery } from "react-query";
 
-import { RequiredNamespaces } from "i18n";
+import { i18n, RequiredNamespaces } from "i18n";
 
 import AppEditor from "components/apps/editor";
 import ids from "components/apps/editor/ids";
@@ -156,8 +156,11 @@ export default function AppVersionCreate() {
 }
 
 export async function getServerSideProps({ locale }) {
+    const title = i18n.t("apps:createAppVersion");
+
     return {
         props: {
+            title,
             ...(await serverSideTranslations(locale, [
                 "app_editor",
                 "app_editor_help",

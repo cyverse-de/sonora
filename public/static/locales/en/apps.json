@@ -29,6 +29,7 @@
     "appListingError": "Unable to get Apps. Please try again.",
     "appPubRequestsFetchError": "Unable to fetch publication requests. Please try again.",
     "appPublicationError": "Unable to publish {{appName}}. Please check the details.",
+    "appsAdmin": "Apps Admin",
     "appType": "Type",
     "appVersion": "Version",
     "apps_under_development": "Apps Under Development",

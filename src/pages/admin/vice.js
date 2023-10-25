@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useUserProfile } from "contexts/userProfile";
 import NotAuthorized from "components/error/NotAuthorized";
 
-import { RequiredNamespaces, useTranslation } from "i18n";
+import { i18n, RequiredNamespaces, useTranslation } from "i18n";
 
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -221,8 +221,11 @@ export default function VICEAdminPage() {
 }
 
 export async function getServerSideProps({ locale }) {
+    const title = i18n.t("vice-admin:viceAdmin");
+
     return {
         props: {
+            title,
             ...(await serverSideTranslations(locale, [
                 "vice-admin",
                 ...RequiredNamespaces,

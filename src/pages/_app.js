@@ -123,6 +123,8 @@ function MyApp({ Component, pageProps }) {
             })
     );
 
+    const { title } = pageProps;
+
     useEffect(() => {
         const analytics_id = publicRuntimeConfig.ANALYTICS_ID;
         const handleRouteChange = (url) => {
@@ -271,7 +273,13 @@ function MyApp({ Component, pageProps }) {
                                             clientConfig={config}
                                         >
                                             <Head>
-                                                <title>{t("deTitle")}</title>
+                                                <title>
+                                                    {title
+                                                        ? t("dePageTitle", {
+                                                              title,
+                                                          })
+                                                        : t("deTitle")}
+                                                </title>
                                             </Head>
                                             <ReactQueryDevtools
                                                 initialIsOpen={false}

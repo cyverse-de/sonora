@@ -11,7 +11,7 @@ import React, { useCallback } from "react";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { RequiredNamespaces, useTranslation } from "i18n";
+import { i18n, RequiredNamespaces, useTranslation } from "i18n";
 
 import constants from "../../constants";
 import { getLocalStorage } from "components/utils/localStorage";
@@ -139,8 +139,11 @@ export default function Tools() {
 }
 
 export async function getServerSideProps({ locale }) {
+    const title = i18n.t("tools:toolsAdmin");
+
     return {
         props: {
+            title,
             ...(await serverSideTranslations(locale, [
                 "tools",
                 ...RequiredNamespaces,

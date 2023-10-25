@@ -23,6 +23,7 @@
     "dataNavUsageTitle": "{{percentage}}% usage",
     "description": "Description",
     "deTitle": "Discovery Environment",
+    "dePageTitle": "{{title}} - Discovery Environment",
     "delete": "Delete",
     "disable": "Disable",
     "discard": "Discard",

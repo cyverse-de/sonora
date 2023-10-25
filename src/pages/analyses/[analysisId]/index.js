@@ -9,7 +9,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { RequiredNamespaces } from "i18n";
+import { i18n, RequiredNamespaces } from "i18n";
 import AnalysisSubmissionLanding from "components/analyses/landing/AnalysisSubmissionLanding";
 
 /**
@@ -32,8 +32,11 @@ export default function Analysis() {
 }
 
 export async function getServerSideProps({ locale }) {
+    const title = i18n.t("analyses:analysis");
+
     return {
         props: {
+            title,
             ...(await serverSideTranslations(locale, [
                 // "analyses" already included by RequiredNamespaces
                 "dashboard",

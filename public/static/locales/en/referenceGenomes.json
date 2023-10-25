@@ -14,6 +14,7 @@
     "createdOn": "Created On",
     "lastModifiedBy": "Last Modified By",
     "lastModifiedOn": "Last Modified On",
+    "referenceGenomes": "Reference Genomes",
     "search": "Search",
     "updateSuccess": "Reference Genome updated successfully.",
     "updateFailed": "Unable to update the Reference Genome"

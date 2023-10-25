@@ -7,7 +7,7 @@ import React, { Fragment, useEffect } from "react";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { RequiredNamespaces } from "i18n";
+import { i18n, RequiredNamespaces } from "i18n";
 
 import constants from "../../constants";
 import {
@@ -51,8 +51,11 @@ export default function Data() {
 }
 
 export async function getServerSideProps({ locale }) {
+    const title = i18n.t("data");
+
     return {
         props: {
+            title,
             ...(await serverSideTranslations(locale, [
                 "data",
                 ...RequiredNamespaces,

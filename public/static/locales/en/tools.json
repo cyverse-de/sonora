@@ -126,6 +126,7 @@
     "toolRequests": "Tool Requests",
     "toolRequestSuccess": "Request submitted successfully. You will receive notifications about the progress.",
     "tools": "Tools",
+    "toolsAdmin": "Tools Admin",
     "toolSrcLinkLabel": "Provide a link for your tool's source (GitHub, BitBucket, DockerHub etc...)",
     "toolsUsed": "Tools used by {{appName}}",
     "toolTestDataLabel": "Provide a link for your tool's test data",

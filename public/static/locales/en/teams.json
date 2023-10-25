@@ -2,6 +2,7 @@
     "admin": "Admin",
     "allTeams": "All Teams",
     "ariaTeamFilter": "Team Filter",
+    "createTeam": "Create Team",
     "createTeamFail": "Failed to create team name or description. Please try again.",
     "creator": "Creator Name",
     "deleteTeamFail": "Failed to delete team.  Please try again.",

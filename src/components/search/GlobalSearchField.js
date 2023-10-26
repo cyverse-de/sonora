@@ -798,41 +798,47 @@ function GlobalSearchField(props) {
         }
     };
 
-    const renderCustomInput = (params) => (
-        <TextField
-            id={buildID(ids.SEARCH, ids.SEARCH_INPUT_FILED)}
-            {...params}
-            className={classes.input}
-            placeholder={placeholder}
-            variant={isMobile || outlined ? "outlined" : "standard"}
-            InputProps={{
-                ...params.InputProps,
-                disableUnderline: true,
-                startAdornment: <SearchIcon color="primary" />,
-                endAdornment: (
-                    <React.Fragment>
-                        {loading ? (
-                            <CircularProgress color="primary" size={20} />
-                        ) : null}
-                        {params.InputProps.endAdornment}
-                    </React.Fragment>
-                ),
-            }}
-            onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                    setOpen(false);
-                    onShowDetailedSearch({
-                        searchTerm,
-                        filter,
-                        selectedTab:
-                            filter && filter !== searchConstants.ALL
-                                ? filter.toUpperCase()
-                                : defaultTab,
-                    });
-                }
-            }}
-        />
-    );
+    const renderCustomInput = (params) => {
+        const variant = isMobile || outlined ? "outlined" : "standard";
+        const inputProps = {
+            ...params.InputProps,
+            startAdornment: <SearchIcon color="primary" />,
+            endAdornment: (
+                <React.Fragment>
+                    {loading ? (
+                        <CircularProgress color="primary" size={20} />
+                    ) : null}
+                    {params.InputProps.endAdornment}
+                </React.Fragment>
+            ),
+        };
+        if (variant === "standard") {
+            inputProps.disableUnderline = true;
+        }
+        return (
+            <TextField
+                id={buildID(ids.SEARCH, ids.SEARCH_INPUT_FILED)}
+                {...params}
+                className={classes.input}
+                placeholder={placeholder}
+                variant={variant}
+                InputProps={inputProps}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                        setOpen(false);
+                        onShowDetailedSearch({
+                            searchTerm,
+                            filter,
+                            selectedTab:
+                                filter && filter !== searchConstants.ALL
+                                    ? filter.toUpperCase()
+                                    : defaultTab,
+                        });
+                    }
+                }}
+            />
+        );
+    };
 
     const searchFilterId = buildID(ids.SEARCH, ids.SEARCH_FILTER_MENU);
     const allFilterOptions = [
@@ -846,6 +852,12 @@ function GlobalSearchField(props) {
         : config?.elasticEnabled
         ? allFilterOptions
         : allFilterOptions.filter((option) => option !== searchConstants.DATA);
+
+    const variant = isMobile ? "outlined" : "standard";
+    const inputProps = {};
+    if (!isMobile) {
+        inputProps.disableUnderline = true;
+    }
 
     return (
         <>
@@ -892,10 +904,8 @@ function GlobalSearchField(props) {
                     value={filter}
                     onChange={handleFilterChange}
                     className={classes.searchFilter}
-                    variant={isMobile ? "outlined" : "standard"}
-                    InputProps={{
-                        disableUnderline: true,
-                    }}
+                    variant={variant}
+                    InputProps={inputProps}
                 >
                     {filterOptions.map((option) => (
                         <MenuItem

@@ -106,6 +106,7 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches, infoTypes }) => {
             id={baseID}
         >
             <TextField
+                variant="standard"
                 id={buildID(baseID, ids.NAME)}
                 name="mappingName"
                 label={t("common:name")}
@@ -119,6 +120,7 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches, infoTypes }) => {
             />
 
             <TextField
+                variant="standard"
                 value={formik.values.patternKind}
                 onChange={formik.handleChange}
                 id={buildID(baseID, ids.PATTERN, ids.KIND, ids.MENU)}
@@ -158,6 +160,7 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches, infoTypes }) => {
 
             {formik.values.patternKind === "infoType" ? (
                 <TextField
+                    variant="standard"
                     id={buildID(baseID, ids.INFO_TYPE, ids.MENU)}
                     name="pattern"
                     label={t("infoType")}
@@ -183,6 +186,7 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches, infoTypes }) => {
                 </TextField>
             ) : (
                 <TextField
+                    variant="standard"
                     id={buildID(baseID, ids.PATTERN)}
                     name="pattern"
                     label={t("pattern")}
@@ -195,6 +199,7 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches, infoTypes }) => {
             )}
 
             <TextField
+                variant="standard"
                 id={buildID(baseID, ids.BASE, ids.MENU)}
                 value={formik.values.instantLaunch}
                 onChange={formik.handleChange}

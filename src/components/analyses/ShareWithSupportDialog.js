@@ -98,7 +98,7 @@ function CompletedStateCondition({ outputCondition, handleConditionChange }) {
     const { t } = useTranslation("analyses");
 
     return (
-        <FormControl component="fieldset">
+        <FormControl variant="standard" component="fieldset">
             <FormLabel component="legend">
                 {t("statusHelpOutputConditionHeader")}
             </FormLabel>

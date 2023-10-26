@@ -58,7 +58,7 @@ export default function FileTypeSelectionDialog(props) {
                 </>
             }
         >
-            <FormControl style={{ width: "95%" }}>
+            <FormControl variant="standard" style={{ width: "95%" }}>
                 <InputLabel>{t("selectFileType")}</InputLabel>
                 <Select
                     value={type}

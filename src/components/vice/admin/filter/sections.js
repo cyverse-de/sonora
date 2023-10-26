@@ -46,7 +46,7 @@ const FilterSection = ({
 
             <Typography color="textSecondary">{description}</Typography>
 
-            <FormControl>
+            <FormControl variant="standard">
                 <div id={id("section", kind)} className={classes.sectionRoot}>
                     <FieldSelect
                         id={fieldID}
@@ -57,6 +57,7 @@ const FilterSection = ({
                     />
 
                     <TextField
+                        variant="standard"
                         id={valueID}
                         label={t("filterValue")}
                         className={classes.textField}

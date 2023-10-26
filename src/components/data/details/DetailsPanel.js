@@ -131,6 +131,7 @@ function DetailsTabPanel(props) {
                     >
                         {infoTypes && infoTypes.length > 0 ? (
                             <Select
+                                variant="standard"
                                 labelId={buildID(
                                     baseId,
                                     ids.INFO_TYPES,

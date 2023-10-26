@@ -294,7 +294,7 @@ const ShowAllParameters = ({ baseId, checked, onChange }) => {
     const { t } = useTranslation("launch");
     return (
         <Toolbar component={Paper}>
-            <FormControl fullWidth margin="normal">
+            <FormControl variant="standard" fullWidth margin="normal">
                 <FormControlLabel
                     control={
                         <Switch

@@ -50,7 +50,7 @@ const FormTimestampField = ({
     const date = value && Date.parse(value);
 
     return (
-        <FormControl error={!!errorMsg}>
+        <FormControl variant="standard" error={!!errorMsg}>
             <TextField
                 id={buildID(id, "date")}
                 type="date"

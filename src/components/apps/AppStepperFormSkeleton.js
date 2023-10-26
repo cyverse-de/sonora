@@ -39,10 +39,16 @@ export default (props) => {
                 bottomNavigation={!isMobile && <BottomNavigationSkeleton />}
             >
                 <Skeleton variant="text" width="100%">
-                    <TextField fullWidth label="..." helperText="..." />
+                    <TextField
+                        variant="standard"
+                        fullWidth
+                        label="..."
+                        helperText="..."
+                    />
                 </Skeleton>
                 <Skeleton variant="rectangular" width="100%">
                     <TextField
+                        variant="standard"
                         fullWidth
                         rows={3}
                         multiline
@@ -51,7 +57,12 @@ export default (props) => {
                     />
                 </Skeleton>
                 <Skeleton variant="text" width="100%">
-                    <TextField fullWidth label="..." helperText="..." />
+                    <TextField
+                        variant="standard"
+                        fullWidth
+                        label="..."
+                        helperText="..."
+                    />
                 </Skeleton>
             </AppStepDisplay>
         </Paper>

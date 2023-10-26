@@ -23,11 +23,21 @@ const FormSelectField = ({
 }) => {
     const errorMsg = getFormError(field.name, touched, errors);
     return (
-        <FormControl fullWidth={fullWidth} error={!!errorMsg}>
+        <FormControl
+            variant="standard"
+            fullWidth={fullWidth}
+            error={!!errorMsg}
+        >
             <InputLabel htmlFor={id} required={required}>
                 {label}
             </InputLabel>
-            <Select id={id} value={value || ""} {...field} {...custom}>
+            <Select
+                variant="standard"
+                id={id}
+                value={value || ""}
+                {...field}
+                {...custom}
+            >
                 {children}
             </Select>
             <FormHelperText>{errorMsg || helperText}</FormHelperText>

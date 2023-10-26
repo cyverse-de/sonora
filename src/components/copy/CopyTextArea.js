@@ -52,6 +52,7 @@ class CopyTextArea extends Component {
         return (
             <div>
                 <TextField
+                    variant="standard"
                     id={`${debugIdPrefix}.CopyTextArea.TextField`}
                     value={text}
                     multiline={multiline}

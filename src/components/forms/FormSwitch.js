@@ -25,7 +25,7 @@ const FormSwitch = (props) => {
     const errorMsg = getFormError(field.name, touched, errors);
 
     return (
-        <FormControl error={!!errorMsg}>
+        <FormControl variant="standard" error={!!errorMsg}>
             <FormControlLabel
                 control={
                     <Switch

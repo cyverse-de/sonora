@@ -34,6 +34,7 @@ function SharingPermissionSelector(props) {
 
     return (
         <Select
+            variant="standard"
             id={baseId}
             open={open}
             onOpen={onOpen}

@@ -146,9 +146,13 @@ export const BagUI = ({ removeItem, allItems, isLoading, fullScreen }) => {
                 <BagSkeleton />
             ) : (
                 <>
-                    <FormControl className={classes.formControl}>
+                    <FormControl
+                        variant="standard"
+                        className={classes.formControl}
+                    >
                         <InputLabel id={filterLabelID}>{t("show")}</InputLabel>
                         <Select
+                            variant="standard"
                             labelId={filterLabelID}
                             id={selectID}
                             value={filterBy}

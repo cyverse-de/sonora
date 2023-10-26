@@ -58,8 +58,9 @@ function ApproveAction(props) {
     const classes = useStyles();
 
     return (
-        <FormControl className={classes.formControl}>
+        <FormControl variant="standard" className={classes.formControl}>
             <Select
+                variant="standard"
                 id={buildID(baseId, ids.ADMIN_JOIN_TEAM.PRIVILEGE_SELECT)}
                 value={privilege}
                 onChange={(event) => {
@@ -166,7 +167,7 @@ function DialogContent(props) {
                 </Grid>
             </Paper>
 
-            <FormControl component="fieldset">
+            <FormControl variant="standard" component="fieldset">
                 <RadioGroup
                     aria-label={t("arialApproveOrDeny")}
                     value={requestChoice}

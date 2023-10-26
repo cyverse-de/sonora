@@ -20,6 +20,7 @@ export const FieldSelect = ({
         <>
             <InputLabel id={inputLabelID}>{t(labelI18nKey)}</InputLabel>
             <Select
+                variant="standard"
                 labelId={inputLabelID}
                 id={id}
                 value={value}

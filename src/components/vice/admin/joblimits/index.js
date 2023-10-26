@@ -123,13 +123,14 @@ const JobLimits = ({ showErrorAnnouncer }) => {
             />
 
             <CardContent>
-                <FormControl>
+                <FormControl variant="standard">
                     <div className={classes.container}>
                         <Typography>{infoMsg}</Typography>
                     </div>
 
                     <div className={classes.container}>
                         <TextField
+                            variant="standard"
                             label={t("username")}
                             id={id(ids.CARD, "textfield")}
                             className={classes.textField}
@@ -155,6 +156,7 @@ const JobLimits = ({ showErrorAnnouncer }) => {
 
                     <div className={classes.container}>
                         <TextField
+                            variant="standard"
                             label={t("newJobLimit")}
                             id={id(ids.CARD, "newjobLimit")}
                             className={classes.textField}

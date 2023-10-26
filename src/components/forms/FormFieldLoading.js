@@ -39,7 +39,7 @@ const FormFieldLoading = ({
     const helperTextID = buildDebugId(loadingFieldID, ids.HELPER_TEXT);
 
     return (
-        <FormControl fullWidth error={!!errorMsg}>
+        <FormControl variant="standard" fullWidth error={!!errorMsg}>
             <InputLabel htmlFor={loadingFieldID} required={required}>
                 {label}
             </InputLabel>

@@ -169,6 +169,7 @@ const URLImportTextField = (props) => {
     return (
         <div className={classes.container}>
             <TextField
+                variant="standard"
                 fullWidth
                 id={buildID(ids.BASE_ID, ids.TEXT_FIELD)}
                 placeholder={t("placeholder")}

@@ -194,6 +194,7 @@ function Documentation(props) {
             )}
             {isEditMode && documentation && (
                 <TextField
+                    variant="standard"
                     id={buildID(baseId, ids.DOC_TEXT)}
                     multiline={true}
                     rows={20}

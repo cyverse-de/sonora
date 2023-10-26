@@ -31,8 +31,13 @@ export default function EditTeam() {
     );
 }
 
-export async function getServerSideProps({ locale }) {
-    const title = i18n.t("teams");
+export async function getServerSideProps(context) {
+    const {
+        locale,
+        params: { teamName },
+    } = context;
+
+    const title = i18n.t("teams:pageTitle", { name: teamName });
 
     return {
         props: {

@@ -27,6 +27,7 @@
     "noCollections": "No $t(featureName_plural)",
     "noExternalApps": "Adding Agave/HPC apps is not currently supported",
     "noExternalAppsNote": "NOTE: $t(noExternalApps).",
+    "pageTitle": "Collection - {{name}}",
     "remove": "Remove",
     "retagApps": "Re-tag Apps",
     "retagAppsMessage": "{{name}} currently has apps associated with it. Renaming the $t(featureName) will cause all the currently tagged apps to be re-tagged with the new $t(featureName) name.  Do you wish to continue?",

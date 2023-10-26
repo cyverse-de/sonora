@@ -31,8 +31,15 @@ export default function EditCollection() {
     );
 }
 
-export async function getServerSideProps({ locale }) {
-    const title = i18n.t("collections:featureName");
+export async function getServerSideProps(context) {
+    const {
+        locale,
+        params: { collectionName },
+    } = context;
+
+    const title = i18n.t("collections:pageTitle", {
+        name: collectionName,
+    });
 
     return {
         props: {

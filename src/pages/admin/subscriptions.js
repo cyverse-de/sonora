@@ -157,8 +157,16 @@ export default function Subscriptions() {
     }
 }
 
-export async function getServerSideProps({ locale }) {
-    const title = i18n.t("subscriptions");
+export async function getServerSideProps(context) {
+    const {
+        locale,
+        query: { searchTerm },
+    } = context;
+
+    let title = i18n.t("subscriptions");
+    if (searchTerm) {
+        title = i18n.t("subscriptions:pageTitle", { searchTerm });
+    }
 
     return {
         props: {

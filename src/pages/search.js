@@ -57,8 +57,16 @@ export default function Search() {
     );
 }
 
-export async function getServerSideProps({ locale }) {
-    const title = i18n.t("search");
+export async function getServerSideProps(context) {
+    const {
+        locale,
+        query: { searchTerm },
+    } = context;
+
+    let title = i18n.t("search");
+    if (searchTerm) {
+        title = i18n.t("search:pageTitle", { searchTerm });
+    }
 
     return {
         props: {

@@ -188,8 +188,17 @@ export default function DataStore() {
     );
 }
 
-export async function getServerSideProps({ locale }) {
-    const title = i18n.t("data");
+export async function getServerSideProps(context) {
+    const {
+        locale,
+        params: { pathItems },
+    } = context;
+
+    // Display the full path up to 3 items deep, otherwise only the last item.
+    const path =
+        pathItems.length <= 3 ? "/" + pathItems.join("/") : pathItems.at(-1);
+
+    const title = i18n.t("data:pageTitle", { path });
 
     return {
         props: {

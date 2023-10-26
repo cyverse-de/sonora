@@ -79,8 +79,14 @@ export default function Apps() {
 }
 
 export async function getServerSideProps(context) {
-    const { locale } = context;
-    const title = i18n.t("apps");
+    const { locale, query } = context;
+
+    let selectedCategory;
+    if (query.selectedCategory) {
+        selectedCategory = JSON.parse(query.selectedCategory).name;
+    }
+
+    const title = selectedCategory || i18n.t("apps");
 
     return {
         props: {

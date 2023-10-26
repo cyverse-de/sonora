@@ -21,6 +21,7 @@
     "noResults": "No results to display.",
     "own": "Own",
     "owner": "Owner",
+    "pageTitle": "Search - {{searchTerm}}",
     "path": "Path",
     "pathPlaceholder": "/iplant/home/me",
     "permissions": "Permissions",

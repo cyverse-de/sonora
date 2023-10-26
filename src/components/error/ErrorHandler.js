@@ -109,6 +109,7 @@ function ErrorHandler(props) {
                                     `/${NavigationConstants.LOGIN}${router.asPath}`
                                 );
                             }}
+                            underline="hover"
                         >
                             <Typography variant="h6" className={classes.signIn}>
                                 {t("signIn")}
@@ -126,6 +127,7 @@ function ErrorHandler(props) {
                             onClick={() => {
                                 window.open(constants.USER_PORTAL);
                             }}
+                            underline="hover"
                         >
                             <Typography
                                 variant="subtitle2"

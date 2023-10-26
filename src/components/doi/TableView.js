@@ -153,6 +153,7 @@ export default function TableView(props) {
                                                 onClick={handleUserNameClick}
                                                 color="primary"
                                                 id={buildID(rowId, ids.USER)}
+                                                underline="hover"
                                             >
                                                 <Typography variant="body2">
                                                     {request.requested_by}
@@ -167,6 +168,7 @@ export default function TableView(props) {
                                                 }
                                                 id={buildID(rowId, ids.PATH)}
                                                 color="primary"
+                                                underline="hover"
                                             >
                                                 <Typography variant="body2">
                                                     {request?.folder?.path}

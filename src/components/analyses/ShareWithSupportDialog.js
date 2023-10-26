@@ -335,6 +335,7 @@ function RunningStateSupport(props) {
                                         event.preventDefault();
                                         intercomShow();
                                     }}
+                                    underline="hover"
                                 />
                             ),
                         }}

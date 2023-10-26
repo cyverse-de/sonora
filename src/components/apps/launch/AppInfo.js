@@ -82,6 +82,7 @@ const UnavailableMsg = ({
                             id={buildID(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
                             component="button"
                             onClick={intercomShow}
+                            underline="hover"
                         />
                     ),
                 }}
@@ -100,6 +101,7 @@ const UnavailableMsg = ({
                             id={buildID(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
                             component="button"
                             onClick={intercomShow}
+                            underline="hover"
                         />
                     ),
                 }}

@@ -113,6 +113,7 @@ function ReferenceGenomes(props) {
                             onClick={() => {
                                 setSelectedReferenceGenome(row.original);
                             }}
+                            underline="hover"
                         >
                             {value}
                         </Link>

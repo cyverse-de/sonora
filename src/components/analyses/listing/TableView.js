@@ -102,6 +102,7 @@ function Status(props) {
         ].includes(analysis.status)
     ) {
         StatusDisplay = MUILink;
+        statusDisplayProps.underline = "hover";
         statusDisplayProps.component = "button";
         statusDisplayProps.onClick = () => onStatusClick(analysis);
     }

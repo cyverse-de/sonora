@@ -275,7 +275,9 @@ function ListSavedLaunches(props) {
                         {t("noSavedLaunches")}
                     </Typography>
                     <Link href={href} as={as} passHref>
-                        <MuiLink>{t("createSavedLaunchLabel")}</MuiLink>
+                        <MuiLink underline="hover">
+                            {t("createSavedLaunchLabel")}
+                        </MuiLink>
                     </Link>
                 </React.Fragment>
             );

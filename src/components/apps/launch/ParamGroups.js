@@ -269,6 +269,7 @@ const HPCWaitTimesMessage = ({ baseId }) => {
                             event.preventDefault();
                             intercomShow();
                         }}
+                        underline="hover"
                     />
                 ),
                 hpcLink: (

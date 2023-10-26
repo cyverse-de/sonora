@@ -41,6 +41,7 @@ const DELink = React.forwardRef((props, ref) => {
                     onClick(e);
                 }
             }}
+            underline="hover"
         >
             <Highlighter search={searchTerm || ""}>{text}</Highlighter>
         </Link>

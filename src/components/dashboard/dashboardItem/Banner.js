@@ -121,6 +121,7 @@ export default function Banner(props) {
                                 style={{
                                     margin: theme.spacing(0.4),
                                 }}
+                                underline="hover"
                             >
                                 {t("login")}
                             </Link>

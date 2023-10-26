@@ -344,6 +344,7 @@ function AdminAppDetailsForm(props) {
                                             documentationTemplateUrl
                                     )
                                 }
+                                underline="hover"
                             >
                                 {t("documentationTemplate")}
                             </Link>

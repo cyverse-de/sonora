@@ -84,6 +84,7 @@ function AppName(props) {
                                 : setAccessRequestDialogOpen(true);
                         }}
                         color="primary"
+                        underline="hover"
                     >
                         {name}
                     </MuiLink>
@@ -109,6 +110,7 @@ function AppName(props) {
                         href="#"
                         onClick={() => setErrorDialogOpen(true)}
                         color="primary"
+                        underline="hover"
                     >
                         {name}
                     </MuiLink>

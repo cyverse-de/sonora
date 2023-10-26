@@ -15,6 +15,7 @@ const SupportLink = (props) => (
         component="button"
         onClick={intercomShow}
         {...props}
+        underline="hover"
     />
 );
 

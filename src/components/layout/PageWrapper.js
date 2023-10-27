@@ -27,7 +27,7 @@ function PageWrapper(props) {
             style={{
                 maxHeight: `calc(100vh - ${
                     appBarHeight + parseInt(theme.spacing(1), 10)
-                })`,
+                }px)`,
                 overflow: "auto",
             }}
         >

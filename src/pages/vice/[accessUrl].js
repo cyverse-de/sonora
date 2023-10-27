@@ -9,7 +9,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { RequiredNamespaces } from "i18n";
+import { i18n, RequiredNamespaces } from "i18n";
 import ViceLoading from "components/vice/loading";
 
 export default function Loading() {
@@ -20,8 +20,11 @@ export default function Loading() {
 }
 
 export async function getServerSideProps({ locale }) {
+    const title = i18n.t("vice-loading:initializingVice");
+
     return {
         props: {
+            title,
             ...(await serverSideTranslations(locale, [
                 "vice-loading",
                 ...RequiredNamespaces,

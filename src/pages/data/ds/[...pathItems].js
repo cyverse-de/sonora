@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useQuery } from "react-query";
 
-import { RequiredNamespaces } from "i18n";
+import { i18n, RequiredNamespaces } from "i18n";
 import constants from "../../../constants";
 import { NavigationParams } from "common/NavigationConstants";
 
@@ -188,9 +188,21 @@ export default function DataStore() {
     );
 }
 
-export async function getServerSideProps({ locale }) {
+export async function getServerSideProps(context) {
+    const {
+        locale,
+        params: { pathItems },
+    } = context;
+
+    // Display the full path up to 3 items deep, otherwise only the last item.
+    const path =
+        pathItems.length <= 3 ? "/" + pathItems.join("/") : pathItems.at(-1);
+
+    const title = i18n.t("data:pageTitle", { path });
+
     return {
         props: {
+            title,
             ...(await serverSideTranslations(locale, [
                 "data",
                 "metadata",

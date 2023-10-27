@@ -9,7 +9,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { RequiredNamespaces } from "i18n";
+import { i18n, RequiredNamespaces } from "i18n";
 
 import NavigationConstants from "common/NavigationConstants";
 import TeamForm from "components/teams/form";
@@ -31,9 +31,17 @@ export default function EditTeam() {
     );
 }
 
-export async function getServerSideProps({ locale }) {
+export async function getServerSideProps(context) {
+    const {
+        locale,
+        params: { teamName },
+    } = context;
+
+    const title = i18n.t("teams:pageTitle", { name: teamName });
+
     return {
         props: {
+            title,
             ...(await serverSideTranslations(locale, [
                 "teams",
                 ...RequiredNamespaces,

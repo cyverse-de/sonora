@@ -10,7 +10,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { RequiredNamespaces } from "i18n";
+import { i18n, RequiredNamespaces } from "i18n";
 import ErrorHandler from "components/error/ErrorHandler";
 
 export default function Error() {
@@ -21,8 +21,11 @@ export default function Error() {
 }
 
 export async function getServerSideProps({ locale }) {
+    const title = i18n.t("util:error");
+
     return {
         props: {
+            title,
             ...(await serverSideTranslations(locale, RequiredNamespaces)),
         },
     };

@@ -104,5 +104,6 @@
     "userIDColumn": "User ID",
     "username": "Username",
     "usernameColumn": "Username",
-    "value": "Value"
+    "value": "Value",
+    "viceAdmin": "VICE Admin"
 }

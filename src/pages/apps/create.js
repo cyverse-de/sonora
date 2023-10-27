@@ -7,7 +7,7 @@ import React from "react";
 
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { RequiredNamespaces } from "i18n";
+import { i18n, RequiredNamespaces } from "i18n";
 
 import AppEditor from "components/apps/editor";
 import NewAppDefaults from "components/apps/editor/NewAppDefaults";
@@ -39,8 +39,11 @@ export default function AppCreate() {
 }
 
 export async function getServerSideProps({ locale }) {
+    const title = i18n.t("apps:createApp");
+
     return {
         props: {
+            title,
             ...(await serverSideTranslations(locale, [
                 "app_editor",
                 "app_editor_help",

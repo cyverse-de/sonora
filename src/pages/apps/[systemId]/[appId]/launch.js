@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useQuery } from "react-query";
 
-import { RequiredNamespaces, useTranslation } from "i18n";
+import { i18n, RequiredNamespaces, useTranslation } from "i18n";
 
 import {
     getAppDescription,
@@ -120,8 +120,11 @@ function Launch({ showErrorAnnouncer }) {
 }
 
 export async function getServerSideProps({ locale }) {
+    const title = i18n.t("launch:launchAnalysis");
+
     return {
         props: {
+            title,
             ...(await serverSideTranslations(locale, [
                 "data",
                 "upload",

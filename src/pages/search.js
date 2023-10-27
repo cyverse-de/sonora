@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Hidden } from "@material-ui/core";
-import { RequiredNamespaces } from "i18n";
+import { i18n, RequiredNamespaces } from "i18n";
 import GlobalSearchField from "components/search/GlobalSearchField";
 import DetailedSearchResults from "components/search/detailed/DetailedSearchResults";
 import SEARCH_RESULTS_TABS from "components/search/detailed/tabs";
@@ -57,9 +57,20 @@ export default function Search() {
     );
 }
 
-export async function getServerSideProps({ locale }) {
+export async function getServerSideProps(context) {
+    const {
+        locale,
+        query: { searchTerm },
+    } = context;
+
+    let title = i18n.t("search");
+    if (searchTerm) {
+        title = i18n.t("search:pageTitle", { searchTerm });
+    }
+
     return {
         props: {
+            title,
             ...(await serverSideTranslations(locale, [
                 "data",
                 "teams",

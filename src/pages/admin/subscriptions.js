@@ -11,7 +11,7 @@ import { useQuery, useQueryClient } from "react-query";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { RequiredNamespaces, useTranslation } from "i18n";
+import { i18n, RequiredNamespaces, useTranslation } from "i18n";
 
 import Listing from "components/subscriptions/listing/Listing";
 import AddOnsListing from "components/subscriptions/addons/listing/Listing";
@@ -157,9 +157,20 @@ export default function Subscriptions() {
     }
 }
 
-export async function getServerSideProps({ locale }) {
+export async function getServerSideProps(context) {
+    const {
+        locale,
+        query: { searchTerm },
+    } = context;
+
+    let title = i18n.t("subscriptions");
+    if (searchTerm) {
+        title = i18n.t("subscriptions:pageTitle", { searchTerm });
+    }
+
     return {
         props: {
+            title,
             ...(await serverSideTranslations(locale, [
                 "subscriptions",
                 ...RequiredNamespaces,

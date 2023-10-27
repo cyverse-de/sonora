@@ -38,6 +38,7 @@
     "noSubscriptions": "No subscriptions",
     "noUsages": "No usages",
     "paid": "Paid",
+    "pageTitle": "Subscriptions - {{searchTerm}}",
     "planName": "Plan Name",
     "quota": "Quota",
     "quotas": "Quotas",

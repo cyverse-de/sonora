@@ -9,7 +9,7 @@ import React, { useCallback } from "react";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { RequiredNamespaces, useTranslation } from "i18n";
+import { i18n, RequiredNamespaces, useTranslation } from "i18n";
 
 import { getLocalStorage } from "components/utils/localStorage";
 
@@ -76,8 +76,11 @@ export default function App() {
 }
 
 export async function getServerSideProps({ locale }) {
+    const title = i18n.t("apps");
+
     return {
         props: {
+            title,
             ...(await serverSideTranslations(locale, [
                 "collections",
                 // "apps" already included by RequiredNamespaces

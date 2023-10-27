@@ -100,6 +100,7 @@
     "noContent": "No content to display.",
     "ok": "OK",
     "own": "Own",
+    "pageTitle": "Data - {{path}}",
     "path": "Path",
     "pathCopied": "Path copied.",
     "pathCopyError": "Unable to copy path.",

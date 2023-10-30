@@ -56,7 +56,7 @@ export const StepperSkeleton = React.forwardRef(({ baseId }, ref) => {
             width="100%"
             ref={ref}
         >
-            <Stepper alternativeLabel nonLinear>
+            <Stepper style={{ padding: 24 }} alternativeLabel nonLinear>
                 <Step>
                     <StepButton>&nbsp;</StepButton>
                 </Step>
@@ -128,7 +128,13 @@ const AppStepper = React.forwardRef((props, ref) => {
     }
 
     return (
-        <Stepper ref={ref} alternativeLabel nonLinear activeStep={activeStep}>
+        <Stepper
+            style={{ padding: 24 }}
+            ref={ref}
+            alternativeLabel
+            nonLinear
+            activeStep={activeStep}
+        >
             {steps.map((step, index) => {
                 const completed = stepCompleted && stepCompleted(index);
                 const hasError = stepError && stepError(index);

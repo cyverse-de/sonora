@@ -24,12 +24,12 @@ import FormHelperText from "@mui/material/FormHelperText";
  *
  * @returns An onChange function for use in a MUI Checkbox or Switch field.
  */
-const onCheckboxChange =
-    (setFieldValue, fieldName, readOnly) => (event, checked) => {
-        if (!readOnly) {
-            setFieldValue(fieldName, checked);
-        }
-    };
+const onCheckboxChange = (setFieldValue, fieldName, readOnly) => (event) => {
+    const checked = event.target.checked;
+    if (!readOnly) {
+        setFieldValue(fieldName, checked);
+    }
+};
 
 const FormCheckbox = ({
     label,

@@ -32,6 +32,7 @@ import {
 import makeStyles from "@mui/styles/makeStyles";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 const useStyles = makeStyles(styles);
 
@@ -40,6 +41,8 @@ export default function Webhooks(props) {
     const { t } = useTranslation("preferences");
     const classes = useStyles();
     const theme = useTheme();
+    const { isSmUp } = useBreakpoints();
+
     const [enableTest, setEnableTest] = React.useState(false);
     const [enableTestButton, setEnableTestButton] = React.useState(false);
     const [testKey, setTestKey] = React.useState(WEBHOOK_TEST_KEY);
@@ -72,7 +75,7 @@ export default function Webhooks(props) {
             <Typography variant="h6" className={classes.sectionHeader}>
                 {t("webhooks")}
             </Typography>
-            <Grid container spacing={3} className={classes.grid}>
+            <Grid container spacing={1} className={classes.grid}>
                 <Grid item xs={12}>
                     <Typography>{t("webhooksPrompt")}</Typography>
                 </Grid>
@@ -92,6 +95,7 @@ export default function Webhooks(props) {
                         variant="outlined"
                         size="small"
                         component={FormTextField}
+                        sx={{ minWidth: isSmUp ? 75 : 25 }}
                         validate={(value) => {
                             if (values?.webhook?.url && !value) {
                                 return t("webhookTypeError");

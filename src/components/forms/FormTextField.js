@@ -24,6 +24,7 @@ const FormTextField = ({
             required={required}
             variant="outlined"
             margin="dense"
+            size="small"
             fullWidth
             {...field}
             {...custom}

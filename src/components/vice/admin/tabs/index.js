@@ -8,7 +8,7 @@ import { AppBar, Tab } from "@mui/material";
 
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
-import { makeStyles } from "@mui/styles";
+import { makeStyles, useTheme } from "@mui/styles";
 
 import buildID from "components/utils/DebugIDUtil";
 
@@ -107,6 +107,7 @@ const useStyles = makeStyles((theme) => ({
 const VICEAdminTabs = ({ data = {} }) => {
     const classes = useStyles();
     const { t } = useTranslation("vice-admin");
+    const theme = useTheme();
 
     const [value, setValue] = useState("0");
 
@@ -162,6 +163,12 @@ const VICEAdminTabs = ({ data = {} }) => {
                 >
                     {orderOfTabs.map((tabName, index) => (
                         <Tab
+                            sx={{
+                                "&.Mui-selected": {
+                                    backgroundColor: theme.palette.primary.main,
+                                    color: theme.palette.primary.contrastText,
+                                },
+                            }}
                             label={t(tabName)}
                             buildID={tabID(tabName)}
                             key={tabID(tabName)}
@@ -169,7 +176,6 @@ const VICEAdminTabs = ({ data = {} }) => {
                             aria-controls={tabPanelID(tabName)}
                             classes={{
                                 root: classes.tabRoot,
-                                selected: classes.tabSelected,
                             }}
                         />
                     ))}

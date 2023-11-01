@@ -93,7 +93,7 @@ const DashboardItem = ({ item }) => {
             elevation={4}
         >
             <CardHeader
-                className={isRunningAnalysis && running.backdrop}
+                className={isRunningAnalysis ? running.backdrop : undefined}
                 avatar={
                     isMediumOrLarger && (
                         <Avatar className={classes.avatar}>

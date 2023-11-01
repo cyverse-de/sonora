@@ -246,8 +246,9 @@ function TableView(props) {
                                         className={
                                             !isSelected &&
                                             analysis.status ===
-                                                analysisStatus.RUNNING &&
-                                            running.backdrop
+                                                analysisStatus.RUNNING
+                                                ? running.backdrop
+                                                : undefined
                                         }
                                         role="checkbox"
                                         aria-checked={isSelected}

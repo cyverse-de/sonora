@@ -53,7 +53,7 @@ const DrawerItem = (props) => {
                                     : classes.icon
                             }
                             style={{ fontSize: !nested ? "2.1875rem" : null }}
-                            fontSize={!nested ? "large" : "default"}
+                            fontSize={!nested ? "large" : "medium"}
                         />
                     </ListItemIcon>
                 )}

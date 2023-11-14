@@ -29,9 +29,7 @@ test("Data Table View renders", () => {
     const component = renderer.create(
         <RQWrapper>
             <TestProviderWrapper>
-                <ThemeProvider theme={theme}>
-                    <DataTableViewTest />
-                </ThemeProvider>
+                <DataTableViewTest />
             </TestProviderWrapper>
         </RQWrapper>
     );

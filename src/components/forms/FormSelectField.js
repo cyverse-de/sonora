@@ -31,13 +31,7 @@ const FormSelectField = ({
             <InputLabel htmlFor={id} required={required}>
                 {label}
             </InputLabel>
-            <Select
-                variant="standard"
-                id={id}
-                value={value || ""}
-                {...field}
-                {...custom}
-            >
+            <Select id={id} value={value || ""} {...field} {...custom}>
                 {children}
             </Select>
             <FormHelperText>{errorMsg || helperText}</FormHelperText>

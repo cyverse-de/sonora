@@ -57,7 +57,6 @@ const FilterSection = ({
                     />
 
                     <TextField
-                        variant="standard"
                         id={valueID}
                         label={t("filterValue")}
                         className={classes.textField}

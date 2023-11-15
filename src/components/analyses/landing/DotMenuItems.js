@@ -58,9 +58,9 @@ export default function DotMenuItems(props) {
         analysis?.resultfolderid
     );
     const interactiveUrls = analysis?.interactive_urls;
-    const { isSmUp } = useBreakpoints();
+    const { isMdDown } = useBreakpoints();
     return [
-        !isSmUp && (
+        isMdDown && (
             <MenuItem
                 key={buildID(baseId, ids.MENUITEM_REFRESH)}
                 id={buildID(baseId, ids.MENUITEM_REFRESH)}
@@ -75,7 +75,7 @@ export default function DotMenuItems(props) {
                 <ListItemText primary={t("refresh")} />
             </MenuItem>
         ),
-        !isSmUp && allowShareWithSupport && (
+        isMdDown && allowShareWithSupport && (
             <MenuItem
                 key={buildID(baseId, ids.MENUITEM_SHARE_WITH_SUPPORT)}
                 id={buildID(baseId, ids.MENUITEM_SHARE_WITH_SUPPORT)}

@@ -49,10 +49,10 @@ const dataStyles = (theme) => ({
         [theme.breakpoints.up("lg")]: {
             maxWidth: "25%",
         },
-        [theme.breakpoints.down("xl")]: {
+        [theme.breakpoints.down("lg")]: {
             maxWidth: "50%",
         },
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down("sm")]: {
             maxWidth: "90%",
         },
     },
@@ -93,7 +93,7 @@ const dataStyles = (theme) => ({
         [theme.breakpoints.up("md")]: {
             minWidth: "50%",
         },
-        [theme.breakpoints.down("lg")]: {
+        [theme.breakpoints.down("md")]: {
             width: "90%",
         },
     },

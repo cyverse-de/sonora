@@ -22,10 +22,10 @@ export default (theme) => ({
         [theme.breakpoints.up("lg")]: {
             maxWidth: "25%",
         },
-        [theme.breakpoints.down("xl")]: {
+        [theme.breakpoints.down("lg")]: {
             maxWidth: "50%",
         },
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down("sm")]: {
             maxWidth: "90%",
         },
     },

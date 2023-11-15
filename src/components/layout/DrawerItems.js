@@ -90,7 +90,7 @@ function DrawerItems(props) {
         open,
         activeView,
         toggleDrawer,
-        isXsDown,
+        isSmDown,
         adminUser,
         analysesStats,
         runningViceJobs,
@@ -262,7 +262,7 @@ function DrawerItems(props) {
                 title={t("help")}
                 icon={HelpIcon}
             />
-            {(isXsDown || open) && adminUser && (
+            {(isSmDown || open) && adminUser && (
                 <>
                     <Divider />
                     <AdminDrawerItems open={open} activeView={activeView} />

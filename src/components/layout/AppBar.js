@@ -52,7 +52,6 @@ import {
     Toolbar,
     Tooltip,
     Typography,
-    useMediaQuery,
     useTheme,
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
@@ -117,7 +116,6 @@ function DEAppBar(props) {
     const [userProfile, setUserProfile] = useUserProfile();
     const [userSubscription, setUserSubscription] = useState(null);
     const { currentNotification } = useNotifications();
-    const isXsDown = useMediaQuery(theme.breakpoints.down("sm"));
     const [avatarLetter, setAvatarLetter] = useState("");
     const [open, setOpen] = useState(false);
     const [adminUser, setAdminUser] = useState(false);
@@ -467,7 +465,7 @@ function DEAppBar(props) {
                 </Toolbar>
             </AppBar>
             <Drawer
-                variant={isXsDown ? "temporary" : "permanent"}
+                variant={isSmDown ? "temporary" : "permanent"}
                 className={clsx(classes.drawer, {
                     [classes.drawerOpen]: open,
                     [classes.drawerClose]: !open,
@@ -478,8 +476,8 @@ function DEAppBar(props) {
                         [classes.drawerClose]: !open,
                     }),
                 }}
-                open={isXsDown ? open : true}
-                onClose={isXsDown ? toggleDrawer(false) : undefined}
+                open={isSmDown ? open : true}
+                onClose={isSmDown ? toggleDrawer(false) : undefined}
             >
                 {!isSmDown && (
                     <div>
@@ -540,7 +538,7 @@ function DEAppBar(props) {
                     open={open}
                     activeView={activeView}
                     toggleDrawer={toggleDrawer}
-                    isXsDown={isXsDown}
+                    isSmDown={isSmDown}
                     adminUser={adminUser}
                     analysesStats={analysesStats}
                     runningViceJobs={runningViceJobs}

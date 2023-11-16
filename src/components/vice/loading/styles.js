@@ -19,7 +19,7 @@ export default (theme) => ({
     },
 
     drawerPaper: {
-        [theme.breakpoints.up("lg")]: {
+        [theme.breakpoints.up("xl")]: {
             maxWidth: "25%",
         },
         [theme.breakpoints.down("xl")]: {

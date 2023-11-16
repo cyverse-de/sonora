@@ -35,7 +35,7 @@ const TABS = {
 
 const useStyles = makeStyles((theme) => ({
     drawerPaper: {
-        [theme.breakpoints.up("lg")]: {
+        [theme.breakpoints.up("xl")]: {
             maxWidth: "25%",
         },
         [theme.breakpoints.down("lg")]: {

@@ -46,14 +46,14 @@ const ADDONS_TABLE_COLUMNS = [
 
 const useStyles = makeStyles((theme) => ({
     drawerPaper: {
-        [theme.breakpoints.up("lg")]: {
+        [theme.breakpoints.up("xl")]: {
             maxWidth: "25%",
         },
-        [theme.breakpoints.down("lg")]: {
+        [theme.breakpoints.down("xl")]: {
             maxWidth: "50%",
             minWidth: "45%",
         },
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             maxWidth: "90%",
         },
     },

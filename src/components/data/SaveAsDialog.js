@@ -18,7 +18,7 @@ import InputSelector from "components/apps/launch/InputSelector";
 import DEDialog from "components/utils/DEDialog";
 import { validateDiskResourceName } from "./utils";
 
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 
 function SaveAsDialog(props) {
     const { path, open, onClose, onSaveAs, saveFileError, loading } = props;

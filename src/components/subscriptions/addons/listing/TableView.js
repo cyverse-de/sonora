@@ -22,14 +22,15 @@ import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 import EmptyTable from "components/table/EmptyTable";
 
 import {
-    makeStyles,
     Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles(() => ({
     container: {

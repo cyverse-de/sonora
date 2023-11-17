@@ -4,7 +4,7 @@ import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 
 import {
     ALL_INSTANT_LAUNCHES_KEY,
@@ -15,7 +15,7 @@ import {
 } from "serviceFacades/instantlaunches";
 
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
-import { Skeleton } from "@material-ui/lab";
+import { Skeleton } from "@mui/material";
 
 import {
     Paper,
@@ -25,9 +25,9 @@ import {
     TableCell,
     TableRow,
     TableBody,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { Add as AddIcon } from "@material-ui/icons";
+import { Add as AddIcon } from "@mui/icons-material";
 
 import { useTranslation } from "i18n";
 
@@ -71,7 +71,7 @@ const SavedLaunchList = ({ showErrorAnnouncer }) => {
         <div>
             {isLoading ? (
                 <Skeleton
-                    variant="rect"
+                    variant="rectangular"
                     animation="wave"
                     height={300}
                     width="100%"

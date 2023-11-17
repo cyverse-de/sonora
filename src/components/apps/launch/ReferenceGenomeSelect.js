@@ -14,7 +14,7 @@ import { sortReferenceGenomes, useReferenceGenomes } from "../queries";
 import FormFieldLoading from "components/forms/FormFieldLoading";
 import FormTextField from "components/forms/FormTextField";
 
-import { MenuItem } from "@material-ui/core";
+import { MenuItem } from "@mui/material";
 
 const ReferenceGenomeSelect = ({ param, ...props }) => {
     const [referenceGenomes, setReferenceGenomes] = React.useState([]);

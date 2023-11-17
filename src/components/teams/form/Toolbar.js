@@ -13,14 +13,13 @@ import DotMenu from "components/dotMenu/DotMenu";
 
 import {
     Button,
-    Hidden,
     ListItemIcon,
     ListItemText,
-    makeStyles,
     MenuItem,
     Toolbar,
-} from "@material-ui/core";
-import { Delete, EmojiPeople, ExitToApp, Save } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Delete, EmojiPeople, ExitToApp, Save } from "@mui/icons-material";
 
 import BackButton from "components/utils/BackButton";
 import { useTranslation } from "i18n";
@@ -29,6 +28,7 @@ import styles from "../styles";
 import ConfirmationDialog from "../../utils/ConfirmationDialog";
 import JoinTeamDialog from "../dialogs/JoinTeamDialog";
 import { groupShortName } from "../util";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 const useStyles = makeStyles(styles);
 
@@ -56,6 +56,7 @@ function EditTeamToolbar(props) {
     const leaveEnabled = !isAdmin && isMember;
     const joinEnabled = !isAdmin && !isMember;
     const deleteEnabled = isAdmin && !isCreatingTeam;
+    const { isSmDown, isSmUp } = useBreakpoints();
 
     return (
         <Toolbar variant="dense">
@@ -74,51 +75,54 @@ function EditTeamToolbar(props) {
                 </Button>
             )}
             <div className={classes.divider} />
-            <Hidden xsDown>
-                {leaveEnabled && (
-                    <Button
-                        color="primary"
-                        variant="outlined"
-                        id={buildID(baseId, ids.BUTTONS.LEAVE_BTN)}
-                        className={classes.button}
-                        startIcon={<ExitToApp />}
-                        onClick={() => {
-                            setLeaveTeamDlgOpen(true);
-                        }}
-                    >
-                        {t("leave")}
-                    </Button>
-                )}
-                {joinEnabled && (
-                    <Button
-                        color="primary"
-                        variant="outlined"
-                        id={buildID(baseId, ids.BUTTONS.JOIN_BTN)}
-                        className={classes.button}
-                        startIcon={<EmojiPeople />}
-                        onClick={() => {
-                            setJoinTeamDlgOpen(true);
-                        }}
-                    >
-                        {t("join")}
-                    </Button>
-                )}
-                {deleteEnabled && (
-                    <Button
-                        classes={{ root: classes.deleteBtn }}
-                        variant="outlined"
-                        id={buildID(baseId, ids.BUTTONS.DELETE)}
-                        className={classes.button}
-                        startIcon={<Delete />}
-                        onClick={() => {
-                            setDeleteTeamDlgOpen(true);
-                        }}
-                    >
-                        {t("common:delete")}
-                    </Button>
-                )}
-            </Hidden>
-            <Hidden smUp>
+            {!isSmDown && (
+                <>
+                    {leaveEnabled && (
+                        <Button
+                            color="primary"
+                            variant="outlined"
+                            id={buildID(baseId, ids.BUTTONS.LEAVE_BTN)}
+                            className={classes.button}
+                            startIcon={<ExitToApp />}
+                            onClick={() => {
+                                setLeaveTeamDlgOpen(true);
+                            }}
+                        >
+                            {t("leave")}
+                        </Button>
+                    )}
+                    {joinEnabled && (
+                        <Button
+                            color="primary"
+                            variant="outlined"
+                            id={buildID(baseId, ids.BUTTONS.JOIN_BTN)}
+                            className={classes.button}
+                            startIcon={<EmojiPeople />}
+                            onClick={() => {
+                                setJoinTeamDlgOpen(true);
+                            }}
+                        >
+                            {t("join")}
+                        </Button>
+                    )}
+                    {deleteEnabled && (
+                        <Button
+                            classes={{ root: classes.deleteBtn }}
+                            variant="outlined"
+                            id={buildID(baseId, ids.BUTTONS.DELETE)}
+                            className={classes.button}
+                            startIcon={<Delete />}
+                            onClick={() => {
+                                setDeleteTeamDlgOpen(true);
+                            }}
+                        >
+                            {t("common:delete")}
+                        </Button>
+                    )}
+                </>
+            )}
+
+            {!isSmUp && (
                 <DotMenu
                     baseId={baseId}
                     render={(onClose) => [
@@ -166,7 +170,7 @@ function EditTeamToolbar(props) {
                         ),
                     ]}
                 />
-            </Hidden>
+            )}
             <ConfirmationDialog
                 baseId={ids.EDIT_TEAM.LEAVE_TEAM_DLG}
                 open={leaveTeamDlgOpen}

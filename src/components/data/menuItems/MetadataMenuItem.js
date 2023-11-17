@@ -9,8 +9,8 @@ import ids from "../ids";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
-import { List as MetadataIcon } from "@material-ui/icons";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
+import { List as MetadataIcon } from "@mui/icons-material";
 
 function MetadataMenuItem(props) {
     const { baseId, resourceId, onClose, onMetadataSelected } = props;

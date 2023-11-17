@@ -7,8 +7,8 @@
 import React from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { Button } from "@material-ui/core";
-import { Share } from "@material-ui/icons";
+import { Button } from "@mui/material";
+import { Share } from "@mui/icons-material";
 
 import { useTranslation } from "i18n";
 import ids from "./ids";

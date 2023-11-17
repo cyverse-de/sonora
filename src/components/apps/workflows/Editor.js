@@ -51,19 +51,20 @@ import {
     Button,
     ButtonGroup,
     Grid,
-    makeStyles,
     Paper,
     Typography,
     useTheme,
     useMediaQuery,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import {
     ArrowBack,
     ArrowForward,
     ExitToApp,
     PlayArrow,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 const useStyles = makeStyles(styles);
 
@@ -176,7 +177,7 @@ const WorkflowEditor = (props) => {
     const classes = useStyles();
     const router = useRouter();
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const onExit = () => router.back();
 

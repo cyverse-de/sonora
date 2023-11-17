@@ -33,14 +33,9 @@ import {
 import buildID from "components/utils/DebugIDUtil";
 import getFormError from "components/forms/getFormError";
 
-import {
-    Button,
-    ButtonGroup,
-    useMediaQuery,
-    useTheme,
-} from "@material-ui/core";
+import { Button, ButtonGroup, useMediaQuery, useTheme } from "@mui/material";
 
-import { ArrowBack, ArrowForward, PlayArrow, Save } from "@material-ui/icons";
+import { ArrowBack, ArrowForward, PlayArrow, Save } from "@mui/icons-material";
 
 const StepperNavigation = (props) => {
     const {
@@ -59,7 +54,7 @@ const StepperNavigation = (props) => {
 
     const theme = useTheme();
     const { t } = useTranslation("launch");
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     return (
         <ButtonGroup
@@ -156,7 +151,7 @@ const AppLaunchForm = (props) => {
         React.useState(null);
 
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const {
         baseId,

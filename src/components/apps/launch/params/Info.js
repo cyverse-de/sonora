@@ -7,7 +7,7 @@ import React from "react";
 
 import markdownToHtml from "components/utils/markdownToHtml";
 
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
 export default function Info({ param, ...props }) {
     const [infoHtml, setInfoHtml] = React.useState("");

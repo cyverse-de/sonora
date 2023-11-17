@@ -4,7 +4,7 @@ import { useTranslation } from "i18n";
 
 import { getSteps } from "./steps";
 
-import { useMediaQuery, useTheme } from "@material-ui/core";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 // only new users
 const Joyride = dynamic(() => import("react-joyride"));
@@ -14,7 +14,7 @@ export default function ProductTour(props) {
     const theme = useTheme();
     const [tourStepIndex, setTourStepIndex] = useState(0);
     const { t: i18nTour } = useTranslation("intro");
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const handleJoyrideCallback = (callbackData) => {
         const realCallback = async (callbackData) => {

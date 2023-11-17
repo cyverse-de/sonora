@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { Divider, ListItemIcon, MenuItem, Select } from "@material-ui/core";
-import { Check, Delete } from "@material-ui/icons";
+import { Divider, ListItemIcon, MenuItem, Select } from "@mui/material";
+import { Check, Delete } from "@mui/icons-material";
 
 import { useTranslation } from "i18n";
 import { SharingPermissions } from "components/models/Permissions";
@@ -34,6 +34,7 @@ function SharingPermissionSelector(props) {
 
     return (
         <Select
+            variant="standard"
             id={baseId}
             open={open}
             onOpen={onOpen}

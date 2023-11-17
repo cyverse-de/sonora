@@ -8,7 +8,7 @@
 import React from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography } from "@mui/material";
 
 import { groupBy } from "common/functions";
 import DEDialog from "components/utils/DEDialog";

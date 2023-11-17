@@ -26,9 +26,9 @@ import {
 } from "serviceFacades/dashboard";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import palette from "components/theme/default/CyVersePalette";
-import { Skeleton } from "@material-ui/lab";
+import { Skeleton } from "@mui/material";
 import analysisStatus from "components/models/analysisStatus";
-import { useTheme, Typography } from "@material-ui/core";
+import { useTheme, Typography } from "@mui/material";
 
 ChartJS.register(
     CategoryScale,
@@ -172,7 +172,7 @@ export default function AnalysesStats() {
         );
     }
     if (status === "loading") {
-        return <Skeleton variant="rect" width={300} height={200} />;
+        return <Skeleton variant="rectangular" width={300} height={200} />;
     }
     const jobTotal = data["status-count"].reduce(
         (prev, curr) => prev + curr.count,

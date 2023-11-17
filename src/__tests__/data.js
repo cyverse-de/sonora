@@ -8,6 +8,9 @@ import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { ConfigProvider } from "../contexts/config";
 import { RQWrapper } from "../__mocks__/RQWrapper";
 
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "components/theme/default";
+
 beforeAll(async () => {
     await preloadAll();
 });
@@ -15,7 +18,9 @@ beforeAll(async () => {
 const TestProviderWrapper = ({ children }) => (
     <RQWrapper>
         <I18nProviderWrapper>
-            <ConfigProvider>{children}</ConfigProvider>
+            <ThemeProvider theme={theme}>
+                <ConfigProvider>{children}</ConfigProvider>
+            </ThemeProvider>
         </I18nProviderWrapper>
     </RQWrapper>
 );

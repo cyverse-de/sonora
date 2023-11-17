@@ -8,9 +8,9 @@ import ids from "../ids";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 
-import { Delete as DeleteIcon } from "@material-ui/icons";
+import { Delete as DeleteIcon } from "@mui/icons-material";
 
 export default function DeleteMenuItem(props) {
     const { baseId, isDeleted, handleDelete, onClose } = props;

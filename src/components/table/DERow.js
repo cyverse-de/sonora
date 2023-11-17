@@ -6,8 +6,8 @@
  *
  *
  **/
-import { withStyles } from "@material-ui/core/styles";
-import TableRow from "@material-ui/core/TableRow";
+import withStyles from "@mui/styles/withStyles";
+import TableRow from "@mui/material/TableRow";
 
 export const DERow = withStyles((theme) => ({
     root: {

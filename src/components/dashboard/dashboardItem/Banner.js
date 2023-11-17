@@ -19,13 +19,13 @@ import {
     useTheme,
     useMediaQuery,
     Link,
-} from "@material-ui/core";
+} from "@mui/material";
 import constants from "../../../constants";
 import ExternalLink from "components/utils/ExternalLink";
 
 export default function Banner(props) {
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { t } = useTranslation("dashboard");
     const router = useRouter();
     const [config] = useConfig();
@@ -121,6 +121,7 @@ export default function Banner(props) {
                                 style={{
                                     margin: theme.spacing(0.4),
                                 }}
+                                underline="hover"
                             >
                                 {t("login")}
                             </Link>

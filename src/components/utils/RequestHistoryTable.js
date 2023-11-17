@@ -17,7 +17,7 @@ import {
     TableBody,
     TableCell,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 export default function RequestHistoryTable(props) {
     const { history, t, baseId } = props;

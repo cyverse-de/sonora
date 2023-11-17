@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 import FormSearchField from "components/forms/FormSearchField";
 
-import { ListItemText } from "@material-ui/core";
+import { ListItemText } from "@mui/material";
 
 const AstroThesaurusOption = (option) => (
     <ListItemText primary={option.label} secondary={option.iri} />

@@ -7,8 +7,8 @@ import {
     Folder as FolderIcon,
     InsertDriveFileOutlined as FileIcon,
     Apps as AppsIcon,
-} from "@material-ui/icons";
-import { makeStyles } from "@material-ui/styles";
+} from "@mui/icons-material";
+import { makeStyles } from "@mui/styles";
 import ResourceTypes from "../models/ResourceTypes";
 import { useTranslation } from "i18n";
 import Identity from "../data/Identity";

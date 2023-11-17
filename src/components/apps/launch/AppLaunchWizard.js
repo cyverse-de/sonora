@@ -12,7 +12,7 @@ import AppStepperFormSkeleton from "../AppStepperFormSkeleton";
 
 import { DeprecatedParamTypes } from "components/models/AppParamTypes";
 
-import { Divider, Paper } from "@material-ui/core";
+import { Divider, Paper } from "@mui/material";
 
 import { appUnavailable } from "../utils";
 

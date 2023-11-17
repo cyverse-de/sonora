@@ -27,10 +27,11 @@ import {
     FormGroup,
     Switch,
     Toolbar,
-    makeStyles,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import RefreshIcon from "@material-ui/icons/Refresh";
+import makeStyles from "@mui/styles/makeStyles";
+
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 const useStyles = makeStyles((theme) => ({
     toolbarItems: {

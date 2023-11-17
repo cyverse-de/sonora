@@ -9,7 +9,7 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 
-import { Button, Typography, useTheme } from "@material-ui/core";
+import { Button, Typography, useTheme } from "@mui/material";
 
 function ErrorTypography(props) {
     const { errorMessage, onDetailsClick } = props;

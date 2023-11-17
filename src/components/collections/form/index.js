@@ -5,8 +5,9 @@
  */
 import React, { useState } from "react";
 
-import { makeStyles, Paper, Table } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Paper, Table } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Skeleton } from "@mui/material";
 import { Formik } from "formik";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
@@ -339,7 +340,7 @@ function CollectionsForm(props) {
                         {loading && (
                             <>
                                 <Skeleton variant="text" height={40} />
-                                <Skeleton variant="rect" height={100} />
+                                <Skeleton variant="rectangular" height={100} />
                                 <Table>
                                     <TableLoading numColumns={2} numRows={3} />
                                 </Table>

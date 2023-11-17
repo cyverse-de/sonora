@@ -19,7 +19,7 @@ import { getInfoTypes, INFO_TYPES_QUERY_KEY } from "serviceFacades/filesystem";
 
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
-import { Skeleton } from "@material-ui/lab";
+import { Skeleton } from "@mui/material";
 
 import ids from "components/instantlaunches/ids";
 
@@ -35,13 +35,14 @@ import {
     TableRow,
     TableBody,
     TextField,
-    makeStyles,
     MenuItem,
     Typography,
     IconButton,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { Add as AddIcon, Delete as DeleteIcon } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
 import { useTranslation } from "i18n";
 import { useFormik } from "formik";
@@ -105,6 +106,7 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches, infoTypes }) => {
             id={baseID}
         >
             <TextField
+                variant="standard"
                 id={buildID(baseID, ids.NAME)}
                 name="mappingName"
                 label={t("common:name")}
@@ -118,6 +120,7 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches, infoTypes }) => {
             />
 
             <TextField
+                variant="standard"
                 value={formik.values.patternKind}
                 onChange={formik.handleChange}
                 id={buildID(baseID, ids.PATTERN, ids.KIND, ids.MENU)}
@@ -157,6 +160,7 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches, infoTypes }) => {
 
             {formik.values.patternKind === "infoType" ? (
                 <TextField
+                    variant="standard"
                     id={buildID(baseID, ids.INFO_TYPE, ids.MENU)}
                     name="pattern"
                     label={t("infoType")}
@@ -182,6 +186,7 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches, infoTypes }) => {
                 </TextField>
             ) : (
                 <TextField
+                    variant="standard"
                     id={buildID(baseID, ids.PATTERN)}
                     name="pattern"
                     label={t("pattern")}
@@ -194,6 +199,7 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches, infoTypes }) => {
             )}
 
             <TextField
+                variant="standard"
                 id={buildID(baseID, ids.BASE, ids.MENU)}
                 value={formik.values.instantLaunch}
                 onChange={formik.handleChange}
@@ -342,7 +348,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
         <div>
             {isLoading ? (
                 <Skeleton
-                    variant="rect"
+                    variant="rectangular"
                     animation="wave"
                     height={300}
                     width="100%"
@@ -475,6 +481,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
 
                                                             deleteEntry(name);
                                                         }}
+                                                        size="large"
                                                     >
                                                         <DeleteIcon />
                                                     </IconButton>

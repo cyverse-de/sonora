@@ -20,7 +20,7 @@ import VisibleField from "./common/VisibleField";
 
 import FormTextField from "components/forms/FormTextField";
 
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 export default function MultiFileOutputPropertyFields(props) {
     const { baseId, cosmeticOnly, fieldName } = props;

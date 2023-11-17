@@ -2,10 +2,10 @@ import React from "react";
 
 import { mockAxios } from "../axiosMock";
 
-import HomeIcon from "@material-ui/icons/Home";
-import FolderSharedIcon from "@material-ui/icons/FolderShared";
-import GroupIcon from "@material-ui/icons/Group";
-import DeleteIcon from "@material-ui/icons/Delete";
+import HomeIcon from "@mui/icons-material/Home";
+import FolderSharedIcon from "@mui/icons-material/FolderShared";
+import GroupIcon from "@mui/icons-material/Group";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export const pagedDirectoryResp = {
     infoType: null,

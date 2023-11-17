@@ -10,7 +10,7 @@ import FormCheckbox from "components/forms/FormCheckbox";
 import FormSelectField from "components/forms/FormSelectField";
 import FormNumberField from "components/forms/FormNumberField";
 
-import { MenuItem, Typography } from "@material-ui/core";
+import { MenuItem, Typography } from "@mui/material";
 import { Field, getIn } from "formik";
 import numeral from "numeral";
 import PropTypes from "prop-types";

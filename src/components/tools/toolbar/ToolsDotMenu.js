@@ -16,16 +16,10 @@ import { isWritable } from "../utils";
 import buildID from "components/utils/DebugIDUtil";
 import DotMenu from "components/dotMenu/DotMenu";
 
-import {
-    Hidden,
-    ListItemIcon,
-    ListItemText,
-    MenuItem,
-    useMediaQuery,
-    useTheme,
-} from "@material-ui/core";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 
-import { Add, Delete, Info, Edit, FilterList, Send } from "@material-ui/icons";
+import { Add, Delete, Info, Edit, FilterList, Send } from "@mui/icons-material";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 function DotMenuItems(props) {
     const {
@@ -46,35 +40,36 @@ function DotMenuItems(props) {
     } = props;
 
     const { t } = useTranslation("tools");
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const { isSmDown, isMdUp } = useBreakpoints();
 
     return [
-        <Hidden mdUp key="hiddenMdUp">
-            {isSingleSelection && (
-                <MenuItem
-                    key={buildID(baseId, ids.MANAGE_TOOLS.TOOL_INFO_MI)}
-                    id={buildID(baseId, ids.MANAGE_TOOLS.TOOL_INFO_MI)}
-                    onClick={() => {
-                        onClose();
-                        onDetailsSelected();
-                    }}
-                >
-                    <ListItemIcon>
-                        <Info fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText primary={t("detailsLbl")} />
-                </MenuItem>
-            )}
-            {!isAdmin && canShare && (
-                <SharingMenuItem
-                    key={buildID(baseId, shareIds.SHARING_MENU_ITEM)}
-                    baseId={baseId}
-                    onClose={onClose}
-                    setSharingDlgOpen={setSharingDlgOpen}
-                />
-            )}
-        </Hidden>,
+        !isMdUp && (
+            <>
+                {isSingleSelection && (
+                    <MenuItem
+                        key={buildID(baseId, ids.MANAGE_TOOLS.TOOL_INFO_MI)}
+                        id={buildID(baseId, ids.MANAGE_TOOLS.TOOL_INFO_MI)}
+                        onClick={() => {
+                            onClose();
+                            onDetailsSelected();
+                        }}
+                    >
+                        <ListItemIcon>
+                            <Info fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText primary={t("detailsLbl")} />
+                    </MenuItem>
+                )}
+                {!isAdmin && canShare && (
+                    <SharingMenuItem
+                        key={buildID(baseId, shareIds.SHARING_MENU_ITEM)}
+                        baseId={baseId}
+                        onClose={onClose}
+                        setSharingDlgOpen={setSharingDlgOpen}
+                    />
+                )}
+            </>
+        ),
 
         <MenuItem
             key={buildID(baseId, ids.MANAGE_TOOLS.ADD_TOOL_MI)}
@@ -138,7 +133,7 @@ function DotMenuItems(props) {
             </MenuItem>
         ),
 
-        isMobile && (
+        isSmDown && (
             <MenuItem
                 key={buildID(baseId, ids.MANAGE_TOOLS.FILTER_TOOLS_MI)}
                 id={buildID(baseId, ids.MANAGE_TOOLS.FILTER_TOOLS_MI)}

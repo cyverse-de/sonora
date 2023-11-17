@@ -29,7 +29,7 @@ import {
     CircularProgress,
     InputAdornment,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 export default function Feedback(props) {
     const { open, title, onClose } = props;

@@ -29,7 +29,7 @@ import AccessRequestDialog from "components/vice/AccessRequestDialog";
 import RunError from "components/vice/RunError";
 import ids from "components/apps/ids";
 
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography } from "@mui/material";
 
 const Launch = ({
     app,

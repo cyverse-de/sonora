@@ -37,11 +37,11 @@ import {
     Typography,
     useTheme,
     useMediaQuery,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import CloseIcon from "@material-ui/icons/Close";
-import EditIcon from "@material-ui/icons/Edit";
-import SaveIcon from "@material-ui/icons/Save";
+import CloseIcon from "@mui/icons-material/Close";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
 
 export const EDIT_MODE = "edit";
 export const VIEW_MODE = "view";
@@ -254,7 +254,7 @@ function AppDocDialog(props) {
 
     const { t } = useTranslation(["apps", "common"]);
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const docBaseId = ids.DOCUMENTATION_DLG;
 
@@ -310,6 +310,7 @@ function AppDocDialog(props) {
                             top: theme.spacing(0.5),
                             margin: 0,
                         }}
+                        size="large"
                     >
                         <CloseIcon />
                     </IconButton>

@@ -13,13 +13,9 @@ import React, { useMemo } from "react";
 import buildID from "components/utils/DebugIDUtil";
 import FormSelectField from "components/forms/FormSelectField";
 
-import {
-    Button,
-    FormControlLabel,
-    makeStyles,
-    MenuItem,
-} from "@material-ui/core";
-import { Delete } from "@material-ui/icons";
+import { Button, FormControlLabel, MenuItem } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Delete } from "@mui/icons-material";
 import { Field, getIn } from "formik";
 
 import SubjectSearchField from "components/sharing/SubjectSearchField";

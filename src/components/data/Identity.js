@@ -14,7 +14,7 @@ import {
     ListItemAvatar,
     ListItemText,
     ListItemSecondaryAction,
-} from "@material-ui/core";
+} from "@mui/material";
 
 function Identity(props) {
     const { avatar, primaryText, secondaryText, secondaryAction, ...rest } =

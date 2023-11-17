@@ -13,13 +13,9 @@ import ids from "../utils/ids";
 
 import getFormError from "./getFormError";
 
-import {
-    FormControl,
-    InputLabel,
-    FormHelperText,
-    makeStyles,
-} from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { FormControl, InputLabel, FormHelperText } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Skeleton } from "@mui/material";
 
 // Set the skeleton's height to about the same height as text or select fields.
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +39,7 @@ const FormFieldLoading = ({
     const helperTextID = buildDebugId(loadingFieldID, ids.HELPER_TEXT);
 
     return (
-        <FormControl fullWidth error={!!errorMsg}>
+        <FormControl variant="standard" fullWidth error={!!errorMsg}>
             <InputLabel htmlFor={loadingFieldID} required={required}>
                 {label}
             </InputLabel>

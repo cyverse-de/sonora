@@ -32,7 +32,6 @@ import {
     FormControlLabel,
     FormHelperText,
     Link,
-    makeStyles,
     Paper,
     Switch,
     Table,
@@ -43,9 +42,11 @@ import {
     TextField,
     Toolbar,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { ExpandMore } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { ExpandMore } from "@mui/icons-material";
 
 const useStyles = makeStyles(styles);
 
@@ -268,6 +269,7 @@ const HPCWaitTimesMessage = ({ baseId }) => {
                             event.preventDefault();
                             intercomShow();
                         }}
+                        underline="hover"
                     />
                 ),
                 hpcLink: (
@@ -293,7 +295,7 @@ const ShowAllParameters = ({ baseId, checked, onChange }) => {
     const { t } = useTranslation("launch");
     return (
         <Toolbar component={Paper}>
-            <FormControl fullWidth margin="normal">
+            <FormControl variant="standard" fullWidth margin="normal">
                 <FormControlLabel
                     control={
                         <Switch

@@ -24,9 +24,11 @@ import ConfirmationDialog from "components/utils/ConfirmationDialog";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import { Button, Card, CardHeader, makeStyles } from "@material-ui/core";
+import { Button, Card, CardHeader } from "@mui/material";
 
-import { Add } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { Add } from "@mui/icons-material";
 
 const useStyles = makeStyles(styles);
 

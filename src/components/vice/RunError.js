@@ -7,7 +7,7 @@ import React from "react";
 import { Trans, useTranslation } from "i18n";
 import { intercomShow } from "common/intercom";
 import { ERROR_CODES } from "components/error/errorCode";
-import { Link } from "@material-ui/core";
+import { Link } from "@mui/material";
 
 const SupportLink = (props) => (
     <Link
@@ -15,6 +15,7 @@ const SupportLink = (props) => (
         component="button"
         onClick={intercomShow}
         {...props}
+        underline="hover"
     />
 );
 

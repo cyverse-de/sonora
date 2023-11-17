@@ -38,10 +38,10 @@ import {
     Tooltip,
     Typography,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { makeStyles } from "@material-ui/core/styles";
-import { Skeleton } from "@material-ui/lab";
+import makeStyles from "@mui/styles/makeStyles";
+import { Skeleton } from "@mui/material";
 
 import {
     CheckCircle,
@@ -50,7 +50,7 @@ import {
     Save,
     FileCopy,
     Cached,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
     toolbarButtons: {
@@ -173,7 +173,7 @@ function PublicLinks(props) {
             <Paper>
                 <GridLoading rows={paths?.length || 3} />
                 <Toolbar>
-                    <Skeleton variant="rect" width={300} />
+                    <Skeleton variant="rectangular" width={300} />
                 </Toolbar>
             </Paper>
         );
@@ -202,7 +202,7 @@ function PublicLinks(props) {
                     </>
                 )}
                 <TextareaAutosize
-                    rowsMin={3}
+                    minRows={3}
                     value={links}
                     id={buildID(baseId, ids.PUBLIC_LINKS_TEXT_FIELD)}
                     style={{ width: "100%" }}

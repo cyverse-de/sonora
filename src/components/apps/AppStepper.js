@@ -21,15 +21,15 @@ import {
     Stepper,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
-import { Skeleton } from "@material-ui/lab";
+import { Skeleton } from "@mui/material";
 
 export const StepperSkeleton = React.forwardRef(({ baseId }, ref) => {
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     if (isMobile) {
         return (
@@ -56,7 +56,7 @@ export const StepperSkeleton = React.forwardRef(({ baseId }, ref) => {
             width="100%"
             ref={ref}
         >
-            <Stepper alternativeLabel nonLinear>
+            <Stepper style={{ padding: 24 }} alternativeLabel nonLinear>
                 <Step>
                     <StepButton>&nbsp;</StepButton>
                 </Step>
@@ -79,7 +79,7 @@ const AppStepper = React.forwardRef((props, ref) => {
     } = props;
 
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const { t } = useTranslation("common");
 
@@ -128,7 +128,13 @@ const AppStepper = React.forwardRef((props, ref) => {
     }
 
     return (
-        <Stepper ref={ref} alternativeLabel nonLinear activeStep={activeStep}>
+        <Stepper
+            style={{ padding: 24 }}
+            ref={ref}
+            alternativeLabel
+            nonLinear
+            activeStep={activeStep}
+        >
             {steps.map((step, index) => {
                 const completed = stepCompleted && stepCompleted(index);
                 const hasError = stepError && stepError(index);

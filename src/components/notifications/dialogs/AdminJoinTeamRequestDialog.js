@@ -17,7 +17,6 @@ import {
     FormControl,
     FormControlLabel,
     Grid,
-    makeStyles,
     MenuItem,
     Paper,
     Radio,
@@ -25,8 +24,9 @@ import {
     Select,
     TextField,
     Typography,
-} from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Skeleton } from "@mui/material";
 import { useMutation } from "react-query";
 
 import Privilege, { MemberPrivileges } from "components/models/Privilege";
@@ -58,8 +58,9 @@ function ApproveAction(props) {
     const classes = useStyles();
 
     return (
-        <FormControl className={classes.formControl}>
+        <FormControl variant="standard" className={classes.formControl}>
             <Select
+                variant="standard"
                 id={buildID(baseId, ids.ADMIN_JOIN_TEAM.PRIVILEGE_SELECT)}
                 value={privilege}
                 onChange={(event) => {
@@ -166,7 +167,7 @@ function DialogContent(props) {
                 </Grid>
             </Paper>
 
-            <FormControl component="fieldset">
+            <FormControl variant="standard" component="fieldset">
                 <RadioGroup
                     aria-label={t("arialApproveOrDeny")}
                     value={requestChoice}
@@ -327,9 +328,9 @@ function AdminJoinTeamRequestDialog(props) {
             {loading && (
                 <div id={buildID(baseId, ids.LOADING_SKELETON)}>
                     <Skeleton variant="text" height={40} />
-                    <Skeleton variant="rect" height={100} />
+                    <Skeleton variant="rectangular" height={100} />
                     <Skeleton variant="text" height={40} />
-                    <Skeleton variant="rect" height={100} />
+                    <Skeleton variant="rectangular" height={100} />
                 </div>
             )}
             {!loading && (

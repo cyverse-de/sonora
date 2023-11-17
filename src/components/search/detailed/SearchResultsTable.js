@@ -31,7 +31,7 @@ import {
     Toolbar,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
 const SearchResultsTable = ({
     baseId,
@@ -88,7 +88,7 @@ const SearchResultsTable = ({
             })
     );
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const tableId = buildID(baseId, ids.TABLE_VIEW);
     const { t } = useTranslation("search");
 

@@ -9,8 +9,9 @@
 import React, { useState } from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { Button, Drawer, makeStyles, Toolbar } from "@material-ui/core";
-import { BugReport, Info } from "@material-ui/icons";
+import { Button, Drawer, Toolbar } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { BugReport, Info } from "@mui/icons-material";
 
 import ContactSupportDialog from "./ContactSupportDialog";
 import DetailsContent from "./DetailsContent";

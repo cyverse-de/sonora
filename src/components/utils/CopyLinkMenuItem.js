@@ -7,8 +7,8 @@
 import React from "react";
 import { useTranslation } from "i18n";
 import buildID from "components/utils/DebugIDUtil";
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
-import { FileCopy } from "@material-ui/icons";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
+import { FileCopy } from "@mui/icons-material";
 import ids from "./ids";
 
 export default function CopyLinkMenuItem(props) {

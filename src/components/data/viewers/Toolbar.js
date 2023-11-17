@@ -32,11 +32,11 @@ import buildID from "components/utils/DebugIDUtil";
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { SUCCESS } from "components/announcer/AnnouncerConstants";
 import DotMenu from "components/dotMenu/DotMenu";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 import {
     Button,
     Divider,
-    Hidden,
     FormControlLabel,
     FormGroup,
     Switch,
@@ -46,10 +46,9 @@ import {
     ListItemText,
     MenuItem,
     useTheme,
-    useMediaQuery,
     Tooltip,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import {
     Add,
     CloudDownload,
@@ -60,7 +59,7 @@ import {
     Save,
     Visibility as ReadOnlyIcon,
     Edit as EditableIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -125,7 +124,7 @@ function ViewerToolbar(props) {
     const [fileSavePath, setFileSavePath] = useState();
 
     const classes = useStyles();
-    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+    const { isSmDown, isMdDown } = useBreakpoints();
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();
@@ -232,7 +231,7 @@ function ViewerToolbar(props) {
                 color="primary"
                 {...props}
             >
-                <Hidden xsDown>{text}</Hidden>
+                {!isSmDown && <>{text}</>}
             </Button>
         );
     };
@@ -297,7 +296,7 @@ function ViewerToolbar(props) {
                     </Tooltip>
                 )}
                 <div className={classes.divider} />
-                {!isSmall && (
+                {!isMdDown && (
                     <>
                         {onWrapText && (
                             <FormGroup
@@ -410,7 +409,7 @@ function ViewerToolbar(props) {
                     buttonText={i18nCommon("dotMenuText")}
                     iconOnlyBreakpoint="sm"
                     render={(onClose) => [
-                        isSmall && onShowLineNumbers && (
+                        isMdDown && onShowLineNumbers && (
                             <MenuItem
                                 key={buildID(baseId, ids.LINE_NUMBER_SWITCH)}
                             >
@@ -425,7 +424,7 @@ function ViewerToolbar(props) {
                                 <ListItemText primary={t("showLineNumbers")} />
                             </MenuItem>
                         ),
-                        isSmall && onWrapText && (
+                        isMdDown && onWrapText && (
                             <MenuItem
                                 key={buildID(baseId, ids.WRAP_TEXT_SWITCH)}
                             >
@@ -440,7 +439,7 @@ function ViewerToolbar(props) {
                                 <ListItemText primary={t("wrapText")} />
                             </MenuItem>
                         ),
-                        isSmall && onFirstRowHeader && (
+                        isMdDown && onFirstRowHeader && (
                             <MenuItem
                                 key={buildID(
                                     baseId,
@@ -475,7 +474,7 @@ function ViewerToolbar(props) {
                                 />
                             </MenuItem>
                         ),
-                        isSmall &&
+                        isMdDown &&
                             editable && [
                                 <MenuItem
                                     key={buildID(baseId, ids.SAVE_MENU_ITEM)}

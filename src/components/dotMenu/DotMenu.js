@@ -32,8 +32,8 @@ import {
     Menu,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+} from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import build from "components/utils/DebugIDUtil";
 
@@ -43,7 +43,7 @@ function DotMenu(props) {
         render,
         ButtonProps,
         buttonText,
-        iconOnlyBreakpoint = "xs",
+        iconOnlyBreakpoint = "sm",
         MenuProps,
     } = props;
     const [anchorEl, setAnchorEl] = useState(null);

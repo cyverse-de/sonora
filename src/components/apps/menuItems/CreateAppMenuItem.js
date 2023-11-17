@@ -11,8 +11,8 @@ import NavigationConstants from "common/NavigationConstants";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
-import { Add as CreateAppIcon } from "@material-ui/icons";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
+import { Add as CreateAppIcon } from "@mui/icons-material";
 
 const CreateAppMenuItem = React.forwardRef((props, ref) => {
     const { baseId } = props;

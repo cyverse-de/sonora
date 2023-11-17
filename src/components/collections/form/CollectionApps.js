@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState } from "react";
 
-import { Toolbar, Typography } from "@material-ui/core";
+import { Toolbar, Typography } from "@mui/material";
 import { getIn } from "formik";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";

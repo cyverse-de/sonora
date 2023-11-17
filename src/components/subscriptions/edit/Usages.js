@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useTranslation } from "i18n";
-import { Table, TableBody, TableCell, Typography } from "@material-ui/core";
+import { Table, TableBody, TableCell, Typography } from "@mui/material";
 import SimpleExpansionPanel from "components/utils/SimpleExpansionPanel";
 import { DERow } from "components/table/DERow";
 import DETableHead from "components/table/DETableHead";

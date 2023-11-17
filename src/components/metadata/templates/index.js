@@ -55,16 +55,17 @@ import {
     MenuItem,
     Table,
     Typography,
-    makeStyles,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import {
     Add as ContentAdd,
     Delete as ContentRemove,
     ExpandMore as ExpandMoreIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
-import { Skeleton } from "@material-ui/lab";
+import { Skeleton } from "@mui/material";
 
 const useStyles = makeStyles(styles);
 
@@ -268,6 +269,7 @@ const MetadataTemplateAttributeForm = (props) => {
                                     aria-label={t("delete")}
                                     classes={{ root: classes.deleteIcon }}
                                     onClick={() => arrayHelpers.remove(index)}
+                                    size="large"
                                 >
                                     <ContentRemove />
                                 </IconButton>
@@ -380,6 +382,7 @@ const MetadataTemplateAttributeForm = (props) => {
                                                     attribute
                                                 );
                                             }}
+                                            size="large"
                                         >
                                             <ContentAdd />
                                         </IconButton>

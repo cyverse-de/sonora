@@ -19,9 +19,9 @@ import {
     IconButton,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import CloseIcon from "@material-ui/icons/Close";
+import CloseIcon from "@mui/icons-material/Close";
 
 function DEDialog(props) {
     const {
@@ -37,7 +37,7 @@ function DEDialog(props) {
     } = props;
     const { t } = useTranslation("common");
     const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+    const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
     const dialogTitleId = buildID(baseId, ids.DIALOG.TITLE);
     return (
         <Dialog
@@ -61,6 +61,7 @@ function DEDialog(props) {
                         top: theme.spacing(0.5),
                         margin: 0,
                     }}
+                    size="large"
                 >
                     <CloseIcon />
                 </IconButton>

@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import makeStyles from "@mui/styles/makeStyles";
 
 export default makeStyles((theme) => ({
     chip: {
@@ -33,14 +33,14 @@ export default makeStyles((theme) => ({
     sectionRoot: {
         display: "flex",
         marginBottom: theme.spacing(5),
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down("lg")]: {
             flexDirection: "column",
             justifyContent: "center",
         },
     },
     selectRoot: {
         width: 250,
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             width: "100%",
         },
     },

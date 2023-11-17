@@ -22,13 +22,13 @@ import {
     DialogContentText,
     DialogTitle,
     IconButton,
-    makeStyles,
     Snackbar,
     Typography,
     useTheme,
-} from "@material-ui/core";
-import { Close } from "@material-ui/icons";
-import { Alert, AlertTitle } from "@material-ui/lab";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Close } from "@mui/icons-material";
+import { Alert, AlertTitle } from "@mui/material";
 
 import constants from "constants.js";
 import { useUserProfile } from "contexts/userProfile";

@@ -14,8 +14,8 @@ import { useConfig } from "../../contexts/config";
 import { intercomLogin, intercomLogout } from "../../common/intercom";
 import { useUserProfile } from "../../contexts/userProfile";
 
-import { Badge, IconButton, Tooltip, useTheme } from "@material-ui/core";
-import LiveHelpIcon from "@material-ui/icons/LiveHelp";
+import { Badge, IconButton, Tooltip, useTheme } from "@mui/material";
+import LiveHelpIcon from "@mui/icons-material/LiveHelp";
 
 function CustomIntercom(props) {
     const { intercomUnreadCount } = props;
@@ -49,6 +49,7 @@ function CustomIntercom(props) {
                     id={ids.INTERCOM_WIDGET}
                     style={{ color: theme.palette.primary.contrastText }}
                     aria-label={t("intercomAriaLabel")}
+                    size="large"
                 >
                     <Badge badgeContent={intercomUnreadCount} color="error">
                         <LiveHelpIcon className={"support-intro"} />

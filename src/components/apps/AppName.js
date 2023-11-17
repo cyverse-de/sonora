@@ -19,7 +19,7 @@ import { useAppLaunchLink } from "./utils";
 import ids from "./ids";
 
 import Highlighter from "components/highlighter/Highlighter";
-import { Link as MuiLink } from "@material-ui/core";
+import { Link as MuiLink } from "@mui/material";
 
 function AppName(props) {
     const {
@@ -84,6 +84,7 @@ function AppName(props) {
                                 : setAccessRequestDialogOpen(true);
                         }}
                         color="primary"
+                        underline="hover"
                     >
                         {name}
                     </MuiLink>
@@ -109,6 +110,7 @@ function AppName(props) {
                         href="#"
                         onClick={() => setErrorDialogOpen(true)}
                         color="primary"
+                        underline="hover"
                     >
                         {name}
                     </MuiLink>

@@ -5,6 +5,8 @@ import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { UserProfileProvider } from "../contexts/userProfile";
 import { RQWrapper } from "../__mocks__/RQWrapper";
 import { ConfigProvider } from "contexts/config";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "components/theme/default";
 
 test("Search field renders", () => {
     const component = renderer.create(
@@ -12,7 +14,9 @@ test("Search field renders", () => {
             <I18nProviderWrapper>
                 <UserProfileProvider>
                     <ConfigProvider>
-                        <SearchField />
+                        <ThemeProvider theme={theme}>
+                            <SearchField />
+                        </ThemeProvider>
                     </ConfigProvider>
                 </UserProfileProvider>
             </I18nProviderWrapper>

@@ -46,13 +46,13 @@ const dataStyles = (theme) => ({
     },
 
     drawerPaper: {
-        [theme.breakpoints.up("lg")]: {
+        [theme.breakpoints.up("xl")]: {
             maxWidth: "25%",
         },
-        [theme.breakpoints.down("lg")]: {
+        [theme.breakpoints.down("xl")]: {
             maxWidth: "50%",
         },
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             maxWidth: "90%",
         },
     },
@@ -127,7 +127,7 @@ const dataStyles = (theme) => ({
         border: `1px solid ${theme.palette.primary.main}`,
     },
     list: {
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             maxWidth: 130,
         },
         padding: 0,

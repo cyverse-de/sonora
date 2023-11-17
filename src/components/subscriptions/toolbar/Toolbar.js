@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import { Button, Toolbar, useTheme, Tooltip } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+import { Button, Toolbar, useTheme, Tooltip } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 import { useTranslation } from "i18n";
 

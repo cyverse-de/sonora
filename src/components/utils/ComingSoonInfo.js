@@ -9,8 +9,8 @@ import { Trans, useTranslation } from "i18n";
 import constants from "../../constants";
 import ExternalLink from "components/utils/ExternalLink";
 
-import { Card, CardContent, CardHeader } from "@material-ui/core";
-import Info from "@material-ui/icons/Info";
+import { Card, CardContent, CardHeader } from "@mui/material";
+import Info from "@mui/icons-material/Info";
 
 const ComingSoonInfo = (props) => {
     const { subtitle, children } = props;

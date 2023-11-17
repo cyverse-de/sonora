@@ -22,7 +22,6 @@ import buildID from "components/utils/DebugIDUtil";
 import FormSelectField from "components/forms/FormSelectField";
 
 import {
-    makeStyles,
     Accordion,
     AccordionSummary,
     AccordionDetails,
@@ -35,9 +34,11 @@ import {
     TableContainer,
     TableRow,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { ExpandMore } from "@material-ui/icons";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { ExpandMore } from "@mui/icons-material";
 
 const useStyles = makeStyles(styles);
 

@@ -25,15 +25,15 @@ import {
     ListItem,
     ListItemText,
     Divider,
-    makeStyles,
     Typography,
-} from "@material-ui/core";
-import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
     heading: {
         color: theme.palette.info,
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             maxWidth: 150,
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",

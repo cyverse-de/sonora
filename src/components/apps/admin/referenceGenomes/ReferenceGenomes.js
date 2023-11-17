@@ -38,8 +38,8 @@ import {
     Link,
     Typography,
     useTheme,
-} from "@material-ui/core";
-import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
+} from "@mui/material";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 function ReferenceGenomes(props) {
     const { baseId, showErrorAnnouncer } = props;
@@ -113,6 +113,7 @@ function ReferenceGenomes(props) {
                             onClick={() => {
                                 setSelectedReferenceGenome(row.original);
                             }}
+                            underline="hover"
                         >
                             {value}
                         </Link>

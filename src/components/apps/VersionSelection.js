@@ -11,7 +11,7 @@ import buildID from "components/utils/DebugIDUtil";
 
 import ids from "./ids";
 
-import { MenuItem, TextField } from "@material-ui/core";
+import { MenuItem, TextField } from "@mui/material";
 
 export default function VersionSelection({
     baseId,

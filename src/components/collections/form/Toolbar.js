@@ -11,14 +11,13 @@ import React, { useState } from "react";
 
 import {
     Button,
-    Hidden,
     ListItemIcon,
     ListItemText,
-    makeStyles,
     MenuItem,
     Toolbar,
-} from "@material-ui/core";
-import { Delete, EmojiPeople, ExitToApp, Save } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Delete, EmojiPeople, ExitToApp, Save } from "@mui/icons-material";
 
 import DotMenu from "components/dotMenu/DotMenu";
 import BackButton from "components/utils/BackButton";
@@ -29,6 +28,8 @@ import DeleteButton from "components/utils/DeleteButton";
 import { useTranslation } from "i18n";
 import ids from "../ids";
 import styles from "../styles";
+import useBreakpoints from "components/layout/useBreakpoints";
+
 const useStyles = makeStyles(styles);
 
 function EditCollectionToolbar(props) {
@@ -59,6 +60,7 @@ function EditCollectionToolbar(props) {
     const unfollowEnabled = !isAdmin && isFollower;
     const followEnabled = !isAdmin && !isFollower;
     const deleteEnabled = isAdmin && !isCreatingCollection;
+    const { isSmDown, isSmUp } = useBreakpoints();
 
     return (
         <Toolbar variant="dense">
@@ -77,48 +79,50 @@ function EditCollectionToolbar(props) {
                 </Button>
             )}
             <div className={classes.divider} />
-            <Hidden xsDown>
-                {unfollowEnabled && (
-                    <Button
-                        color="primary"
-                        variant="outlined"
-                        id={buildID(baseId, ids.BUTTONS.UNFOLLOW_BTN)}
-                        className={classes.button}
-                        startIcon={<ExitToApp />}
-                        onClick={() => {
-                            setUnfollowCollectionDlgOpen(true);
-                        }}
-                    >
-                        {t("unfollow")}
-                    </Button>
-                )}
-                {followEnabled && (
-                    <Button
-                        color="primary"
-                        variant="outlined"
-                        id={buildID(baseId, ids.BUTTONS.FOLLOW_BTN)}
-                        className={classes.button}
-                        startIcon={<EmojiPeople />}
-                        onClick={() => {
-                            setFollowCollectionDlgOpen(true);
-                        }}
-                    >
-                        {t("follow")}
-                    </Button>
-                )}
-                {deleteEnabled && (
-                    <DeleteButton
-                        baseId={baseId}
-                        variant="outlined"
-                        onClick={() => {
-                            setDeleteCollectionDlgOpen(true);
-                        }}
-                    >
-                        {t("common:delete")}
-                    </DeleteButton>
-                )}
-            </Hidden>
-            <Hidden smUp>
+            {!isSmDown && (
+                <>
+                    {unfollowEnabled && (
+                        <Button
+                            color="primary"
+                            variant="outlined"
+                            id={buildID(baseId, ids.BUTTONS.UNFOLLOW_BTN)}
+                            className={classes.button}
+                            startIcon={<ExitToApp />}
+                            onClick={() => {
+                                setUnfollowCollectionDlgOpen(true);
+                            }}
+                        >
+                            {t("unfollow")}
+                        </Button>
+                    )}
+                    {followEnabled && (
+                        <Button
+                            color="primary"
+                            variant="outlined"
+                            id={buildID(baseId, ids.BUTTONS.FOLLOW_BTN)}
+                            className={classes.button}
+                            startIcon={<EmojiPeople />}
+                            onClick={() => {
+                                setFollowCollectionDlgOpen(true);
+                            }}
+                        >
+                            {t("follow")}
+                        </Button>
+                    )}
+                    {deleteEnabled && (
+                        <DeleteButton
+                            baseId={baseId}
+                            variant="outlined"
+                            onClick={() => {
+                                setDeleteCollectionDlgOpen(true);
+                            }}
+                        >
+                            {t("common:delete")}
+                        </DeleteButton>
+                    )}
+                </>
+            )}
+            {!isSmUp && (
                 <DotMenu
                     baseId={baseId}
                     render={(onClose) => [
@@ -169,7 +173,7 @@ function EditCollectionToolbar(props) {
                         ),
                     ]}
                 />
-            </Hidden>
+            )}
             <ConfirmationDialog
                 baseId={ids.UNFOLLOW_COLLECTION_DLG}
                 open={unfollowCollectionDlgOpen}

@@ -11,8 +11,8 @@ import React, { useMemo, useState } from "react";
 import buildID from "components/utils/DebugIDUtil";
 import EmptyTable from "components/table/EmptyTable";
 
-import { IconButton, Table, TableBody } from "@material-ui/core";
-import { Info } from "@material-ui/icons";
+import { IconButton, Table, TableBody } from "@mui/material";
+import { Info } from "@mui/icons-material";
 
 import ids from "./ids";
 import { useTranslation } from "i18n";

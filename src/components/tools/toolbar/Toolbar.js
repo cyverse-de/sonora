@@ -22,20 +22,21 @@ import { TOOL_FILTER_VALUES } from "components/tools/utils";
 import buildID from "components/utils/DebugIDUtil";
 import SearchField from "components/searchField/SearchField";
 import NewToolRequestDialog from "../NewToolRequestDialog";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 import {
     Button,
     Dialog,
     DialogActions,
     DialogContent,
-    Hidden,
-    makeStyles,
     TextField,
     Toolbar,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { Info } from "@material-ui/icons";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { Info } from "@mui/icons-material";
+import Autocomplete from "@mui/material/Autocomplete";
 
 const useStyles = makeStyles((theme) => ({
     menuButton: {
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     filter: {
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             width: 175,
             margin: theme.spacing(0.2),
         },
@@ -55,13 +56,13 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     filterIcon: {
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(0.2),
             paddingLeft: 0,
         },
     },
     toolbarItems: {
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(0.5),
         },
         [theme.breakpoints.up("sm")]: {
@@ -84,7 +85,7 @@ function PermissionsFilter(props) {
                 handleFilterChange(filter?.value);
             }}
             getOptionLabel={(option) => option.name}
-            getOptionSelected={(option, value) => option.name === value.name}
+            isOptionEqualToValue={(option, value) => option.name === value.name}
             className={classes.filter}
             renderInput={(params) => (
                 <TextField
@@ -145,47 +146,55 @@ export default function ToolsToolbar(props) {
     const sharingTools = formatSharedTools(
         getSelectedTools && getSelectedTools()
     );
+    const { isSmDown, isMdDown } = useBreakpoints();
 
     return (
         <>
             <Toolbar variant="dense">
-                <Hidden xsDown>
-                    {!(isAdmin || filterDisabled) && (
-                        <PermissionsFilter
-                            baseId={baseId}
-                            filter={ownershipFilter}
-                            classes={classes}
-                            handleFilterChange={handleOwnershipFilterChange}
+                {!isSmDown && (
+                    <>
+                        {!(isAdmin || filterDisabled) && (
+                            <PermissionsFilter
+                                baseId={baseId}
+                                filter={ownershipFilter}
+                                classes={classes}
+                                handleFilterChange={handleOwnershipFilterChange}
+                            />
+                        )}
+                        <SearchField
+                            handleSearch={handleSearch}
+                            value={searchTerm}
+                            id={buildID(baseId, ids.MANAGE_TOOLS.SEARCH)}
+                            placeholder={t("searchTools")}
                         />
-                    )}
-                    <SearchField
-                        handleSearch={handleSearch}
-                        value={searchTerm}
-                        id={buildID(baseId, ids.MANAGE_TOOLS.SEARCH)}
-                        placeholder={t("searchTools")}
-                    />
-                </Hidden>
-                <Hidden smDown>
-                    {isSingleSelection && (
-                        <Button
-                            id={buildID(baseId, ids.MANAGE_TOOLS.TOOL_INFO_BTN)}
-                            className={classes.toolbarItems}
-                            variant="outlined"
-                            disableElevation
-                            color="primary"
-                            onClick={onDetailsSelected}
-                            startIcon={<Info />}
-                        >
-                            {t("detailsLbl")}
-                        </Button>
-                    )}
-                    {sharingEnabled && (
-                        <SharingButton
-                            baseId={baseId}
-                            setSharingDlgOpen={setSharingDlgOpen}
-                        />
-                    )}
-                </Hidden>
+                    </>
+                )}
+                {!isMdDown && (
+                    <>
+                        {isSingleSelection && (
+                            <Button
+                                id={buildID(
+                                    baseId,
+                                    ids.MANAGE_TOOLS.TOOL_INFO_BTN
+                                )}
+                                className={classes.toolbarItems}
+                                variant="outlined"
+                                disableElevation
+                                color="primary"
+                                onClick={onDetailsSelected}
+                                startIcon={<Info />}
+                            >
+                                {t("detailsLbl")}
+                            </Button>
+                        )}
+                        {sharingEnabled && (
+                            <SharingButton
+                                baseId={baseId}
+                                setSharingDlgOpen={setSharingDlgOpen}
+                            />
+                        )}
+                    </>
+                )}
                 <div className={classes.divider} />
                 <ToolsDotMenu
                     baseId={baseId}

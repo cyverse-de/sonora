@@ -6,46 +6,46 @@
  */
 
 import React from "react";
-import {
-    Box,
-    Divider,
-    makeStyles,
-    Tab,
-    Tabs,
-    Typography,
-} from "@material-ui/core";
+import { Box, Divider, Tab, Tabs, Typography } from "@mui/material";
 import buildID from "components/utils/DebugIDUtil";
 import ids from "../data/ids";
 
-import { useMediaQuery, useTheme } from "@material-ui/core";
-
-const useStyles = makeStyles((theme) => ({
-    tabIndicator: {
-        backgroundColor: theme.palette.secondary.main,
-        color: theme.palette.secondary.contrastText,
-    },
-    tabSelected: {
-        color: theme.palette.primary.contrastText,
-        backgroundColor: theme.palette.primary.main,
-    },
-}));
+import { useMediaQuery, useTheme } from "@mui/material";
 
 function DETabs(props) {
-    const classes = useStyles();
-
-    return <Tabs classes={{ indicator: classes.tabIndicator }} {...props} />;
+    const theme = useTheme();
+    return (
+        <Tabs
+            sx={{
+                "& .MuiTabs-indicator": {
+                    backgroundColor: theme.palette.secondary.main,
+                    color: theme.palette.secondary.contrastText,
+                },
+            }}
+            {...props}
+        />
+    );
 }
 
 function DETab(props) {
-    const classes = useStyles();
-
-    return <Tab classes={{ selected: classes.tabSelected }} {...props} />;
+    const theme = useTheme();
+    return (
+        <Tab
+            sx={{
+                "&.Mui-selected": {
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.primary.contrastText,
+                },
+            }}
+            {...props}
+        />
+    );
 }
 
 function DETabPanel(props) {
     const { children, value, selectedTab, tabId, dense = false } = props;
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     return (
         <>
             <Divider />

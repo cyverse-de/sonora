@@ -5,7 +5,7 @@
 import React from "react";
 
 import { useTranslation } from "i18n";
-import ErrorIcon from "@material-ui/icons/Error";
+import ErrorIcon from "@mui/icons-material/Error";
 import buildID from "components/utils/DebugIDUtil";
 import {
     Card,
@@ -14,9 +14,10 @@ import {
     CardHeader,
     Divider,
     Grid,
-    makeStyles,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import ClientInfo from "../error/ClientInfo";
 import ContactSupport from "../error/ContactSupport";
@@ -25,13 +26,13 @@ import ids from "./ids";
 const useStyles = makeStyles((theme) => ({
     cardContent: {
         padding: theme.spacing(2),
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             padding: theme.spacing(1),
         },
     },
     container: {
         margin: theme.spacing(1),
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(0),
         },
     },

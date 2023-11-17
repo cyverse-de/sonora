@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Table, TableBody, TableCell, TableRow } from "@material-ui/core";
+import { Table, TableBody, TableCell, TableRow } from "@mui/material";
 
 import EnhancedTableHead from "components/table/EnhancedTableHead";
 import DECheckbox from "components/utils/DECheckbox";

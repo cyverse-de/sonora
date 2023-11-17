@@ -32,13 +32,14 @@ import {
     ListItemIcon,
     ListItemText,
     MenuItem,
-    makeStyles,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { Add, Delete, ArrowDownward, ArrowUpward } from "@material-ui/icons";
-import { Skeleton } from "@material-ui/lab";
+import makeStyles from "@mui/styles/makeStyles";
+
+import { Add, Delete, ArrowDownward, ArrowUpward } from "@mui/icons-material";
+import { Skeleton } from "@mui/material";
 
 /**
  * Resets a step's output source `step` value when a step is moved.
@@ -92,7 +93,7 @@ const AppStepActions = (props) => {
 
     const classes = useStyles();
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { t } = useTranslation("common");
 
     return (

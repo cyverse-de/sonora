@@ -13,7 +13,7 @@ import {
     TableContainer,
     TableRow,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import DETableHead from "components/table/DETableHead";
 import TableLoading from "components/table/TableLoading";

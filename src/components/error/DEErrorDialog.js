@@ -8,14 +8,9 @@ import React from "react";
 import { useTranslation } from "i18n";
 import PropTypes from "prop-types";
 
-import {
-    Dialog,
-    DialogContent,
-    DialogTitle,
-    IconButton,
-    makeStyles,
-} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import CloseIcon from "@mui/icons-material/Close";
 import ErrorHandler from "./ErrorHandler";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,6 +42,7 @@ const DEErrorDialog = ({
                     aria-label={t("close")}
                     className={classes.closeButton}
                     onClick={handleClose}
+                    size="large"
                 >
                     <CloseIcon />
                 </IconButton>

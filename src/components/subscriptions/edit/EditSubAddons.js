@@ -12,14 +12,14 @@ import { FieldArray, Field, Form, Formik } from "formik";
 import {
     Button,
     IconButton,
-    makeStyles,
     Table,
     TableBody,
     TableCell,
     Typography,
-} from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import { Remove } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import AddIcon from "@mui/icons-material/Add";
+import { Remove } from "@mui/icons-material";
 
 import DEDialog from "components/utils/DEDialog";
 import buildID from "components/utils/DebugIDUtil";

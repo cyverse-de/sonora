@@ -12,9 +12,9 @@ import clsx from "clsx";
 import { useQueryClient, useQuery, useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
-import { Skeleton } from "@material-ui/lab";
+import { Skeleton } from "@mui/material";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { SUCCESS } from "components/announcer/AnnouncerConstants";
@@ -89,14 +89,14 @@ const DashboardSkeleton = () => {
     const skellies = skellyTypes.map((extraClass, index) => (
         <div className={clsx(classes.section, extraClass)} key={index}>
             <Skeleton
-                variant="rect"
+                variant="rectangular"
                 animation="wave"
                 height={50}
                 width="100%"
             />
             <div className={classes.sectionItems}>
                 <Skeleton
-                    variant="rect"
+                    variant="rectangular"
                     animation="wave"
                     height={225}
                     width="100%"

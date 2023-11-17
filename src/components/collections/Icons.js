@@ -5,7 +5,7 @@
  */
 
 import React from "react";
-import { AccountBalance } from "@material-ui/icons";
+import { AccountBalance } from "@mui/icons-material";
 
 export function CollectionIcon(props) {
     return <AccountBalance {...props} />;

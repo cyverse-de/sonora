@@ -6,12 +6,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import numeral from "numeral";
-import Rating from "@material-ui/lab/Rating";
+import Rating from "@mui/material/Rating";
 
-import IconButton from "@material-ui/core/IconButton";
-import { Tooltip, Typography, withStyles } from "@material-ui/core";
+import IconButton from "@mui/material/IconButton";
+import { Tooltip, Typography } from "@mui/material";
 
-import DeleteIcon from "@material-ui/icons/Delete";
+import withStyles from "@mui/styles/withStyles";
+
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const style1 = (theme) => ({
     rating: {

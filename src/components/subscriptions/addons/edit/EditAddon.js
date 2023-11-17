@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useTranslation } from "i18n";
 
 import buildID from "components/utils/DebugIDUtil";
-import { Button, MenuItem } from "@material-ui/core";
+import { Button, MenuItem } from "@mui/material";
 import DEDialog from "components/utils/DEDialog";
 import { FastField, Field, Form, Formik } from "formik";
 import FormCheckbox from "components/forms/FormCheckbox";

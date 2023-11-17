@@ -6,8 +6,8 @@
 
 import React, { useState } from "react";
 
-import { Button } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
+import { Button } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 import buildID from "components/utils/DebugIDUtil";
 import ids from "./ids";

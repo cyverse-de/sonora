@@ -13,24 +13,24 @@ import DotMenu from "components/dotMenu/DotMenu";
 
 import {
     Button,
-    Hidden,
     ListItemIcon,
     ListItemText,
-    makeStyles,
     MenuItem,
     TextField,
     Toolbar,
     Typography,
-} from "@material-ui/core";
-import { Help } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Help } from "@mui/icons-material";
 import { AddTeamIcon } from "./Icons";
 
 import ids from "./ids";
 import styles from "./styles";
 import { TEAM_FILTER } from "./index";
 import { Trans, useTranslation } from "i18n";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import Autocomplete from "@mui/material/Autocomplete";
 import DEDialog from "../utils/DEDialog";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 const useStyles = makeStyles(styles);
 
@@ -47,6 +47,7 @@ function TeamToolbar(props) {
 
     const toolbarId = buildID(parentId, ids.TEAMS.TOOLBAR);
     const dotMenuId = buildID(toolbarId, ids.TEAMS.DOT_MENU);
+    const { isSmUp, isSmDown } = useBreakpoints();
 
     return (
         <Toolbar id={toolbarId} variant="dense">
@@ -74,29 +75,31 @@ function TeamToolbar(props) {
                 )}
             />
             <div className={classes.divider} />
-            <Hidden xsDown>
-                <Button
-                    color="primary"
-                    variant="outlined"
-                    id={buildID(toolbarId, ids.BUTTONS.CREATE_BTN)}
-                    onClick={onCreateTeamSelected}
-                    className={classes.button}
-                    startIcon={<AddTeamIcon />}
-                >
-                    {t("team")}
-                </Button>
-                <Button
-                    color="primary"
-                    variant="outlined"
-                    id={buildID(toolbarId, ids.BUTTONS.HELP_BTN)}
-                    onClick={() => setHelpDlgOpen(true)}
-                    className={classes.button}
-                    startIcon={<Help />}
-                >
-                    {t("common:help")}
-                </Button>
-            </Hidden>
-            <Hidden smUp>
+            {!isSmDown && (
+                <>
+                    <Button
+                        color="primary"
+                        variant="outlined"
+                        id={buildID(toolbarId, ids.BUTTONS.CREATE_BTN)}
+                        onClick={onCreateTeamSelected}
+                        className={classes.button}
+                        startIcon={<AddTeamIcon />}
+                    >
+                        {t("team")}
+                    </Button>
+                    <Button
+                        color="primary"
+                        variant="outlined"
+                        id={buildID(toolbarId, ids.BUTTONS.HELP_BTN)}
+                        onClick={() => setHelpDlgOpen(true)}
+                        className={classes.button}
+                        startIcon={<Help />}
+                    >
+                        {t("common:help")}
+                    </Button>
+                </>
+            )}
+            {!isSmUp && (
                 <DotMenu
                     baseId={dotMenuId}
                     render={(onClose) => [
@@ -128,7 +131,7 @@ function TeamToolbar(props) {
                         </MenuItem>,
                     ]}
                 />
-            </Hidden>
+            )}
             <DEDialog
                 baseId={ids.TEAMS.HELP_DLG}
                 open={helpDlgOpen}

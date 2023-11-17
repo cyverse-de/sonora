@@ -16,7 +16,7 @@ import { TOOL_FILTER_VALUES } from "components/tools/utils";
 import { getLocalStorage } from "components/utils/localStorage";
 import DEDialog from "components/utils/DEDialog";
 
-import { Button } from "@material-ui/core";
+import { Button } from "@mui/material";
 
 export default function ToolSelectionDialog(props) {
     const { open, onClose, onConfirm, publicOnly } = props;

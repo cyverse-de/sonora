@@ -7,8 +7,8 @@
 import React, { useMemo } from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { ListItem, ListItemText, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { ListItem, ListItemText, Typography } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 import { useTranslation } from "i18n";
 import { getUserPrimaryText, getUserSecondaryText, isGroup } from "./util";

@@ -33,7 +33,7 @@ import {
     TableCell,
     TableContainer,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 function UserName(props) {
     const username = props.username;

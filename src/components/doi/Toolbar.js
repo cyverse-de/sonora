@@ -12,14 +12,14 @@ import buildID from "components/utils/DebugIDUtil";
 import {
     Button,
     IconButton,
-    makeStyles,
     Toolbar,
     useTheme,
     useMediaQuery,
-} from "@material-ui/core";
-import UpdateIcon from "@material-ui/icons/Update";
-import ViewListIcon from "@material-ui/icons/ViewList";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import UpdateIcon from "@mui/icons-material/Update";
+import ViewListIcon from "@mui/icons-material/ViewList";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 const useStyles = makeStyles((theme) => ({
     divider: {
@@ -43,7 +43,7 @@ export default function DOIToolbar(props) {
     const classes = useStyles();
     const toolbarId = buildID(baseId, ids.toolbarId);
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     return (
         <>
@@ -94,6 +94,7 @@ export default function DOIToolbar(props) {
                             variant="outlined"
                             className={classes.toolbarItems}
                             onClick={onUpdateClick}
+                            size="large"
                         >
                             <UpdateIcon />
                         </IconButton>
@@ -103,6 +104,7 @@ export default function DOIToolbar(props) {
                             variant="outlined"
                             className={classes.toolbarItems}
                             onClick={() => onMetadataClick(selected)}
+                            size="large"
                         >
                             <ViewListIcon />
                         </IconButton>
@@ -112,6 +114,7 @@ export default function DOIToolbar(props) {
                             variant="outlined"
                             className={classes.toolbarItems}
                             onClick={() => onCreateDOIClick()}
+                            size="large"
                         >
                             <AddCircleIcon />
                         </IconButton>

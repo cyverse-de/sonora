@@ -17,12 +17,12 @@ import {
     Grid,
     IconButton,
     List,
-    makeStyles,
     Typography,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
-import { Close } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Close } from "@mui/icons-material";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import {
@@ -71,7 +71,7 @@ function Sharing(props) {
     const [userProfile] = useUserProfile();
     const queryClient = useQueryClient();
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
     const { t: tCommon } = useTranslation("common");
     const { t: tSharing } = useTranslation("sharing");

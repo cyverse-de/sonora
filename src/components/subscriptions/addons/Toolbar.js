@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Button, makeStyles, Toolbar } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import { Delete } from "@material-ui/icons";
+import { Button, Toolbar } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import AddIcon from "@mui/icons-material/Add";
+import { Delete } from "@mui/icons-material";
 
 import { useTranslation } from "i18n";
 import ids from "../ids";
@@ -10,7 +11,7 @@ import EditAddonDialog from "./edit/EditAddon";
 
 const useStyles = makeStyles((theme) => ({
     toolbarItems: {
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(0.5),
         },
         [theme.breakpoints.up("sm")]: {

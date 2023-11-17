@@ -44,8 +44,8 @@ import isQueryLoading from "components/utils/isQueryLoading";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import buildID from "components/utils/DebugIDUtil";
-import { Button, Toolbar, Typography } from "@material-ui/core";
-import Skeleton from "@material-ui/lab/Skeleton";
+import { Button, Toolbar, Typography } from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
 
 // at the bottom so eslint doesn't complain
 const VideoViewer = dynamic(() => import("./VideoViewer"));

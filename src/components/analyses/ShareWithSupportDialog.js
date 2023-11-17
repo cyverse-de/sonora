@@ -41,7 +41,7 @@ import {
     RadioGroup,
     TextField,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 const InfoGridValue = (props) => <Typography variant="body2" {...props} />;
 
@@ -98,7 +98,7 @@ function CompletedStateCondition({ outputCondition, handleConditionChange }) {
     const { t } = useTranslation("analyses");
 
     return (
-        <FormControl component="fieldset">
+        <FormControl variant="standard" component="fieldset">
             <FormLabel component="legend">
                 {t("statusHelpOutputConditionHeader")}
             </FormLabel>
@@ -335,6 +335,7 @@ function RunningStateSupport(props) {
                                         event.preventDefault();
                                         intercomShow();
                                     }}
+                                    underline="hover"
                                 />
                             ),
                         }}

@@ -11,13 +11,13 @@ import buildID from "components/utils/DebugIDUtil";
 import {
     Chip,
     CircularProgress,
-    makeStyles,
     Paper,
     TextField,
     Typography,
-} from "@material-ui/core";
-import { HighlightOff } from "@material-ui/icons";
-import { Autocomplete } from "@material-ui/lab";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { HighlightOff } from "@mui/icons-material";
+import { Autocomplete } from "@mui/material";
 import { useQueryClient, useMutation, useQuery } from "react-query";
 import { useTranslation } from "i18n";
 
@@ -197,7 +197,7 @@ function TagSearch(props) {
                 value={searchTerm}
                 onChange={onTagSelected}
                 onInputChange={onInputChange}
-                getOptionSelected={(option, value) => option.id === value.id}
+                isOptionEqualToValue={(option, value) => option.id === value.id}
                 getOptionLabel={(option) => {
                     if (typeof option === "string") {
                         return option;

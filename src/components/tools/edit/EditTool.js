@@ -57,10 +57,10 @@ import {
     MenuItem,
     Paper,
     Typography,
-} from "@material-ui/core";
-import LabelIcon from "@material-ui/icons/Label";
-import { withStyles } from "@material-ui/core/styles";
-import { Skeleton } from "@material-ui/lab";
+} from "@mui/material";
+import LabelIcon from "@mui/icons-material/Label";
+import withStyles from "@mui/styles/withStyles";
+import { Skeleton } from "@mui/material";
 
 function EditToolDialog(props) {
     const { open, parentId, tool, isAdmin, isAdminPublishing, onClose } = props;
@@ -258,7 +258,7 @@ function EditToolDialog(props) {
                                 {(isToolTypeFetching || isToolFetching) && (
                                     <Skeleton
                                         animation="wave"
-                                        variant="rect"
+                                        variant="rectangular"
                                         height={800}
                                     />
                                 )}

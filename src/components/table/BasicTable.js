@@ -18,7 +18,7 @@ import {
     TableHead,
     TableRow,
     TableSortLabel,
-} from "@material-ui/core";
+} from "@mui/material";
 import PropTypes from "prop-types";
 import { useSortBy, useTable } from "react-table";
 

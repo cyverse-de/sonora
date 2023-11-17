@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 
 export default makeStyles((theme) => ({
     dividerRoot: {
@@ -8,7 +8,7 @@ export default makeStyles((theme) => ({
         width: "100%",
         height: 128, // This is needed to get the vertical scrolling to stop cutting off the bottom of the content.
 
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             height: 32,
         },
     },
@@ -18,7 +18,7 @@ export default makeStyles((theme) => ({
     },
     sectionNews: {
         width: "66%",
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down("lg")]: {
             width: "100%",
         },
     },
@@ -26,7 +26,7 @@ export default makeStyles((theme) => ({
         width: "33%",
         overflowWrap: "break-word",
         overflow: "hidden",
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down("lg")]: {
             width: "100%",
         },
     },
@@ -37,7 +37,7 @@ export default makeStyles((theme) => ({
         paddingRight: 0,
 
         // Try to eek as much space out of the iPhone SE cards as possible.
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down("lg")]: {
             padding: 0,
         },
     },
@@ -51,7 +51,7 @@ export default makeStyles((theme) => ({
         paddingBottom: 1,
         paddingRight: theme.spacing(3),
 
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             paddingLeft: theme.spacing(1),
             paddingRight: theme.spacing(1),
         },

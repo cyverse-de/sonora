@@ -12,7 +12,7 @@ import ids from "../../ids";
 import buildID from "components/utils/DebugIDUtil";
 import FormIntegerField from "components/forms/FormIntegerField";
 
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 export default function IntRangeField(props) {
     const { baseId, fieldName, ...custom } = props;

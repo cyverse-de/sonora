@@ -20,7 +20,7 @@ export default (theme) => ({
         marginBottom: theme.spacing(2),
     },
     toolbarButton: {
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(0.5),
         },
         [theme.breakpoints.up("sm")]: {

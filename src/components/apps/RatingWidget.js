@@ -13,7 +13,7 @@ import constants from "../../constants";
 import { getAppById, rateApp, APP_BY_ID_QUERY_KEY } from "serviceFacades/apps";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography } from "@mui/material";
 
 export default function RatingWidget(props) {
     const { appId, systemId, appName } = props;

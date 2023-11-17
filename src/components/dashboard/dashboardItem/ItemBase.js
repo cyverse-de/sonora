@@ -13,12 +13,13 @@ import {
     CardContent,
     CardHeader,
     Link,
-    makeStyles,
     Tooltip,
     Typography,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import styles from "components/utils/runningAnimation";
 
@@ -92,7 +93,7 @@ const DashboardItem = ({ item }) => {
             elevation={4}
         >
             <CardHeader
-                className={isRunningAnalysis && running.backdrop}
+                className={isRunningAnalysis ? running.backdrop : undefined}
                 avatar={
                     isMediumOrLarger && (
                         <Avatar className={classes.avatar}>

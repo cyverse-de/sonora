@@ -14,7 +14,7 @@ import {
     dataSearchResp,
 } from "./searchMocks";
 import { teamList } from "../teams/TeamMocks";
-import { AppBar, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Toolbar, Typography } from "@mui/material";
 import SearchConstants from "components/search/constants";
 import AppSearchDrawer from "../../src/components/search/detailed/AppSearchDrawer";
 

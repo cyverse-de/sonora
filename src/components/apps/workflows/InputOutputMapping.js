@@ -13,7 +13,7 @@ import AppStepDisplay from "../AppStepDisplay";
 
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
-import { MenuItem, TextField } from "@material-ui/core";
+import { MenuItem, TextField } from "@mui/material";
 
 function StepMapping(props) {
     const { baseId, availableOutputs, step, index } = props;

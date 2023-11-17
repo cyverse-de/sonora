@@ -10,12 +10,12 @@ import React from "react";
 import ids from "../ids";
 
 import { useTranslation } from "i18n";
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import UploadIcon from "@material-ui/icons/CloudUpload";
-import QueueIcon from "@material-ui/icons/Sort";
+import UploadIcon from "@mui/icons-material/CloudUpload";
+import QueueIcon from "@mui/icons-material/Sort";
 
 function UploadMenuItems(props) {
     const {

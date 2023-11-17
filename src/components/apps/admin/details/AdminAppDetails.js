@@ -30,10 +30,10 @@ import FormCheckbox from "components/forms/FormCheckbox";
 import DEDialog from "components/utils/DEDialog";
 import { getHost } from "components/utils/getHost";
 import { validateAppName } from "components/apps/utils";
-import { Skeleton } from "@material-ui/lab";
+import { Skeleton } from "@mui/material";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
-import { Button, CircularProgress, Link, Paper } from "@material-ui/core";
+import { Button, CircularProgress, Link, Paper } from "@mui/material";
 
 export default function AdminAppDetailsDialog(props) {
     const {
@@ -218,7 +218,11 @@ function AdminAppDetailsForm(props) {
                 }
             >
                 {loading && (
-                    <Skeleton animation="wave" variant="rect" height={600} />
+                    <Skeleton
+                        animation="wave"
+                        variant="rectangular"
+                        height={600}
+                    />
                 )}
                 {detailsError && (
                     <ErrorTypographyWithDialog
@@ -340,6 +344,7 @@ function AdminAppDetailsForm(props) {
                                             documentationTemplateUrl
                                     )
                                 }
+                                underline="hover"
                             >
                                 {t("documentationTemplate")}
                             </Link>

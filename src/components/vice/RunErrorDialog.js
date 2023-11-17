@@ -10,7 +10,7 @@ import { ERROR_CODES } from "components/error/errorCode";
 import DEDialog from "components/utils/DEDialog";
 import RunError from "./RunError";
 
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography } from "@mui/material";
 
 const RunErrorDialog = (props) => {
     const { baseId, code, open, viceQuota, runningJobs, onClose } = props;

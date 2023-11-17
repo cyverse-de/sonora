@@ -5,7 +5,7 @@
 
 import React from "react";
 import NotificationsMenu from "../../src/components/notifications/NotificationsMenu";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import notificationsData from "./notificationsData";
 import { mockAxios } from "../axiosMock";
 import { runningViceJobs } from "../analyses/AnalysesMocks";

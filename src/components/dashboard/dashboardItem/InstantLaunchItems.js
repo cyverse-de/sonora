@@ -2,8 +2,8 @@ import React from "react";
 
 import { formatDate } from "components/utils/DateFormatter";
 
-import { IconButton } from "@material-ui/core";
-import { Info, InsertEmoticon as Smiley } from "@material-ui/icons";
+import { IconButton } from "@mui/material";
+import { Info, InsertEmoticon as Smiley } from "@mui/icons-material";
 
 import * as constants from "../constants";
 import ItemBase, { ItemAction } from "./ItemBase";

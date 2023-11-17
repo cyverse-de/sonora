@@ -9,7 +9,7 @@ import buildID from "components/utils/DebugIDUtil";
 import ids from "../ids";
 import ProductTour from "components/help/ProductTour";
 
-import ExploreIcon from "@material-ui/icons/Explore";
+import ExploreIcon from "@mui/icons-material/Explore";
 import {
     Card,
     CardHeader,
@@ -18,7 +18,7 @@ import {
     Button,
     Typography,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
 export default function Tour(props) {
     const { baseId, showTourPrompt, user, onDismiss } = props;

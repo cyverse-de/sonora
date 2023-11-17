@@ -12,7 +12,7 @@ import ids from "../../ids";
 import buildID from "components/utils/DebugIDUtil";
 import FormNumberField from "components/forms/FormNumberField";
 
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 export default function DoubleRangeField(props) {
     const { baseId, fieldName, ...custom } = props;

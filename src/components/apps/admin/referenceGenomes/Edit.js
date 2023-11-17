@@ -18,14 +18,14 @@ import FormTextField from "components/forms/FormTextField";
 import FormSwitch from "components/forms/FormSwitch";
 import buildID from "components/utils/DebugIDUtil";
 
-import { Button, Grid, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Button, Grid, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { Field, Form, Formik } from "formik";
 
 const styles = (theme) => ({
     grid: {
         margin: theme.spacing(1),
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             margin: theme.spacing(0.1),
         },
     },

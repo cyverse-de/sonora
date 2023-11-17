@@ -47,20 +47,18 @@ import {
     Avatar,
     Divider,
     Drawer,
-    Hidden,
     IconButton,
     Popover,
     Toolbar,
     Tooltip,
     Typography,
-    useMediaQuery,
     useTheme,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import MenuIcon from "@material-ui/icons/Menu";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import MenuIcon from "@mui/icons-material/Menu";
 import { useNotifications } from "contexts/pushNotifications";
 import { useRunningViceJobs } from "serviceFacades/analyses";
 import {
@@ -77,6 +75,8 @@ import {
     getResourceUsageSummary,
 } from "serviceFacades/dashboard";
 import { getUserQuota } from "common/resourceUsage";
+
+import useBreakpoints from "./useBreakpoints";
 
 // hidden in xsDown
 const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
@@ -116,7 +116,6 @@ function DEAppBar(props) {
     const [userProfile, setUserProfile] = useUserProfile();
     const [userSubscription, setUserSubscription] = useState(null);
     const { currentNotification } = useNotifications();
-    const isXsDown = useMediaQuery(theme.breakpoints.down("xs"));
     const [avatarLetter, setAvatarLetter] = useState("");
     const [open, setOpen] = useState(false);
     const [adminUser, setAdminUser] = useState(false);
@@ -130,6 +129,7 @@ function DEAppBar(props) {
         !!config?.subscriptions?.enforce
     );
     const [dataUsagePercentage, setDataUsagePercentage] = useState(0);
+    const { isSmUp, isSmDown } = useBreakpoints();
 
     if (activeView === NavigationConstants.APPS) {
         filter = searchConstants.APPS;
@@ -407,37 +407,45 @@ function DEAppBar(props) {
                 id={ids.APP_BAR_BASE}
                 position="static"
                 variant="outlined"
+                elevation={0}
                 ref={ref}
                 className={clsx(classes.appBar, {
                     [classes.appBarShift]: open,
                 })}
             >
                 <Toolbar>
-                    <Hidden smUp>
-                        <IconButton
-                            aria-label={t("openDrawer")}
-                            onClick={handleDrawerOpen}
-                            edge="start"
-                            className={classes.menuIcon}
-                        >
-                            <MenuIcon className={"menu-intro"} />
-                        </IconButton>
-                        <Typography>{t("deTitle")}</Typography>
-                    </Hidden>
-                    <Hidden xsDown>
-                        <a
-                            href={cyverse_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <SvgDEAppBarLogo className={classes.icon} />
-                        </a>
-                        <GlobalSearchField
-                            search={searchTerm}
-                            selectedFilter={filter}
-                            onShowDetailedSearch={onShowDetailedSearch}
-                        />
-                    </Hidden>
+                    {!isSmUp && (
+                        <>
+                            <IconButton
+                                aria-label={t("openDrawer")}
+                                onClick={handleDrawerOpen}
+                                edge="start"
+                                className={classes.menuIcon}
+                                size="large"
+                            >
+                                <MenuIcon className={"menu-intro"} />
+                            </IconButton>
+                            <Typography>{t("deTitle")}</Typography>
+                        </>
+                    )}
+
+                    {!isSmDown && (
+                        <>
+                            <a
+                                href={cyverse_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <SvgDEAppBarLogo className={classes.icon} />
+                            </a>
+                            <GlobalSearchField
+                                search={searchTerm}
+                                selectedFilter={filter}
+                                onShowDetailedSearch={onShowDetailedSearch}
+                            />
+                        </>
+                    )}
+
                     <div className={classes.root} />
                     <div style={{ display: "flex" }}>
                         <CustomIntercom
@@ -449,15 +457,15 @@ function DEAppBar(props) {
                             isFetchingRunningVice={isFetchingRunningVice}
                         />
                     </div>
-                    <Hidden xsDown>
+                    {!isSmDown && (
                         <div id={buildID(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}>
                             {accountAvatar}
                         </div>
-                    </Hidden>
+                    )}
                 </Toolbar>
             </AppBar>
             <Drawer
-                variant={isXsDown ? "temporary" : "permanent"}
+                variant={isSmDown ? "temporary" : "permanent"}
                 className={clsx(classes.drawer, {
                     [classes.drawerOpen]: open,
                     [classes.drawerClose]: !open,
@@ -468,10 +476,10 @@ function DEAppBar(props) {
                         [classes.drawerClose]: !open,
                     }),
                 }}
-                open={isXsDown ? open : true}
-                onClose={isXsDown ? toggleDrawer(false) : undefined}
+                open={isSmDown ? open : true}
+                onClose={isSmDown ? toggleDrawer(false) : undefined}
             >
-                <Hidden xsDown>
+                {!isSmDown && (
                     <div>
                         <IconButton
                             className={classes.menuIcon}
@@ -480,6 +488,7 @@ function DEAppBar(props) {
                             }
                             aria-label={open ? t("closeMenu") : t("openMenu")}
                             edge={open ? false : "start"}
+                            size="large"
                         >
                             {open ? (
                                 theme.direction === "rtl" ? (
@@ -495,8 +504,9 @@ function DEAppBar(props) {
                             )}
                         </IconButton>
                     </div>
-                </Hidden>
-                <Hidden smUp>
+                )}
+
+                {!isSmUp && (
                     <div
                         id={buildID(ids.DRAWER_MENU, ids.ACCOUNT_MI)}
                         style={{ margin: 8 }}
@@ -521,13 +531,14 @@ function DEAppBar(props) {
                             accountAvatar
                         )}
                     </div>
-                </Hidden>
+                )}
+
                 <Divider />
                 <DrawerItems
                     open={open}
                     activeView={activeView}
                     toggleDrawer={toggleDrawer}
-                    isXsDown={isXsDown}
+                    isSmDown={isSmDown}
                     adminUser={adminUser}
                     analysesStats={analysesStats}
                     runningViceJobs={runningViceJobs}

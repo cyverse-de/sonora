@@ -25,7 +25,7 @@ import VisibleField from "./common/VisibleField";
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
 
-import { Grid, MenuItem } from "@material-ui/core";
+import { Grid, MenuItem } from "@mui/material";
 
 export const DataSources = {
     FILE: "file",

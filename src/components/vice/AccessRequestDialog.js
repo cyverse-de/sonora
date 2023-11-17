@@ -19,7 +19,7 @@ import constants from "../../constants";
 
 import DEDialog from "components/utils/DEDialog";
 import { useConfig } from "contexts/config";
-import { Button, CircularProgress, Typography } from "@material-ui/core";
+import { Button, CircularProgress, Typography } from "@mui/material";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 export default function AccessRequestDialog(props) {

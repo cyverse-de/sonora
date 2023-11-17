@@ -7,7 +7,9 @@
 import React, { useState } from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { Drawer, makeStyles, Typography } from "@material-ui/core";
+import { Drawer, Typography } from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import { useTranslation } from "i18n";
 

@@ -36,9 +36,9 @@ import {
     Tooltip,
     Typography,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import ClearIcon from "@material-ui/icons/Clear";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const multiInputColumnData = (t) => [
     {

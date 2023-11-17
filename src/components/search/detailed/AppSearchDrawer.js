@@ -13,14 +13,14 @@ import buildID from "components/utils/DebugIDUtil";
 import {
     Button,
     Drawer,
-    makeStyles,
     TextField,
     Toolbar,
     Typography,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import SearchIcon from "@mui/icons-material/Search";
 import PropTypes from "prop-types";
 
 import AppSearchResults from "./AppSearchResults";
@@ -69,7 +69,7 @@ function SelectionToolbar(props) {
     const hasSelection = selectedApps?.length > 0;
 
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const toolbarId = buildID(baseId, ids.SELECTION_TOOLBAR);
 

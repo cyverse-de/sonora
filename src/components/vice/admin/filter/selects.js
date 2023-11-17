@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "i18n";
 
-import { Select, InputLabel, MenuItem } from "@material-ui/core";
+import { Select, InputLabel, MenuItem } from "@mui/material";
 
 import useStyles from "./styles";
 
@@ -20,6 +20,7 @@ export const FieldSelect = ({
         <>
             <InputLabel id={inputLabelID}>{t(labelI18nKey)}</InputLabel>
             <Select
+                variant="standard"
                 labelId={inputLabelID}
                 id={id}
                 value={value}

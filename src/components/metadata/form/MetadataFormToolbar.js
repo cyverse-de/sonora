@@ -22,14 +22,15 @@ import {
     MenuItem,
     Toolbar,
     Typography,
-    makeStyles,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import ContentView from "@material-ui/icons/List";
-import HelpIcon from "@material-ui/icons/Help";
-import SaveIcon from "@material-ui/icons/Save";
-import CopyIcon from "@material-ui/icons/FileCopy";
-import SaveAltIcon from "@material-ui/icons/SaveAlt";
+import makeStyles from "@mui/styles/makeStyles";
+
+import ContentView from "@mui/icons-material/List";
+import HelpIcon from "@mui/icons-material/Help";
+import SaveIcon from "@mui/icons-material/Save";
+import CopyIcon from "@mui/icons-material/FileCopy";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
 
 const useStyles = makeStyles(styles);
 

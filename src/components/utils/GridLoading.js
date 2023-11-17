@@ -7,9 +7,9 @@
 
 import React, { Fragment } from "react";
 import buildID from "components/utils/DebugIDUtil";
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 import GridLabelValue from "./GridLabelValue";
-import { Skeleton } from "@material-ui/lab";
+import { Skeleton } from "@mui/material";
 import ids from "./ids";
 
 export default function GridLoading({ rows, baseId }) {

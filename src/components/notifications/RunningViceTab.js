@@ -7,9 +7,9 @@ import {
     ListItemIcon,
     ListItemText,
     Typography,
-} from "@material-ui/core";
-import { Web } from "@material-ui/icons";
-import { Skeleton } from "@material-ui/lab";
+} from "@mui/material";
+import { Web } from "@mui/icons-material";
+import { Skeleton } from "@mui/material";
 
 import { openInteractiveUrl } from "components/analyses/utils";
 import DELink from "components/utils/DELink";

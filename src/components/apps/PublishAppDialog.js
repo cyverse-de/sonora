@@ -33,7 +33,7 @@ import { requestToPublishApp } from "serviceFacades/apps";
 
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
-import { Add, Remove } from "@material-ui/icons";
+import { Add, Remove } from "@mui/icons-material";
 import {
     Button,
     CircularProgress,
@@ -41,7 +41,7 @@ import {
     IconButton,
     Link,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 function ReferencesField(props) {
     const { parentId, values } = props;
@@ -290,6 +290,7 @@ export default function PublishAppDialog(props) {
                                                 event.preventDefault();
                                                 intercomShow();
                                             }}
+                                            underline="hover"
                                         />
                                     ),
                                 }}

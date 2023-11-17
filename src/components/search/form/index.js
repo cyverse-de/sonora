@@ -9,7 +9,7 @@
  */
 import React from "react";
 
-import { Button, Grid } from "@material-ui/core";
+import { Button, Grid } from "@mui/material";
 import { FastField, Formik } from "formik";
 
 import DEDialog from "components/utils/DEDialog";

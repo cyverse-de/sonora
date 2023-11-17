@@ -14,7 +14,7 @@ import buildID from "components/utils/DebugIDUtil";
 import { formatDateObject } from "components/utils/DateFormatter";
 import Rate from "components/rating/Rate";
 
-import { CircularProgress, Grid } from "@material-ui/core";
+import { CircularProgress, Grid } from "@mui/material";
 
 /**
  * @author sriram

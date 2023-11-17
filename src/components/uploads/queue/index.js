@@ -17,10 +17,11 @@ import {
     ListItemAvatar,
     ListItemSecondaryAction,
     ListItemText,
-    makeStyles,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import {
     Cancel as CancelIcon,
@@ -28,7 +29,7 @@ import {
     Description as DescriptionIcon,
     Error as ErrorIcon,
     Http as HttpIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 import {
     KindFile,
@@ -104,7 +105,7 @@ function UploadSecondaryText(props) {
     const { upload } = props;
     const theme = useTheme();
     const { t } = useTranslation("upload");
-    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+    const isSmall = useMediaQuery(theme.breakpoints.down("md"));
 
     if (upload.hasErrored) {
         return getErrorCode(upload.errorMessage) === ERROR_CODES.ERR_EXISTS
@@ -133,7 +134,7 @@ const UploadItem = ({ upload, handleCancel, baseId }) => {
     const theme = useTheme();
     const classes = useStyles();
     const { t } = useTranslation("upload");
-    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+    const isSmall = useMediaQuery(theme.breakpoints.down("md"));
 
     const uploadPath = [upload.parentPath, upload.filename].join("/");
     const itemId = buildID(baseId, uploadPath);
@@ -167,6 +168,7 @@ const UploadItem = ({ upload, handleCancel, baseId }) => {
                     edge="end"
                     aria-label={t("cancelUploadAria")}
                     onClick={(e) => handleCancel(e, upload)}
+                    size="large"
                 >
                     <CancelIcon />
                 </IconButton>

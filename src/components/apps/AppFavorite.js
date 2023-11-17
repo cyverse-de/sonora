@@ -1,10 +1,10 @@
 import React from "react";
 import { useTranslation } from "i18n";
-import { IconButton, Tooltip } from "@material-ui/core";
+import { IconButton, Tooltip } from "@mui/material";
 import buildID from "components/utils/DebugIDUtil";
 import ids from "./ids";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import UnFavoriteIcon from "@material-ui/icons/FavoriteBorderOutlined";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import UnFavoriteIcon from "@mui/icons-material/FavoriteBorderOutlined";
 
 export default function AppFavorite(props) {
     const {

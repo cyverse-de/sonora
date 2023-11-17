@@ -4,11 +4,11 @@ import { useMutation, useQueryClient } from "react-query";
 
 import { useTranslation } from "i18n";
 
-import { AppBar, Tab } from "@material-ui/core";
+import { AppBar, Tab } from "@mui/material";
 
-import { TabContext, TabList, TabPanel } from "@material-ui/lab";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
 
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, useTheme } from "@mui/styles";
 
 import buildID from "components/utils/DebugIDUtil";
 
@@ -54,12 +54,12 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: theme.spacing(3),
         paddingRight: theme.spacing(3),
         paddingTop: theme.spacing(3),
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             paddingLeft: theme.spacing(1),
             paddingRight: theme.spacing(1),
             paddingTop: theme.spacing(1),
         },
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             paddingLeft: theme.spacing(0.5),
             paddingRight: theme.spacing(0.5),
             paddingTop: theme.spacing(0.5),
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
         width: "100%",
         height: theme.spacing(5),
 
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             height: 32,
         },
     },
@@ -107,6 +107,7 @@ const useStyles = makeStyles((theme) => ({
 const VICEAdminTabs = ({ data = {} }) => {
     const classes = useStyles();
     const { t } = useTranslation("vice-admin");
+    const theme = useTheme();
 
     const [value, setValue] = useState("0");
 
@@ -162,6 +163,12 @@ const VICEAdminTabs = ({ data = {} }) => {
                 >
                     {orderOfTabs.map((tabName, index) => (
                         <Tab
+                            sx={{
+                                "&.Mui-selected": {
+                                    backgroundColor: theme.palette.primary.main,
+                                    color: theme.palette.primary.contrastText,
+                                },
+                            }}
                             label={t(tabName)}
                             buildID={tabID(tabName)}
                             key={tabID(tabName)}
@@ -169,7 +176,6 @@ const VICEAdminTabs = ({ data = {} }) => {
                             aria-controls={tabPanelID(tabName)}
                             classes={{
                                 root: classes.tabRoot,
-                                selected: classes.tabSelected,
                             }}
                         />
                     ))}

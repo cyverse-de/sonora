@@ -45,11 +45,11 @@ import {
     IconButton,
     Tooltip,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { makeStyles } from "@material-ui/core/styles";
-import Close from "@material-ui/icons/Close";
-import LinkIcon from "@material-ui/icons/Link";
+import makeStyles from "@mui/styles/makeStyles";
+import Close from "@mui/icons-material/Close";
+import LinkIcon from "@mui/icons-material/Link";
 
 const TABS = {
     appInfo: "APP INFORMATION",
@@ -58,13 +58,13 @@ const TABS = {
 };
 const useStyles = makeStyles((theme) => ({
     drawerPaper: {
-        [theme.breakpoints.up("lg")]: {
+        [theme.breakpoints.up("xl")]: {
             maxWidth: "25%",
         },
-        [theme.breakpoints.down("lg")]: {
+        [theme.breakpoints.down("xl")]: {
             maxWidth: "50%",
         },
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             maxWidth: "90%",
         },
     },

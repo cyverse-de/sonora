@@ -15,7 +15,7 @@ import VisibleField from "./common/VisibleField";
 
 import ReferenceGenomeSelect from "components/apps/launch/ReferenceGenomeSelect";
 
-import { Grid } from "@material-ui/core";
+import { Grid } from "@mui/material";
 
 export default function ReferenceGenomePropertyFields(props) {
     const { baseId, cosmeticOnly, fieldName, param } = props;

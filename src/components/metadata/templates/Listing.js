@@ -28,11 +28,11 @@ import {
     ListItem,
     ListItemSecondaryAction,
     ListItemText,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { CloudDownload } from "@material-ui/icons";
+import { CloudDownload } from "@mui/icons-material";
 
-import Skeleton from "@material-ui/lab/Skeleton";
+import Skeleton from "@mui/material/Skeleton";
 
 const TemplateListItem = (props) => {
     const { baseId, template, selected, onClick, onDownload } = props;
@@ -57,6 +57,7 @@ const TemplateListItem = (props) => {
                     aria-label={t("downloadTemplate")}
                     color="primary"
                     onClick={onDownload}
+                    size="large"
                 >
                     <CloudDownload />
                 </IconButton>

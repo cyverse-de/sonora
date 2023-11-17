@@ -8,8 +8,8 @@ import { getAppEditPath } from "../utils";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
-import { Edit } from "@material-ui/icons";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
+import { Edit } from "@mui/icons-material";
 
 export default function EditMenuItem(props) {
     const { baseId, app, onClose } = props;

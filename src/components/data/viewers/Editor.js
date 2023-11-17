@@ -26,7 +26,7 @@ import buildID from "components/utils/DebugIDUtil";
 import ids from "./ids";
 import viewerConstants, { CODE_MIRROR_MODES } from "./constants";
 
-import Skeleton from "@material-ui/lab/Skeleton";
+import Skeleton from "@mui/material/Skeleton";
 
 export default function Editor(props) {
     const {

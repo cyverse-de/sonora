@@ -14,7 +14,8 @@
 
 import React from "react";
 import Highlighter from "components/highlighter/Highlighter";
-import { Link, makeStyles } from "@material-ui/core";
+import { Link } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
     link: {
         cursor: "pointer",
@@ -40,6 +41,7 @@ const DELink = React.forwardRef((props, ref) => {
                     onClick(e);
                 }
             }}
+            underline="hover"
         >
             <Highlighter search={searchTerm || ""}>{text}</Highlighter>
         </Link>

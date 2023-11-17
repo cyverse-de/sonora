@@ -24,13 +24,13 @@ import {
     Paper,
     Typography,
     useTheme,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
         padding: theme.spacing(1),
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             padding: theme.spacing(0.2),
             backgroundColor: theme.palette.main_sidebar,
         },
@@ -38,21 +38,21 @@ const useStyles = makeStyles((theme) => ({
 
     typography: {
         color: theme.palette.main_sidebar,
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             color: theme.palette.info.contrastText,
         },
     },
 
     divider: {
         margin: theme.spacing(1),
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(0.5),
         },
     },
 
     button: {
         color: theme.palette.primary.main,
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             color: theme.palette.info.contrastText,
         },
     },

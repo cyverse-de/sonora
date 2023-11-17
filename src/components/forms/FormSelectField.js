@@ -5,10 +5,10 @@ import React from "react";
 
 import getFormError from "./getFormError";
 
-import FormControl from "@material-ui/core/FormControl";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
 
 const FormSelectField = ({
     id,
@@ -23,7 +23,11 @@ const FormSelectField = ({
 }) => {
     const errorMsg = getFormError(field.name, touched, errors);
     return (
-        <FormControl fullWidth={fullWidth} error={!!errorMsg}>
+        <FormControl
+            variant="standard"
+            fullWidth={fullWidth}
+            error={!!errorMsg}
+        >
             <InputLabel htmlFor={id} required={required}>
                 {label}
             </InputLabel>

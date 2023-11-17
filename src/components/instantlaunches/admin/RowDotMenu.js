@@ -2,13 +2,13 @@ import React from "react";
 
 import DotMenu from "components/dotMenu/DotMenu";
 
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import {
     Delete as DeleteIcon,
     Home as HomeIcon,
     LabelImportant as NestedIcon,
     MenuOutlined,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 const RowDotMenu = (props) => {
     const {

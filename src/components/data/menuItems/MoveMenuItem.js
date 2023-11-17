@@ -1,8 +1,8 @@
 import React from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
-import SyncAltIcon from "@material-ui/icons/SyncAlt";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
+import SyncAltIcon from "@mui/icons-material/SyncAlt";
 
 import ids from "../ids";
 import { useTranslation } from "i18n";

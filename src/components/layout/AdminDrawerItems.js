@@ -13,15 +13,10 @@ import { useRouter } from "next/router";
 import ids from "./ids";
 import styles from "./styles";
 import buildID from "components/utils/DebugIDUtil";
-import {
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-    Tooltip,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import LabelImportantIcon from "@material-ui/icons/LabelImportant";
-import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import { ListItem, ListItemIcon, ListItemText, Tooltip } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import LabelImportantIcon from "@mui/icons-material/LabelImportant";
+import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 
 const useStyles = makeStyles(styles);
 

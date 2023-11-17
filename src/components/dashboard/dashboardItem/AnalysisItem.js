@@ -7,8 +7,8 @@ import {
     Repeat,
     Cancel,
     Launch,
-} from "@material-ui/icons";
-import { IconButton, useTheme } from "@material-ui/core";
+} from "@mui/icons-material";
+import { IconButton, useTheme } from "@mui/material";
 
 import { formatDate } from "components/utils/DateFormatter";
 

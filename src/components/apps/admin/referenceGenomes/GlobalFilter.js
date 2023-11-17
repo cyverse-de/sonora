@@ -12,9 +12,9 @@ import ids from "./ids";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import InputBase from "@material-ui/core/InputBase";
-import { makeStyles } from "@material-ui/core/styles";
-import SearchIcon from "@material-ui/icons/Search";
+import InputBase from "@mui/material/InputBase";
+import makeStyles from "@mui/styles/makeStyles";
+import SearchIcon from "@mui/icons-material/Search";
 
 const useStyles = makeStyles((theme) => ({
     search: {

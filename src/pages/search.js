@@ -1,13 +1,13 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Hidden } from "@material-ui/core";
 import { i18n, RequiredNamespaces } from "i18n";
 import GlobalSearchField from "components/search/GlobalSearchField";
 import DetailedSearchResults from "components/search/detailed/DetailedSearchResults";
 import SEARCH_RESULTS_TABS from "components/search/detailed/tabs";
 import NavigationConstants from "common/NavigationConstants";
 import { useConfig } from "contexts/config";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 export default function Search() {
     const [config] = useConfig();
@@ -25,16 +25,17 @@ export default function Search() {
             query,
         });
     };
+    const { isSmUp } = useBreakpoints();
 
     return (
         <>
-            <Hidden only={["sm", "md", "lg", "xl"]}>
+            {!isSmUp && (
                 <GlobalSearchField
                     search={searchTerm}
                     selectedFilter={filter}
                     onShowDetailedSearch={onShowDetailedSearch}
                 />
-            </Hidden>
+            )}
             <DetailedSearchResults
                 baseId="search"
                 searchTerm={searchTerm}

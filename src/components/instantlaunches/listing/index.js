@@ -7,8 +7,8 @@
  */
 import React, { useMemo, useState } from "react";
 
-import { IconButton, Toolbar } from "@material-ui/core";
-import { Info } from "@material-ui/icons";
+import { IconButton, Toolbar } from "@mui/material";
+import { Info } from "@mui/icons-material";
 import { useQuery } from "react-query";
 
 import Drawer from "components/apps/details/Drawer";

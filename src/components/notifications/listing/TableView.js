@@ -26,7 +26,6 @@ import EmptyTable from "components/table/EmptyTable";
 import DECheckbox from "components/utils/DECheckbox";
 import { formatDate } from "components/utils/DateFormatter";
 import {
-    makeStyles,
     Paper,
     Table,
     TableBody,
@@ -34,7 +33,9 @@ import {
     TableContainer,
     TableRow,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles(styles);
 

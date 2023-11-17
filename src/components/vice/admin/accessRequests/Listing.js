@@ -42,7 +42,7 @@ import {
     TextField,
     Typography,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
 const MAX_CONCURRENT_JOB_LIMIT = 10;
 
@@ -277,7 +277,7 @@ function Listing(props) {
                             )}
                             variant="outlined"
                             multiline
-                            rowsMax={4}
+                            maxRows={4}
                             value={deniedMsg}
                             onChange={handleDeniedMsgChange}
                             fullWidth

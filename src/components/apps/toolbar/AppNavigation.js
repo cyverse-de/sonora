@@ -26,9 +26,9 @@ import {
     ListItemText,
     Menu,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from "@mui/styles/makeStyles";
 import buildID from "components/utils/DebugIDUtil";
 
 import {
@@ -40,7 +40,7 @@ import {
     Lock as LockIcon,
     Storage as StorageIcon,
     VerifiedUser as ShieldIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { useUserProfile } from "../../../contexts/userProfile";
 import { CollectionIcon } from "components/collections/Icons";
 

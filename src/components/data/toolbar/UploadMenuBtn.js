@@ -21,14 +21,16 @@ import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import { useTranslation } from "i18n";
 
 import buildID from "components/utils/DebugIDUtil";
-import { Button, makeStyles, Menu } from "@material-ui/core";
+import { Button, Menu } from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import {
     Publish as UploadIcon,
     ArrowDropDown as ArrowDropDownIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
-import BlockIcon from "@material-ui/icons/Block";
+import BlockIcon from "@mui/icons-material/Block";
 
 const useStyles = makeStyles(styles);
 

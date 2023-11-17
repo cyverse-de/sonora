@@ -10,12 +10,13 @@ import buildID from "components/utils/DebugIDUtil";
 
 import ids from "./ids";
 
-import { Grid, Typography, makeStyles } from "@material-ui/core";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import FirstPageIcon from "@material-ui/icons/FirstPage";
-import LastPageIcon from "@material-ui/icons/LastPage";
-import CompareArrowsIcon from "@material-ui/icons/CompareArrows";
+import { Grid, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
+import LastPageIcon from "@mui/icons-material/LastPage";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 
 const useStyles = makeStyles((theme) => ({
     panelHeader: {

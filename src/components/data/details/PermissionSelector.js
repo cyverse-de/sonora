@@ -7,8 +7,8 @@
 
 import React, { Fragment, useState } from "react";
 import buildID from "components/utils/DebugIDUtil";
-import { IconButton, ListItemIcon, Menu, MenuItem } from "@material-ui/core";
-import { Check, Edit } from "@material-ui/icons";
+import { IconButton, ListItemIcon, Menu, MenuItem } from "@mui/material";
+import { Check, Edit } from "@mui/icons-material";
 import { useTranslation } from "i18n";
 
 import ids from "../ids";
@@ -36,6 +36,7 @@ function PermissionSelector(props) {
                 aria-controls={menuId}
                 aria-haspopup={true}
                 onClick={onEditClick}
+                size="large"
             >
                 <Edit />
             </IconButton>

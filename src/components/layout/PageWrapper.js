@@ -6,9 +6,11 @@
  */
 
 import React from "react";
-import { makeStyles, useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
 
-const useStyles = makeStyles((theme) => ({
+import makeStyles from "@mui/styles/makeStyles";
+
+const useStyles = makeStyles(() => ({
     wrapper: {
         display: "flex",
         flexDirection: "column",
@@ -23,7 +25,9 @@ function PageWrapper(props) {
         <div
             className={classes.wrapper}
             style={{
-                maxHeight: `calc(100vh - ${appBarHeight + theme.spacing(1)}px)`,
+                maxHeight: `calc(100vh - ${
+                    appBarHeight + parseInt(theme.spacing(1), 10)
+                }px)`,
                 overflow: "auto",
             }}
         >

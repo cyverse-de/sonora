@@ -2,12 +2,12 @@ import React from "react";
 import { useTranslation } from "i18n";
 import PropTypes from "prop-types";
 
-import DeletedIcon from "@material-ui/icons/Delete";
-import Disabled from "@material-ui/icons/Block";
-import Lock from "@material-ui/icons/Lock";
-import VerifiedUser from "@material-ui/icons/VerifiedUser";
-import ToolTip from "@material-ui/core/Tooltip";
-import { useTheme } from "@material-ui/core";
+import DeletedIcon from "@mui/icons-material/Delete";
+import Disabled from "@mui/icons-material/Block";
+import Lock from "@mui/icons-material/Lock";
+import VerifiedUser from "@mui/icons-material/VerifiedUser";
+import ToolTip from "@mui/material/Tooltip";
+import { useTheme } from "@mui/material";
 
 /**
  * @author aramsey

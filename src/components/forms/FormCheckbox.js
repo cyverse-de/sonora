@@ -5,10 +5,10 @@ import React from "react";
 
 import getFormError from "./getFormError";
 
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControl from "@material-ui/core/FormControl";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
+import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormHelperText from "@mui/material/FormHelperText";
 
 /**
  * Creates an onChange function for use in a MUI Checkbox or Switch field,
@@ -24,12 +24,12 @@ import FormHelperText from "@material-ui/core/FormHelperText";
  *
  * @returns An onChange function for use in a MUI Checkbox or Switch field.
  */
-const onCheckboxChange =
-    (setFieldValue, fieldName, readOnly) => (event, checked) => {
-        if (!readOnly) {
-            setFieldValue(fieldName, checked);
-        }
-    };
+const onCheckboxChange = (setFieldValue, fieldName, readOnly) => (event) => {
+    const checked = event.target.checked;
+    if (!readOnly) {
+        setFieldValue(fieldName, checked);
+    }
+};
 
 const FormCheckbox = ({
     label,
@@ -41,7 +41,7 @@ const FormCheckbox = ({
     const errorMsg = getFormError(field.name, touched, errors);
 
     return (
-        <FormControl error={!!errorMsg}>
+        <FormControl variant="standard" error={!!errorMsg}>
             <FormControlLabel
                 control={
                     <Checkbox

@@ -1,8 +1,8 @@
 import React from "react";
 
 import { useTranslation } from "i18n";
-import { Card, CardHeader, Typography } from "@material-ui/core";
-import InfoIcon from "@material-ui/icons/Info";
+import { Card, CardHeader, Typography } from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
 
 function OAuthLinkingMessage({ baseId }) {
     const { t } = useTranslation("oauth");

@@ -23,9 +23,9 @@ import {
     ListItemIcon,
     ListItemText,
     MenuItem,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { FileCopy as CopyIcon } from "@material-ui/icons";
+import { FileCopy as CopyIcon } from "@mui/icons-material";
 
 function CopyMenuItem(props) {
     const { baseId, app, onClose, showErrorAnnouncer } = props;

@@ -9,9 +9,9 @@ import React from "react";
 import {
     InsertDriveFileOutlined as FileIcon,
     Folder as FolderIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import ResourceTypes from "../../models/ResourceTypes";
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
 
 function ResourceIcon(props) {
     const { type, ...custom } = props;

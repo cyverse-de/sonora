@@ -7,14 +7,14 @@ import {
     IconButton,
     ListItem,
     ListItemText,
-    makeStyles,
     Typography,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
-import OpenInNewIcon from "@material-ui/icons/OpenInNew";
-import { Skeleton } from "@material-ui/lab";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { Skeleton } from "@mui/material";
 import classnames from "classnames";
 import Link from "next/link";
 
@@ -47,6 +47,7 @@ const NotificationsListingButton = React.forwardRef((props, ref) => {
                 onClick(event);
                 handleClose();
             }}
+            size="large"
         >
             <OpenInNewIcon size="small" />
         </IconButton>
@@ -88,7 +89,7 @@ function NotificationsTab(props) {
 
     const classes = useStyles();
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { t } = useTranslation("common");
 
     return (
@@ -113,12 +114,13 @@ function NotificationsTab(props) {
                         ids.NOTIFICATIONS_MENU,
                         ids.MARK_ALL_READ
                     )}
+                    size="large"
                 >
                     <DoneAllIcon size="small" />
                 </IconButton>,
             ]}
             {isFetching && (
-                <Skeleton variant="rect" height={400} animation="wave" />
+                <Skeleton variant="rectangular" height={400} animation="wave" />
             )}
             {!isFetching && errorObject !== null && (
                 <ListItem>

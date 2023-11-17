@@ -11,16 +11,15 @@ import DotMenu from "components/dotMenu/DotMenu";
 
 import {
     Button,
-    Hidden,
     ListItemIcon,
     ListItemText,
-    makeStyles,
     MenuItem,
     TextField,
     Toolbar,
     Typography,
-} from "@material-ui/core";
-import { Add, Help } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Add, Help } from "@mui/icons-material";
 
 import ids from "./ids";
 import styles from "./styles";
@@ -28,6 +27,7 @@ import { COLLECTION_FILTER } from "./index";
 import { useTranslation } from "i18n";
 
 import DEDialog from "../utils/DEDialog";
+import useBreakpoints from "components/layout/useBreakpoints";
 
 const useStyles = makeStyles(styles);
 
@@ -44,6 +44,7 @@ function CollectionToolbar(props) {
 
     const toolbarId = buildID(parentId, ids.TOOLBAR);
     const dotMenuId = buildID(toolbarId, ids.DOT_MENU);
+    const { isSmDown, isSmUp } = useBreakpoints();
 
     return (
         <Toolbar id={toolbarId} variant="dense">
@@ -72,7 +73,7 @@ function CollectionToolbar(props) {
                 </MenuItem>
             </TextField>
             <div className={classes.divider} />
-            <Hidden xsDown>
+            {!isSmDown && (
                 <Button
                     color="primary"
                     variant="outlined"
@@ -83,8 +84,8 @@ function CollectionToolbar(props) {
                 >
                     {t("createCollection")}
                 </Button>
-            </Hidden>
-            <Hidden xsDown>
+            )}
+            {!isSmDown && (
                 <Button
                     color="primary"
                     variant="outlined"
@@ -94,8 +95,8 @@ function CollectionToolbar(props) {
                 >
                     {t("common:help")}
                 </Button>
-            </Hidden>
-            <Hidden smUp>
+            )}
+            {!isSmUp && (
                 <DotMenu
                     baseId={dotMenuId}
                     render={(onClose) => [
@@ -127,7 +128,7 @@ function CollectionToolbar(props) {
                         </MenuItem>,
                     ]}
                 />
-            </Hidden>
+            )}
             <DEDialog
                 baseId={ids.HELP_DLG}
                 open={helpDlgOpen}

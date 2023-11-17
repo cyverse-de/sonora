@@ -3,8 +3,8 @@ import React from "react";
 import ids from "../ids";
 
 import buildID from "components/utils/DebugIDUtil";
-import { FastForward } from "@material-ui/icons";
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
+import { FastForward } from "@mui/icons-material";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import { useTranslation } from "i18n";
 
 export default function SavedLaunchMenuItem(props) {

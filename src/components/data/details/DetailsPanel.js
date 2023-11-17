@@ -10,15 +10,9 @@ import buildID from "components/utils/DebugIDUtil";
 import CopyTextArea from "components/copy/CopyTextArea";
 import { formatDate } from "components/utils/DateFormatter";
 
-import {
-    Button,
-    Divider,
-    Grid,
-    makeStyles,
-    MenuItem,
-    Select,
-} from "@material-ui/core";
-import { Link } from "@material-ui/icons";
+import { Button, Divider, Grid, MenuItem, Select } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Link } from "@mui/icons-material";
 
 import { useTranslation } from "i18n";
 import { useQueryClient, useMutation, useQuery } from "react-query";
@@ -137,6 +131,7 @@ function DetailsTabPanel(props) {
                     >
                         {infoTypes && infoTypes.length > 0 ? (
                             <Select
+                                variant="standard"
                                 labelId={buildID(
                                     baseId,
                                     ids.INFO_TYPES,

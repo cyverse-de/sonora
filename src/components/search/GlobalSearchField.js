@@ -41,7 +41,7 @@ import { getAnalysesSearchQueryFilter } from "./analysesSearchQueryBuilder";
 import buildID from "components/utils/DebugIDUtil";
 import Highlighter from "components/highlighter/Highlighter";
 
-import SearchIcon from "@material-ui/icons/Search";
+import SearchIcon from "@mui/icons-material/Search";
 import {
     CircularProgress,
     Link as MuiLink,
@@ -50,15 +50,15 @@ import {
     Typography,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
-import { Autocomplete } from "@material-ui/lab";
-import { makeStyles } from "@material-ui/core/styles";
+} from "@mui/material";
+import { Autocomplete } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import {
     Apps as AppsIcon,
     Description as DescriptionIcon,
     Folder as FolderIcon,
     Pageview as PageviewIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { TeamIcon } from "../teams/Icons";
 import { useUserProfile } from "../../contexts/userProfile";
 import { getTeamLinkRefs } from "../teams/util";
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: theme.spacing(2),
             width: "60%",
         },
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(1),
             width: "95%",
         },
@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: 0,
         width: 100,
         color: theme.palette.info.main,
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(1),
             borderRadius: theme.spacing(1),
             width: "90%",
@@ -108,7 +108,7 @@ const useStyles = makeStyles((theme) => ({
         height: theme.spacing(3.6),
         borderRadius: 0,
         color: theme.palette.info.main,
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             border: theme.spacing(0.5),
             borderRadius: theme.spacing(1),
         },
@@ -164,7 +164,6 @@ const SearchOption = (props) => {
             <span className={classes.optionIcon}>{icon}</span>
             <MuiLink
                 href={href}
-                as={as}
                 onClick={(event) => {
                     if (onOptionSelected) {
                         event.preventDefault();
@@ -366,7 +365,7 @@ function GlobalSearchField(props) {
     const [userHomeDir, setUserHomeDir] = useState(null);
 
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();
@@ -799,41 +798,47 @@ function GlobalSearchField(props) {
         }
     };
 
-    const renderCustomInput = (params) => (
-        <TextField
-            id={buildID(ids.SEARCH, ids.SEARCH_INPUT_FILED)}
-            {...params}
-            className={classes.input}
-            placeholder={placeholder}
-            variant={isMobile || outlined ? "outlined" : "standard"}
-            InputProps={{
-                ...params.InputProps,
-                disableUnderline: true,
-                startAdornment: <SearchIcon color="primary" />,
-                endAdornment: (
-                    <React.Fragment>
-                        {loading ? (
-                            <CircularProgress color="primary" size={20} />
-                        ) : null}
-                        {params.InputProps.endAdornment}
-                    </React.Fragment>
-                ),
-            }}
-            onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                    setOpen(false);
-                    onShowDetailedSearch({
-                        searchTerm,
-                        filter,
-                        selectedTab:
-                            filter && filter !== searchConstants.ALL
-                                ? filter.toUpperCase()
-                                : defaultTab,
-                    });
-                }
-            }}
-        />
-    );
+    const renderCustomInput = (params) => {
+        const variant = isMobile || outlined ? "outlined" : "standard";
+        const inputProps = {
+            ...params.InputProps,
+            startAdornment: <SearchIcon color="primary" />,
+            endAdornment: (
+                <React.Fragment>
+                    {loading ? (
+                        <CircularProgress color="primary" size={20} />
+                    ) : null}
+                    {params.InputProps.endAdornment}
+                </React.Fragment>
+            ),
+        };
+        if (variant === "standard") {
+            inputProps.disableUnderline = true;
+        }
+        return (
+            <TextField
+                id={buildID(ids.SEARCH, ids.SEARCH_INPUT_FILED)}
+                {...params}
+                className={classes.input}
+                placeholder={placeholder}
+                variant={variant}
+                InputProps={inputProps}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                        setOpen(false);
+                        onShowDetailedSearch({
+                            searchTerm,
+                            filter,
+                            selectedTab:
+                                filter && filter !== searchConstants.ALL
+                                    ? filter.toUpperCase()
+                                    : defaultTab,
+                        });
+                    }
+                }}
+            />
+        );
+    };
 
     const searchFilterId = buildID(ids.SEARCH, ids.SEARCH_FILTER_MENU);
     const allFilterOptions = [
@@ -848,6 +853,12 @@ function GlobalSearchField(props) {
         ? allFilterOptions
         : allFilterOptions.filter((option) => option !== searchConstants.DATA);
 
+    const variant = isMobile ? "outlined" : "standard";
+    const inputProps = {};
+    if (!isMobile) {
+        inputProps.disableUnderline = true;
+    }
+
     return (
         <>
             <Autocomplete
@@ -858,7 +869,6 @@ function GlobalSearchField(props) {
                 }}
                 className={"search-intro"}
                 open={open}
-                debug={false}
                 onOpen={() => {
                     setOpen(true);
                 }}
@@ -870,14 +880,16 @@ function GlobalSearchField(props) {
                 options={options}
                 onInputChange={handleChange}
                 getOptionLabel={(option) => option.name}
-                getOptionSelected={(option, value) =>
+                isOptionEqualToValue={(option, value) =>
                     option.name === value.name
                 }
                 filterOptions={(options, state) => options}
                 loading={loading}
                 loadingText={t("searching")}
                 groupBy={(option) => option.resultType.type}
-                renderOption={(option, state) => renderCustomOption(option)}
+                renderOption={(props, option) => (
+                    <li {...props}>{renderCustomOption(option)}</li>
+                )}
                 renderInput={(params) => renderCustomInput(params)}
                 popupIcon={null}
                 noOptionsText={t("noOptions")}
@@ -892,10 +904,8 @@ function GlobalSearchField(props) {
                     value={filter}
                     onChange={handleFilterChange}
                     className={classes.searchFilter}
-                    variant={isMobile ? "outlined" : "standard"}
-                    InputProps={{
-                        disableUnderline: true,
-                    }}
+                    variant={variant}
+                    InputProps={inputProps}
                 >
                     {filterOptions.map((option) => (
                         <MenuItem

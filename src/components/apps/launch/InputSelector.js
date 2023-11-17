@@ -25,14 +25,11 @@ import styles from "./styles";
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
 
-import {
-    Button,
-    IconButton,
-    InputAdornment,
-    makeStyles,
-} from "@material-ui/core";
+import { Button, IconButton, InputAdornment } from "@mui/material";
 
-import ClearIcon from "@material-ui/icons/Clear";
+import makeStyles from "@mui/styles/makeStyles";
+
+import ClearIcon from "@mui/icons-material/Clear";
 
 const useStyles = makeStyles(styles);
 

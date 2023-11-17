@@ -19,7 +19,7 @@ import {
     TableCell,
     Toolbar,
     Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import PropTypes from "prop-types";
 
 const getColumns = (t) => [

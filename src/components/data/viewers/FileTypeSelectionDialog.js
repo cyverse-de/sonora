@@ -17,7 +17,7 @@ import {
     InputLabel,
     FormControl,
     MenuItem,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import { CODE_MIRROR_MODES } from "./constants";
 
@@ -58,7 +58,7 @@ export default function FileTypeSelectionDialog(props) {
                 </>
             }
         >
-            <FormControl style={{ width: "95%" }}>
+            <FormControl variant="standard" style={{ width: "95%" }}>
                 <InputLabel>{t("selectFileType")}</InputLabel>
                 <Select
                     value={type}

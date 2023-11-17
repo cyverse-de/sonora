@@ -1,6 +1,6 @@
 import React from "react";
 import SearchField from "components/searchField/SearchField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 export function SearchFieldTest(props) {
     const handleSearch =

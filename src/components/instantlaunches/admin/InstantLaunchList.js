@@ -40,14 +40,15 @@ import RowDotMenu from "./RowDotMenu";
 import SavedLaunchList from "./SavedLaunchList";
 import constants from "constants.js";
 
-import { Button, Grid, makeStyles, Typography } from "@material-ui/core";
+import { Button, Grid, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import {
     Add as AddIcon,
     Close as CloseIcon,
     Home as HomeIcon,
     LabelImportant as NestedIcon,
     MenuOutlined,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 /**
  * Checks if the instant launch associated with 'id' is in

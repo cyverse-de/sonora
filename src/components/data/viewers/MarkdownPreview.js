@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import markdownToHtml from "components/utils/markdownToHtml";
 
 import viewerConstants from "./constants";
-import { Paper } from "@material-ui/core";
+import { Paper } from "@mui/material";
 
 export default function MarkdownPreview(props) {
     const { markdown } = props;

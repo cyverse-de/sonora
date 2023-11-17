@@ -6,10 +6,11 @@ import {
     TextField,
     Typography,
     CardHeader,
-    makeStyles,
     Button,
     FormControl,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import { useMutation } from "react-query";
 import { useTranslation } from "i18n";
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         marginBottom: theme.spacing(4),
         width: "100%",
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             flexDirection: "column",
             justifyContent: "center",
         },
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     button: {
         marginLeft: theme.spacing(1),
         marginTop: theme.spacing(1),
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             width: "100%",
             marginLeft: 0,
         },
@@ -122,13 +123,14 @@ const JobLimits = ({ showErrorAnnouncer }) => {
             />
 
             <CardContent>
-                <FormControl>
+                <FormControl variant="standard">
                     <div className={classes.container}>
                         <Typography>{infoMsg}</Typography>
                     </div>
 
                     <div className={classes.container}>
                         <TextField
+                            variant="standard"
                             label={t("username")}
                             id={id(ids.CARD, "textfield")}
                             className={classes.textField}
@@ -154,6 +156,7 @@ const JobLimits = ({ showErrorAnnouncer }) => {
 
                     <div className={classes.container}>
                         <TextField
+                            variant="standard"
                             label={t("newJobLimit")}
                             id={id(ids.CARD, "newjobLimit")}
                             className={classes.textField}

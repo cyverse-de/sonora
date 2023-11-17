@@ -35,8 +35,8 @@ import getConfig from "next/config";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import { ThemeProvider } from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
 const setupIntercom = (intercomAppId) => {
     window.intercomSettings = {
@@ -254,51 +254,55 @@ function MyApp({ Component, pageProps }) {
     }, [publicRuntimeConfig]);
 
     return (
-        <ThemeProvider theme={theme}>
-            <UserProfileProvider>
-                <UploadTrackingProvider>
-                    <QueryClientProvider
-                        client={queryClient}
-                        contextSharing={true}
-                    >
-                        <CssBaseline />
-                        <NotificationsProvider>
-                            <ConfigProvider>
-                                <BootstrapInfoProvider>
-                                    <BagInfoProvider>
-                                        <DEAppBar
-                                            setAppBarRef={setAppBarRef}
-                                            activeView={pathname}
-                                            intercomUnreadCount={unReadCount}
-                                            clientConfig={config}
-                                        >
-                                            <Head>
-                                                <title>
-                                                    {title
-                                                        ? t("dePageTitle", {
-                                                              title,
-                                                          })
-                                                        : t("deTitle")}
-                                                </title>
-                                            </Head>
-                                            <ReactQueryDevtools
-                                                initialIsOpen={false}
-                                            />
-                                            <PageWrapper
-                                                appBarHeight={appBarHeight}
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+                <UserProfileProvider>
+                    <UploadTrackingProvider>
+                        <QueryClientProvider
+                            client={queryClient}
+                            contextSharing={true}
+                        >
+                            <CssBaseline />
+                            <NotificationsProvider>
+                                <ConfigProvider>
+                                    <BootstrapInfoProvider>
+                                        <BagInfoProvider>
+                                            <DEAppBar
+                                                setAppBarRef={setAppBarRef}
+                                                activeView={pathname}
+                                                intercomUnreadCount={
+                                                    unReadCount
+                                                }
+                                                clientConfig={config}
                                             >
-                                                <Component {...pageProps} />
-                                            </PageWrapper>
-                                            <UploadManager />
-                                        </DEAppBar>
-                                    </BagInfoProvider>
-                                </BootstrapInfoProvider>
-                            </ConfigProvider>
-                        </NotificationsProvider>
-                    </QueryClientProvider>
-                </UploadTrackingProvider>
-            </UserProfileProvider>
-        </ThemeProvider>
+                                                <Head>
+                                                    <title>
+                                                        {title
+                                                            ? t("dePageTitle", {
+                                                                  title,
+                                                              })
+                                                            : t("deTitle")}
+                                                    </title>
+                                                </Head>
+                                                <ReactQueryDevtools
+                                                    initialIsOpen={false}
+                                                />
+                                                <PageWrapper
+                                                    appBarHeight={appBarHeight}
+                                                >
+                                                    <Component {...pageProps} />
+                                                </PageWrapper>
+                                                <UploadManager />
+                                            </DEAppBar>
+                                        </BagInfoProvider>
+                                    </BootstrapInfoProvider>
+                                </ConfigProvider>
+                            </NotificationsProvider>
+                        </QueryClientProvider>
+                    </UploadTrackingProvider>
+                </UserProfileProvider>
+            </ThemeProvider>
+        </StyledEngineProvider>
     );
 }
 

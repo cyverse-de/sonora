@@ -17,7 +17,7 @@ import { getHost } from "components/utils/getHost";
 import GridLabelValue from "components/utils/GridLabelValue";
 import { useConfig } from "contexts/config";
 
-import { Grid, Typography, useTheme } from "@material-ui/core";
+import { Grid, Typography, useTheme } from "@mui/material";
 
 const InfoGridValue = (props) => <Typography variant="body2" {...props} />;
 

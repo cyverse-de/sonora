@@ -17,8 +17,8 @@ import buildID from "components/utils/DebugIDUtil";
 import FormMultilineTextField from "components/forms/FormMultilineTextField";
 import FormTextField from "components/forms/FormTextField";
 
-import { Button, InputAdornment } from "@material-ui/core";
-import { Build as SelectToolIcon } from "@material-ui/icons";
+import { Button, InputAdornment } from "@mui/material";
+import { Build as SelectToolIcon } from "@mui/icons-material";
 
 /**
  * An Input Selector form field for picking data store file or folder paths.

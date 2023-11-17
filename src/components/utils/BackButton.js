@@ -9,14 +9,14 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
-import { Button, IconButton, useMediaQuery, useTheme } from "@material-ui/core";
+import { Button, IconButton, useMediaQuery, useTheme } from "@mui/material";
 
-import { ArrowBack } from "@material-ui/icons";
+import { ArrowBack } from "@mui/icons-material";
 
 export default function BackButton({ dirty = false, ...props }) {
     const router = useRouter();
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { t } = useTranslation("common");
 
     const [showConfirmationDialog, setShowConfirmationDialog] =
@@ -41,6 +41,7 @@ export default function BackButton({ dirty = false, ...props }) {
             aria-label={t("back")}
             onClick={onClick}
             {...props}
+            size="large"
         >
             <ArrowBack />
         </IconButton>

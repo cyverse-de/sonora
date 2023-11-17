@@ -15,10 +15,10 @@ import {
     Grid,
     List,
     ListSubheader,
-    makeStyles,
     Typography,
-} from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Skeleton } from "@mui/material";
 import { useTranslation } from "i18n";
 import { useMutation, useQuery } from "react-query";
 

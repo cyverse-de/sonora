@@ -5,8 +5,8 @@
  *
  */
 
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
-import { PermMedia as OutputFolderIcon } from "@material-ui/icons";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
+import { PermMedia as OutputFolderIcon } from "@mui/icons-material";
 import buildID from "components/utils/DebugIDUtil";
 import { useTranslation } from "i18n";
 import React from "react";

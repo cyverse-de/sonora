@@ -45,13 +45,13 @@ import {
     ListItemText,
     Typography,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import Skeleton from "@material-ui/lab/Skeleton";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import Skeleton from "@mui/material/Skeleton";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
 
 export default function PathListAutomation(props) {
     const {
@@ -342,7 +342,7 @@ export default function PathListAutomation(props) {
                                             >
                                                 {isFetching && (
                                                     <Skeleton
-                                                        variant="rect"
+                                                        variant="rectangular"
                                                         height={150}
                                                     />
                                                 )}

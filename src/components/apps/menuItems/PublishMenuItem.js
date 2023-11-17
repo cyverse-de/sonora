@@ -1,8 +1,8 @@
 import React from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import PublicIcon from "@material-ui/icons/Public";
-import { ListItemIcon, ListItemText, MenuItem } from "@material-ui/core";
+import PublicIcon from "@mui/icons-material/Public";
+import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import { useTranslation } from "i18n";
 import ids from "../ids";
 

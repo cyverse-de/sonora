@@ -30,7 +30,7 @@ import {
     Typography,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import {
     CheckBox,
@@ -41,7 +41,7 @@ import {
     List as ListIcon,
     Subject as MultiLineTextIcon,
     TextFields as TextIcon,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 function ParamTypeIcon(props) {
     const { paramType } = props;
@@ -145,7 +145,7 @@ function ParamTypeListItem(props) {
     const { id, paramType, onClick } = props;
 
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const [helpOpen, setHelpOpen] = React.useState(false);
 
@@ -166,6 +166,7 @@ function ParamTypeListItem(props) {
                         edge="end"
                         aria-label={t("app_editor:helpText")}
                         onClick={() => setHelpOpen(!helpOpen)}
+                        size="large"
                     >
                         <HelpIcon color="primary" />
                     </IconButton>
@@ -205,7 +206,7 @@ function ParamSelectionPalette(props) {
     const { baseId, open, onClose, handleAddParam } = props;
 
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const { t } = useTranslation("app_editor");
 

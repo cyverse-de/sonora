@@ -23,25 +23,25 @@ import {
     Divider,
     Grid,
     Link,
-    makeStyles,
     TextField,
     Typography,
-} from "@material-ui/core";
-import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
-import ErrorIcon from "@material-ui/icons/Error";
-import WarningIcon from "@material-ui/icons/Warning";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import ErrorIcon from "@mui/icons-material/Error";
+import WarningIcon from "@mui/icons-material/Warning";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 const useStyles = makeStyles((theme) => ({
     cardContent: {
         padding: theme.spacing(2),
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             padding: theme.spacing(1),
         },
     },
     container: {
         margin: theme.spacing(1),
-        [theme.breakpoints.down("xs")]: {
+        [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(0),
         },
     },
@@ -109,6 +109,7 @@ function ErrorHandler(props) {
                                     `/${NavigationConstants.LOGIN}${router.asPath}`
                                 );
                             }}
+                            underline="hover"
                         >
                             <Typography variant="h6" className={classes.signIn}>
                                 {t("signIn")}
@@ -126,6 +127,7 @@ function ErrorHandler(props) {
                             onClick={() => {
                                 window.open(constants.USER_PORTAL);
                             }}
+                            underline="hover"
                         >
                             <Typography
                                 variant="subtitle2"

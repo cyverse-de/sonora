@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
-import { Typography, Button, TextField, FormControl } from "@material-ui/core";
+import { Typography, Button, TextField, FormControl } from "@mui/material";
 
 import {
     deploymentFields,
@@ -46,7 +46,7 @@ const FilterSection = ({
 
             <Typography color="textSecondary">{description}</Typography>
 
-            <FormControl>
+            <FormControl variant="standard">
                 <div id={id("section", kind)} className={classes.sectionRoot}>
                     <FieldSelect
                         id={fieldID}

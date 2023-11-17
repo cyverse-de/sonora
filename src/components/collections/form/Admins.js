@@ -10,7 +10,7 @@
 
 import React, { useMemo } from "react";
 
-import { FormControlLabel } from "@material-ui/core";
+import { FormControlLabel } from "@mui/material";
 import { Field, getIn } from "formik";
 
 import SubjectSearchField from "components/sharing/SubjectSearchField";

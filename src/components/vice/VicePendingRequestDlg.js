@@ -7,7 +7,7 @@
  */
 import React from "react";
 
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography } from "@mui/material";
 
 import buildID from "components/utils/DebugIDUtil";
 import DEDialog from "components/utils/DEDialog";

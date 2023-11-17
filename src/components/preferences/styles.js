@@ -7,7 +7,7 @@ export default (theme) => ({
 
     grid: {
         margin: theme.spacing(1),
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             margin: theme.spacing(0.1),
         },
     },
@@ -20,7 +20,7 @@ export default (theme) => ({
     textField: {
         width: 300,
         marginLeft: theme.spacing(1),
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down("md")]: {
             width: 200,
         },
     },

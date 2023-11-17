@@ -39,8 +39,8 @@ import {
     Typography,
     Divider,
     useTheme,
-} from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+} from "@mui/material";
+import { Skeleton } from "@mui/material";
 
 export default function UpdateRequestDialog(props) {
     const { open, onClose, requestId, requestType } = props;
@@ -183,7 +183,7 @@ export default function UpdateRequestDialog(props) {
                                 isToolRequestFetching) && (
                                 <Skeleton
                                     animation="wave"
-                                    variant="rect"
+                                    variant="rectangular"
                                     height={400}
                                 />
                             )}

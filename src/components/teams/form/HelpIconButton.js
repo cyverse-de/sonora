@@ -7,13 +7,13 @@
 import React from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { IconButton, Popover, Tooltip, Typography } from "@material-ui/core";
-import { Help } from "@material-ui/icons";
+import { IconButton, Popover, Tooltip, Typography } from "@mui/material";
+import { Help } from "@mui/icons-material";
 
 import ids from "../ids";
 import { useTranslation } from "i18n";
 import styles from "../styles";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles(styles);
 
@@ -40,6 +40,7 @@ function HelpIconButton(props) {
                     aria-label={t("help")}
                     onClick={handleClick}
                     {...rest}
+                    size="large"
                 >
                     <Help />
                 </IconButton>

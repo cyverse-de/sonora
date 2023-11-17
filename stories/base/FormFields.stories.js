@@ -18,7 +18,7 @@ import {
 import { formatDateObject } from "components/utils/DateFormatter";
 import dateConstants from "components/utils/dateConstants";
 
-import { MenuItem, ListItemText } from "@material-ui/core";
+import { MenuItem, ListItemText } from "@mui/material";
 
 const helperText = {
     name: "Helper Text",

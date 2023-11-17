@@ -7,7 +7,9 @@
  */
 import React from "react";
 
-import { Chip, Grid, makeStyles, Paper } from "@material-ui/core";
+import { Chip, Grid, Paper } from "@mui/material";
+
+import makeStyles from "@mui/styles/makeStyles";
 
 import buildID from "components/utils/DebugIDUtil";
 import ids from "../ids";

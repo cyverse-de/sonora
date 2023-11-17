@@ -12,15 +12,15 @@ import {
     Tooltip,
     useMediaQuery,
     useTheme,
-} from "@material-ui/core";
-import SaveIcon from "@material-ui/icons/Save";
+} from "@mui/material";
+import SaveIcon from "@mui/icons-material/Save";
 
 const SaveButton = (props) => {
     const { baseId, onSave, ...custom } = props;
 
     const { t } = useTranslation("common");
     const theme = useTheme();
-    const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+    const isSmall = useMediaQuery(theme.breakpoints.down("md"));
 
     const buttonId = buildID(baseId, ids.SAVE_BTN);
 
@@ -33,6 +33,7 @@ const SaveButton = (props) => {
                     onClick={onSave}
                     color="primary"
                     {...custom}
+                    size="large"
                 >
                     <SaveIcon />
                 </IconButton>

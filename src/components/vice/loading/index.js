@@ -18,7 +18,8 @@
 import React, { useEffect, useState } from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { Container, makeStyles, Typography } from "@material-ui/core";
+import { Container, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import { Trans, useTranslation } from "i18n";
 import { useQuery } from "react-query";
 

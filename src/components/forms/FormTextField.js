@@ -5,7 +5,7 @@ import React from "react";
 
 import getFormError from "./getFormError";
 
-import TextField from "@material-ui/core/TextField";
+import TextField from "@mui/material/TextField";
 
 const FormTextField = ({
     field,
@@ -24,6 +24,7 @@ const FormTextField = ({
             required={required}
             variant="outlined"
             margin="dense"
+            size="small"
             fullWidth
             {...field}
             {...custom}

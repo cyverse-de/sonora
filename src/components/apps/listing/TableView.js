@@ -19,7 +19,7 @@ import {
     TableBody,
     TableCell,
     TableContainer,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import ids from "../ids";
 import RowDotMenu from "./RowDotMenu";

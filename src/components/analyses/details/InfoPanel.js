@@ -109,7 +109,7 @@ function InfoPanel(props) {
         return <GridLoading rows={2} baseId={baseId} />;
     }
 
-    if (!info && !isInfoFetching && !infoFetchError) {
+    if (!(info?.steps || isInfoFetching || infoFetchError)) {
         return null;
     }
 

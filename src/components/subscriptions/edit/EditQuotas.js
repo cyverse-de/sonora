@@ -93,8 +93,7 @@ function EditQuotasDialog(props) {
                                             ids.SUBMIT_BUTTON
                                         )}
                                         type="submit"
-                                        color="primary"
-                                        variant="outlined"
+                                        variant="contained"
                                         onClick={handleSubmit}
                                     >
                                         {t("submit")}

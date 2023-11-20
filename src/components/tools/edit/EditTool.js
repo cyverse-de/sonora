@@ -245,7 +245,7 @@ function EditToolDialog(props) {
                                                 ids.BUTTONS.SAVE
                                             )}
                                             type="submit"
-                                            color="primary"
+                                            variant="contained"
                                             onClick={handleSubmit}
                                         >
                                             {isAdminPublishing
@@ -394,7 +394,7 @@ function EditToolDialog(props) {
                                 setShowOverwriteWarningDialog(false);
                                 setOverwriteAppsAffectedByTool(true);
                             }}
-                            color="primary"
+                            variant="contained"
                         >
                             {t("overwrite")}
                         </Button>

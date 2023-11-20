@@ -90,7 +90,7 @@ export default function AccessRequestDialog(props) {
                                             ids.ACCESS_REQUEST_DLG.SUBMIT
                                         )}
                                         type="submit"
-                                        color="primary"
+                                        variant="contained"
                                         onClick={handleSubmit}
                                     >
                                         {i18nCommon("submit")}

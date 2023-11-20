@@ -81,7 +81,7 @@ const UploadDialog = ({ open, handleClose = () => {} }) => {
                 <Button
                     id={buildID(ids.BASE, ids.CLOSE)}
                     onClick={handleClose}
-                    color="primary"
+                    variant="contained"
                     aria-label={t("closeAria")}
                 >
                     {t("close")}

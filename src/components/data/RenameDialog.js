@@ -107,7 +107,7 @@ function RenameDialog(props) {
                                     </Button>
                                     <Button
                                         id={buildID(baseId, ids.RENAME_BTN)}
-                                        color="primary"
+                                        variant="contained"
                                         type="submit"
                                         onClick={handleSubmit}
                                     >

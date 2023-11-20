@@ -30,7 +30,7 @@ const RunErrorDialog = (props) => {
             title={title}
             open={open}
             actions={
-                <Button color="primary" onClick={onClose}>
+                <Button variant="contained" onClick={onClose}>
                     {t("common:ok")}
                 </Button>
             }

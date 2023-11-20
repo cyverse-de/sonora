@@ -64,7 +64,7 @@ export default function Tour(props) {
                         <Button
                             id={buildID(baseId, ids.TOUR_BTN)}
                             size="small"
-                            color="primary"
+                            variant="contained"
                             onClick={() => setRunTour(true)}
                         >
                             {t("startTour")}

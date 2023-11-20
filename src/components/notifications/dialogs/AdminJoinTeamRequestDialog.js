@@ -316,7 +316,7 @@ function AdminJoinTeamRequestDialog(props) {
                         {t("common:cancel")}
                     </Button>
                     <Button
-                        color="primary"
+                        variant="contained"
                         id={buildID(baseId, ids.ADMIN_JOIN_TEAM.SUBMIT_BTN)}
                         onClick={handleSubmit}
                     >

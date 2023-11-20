@@ -249,7 +249,7 @@ export default function PublishAppDialog(props) {
                                     <Button
                                         id={buildID(parentId, ids.SUBMIT_BTN)}
                                         type="submit"
-                                        color="primary"
+                                        variant="contained"
                                         onClick={handleSubmit}
                                     >
                                         {i18nCommon("submit")}

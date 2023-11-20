@@ -209,7 +209,7 @@ function AdminAppDetailsForm(props) {
                         <Button
                             id={buildID(parentId, ids.SAVE_BTN)}
                             type="submit"
-                            color="primary"
+                            variant="contained"
                             onClick={handleSubmit}
                         >
                             {i18nCommon("save")}

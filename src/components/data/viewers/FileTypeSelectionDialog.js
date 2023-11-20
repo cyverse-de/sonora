@@ -50,7 +50,7 @@ export default function FileTypeSelectionDialog(props) {
                     </Button>
                     <Button
                         id={buildID(baseId, ids.CREATE_BTN)}
-                        color="primary"
+                        variant="contained"
                         onClick={() => onFileTypeSelected(type)}
                     >
                         {i18nCommon("create")}

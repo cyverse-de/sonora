@@ -62,7 +62,7 @@ function AgaveAuthPromptDialog(props) {
                 </Button>
                 <Button
                     onClick={redirectUser}
-                    color="primary"
+                    variant="contained"
                     id={buildID(
                         baseId,
                         ids.AGAVE_AUTH_PROMPT_DIALOG,

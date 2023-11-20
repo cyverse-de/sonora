@@ -122,7 +122,7 @@ function RenameAnalysisDialog(props) {
                                 </Button>
                                 <Button
                                     id={buildID(baseId, UtilIds.DIALOG.CONFIRM)}
-                                    color="primary"
+                                    variant="contained"
                                     type="submit"
                                     onClick={handleSubmit}
                                 >

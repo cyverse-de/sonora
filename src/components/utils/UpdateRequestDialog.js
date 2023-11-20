@@ -147,7 +147,7 @@ export default function UpdateRequestDialog(props) {
                                         {t("cancel")}
                                     </Button>
                                     <Button
-                                        color="primary"
+                                        variant="contained"
                                         type="submit"
                                         id={buildID(baseId, ids.SUBMIT_BTN)}
                                         aria-label={t("updateRequest")}

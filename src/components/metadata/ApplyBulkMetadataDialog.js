@@ -83,7 +83,7 @@ export default function ApplyBulkMetadataDialog(props) {
                                     <Button
                                         id={buildID(baseId, ids.COPY_BUTTON)}
                                         type="submit"
-                                        color="primary"
+                                        variant="contained"
                                         onClick={handleSubmit}
                                     >
                                         {i18nCommon("done")}

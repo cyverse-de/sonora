@@ -7,7 +7,6 @@ import {
     IconButton,
     LinearProgress,
     Typography,
-    useTheme,
 } from "@mui/material";
 
 import makeStyles from "@mui/styles/makeStyles";
@@ -93,12 +92,11 @@ const InstantLaunchButton = ({
     instantLaunch,
     resource = {},
     size = "medium",
-    themeSpacing = 0,
+    style,
     color = "primary",
     computeLimitExceeded = false,
 }) => {
     const baseID = buildID(ids.BASE, ids.LAUNCH, ids.BUTTON);
-    const theme = useTheme();
 
     return (
         <InstantLaunchButtonWrapper
@@ -110,7 +108,7 @@ const InstantLaunchButton = ({
                     id={baseID}
                     variant="contained"
                     size={size}
-                    style={{ marginLeft: theme.spacing(themeSpacing) }}
+                    style={style}
                     color={color}
                     onClick={onClick}
                 >

@@ -54,6 +54,10 @@ class InstantLaunchItem extends ItemBase {
                     instantLaunch={instantLaunch}
                     showErrorAnnouncer={showErrorAnnouncer}
                     computeLimitExceeded={computeLimitExceeded}
+                    style={{
+                        margin: theme.spacing(1),
+                    }}
+                    size="small"
                 />
             </ItemAction>,
 

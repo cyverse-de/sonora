@@ -35,7 +35,7 @@ function JoinTeamDeniedDialog(props) {
             title={t("denyDetailsHeader")}
             actions={
                 <Button
-                    color="primary"
+                    variant="contained"
                     id={buildID(baseId, ids.OK_BTN)}
                     onClick={handleClose}
                 >

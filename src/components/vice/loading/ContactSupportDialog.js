@@ -136,7 +136,7 @@ function ContactSupportDialog(props) {
                         {t("common:cancel")}
                     </Button>
                     <Button
-                        color="primary"
+                        variant="contained"
                         id={buildID(baseId, ids.CONTACT_SUPPORT_BTN)}
                         onClick={onContactSupport}
                     >

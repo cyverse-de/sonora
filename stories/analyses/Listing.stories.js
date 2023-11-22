@@ -6,7 +6,7 @@ import constants from "../../src/constants";
 
 import { mockAxios } from "../axiosMock";
 
-import { listing } from "./AnalysesMocks";
+import { info, listing } from "./AnalysesMocks";
 
 import Listing from "components/analyses/listing/Listing";
 import analysisFields from "components/analyses/analysisFields";
@@ -71,7 +71,8 @@ const errorResponse = {
 };
 
 export const AnalysesListingTest = () => {
-    mockAxios.onGet(/\/api\/analyses*/).reply(200, listing);
+    mockAxios.onGet(new RegExp("/api/analyses/.*/history")).reply(200, info);
+    mockAxios.onGet("/api/analyses").reply(200, listing);
 
     mockAxios.onPost("/api/analyses/relauncher").replyOnce(500, errorResponse);
     mockAxios.onPost("/api/analyses/relauncher").reply((config) => {

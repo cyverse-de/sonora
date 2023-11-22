@@ -509,7 +509,7 @@ const MetadataTemplateForm = (props) => {
                         )}
                         disabled={loading || isSubmitting}
                         onClick={handleSubmitWrapper}
-                        color="primary"
+                        variant="contained"
                     >
                         {t("save")}
                     </Button>

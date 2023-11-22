@@ -152,9 +152,8 @@ function EditSubAddonsDialog(props) {
                                                         parentId,
                                                         ids.SUBMIT_BUTTON
                                                     )}
-                                                    variant="outlined"
                                                     type="submit"
-                                                    color="primary"
+                                                    variant="contained"
                                                     onClick={handleSubmit}
                                                 >
                                                     {t("submit")}

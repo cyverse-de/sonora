@@ -359,7 +359,7 @@ function Sharing(props) {
                 </Button>
                 <Button
                     id={buildID(baseId, ids.BUTTONS.SAVE)}
-                    color="primary"
+                    variant="contained"
                     type="submit"
                     onClick={onSave}
                 >

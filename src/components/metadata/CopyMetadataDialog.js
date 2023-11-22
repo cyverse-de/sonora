@@ -62,7 +62,7 @@ export default function CopyMetadataDialog(props) {
                                     <Button
                                         id={buildID(baseId, ids.COPY_BUTTON)}
                                         type="submit"
-                                        color="primary"
+                                        variant="contained"
                                         onClick={handleSubmit}
                                     >
                                         {i18nCommon("copy")}

@@ -79,7 +79,7 @@ export default function NewToolRequestDialog(props) {
                             title={t("newToolRequestDialogHeading")}
                             actions={
                                 <Button
-                                    color="primary"
+                                    variant="contained"
                                     type="submit"
                                     id={buildID(baseId, ids.BUTTONS.SUBMIT)}
                                     aria-label={t("submit")}

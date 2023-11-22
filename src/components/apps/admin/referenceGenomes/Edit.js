@@ -167,7 +167,7 @@ function Edit(props) {
                             <Button
                                 id={buildID(baseId, ids.OK_BUTTON)}
                                 className={classes.actionButton}
-                                color="primary"
+                                variant="contained"
                                 type="submit"
                             >
                                 {t("ok")}

@@ -88,7 +88,7 @@ function MoveDialog(props) {
                                     </Button>
                                     <Button
                                         id={buildID(baseId, ids.MOVE_BTN)}
-                                        color="primary"
+                                        variant="contained"
                                         type="submit"
                                         onClick={handleSubmit}
                                     >

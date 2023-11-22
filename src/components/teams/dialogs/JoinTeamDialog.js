@@ -78,7 +78,7 @@ function JoinTeamDialog(props) {
                                 </Button>
                                 <Button
                                     id={buildID(baseId, ids.BUTTONS.JOIN_BTN)}
-                                    color="primary"
+                                    variant="contained"
                                     type="submit"
                                     onClick={handleSubmit}
                                 >

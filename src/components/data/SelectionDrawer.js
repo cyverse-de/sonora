@@ -337,10 +337,12 @@ function SelectionDrawer(props) {
             onClose={onClose}
             open={open}
             anchor="right"
+            elevation={0}
             PaperProps={{
                 variant: "outlined",
                 classes: { root: classes.selectionDrawer },
             }}
+            sx={{ zIndex: "modal" }}
         >
             <div
                 style={{

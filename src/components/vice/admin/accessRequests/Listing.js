@@ -208,7 +208,7 @@ function Listing(props) {
                         <Button onClick={() => setJobLimitDialogOpen(false)}>
                             {i18nCommon("cancel")}
                         </Button>
-                        <Button color="primary" onClick={onSetJobLimit}>
+                        <Button variant="contained" onClick={onSetJobLimit}>
                             {i18nCommon("done")}
                         </Button>
                     </>
@@ -255,7 +255,7 @@ function Listing(props) {
                         <Button onClick={() => setDeniedMsgDialogOpen(false)}>
                             {i18nCommon("cancel")}
                         </Button>
-                        <Button color="primary" onClick={onRejectRequest}>
+                        <Button variant="contained" onClick={onRejectRequest}>
                             {i18nCommon("done")}
                         </Button>
                     </>

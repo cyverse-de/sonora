@@ -151,7 +151,7 @@ function CreateFolderDialog(props) {
                                 </Button>
                                 <Button
                                     id={buildID(baseId, ids.CREATE_BTN)}
-                                    color="primary"
+                                    variant="contained"
                                     type="submit"
                                     onClick={handleSubmit}
                                 >

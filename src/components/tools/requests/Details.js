@@ -61,7 +61,7 @@ function DetailsDialog(props) {
                                 <Button
                                     id={buildID(parentId, ids.BUTTONS.OK)}
                                     type="submit"
-                                    color="primary"
+                                    variant="contained"
                                     onClick={onClose}
                                 >
                                     {i18nCommon("ok")}

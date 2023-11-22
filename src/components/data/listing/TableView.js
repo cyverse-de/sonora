@@ -36,6 +36,7 @@ import {
     TableBody,
     TableCell,
     TableContainer,
+    useTheme,
 } from "@mui/material";
 
 import makeStyles from "@mui/styles/makeStyles";
@@ -154,11 +155,13 @@ function TableView(props) {
         instantLaunchDefaultsMapping,
         computeLimitExceeded,
     } = props;
+
     const invalidRowClass = invalidRowStyles();
     const { t } = useTranslation("data");
     const dataRecordFields = dataFields(t);
     const tableId = buildID(baseId, ids.LISTING_TABLE);
     const trashPath = useBaseTrashPath();
+    const theme = useTheme();
 
     const [displayColumns, setDisplayColumns] = useState(
         getLocalStorageCols(rowDotMenuVisibility, dataRecordFields) ||
@@ -403,7 +406,10 @@ function TableView(props) {
                                                     resource={resource}
                                                     size="small"
                                                     color="default"
-                                                    themeSpacing={3}
+                                                    style={{
+                                                        marginLeft:
+                                                            theme.spacing(3),
+                                                    }}
                                                     computeLimitExceeded={
                                                         computeLimitExceeded
                                                     }

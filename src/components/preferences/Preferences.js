@@ -616,7 +616,7 @@ function Preferences(props) {
                                         onClick={restoreDefaults(
                                             props.setFieldValue
                                         )}
-                                        color="primary"
+                                        variant="contained"
                                     >
                                         {t("okBtnLbl")}
                                     </Button>

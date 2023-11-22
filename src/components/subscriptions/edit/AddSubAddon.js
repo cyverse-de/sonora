@@ -82,8 +82,7 @@ function AddSubAddonsDialog(props) {
                                 <Button
                                     id={buildID(parentId, ids.SUBMIT_BUTTON)}
                                     type="submit"
-                                    color="primary"
-                                    variant="outlined"
+                                    variant="contained"
                                     onClick={handleSubmit}
                                 >
                                     {t("submit")}

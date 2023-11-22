@@ -773,7 +773,7 @@ function Listing(props) {
                             {t("cancel")}
                         </Button>
                         <Button
-                            color="primary"
+                            variant="contained"
                             onClick={() => {
                                 setConfirmDOIRequestDialogOpen(false);
                                 requestDOI({

@@ -23,6 +23,7 @@ import Toolbar from "./Toolbar";
 import { getColumns, LINE_NUMBER_ACCESSOR } from "./utils";
 
 import DataSelectionDrawer from "components/data/SelectionDrawer";
+import { useSelectorDefaultFolderPath } from "components/data/utils";
 import PageWrapper from "components/layout/PageWrapper";
 
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
@@ -67,6 +68,7 @@ function PathListViewer(props) {
         fileName,
         data,
         editable,
+        startingPath,
     } = props;
 
     const { t } = useTranslation("data");
@@ -75,6 +77,8 @@ function PathListViewer(props) {
     const [dirty, setDirty] = useState(false);
     const [editorData, setEditorData] = useState([]);
     const [fileSaveStatus, setFileSaveStatus] = useState();
+
+    const defaultStartingPath = useSelectorDefaultFolderPath();
 
     const columns = useMemo(
         () => getColumns(data, false, t("path")),
@@ -266,6 +270,7 @@ function PathListViewer(props) {
                         }
                     }}
                     multiSelect={true}
+                    startingPath={startingPath || defaultStartingPath}
                 />
             </UploadTrackingProvider>
         </PageWrapper>

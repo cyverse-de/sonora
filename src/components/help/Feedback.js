@@ -98,7 +98,7 @@ export default function Feedback(props) {
                                     </Button>
                                     <Button
                                         type="submit"
-                                        color="primary"
+                                        variant="contained"
                                         onClick={handleSubmit}
                                     >
                                         {i18nHelp("submit_feedback")}

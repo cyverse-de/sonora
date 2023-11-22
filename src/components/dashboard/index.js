@@ -12,7 +12,7 @@ import clsx from "clsx";
 import { useQueryClient, useQuery, useMutation } from "react-query";
 import { useTranslation } from "i18n";
 
-import { Typography } from "@mui/material";
+import { Typography, useTheme } from "@mui/material";
 
 import { Skeleton } from "@mui/material";
 
@@ -118,6 +118,7 @@ const Dashboard = (props) => {
     const [userProfile] = useUserProfile();
     const [config] = useConfig();
     const queryClient = useQueryClient();
+    const theme = useTheme();
 
     const [resourceUsageSummary, setResourceUsageSummary] = useState(null);
     const [resourceUsageError, setResourceUsageError] = useState(null);
@@ -261,6 +262,7 @@ const Dashboard = (props) => {
               .map((section) =>
                   section.getComponent({
                       t,
+                      theme,
                       data,
                       cardWidth,
                       cardHeight,

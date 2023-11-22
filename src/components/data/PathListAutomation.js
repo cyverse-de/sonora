@@ -459,7 +459,7 @@ export default function PathListAutomation(props) {
                                                 baseId,
                                                 ids.PATH_LIST_AUTO_DONE_BTN
                                             )}
-                                            color="primary"
+                                            variant="contained"
                                             type="submit"
                                             onClick={handleSubmit}
                                         >

@@ -120,7 +120,7 @@ const MetadataTemplateListing = (props) => {
                 <Button
                     key={ids.BUTTONS.CONFIRM}
                     id={buildID(dialogID, ids.BUTTONS.CONFIRM)}
-                    color="primary"
+                    variant="contained"
                     onClick={() =>
                         selectedTemplateId &&
                         onSelectTemplate(selectedTemplateId)

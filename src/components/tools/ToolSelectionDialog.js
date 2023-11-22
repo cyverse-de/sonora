@@ -65,7 +65,7 @@ export default function ToolSelectionDialog(props) {
                 <>
                     <Button onClick={onClose}>{t("common:cancel")}</Button>
                     <Button
-                        color="primary"
+                        variant="contained"
                         onClick={() => {
                             onConfirm(selectedTool);
                         }}

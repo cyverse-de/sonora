@@ -12,7 +12,6 @@ import * as fns from "../functions";
 import * as constants from "../constants";
 
 import ItemBase, { ItemAction, DashboardFeedItem } from "./ItemBase";
-import { useTranslation } from "i18n";
 
 class NewsItem extends ItemBase {
     constructor({ section, content, height, width }) {
@@ -27,7 +26,7 @@ class NewsItem extends ItemBase {
 
     static create(props) {
         const item = new NewsItem(props);
-        const { t } = useTranslation("dashboard");
+        const { t } = props;
 
         return item.addActions([
             <ItemAction

@@ -8,7 +8,7 @@ import {
     Cancel,
     Launch,
 } from "@mui/icons-material";
-import { IconButton, useTheme } from "@mui/material";
+import { IconButton } from "@mui/material";
 
 import { formatDate } from "components/utils/DateFormatter";
 
@@ -20,7 +20,6 @@ import { getFolderPage } from "../../data/utils";
 
 import NavConstants from "../../../common/NavigationConstants";
 import { isTerminated } from "components/analyses/utils";
-import { useTranslation } from "i18n";
 import { isInteractive, openInteractiveUrl } from "components/analyses/utils";
 
 class AnalysisItem extends ItemBase {
@@ -36,11 +35,14 @@ class AnalysisItem extends ItemBase {
 
     static create(props) {
         const analysis = props.content;
-        const { setDetailsAnalysis, setPendingAnalysis, setTerminateAnalysis } =
-            props;
+        const {
+            setDetailsAnalysis,
+            setPendingAnalysis,
+            setTerminateAnalysis,
+            t,
+            theme,
+        } = props;
         const item = new AnalysisItem(props);
-        const { t } = useTranslation("dashboard");
-        const theme = useTheme();
         const isTerminatedAnalysis = isTerminated(analysis);
         const isVICE = isInteractive(analysis);
         const interactiveUrls = analysis?.interactive_urls;

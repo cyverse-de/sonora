@@ -12,10 +12,8 @@ import { appFavorite, APP_BY_ID_QUERY_KEY } from "serviceFacades/apps";
 
 import * as constants from "../constants";
 import ItemBase, { ItemAction } from "./ItemBase";
-import { useTranslation } from "i18n";
 import AppFavorite from "components/apps/AppFavorite";
 import { useAppLaunchLink } from "components/apps/utils";
-import { useTheme } from "@mui/material";
 
 class AppItem extends ItemBase {
     constructor(props) {
@@ -30,9 +28,7 @@ class AppItem extends ItemBase {
 
     static create(props) {
         const item = new AppItem(props);
-        const { showErrorAnnouncer, setDetailsApp } = props;
-        const { t } = useTranslation("dashboard");
-        const theme = useTheme();
+        const { showErrorAnnouncer, setDetailsApp, t, theme } = props;
 
         // Extract app details. Note: dashboard-aggregator only queries the DE database.
         const app = props.content;

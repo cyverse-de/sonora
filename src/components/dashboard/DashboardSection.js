@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import clsx from "clsx";
 
-import { Typography, Collapse, Button, useTheme, Divider } from "@mui/material";
+import { Typography, Collapse, Button, Divider } from "@mui/material";
 
 import getItem from "./dashboardItem";
 
@@ -9,9 +9,10 @@ import useStyles from "./styles";
 import * as fns from "./functions";
 import * as constants from "./constants";
 import ids from "./ids";
-import { useTranslation } from "i18n";
 
 const DashboardSection = ({
+    t,
+    theme,
     name,
     kind,
     items,
@@ -29,9 +30,7 @@ const DashboardSection = ({
     computeLimitExceeded,
 }) => {
     const classes = useStyles();
-    const { t } = useTranslation("dashboard");
     const [expanded, setExpanded] = useState(false);
-    const theme = useTheme();
 
     const isNewsSection = section === constants.SECTION_NEWS;
     const isEventsSection = section === constants.SECTION_EVENTS;
@@ -115,6 +114,7 @@ class SectionBase {
 
     getComponent({
         t,
+        theme,
         cardWidth,
         cardHeight,
         data,
@@ -169,6 +169,8 @@ class SectionBase {
                 setPendingAnalysis={setPendingAnalysis}
                 setTerminateAnalysis={setTerminateAnalysis}
                 computeLimitExceeded={computeLimitExceeded}
+                t={t}
+                theme={theme}
             />
         );
     }

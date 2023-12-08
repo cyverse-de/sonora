@@ -16,6 +16,7 @@ import { urlField } from "components/utils/validations";
 import AttributeTypes from "components/models/metadata/TemplateAttributeTypes";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import DEDialog from "components/utils/DEDialog";
+import markdownToHtml from "components/utils/markdownToHtml";
 import TableLoading from "components/table/TableLoading";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
@@ -31,7 +32,6 @@ import {
 import FormMultilineTextField from "components/forms/FormMultilineTextField";
 import FormTextField from "components/forms/FormTextField";
 import FormTimestampField from "components/forms/FormTimestampField";
-import FormSelectField from "components/forms/FormSelectField";
 
 import FormNumberField from "components/forms/FormNumberField";
 
@@ -98,6 +98,27 @@ const newAVU = (attrTemplate) => {
     };
 };
 
+const AttributeDescription = ({ attribute }) => {
+    const [infoHtml, setInfoHtml] = React.useState("");
+
+    React.useEffect(() => {
+        if (attribute?.description) {
+            markdownToHtml(attribute.description).then((html) =>
+                setInfoHtml(html)
+            );
+        } else {
+            setInfoHtml("");
+        }
+    }, [attribute]);
+
+    return (
+        <Typography
+            variant="subtitle1"
+            dangerouslySetInnerHTML={{ __html: infoHtml }}
+        />
+    );
+};
+
 const MetadataTemplateAttributeForm = (props) => {
     const {
         field,
@@ -124,8 +145,8 @@ const MetadataTemplateAttributeForm = (props) => {
     const { t } = useTranslation("metadata");
     const classes = useStyles();
 
-    const onAttrExpandedChange = (prevExpanded, attr, attrExpanded) => {
-        setExpanded({ ...prevExpanded, [attr]: attrExpanded });
+    const onAttrExpandedChange = (attr, attrExpanded) => {
+        setExpanded({ ...expanded, [attr]: attrExpanded });
     };
 
     const onAddAVU = (arrayHelpers, attribute) => {
@@ -134,7 +155,7 @@ const MetadataTemplateAttributeForm = (props) => {
 
         arrayHelpers.push(avu);
 
-        onAttrExpandedChange(expanded, attribute.name, true);
+        onAttrExpandedChange(attribute.name, true);
     };
 
     const addSubAVUs = (attribute, avu) => {
@@ -195,9 +216,10 @@ const MetadataTemplateAttributeForm = (props) => {
                             break;
 
                         case AttributeTypes.ENUM:
-                            FieldComponent = FormSelectField;
+                            FieldComponent = FormTextField;
                             fieldProps = {
                                 ...fieldProps,
+                                select: true,
                                 children:
                                     attribute.values &&
                                     attribute.values.map((enumVal, index) => (
@@ -237,6 +259,7 @@ const MetadataTemplateAttributeForm = (props) => {
 
                         default:
                             FieldComponent = FormTextField;
+                            fieldProps.multiline = true;
                             break;
                     }
 
@@ -351,7 +374,6 @@ const MetadataTemplateAttributeForm = (props) => {
                                 expanded={!!expanded[attribute.name]}
                                 onChange={(event, attrExpanded) =>
                                     onAttrExpandedChange(
-                                        expanded,
                                         attribute.name,
                                         attrExpanded
                                     )
@@ -413,9 +435,9 @@ const MetadataTemplateAttributeForm = (props) => {
                                         alignItems="stretch"
                                     >
                                         <Grid item xs>
-                                            <Typography variant="subtitle1">
-                                                {attribute.description}
-                                            </Typography>
+                                            <AttributeDescription
+                                                attribute={attribute}
+                                            />
                                         </Grid>
                                         {avuFields}
                                     </Grid>

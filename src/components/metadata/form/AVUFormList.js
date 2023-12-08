@@ -122,6 +122,7 @@ const AVUFormDialog = (props) => {
                 id={buildID(formID, ids.AVU_VALUE)}
                 InputProps={{ readOnly: !editable }}
                 component={FormTextField}
+                multiline
             />
             <FastField
                 name={`${field}.unit`}

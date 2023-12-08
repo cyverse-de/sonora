@@ -151,9 +151,9 @@ export const NestedAttrMetadataTemplate = {
 // curl -X GET --header 'Accept: application/json' 'http://localhost:31331/templates/ae75bc42-45ec-11e5-801c-43dab0dfe096?user=ipctest' | jq 'def attrs: . | {id: .id, name: .name, description: .description, required: .required?, type: .type, values: .values?, attributes: [.attributes[]? | attrs]} | if .values then . else del(.values) end | if (.attributes | length) > 0 then . else del(.attributes) end; {id: .id, name: .name, description: .description, deleted: false, attributes: [.attributes[] | attrs]}'
 export const DataciteMetadataTemplate = {
     id: DOI_DATACITE_TEMPLATE_ID,
-    name: "DOI Request - DataCite 4.1",
+    name: "DOI Request - DataCite 4.2",
     description:
-        "New copy of the DataCite metadata template for testing submissions to the DataCite API",
+        "DataCite 4.2 metadata template for submissions to the DataCite API and for Local Contexts Notices and Labels.",
     deleted: false,
     attributes: [
         {
@@ -213,14 +213,6 @@ export const DataciteMetadataTemplate = {
             type: "String",
             attributes: [
                 {
-                    id: "5e10ea38-7415-11e8-8326-008cfa5ae621",
-                    name: "affiliation",
-                    description:
-                        "The organizational or institutional affiliation of the creator.",
-                    required: true,
-                    type: "String",
-                },
-                {
                     id: "5e129e64-7415-11e8-8326-008cfa5ae621",
                     name: "nameIdentifier",
                     description:
@@ -250,6 +242,14 @@ export const DataciteMetadataTemplate = {
                             type: "URL/URI",
                         },
                     ],
+                },
+                {
+                    id: "5e10ea38-7415-11e8-8326-008cfa5ae621",
+                    name: "affiliation",
+                    description:
+                        "The organizational or institutional affiliation of the creator.",
+                    required: true,
+                    type: "String",
                 },
             ],
         },
@@ -682,7 +682,7 @@ export const DataciteMetadataTemplate = {
             id: "b2b4adfa-7419-11e8-ad87-008cfa5ae621",
             name: "rights",
             description:
-                "All CyVerse Curated Data in the Data Commons is open access. You can choose between ODC PDDL for non-copyrightable materials (i.e., data only) or CC0 for copyrightable material (Workflows, White Papers, Project Documents). More information is available at https://wiki.cyverse.org/wiki/display/DC/Permanent+Identifier+FAQs#PermanentIdentifierFAQs-WhichlicensecanIusetopublishmydata? If you need a different license because of prior restrictions on your data, please contact us.",
+                "All CyVerse Curated Data in the Data Commons is open access. You can choose between ODC PDDL for non-copyrightable materials (i.e., data only) or CC0 for copyrightable material (Workflows, White Papers, Project Documents).\nMore information is available at https://cyverse.atlassian.net/wiki/spaces/DC/pages/241867502/Permanent+Identifier+FAQs#PermanentIdentifierFAQs-WhichlicensecanIusetopublishmydata%3F\nIf you need a different license because of prior restrictions on your data, please contact us.",
             required: true,
             type: "Enum",
             values: [
@@ -704,6 +704,232 @@ export const DataciteMetadataTemplate = {
                     description: "",
                     required: false,
                     type: "URL/URI",
+                },
+            ],
+        },
+        {
+            id: "ad9e41bc-94ae-11ee-b224-62d47aced14b",
+            name: "LocalContexts",
+            description:
+                "From https://localcontexts.org:\nLocal Contexts is a global initiative that supports Indigenous communities with tools that can reassert cultural authority in heritage collections and data. By focusing on Indigenous Cultural and Intellectual Property and Indigenous Data Sovereignty, Local Contexts helps Indigenous communities repatriate knowledge and gain control over how data is collected, managed, displayed, accessed, and used in the future.\n\nUse this field for the Local Contexts Rights label or notice text.\nSee the DataCite guide on these metadata fields for some examples: https://support.datacite.org/docs/local-contexts-notices-and-labels\nNote that notices should use the exact text from its landing page. For more information on Notices see https://localcontexts.org/notices/aboutnotices/",
+            required: false,
+            type: "String",
+            attributes: [
+                {
+                    id: "ada034a4-94ae-11ee-b224-62d47aced14b",
+                    name: "rightsURI",
+                    description:
+                        "The URL of the project in the Local Contexts hub.",
+                    required: true,
+                    type: "URL/URI",
+                },
+                {
+                    id: "ada1e006-94ae-11ee-b224-62d47aced14b",
+                    name: "rightsIdentifier",
+                    description:
+                        "The identifier of the specific Notice or Label being applied.\nIf referring to the entire project, leave blank.\nFor more information on Notices, see https://localcontexts.org/notices/aboutnotices/\nFor more information on TK Lables, see https://localcontexts.org/labels/traditional-knowledge-labels/\nFor more information on BC Lables, see https://localcontexts.org/labels/biocultural-labels/",
+                    required: false,
+                    type: "Enum",
+                    values: [
+                        {
+                            id: "ada2f25c-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-Notice",
+                        },
+                        {
+                            id: "ada36be2-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "BC-Notice",
+                        },
+                        {
+                            id: "ada3d6a4-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "Attribution-Incomplete",
+                        },
+                        {
+                            id: "ada43dec-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "Open-To-Collaborate",
+                        },
+                        {
+                            id: "ada4aa5c-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-A",
+                        },
+                        {
+                            id: "ada5025e-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-CL",
+                        },
+                        {
+                            id: "ada5aede-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-F",
+                        },
+                        {
+                            id: "ada60a96-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-MC",
+                        },
+                        {
+                            id: "ada66f36-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-CV",
+                        },
+                        {
+                            id: "ada6c454-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-CR",
+                        },
+                        {
+                            id: "ada72bba-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-V",
+                        },
+                        {
+                            id: "ada794c4-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-NV",
+                        },
+                        {
+                            id: "ada80148-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-S",
+                        },
+                        {
+                            id: "ada86872-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-WG",
+                        },
+                        {
+                            id: "ada8d5be-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-MG",
+                        },
+                        {
+                            id: "ada96e84-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-MR",
+                        },
+                        {
+                            id: "ada9de8c-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-WR",
+                        },
+                        {
+                            id: "adaa3ecc-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-CS",
+                        },
+                        {
+                            id: "adaaa0b0-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-SS",
+                        },
+                        {
+                            id: "adab0276-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-OC",
+                        },
+                        {
+                            id: "adab60f4-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-NC",
+                        },
+                        {
+                            id: "adabc080-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-CO",
+                        },
+                        {
+                            id: "adac2232-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-O",
+                        },
+                        {
+                            id: "adac7f2a-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "TK-CB",
+                        },
+                        {
+                            id: "adace49c-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "BC-P",
+                        },
+                        {
+                            id: "adad3f46-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "BC-MC",
+                        },
+                        {
+                            id: "adadb43a-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "BC-CL",
+                        },
+                        {
+                            id: "adae1af6-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "BC-CV",
+                        },
+                        {
+                            id: "adae7780-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "BC-CNV",
+                        },
+                        {
+                            id: "adaef4e4-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "BC-R",
+                        },
+                        {
+                            id: "adaf534e-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "BC-CB",
+                        },
+                        {
+                            id: "adafb276-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "BC-OC",
+                        },
+                        {
+                            id: "adb01676-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "BC-O",
+                        },
+                        {
+                            id: "adb07b7a-94ae-11ee-b224-62d47aced14b",
+                            is_default: false,
+                            value: "BC-NC",
+                        },
+                    ],
+                },
+                {
+                    id: "adb1a9a0-94ae-11ee-b224-62d47aced14b",
+                    name: "rightsIdentifierScheme",
+                    description: "",
+                    required: true,
+                    type: "Enum",
+                    values: [
+                        {
+                            id: "adb3011a-94ae-11ee-b224-62d47aced14b",
+                            is_default: true,
+                            value: "Local Contexts",
+                        },
+                    ],
+                },
+                {
+                    id: "adb43a62-94ae-11ee-b224-62d47aced14b",
+                    name: "schemeURI",
+                    description: "",
+                    required: true,
+                    type: "Enum",
+                    values: [
+                        {
+                            id: "adb56162-94ae-11ee-b224-62d47aced14b",
+                            is_default: true,
+                            value: "https://localcontexts.org",
+                        },
+                    ],
                 },
             ],
         },
@@ -1087,6 +1313,68 @@ export const DataciteMetadataTemplate = {
                                 "The west bound of a spatial limit of a place.",
                             required: false,
                             type: "Number",
+                        },
+                    ],
+                },
+                {
+                    id: "b99524e4-867c-11e9-8a26-008cfa5ae621",
+                    name: "geoLocationPolygon",
+                    description:
+                        "A drawn polygon area, defined by a set of points and lines connecting the points in a closed chain. If geoLocationPolygon27 is used, polygonPoint must be used as well. There must be at least 4 non-aligned points to make a closed curve, with the last point described the same as the first point.",
+                    required: false,
+                    type: "Grouping",
+                    attributes: [
+                        {
+                            id: "1e719256-867f-11e9-8a26-008cfa5ae621",
+                            name: "polygonPoint",
+                            description:
+                                "A point location in a polygon. If geoLocationPolygon27 is used, polygonPoint must be used as well. There must be at least 4 non-aligned points to make a closed curve, with the last point described the same as the first point. CyVerse recommends using decimal degrees.",
+                            required: false,
+                            type: "Grouping",
+                            attributes: [
+                                {
+                                    id: "024edfee-8683-11e9-91b5-008cfa5ae621",
+                                    name: "inPolygonPoint",
+                                    description:
+                                        'For any bound area that is larger than half the earth, define a (random) point inside. inPolygonPoint is only necessary to indicate the "inside" of the polygon if the polygon is larger than half the earth. Otherwise the smallest of the two areas bounded by the polygon will be used.',
+                                    required: false,
+                                    type: "Grouping",
+                                    attributes: [
+                                        {
+                                            id: "024f6892-8683-11e9-91b5-008cfa5ae621",
+                                            name: "pointLongitude",
+                                            description:
+                                                "Longitudinal dimension of point. If inPolygonPoint28 is used pointLongitude is mandatory. Longitude of the geographic point expressed in decimal degrees (positive east).",
+                                            required: false,
+                                            type: "Number",
+                                        },
+                                        {
+                                            id: "024ff406-8683-11e9-91b5-008cfa5ae621",
+                                            name: "pointLatitude",
+                                            description:
+                                                "Latitudinal dimension of point. If inPolygonPoint is used, pointLatitude is mandatory. Latitude of the geographic point expressed in decimal degrees (positive north).",
+                                            required: false,
+                                            type: "String",
+                                        },
+                                    ],
+                                },
+                                {
+                                    id: "0250758e-8683-11e9-91b5-008cfa5ae621",
+                                    name: "pointLongitude",
+                                    description:
+                                        "Longitudinal dimension of point. If polygonPoint is used pointLongitude is mandatory. Longitude of the geographic point expressed in decimal degrees (positive east). Domain: -180 <= pointLongitude <= 180",
+                                    required: false,
+                                    type: "Number",
+                                },
+                                {
+                                    id: "0251017a-8683-11e9-91b5-008cfa5ae621",
+                                    name: "pointLatitude",
+                                    description:
+                                        "Latitudinal dimension of point. If polygonPoint is used pointLatitude is mandatory. Latitude of the geographic point expressed in decimal degrees (positive north). Domain: -90<= pointLatitude <= 90",
+                                    required: false,
+                                    type: "Number",
+                                },
+                            ],
                         },
                     ],
                 },

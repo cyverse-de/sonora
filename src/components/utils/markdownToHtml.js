@@ -15,7 +15,7 @@ const markdownToHtml = async (rawMarkdown) => {
     const showdown = (await import("showdown")).default;
     const sanitizeHtml = (await import("sanitize-html")).default;
 
-    const converter = new showdown.Converter();
+    const converter = new showdown.Converter({ openLinksInNewWindow: true });
     converter.setFlavor("github");
 
     return converter.makeHtml(sanitizeHtml(rawMarkdown));

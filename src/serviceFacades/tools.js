@@ -81,9 +81,11 @@ function getToolPermissions({ tools }) {
     });
 }
 
-function getToolDetails({ id, isAdmin = false }) {
+function getToolDetails({ id, isAdmin = false, includeDefaults = false }) {
     return callApi({
-        endpoint: isAdmin ? `/api/admin/tools/${id}` : `/api/tools/${id}`,
+        endpoint: isAdmin
+            ? `/api/admin/tools/${id}?include-defaults=${includeDefaults}`
+            : `/api/tools/${id}?include-defaults=${includeDefaults}`,
         method: "GET",
     });
 }

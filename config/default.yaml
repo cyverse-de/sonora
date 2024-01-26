@@ -78,6 +78,8 @@ services:
         base: https://www.ebi.ac.uk/ols/api/select
     unified_astronomy_thesaurus:
         base: https://vocabs.ands.org.au/repository/api/lda/aas/the-unified-astronomy-thesaurus/current/concept.json
+    local_contexts:
+        base: https://sandbox.localcontextshub.org/api/v1
 
 grouper:
     allUsers: GrouperAll

@@ -5,6 +5,7 @@
  */
 
 import React, { Fragment, useState } from "react";
+import { useQuery } from "react-query";
 import { useTranslation } from "i18n";
 import CustomizeColumns from "./CustomizeColumns";
 import dataFields from "../dataFields";
@@ -26,12 +27,21 @@ import DECheckbox from "components/utils/DECheckbox";
 import EmptyTable from "components/table/EmptyTable";
 import { formatDate } from "components/utils/DateFormatter";
 
+import LocalContextsLabelDisplay from "components/metadata/LocalContextsLabelDisplay";
+import ResourceTypes from "components/models/ResourceTypes";
+
 import InstantLaunchButton from "components/instantlaunches";
 import { defaultInstantLaunch } from "serviceFacades/instantlaunches";
 
 import {
+    FILESYSTEM_METADATA_QUERY_KEY,
+    getFilesystemMetadata,
+} from "serviceFacades/metadata";
+
+import {
     alpha,
     Paper,
+    Stack,
     Table,
     TableBody,
     TableCell,
@@ -42,6 +52,89 @@ import {
 import makeStyles from "@mui/styles/makeStyles";
 
 import RowDotMenu from "./RowDotMenu";
+
+function ResourceNameCell({
+    rowId,
+    resource,
+    instantLaunch,
+    computeLimitExceeded,
+    handlePathChange,
+}) {
+    const theme = useTheme();
+    const [localContextsProjectURI, setLocalContextsProjectURI] = useState();
+
+    const resourceId = resource.id;
+    const isFolder = resource.type === ResourceTypes.FOLDER;
+
+    useQuery({
+        queryKey: [FILESYSTEM_METADATA_QUERY_KEY, { dataId: resourceId }],
+        queryFn: () => getFilesystemMetadata({ dataId: resourceId }),
+        enabled: resourceId && isFolder,
+        onSuccess: (metadata) => {
+            const { avus } = metadata;
+
+            const rightsURI = avus
+                ?.find((avu) => avu.attr === "LocalContexts")
+                ?.avus?.find(
+                    (childAVU) => childAVU.attr === "rightsURI"
+                )?.value;
+
+            if (rightsURI) {
+                setLocalContextsProjectURI(rightsURI);
+            }
+        },
+        onError: (error) =>
+            console.log(
+                "Unable to fetch metadata for folder " + resource.label,
+                error
+            ), // fail silently.
+    });
+
+    return (
+        <TableCell>
+            <Stack
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="center"
+                spacing={{ xs: 1, sm: 2 }}
+                useFlexGap
+                flexWrap="wrap"
+            >
+                <SpanLink
+                    id={buildID(rowId, ids.navLink)}
+                    onClick={() => {
+                        handlePathChange(
+                            resource.path,
+                            resource.type,
+                            resourceId
+                        );
+                    }}
+                >
+                    {resource.label}
+                </SpanLink>
+                {localContextsProjectURI && (
+                    <LocalContextsLabelDisplay
+                        size="small"
+                        rightsURI={localContextsProjectURI}
+                    />
+                )}
+
+                {instantLaunch && (
+                    <InstantLaunchButton
+                        instantLaunch={instantLaunch}
+                        resource={resource}
+                        size="small"
+                        color="default"
+                        style={{
+                            marginLeft: theme.spacing(3),
+                        }}
+                        computeLimitExceeded={computeLimitExceeded}
+                    />
+                )}
+            </Stack>
+        </TableCell>
+    );
+}
 
 function SizeCell({ resource }) {
     return <TableCell>{formatFileSize(resource.fileSize)}</TableCell>;
@@ -161,7 +254,6 @@ function TableView(props) {
     const dataRecordFields = dataFields(t);
     const tableId = buildID(baseId, ids.LISTING_TABLE);
     const trashPath = useBaseTrashPath();
-    const theme = useTheme();
 
     const [displayColumns, setDisplayColumns] = useState(
         getLocalStorageCols(rowDotMenuVisibility, dataRecordFields) ||
@@ -310,7 +402,8 @@ function TableView(props) {
                             listing.map((resource, index) => {
                                 const resourceName = resource.label;
                                 const resourceId = resource.id;
-                                const resourcePath = resource.path;
+                                const rowId = buildID(tableId, resourceName);
+
                                 const isSelected =
                                     selected.indexOf(resourceId) !== -1;
                                 const isInvalid =
@@ -337,7 +430,7 @@ function TableView(props) {
                                         role="checkbox"
                                         tabIndex={0}
                                         hover
-                                        id={buildID(tableId, resourceName)}
+                                        id={rowId}
                                         key={resourceId}
                                         selected={isSelected}
                                         aria-checked={isSelected}
@@ -354,8 +447,7 @@ function TableView(props) {
                                                 checked={isSelected}
                                                 tabIndex={0}
                                                 id={buildID(
-                                                    tableId,
-                                                    resourceName,
+                                                    rowId,
                                                     ids.checkbox
                                                 )}
                                                 onChange={(event) =>
@@ -380,42 +472,15 @@ function TableView(props) {
                                                 type={resource.type}
                                             />
                                         </TableCell>
-                                        <TableCell>
-                                            <SpanLink
-                                                id={buildID(
-                                                    tableId,
-                                                    resourceName,
-                                                    ids.navLink
-                                                )}
-                                                onClick={() => {
-                                                    handlePathChange(
-                                                        resourcePath,
-                                                        resource.type,
-                                                        resource.id
-                                                    );
-                                                }}
-                                            >
-                                                {resource.label}
-                                            </SpanLink>
-
-                                            {instantLaunch && (
-                                                <InstantLaunchButton
-                                                    instantLaunch={
-                                                        instantLaunch
-                                                    }
-                                                    resource={resource}
-                                                    size="small"
-                                                    color="default"
-                                                    style={{
-                                                        marginLeft:
-                                                            theme.spacing(3),
-                                                    }}
-                                                    computeLimitExceeded={
-                                                        computeLimitExceeded
-                                                    }
-                                                />
-                                            )}
-                                        </TableCell>
+                                        <ResourceNameCell
+                                            rowId={rowId}
+                                            resource={resource}
+                                            instantLaunch={instantLaunch}
+                                            computeLimitExceeded={
+                                                computeLimitExceeded
+                                            }
+                                            handlePathChange={handlePathChange}
+                                        />
                                         {getColumnDetails(displayColumns).map(
                                             (column, index) => (
                                                 <Fragment key={index}>
@@ -431,10 +496,7 @@ function TableView(props) {
                                         {rowDotMenuVisibility && (
                                             <TableCell align="right">
                                                 <RowDotMenu
-                                                    baseId={buildID(
-                                                        tableId,
-                                                        resourceName
-                                                    )}
+                                                    baseId={rowId}
                                                     onDetailsSelected={
                                                         onDetailsSelected
                                                     }

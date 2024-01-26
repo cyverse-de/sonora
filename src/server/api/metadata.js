@@ -7,7 +7,7 @@
 import express from "express";
 
 import * as auth from "../auth";
-import { olsURL, uatURL } from "../configuration";
+import { localContextsURL, olsURL, uatURL } from "../configuration";
 import logger from "../logging";
 
 import { handler as externalHandler } from "./external";
@@ -118,6 +118,16 @@ export default function metadataRouter() {
             url: uatURL,
         })
     );
+
+    logger.info("adding the GET /api/local-contexts/projects/:id handler");
+    api.get("/local-contexts/projects/:id", async (req, res) => {
+        const localContextsHandler = externalHandler({
+            method: "GET",
+            url: `${localContextsURL}/projects/${req.params.id}`,
+        });
+
+        return localContextsHandler(req, res);
+    });
 
     return api;
 }

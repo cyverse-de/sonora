@@ -43,6 +43,8 @@ import FormCheckboxStringValue from "components/forms/FormCheckboxStringValue";
 
 import AstroThesaurusSearchField from "./AstroThesaurusSearchField";
 import OntologyLookupServiceSearchField from "./OntologyLookupServiceSearchField";
+
+import LocalContextsLabelDisplay from "../LocalContextsLabelDisplay";
 import SlideUpTransition from "../SlideUpTransition";
 
 import {
@@ -316,6 +318,17 @@ const MetadataTemplateAttributeForm = (props) => {
 
                             const avuField = (
                                 <Fragment key={avuFieldName}>
+                                    {attribute.name === "LocalContexts" && (
+                                        <LocalContextsLabelDisplay
+                                            rightsURI={
+                                                avu.avus?.find(
+                                                    (childAVU) =>
+                                                        childAVU.attr ===
+                                                        "rightsURI"
+                                                )?.value
+                                            }
+                                        />
+                                    )}
                                     <Grid
                                         item
                                         container

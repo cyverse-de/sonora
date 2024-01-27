@@ -2,6 +2,9 @@ import React from "react";
 
 import { useQuery } from "react-query";
 import {
+    Card,
+    CardContent,
+    CardMedia,
     IconButton,
     Stack,
     Tooltip,
@@ -45,7 +48,22 @@ const LocalContextsLabel = ({ baseId, label, size = "medium" }) => {
                 title={label.name}
                 onClose={() => setDialogOpen(false)}
             >
-                <Typography>{label.default_text}</Typography>
+                <Card sx={{ display: "flex" }}>
+                    <CardMedia
+                        component="img"
+                        title={label.name}
+                        image={labelURI}
+                        sx={{
+                            width: theme.spacing(16),
+                            height: theme.spacing(16),
+                        }}
+                    />
+                    <CardContent>
+                        <Typography sx={{ textWrap: "balance" }}>
+                            {label.default_text}
+                        </Typography>
+                    </CardContent>
+                </Card>
             </DEDialog>
         </>
     );

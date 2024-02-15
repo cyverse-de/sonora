@@ -87,7 +87,7 @@ const LocalContextsLabelDisplay = ({ rightsURI, size = "medium" }) => {
             }),
         enabled: !!projectID,
         onError: (error) => {
-            console.log("Error fetch Local Contexts project.", {
+            console.log("Error fetching Local Contexts project.", {
                 rightsURI,
                 error,
             });
@@ -96,9 +96,9 @@ const LocalContextsLabelDisplay = ({ rightsURI, size = "medium" }) => {
 
     const labels = [
         ...(project?.notice || []),
-        ...(project?.bclabels || []),
-        ...(project?.tklabels || []),
-    ].filter((url) => url);
+        ...(project?.bc_labels || []),
+        ...(project?.tk_labels || []),
+    ].filter((label) => label);
 
     return (
         <Stack

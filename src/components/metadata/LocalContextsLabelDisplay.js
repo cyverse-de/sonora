@@ -12,7 +12,10 @@ import {
     useTheme,
 } from "@mui/material";
 
+import { Trans, useTranslation } from "i18n";
+
 import DEDialog from "components/utils/DEDialog";
+import ExternalLink from "components/utils/ExternalLink";
 
 import {
     LOCAL_CONTEXTS_QUERY_KEY,
@@ -26,7 +29,9 @@ const sizeToSpacing = (size, theme) =>
         ? theme.spacing(3)
         : theme.spacing(5);
 
-const LocalContextsLabel = ({ baseId, label, size = "medium" }) => {
+const LocalContextsLabel = ({ baseId, label, project, size = "medium" }) => {
+    const { t } = useTranslation("localcontexts");
+
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const theme = useTheme();
     const labelURI = label.svg_url || label.img_url;
@@ -38,7 +43,8 @@ const LocalContextsLabel = ({ baseId, label, size = "medium" }) => {
                     <img
                         alt={label.name}
                         src={labelURI}
-                        width={sizeToSpacing(size, theme)}
+                        width="auto"
+                        height={sizeToSpacing(size, theme)}
                     />
                 </IconButton>
             </Tooltip>
@@ -48,19 +54,44 @@ const LocalContextsLabel = ({ baseId, label, size = "medium" }) => {
                 title={label.name}
                 onClose={() => setDialogOpen(false)}
             >
-                <Card sx={{ display: "flex" }}>
-                    <CardMedia
-                        component="img"
-                        title={label.name}
-                        image={labelURI}
-                        sx={{
-                            width: theme.spacing(16),
-                            height: theme.spacing(16),
-                        }}
-                    />
+                <Card>
+                    <Stack direction={"row"}>
+                        <CardMedia
+                            component="img"
+                            title={label.name}
+                            image={labelURI}
+                            sx={{
+                                width: "auto",
+                                height: theme.spacing(16),
+                            }}
+                        />
+                        <CardContent>
+                            <Typography
+                                sx={{
+                                    mb: theme.spacing(2),
+                                    textWrap: "balance",
+                                }}
+                            >
+                                {label.label_text || label.default_text}
+                            </Typography>
+                        </CardContent>
+                    </Stack>
+
                     <CardContent>
-                        <Typography sx={{ textWrap: "balance" }}>
-                            {label.default_text}
+                        <Typography>
+                            <Trans
+                                t={t}
+                                i18nKey="projectMoreInfoWithLink"
+                                values={{ projectTitle: project.title }}
+                                components={{
+                                    ExternalLink: <ExternalLink />,
+                                    ProjectLink: (
+                                        <ExternalLink
+                                            href={project.project_page}
+                                        />
+                                    ),
+                                }}
+                            />
                         </Typography>
                     </CardContent>
                 </Card>
@@ -113,6 +144,7 @@ const LocalContextsLabelDisplay = ({ rightsURI, size = "medium" }) => {
                     baseId={label.unique_id || label.img_url}
                     size={size}
                     label={label}
+                    project={project}
                 />
             ))}
         </Stack>

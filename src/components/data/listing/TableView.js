@@ -1,5 +1,5 @@
 /**
- * @author aramsey
+ * @author aramsey, psarando
  *
  * A component intended for showing a data listing in a table format.
  */
@@ -28,6 +28,10 @@ import EmptyTable from "components/table/EmptyTable";
 import { formatDate } from "components/utils/DateFormatter";
 
 import LocalContextsLabelDisplay from "components/metadata/LocalContextsLabelDisplay";
+import {
+    LocalContextsAttrs,
+    parseProjectID,
+} from "components/models/metadata/LocalContexts";
 import ResourceTypes from "components/models/ResourceTypes";
 
 import InstantLaunchButton from "components/instantlaunches";
@@ -36,6 +40,8 @@ import { defaultInstantLaunch } from "serviceFacades/instantlaunches";
 import {
     FILESYSTEM_METADATA_QUERY_KEY,
     getFilesystemMetadata,
+    getLocalContextsProject,
+    LOCAL_CONTEXTS_QUERY_KEY,
 } from "serviceFacades/metadata";
 
 import {
@@ -74,9 +80,10 @@ function ResourceNameCell({
             const { avus } = metadata;
 
             const rightsURI = avus
-                ?.find((avu) => avu.attr === "LocalContexts")
+                ?.find((avu) => avu.attr === LocalContextsAttrs.LOCAL_CONTEXTS)
                 ?.avus?.find(
-                    (childAVU) => childAVU.attr === "rightsURI"
+                    (childAVU) =>
+                        childAVU.attr === LocalContextsAttrs.RIGHTS_URI
                 )?.value;
 
             if (rightsURI) {
@@ -88,6 +95,19 @@ function ResourceNameCell({
                 "Unable to fetch metadata for folder " + resource.label,
                 error
             ), // fail silently.
+    });
+
+    const projectID = parseProjectID(localContextsProjectURI);
+
+    const { data: project } = useQuery({
+        queryKey: [LOCAL_CONTEXTS_QUERY_KEY, projectID],
+        queryFn: () => getLocalContextsProject({ projectID }),
+        enabled: URL.canParse(localContextsProjectURI),
+        onError: (error) =>
+            console.log("Error fetching Local Contexts project.", {
+                localContextsProjectURI,
+                error,
+            }), // fail silently.
     });
 
     return (
@@ -112,11 +132,8 @@ function ResourceNameCell({
                 >
                     {resource.label}
                 </SpanLink>
-                {localContextsProjectURI && (
-                    <LocalContextsLabelDisplay
-                        size="small"
-                        rightsURI={localContextsProjectURI}
-                    />
+                {localContextsProjectURI && project && (
+                    <LocalContextsLabelDisplay size="small" project={project} />
                 )}
 
                 {instantLaunch && (

@@ -43,8 +43,8 @@ import FormCheckboxStringValue from "components/forms/FormCheckboxStringValue";
 
 import AstroThesaurusSearchField from "./AstroThesaurusSearchField";
 import OntologyLookupServiceSearchField from "./OntologyLookupServiceSearchField";
+import LocalContextsField from "./LocalContextsField";
 
-import LocalContextsLabelDisplay from "../LocalContextsLabelDisplay";
 import SlideUpTransition from "../SlideUpTransition";
 
 import {
@@ -68,6 +68,7 @@ import {
 } from "@mui/icons-material";
 
 import { Skeleton } from "@mui/material";
+import { LocalContextsAttrs } from "components/models/metadata/LocalContexts";
 
 const useStyles = makeStyles(styles);
 
@@ -272,6 +273,17 @@ const MetadataTemplateAttributeForm = (props) => {
                                 return null;
                             }
 
+                            const isLocalContextsAttr =
+                                attribute.name ===
+                                LocalContextsAttrs.LOCAL_CONTEXTS;
+                            if (isLocalContextsAttr) {
+                                FieldComponent = LocalContextsField;
+                                fieldProps.avu = avu;
+                                fieldProps.onUpdate = (avu) => {
+                                    arrayHelpers.replace(index, avu);
+                                };
+                            }
+
                             const avuFieldName = `${field}.avus[${index}]`;
                             const avuError = getFormError(
                                 avuFieldName,
@@ -300,7 +312,8 @@ const MetadataTemplateAttributeForm = (props) => {
                                 </IconButton>
                             );
 
-                            const childAVUs = attribute.attributes &&
+                            const childAVUs = !isLocalContextsAttr &&
+                                attribute.attributes &&
                                 attribute.attributes.length > 0 && (
                                     <MetadataTemplateAttributeForm
                                         field={avuFieldName}
@@ -318,17 +331,6 @@ const MetadataTemplateAttributeForm = (props) => {
 
                             const avuField = (
                                 <Fragment key={avuFieldName}>
-                                    {attribute.name === "LocalContexts" && (
-                                        <LocalContextsLabelDisplay
-                                            rightsURI={
-                                                avu.avus?.find(
-                                                    (childAVU) =>
-                                                        childAVU.attr ===
-                                                        "rightsURI"
-                                                )?.value
-                                            }
-                                        />
-                                    )}
                                     <Grid
                                         item
                                         container
@@ -714,19 +716,34 @@ const MetadataTemplateView = (props) => {
         const avuArrayErrors = [];
         avus.forEach((avu, avuIndex) => {
             const avuErrors = {};
-            const value = avu.value;
 
             const attrTemplate = attributeMap[avu.attr];
             if (!attrTemplate) {
                 return;
             }
 
-            if (attrTemplate.required && value === "") {
+            let attrType = attrTemplate.type;
+            let value = avu.value;
+
+            const isLocalContexts =
+                avu.attr === LocalContextsAttrs.LOCAL_CONTEXTS;
+            if (isLocalContexts) {
+                const rightsURIAVU = avu.avus?.find(
+                    (childAVU) =>
+                        childAVU.attr === LocalContextsAttrs.RIGHTS_URI
+                );
+
+                attrType = AttributeTypes.URL;
+                value = rightsURIAVU?.value;
+            }
+
+            const isRequired = isLocalContexts || attrTemplate.required;
+            if (isRequired && value === "") {
                 avuErrors.value = t("required");
                 avuErrors.error = true;
                 avuArrayErrors[avuIndex] = avuErrors;
             } else if (value) {
-                switch (attrTemplate.type) {
+                switch (attrType) {
                     case AttributeTypes.NUMBER:
                     case AttributeTypes.INTEGER:
                         const numVal = Number(value);

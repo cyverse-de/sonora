@@ -1,6 +1,5 @@
 import React from "react";
 
-import { useQuery } from "react-query";
 import {
     Card,
     CardContent,
@@ -16,11 +15,6 @@ import { Trans, useTranslation } from "i18n";
 
 import DEDialog from "components/utils/DEDialog";
 import ExternalLink from "components/utils/ExternalLink";
-
-import {
-    LOCAL_CONTEXTS_QUERY_KEY,
-    getLocalContextsProject,
-} from "serviceFacades/metadata";
 
 const sizeToSpacing = (size, theme) =>
     size === "large"
@@ -100,31 +94,7 @@ const LocalContextsLabel = ({ baseId, label, project, size = "medium" }) => {
     );
 };
 
-const LocalContextsLabelDisplay = ({ rightsURI, size = "medium" }) => {
-    // Remove any trailing slash from the rightsURI
-    // and take the final part of the path as the project ID.
-    const projectID = rightsURI?.replace(/\/$/, "").split("/").at(-1);
-
-    const { data: project } = useQuery({
-        queryKey: [
-            LOCAL_CONTEXTS_QUERY_KEY,
-            projectID && {
-                projectID,
-            },
-        ],
-        queryFn: () =>
-            getLocalContextsProject({
-                projectID,
-            }),
-        enabled: !!projectID,
-        onError: (error) => {
-            console.log("Error fetching Local Contexts project.", {
-                rightsURI,
-                error,
-            });
-        },
-    });
-
+const LocalContextsLabelDisplay = ({ project, size = "medium" }) => {
     const labels = [
         ...(project?.notice || []),
         ...(project?.bc_labels || []),

@@ -55,6 +55,13 @@ import {
     DEFAULTS_MAPPING_QUERY_KEY,
 } from "serviceFacades/instantlaunches";
 
+import {
+    getFilesystemMetadata,
+    FILESYSTEM_METADATA_QUERY_KEY,
+    LOCAL_CONTEXTS_QUERY_KEY,
+    getLocalContextsProject,
+} from "serviceFacades/metadata";
+
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { ERROR, INFO } from "components/announcer/AnnouncerConstants";
 import buildID from "components/utils/DebugIDUtil";
@@ -64,7 +71,7 @@ import { useBagAddItems } from "serviceFacades/bags";
 
 import { useQueryClient, useMutation, useQuery } from "react-query";
 
-import { Button, Typography, useTheme } from "@mui/material";
+import { Button, Stack, Typography, useTheme } from "@mui/material";
 import DEDialog from "components/utils/DEDialog";
 import PublicLinks from "../PublicLinks";
 import constants from "../../../constants";
@@ -81,6 +88,12 @@ import {
     RESOURCE_USAGE_QUERY_KEY,
 } from "serviceFacades/dashboard";
 import { getUserQuota } from "common/resourceUsage";
+
+import LocalContextsLabelDisplay from "components/metadata/LocalContextsLabelDisplay";
+import {
+    LocalContextsAttrs,
+    parseProjectID,
+} from "components/models/metadata/LocalContexts";
 
 function Listing(props) {
     const {
@@ -102,7 +115,7 @@ function Listing(props) {
     } = props;
     const [config] = useConfig();
 
-    const { t } = useTranslation(["data", "common"]);
+    const { t } = useTranslation(["data", "common", "localcontexts"]);
 
     const [userProfile] = useUserProfile();
     const uploadTracker = useUploadTrackingState();
@@ -112,6 +125,7 @@ function Listing(props) {
     const [selected, setSelected] = useState([]);
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
     const [data, setData] = useState({ total: 0, listing: [] });
+    const [localContextsProjectURI, setLocalContextsProjectURI] = useState();
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false);
@@ -204,6 +218,8 @@ function Listing(props) {
                 path,
             });
             setData({
+                id: respData?.id,
+                label: respData?.label,
                 total: respData?.total,
                 permission: respData?.permission,
                 listing: [
@@ -217,6 +233,8 @@ function Listing(props) {
                     })),
                 ].map((i) => camelcaseit(i)), // camelcase the fields for each object, for consistency.
             });
+
+            setLocalContextsProjectURI(null);
         },
     });
 
@@ -233,6 +251,42 @@ function Listing(props) {
             ],
             { exact: true }
         );
+
+    useQuery({
+        queryKey: [FILESYSTEM_METADATA_QUERY_KEY, { dataId: data?.id }],
+        queryFn: () => getFilesystemMetadata({ dataId: data?.id }),
+        enabled: !!data?.id,
+        onSuccess: (metadata) => {
+            const { avus } = metadata;
+
+            const rightsURI = avus
+                ?.find((avu) => avu.attr === LocalContextsAttrs.LOCAL_CONTEXTS)
+                ?.avus?.find(
+                    (childAVU) =>
+                        childAVU.attr === LocalContextsAttrs.RIGHTS_URI
+                )?.value;
+
+            setLocalContextsProjectURI(rightsURI);
+        },
+        onError: (error) =>
+            console.log(
+                "Unable to fetch metadata for folder " + data?.label,
+                error
+            ), // fail silently.
+    });
+
+    const projectID = parseProjectID(localContextsProjectURI);
+
+    const { data: localContextsProject } = useQuery({
+        queryKey: [LOCAL_CONTEXTS_QUERY_KEY, projectID],
+        queryFn: () => getLocalContextsProject({ projectID }),
+        enabled: URL.canParse(localContextsProjectURI),
+        onError: (error) =>
+            console.log("Error fetching Local Contexts project.", {
+                localContextsProjectURI,
+                error,
+            }), // fail silently.
+    });
 
     const { isFetching: isFetchingDefaultsMapping } = useQuery({
         queryKey: [DEFAULTS_MAPPING_QUERY_KEY],
@@ -324,6 +378,7 @@ function Listing(props) {
 
     useEffect(() => {
         setSelected([]);
+        setLocalContextsProjectURI(null);
     }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
 
     const viewUploadQueue = useCallback(() => {
@@ -677,6 +732,21 @@ function Listing(props) {
                     onMoveSelected={onMoveSelected}
                     uploadsEnabled={uploadsEnabled}
                 />
+                {localContextsProjectURI && localContextsProject && (
+                    <Stack>
+                        <Typography>
+                            <Trans
+                                t={t}
+                                i18nKey="localcontexts:dataHasLocalContextsLabelsNotices"
+                                components={{ ExternalLink: <ExternalLink /> }}
+                            />
+                        </Typography>
+                        <LocalContextsLabelDisplay
+                            size="large"
+                            project={localContextsProject}
+                        />
+                    </Stack>
+                )}
                 {!isGridView && (
                     <TableView
                         loading={isLoading}

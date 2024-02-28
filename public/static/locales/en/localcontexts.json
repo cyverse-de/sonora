@@ -1,4 +1,5 @@
 {
+    "dataHasLocalContextsLabelsNotices": "This data has associated <ExternalLink href=\"https://localcontexts.org\">Local Contexts</ExternalLink> labels or notices.",
     "localContextsAttrDefaultValue": "The \"{{projectTitle}}\" project has Labels and/or Notices applied through the Local Contexts Hub. For more information, refer to the project page: {{projectPage}}",
     "localContextsHubError": "Error fetching Local Contexts Hub project information.",
     "localContextsHubProjectURI": "Local Contexts Hub Project URI",

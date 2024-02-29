@@ -680,10 +680,7 @@ const MetadataTemplateView = (props) => {
                 attributes
                     .filter((attribute) => attribute.required)
                     .forEach((attribute) => {
-                        if (
-                            avus.filter((avu) => avu.attr === attribute.name)
-                                .length < 1
-                        ) {
+                        if (!avus.find((avu) => avu.attr === attribute.name)) {
                             avus.push(newAVU(attribute));
                         }
 
@@ -825,12 +822,11 @@ const MetadataTemplateView = (props) => {
             const attrTemplate = attributeMap[avu.attr];
 
             const isNumberAttr =
-                attrTemplate &&
-                (attrTemplate.type === AttributeTypes.NUMBER ||
-                    attrTemplate.type === AttributeTypes.INTEGER);
+                attrTemplate?.type === AttributeTypes.NUMBER ||
+                attrTemplate?.type === AttributeTypes.INTEGER;
 
             const isGroupingAttr =
-                attrTemplate && attrTemplate.type === AttributeTypes.GROUPING;
+                attrTemplate?.type === AttributeTypes.GROUPING;
 
             const hasChildAVUs = avu.avus && avu.avus.length > 0;
 

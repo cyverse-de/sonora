@@ -198,6 +198,7 @@ const MetadataFormListing = (props) => {
                     setShowImportConfirmationDialog(true)
                 }
                 targetResource={targetResource}
+                dirty={dirty}
             />
 
             {irodsAVUs?.length > 0 && (

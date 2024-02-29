@@ -87,6 +87,8 @@ const LocalContextsField = ({
         return schemeURI;
     });
 
+    const { touched, errors } = form;
+    const fieldError = getFormError(field.name, touched, errors);
     const projectID = parseProjectID(projectHubURI);
 
     const { data: project, isFetching } = useQuery({
@@ -95,7 +97,7 @@ const LocalContextsField = ({
             getLocalContextsProject({
                 projectID,
             }),
-        enabled: URL.canParse(projectHubURI),
+        enabled: projectHubURI && !fieldError,
         onSuccess: (project) => {
             let newValue = avu.value || "";
 
@@ -206,9 +208,7 @@ const LocalContextsField = ({
         }
     };
 
-    const { touched, errors } = form;
-    const errorMsg =
-        getFormError(field.name, touched, errors) || projectHubError;
+    const errorMsg = fieldError || projectHubError;
 
     return (
         <>

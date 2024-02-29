@@ -102,7 +102,7 @@ function ResourceNameCell({
     const { data: project } = useQuery({
         queryKey: [LOCAL_CONTEXTS_QUERY_KEY, projectID],
         queryFn: () => getLocalContextsProject({ projectID }),
-        enabled: URL.canParse(localContextsProjectURI),
+        enabled: !!localContextsProjectURI,
         onError: (error) =>
             console.log("Error fetching Local Contexts project.", {
                 localContextsProjectURI,

@@ -241,7 +241,7 @@ const MetadataTemplateAttributeForm = (props) => {
                             fieldProps = {
                                 ...fieldProps,
                                 searchAstroThesaurusTerms,
-                                isDisabled: !writable,
+                                readOnly: !writable,
                             };
                             break;
 
@@ -251,7 +251,7 @@ const MetadataTemplateAttributeForm = (props) => {
                                 ...fieldProps,
                                 searchOLSTerms,
                                 attribute,
-                                isDisabled: !writable,
+                                readOnly: !writable,
                             };
                             break;
 

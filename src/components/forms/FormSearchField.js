@@ -18,6 +18,7 @@ const FormSearchField = ({
     form: { setFieldValue, ...form },
     valueKey,
     labelKey,
+    readOnly,
     ...props
 }) => {
     const [searchValue, setSearchValue] = React.useState(value);
@@ -48,6 +49,7 @@ const FormSearchField = ({
     return (
         <Autocomplete
             id={id}
+            readOnly={readOnly}
             isOptionEqualToValue={(option, value) =>
                 option[labelKey] === value[labelKey]
             }

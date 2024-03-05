@@ -15,8 +15,12 @@ export function EditToolTest({ admin, adminPub, newTool }) {
     // is causing all requests for /api/tools to return a listing
     // instead of the following details mock.
     mockAxios.reset();
-    mockAxios.onGet(`/api/tools/${tool.id}`).reply(200, details);
-    mockAxios.onGet(`/api/admin/tools/${tool.id}`).reply(200, details);
+    mockAxios
+        .onGet(new RegExp(`/api/tools/${tool.id}(\\?.*)?`))
+        .reply(200, details);
+    mockAxios
+        .onGet(new RegExp(`/api/admin/tools/${tool.id}(\\?.*)?`))
+        .reply(200, details);
 
     mockAxios.onPatch(/api\/(admin\/)?tools\/*/).reply((config) => {
         const tool = JSON.parse(config.data);

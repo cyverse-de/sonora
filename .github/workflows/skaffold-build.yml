@@ -1,0 +1,16 @@
+name: skaffold-build
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+-rc[0-9]+"
+
+jobs:
+  call-workflow-passing-data:
+    uses: cyverse-de/github-workflows/.github/workflows/skaffold-build.yml@v0.0.3
+    with:
+      build-prerelease: ${{ contains(github.ref_name, '-rc') }}
+    secrets:
+      harbor-username: ${{ secrets.HARBOR_USERNAME }}
+      harbor-password: ${{ secrets.HARBOR_PASSWORD }}

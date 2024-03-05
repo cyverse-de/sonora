@@ -12,6 +12,7 @@ const FILESYSTEM_METADATA_TEMPLATE_LISTING_QUERY_KEY =
     "fetchFilesystemMetadataTemplateListingKey";
 const SEARCH_OLS_QUERY_KEY = "searchOntologyLookupServiceKey";
 const SEARCH_UAT_QUERY_KEY = "searchUnifiedAstronomyThesaurusKey";
+const LOCAL_CONTEXTS_QUERY_KEY = "localContextsKey";
 
 function getFilesystemMetadataTemplateListing() {
     return callApi({
@@ -138,10 +139,20 @@ function searchUnifiedAstronomyThesaurus({ searchTerm, orderBy }) {
         .then((apiResponse) => apiResponse.data);
 }
 
+function getLocalContextsProject({ projectID }) {
+    return axiosInstance
+        .request({
+            url: `/api/local-contexts/projects/${projectID}`,
+            method: "GET",
+        })
+        .then((apiResponse) => apiResponse.data);
+}
+
 export {
     FILESYSTEM_METADATA_QUERY_KEY,
     FILESYSTEM_METADATA_TEMPLATE_QUERY_KEY,
     FILESYSTEM_METADATA_TEMPLATE_LISTING_QUERY_KEY,
+    LOCAL_CONTEXTS_QUERY_KEY,
     SEARCH_OLS_QUERY_KEY,
     SEARCH_UAT_QUERY_KEY,
     getFilesystemMetadata,
@@ -150,6 +161,7 @@ export {
     saveFilesystemMetadata,
     setFilesystemMetadata,
     applyBulkMetadataFromFile,
+    getLocalContextsProject,
     searchOntologyLookupService,
     searchUnifiedAstronomyThesaurus,
 };

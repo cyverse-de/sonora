@@ -205,6 +205,7 @@ export async function getServerSideProps(context) {
             title,
             ...(await serverSideTranslations(locale, [
                 "data",
+                "localcontexts",
                 "metadata",
                 "upload",
                 "urlImport",

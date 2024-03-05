@@ -290,6 +290,14 @@ export const olsURL = config.get("services.ontology_lookup_service.base");
 export const uatURL = config.get("services.unified_astronomy_thesaurus.base");
 
 /**
+ * The Local Contexts Hub API.
+ * https://github.com/localcontexts/localcontextshub/wiki/API-Documentation
+ *
+ * @type {string}
+ */
+export const localContextsURL = config.get("services.local_contexts.base");
+
+/**
  * The base URL for the User Portal's API
  */
 export const userPortalAPIURL = `${config.get("user_portal_url")}/api`;

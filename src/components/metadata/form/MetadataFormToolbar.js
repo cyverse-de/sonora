@@ -38,6 +38,7 @@ const MetadataFormToolbar = (props) => {
     const {
         baseId,
         title,
+        dirty,
         saveDisabled,
         showSave,
         onSave,
@@ -59,7 +60,7 @@ const MetadataFormToolbar = (props) => {
 
     return (
         <Toolbar variant="dense" className={classes.metadataFormToolbar}>
-            <BackButton />
+            <BackButton dirty={dirty} />
             <Typography
                 id={buildID(baseId, ids.TITLE)}
                 variant="h6"

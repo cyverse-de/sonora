@@ -97,7 +97,7 @@ const LocalContextsField = ({
             getLocalContextsProject({
                 projectID,
             }),
-        enabled: projectHubURI && !fieldError,
+        enabled: !!projectHubURI && !fieldError,
         onSuccess: (project) => {
             let newValue = avu.value || "";
 

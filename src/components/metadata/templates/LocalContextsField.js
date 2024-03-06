@@ -99,6 +99,8 @@ const LocalContextsField = ({
             }),
         enabled: !!projectHubURI && !fieldError,
         onSuccess: (project) => {
+            if (!writable) return;
+
             let newValue = avu.value || "";
 
             const projectLabels = [

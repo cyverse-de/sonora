@@ -25,7 +25,7 @@ export default function metadataRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
-            pathname: "/secured/filesystem/metadata/templates",
+            pathname: "/filesystem/metadata/templates",
         })
     );
 
@@ -37,7 +37,7 @@ export default function metadataRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
-            pathname: "/secured/filesystem/metadata/template/:templateId",
+            pathname: "/filesystem/metadata/template/:templateId",
         })
     );
 
@@ -56,7 +56,7 @@ export default function metadataRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
-            pathname: "/secured/filesystem/:dataId/metadata",
+            pathname: "/filesystem/:dataId/metadata",
         })
     );
 
@@ -66,7 +66,7 @@ export default function metadataRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
-            pathname: "/secured/filesystem/:dataId/metadata",
+            pathname: "/filesystem/:dataId/metadata",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -81,7 +81,7 @@ export default function metadataRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
-            pathname: "/secured/filesystem/:dataId/metadata/save",
+            pathname: "/filesystem/:dataId/metadata/save",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -94,7 +94,7 @@ export default function metadataRouter() {
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "POST",
-            pathname: "/secured/filesystem/metadata/csv-parser",
+            pathname: "/filesystem/metadata/csv-parser",
             headers: {
                 "Content-Type": "application/json",
             },

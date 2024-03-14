@@ -3,7 +3,7 @@
  */
 import React, { Fragment } from "react";
 
-import { FastField, FieldArray, Formik } from "formik";
+import { FieldArray, Formik } from "formik";
 import PropTypes from "prop-types";
 import { useQuery } from "react-query";
 
@@ -11,7 +11,6 @@ import { useTranslation } from "i18n";
 
 import ids from "../ids";
 import styles from "../styles";
-import { urlField } from "components/utils/validations";
 
 import AttributeTypes from "components/models/metadata/TemplateAttributeTypes";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
@@ -29,21 +28,22 @@ import {
     searchUnifiedAstronomyThesaurus,
 } from "serviceFacades/metadata";
 
-import FormMultilineTextField from "components/forms/FormMultilineTextField";
-import FormTextField from "components/forms/FormTextField";
-import FormTimestampField from "components/forms/FormTimestampField";
-
-import FormNumberField from "components/forms/FormNumberField";
-
-import FormIntegerField from "components/forms/FormIntegerField";
 import getFormError from "components/forms/getFormError";
 import buildID from "components/utils/DebugIDUtil";
 import { formatCurrentDate } from "components/utils/DateFormatter";
-import FormCheckboxStringValue from "components/forms/FormCheckboxStringValue";
 
-import AstroThesaurusSearchField from "./AstroThesaurusSearchField";
-import OntologyLookupServiceSearchField from "./OntologyLookupServiceSearchField";
-import LocalContextsField from "./LocalContextsField";
+import AstroThesaurusSearchField from "./fields/AstroThesaurusSearchField";
+import CheckboxStringValueField from "./fields/CheckboxStringValueField";
+import EnumField from "./fields/EnumField";
+import GroupingField from "./fields/GroupingField";
+import IntegerField from "./fields/IntegerField";
+import LocalContextsField from "./fields/LocalContextsField";
+import MultilineTextField from "./fields/MultilineTextField";
+import NumberField from "./fields/NumberField";
+import OntologyLookupServiceSearchField from "./fields/OntologyLookupServiceSearchField";
+import TextField from "./fields/TextField";
+import TimestampField from "./fields/TimestampField";
+import UrlField from "./fields/UrlField";
 
 import SlideUpTransition from "../SlideUpTransition";
 
@@ -54,7 +54,6 @@ import {
     AccordionDetails,
     Grid,
     IconButton,
-    MenuItem,
     Table,
     Typography,
 } from "@mui/material";
@@ -189,80 +188,51 @@ const MetadataTemplateAttributeForm = (props) => {
                     );
 
                     let attrErrors = false;
-                    let canRemove = !attribute.required,
-                        FieldComponent,
-                        fieldProps = {
-                            label: attribute.name,
-                            required: attribute.required && writable,
-                            inputProps: { readOnly: !writable },
-                        };
+                    let canRemove = !attribute.required;
+                    let FieldComponent;
+                    let customFieldProps = {};
 
                     switch (attribute.type) {
                         case AttributeTypes.BOOLEAN:
-                            FieldComponent = FormCheckboxStringValue;
-                            fieldProps = {
-                                ...fieldProps,
-                                disabled: !writable,
-                            };
+                            FieldComponent = CheckboxStringValueField;
                             break;
                         case AttributeTypes.NUMBER:
-                            FieldComponent = FormNumberField;
+                            FieldComponent = NumberField;
                             break;
                         case AttributeTypes.INTEGER:
-                            FieldComponent = FormIntegerField;
+                            FieldComponent = IntegerField;
                             break;
                         case AttributeTypes.MULTILINE_TEXT:
-                            FieldComponent = FormMultilineTextField;
+                            FieldComponent = MultilineTextField;
                             break;
                         case AttributeTypes.TIMESTAMP:
-                            FieldComponent = FormTimestampField;
+                            FieldComponent = TimestampField;
                             break;
 
                         case AttributeTypes.ENUM:
-                            FieldComponent = FormTextField;
-                            fieldProps = {
-                                ...fieldProps,
-                                select: true,
-                                children:
-                                    attribute.values &&
-                                    attribute.values.map((enumVal, index) => (
-                                        <MenuItem
-                                            key={index}
-                                            value={enumVal.value}
-                                        >
-                                            {enumVal.value}
-                                        </MenuItem>
-                                    )),
-                            };
+                            FieldComponent = EnumField;
                             break;
 
                         case AttributeTypes.ONTOLOGY_TERM_UAT:
                             FieldComponent = AstroThesaurusSearchField;
-                            fieldProps = {
-                                ...fieldProps,
-                                searchAstroThesaurusTerms,
-                                readOnly: !writable,
-                            };
+                            customFieldProps = { searchAstroThesaurusTerms };
                             break;
 
                         case AttributeTypes.ONTOLOGY_TERM_OLS:
                             FieldComponent = OntologyLookupServiceSearchField;
-                            fieldProps = {
-                                ...fieldProps,
-                                searchOLSTerms,
-                                attribute,
-                                readOnly: !writable,
-                            };
+                            customFieldProps = { searchOLSTerms };
                             break;
 
                         case AttributeTypes.GROUPING:
-                            FieldComponent = "span";
-                            fieldProps = {};
+                            FieldComponent = GroupingField;
+                            break;
+
+                        case AttributeTypes.URL:
+                            FieldComponent = UrlField;
                             break;
 
                         default:
-                            FieldComponent = FormTextField;
-                            fieldProps.multiline = true;
+                            FieldComponent = TextField;
                             break;
                     }
 
@@ -278,10 +248,6 @@ const MetadataTemplateAttributeForm = (props) => {
                                 LocalContextsAttrs.LOCAL_CONTEXTS;
                             if (isLocalContextsAttr) {
                                 FieldComponent = LocalContextsField;
-                                fieldProps.avu = avu;
-                                fieldProps.onUpdate = (avu) => {
-                                    arrayHelpers.replace(index, avu);
-                                };
                             }
 
                             const avuFieldName = `${field}.avus[${index}]`;
@@ -339,11 +305,13 @@ const MetadataTemplateAttributeForm = (props) => {
                                         alignItems="center"
                                     >
                                         <Grid item xs>
-                                            <FastField
+                                            <FieldComponent
                                                 id={rowID}
-                                                name={`${avuFieldName}.value`}
-                                                component={FieldComponent}
-                                                {...fieldProps}
+                                                avuFieldName={avuFieldName}
+                                                attribute={attribute}
+                                                avu={avu}
+                                                writable={writable}
+                                                {...customFieldProps}
                                             />
                                         </Grid>
                                         {!isGroupingAttr && (
@@ -488,7 +456,7 @@ const MetadataTemplateForm = (props) => {
     const [showErrorsDialog, setShowErrorsDialog] = React.useState(false);
 
     const handleSubmitWrapper = () => {
-        if (errors.error) {
+        if (errors?.metadata) {
             setShowErrorsDialog(true);
         } else {
             handleSubmit();
@@ -605,7 +573,6 @@ const MetadataTemplateView = (props) => {
     const [uatSearch, searchAstroThesaurusTerms] = React.useState(null);
 
     const { t } = useTranslation("metadata");
-    const { t: i18nUtil } = useTranslation("util");
 
     const { isFetching } = useQuery({
         queryKey: [FILESYSTEM_METADATA_TEMPLATE_QUERY_KEY, templateId],
@@ -709,108 +676,6 @@ const MetadataTemplateView = (props) => {
         return { template, attributeMap, metadata };
     };
 
-    const validateAVUs = (avus, attributeMap) => {
-        const avuArrayErrors = [];
-        avus.forEach((avu, avuIndex) => {
-            const avuErrors = {};
-
-            const attrTemplate = attributeMap[avu.attr];
-            if (!attrTemplate) {
-                return;
-            }
-
-            let attrType = attrTemplate.type;
-            let value = avu.value;
-
-            const isLocalContexts =
-                avu.attr === LocalContextsAttrs.LOCAL_CONTEXTS;
-            if (isLocalContexts) {
-                const rightsURIAVU = avu.avus?.find(
-                    (childAVU) =>
-                        childAVU.attr === LocalContextsAttrs.RIGHTS_URI
-                );
-
-                attrType = AttributeTypes.URL;
-                value = rightsURIAVU?.value;
-            }
-
-            const isRequired = isLocalContexts || attrTemplate.required;
-            if (isRequired && value === "") {
-                avuErrors.value = t("required");
-                avuErrors.error = true;
-                avuArrayErrors[avuIndex] = avuErrors;
-            } else if (value) {
-                switch (attrType) {
-                    case AttributeTypes.NUMBER:
-                    case AttributeTypes.INTEGER:
-                        const numVal = Number(value);
-                        if (isNaN(numVal)) {
-                            avuErrors.value = t(
-                                "templateValidationErrMsgNumber"
-                            );
-                            avuErrors.error = true;
-                            avuArrayErrors[avuIndex] = avuErrors;
-                        }
-
-                        break;
-
-                    case AttributeTypes.TIMESTAMP:
-                        if (!Date.parse(value)) {
-                            avuErrors.value = t(
-                                "templateValidationErrMsgTimestamp"
-                            );
-                            avuErrors.error = true;
-                            avuArrayErrors[avuIndex] = avuErrors;
-                        }
-
-                        break;
-
-                    case AttributeTypes.URL:
-                        const err = urlField(value, i18nUtil);
-                        if (err) {
-                            avuErrors.value = err;
-                            avuErrors.error = true;
-                            avuArrayErrors[avuIndex] = avuErrors;
-                        }
-
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-            if (attrTemplate.attributes && avu.avus && avu.avus.length > 0) {
-                const subAttrErros = validateAVUs(
-                    avu.avus,
-                    attrTemplate.attributes
-                );
-                if (subAttrErros.length > 0) {
-                    avuErrors.avus = subAttrErros;
-                    avuErrors.error = true;
-                    avuArrayErrors[avuIndex] = avuErrors;
-                }
-            }
-        });
-
-        return avuArrayErrors;
-    };
-
-    const validate = (values) => {
-        const errors = {};
-        const { attributeMap, metadata } = values;
-
-        if (metadata.avus && metadata.avus.length > 0) {
-            const avuArrayErrors = validateAVUs(metadata.avus, attributeMap);
-            if (avuArrayErrors.length > 0) {
-                errors.metadata = { avus: avuArrayErrors };
-                errors.error = true;
-            }
-        }
-
-        return errors;
-    };
-
     /**
      * Users do not fill in the values of Grouping attributes,
      * but duplicated attributes need unique values in order for the service to save them as separate AVUs.
@@ -874,7 +739,6 @@ const MetadataTemplateView = (props) => {
         <Formik
             enableReinitialize
             initialValues={initValues()}
-            validate={validate}
             onSubmit={handleSubmit}
         >
             {(formikProps) => {

@@ -2,8 +2,11 @@
  * @author psarando sriram
  */
 import React from "react";
+
+import { FastField } from "formik";
 import PropTypes from "prop-types";
 
+import { useTranslation } from "i18n";
 import FormSearchField from "components/forms/FormSearchField";
 
 import { ListItemText } from "@mui/material";
@@ -12,8 +15,9 @@ const AstroThesaurusOption = (option) => (
     <ListItemText primary={option.label} secondary={option.iri} />
 );
 
-const AstroThesaurusSearchField = (props) => {
-    const { searchAstroThesaurusTerms, ...custom } = props;
+const AstroThesaurusSearchFieldComponent = (props) => {
+    const { searchAstroThesaurusTerms, attribute, writable, ...custom } = props;
+
     const [options, setOptions] = React.useState([]);
 
     const handleSearch = (event, value, reason) => {
@@ -59,7 +63,27 @@ const AstroThesaurusSearchField = (props) => {
             options={options}
             labelKey="label"
             valueKey="label"
+            label={attribute.name}
+            required={attribute.required && writable}
+            readOnly={!writable}
             {...custom}
+        />
+    );
+};
+
+const AstroThesaurusSearchField = ({ avu, avuFieldName, ...props }) => {
+    const { t } = useTranslation("metadata");
+
+    return (
+        <FastField
+            name={`${avuFieldName}.value`}
+            component={AstroThesaurusSearchFieldComponent}
+            validate={(value) => {
+                if (props.attribute?.required && !value) {
+                    return t("required");
+                }
+            }}
+            {...props}
         />
     );
 };

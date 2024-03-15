@@ -7,11 +7,12 @@
  */
 import React from "react";
 
+import { FastField } from "formik";
 import { useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
 
-import LocalContextsLabelDisplay from "../LocalContextsLabelDisplay";
+import LocalContextsLabelDisplay from "../../LocalContextsLabelDisplay";
 
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import getFormError from "components/forms/getFormError";
@@ -19,6 +20,7 @@ import {
     LocalContextsAttrs,
     parseProjectID,
 } from "components/models/metadata/LocalContexts";
+import { urlField } from "components/utils/validations";
 
 import {
     LOCAL_CONTEXTS_QUERY_KEY,
@@ -29,15 +31,18 @@ import { Skeleton, TextField } from "@mui/material";
 
 const findAVU = (avus, attr) => avus?.find((avu) => avu.attr === attr);
 
-const LocalContextsField = ({
+const LocalContextsFieldComponent = ({
+    attribute,
     avu,
-    onUpdate,
+    avuFieldName,
+    writable,
     helperText,
-    form: { setFieldValue, ...form },
+    form,
     field: { value, onChange, ...field },
     ...props
 }) => {
-    const { t } = useTranslation("localcontexts");
+    const { t } = useTranslation(["localcontexts", "metadata"]);
+    const { i18nUtil } = useTranslation("util");
 
     const [rightsURIAVU, setRightsURIAVU] = React.useState(
         () =>
@@ -87,8 +92,7 @@ const LocalContextsField = ({
         return schemeURI;
     });
 
-    const { touched, errors } = form;
-    const fieldError = getFormError(field.name, touched, errors);
+    const fieldError = getFormError(avuFieldName, form.touched, form.errors);
     const projectID = parseProjectID(projectHubURI);
 
     const { data: project, isFetching } = useQuery({
@@ -99,6 +103,8 @@ const LocalContextsField = ({
             }),
         enabled: !!projectHubURI && !fieldError,
         onSuccess: (project) => {
+            if (!writable) return;
+
             let newValue = avu.value || "";
 
             const projectLabels = [
@@ -163,7 +169,11 @@ const LocalContextsField = ({
                     })),
                 ];
 
-                onUpdate({ ...avu, value: newValue, avus: newAVUs });
+                form.setFieldValue(avuFieldName, {
+                    ...avu,
+                    value: newValue,
+                    avus: newAVUs,
+                });
             }
         },
         onError: (error) => {
@@ -179,6 +189,10 @@ const LocalContextsField = ({
     const updateProjectHubURI = (uri) => {
         setProjectHubURI(uri);
         setProjectHubError(null);
+        form.setFieldError(
+            avuFieldName,
+            !uri ? t("metadata:required") : urlField(uri, i18nUtil)
+        );
 
         let newAVUs = avu.avus || [];
 
@@ -204,7 +218,7 @@ const LocalContextsField = ({
                 rightsIDSchemeURIAVU,
             ];
 
-            onUpdate({ ...avu, avus: newAVUs });
+            form.setFieldValue(avuFieldName, { ...avu, avus: newAVUs });
         }
     };
 
@@ -213,6 +227,7 @@ const LocalContextsField = ({
     return (
         <>
             <TextField
+                inputProps={{ readOnly: !writable }}
                 error={!!errorMsg}
                 helperText={errorMsg || helperText}
                 variant="outlined"
@@ -237,5 +252,13 @@ const LocalContextsField = ({
         </>
     );
 };
+
+const LocalContextsField = (props) => (
+    <FastField
+        name={props.avuFieldName}
+        component={LocalContextsFieldComponent}
+        {...props}
+    />
+);
 
 export default LocalContextsField;

@@ -19,7 +19,7 @@ import React, { useEffect, useState } from "react";
 
 import buildID from "components/utils/DebugIDUtil";
 import { Container, Typography } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Trans, useTranslation } from "i18n";
 import { useQuery } from "react-query";
 
@@ -38,12 +38,12 @@ import styles from "./styles";
 import ViceLoadingToolbar from "./Toolbar";
 import LoadingAnimation from "./LoadingAnimation";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function ViceLoading(props) {
     const { accessUrl } = props;
     const { t } = useTranslation("vice-loading");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const [config] = useConfig();
 

@@ -3,18 +3,18 @@
  */
 import React, { useEffect, useRef } from "react";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import lottie from "lottie-web";
 import animation from "./vice_loading.json";
 
 import styles from "./styles";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function LoadingAnimation() {
     let animationContainer = useRef();
 
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     useEffect(() => {
         lottie.loadAnimation({

@@ -37,7 +37,7 @@ import {
     useTheme,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import {
     Add as ContentAdd,
@@ -46,13 +46,13 @@ import {
     List as ContentView,
 } from "@mui/icons-material";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const MetadataGridToolbar = (props) => {
     const { parentID, editable, onAddAVU } = props;
 
     const { t } = useTranslation("metadata");
-    const classes = useStyles();
+    const { classes } = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -144,7 +144,7 @@ const AVURow = ({
     onRowDelete,
 }) => {
     const { t } = useTranslation("common");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     return (
         <TableRow hover tabIndex={-1} selected={selected}>
@@ -221,7 +221,7 @@ const MetadataList = (props) => {
 
     const { t } = useTranslation("metadata");
 
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const onAddAVU = () => {
         const avus = getIn(values, name) || [];

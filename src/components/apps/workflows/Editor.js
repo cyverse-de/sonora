@@ -57,7 +57,7 @@ import {
     useMediaQuery,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import {
     ArrowBack,
@@ -66,7 +66,7 @@ import {
     PlayArrow,
 } from "@mui/icons-material";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const StepperNavigation = (props) => {
     const {
@@ -174,7 +174,7 @@ const WorkflowEditor = (props) => {
     }, [stepperRef, setStepperRef]);
 
     const { t } = useTranslation(["workflows", "app_editor", "common"]);
-    const classes = useStyles();
+    const { classes } = useStyles();
     const router = useRouter();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));

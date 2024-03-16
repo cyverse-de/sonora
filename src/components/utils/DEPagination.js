@@ -23,10 +23,10 @@ import {
     useMediaQuery,
     useTheme,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     paper: {
         flexShrink: 0,
         marginTop: theme.spacing(1),
@@ -65,7 +65,7 @@ function ItemsPerPage(props) {
 
     const { t } = useTranslation("util");
 
-    const classes = useStyles();
+    const { classes } = useStyles();
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
 
@@ -158,7 +158,7 @@ function ItemsPerPage(props) {
 }
 
 function DEPagination(props) {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const theme = useTheme();
     const { onChange, page, totalPages, onPageSizeChange, pageSize, baseId } =
         props;

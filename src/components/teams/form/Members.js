@@ -14,7 +14,7 @@ import buildID from "components/utils/DebugIDUtil";
 import FormSelectField from "components/forms/FormSelectField";
 
 import { Button, FormControlLabel, MenuItem } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Delete } from "@mui/icons-material";
 import { Field, getIn } from "formik";
 
@@ -31,7 +31,7 @@ import ids from "../ids";
 import styles from "../styles";
 import { DEFAULT_MEMBER_PRIVILEGE } from "../util";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 /**
  * A Formik selector for choosing privileges for members within a team
@@ -78,7 +78,7 @@ function Members(props) {
         form: { values },
         name,
     } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation(["teams", "sharing"]);
 
     const [userProfile] = useUserProfile();

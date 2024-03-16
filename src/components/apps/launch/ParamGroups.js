@@ -44,11 +44,11 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { ExpandMore } from "@mui/icons-material";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 /**
  * @param {string} baseId
@@ -112,7 +112,7 @@ const buildParamId = (baseId, paramIndex, type) => {
  */
 function ParamGroupForm(props) {
     const { baseId, fieldName, group, index, noOfGroups } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("launch");
     return (
         <Accordion id={baseId} defaultExpanded>
@@ -168,7 +168,7 @@ function ParamGroupForm(props) {
 }
 
 const ParamsReviewLabel = ({ error, label }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     return (
         <Typography
             className={classes.paramsReview}
@@ -181,7 +181,7 @@ const ParamsReviewLabel = ({ error, label }) => {
 
 const ParamsReviewValue = ({ param }) => {
     const { value, type } = param;
-    const classes = useStyles();
+    const { classes } = useStyles();
     switch (type) {
         case AppParamTypes.FLAG:
             return (

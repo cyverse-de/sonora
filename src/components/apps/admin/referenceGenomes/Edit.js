@@ -19,7 +19,7 @@ import FormSwitch from "components/forms/FormSwitch";
 import buildID from "components/utils/DebugIDUtil";
 
 import { Button, Grid, Typography } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Field, Form, Formik } from "formik";
 
 const styles = (theme) => ({
@@ -41,7 +41,7 @@ const styles = (theme) => ({
     },
 });
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function Edit(props) {
     const {
@@ -51,7 +51,7 @@ function Edit(props) {
         createRefGenome,
         saveRefGenome,
     } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("referenceGenomes");
 
     const handleSubmit = (values) => {

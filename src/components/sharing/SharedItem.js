@@ -8,14 +8,14 @@ import {
     InsertDriveFileOutlined as FileIcon,
     Apps as AppsIcon,
 } from "@mui/icons-material";
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "tss-react/mui";
 import ResourceTypes from "../models/ResourceTypes";
 import { useTranslation } from "i18n";
 import Identity from "../data/Identity";
 import styles from "./styles";
 import AnalysesIcon from "components/icons/AnalysesIcon";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const getItemDetails = (type, t, classes, subtype) => {
     switch (type) {
@@ -63,7 +63,7 @@ const getItemDetails = (type, t, classes, subtype) => {
 
 function SharedItem(props) {
     const { baseId, type, item } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const subtype = item.type;
     const { t } = useTranslation("common");
     const { idFn, labelFn, icon, secondaryText } = getItemDetails(

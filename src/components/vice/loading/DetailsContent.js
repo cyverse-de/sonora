@@ -11,13 +11,13 @@ import React from "react";
 
 import { Grid, Typography } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { useTranslation } from "i18n";
 import GridLabelValue from "components/utils/GridLabelValue";
 import styles from "./styles";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function DeploymentInfo(props) {
     const { deployments } = props;
@@ -109,7 +109,7 @@ function InitContainerInfo(props) {
 function DetailsContent(props) {
     const { deployments, configMaps, services, ingresses, pods } = props;
     const { t } = useTranslation("vice-loading");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     return (
         <div className={classes.drawerContent}>

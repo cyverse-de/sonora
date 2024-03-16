@@ -24,7 +24,7 @@ import buildID from "components/utils/DebugIDUtil";
 
 import { Drawer, Typography } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 const TABS = {
     analysisInfo: "ANALYSIS INFORMATION",
@@ -32,7 +32,7 @@ const TABS = {
     analysisParams: "ANALYSIS PARAMETERS",
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     drawerPaper: {
         [theme.breakpoints.up("xl")]: {
             maxWidth: "25%",
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function DetailsDrawer(props) {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("analyses");
     const { selectedAnalysis, open, onClose, baseId } = props;
     const [selectedTab, setSelectedTab] = useState(TABS.analysisInfo);

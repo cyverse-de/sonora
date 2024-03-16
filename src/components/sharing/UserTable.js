@@ -8,7 +8,7 @@ import React, { useMemo } from "react";
 
 import buildID from "components/utils/DebugIDUtil";
 import { ListItem, ListItemText, Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "tss-react/mui";
 
 import { useTranslation } from "i18n";
 import { getUserPrimaryText, getUserSecondaryText, isGroup } from "./util";
@@ -17,10 +17,10 @@ import SharingPermissionSelector from "./SharingPermissionSelector";
 import styles from "./styles";
 import BasicTable from "../table/BasicTable";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function SubjectTableCell({ subject }) {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("sharing");
 
     return (

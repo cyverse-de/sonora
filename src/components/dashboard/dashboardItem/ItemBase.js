@@ -1,5 +1,4 @@
 import React from "react";
-import clsx from "clsx";
 import ReactPlayer from "react-player/youtube";
 import { useTranslation } from "i18n";
 
@@ -19,7 +18,7 @@ import {
     useTheme,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import styles from "components/utils/runningAnimation";
 
@@ -32,7 +31,7 @@ import { useConfig } from "contexts/config";
 
 import { getUserName } from "../../utils/getUserName";
 
-const useRunningAnalysesStyles = makeStyles(styles);
+const useRunningAnalysesStyles = makeStyles()(styles);
 
 const DashboardLink = ({ target, kind, children }) => {
     const isNewTab =
@@ -71,7 +70,7 @@ const DashboardItem = ({ item }) => {
         height: item.height,
         color,
     });
-    const running = useRunningAnalysesStyles();
+    const { classes: running } = useRunningAnalysesStyles();
 
     const { t } = useTranslation(["dashboard", "apps"]);
 

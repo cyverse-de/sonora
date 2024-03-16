@@ -10,11 +10,11 @@ import buildID from "components/utils/DebugIDUtil";
 import ids from "../ids";
 
 import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Close } from "@mui/icons-material";
 import ListSavedLaunches from "./SavedLaunchListing";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     closeButton: {
         float: "right",
     },
@@ -24,7 +24,7 @@ export default function SavedLaunchDialog(props) {
     const { baseDebugId, appName, appId, systemId, open, onClose } = props;
     const { t } = useTranslation("apps");
 
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     return (
         <Dialog open={open}>

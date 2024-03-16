@@ -55,7 +55,7 @@ import {
     useTheme,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import RowDotMenu from "./RowDotMenu";
 
@@ -197,9 +197,9 @@ function getColumnCell(key, resource, dataRecordFields) {
 }
 
 // Copied from MUI's TableRow code, changed the selected color to error intention
-const invalidRowStyles = makeStyles((theme) => ({
+const invalidRowStyles = makeStyles()((theme, _params, classes) => ({
     root: {
-        "&$selected, &$selected:hover": {
+        [`&.${classes.selected}, &.${classes.selected}:hover`]: {
             backgroundColor: alpha(
                 theme.palette.error.main,
                 theme.palette.action.selectedOpacity
@@ -266,7 +266,7 @@ function TableView(props) {
         computeLimitExceeded,
     } = props;
 
-    const invalidRowClass = invalidRowStyles();
+    const { classes: invalidRowClass } = invalidRowStyles();
     const { t } = useTranslation("data");
     const dataRecordFields = dataFields(t);
     const tableId = buildID(baseId, ids.LISTING_TABLE);

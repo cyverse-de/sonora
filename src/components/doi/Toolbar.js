@@ -16,12 +16,12 @@ import {
     useTheme,
     useMediaQuery,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import UpdateIcon from "@mui/icons-material/Update";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     divider: {
         flexGrow: 1,
     },
@@ -40,7 +40,7 @@ export default function DOIToolbar(props) {
     } = props;
     const { t } = useTranslation("doi");
     const { t: i18nUtil } = useTranslation("util");
-    const classes = useStyles();
+    const { classes } = useStyles();
     const toolbarId = buildID(baseId, ids.toolbarId);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));

@@ -36,11 +36,11 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { ExpandMore } from "@mui/icons-material";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const formatGBListItem = (size) => size && numeral(size).format("0 ib");
 const formatGBValue = (size) => size && numeral(size).format("0.0 ib");
@@ -208,7 +208,7 @@ const ResourceRequirementsForm = ({
     defaultMaxDiskSpace,
     limits,
 }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("launch");
     return (
         <>

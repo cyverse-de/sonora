@@ -24,7 +24,7 @@ import buildID from "components/utils/DebugIDUtil";
 
 import { Button, Toolbar, useMediaQuery, useTheme } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import {
     CreateNewFolder,
@@ -36,10 +36,10 @@ import { TrashMenu } from "./TrashMenu";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import useBreakpoints from "components/layout/useBreakpoints";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function DataToolbar(props) {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const {
         baseId,
         path,

@@ -26,7 +26,7 @@ import {
     InputLabel,
     useTheme,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import {
     GetApp,
     People,
@@ -55,7 +55,7 @@ import { formatBagItems } from "./util";
 
 const SharingView = dynamic(() => import("components/sharing"));
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     help: {
         paddingTop: theme.spacing(2),
         paddingBottom: theme.spacing(1),
@@ -108,7 +108,7 @@ const BagSkeleton = () => (
 export const BagUI = ({ removeItem, allItems, isLoading, fullScreen }) => {
     const { t } = useTranslation(["bags", "common"]);
 
-    const classes = useStyles();
+    const { classes } = useStyles();
     const [filterBy, setFilterBy] = useState(constants.FILTERBY.ALL);
 
     const [bagItems, setBagItems] = useState([]);
@@ -237,7 +237,7 @@ const defaultSharingResources = () => ({
 
 const Bag = ({ menuIconClass, showErrorAnnouncer }) => {
     const theme = useTheme();
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation(["bags", "common"]);
     const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 

@@ -29,17 +29,17 @@ import {
     CircularProgress,
     useTheme,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ErrorIcon from "@mui/icons-material/Error";
 import useBreakpoints from "components/layout/useBreakpoints";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 export default function Webhooks(props) {
     const { baseId, webhookTopics, webhookTypes, values } = props;
     const { t } = useTranslation("preferences");
-    const classes = useStyles();
+    const { classes } = useStyles();
     const theme = useTheme();
     const { isSmUp } = useBreakpoints();
 

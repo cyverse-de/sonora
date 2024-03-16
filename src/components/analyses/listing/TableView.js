@@ -40,18 +40,18 @@ import {
     useTheme,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import styles from "components/utils/runningAnimation";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     name: {
         maxWidth: "12rem",
         overflowWrap: "break-word",
     },
 }));
 
-const useRunningAnalysesStyles = makeStyles(styles);
+const useRunningAnalysesStyles = makeStyles()(styles);
 
 function AnalysisName(props) {
     const analysis = props.analysis;
@@ -179,8 +179,8 @@ function TableView(props) {
     } = props;
 
     const theme = useTheme();
-    const classes = useStyles();
-    const running = useRunningAnalysesStyles();
+    const { classes } = useStyles();
+    const { classes: running } = useRunningAnalysesStyles();
     const { t } = useTranslation("analyses");
 
     const isSmall = useMediaQuery(theme.breakpoints.down("md"));

@@ -26,7 +26,7 @@ import {
     Typography,
     useTheme,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Close } from "@mui/icons-material";
 import { Alert, AlertTitle } from "@mui/material";
 
@@ -37,14 +37,14 @@ import ids from "./ids";
 import { usePortalStatus } from "serviceFacades/users";
 import styles from "./styles";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function UserPortalUpdatePrompts() {
     const [userProfile] = useUserProfile();
 
     const { t } = useTranslation("common");
     const theme = useTheme();
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const baseId = ids.USER_PORTAL_UPDATE_DLG;
     const dialogTitleId = buildID(baseId, ids.DIALOG_TITLE);

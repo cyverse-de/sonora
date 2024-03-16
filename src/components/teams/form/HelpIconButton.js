@@ -13,14 +13,14 @@ import { Help } from "@mui/icons-material";
 import ids from "../ids";
 import { useTranslation } from "i18n";
 import styles from "../styles";
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "tss-react/mui";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function HelpIconButton(props) {
     const { parentId, message, ...rest } = props;
     const { t } = useTranslation("common");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
 

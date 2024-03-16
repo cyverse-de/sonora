@@ -26,10 +26,10 @@ import {
 } from "@mui/material";
 import LaunchIcon from "@mui/icons-material/Launch";
 import LiveHelpIcon from "@mui/icons-material/LiveHelp";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { useConfig } from "contexts/config";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     root: {
         width: 350,
         [theme.breakpoints.down("sm")]: {
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 function TopicCard(props) {
     const { title, description, action } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     return (
         <Card className={classes.root} variant="outlined">
             <CardHeader
@@ -80,7 +80,7 @@ export default function HelpTopics(props) {
     const { baseId } = props;
     const [runTour, setRunTour] = useState(false);
     const [feedbackOpen, setFeedbackOpen] = useState();
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("help");
     const [config] = useConfig();
 

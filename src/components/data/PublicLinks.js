@@ -40,7 +40,7 @@ import {
     useTheme,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Skeleton } from "@mui/material";
 
 import {
@@ -52,7 +52,7 @@ import {
     Cached,
 } from "@mui/icons-material";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     toolbarButtons: {
         margin: theme.spacing(0.2),
     },
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 const DEFAULT_FILE_NAME = "de-links.txt";
 
 function PublicLinks(props) {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { baseId, paths } = props;
     const theme = useTheme();
     const [links, setLinks] = useState();

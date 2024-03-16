@@ -115,6 +115,7 @@
         "sanitize-html": "^2.3.2",
         "showdown": "^1.9.1",
         "sockette": "^2.0.6",
+        "tss-react": "^4.9.4",
         "unleash-client": "^3.8.1",
         "uuid": "^3.4.0",
         "winston": "^3.2.1",

@@ -30,9 +30,9 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()(() => ({
     container: {
         overflow: "auto",
     },
@@ -103,7 +103,7 @@ function AddOnListing(props) {
         tableId,
     } = props;
 
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     return (
         addons &&
@@ -225,7 +225,7 @@ function TableView(props) {
     const tableId = buildID(baseId, ids.ADDONS.LISTING_TABLE);
     const addons = listing?.addons;
     const columns = columnData(t);
-    const classes = useStyles();
+    const { classes } = useStyles();
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;
     }

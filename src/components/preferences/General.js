@@ -35,9 +35,9 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function General(props) {
     const {
@@ -50,7 +50,7 @@ function General(props) {
         resetHPCToken,
     } = props;
     const { t } = useTranslation("preferences");
-    const classes = useStyles();
+    const { classes } = useStyles();
     const [openFileBrowser, setOpenFileBrowser] = useState(false);
 
     return (

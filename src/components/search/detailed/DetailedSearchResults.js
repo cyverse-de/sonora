@@ -35,13 +35,13 @@ import {
     useMediaQuery,
     useTheme,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import AppsIcon from "@mui/icons-material/Apps";
 import SearchIcon from "@mui/icons-material/Search";
 
 import { useConfig } from "contexts/config";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     root: {
         flexGrow: 1,
         margin: 0,
@@ -79,7 +79,7 @@ function DetailedSearchResults(props) {
         selectedTab,
         onTabSelectionChange,
     } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { t } = useTranslation(["common", "search"]);

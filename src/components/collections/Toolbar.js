@@ -18,7 +18,7 @@ import {
     Toolbar,
     Typography,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Add, Help } from "@mui/icons-material";
 
 import ids from "./ids";
@@ -29,11 +29,11 @@ import { useTranslation } from "i18n";
 import DEDialog from "../utils/DEDialog";
 import useBreakpoints from "components/layout/useBreakpoints";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function CollectionToolbar(props) {
     const { parentId, filter, setFilter, onCreateCollectionSelected } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation(["collections", "common"]);
 
     const [helpDlgOpen, setHelpDlgOpen] = useState(false);

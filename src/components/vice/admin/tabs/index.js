@@ -8,7 +8,8 @@ import { AppBar, Tab } from "@mui/material";
 
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
-import { makeStyles, useTheme } from "@mui/styles";
+import { makeStyles } from "tss-react/mui";
+import { useTheme } from "@mui/styles";
 
 import buildID from "components/utils/DebugIDUtil";
 
@@ -49,7 +50,7 @@ const getAnalyses = ({ deployments = [] }) => {
     return Object.values(analyses);
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     root: {
         paddingLeft: theme.spacing(3),
         paddingRight: theme.spacing(3),
@@ -105,7 +106,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const VICEAdminTabs = ({ data = {} }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("vice-admin");
     const theme = useTheme();
 

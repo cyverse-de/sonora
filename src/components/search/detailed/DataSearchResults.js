@@ -46,12 +46,12 @@ import { IntercomEvents, trackIntercomEvent } from "common/intercom";
 
 import { Grid, IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
 import { Info, Label } from "@mui/icons-material";
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "tss-react/mui";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import SearchButton from "../form/SearchButton";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function Name(props) {
     const { resource, searchTerm } = props;
@@ -374,7 +374,7 @@ function DataSearchResults(props) {
 
 function DataSearchToolbar(props) {
     const { advancedDataQuery } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     // displays each clause's args values i.e. label:myFile.txt prefix:/cyverse/home
     const getQueryDisplayText = (query) => {

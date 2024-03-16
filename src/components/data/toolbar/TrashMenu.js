@@ -13,18 +13,18 @@ import styles from "../styles";
 import buildID from "components/utils/DebugIDUtil";
 import { Button, Menu } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { ArrowDropDown, Delete } from "@mui/icons-material";
 import TrashMenuItems from "./TrashMenuItems";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 export function TrashMenu(props) {
     const { baseId, selected, handleDelete, handleRestore, handleEmptyTrash } =
         props;
     const { t } = useTranslation("data");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const [trashAnchor, setTrashAnchor] = useState(null);
 

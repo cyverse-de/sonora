@@ -17,7 +17,7 @@ import {
     TableCell,
     Typography,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import AddIcon from "@mui/icons-material/Add";
 import { Remove } from "@mui/icons-material";
 
@@ -46,7 +46,7 @@ const TABLE_COLUMNS = [
     { name: "Paid", numeric: false, enableSorting: false },
 ];
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()(() => ({
     tableCell: {
         padding: "0px 16px 0px 16px",
     },
@@ -207,7 +207,7 @@ function EditSubAddonsForm(props) {
     } = props;
 
     const { t } = useTranslation("subscriptions");
-    const classes = useStyles();
+    const { classes } = useStyles();
     return (
         <>
             <Table className={classes.table}>
@@ -254,7 +254,7 @@ function FormBody(props) {
     const { t } = useTranslation("subscriptions");
     const { t: i18nUtil } = useTranslation("util");
     const tableId = buildID(parentId, ids.SUB_ADDONS.EDIT_ADDONS_TABLE);
-    const classes = useStyles();
+    const { classes } = useStyles();
     return (
         <>
             {isFetchingSubAddons ? (

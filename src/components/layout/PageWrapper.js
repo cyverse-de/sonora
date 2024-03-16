@@ -8,9 +8,9 @@
 import React from "react";
 import { useTheme } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles()(() => ({
     wrapper: {
         display: "flex",
         flexDirection: "column",
@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => ({
 
 function PageWrapper(props) {
     const { appBarHeight } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const theme = useTheme();
     return (
         <div

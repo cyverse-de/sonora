@@ -52,7 +52,7 @@ import {
     useTheme,
 } from "@mui/material";
 import { Autocomplete } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import {
     Apps as AppsIcon,
     Description as DescriptionIcon,
@@ -65,7 +65,7 @@ import { getTeamLinkRefs } from "../teams/util";
 import { trackIntercomEvent } from "common/intercom";
 import { useConfig } from "contexts/config";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     root: {
         position: "relative",
         marginRight: 0,
@@ -156,7 +156,7 @@ const SearchOption = (props) => {
         href,
         as,
     } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const theme = useTheme();
 
     const OptionLink = React.forwardRef(({ onClick, href }, ref) => (
@@ -318,7 +318,7 @@ function TeamSearchOption(props) {
 }
 
 function GlobalSearchField(props) {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const [userProfile] = useUserProfile();
     const {
         search,

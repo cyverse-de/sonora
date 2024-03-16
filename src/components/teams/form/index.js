@@ -7,7 +7,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Paper, Table } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Skeleton } from "@mui/material";
 import { Formik } from "formik";
 import { useMutation, useQuery } from "react-query";
@@ -39,12 +39,12 @@ import {
 } from "../util";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function TeamForm(props) {
     const { parentId, teamName, goBackToTeamView } = props;
     const { t } = useTranslation(["teams", "common"]);
-    const classes = useStyles();
+    const { classes } = useStyles();
     const [userProfile] = useUserProfile();
     const [config] = useConfig();
     const GROUPER_ADMIN_ID = config?.grouper?.admin;

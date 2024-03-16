@@ -22,11 +22,11 @@ import {
     Grid,
     Typography,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import ErrorIcon from "@mui/icons-material/Error";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     cardContent: {
         padding: theme.spacing(2),
         [theme.breakpoints.down("sm")]: {
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 function SubscriptionErrorHandler(props) {
     const { errorObject, baseId } = props;
     const { t } = useTranslation("subscriptions");
-    const classes = useStyles();
+    const { classes } = useStyles();
     const errBaseId = buildID(baseId, ids.ERROR_HANDLER);
 
     useEffect(() => {

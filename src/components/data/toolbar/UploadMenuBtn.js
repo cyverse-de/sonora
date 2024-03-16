@@ -23,7 +23,7 @@ import { useTranslation } from "i18n";
 import buildID from "components/utils/DebugIDUtil";
 import { Button, Menu } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import {
     Publish as UploadIcon,
@@ -32,7 +32,7 @@ import {
 
 import BlockIcon from "@mui/icons-material/Block";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function UploadMenuBtn(props) {
     const {
@@ -45,7 +45,7 @@ function UploadMenuBtn(props) {
         showErrorAnnouncer,
     } = props;
     const { t } = useTranslation("data");
-    const classes = useStyles();
+    const { classes } = useStyles();
     const uploadDispatch = useUploadTrackingDispatch();
     const [uploadAnchor, setUploadAnchor] = useState(null);
 

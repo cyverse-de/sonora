@@ -19,7 +19,7 @@ import {
     useMediaQuery,
     useTheme,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import SearchIcon from "@mui/icons-material/Search";
 import PropTypes from "prop-types";
 
@@ -28,12 +28,12 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 import styles from "./styles";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function ToolbarButtons(props) {
     const { baseId, hasSelection, hasError, onClose, onConfirm } = props;
     const { t } = useTranslation("common");
-    const classes = useStyles();
+    const { classes } = useStyles();
     return (
         <>
             <Button
@@ -65,7 +65,7 @@ function SelectionToolbar(props) {
     const { baseId, selectedApps, onClose, onConfirm, validateSelection } =
         props;
     const { t } = useTranslation("apps");
-    const classes = useStyles();
+    const { classes } = useStyles();
     const hasSelection = selectedApps?.length > 0;
 
     const theme = useTheme();
@@ -115,7 +115,7 @@ function SelectionToolbar(props) {
 
 function SearchToolbar(props) {
     const { baseId, currentSearch, setCurrentSearch } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const [searchText, setSearchText] = useState(currentSearch);
     const handleInputChange = (event) => setSearchText(event.target.value);
@@ -145,7 +145,7 @@ function SearchToolbar(props) {
 
 function AppSearchDrawer(props) {
     const { open, onConfirm, onClose, searchTerm, validateSelection } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const [currentSearch, setCurrentSearch] = useState(searchTerm);
     const [selectedApps, setSelectedApps] = useState([]);
 

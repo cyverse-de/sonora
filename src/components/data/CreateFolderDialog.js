@@ -28,15 +28,15 @@ import ids from "./ids";
 import { validateDiskResourceName } from "./utils";
 import { createFolder } from "../../serviceFacades/filesystem";
 import isQueryLoading from "../utils/isQueryLoading";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import styles from "./styles";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function CreateFolderDialog(props) {
     const { path, open, onClose, onFolderCreated } = props;
     const [createFolderError, setCreateFolderError] = useState(null);
-    const classes = useStyles();
+    const { classes } = useStyles();
     const baseId = ids.CREATE_DLG;
     const { t } = useTranslation("data");
 

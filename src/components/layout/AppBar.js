@@ -10,7 +10,6 @@ import { useTranslation } from "i18n";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useQuery, useQueryClient } from "react-query";
-import clsx from "clsx";
 
 import NavigationConstants from "common/NavigationConstants";
 import Bag from "components/bags";
@@ -54,7 +53,7 @@ import {
     Typography,
     useTheme,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -83,16 +82,16 @@ const GlobalSearchField = dynamic(() => import("../search/GlobalSearchField"));
 
 const ENTITLEMENT = "entitlement";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const BagMenu = () => {
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     return <Bag menuIconClass={classes.menuIcon} />;
 };
 
 function DEAppBar(props) {
-    const classes = useStyles();
+    const { classes, cx } = useStyles();
     const theme = useTheme();
     const router = useRouter();
     const queryClient = useQueryClient();
@@ -409,7 +408,7 @@ function DEAppBar(props) {
                 variant="outlined"
                 elevation={0}
                 ref={ref}
-                className={clsx(classes.appBar, {
+                className={cx(classes.appBar, {
                     [classes.appBarShift]: open,
                 })}
             >
@@ -466,12 +465,12 @@ function DEAppBar(props) {
             </AppBar>
             <Drawer
                 variant={isSmDown ? "temporary" : "permanent"}
-                className={clsx(classes.drawer, {
+                className={cx(classes.drawer, {
                     [classes.drawerOpen]: open,
                     [classes.drawerClose]: !open,
                 })}
                 classes={{
-                    paper: clsx({
+                    paper: cx({
                         [classes.drawerOpen]: open,
                         [classes.drawerClose]: !open,
                     }),
@@ -573,7 +572,7 @@ function DEAppBar(props) {
             </Popover>
             <UserPortalUpdatePrompts />
             <main
-                className={clsx(classes.content, {
+                className={cx(classes.content, {
                     [classes.contentShift]: open,
                 })}
             >

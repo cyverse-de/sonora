@@ -21,7 +21,7 @@ import {
     useTheme,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import {
     Cancel as CancelIcon,
@@ -42,7 +42,7 @@ import buildID from "components/utils/DebugIDUtil";
 import ids from "../dialog/ids";
 import { ERROR_CODES, getErrorCode } from "components/error/errorCode";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     ellipsis: {
         overflow: "hidden",
         textOverflow: "ellipsis",
@@ -96,7 +96,7 @@ const UploadStatus = ({ upload, baseId }) => {
 };
 
 const EllipsisField = ({ children }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     return <div className={classes.ellipsis}>{children}</div>;
 };
@@ -132,7 +132,7 @@ function UploadSecondaryText(props) {
  */
 const UploadItem = ({ upload, handleCancel, baseId }) => {
     const theme = useTheme();
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("upload");
     const isSmall = useMediaQuery(theme.breakpoints.down("md"));
 

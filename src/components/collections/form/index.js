@@ -6,7 +6,7 @@
 import React, { useState } from "react";
 
 import { Paper, Table } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Skeleton } from "@mui/material";
 import { Formik } from "formik";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -37,12 +37,12 @@ import styles from "../styles";
 import CollectionToolbar from "./Toolbar";
 import constants from "constants.js";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function CollectionsForm(props) {
     const { parentId, collectionName, goBackToCollectionList } = props;
     const { t } = useTranslation(["collections", "common"]);
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const [userProfile] = useUserProfile();
     const [collection, setCollection] = useState(null);

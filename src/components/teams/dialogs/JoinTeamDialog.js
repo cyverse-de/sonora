@@ -14,7 +14,7 @@ import {
     InputAdornment,
     Typography,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Field, Formik } from "formik";
 import { useTranslation } from "i18n";
 import { useMutation } from "react-query";
@@ -28,12 +28,12 @@ import styles from "../styles";
 import { groupShortName } from "../util";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function JoinTeamDialog(props) {
     const { teamName, open, onClose } = props;
     const { t } = useTranslation(["teams", "common"]);
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const [joinError, setJoinError] = useState(null);
 

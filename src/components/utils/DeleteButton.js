@@ -11,10 +11,10 @@ import { Button, IconButton } from "@mui/material";
 import PropTypes from "prop-types";
 
 import ids from "./ids";
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "tss-react/mui";
 import { useTranslation } from "../../i18n";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     deleteBtn: {
         color: theme.palette.error.main,
     },
@@ -30,7 +30,7 @@ function DeleteButton(props) {
     } = props;
     const { t } = useTranslation("common");
 
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const isButton = component === "Button";
     const Component = isButton ? Button : IconButton;

@@ -29,11 +29,11 @@ import {
     Toolbar,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import RefreshIcon from "@mui/icons-material/Refresh";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     toolbarItems: {
         margin: theme.spacing(0.5),
     },
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ViceLogsViewer(props) {
     const { open, getSelectedAnalyses, onClose } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("analyses");
     // Get QueryClient from the context
     const queryClient = useQueryClient();

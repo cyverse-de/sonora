@@ -21,7 +21,7 @@ import {
     useMediaQuery,
     useTheme,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Close } from "@mui/icons-material";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
@@ -56,7 +56,7 @@ import UserTable from "./UserTable";
 import ErrorTypography from "components/error/ErrorTypography";
 import DEErrorDialog from "components/error/DEErrorDialog";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function Sharing(props) {
     const { open, onClose, isAdminView, resources } = props;
@@ -75,7 +75,7 @@ function Sharing(props) {
 
     const { t: tCommon } = useTranslation("common");
     const { t: tSharing } = useTranslation("sharing");
-    const classes = useStyles();
+    const { classes } = useStyles();
     const baseId = ids.DIALOG;
 
     const { isFetching: fetchPermissions } = useQuery({

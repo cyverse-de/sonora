@@ -1,7 +1,7 @@
 import React from "react";
 import { Highlight } from "react-highlighter-ts";
 import PropTypes from "prop-types";
-import withStyles from "@mui/styles/withStyles";
+import { withStyles } from "tss-react/mui";
 
 /**
  * @author aramsey
@@ -28,4 +28,4 @@ Highlighter.propTypes = {
     children: PropTypes.any.isRequired,
 };
 
-export default withStyles(styles)(Highlighter);
+export default withStyles(Highlighter, styles);

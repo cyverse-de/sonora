@@ -59,7 +59,7 @@ import {
     Typography,
 } from "@mui/material";
 import LabelIcon from "@mui/icons-material/Label";
-import withStyles from "@mui/styles/withStyles";
+import { withStyles } from "tss-react/mui";
 import { Skeleton } from "@mui/material";
 
 function EditToolDialog(props) {
@@ -419,7 +419,7 @@ function EditToolDialog(props) {
     );
 }
 
-const StyledEditToolForm = withStyles(styles)(EditToolForm);
+const StyledEditToolForm = withStyles(EditToolForm, styles);
 
 function EditToolForm(props) {
     const {

@@ -31,7 +31,7 @@ import {
     useTheme,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import Autocomplete from "@mui/material/Autocomplete";
 
@@ -47,7 +47,7 @@ import Sharing from "components/sharing";
 import { formatSharedAnalyses } from "components/sharing/util";
 import useBreakpoints from "components/layout/useBreakpoints";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     menuButton: {
         color: theme.palette.info.contrastText,
     },
@@ -156,7 +156,7 @@ function AnalysesToolbar(props) {
         onRefreshSelected,
         setVICELogsDlgOpen,
     } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const theme = useTheme();
     const { t } = useTranslation("analyses");
     const [config] = useConfig();

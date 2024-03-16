@@ -9,11 +9,11 @@ import { useTranslation } from "i18n";
 import PropTypes from "prop-types";
 
 import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import CloseIcon from "@mui/icons-material/Close";
 import ErrorHandler from "./ErrorHandler";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     closeButton: {
         position: "absolute",
         right: theme.spacing(1),
@@ -31,7 +31,7 @@ const DEErrorDialog = ({
     open,
 }) => {
     const { t } = useTranslation("util");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const ErrorHandlerComponent = errorHandler || ErrorHandler;
 

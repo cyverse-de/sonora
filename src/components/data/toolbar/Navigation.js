@@ -27,7 +27,7 @@ import { useBootstrapInfo } from "contexts/bootstrap";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { useTranslation } from "i18n";
 import { useQueryClient, useQuery } from "react-query";
 
@@ -52,7 +52,7 @@ import {
     Typography,
 } from "@mui/material";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 /**
  * Splits a path into an array of path items.
@@ -140,7 +140,7 @@ function FolderSelectorMenu({
     communityDataPath,
     baseId,
 }) {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const relativePath = getRelativePath(
         path,
@@ -268,7 +268,7 @@ function BreadCrumb({
     communityDataPath,
     baseId,
 }) {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("data");
     const relativePath = getRelativePath(
         path,
@@ -326,7 +326,7 @@ function BreadCrumb({
 function Navigation(props) {
     const { path, handlePathChange, baseId, handleDataNavError } = props;
     const { t } = useTranslation("data");
-    const classes = useStyles();
+    const { classes } = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [dataRoots, setDataRoots] = useState([]);

@@ -25,7 +25,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Skeleton } from "@mui/material";
 import { useMutation } from "react-query";
 
@@ -43,7 +43,7 @@ import {
 import styles from "../styles";
 import { useNotifications } from "contexts/pushNotifications";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const REQUEST_CHOICES = {
     APPROVE: "approve",
@@ -55,7 +55,7 @@ const REQUEST_CHOICES = {
 function ApproveAction(props) {
     const { baseId, privilege, setPrivilege } = props;
     const { t } = useTranslation("notifications");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     return (
         <FormControl variant="standard" className={classes.formControl}>
@@ -136,7 +136,7 @@ function DialogContent(props) {
         } = {},
     } = props;
     const { t } = useTranslation(["notifications", "common"]);
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     return (
         <>

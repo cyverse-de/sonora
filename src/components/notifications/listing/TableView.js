@@ -35,9 +35,9 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 // Currently the API only supports sorting by the `timestamp` field.
 const getColumns = (t) => [
@@ -85,7 +85,7 @@ const TableView = (props) => {
     const [page, setPage] = React.useState(0);
     const [lastSelectedIndex, setLastSelectedIndex] = React.useState(-1);
 
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const { t } = useTranslation("notifications");
     const columnData = getColumns(t);

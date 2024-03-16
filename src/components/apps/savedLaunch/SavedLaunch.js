@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import Chip from "@mui/material/Chip";
 import PublicIcon from "@mui/icons-material/Public";
 import LockIcon from "@mui/icons-material/Lock";
-import withStyles from "@mui/styles/withStyles";
+import { withStyles } from "tss-react/mui";
 
 const styles1 = (theme) => ({
     chip: {
@@ -61,4 +61,4 @@ SavedLaunch.propTypes = {
     classes: PropTypes.object,
 };
 
-export default withStyles(styles1)(SavedLaunch);
+export default withStyles(SavedLaunch, styles1);

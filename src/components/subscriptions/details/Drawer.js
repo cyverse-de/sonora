@@ -16,7 +16,7 @@ import {
     useTheme,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { VerifiedUser } from "@mui/icons-material";
 import EmptyTable from "components/table/EmptyTable";
@@ -44,7 +44,7 @@ const ADDONS_TABLE_COLUMNS = [
     { name: "Paid", numeric: false, enableSorting: false },
 ];
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     drawerPaper: {
         [theme.breakpoints.up("xl")]: {
             maxWidth: "25%",
@@ -212,7 +212,7 @@ function SubscriptionDrawer(props) {
         selectedSubscriptionAddons,
         selectedUserPortalId,
     } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const drawerId = buildID(baseId, ids.DETAILS_DRAWER);
     const subscriptionDetailsTabId = buildID(
         drawerId,
@@ -291,7 +291,7 @@ function SubscriptionDrawer(props) {
 
 function SubscriptionHeader(props) {
     const { portalId, username } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const baseURL = constants.DEFAULT_USER_PORTAL_URL;
     const subURL = navigationConstants.ADMIN_USER_PORTAL_USERS;
     const linkToUserPortal = `${baseURL}${subURL}/${portalId}`;
@@ -319,7 +319,7 @@ function SubscriptionHeader(props) {
 
 function SubscriptionSubheader() {
     const { t } = useTranslation("subscriptions");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     return (
         <div className={classes.drawerSubheader}>

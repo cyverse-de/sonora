@@ -10,7 +10,7 @@ import React, { useState } from "react";
 
 import buildID from "components/utils/DebugIDUtil";
 import { Button, Drawer, Toolbar } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { BugReport, Info } from "@mui/icons-material";
 
 import ContactSupportDialog from "./ContactSupportDialog";
@@ -19,7 +19,7 @@ import { useTranslation } from "i18n";
 import ids from "./ids";
 import styles from "./styles";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function ViceLoadingToolbar(props) {
     const {
@@ -33,7 +33,7 @@ function ViceLoadingToolbar(props) {
         progressMessage,
     } = props;
     const { t } = useTranslation("vice-loading");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [contactSupportDlgOpen, setContactSupportDlgOpen] = useState(false);

@@ -15,7 +15,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { HighlightOff } from "@mui/icons-material";
 import { Autocomplete } from "@mui/material";
 import { useQueryClient, useMutation, useQuery } from "react-query";
@@ -35,7 +35,7 @@ import DEErrorDialog from "../error/DEErrorDialog";
 import ErrorTypography from "../error/ErrorTypography";
 import { useUserProfile } from "contexts/userProfile";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function TagSearch(props) {
     const {
@@ -46,7 +46,7 @@ function TagSearch(props) {
         handleTagAdded,
         handleTagRemoved,
     } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("data");
 
     const [searchTerm, setSearchTerm] = useState(null);

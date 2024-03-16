@@ -27,11 +27,11 @@ import FormTextField from "components/forms/FormTextField";
 
 import { Button, IconButton, InputAdornment } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import ClearIcon from "@mui/icons-material/Clear";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 /**
  * A Browse button used by Input Selectors to open the data `SelectionDrawer`.
@@ -94,7 +94,7 @@ const InputSelector = ({
 }) => {
     // These props need to be spread down into the FormTextField
     const { id, field, form, required } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("launch");
     const { t: prefI18n } = useTranslation("preferences");
     const { setFieldValue } = form;

@@ -28,7 +28,7 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import buildID from "components/utils/DebugIDUtil";
 
 import {
@@ -44,7 +44,7 @@ import {
 import { useUserProfile } from "../../../contexts/userProfile";
 import { CollectionIcon } from "components/collections/Icons";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     selectedListItem: {
         padding: theme.spacing(0.5),
         color: theme.palette.primary.main,
@@ -82,7 +82,7 @@ function AppNavigation(props) {
         selectedCategory,
         baseId,
     } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("apps");
     const [categories, setCategories] = useState([]);
     const [anchorEl, setAnchorEl] = useState(null);

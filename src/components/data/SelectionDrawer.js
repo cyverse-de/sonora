@@ -19,7 +19,7 @@ import {
     useMediaQuery,
     useTheme,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Directions } from "@mui/icons-material";
 import PropTypes from "prop-types";
 import { useTranslation } from "i18n";
@@ -36,7 +36,7 @@ import { getLocalStorage } from "components/utils/localStorage";
 
 import FolderIcon from "@mui/icons-material/Folder";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const PAGINATION_BAR_HEIGHT = 60;
 
@@ -98,7 +98,7 @@ function SelectionToolbar(props) {
         acceptedInfoTypes,
     } = props;
     const theme = useTheme();
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("data");
     const [displayPath, setDisplayPath] = useState("");
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -283,7 +283,7 @@ function SelectionDrawer(props) {
         onConfirm,
         onClose,
     } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const theme = useTheme();
 
     const [currentPath, setCurrentPath] = useState(startingPath);

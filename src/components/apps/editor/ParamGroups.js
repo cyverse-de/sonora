@@ -31,11 +31,11 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { Add, ExpandMore } from "@mui/icons-material";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function ParamGroupForm(props) {
     const {
@@ -62,7 +62,7 @@ function ParamGroupForm(props) {
         }
     }, [fieldName, groupEl, scrollToField, setScrollToField]);
 
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const groupBaseId = buildID(baseId, fieldName);
 

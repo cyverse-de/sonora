@@ -22,7 +22,7 @@ const DrawerItem = (props) => {
         activeView,
         thisView,
         toggleDrawer,
-        clsxBase,
+        cxBase,
         open,
         onClick,
         nested = false,
@@ -47,9 +47,7 @@ const DrawerItem = (props) => {
                     <ListItemIcon>
                         <Icon
                             className={
-                                clsxBase
-                                    ? cx(clsxBase, classes.icon)
-                                    : classes.icon
+                                cxBase ? cx(cxBase, classes.icon) : classes.icon
                             }
                             style={{ fontSize: !nested ? "2.1875rem" : null }}
                             fontSize={!nested ? "large" : "medium"}

@@ -24,7 +24,7 @@ function UserSurvey(props) {
     const theme = useTheme();
 
     const baseId = buildID(parentId, ids.LEGACY_CARD);
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const { t } = useTranslation("dashboard");
 

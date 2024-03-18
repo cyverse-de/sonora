@@ -13,7 +13,7 @@ export const FieldSelect = ({
     value,
     handleChange,
 }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("vice-admin");
     const inputLabelID = `${kind}-field-select-label`;
     return (

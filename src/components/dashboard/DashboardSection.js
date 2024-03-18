@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import clsx from "clsx";
 
 import { Typography, Collapse, Button, Divider } from "@mui/material";
 
@@ -29,7 +28,7 @@ const DashboardSection = ({
     setTerminateAnalysis,
     computeLimitExceeded,
 }) => {
-    const classes = useStyles();
+    const { classes, cx } = useStyles();
     const [expanded, setExpanded] = useState(false);
 
     const isNewsSection = section === constants.SECTION_NEWS;
@@ -64,7 +63,7 @@ const DashboardSection = ({
 
     return (
         <div
-            className={clsx(
+            className={cx(
                 classes.section,
                 isNewsSection && classes.sectionNews,
                 isEventsSection && classes.sectionEvents

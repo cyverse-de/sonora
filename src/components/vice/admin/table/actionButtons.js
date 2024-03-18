@@ -25,7 +25,7 @@ const ActionButtonsSkeleton = () => {
 };
 
 const ActionButton = ({ externalID, name, handler, onClick, popperMsgKey }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("vice-admin");
 
     return (
@@ -53,7 +53,7 @@ const ActionButtons = ({
     handleExit = (_) => {},
     handleSaveAndExit = (_) => {},
 }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("vice-admin");
 
     const externalID = row.original.externalID;

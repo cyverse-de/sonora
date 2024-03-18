@@ -65,7 +65,7 @@ const DashboardLink = ({ target, kind, children }) => {
 const DashboardItem = ({ item }) => {
     const theme = useTheme();
     const color = getSectionColor(item.section, theme);
-    const classes = useStyles({
+    const { classes } = useStyles({
         width: item.width,
         height: item.height,
         color,
@@ -157,7 +157,10 @@ const DashboardItem = ({ item }) => {
 };
 
 export const DashboardFeedItem = ({ item }) => {
-    const classes = useStyles({ width: item.width, height: item.height });
+    const { classes, cx } = useStyles({
+        width: item.width,
+        height: item.height,
+    });
     const { t } = useTranslation(["dashboard", "apps"]);
 
     const [origination, date] = item.getOrigination(t);
@@ -166,7 +169,7 @@ export const DashboardFeedItem = ({ item }) => {
 
     return (
         <div
-            className={clsx(
+            className={cx(
                 item.section === constants.SECTION_NEWS && classes.newsItem,
                 item.section === constants.SECTION_EVENTS && classes.eventsItem
             )}
@@ -193,7 +196,7 @@ export const DashboardFeedItem = ({ item }) => {
 };
 
 export const DashboardVideoItem = ({ item }) => {
-    const classes = useStyles(item);
+    const { classes } = useStyles(item);
 
     return (
         <div

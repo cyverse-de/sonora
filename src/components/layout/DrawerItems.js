@@ -110,7 +110,7 @@ function DrawerItems(props) {
                 id={ids.DASHBOARD_MI}
                 icon={HomeIcon}
                 thisView={NavigationConstants.DASHBOARD}
-                clsxBase={"dashboard-intro"}
+                cxBase={"dashboard-intro"}
                 activeView={activeView}
                 toggleDrawer={toggleDrawer}
                 open={open}
@@ -120,7 +120,7 @@ function DrawerItems(props) {
                 id={ids.DATA_MI}
                 icon={WrappedDataIcon(dataUsagePercentage, t, theme)}
                 thisView={NavigationConstants.DATA}
-                clsxBase={"data-intro"}
+                cxBase={"data-intro"}
                 activeView={activeView}
                 toggleDrawer={toggleDrawer}
                 open={open}
@@ -129,7 +129,7 @@ function DrawerItems(props) {
                 title={t("apps")}
                 id={ids.APPS_MI}
                 thisView={NavigationConstants.APPS}
-                clsxBase={"apps-intro"}
+                cxBase={"apps-intro"}
                 activeView={activeView}
                 toggleDrawer={toggleDrawer}
                 open={open}
@@ -164,7 +164,7 @@ function DrawerItems(props) {
                 id={ids.ANALYSES_MI}
                 icon={WrappedAnalysesIcon(analysesStats)}
                 thisView={NavigationConstants.ANALYSES}
-                clsxBase={"analyses-intro"}
+                cxBase={"analyses-intro"}
                 activeView={activeView}
                 toggleDrawer={toggleDrawer}
                 open={open}
@@ -233,7 +233,7 @@ function DrawerItems(props) {
                     id={ids.SEARCH_MI}
                     icon={SearchIcon}
                     thisView={NavigationConstants.SEARCH}
-                    clsxBase={"search-intro"}
+                    cxBase={"search-intro"}
                     activeView={activeView}
                     toggleDrawer={toggleDrawer}
                     open={open}
@@ -246,14 +246,14 @@ function DrawerItems(props) {
                     id={ids.SETTINGS_MI}
                     icon={SettingsIcon}
                     thisView={NavigationConstants.SETTINGS}
-                    clsxBase={"preferences-intro"}
+                    cxBase={"preferences-intro"}
                     activeView={activeView}
                     toggleDrawer={toggleDrawer}
                     open={open}
                 />
             )}
             <DrawerItem
-                clsxBase={"help-intro"}
+                cxBase={"help-intro"}
                 activeView={activeView}
                 thisView={NavigationConstants.HELP}
                 toggleDrawer={toggleDrawer}

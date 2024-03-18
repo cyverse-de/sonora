@@ -154,16 +154,16 @@ To help with this, there's a `build` helper function in the `ui-lib` repo [here]
 
 If your component(s) require a lot of CSS, create a separate `styles` file to keep things minimal. Example file [here](/src/data/listing/styles.js).
 
-For utilizing styles, use `makeStyles` from `@material-ui/core` as a hook. Here's a small example of using `makeStyles`:
+For utilizing styles, use `makeStyles` from `tss-react/mui"` as a hook. Here's a small example of using `makeStyles`:
 
 ```
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from "tss-react/mui"";
 import myStylesFile from "./styles";
 
-const useStyles = makeStyles(myStylesFile);
+const useStyles = makeStyles()(myStylesFile);
 
 function myComponent(props) {
-  const classes = useStyles();
+  const { classes } = useStyles();
 
   return (
     <div className={classes.myDivCSS}/>

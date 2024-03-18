@@ -9,7 +9,7 @@ import { AppBar, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 import { makeStyles } from "tss-react/mui";
-import { useTheme } from "@mui/styles";
+import { useTheme } from "@mui/material";
 
 import buildID from "components/utils/DebugIDUtil";
 

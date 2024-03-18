@@ -24,7 +24,7 @@ const FilterSection = ({
     kind,
     addToFilters,
 }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("vice-admin");
     const [field, setField] = useState("");
     const [value, setValue] = useState("");

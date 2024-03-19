@@ -25,10 +25,10 @@ import {
     IconButton,
     Tooltip,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Close } from "@mui/icons-material";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     closeButton: {
         float: "right",
     },
@@ -40,7 +40,7 @@ function CreateSavedLaunchDialog(props) {
     const { t } = useTranslation("apps");
     const [saveError, setSaveError] = React.useState(null);
 
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const handleSubmit = (values, actions) => {
         actions.setSubmitting(true);

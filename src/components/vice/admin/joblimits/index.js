@@ -10,7 +10,7 @@ import {
     FormControl,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { useMutation } from "react-query";
 import { useTranslation } from "i18n";
@@ -25,7 +25,7 @@ import {
 
 import withErrorAnnouncer from "../../../error/withErrorAnnouncer";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     root: {
         marginBottom: theme.spacing(4),
         width: "100%",
@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const JobLimits = ({ showErrorAnnouncer }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("vice-admin");
     const [username, setUsername] = useState("");
     const [previousUsername, setPreviousUsername] = useState("");

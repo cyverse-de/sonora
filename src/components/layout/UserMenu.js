@@ -25,9 +25,9 @@ import {
     Typography,
     useTheme,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     paper: {
         padding: theme.spacing(1),
         [theme.breakpoints.down("sm")]: {
@@ -70,7 +70,7 @@ export default function UserMenu(props) {
     } = props;
     const { t } = useTranslation(["common"]);
     const theme = useTheme();
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const formattedEndDate = formatDateObject(
         new Date(subscription?.effective_end_date),

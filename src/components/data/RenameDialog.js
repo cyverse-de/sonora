@@ -30,15 +30,15 @@ import {
 } from "./utils";
 import { rename } from "serviceFacades/filesystem";
 import isQueryLoading from "components/utils/isQueryLoading";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import styles from "./styles";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function RenameDialog(props) {
     const { path, open, onClose, onRenamed } = props;
     const [renameError, setRenameError] = useState(null);
-    const classes = useStyles();
+    const { classes } = useStyles();
     const baseId = ids.RENAME_DLG;
     const { t } = useTranslation("data");
 

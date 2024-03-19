@@ -58,7 +58,7 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import {
     Add as ContentAdd,
@@ -69,7 +69,7 @@ import {
 import { Skeleton } from "@mui/material";
 import { LocalContextsAttrs } from "components/models/metadata/LocalContexts";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const newAVU = (attrTemplate) => {
     const attr = attrTemplate.name,
@@ -145,7 +145,7 @@ const MetadataTemplateAttributeForm = (props) => {
     }, [avus]);
 
     const { t } = useTranslation("metadata");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const onAttrExpandedChange = (attr, attrExpanded) => {
         setExpanded({ ...expanded, [attr]: attrExpanded });

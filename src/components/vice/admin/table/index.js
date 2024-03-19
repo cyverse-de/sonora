@@ -39,7 +39,7 @@ const ExtendedDataCard = ({
     handleUploadOutputs,
     handleDownloadInputs,
 }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     // These should be the column IDs of the columns displayed in the
     // ExtendedDataCard, which currently corresponds to the hidden columns.
@@ -97,7 +97,7 @@ const CollapsibleTableRow = ({
     handleDownloadInputs,
     isMobile = false,
 }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const rowID = id(baseID, "row");
     const collapseID = id(rowID, "collapse");
@@ -214,7 +214,7 @@ const CollapsibleTable = ({
     handleDownloadInputs,
     handleUploadOutputs,
 }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const theme = useTheme();
 
     const isXL = useMediaQuery(theme.breakpoints.up("xl"));

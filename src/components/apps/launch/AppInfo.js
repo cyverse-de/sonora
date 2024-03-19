@@ -26,7 +26,7 @@ import buildID from "components/utils/DebugIDUtil";
 
 import { Box, Button, Link, Typography, useTheme } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { Info, MenuBook } from "@mui/icons-material";
 
@@ -38,7 +38,7 @@ import { useConfig } from "contexts/config";
 import ExternalLink from "components/utils/ExternalLink";
 import useBreakpoints from "components/layout/useBreakpoints";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const LoadingErrorDisplay = ({ baseId, loadingError }) => {
     const [errorDialogOpen, setErrorDialogOpen] = React.useState(false);
@@ -141,7 +141,7 @@ const AppInfo = (props) => {
     } = props;
 
     const { t } = useTranslation("apps");
-    const classes = useStyles();
+    const { classes } = useStyles();
     const theme = useTheme();
     const router = useRouter();
 

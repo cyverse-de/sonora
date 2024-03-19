@@ -17,13 +17,13 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import ClientInfo from "../error/ClientInfo";
 import ContactSupport from "../error/ContactSupport";
 import ids from "./ids";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     cardContent: {
         padding: theme.spacing(2),
         [theme.breakpoints.down("sm")]: {
@@ -42,7 +42,7 @@ function OAuthErrorHandler(props) {
     const { errorCode, baseId } = props;
     const { t } = useTranslation("oauth");
     const errorBaseId = buildID(baseId, ids.OAUTH_ERROR_HANDLER);
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const avatar = <ErrorIcon fontSize="large" color="error" />;
     const title = (

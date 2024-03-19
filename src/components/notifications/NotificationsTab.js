@@ -11,11 +11,10 @@ import {
     useMediaQuery,
     useTheme,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Skeleton } from "@mui/material";
-import classnames from "classnames";
 import Link from "next/link";
 
 import NavigationConstants from "common/NavigationConstants";
@@ -26,7 +25,7 @@ import Message from "./Message";
 import styles from "./styles";
 import { getFormattedDistance } from "components/utils/DateFormatter";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const NotificationsListingButton = React.forwardRef((props, ref) => {
     const { isMobile, handleClose, href, onClick } = props;
@@ -37,9 +36,11 @@ const NotificationsListingButton = React.forwardRef((props, ref) => {
         ids.VIEW_ALL_NOTIFICATIONS
     );
 
+    const { classes } = useStyles();
+
     return isMobile ? (
         <IconButton
-            className={useStyles().viewAll}
+            className={classes.viewAll}
             id={buttonId}
             ref={ref}
             href={href}
@@ -87,7 +88,7 @@ function NotificationsTab(props) {
         errorObject,
     } = props;
 
-    const classes = useStyles();
+    const { classes, cx } = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { t } = useTranslation("common");
@@ -153,7 +154,7 @@ function NotificationsTab(props) {
                         key={n.message.id}
                         className={
                             !n.seen
-                                ? classnames(
+                                ? cx(
                                       classes.notification,
                                       classes.unSeenNotificationBackground
                                   )

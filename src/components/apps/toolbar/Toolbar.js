@@ -27,7 +27,7 @@ import {
     Toolbar,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import {
     Add as CreateAppIcon,
     Build,
@@ -101,7 +101,7 @@ function getOwnershipFilters(t) {
  * @constructor
  */
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     divider: {
         flexGrow: 1,
     },
@@ -144,7 +144,7 @@ function AppsToolbar(props) {
         handleAdminOwnershipFilterChange,
     } = props;
     const { t } = useTranslation("apps");
-    const classes = useStyles();
+    const { classes } = useStyles();
     const appsToolbarId = buildID(baseId, ids.APPS_TOOLBAR);
     const [openFilterDialog, setOpenFilterDialog] = useState(false);
     const { isSmDown, isMdDown, isMdUp } = useBreakpoints();

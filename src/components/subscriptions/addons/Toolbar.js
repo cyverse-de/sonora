@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Toolbar } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import AddIcon from "@mui/icons-material/Add";
 import { Delete } from "@mui/icons-material";
 
@@ -9,7 +9,7 @@ import ids from "../ids";
 import buildID from "components/utils/DebugIDUtil";
 import EditAddonDialog from "./edit/EditAddon";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     toolbarItems: {
         [theme.breakpoints.down("sm")]: {
             margin: theme.spacing(0.5),
@@ -25,7 +25,7 @@ function AddonsToolbar(props) {
     const { t } = useTranslation("subscriptions");
     const toolbarId = buildID(baseId, ids.TOOLBAR);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     return (
         <>

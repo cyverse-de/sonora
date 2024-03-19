@@ -18,7 +18,7 @@ import {
     MenuItem,
     Toolbar,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Delete, EmojiPeople, ExitToApp, Save } from "@mui/icons-material";
 
 import BackButton from "components/utils/BackButton";
@@ -30,7 +30,7 @@ import JoinTeamDialog from "../dialogs/JoinTeamDialog";
 import { groupShortName } from "../util";
 import useBreakpoints from "components/layout/useBreakpoints";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function EditTeamToolbar(props) {
     const {
@@ -43,7 +43,7 @@ function EditTeamToolbar(props) {
         handleSubmit,
     } = props;
     const { t } = useTranslation(["teams", "common"]);
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const [leaveTeamDlgOpen, setLeaveTeamDlgOpen] = useState(false);
     const [deleteTeamDlgOpen, setDeleteTeamDlgOpen] = useState(false);

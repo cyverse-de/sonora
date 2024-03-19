@@ -1,11 +1,11 @@
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "tss-react/mui";
 
-export default makeStyles((theme) => ({
+export default makeStyles()((theme, props) => ({
     tripleDotMenu: {
         marginLeft: "auto",
     },
     avatar: {
-        background: (props) => props.color,
+        background: props?.color,
         height: theme.spacing(3),
         width: theme.spacing(3),
     },
@@ -13,8 +13,8 @@ export default makeStyles((theme) => ({
         background: theme.palette.white,
     },
     avatarIcon: {
-        color: (props) => theme.palette.white,
-        backgroundColor: (props) => props.color,
+        color: theme.palette.white,
+        backgroundColor: props?.color,
         height: theme.spacing(2),
         width: theme.spacing(2),
     },
@@ -29,8 +29,8 @@ export default makeStyles((theme) => ({
         flexDirection: "column",
         marginTop: theme.spacing(2),
 
-        width: (props) => props.width,
-        height: (props) => props.height,
+        width: props?.width,
+        height: props?.height,
 
         [theme.breakpoints.up("xs")]: {
             marginRight: theme.spacing(0),
@@ -45,8 +45,8 @@ export default makeStyles((theme) => ({
         },
     },
     dashboardVideo: {
-        width: (props) => props.width,
-        height: (props) => props.height,
+        width: props?.width,
+        height: props?.height,
         float: "none",
         clear: "both",
         marginRight: theme.spacing(2),

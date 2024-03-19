@@ -24,11 +24,11 @@ import {
     useMediaQuery,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { Delete, Edit, ArrowDownward, ArrowUpward } from "@mui/icons-material";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 export default function ParamLayoutActions(props) {
     const {
@@ -44,7 +44,7 @@ export default function ParamLayoutActions(props) {
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("common");
 
     return (

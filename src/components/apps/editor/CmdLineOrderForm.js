@@ -24,11 +24,11 @@ import {
     TextField,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const hasCmdLineOrder = (param) => {
     switch (param.type) {
@@ -109,7 +109,7 @@ function CmdLinePreview(props) {
     const { baseId, toolName, params } = props;
 
     const { t } = useTranslation("app_editor");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     return (
         <Card className={classes.paramCard}>
@@ -138,7 +138,7 @@ function ParamCmdLineOrderForm(props) {
     const { baseId, fieldName, cmdLinePreview, onMoveUp, onMoveDown } = props;
 
     const { t } = useTranslation("common");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const paramBaseId = buildID(baseId, fieldName);
 

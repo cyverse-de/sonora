@@ -40,14 +40,14 @@ import {
     IconButton,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
 import { useTranslation } from "i18n";
 import { useFormik } from "formik";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     title: {
         paddingTop: theme.spacing(2),
     },
@@ -92,7 +92,7 @@ const initialValues = {
 
 const AddMappingForm = ({ t, handleSubmit, instantlaunches, infoTypes }) => {
     const baseID = buildID(ids.BASE, ids.MAPPING, ids.ADD, ids.FORM);
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const formik = useFormik({
         initialValues,
@@ -238,7 +238,7 @@ const AddMappingForm = ({ t, handleSubmit, instantlaunches, infoTypes }) => {
 const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
     const baseID = buildID(ids.BASE, ids.MAPPING, ids.EDITOR);
 
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const { t } = useTranslation(["instantlaunches", "common"]);
 

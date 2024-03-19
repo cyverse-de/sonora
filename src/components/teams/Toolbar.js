@@ -20,7 +20,7 @@ import {
     Toolbar,
     Typography,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Help } from "@mui/icons-material";
 import { AddTeamIcon } from "./Icons";
 
@@ -32,11 +32,11 @@ import Autocomplete from "@mui/material/Autocomplete";
 import DEDialog from "../utils/DEDialog";
 import useBreakpoints from "components/layout/useBreakpoints";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function TeamToolbar(props) {
     const { parentId, teamFilter, setTeamFilter, onCreateTeamSelected } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation(["teams", "common"]);
 
     const [helpDlgOpen, setHelpDlgOpen] = useState(false);

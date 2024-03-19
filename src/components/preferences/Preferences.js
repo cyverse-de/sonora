@@ -61,9 +61,9 @@ import {
     Divider,
     Grid,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function Preferences(props) {
     const { baseId, showErrorAnnouncer } = props;
@@ -98,7 +98,7 @@ function Preferences(props) {
     const [webhookTopics, setWebhookTopics] = useState();
     const [webhookTypes, setWebhookTypes] = useState();
 
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();

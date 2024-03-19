@@ -41,7 +41,7 @@ import SavedLaunchList from "./SavedLaunchList";
 import constants from "constants.js";
 
 import { Button, Grid, Typography } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import {
     Add as AddIcon,
     Close as CloseIcon,
@@ -87,7 +87,7 @@ const isInListing = (id, listingILs) => {
     return listingILs.find((il) => il.id === id);
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     addButton: {
         marginRight: theme.spacing(2),
         float: "right",
@@ -118,7 +118,7 @@ const CreationDialog = ({ t, open, onClose }) => {
     const createID = buildID(ids.BASE, ids.CREATE, ids.DIALOG);
     const closeID = buildID(createID, ids.CLOSE, ids.BUTTON);
 
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     return (
         <DEDialog
@@ -162,7 +162,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const baseID = buildID(ids.BASE, ids.LIST);
 
     const { t } = useTranslation("instantlaunches");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const [dlgOpen, setDlgOpen] = React.useState(false);
 

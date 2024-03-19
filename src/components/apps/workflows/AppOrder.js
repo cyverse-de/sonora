@@ -36,7 +36,7 @@ import {
     useTheme,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { Add, Delete, ArrowDownward, ArrowUpward } from "@mui/icons-material";
 import { Skeleton } from "@mui/material";
@@ -86,12 +86,12 @@ const resetInputStepMappings = (
     }
 };
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const AppStepActions = (props) => {
     const { baseId, onDelete, onMoveDown, onMoveUp } = props;
 
-    const classes = useStyles();
+    const { classes } = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const { t } = useTranslation("common");

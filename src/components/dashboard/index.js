@@ -7,7 +7,6 @@
  */
 import React, { useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import clsx from "clsx";
 
 import { useQueryClient, useQuery, useMutation } from "react-query";
 import { useTranslation } from "i18n";
@@ -69,7 +68,7 @@ const PendingTerminationDlg = dynamic(() =>
 );
 
 const DashboardSkeleton = () => {
-    const classes = useStyles();
+    const { classes, cx } = useStyles();
     const [userProfile] = useUserProfile();
 
     let skellyTypes = [classes.sectionNews, classes.sectionEvents, "", ""];
@@ -87,7 +86,7 @@ const DashboardSkeleton = () => {
     }
 
     const skellies = skellyTypes.map((extraClass, index) => (
-        <div className={clsx(classes.section, extraClass)} key={index}>
+        <div className={cx(classes.section, extraClass)} key={index}>
             <Skeleton
                 variant="rectangular"
                 animation="wave"
@@ -110,7 +109,7 @@ const DashboardSkeleton = () => {
 
 const Dashboard = (props) => {
     const { showErrorAnnouncer } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation(["dashboard", "common"]);
     const { t: i18nPref } = useTranslation("preferences");
     const { t: i18nIntro } = useTranslation("intro");

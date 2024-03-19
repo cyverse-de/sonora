@@ -9,7 +9,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 import { useQuery } from "react-query";
 
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from "tss-react/mui";
 
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
@@ -43,7 +43,7 @@ const TABS = {
 };
 
 const VICEAdminSkeleton = () => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     return (
         <>
             <Skeleton
@@ -65,7 +65,7 @@ const VICEAdminSkeleton = () => {
     );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     root: {
         paddingLeft: theme.spacing(3),
         paddingRight: theme.spacing(3),
@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const VICEAdmin = () => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const [selectedTab, setSelectedTab] = useState(TABS.quotaRequests);
     const { t } = useTranslation("vice-admin");
 

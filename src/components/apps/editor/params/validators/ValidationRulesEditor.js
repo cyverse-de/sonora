@@ -41,17 +41,17 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { Add, Delete } from "@mui/icons-material";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function ValidationRulesEditorRow(props) {
     const { baseId, cosmeticOnly, fieldName, ruleType, onDelete } = props;
 
     const { t } = useTranslation(["app_editor", "common"]);
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     let RuleParamComponent, ruleDisplay;
 

@@ -5,7 +5,6 @@
  *
  **/
 import React from "react";
-import clsx from "clsx";
 import NavigationConstants from "common/NavigationConstants";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
@@ -14,16 +13,16 @@ import ids from "./ids";
 import styles from "./styles";
 import buildID from "components/utils/DebugIDUtil";
 import { ListItem, ListItemIcon, ListItemText, Tooltip } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import LabelImportantIcon from "@mui/icons-material/LabelImportant";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 export default function AdminDrawerItems(props) {
     const { t } = useTranslation(["common"]);
     const router = useRouter();
-    const classes = useStyles();
+    const { classes, cx } = useStyles();
     const { open, activeView } = props;
     return (
         <>
@@ -47,7 +46,7 @@ export default function AdminDrawerItems(props) {
                 <ListItem
                     button
                     id={buildID(ids.DRAWER_MENU, ids.APPS_ADMIN_MI)}
-                    className={clsx(classes.nested, classes.listItem)}
+                    className={cx(classes.nested, classes.listItem)}
                     onClick={() =>
                         router.push(
                             "/" +
@@ -67,7 +66,7 @@ export default function AdminDrawerItems(props) {
                 <ListItem
                     button
                     id={buildID(ids.DRAWER_MENU, ids.DOI_ADMIN_MI)}
-                    className={clsx(classes.nested, classes.listItem)}
+                    className={cx(classes.nested, classes.listItem)}
                     onClick={() =>
                         router.push(
                             "/" +
@@ -87,7 +86,7 @@ export default function AdminDrawerItems(props) {
                 <ListItem
                     button
                     id={buildID(ids.DRAWER_MENU, ids.REF_GENOME_MI)}
-                    className={clsx(classes.nested, classes.listItem)}
+                    className={cx(classes.nested, classes.listItem)}
                     onClick={() =>
                         router.push(
                             "/" +
@@ -108,7 +107,7 @@ export default function AdminDrawerItems(props) {
                 <ListItem
                     button
                     id={buildID(ids.DRAWER_MENU, ids.TOOLS_ADMIN_MI)}
-                    className={clsx(classes.nested, classes.listItem)}
+                    className={cx(classes.nested, classes.listItem)}
                     onClick={() =>
                         router.push(
                             "/" +
@@ -129,7 +128,7 @@ export default function AdminDrawerItems(props) {
                 <ListItem
                     button
                     id={buildID(ids.DRAWER_MENU, ids.TOOLS_ADMIN_MI)}
-                    className={clsx(classes.nested, classes.listItem)}
+                    className={cx(classes.nested, classes.listItem)}
                     onClick={() =>
                         router.push(
                             "/" +
@@ -150,7 +149,7 @@ export default function AdminDrawerItems(props) {
                 <ListItem
                     button
                     id={buildID(ids.DRAWER_MENU, ids.VICE_MI)}
-                    className={clsx(classes.nested, classes.listItem)}
+                    className={cx(classes.nested, classes.listItem)}
                     onClick={() =>
                         router.push(
                             "/" +

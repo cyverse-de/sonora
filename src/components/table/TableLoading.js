@@ -9,12 +9,12 @@ import React from "react";
 
 import buildID from "components/utils/DebugIDUtil";
 import { TableBody, TableCell, TableRow } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Skeleton } from "@mui/material";
 
 import ids from "../utils/ids";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     skeleton: {
         backgroundColor: theme.palette.lightGray,
     },
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 function TableLoading(props) {
     const { numColumns, numRows, baseId } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const arrayRows = [...Array(numRows)];
     const arrayColumns = [...Array(numColumns)];
 

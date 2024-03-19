@@ -11,7 +11,7 @@ import CopyTextArea from "components/copy/CopyTextArea";
 import { formatDate } from "components/utils/DateFormatter";
 
 import { Button, Divider, Grid, MenuItem, Select } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Link } from "@mui/icons-material";
 
 import { useTranslation } from "i18n";
@@ -34,10 +34,10 @@ import isQueryLoading from "../../utils/isQueryLoading";
 import ErrorTypography from "../../error/ErrorTypography";
 import DEErrorDialog from "../../error/DEErrorDialog";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function DetailsTabPanel(props) {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const {
         baseId,
         resource,

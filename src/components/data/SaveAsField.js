@@ -15,10 +15,10 @@ import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
 
 import { CircularProgress, IconButton } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import ClearIcon from "@mui/icons-material/Clear";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const SaveAsField = ({ loading, ...props }) => {
     // These props need to be spread down into the FormTextField
@@ -29,7 +29,7 @@ const SaveAsField = ({ loading, ...props }) => {
         required,
     } = props;
 
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("data");
 
     const inputProps = {

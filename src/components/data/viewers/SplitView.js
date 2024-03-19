@@ -11,14 +11,14 @@ import buildID from "components/utils/DebugIDUtil";
 import ids from "./ids";
 
 import { Grid, Typography } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     panelHeader: {
         color: theme.palette.info.main,
         padding: 0,
@@ -34,7 +34,7 @@ export default function SplitView(props) {
     const { baseId, leftPanel, rightPanel, leftPanelTitle, rightPanelTitle } =
         props;
     const { t } = useTranslation("data");
-    const classes = useStyles();
+    const { classes } = useStyles();
     const [hidden, setHidden] = React.useState(NONE);
     const [leftWidth, setLeftWidth] = React.useState(5);
     const [rightWidth, setRightWidth] = React.useState(5);

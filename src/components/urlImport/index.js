@@ -17,7 +17,7 @@ import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import {
     CheckCircle,
     Publish as PublishIcon,
@@ -38,7 +38,7 @@ import {
     Typography,
 } from "@mui/material";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     root: {
         flexGrow: 1,
     },
@@ -122,7 +122,7 @@ const urlFileName = (urlString) =>
     urlString.split("/").pop().split("#")[0].split("?")[0];
 
 const URLImportTextField = (props) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("urlImport");
 
     const [uploadURL, setUploadURL] = useState("");
@@ -227,7 +227,7 @@ const URLImportTextField = (props) => {
 };
 
 const URLImportDialog = (props) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("urlImport");
     const theme = useTheme();
     const { open, onClose, path } = props;

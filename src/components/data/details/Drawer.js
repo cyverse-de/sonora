@@ -9,7 +9,7 @@ import React, { useState } from "react";
 import buildID from "components/utils/DebugIDUtil";
 import { Drawer, Typography } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { useTranslation } from "i18n";
 
@@ -25,7 +25,7 @@ const TABS = {
     permissions: "PERMISSIONS",
 };
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function DetailsDrawer(props) {
     const {
@@ -36,7 +36,7 @@ function DetailsDrawer(props) {
         infoTypes,
         onPublicLinksSelected,
     } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const [selectedTab, setSelectedTab] = useState(TABS.details);
     const [selfPermission, setSelfPermission] = useState("");

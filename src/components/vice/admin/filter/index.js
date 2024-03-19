@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
 
-import classnames from "classnames";
-
 import {
     Card,
     CardActions,
@@ -29,7 +27,7 @@ import {
 
 const FilterChip = ({ label, handleDelete }) => {
     const [deleted, setDeleted] = useState(false);
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const fixedLabel = label.startsWith("$.") ? label.slice(2) : label;
 
@@ -53,7 +51,7 @@ const FilterChip = ({ label, handleDelete }) => {
 };
 
 const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {
-    const classes = useStyles();
+    const { classes, cx } = useStyles();
     const { t } = useTranslation("vice-admin");
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -84,7 +82,7 @@ const AnalysesFilter = ({ filters, addToFilters, deleteFromFilters }) => {
 
             <CardActions disableSpacing>
                 <IconButton
-                    className={classnames(classes.expand, {
+                    className={cx(classes.expand, {
                         [classes.expandOpen]: isExpanded,
                     })}
                     onClick={() => setIsExpanded(!isExpanded)}

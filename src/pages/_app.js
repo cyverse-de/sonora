@@ -37,6 +37,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import { createEmotionSsrAdvancedApproach } from "tss-react/next/pagesDir";
 
 const setupIntercom = (intercomAppId) => {
     window.intercomSettings = {
@@ -306,4 +307,9 @@ function MyApp({ Component, pageProps }) {
     );
 }
 
-export default appWithTranslation(MyApp);
+const { augmentDocumentWithEmotionCache, withAppEmotionCache } =
+    createEmotionSsrAdvancedApproach({ key: "css" });
+
+export { augmentDocumentWithEmotionCache };
+
+export default appWithTranslation(withAppEmotionCache(MyApp));

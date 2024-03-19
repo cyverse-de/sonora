@@ -17,7 +17,7 @@ import {
     AccordionSummary,
     Typography,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { ExpandMore } from "@mui/icons-material";
 import PropTypes from "prop-types";
 
@@ -34,12 +34,12 @@ const styles = (theme) => ({
     },
 });
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function SimpleExpansionPanel(props) {
     const { header, parentId, defaultExpanded, children, hasErrors } = props;
     const [expanded, setExpanded] = useState(defaultExpanded);
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const handleChange = (event, isExpanded) => {
         setExpanded(!!(isExpanded || hasErrors));

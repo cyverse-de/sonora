@@ -11,7 +11,7 @@ import Rating from "@mui/material/Rating";
 import IconButton from "@mui/material/IconButton";
 import { Tooltip, Typography } from "@mui/material";
 
-import withStyles from "@mui/styles/withStyles";
+import { withStyles } from "tss-react/mui";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -86,4 +86,4 @@ Rate.propTypes = {
     onChange: PropTypes.func,
 };
 
-export default withStyles(style1)(Rate);
+export default withStyles(Rate, style1);

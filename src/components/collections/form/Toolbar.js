@@ -16,7 +16,7 @@ import {
     MenuItem,
     Toolbar,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Delete, EmojiPeople, ExitToApp, Save } from "@mui/icons-material";
 
 import DotMenu from "components/dotMenu/DotMenu";
@@ -30,7 +30,7 @@ import ids from "../ids";
 import styles from "../styles";
 import useBreakpoints from "components/layout/useBreakpoints";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function EditCollectionToolbar(props) {
     const {
@@ -45,7 +45,7 @@ function EditCollectionToolbar(props) {
         dirty,
     } = props;
     const { t } = useTranslation(["collections", "common"]);
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const [unfollowCollectionDlgOpen, setUnfollowCollectionDlgOpen] =
         useState(false);

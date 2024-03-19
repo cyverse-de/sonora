@@ -17,7 +17,7 @@ import {
     ListSubheader,
     Typography,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Skeleton } from "@mui/material";
 import { useTranslation } from "i18n";
 import { useMutation, useQuery } from "react-query";
@@ -40,7 +40,7 @@ import ErrorTypography from "components/error/ErrorTypography";
 import DEErrorDialog from "components/error/DEErrorDialog";
 import { getUserPrimaryText, getUserSecondaryText } from "../../sharing/util";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function getAvatarLetters(permission) {
     const firstName = permission.first_name || permission.id;
@@ -64,7 +64,7 @@ function sortPerms(permissions) {
 }
 
 function PermissionsTabPanel(props) {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { baseId, resource, selfPermission } = props;
     const { t } = useTranslation("data");
     const [fetchUserInfoKey, setFetchUserInfoKey] =

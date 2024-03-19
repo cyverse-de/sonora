@@ -13,12 +13,12 @@ import GlobalFilter from "./GlobalFilter";
 
 import buildID from "components/utils/DebugIDUtil";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import Toolbar from "@mui/material/Toolbar";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
-const useToolbarStyles = makeStyles((theme) => ({
+const useToolbarStyles = makeStyles()((theme) => ({
     root: {
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(1),
@@ -36,7 +36,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 const TableToolbar = (props) => {
     const { baseId } = props;
     const { t } = useTranslation("referenceGenomes");
-    const classes = useToolbarStyles();
+    const { classes } = useToolbarStyles();
     const {
         preGlobalFilteredRows,
         setGlobalFilter,

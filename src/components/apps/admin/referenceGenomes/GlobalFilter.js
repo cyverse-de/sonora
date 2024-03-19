@@ -13,10 +13,10 @@ import ids from "./ids";
 import buildID from "components/utils/DebugIDUtil";
 
 import InputBase from "@mui/material/InputBase";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import SearchIcon from "@mui/icons-material/Search";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     search: {
         position: "relative",
         borderRadius: theme.shape.borderRadius,
@@ -55,7 +55,7 @@ const GlobalFilter = ({
     globalFilter,
     setGlobalFilter,
 }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("referenceGenomes");
     const count = preGlobalFilteredRows.length;
 

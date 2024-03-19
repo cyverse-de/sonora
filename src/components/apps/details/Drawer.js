@@ -47,7 +47,7 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import Close from "@mui/icons-material/Close";
 import LinkIcon from "@mui/icons-material/Link";
 
@@ -56,7 +56,7 @@ const TABS = {
     toolInfo: "TOOL(S) USED BY THIS APP",
     docs: "APP DOCS",
 };
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     drawerPaper: {
         [theme.breakpoints.up("xl")]: {
             maxWidth: "25%",
@@ -175,7 +175,7 @@ function DetailsSubHeader({
 }
 
 function DetailsDrawer(props) {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const {
         systemId,
         appId,

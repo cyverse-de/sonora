@@ -1,5 +1,4 @@
 import React from "react";
-import clsx from "clsx";
 import ReactPlayer from "react-player/youtube";
 import { useTranslation } from "i18n";
 
@@ -19,7 +18,7 @@ import {
     useTheme,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import styles from "components/utils/runningAnimation";
 
@@ -32,7 +31,7 @@ import { useConfig } from "contexts/config";
 
 import { getUserName } from "../../utils/getUserName";
 
-const useRunningAnalysesStyles = makeStyles(styles);
+const useRunningAnalysesStyles = makeStyles()(styles);
 
 const DashboardLink = ({ target, kind, children }) => {
     const isNewTab =
@@ -66,12 +65,12 @@ const DashboardLink = ({ target, kind, children }) => {
 const DashboardItem = ({ item }) => {
     const theme = useTheme();
     const color = getSectionColor(item.section, theme);
-    const classes = useStyles({
+    const { classes } = useStyles({
         width: item.width,
         height: item.height,
         color,
     });
-    const running = useRunningAnalysesStyles();
+    const { classes: running } = useRunningAnalysesStyles();
 
     const { t } = useTranslation(["dashboard", "apps"]);
 
@@ -158,7 +157,10 @@ const DashboardItem = ({ item }) => {
 };
 
 export const DashboardFeedItem = ({ item }) => {
-    const classes = useStyles({ width: item.width, height: item.height });
+    const { classes, cx } = useStyles({
+        width: item.width,
+        height: item.height,
+    });
     const { t } = useTranslation(["dashboard", "apps"]);
 
     const [origination, date] = item.getOrigination(t);
@@ -167,7 +169,7 @@ export const DashboardFeedItem = ({ item }) => {
 
     return (
         <div
-            className={clsx(
+            className={cx(
                 item.section === constants.SECTION_NEWS && classes.newsItem,
                 item.section === constants.SECTION_EVENTS && classes.eventsItem
             )}
@@ -194,7 +196,7 @@ export const DashboardFeedItem = ({ item }) => {
 };
 
 export const DashboardVideoItem = ({ item }) => {
-    const classes = useStyles(item);
+    const { classes } = useStyles(item);
 
     return (
         <div

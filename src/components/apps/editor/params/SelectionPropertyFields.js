@@ -37,18 +37,18 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { Add, ArrowUpward, ArrowDownward, Delete } from "@mui/icons-material";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function SelectionItemEditorRow(props) {
     const { baseId, cosmeticOnly, fieldName, onMoveUp, onMoveDown, onDelete } =
         props;
 
     const { t } = useTranslation("common");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const baseParamArgId = buildID(baseId, fieldName);
 

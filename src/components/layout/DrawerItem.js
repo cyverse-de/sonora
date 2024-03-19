@@ -1,6 +1,5 @@
 import React from "react";
 import { useRouter } from "next/router";
-import clsx from "clsx";
 import styles from "./styles";
 import ids from "./ids";
 
@@ -8,12 +7,12 @@ import buildID from "components/utils/DebugIDUtil";
 
 import { ListItem, ListItemIcon, ListItemText, Tooltip } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const DrawerItem = (props) => {
-    const classes = useStyles();
+    const { classes, cx } = useStyles();
     const router = useRouter();
 
     const {
@@ -23,7 +22,7 @@ const DrawerItem = (props) => {
         activeView,
         thisView,
         toggleDrawer,
-        clsxBase,
+        cxBase,
         open,
         onClick,
         nested = false,
@@ -37,7 +36,7 @@ const DrawerItem = (props) => {
                     toggleDrawer(false);
                     onClick ? onClick() : router.push("/" + thisView);
                 }}
-                className={clsx(
+                className={cx(
                     nested && classes.nested,
                     activeView === thisView
                         ? classes.listItemActive
@@ -48,9 +47,7 @@ const DrawerItem = (props) => {
                     <ListItemIcon>
                         <Icon
                             className={
-                                clsxBase
-                                    ? clsx(clsxBase, classes.icon)
-                                    : classes.icon
+                                cxBase ? cx(cxBase, classes.icon) : classes.icon
                             }
                             style={{ fontSize: !nested ? "2.1875rem" : null }}
                             fontSize={!nested ? "large" : "medium"}

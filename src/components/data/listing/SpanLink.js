@@ -9,13 +9,13 @@
  */
 
 import React from "react";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import styles from "../styles";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function SpanLink(props) {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { onClick, id, children } = props;
 
     const keyboardHandler = (event) => {

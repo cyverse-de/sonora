@@ -33,12 +33,12 @@ import {
     Toolbar,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { Info } from "@mui/icons-material";
 import Autocomplete from "@mui/material/Autocomplete";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     menuButton: {
         color: theme.palette.info.contrastText,
     },
@@ -135,7 +135,7 @@ export default function ToolsToolbar(props) {
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
     const [requestDialogOpen, setRequestDialogOpen] = useState(false);
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation("tools");
     const { t: i18nCommon } = useTranslation("common");
 

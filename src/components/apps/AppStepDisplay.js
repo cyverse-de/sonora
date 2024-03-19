@@ -16,11 +16,11 @@ import {
     CardHeader,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { Skeleton } from "@mui/material";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     cardContent: {
         overflow: "auto",
         [theme.breakpoints.down("sm")]: {
@@ -54,7 +54,7 @@ const AppStepDisplay = (props) => {
     } = props;
 
     const { t } = useTranslation("launch");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     return (
         <Card style={{ marginBottom: bottomOffset && `${bottomOffset}px` }}>

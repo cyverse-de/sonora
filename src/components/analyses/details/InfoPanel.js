@@ -27,10 +27,10 @@ import {
     Divider,
     Typography,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     heading: {
         color: theme.palette.info,
         [theme.breakpoints.down("md")]: {
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Updates(props) {
     const { updates, baseId } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     const sortedUpdates = [...updates].reverse();
     return (
         <List className={classes.root} id={baseId}>
@@ -79,7 +79,7 @@ function Updates(props) {
 function Step(props) {
     const { step_number, step_type, status, updates } = props.step;
     const { baseId } = props;
-    const classes = useStyles();
+    const { classes } = useStyles();
     return (
         <Accordion id={baseId}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>

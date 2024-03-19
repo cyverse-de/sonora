@@ -48,7 +48,7 @@ import {
     useTheme,
     Tooltip,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import {
     Add,
     CloudDownload,
@@ -61,7 +61,7 @@ import {
     Edit as EditableIcon,
 } from "@mui/icons-material";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     divider: {
         flexGrow: 1,
     },
@@ -123,7 +123,7 @@ function ViewerToolbar(props) {
     const [saveNewFileError, setSaveNewFileError] = useState(null);
     const [fileSavePath, setFileSavePath] = useState();
 
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { isSmDown, isMdDown } = useBreakpoints();
 
     // Get QueryClient from the context

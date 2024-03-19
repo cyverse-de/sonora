@@ -24,7 +24,7 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import ContentView from "@mui/icons-material/List";
 import HelpIcon from "@mui/icons-material/Help";
@@ -32,7 +32,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import CopyIcon from "@mui/icons-material/FileCopy";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const MetadataFormToolbar = (props) => {
     const {
@@ -56,7 +56,7 @@ const MetadataFormToolbar = (props) => {
 
     const { t } = useTranslation(["metadata", "common"]);
 
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     return (
         <Toolbar variant="dense" className={classes.metadataFormToolbar}>

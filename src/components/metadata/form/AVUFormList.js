@@ -32,11 +32,11 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const AVUFormDialog = (props) => {
     const {
@@ -55,7 +55,7 @@ const AVUFormDialog = (props) => {
     const [editingAttrIndex, setEditingAttrIndex] = React.useState(-1);
 
     const { t } = useTranslation("metadata");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const avuErrors = getFormError(field, touched, errors);
     const error = avuErrors && avuErrors.error;

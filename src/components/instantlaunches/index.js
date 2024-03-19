@@ -9,7 +9,7 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { PlayCircleOutlineOutlined } from "@mui/icons-material";
 import { useTranslation } from "i18n";
@@ -18,7 +18,7 @@ import buildID from "components/utils/DebugIDUtil";
 import ids from "components/instantlaunches/ids";
 import InstantLaunchButtonWrapper from "./InstantLaunchButtonWrapper";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     progress: {
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(5),
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 export const InstantLaunchSubmissionDialog = ({ open }) => {
     const baseID = buildID(ids.BASE, ids.SUBMISSION, ids.DIALOG);
     const { t } = useTranslation("instantlaunches");
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     return (
         <Dialog

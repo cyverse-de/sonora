@@ -12,7 +12,7 @@ import {
     Typography,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { Cancel as CancelIcon, Close } from "@mui/icons-material";
 
@@ -23,7 +23,7 @@ import { useTranslation } from "i18n";
 import { getHost } from "components/utils/getHost";
 import constants from "components/bags/constants";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     closeButton: {
         position: "absolute",
         right: theme.spacing(1),
@@ -45,7 +45,7 @@ const DownloadLinksDialog = ({
     fullScreen = false,
     onClose = () => {},
 }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const { t } = useTranslation(["bags", "common"]);
     const dialogID = buildID(constants.DOWNLOAD_BASEID, constants.DIALOG);
 

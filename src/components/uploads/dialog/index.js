@@ -19,14 +19,14 @@ import {
     useTheme,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { Close as CloseIcon } from "@mui/icons-material";
 import buildID from "components/utils/DebugIDUtil";
 import UploadQueue from "../queue";
 import ids from "./ids";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     closeDialog: {
         position: "absolute",
         right: theme.spacing(1),
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
  * @returns {Object}
  */
 const UploadDialog = ({ open, handleClose = () => {} }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const theme = useTheme();
     const { t } = useTranslation("upload");
     const fullScreen = useMediaQuery(theme.breakpoints.down("md"));

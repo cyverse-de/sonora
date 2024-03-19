@@ -20,14 +20,14 @@ import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
 
 import { Grid, Typography } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function Shortcuts(props) {
     const { baseId } = props;
     const { t } = useTranslation("preferences");
-    const classes = useStyles();
+    const { classes } = useStyles();
     return (
         <>
             <Typography variant="h6" className={classes.sectionHeader}>

@@ -6,13 +6,13 @@
  *
  *
  **/
-import withStyles from "@mui/styles/withStyles";
+import { withStyles } from "tss-react/mui";
 import TableRow from "@mui/material/TableRow";
 
-export const DERow = withStyles((theme) => ({
+export const DERow = withStyles(TableRow, (theme) => ({
     root: {
         "&:nth-of-type(odd)": {
             backgroundColor: "#f7f7f7",
         },
     },
-}))(TableRow);
+}));

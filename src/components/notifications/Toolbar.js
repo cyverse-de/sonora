@@ -16,14 +16,14 @@ import buildID from "components/utils/DebugIDUtil";
 
 import { Button, MenuItem, TextField, Toolbar } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import { Refresh } from "@mui/icons-material";
 import useBreakpoints from "components/layout/useBreakpoints";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const NotificationToolbar = (props) => {
     const {
@@ -37,7 +37,7 @@ const NotificationToolbar = (props) => {
         onRefreshClicked,
     } = props;
 
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const { t } = useTranslation(["notifications", "common"]);
     const baseId = buildID(baseDebugId, ids.TOOLBAR);

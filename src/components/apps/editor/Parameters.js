@@ -26,11 +26,11 @@ import buildID from "components/utils/DebugIDUtil";
 
 import { Button, Card, CardHeader } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import { Add } from "@mui/icons-material";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 function ParamCardForm(props) {
     const {
@@ -54,7 +54,7 @@ function ParamCardForm(props) {
         }
     }, [fieldName, paramEl, scrollToField, setScrollToField]);
 
-    const classes = useStyles();
+    const { classes } = useStyles();
 
     const paramBaseId = buildID(baseId, fieldName);
     const defaultValueFieldName = `${fieldName}.defaultValue`;

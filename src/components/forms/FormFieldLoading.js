@@ -14,11 +14,11 @@ import ids from "../utils/ids";
 import getFormError from "./getFormError";
 
 import { FormControl, InputLabel, FormHelperText } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import { Skeleton } from "@mui/material";
 
 // Set the skeleton's height to about the same height as text or select fields.
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     skeleton: {
         height: theme.spacing(6),
     },
@@ -33,7 +33,7 @@ const FormFieldLoading = ({
     form: { touched, errors },
     ...props
 }) => {
-    const classes = useStyles();
+    const { classes } = useStyles();
     const errorMsg = getFormError(name, touched, errors);
     const loadingFieldID = buildDebugId(id, ids.LOADING_SKELETON);
     const helperTextID = buildDebugId(loadingFieldID, ids.HELPER_TEXT);

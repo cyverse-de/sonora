@@ -26,13 +26,13 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import ErrorIcon from "@mui/icons-material/Error";
 import WarningIcon from "@mui/icons-material/Warning";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles()((theme) => ({
     cardContent: {
         padding: theme.spacing(2),
         [theme.breakpoints.down("sm")]: {
@@ -57,7 +57,7 @@ function ErrorHandler(props) {
     const { errorObject, baseId } = props;
     const { t } = useTranslation("util");
     const router = useRouter();
-    const classes = useStyles();
+    const { classes } = useStyles();
     const errBaseId = buildID(baseId, ids.ERROR_HANDLER);
 
     useEffect(() => {

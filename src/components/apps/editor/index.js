@@ -61,7 +61,7 @@ import {
     useMediaQuery,
 } from "@mui/material";
 
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "tss-react/mui";
 
 import {
     ArrowBack,
@@ -70,7 +70,7 @@ import {
     PlayArrow,
 } from "@mui/icons-material";
 
-const useStyles = makeStyles(styles);
+const useStyles = makeStyles()(styles);
 
 const displayStepError = (stepIndex, errors, touched) => {
     if (stepIndex === 0) {
@@ -226,7 +226,7 @@ const AppEditor = (props) => {
     }, [scrollOnEditEl]);
 
     const { t } = useTranslation(["app_editor", "app_editor_help", "common"]);
-    const classes = useStyles();
+    const { classes } = useStyles();
     const router = useRouter();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));

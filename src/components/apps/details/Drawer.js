@@ -27,7 +27,6 @@ import { getAppListingLinkRefs } from "components/apps/utils";
 
 import {
     APP_DETAILS_QUERY_KEY,
-    appFavorite,
     getAppDetails,
     rateApp,
 } from "serviceFacades/apps";
@@ -37,7 +36,6 @@ import CopyTextArea from "components/copy/CopyTextArea";
 import Rate from "components/rating/Rate";
 
 import {
-    CircularProgress,
     Dialog,
     DialogContent,
     DialogTitle,
@@ -87,27 +85,19 @@ const useStyles = makeStyles()((theme) => ({
     },
 }));
 
-function DetailsHeader({
-    appId,
-    systemId,
-    loading,
-    appName,
-    isExternal,
-    isPublic,
-    isFavorite,
-    onFavoriteClick,
-    classes,
-    baseId,
-}) {
+function DetailsHeader({ app, isExternal, classes, baseId }) {
     const { t } = useTranslation("apps");
     const [link, setLink] = useState("");
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
         const host = getHost();
-        const partialLink = getAppListingLinkRefs(systemId, appId)[1];
+        const partialLink = getAppListingLinkRefs(app?.system_id, app?.id)[1];
         setLink(`${host}${partialLink}`);
-    }, [appId, systemId]);
+    }, [app]);
+
+    const appName = app?.name;
+    const isPublic = app?.is_public;
 
     return (
         <>
@@ -119,9 +109,8 @@ function DetailsHeader({
                 {!isExternal && isPublic && (
                     <AppFavorite
                         baseId={baseId}
-                        isFavorite={isFavorite}
+                        app={app}
                         isExternal={isExternal}
-                        onFavoriteClick={onFavoriteClick}
                     />
                 )}
                 <Tooltip title={t("linkToThisApp", { name: appName })}>
@@ -144,11 +133,10 @@ function DetailsHeader({
                 <DialogContent>
                     <CopyTextArea
                         text={link}
-                        debugIdPrefix={buildID(baseId, appId)}
+                        debugIdPrefix={buildID(baseId, app?.id)}
                     />
                 </DialogContent>
             </Dialog>
-            {loading && <CircularProgress size={30} thickness={5} />}
         </>
     );
 }
@@ -182,7 +170,6 @@ function DetailsDrawer(props) {
         versionId: initialVersionId,
         open,
         onClose,
-        onFavoriteUpdated,
     } = props;
 
     const { t } = useTranslation("apps");
@@ -191,7 +178,6 @@ function DetailsDrawer(props) {
     const [selectedApp, setSelectedApp] = useState(null);
     const [selectedTab, setSelectedTab] = useState(TABS.appInfo);
     const [detailsError, setDetailsError] = useState(null);
-    const [favMutationError, setFavMutationError] = useState(null);
     const [ratingMutationError, setRatingMutationError] = useState(null);
     const [dirty, setDirty] = useState(false);
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
@@ -212,9 +198,8 @@ function DetailsDrawer(props) {
         selectedApp?.app_type.toUpperCase() ===
         constants.APP_TYPE_EXTERNAL.toUpperCase();
 
-    const appName = selectedApp?.name;
     const isPublic = selectedApp?.is_public;
-    const isFavorite = selectedApp?.is_favorite;
+
     const {
         average: averageRating,
         total: totalRating,
@@ -249,28 +234,9 @@ function DetailsDrawer(props) {
         onSuccess: setSelectedApp,
         onError: (e) => {
             setDetailsError(e);
-            setFavMutationError(null);
             setRatingMutationError(null);
         },
     });
-
-    const { mutate: favorite, status: favMutationStatus } = useMutation(
-        appFavorite,
-        {
-            onSuccess: () => {
-                queryClient.invalidateQueries([
-                    APP_DETAILS_QUERY_KEY,
-                    { systemId, appId },
-                ]);
-                onFavoriteUpdated && onFavoriteUpdated(selectedApp.is_favorite);
-            },
-            onError: (e) => {
-                setFavMutationError(e);
-                setDetailsError(null);
-                setRatingMutationError(null);
-            },
-        }
-    );
 
     const { mutate: rating, status: ratingMutationStatus } = useMutation(
         rateApp,
@@ -283,18 +249,9 @@ function DetailsDrawer(props) {
             onError: (e) => {
                 setRatingMutationError(e);
                 setDetailsError(null);
-                setFavMutationError(null);
             },
         }
     );
-
-    const onFavoriteClick = () => {
-        favorite({
-            isFav: !selectedApp.is_favorite,
-            appId: selectedApp.id,
-            systemId: selectedApp.system_id,
-        });
-    };
 
     const onRatingChange = (event, value) => {
         rating({
@@ -325,14 +282,8 @@ function DetailsDrawer(props) {
         >
             <div className={classes.drawerHeader}>
                 <DetailsHeader
-                    appId={appId}
-                    systemId={systemId}
-                    loading={favMutationStatus === constants.LOADING}
-                    appName={appName}
+                    app={selectedApp}
                     isExternal={isExternal}
-                    isPublic={isPublic}
-                    isFavorite={isFavorite}
-                    onFavoriteClick={onFavoriteClick}
                     classes={classes}
                     baseId={drawerId}
                 />
@@ -393,9 +344,7 @@ function DetailsDrawer(props) {
                     baseId={drawerId}
                     onRatingChange={onRatingChange}
                     onDeleteRatingClick={onDeleteRating}
-                    onFavoriteClick={onFavoriteClick}
                     detailsError={detailsError}
-                    favMutationError={favMutationError}
                     ratingMutationError={ratingMutationError}
                 />
             </DETabPanel>

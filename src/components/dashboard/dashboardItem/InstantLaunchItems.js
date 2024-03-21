@@ -26,6 +26,7 @@ class InstantLaunchItem extends ItemBase {
             section: props.section,
             height: props.height,
             width: props.width,
+            config: props.config,
         });
     }
 

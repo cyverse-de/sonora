@@ -14,13 +14,14 @@ import * as constants from "../constants";
 import ItemBase, { ItemAction, DashboardFeedItem } from "./ItemBase";
 
 class NewsItem extends ItemBase {
-    constructor({ section, content, height, width }) {
+    constructor({ section, content, height, width, config }) {
         super({
             kind: constants.KIND_FEEDS,
             content,
             section,
             height,
             width,
+            config,
         });
     }
 

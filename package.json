@@ -46,7 +46,7 @@
             "plugin:jsx-a11y/recommended"
         ],
         "rules": {
-            "react/react-in-jsx-scope": "off"
+            "import/no-anonymous-default-export": "off"
         },
         "plugins": [
             "jsx-a11y"

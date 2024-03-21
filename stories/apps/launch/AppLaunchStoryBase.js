@@ -14,7 +14,7 @@ import { appDetails, appDocumentation, savedLaunches } from "../AppMocks";
 
 import { initMockAxiosFileFolderSelector } from "../../data/DataMocks";
 
-export default (props) => {
+const AppLaunchStoryBase = (props) => {
     initMockAxiosFileFolderSelector();
     const { app } = props;
     mockAxios
@@ -50,3 +50,5 @@ export default (props) => {
         />
     );
 };
+
+export default AppLaunchStoryBase;

@@ -99,7 +99,6 @@ function UploadMenuBtn(props) {
                 anchorEl={uploadAnchor}
                 open={Boolean(uploadAnchor)}
                 onClose={onUploadClose}
-                getContentAnchorEl={null}
                 anchorOrigin={{
                     vertical: "bottom",
                     horizontal: "center",

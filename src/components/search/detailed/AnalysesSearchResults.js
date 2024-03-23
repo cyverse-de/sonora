@@ -37,7 +37,7 @@ function Name(props) {
     const href = `/${NavigationConstants.ANALYSES}/[analysisId]`;
     const as = `/${NavigationConstants.ANALYSES}/${analysis?.id}`;
     return (
-        <Link href={href} as={as} passHref>
+        <Link href={href} as={as} passHref legacyBehavior>
             <DELink text={analysis.name} searchTerm={searchTerm} />
         </Link>
     );

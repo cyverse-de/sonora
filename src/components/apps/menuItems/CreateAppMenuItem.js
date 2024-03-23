@@ -20,7 +20,7 @@ const CreateAppMenuItem = React.forwardRef((props, ref) => {
     const { t } = useTranslation("apps");
 
     return (
-        <Link href={NavigationConstants.NEW_APP}>
+        <Link href={NavigationConstants.NEW_APP} legacyBehavior>
             <MenuItem ref={ref} id={buildID(baseId, ids.CREATE_APP_MENU_ITEM)}>
                 <ListItemIcon>
                     <CreateAppIcon fontSize="small" />

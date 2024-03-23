@@ -58,7 +58,7 @@ function AppName(props) {
 
     if ((!isDisabled && limitChecks?.canRun) || !userProfile?.id) {
         return (
-            <Link href={href} as={as} passHref>
+            <Link href={href} as={as} passHref legacyBehavior>
                 <DELink
                     text={name}
                     id={baseDebugId}

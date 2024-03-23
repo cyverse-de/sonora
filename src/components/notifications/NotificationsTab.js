@@ -73,7 +73,7 @@ function NotificationsListingLink(props) {
     const href = `/${NavigationConstants.NOTIFICATIONS}`;
 
     return (
-        <Link href={href} as={href} passHref>
+        <Link href={href} as={href} passHref legacyBehavior>
             <NotificationsListingButton {...props} />
         </Link>
     );

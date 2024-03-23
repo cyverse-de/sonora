@@ -38,7 +38,7 @@ function MessageLink(props) {
     const { message, href, as } = props;
 
     return href ? (
-        <Link href={href} as={as} passHref>
+        <Link href={href} as={as} passHref legacyBehavior>
             <DELink text={message} />
         </Link>
     ) : (

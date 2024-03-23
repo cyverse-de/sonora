@@ -118,6 +118,7 @@ export default function DotMenuItems(props) {
             as={outputFolderAs}
             passHref
             key={buildID(baseId, ids.MENUITEM_GO_TO_FOLDER)}
+            legacyBehavior
         >
             <OutputFolderMenuItem
                 baseId={baseId}
@@ -132,6 +133,7 @@ export default function DotMenuItems(props) {
                 as={as}
                 passHref
                 key={buildID(baseId, ids.MENUITEM_RELAUNCH)}
+                legacyBehavior
             >
                 <RelaunchMenuItem baseId={baseId} />
             </Link>
@@ -200,6 +202,7 @@ export default function DotMenuItems(props) {
             href={"/" + NavigationConstants.ANALYSES}
             passHref
             key={buildID(baseId, ids.MENUITEM_GOTO_ANALYSES)}
+            legacyBehavior
         >
             <MenuItem id={buildID(baseId, ids.MENUITEM_GOTO_ANALYSES)}>
                 <ListItemIcon>
@@ -215,6 +218,7 @@ export default function DotMenuItems(props) {
             href={"/" + NavigationConstants.APPS}
             passHref
             key={buildID(baseId, ids.MENUITEM_GOTO_APPS)}
+            legacyBehavior
         >
             <MenuItem
                 id={buildID(baseId, ids.MENUITEM_GOTO_APPS)}

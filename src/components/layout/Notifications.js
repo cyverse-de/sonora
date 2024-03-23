@@ -67,7 +67,12 @@ function AnalysisCustomAction(props) {
     const [outputFolderHref, outputFolderAs] =
         useGotoOutputFolderLink(outputFolderPath);
     return (
-        <Link href={outputFolderHref} as={outputFolderAs} passHref>
+        <Link
+            href={outputFolderHref}
+            as={outputFolderAs}
+            passHref
+            legacyBehavior
+        >
             <GotoOutputFolderButton />
         </Link>
     );

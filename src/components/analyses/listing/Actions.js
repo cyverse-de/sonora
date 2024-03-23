@@ -124,7 +124,12 @@ export default function Actions(props) {
                 </IconButton>
             )}
             {isTerminatedAnalysis && (
-                <Link href={outputFolderHref} as={outputFolderAs} passHref>
+                <Link
+                    href={outputFolderHref}
+                    as={outputFolderAs}
+                    passHref
+                    legacyBehavior
+                >
                     <GotoOutputFolderButton
                         baseId={baseId}
                         isTerminated={isTerminatedAnalysis}
@@ -162,7 +167,12 @@ export default function Actions(props) {
                 </IconButton>
             )}
             {!isDisabled && !isVICE && (
-                <Link href={relaunchHref} as={relaunchAs} passHref>
+                <Link
+                    href={relaunchHref}
+                    as={relaunchAs}
+                    passHref
+                    legacyBehavior
+                >
                     <RelaunchButton baseId={baseId} />
                 </Link>
             )}

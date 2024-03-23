@@ -201,7 +201,7 @@ const SearchOption = (props) => {
     return onOptionSelected ? (
         <OptionLink />
     ) : (
-        <Link href={href} as={as} passHref>
+        <Link href={href} as={as} passHref legacyBehavior>
             <OptionLink />
         </Link>
     );

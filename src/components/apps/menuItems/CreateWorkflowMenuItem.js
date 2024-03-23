@@ -20,7 +20,7 @@ const CreateWorkflowMenuItem = React.forwardRef((props, ref) => {
     const { t } = useTranslation("apps");
 
     return (
-        <Link href={NavigationConstants.NEW_WORKFLOW}>
+        <Link href={NavigationConstants.NEW_WORKFLOW} legacyBehavior>
             <MenuItem
                 ref={ref}
                 id={buildID(baseId, ids.CREATE_WORKFLOW_MENU_ITEM)}

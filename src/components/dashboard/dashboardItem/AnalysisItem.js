@@ -56,6 +56,7 @@ class AnalysisItem extends ItemBase {
                 <Link
                     href={`/${NavConstants.ANALYSES}/[analysisId]/${NavConstants.RELAUNCH}`}
                     as={`/${NavConstants.ANALYSES}/${item.content.id}/${NavConstants.RELAUNCH}`}
+                    legacyBehavior
                 >
                     <IconButton
                         style={{
@@ -76,6 +77,7 @@ class AnalysisItem extends ItemBase {
                     <Link
                         href={`/${NavConstants.DATA}/ds/[...pathItems]`}
                         as={getFolderPage(item.content.resultfolderid)}
+                        legacyBehavior
                     >
                         <IconButton
                             style={{

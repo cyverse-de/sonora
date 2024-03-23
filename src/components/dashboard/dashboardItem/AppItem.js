@@ -17,7 +17,7 @@ const AppItemLaunchAction = ({ app, t, theme }) => {
 
     return (
         <ItemAction ariaLabel={t("launchAria")} tooltipKey="launchAction">
-            <Link href={launchHref} as={launchAs} passHref>
+            <Link href={launchHref} as={launchAs} passHref legacyBehavior>
                 <IconButton
                     style={{
                         margin: theme.spacing(1),

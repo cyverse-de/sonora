@@ -61,7 +61,7 @@ function Name(props) {
 
     const [href, as] = useDataNavigationLink(path, resource?._id, type);
     return (
-        <Link href={href} as={as} passHref>
+        <Link href={href} as={as} passHref legacyBehavior>
             <DELink text={resource._source?.label} searchTerm={searchTerm} />
         </Link>
     );

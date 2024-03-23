@@ -140,6 +140,7 @@ function AppsDotMenu(props) {
                 <Link
                     key={ids.TOOLS_MENU_ITEM}
                     href={NavigationConstants.TOOLS}
+                    legacyBehavior
                 >
                     <MenuItem id={buildID(baseId, ids.TOOLS_MENU_ITEM)}>
                         <ListItemIcon>
@@ -151,6 +152,7 @@ function AppsDotMenu(props) {
                 <Link
                     key={ids.INSTANT_LAUNCH_MI}
                     href={NavigationConstants.INSTANT_LAUNCHES}
+                    legacyBehavior
                 >
                     <MenuItem id={buildID(baseId, ids.INSTANT_LAUNCH_MI)}>
                         <ListItemIcon>

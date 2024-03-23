@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { SearchFieldTest } from "../../stories/base/SearchField.stories";

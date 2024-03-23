@@ -1,5 +1,6 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
+
 import {
     DotMenuTest,
     DotMenuWithText,
@@ -7,12 +8,14 @@ import {
 
 it("renders DotMenu without crashing", () => {
     const div = document.createElement("div");
-    ReactDOM.render(<DotMenuTest />, div);
-    ReactDOM.unmountComponentAtNode(div);
+    const root = createRoot(div);
+    root.render(<DotMenuTest />);
+    root.unmount();
 });
 
 it("renders DotMenuWithText without crashing", () => {
     const div = document.createElement("div");
-    ReactDOM.render(<DotMenuWithText />, div);
-    ReactDOM.unmountComponentAtNode(div);
+    const root = createRoot(div);
+    root.render(<DotMenuWithText />);
+    root.unmount();
 });

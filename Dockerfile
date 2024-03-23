@@ -1,9 +1,9 @@
-FROM node:16 AS deps
+FROM node:20 AS deps
 WORKDIR /src
 COPY package.json package-lock.json /src/
 RUN npm ci
 
-FROM node:16
+FROM node:20
 
 WORKDIR /src
 

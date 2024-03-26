@@ -11,6 +11,7 @@ I18NextClient.use(Backend)
     .init({
         ...nextI18NextConfig,
         backend: { loadPath: "/static/locales/{{lng}}/{{ns}}.json" },
+        debug: false,
         // By default, next-i18next disables `escapeValue`.
         interpolation: { escapeValue: false },
     });

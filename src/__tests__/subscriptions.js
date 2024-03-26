@@ -2,6 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
+import { EmotionCacheProvider } from "__mocks__/EmotionCacheProvider";
 
 import { ConfigProvider } from "contexts/config";
 import { UserProfileProvider } from "contexts/userProfile";
@@ -34,9 +35,11 @@ const TestProviderWrapper = ({ children }) => (
     <RQWrapper>
         <I18nProviderWrapper>
             <ConfigProvider>
-                <ThemeProvider theme={theme}>
-                    <UserProfileProvider>{children}</UserProfileProvider>
-                </ThemeProvider>
+                <EmotionCacheProvider>
+                    <ThemeProvider theme={theme}>
+                        <UserProfileProvider>{children}</UserProfileProvider>
+                    </ThemeProvider>
+                </EmotionCacheProvider>
             </ConfigProvider>
         </I18nProviderWrapper>
     </RQWrapper>

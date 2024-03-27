@@ -8,9 +8,10 @@ on:
 
 jobs:
   call-workflow-passing-data:
-    uses: cyverse-de/github-workflows/.github/workflows/skaffold-build.yml@v0.0.3
+    uses: cyverse-de/github-workflows/.github/workflows/skaffold-build.yml@v0.0.7
     with:
       build-prerelease: ${{ contains(github.ref_name, '-rc') }}
     secrets:
       harbor-username: ${{ secrets.HARBOR_USERNAME }}
       harbor-password: ${{ secrets.HARBOR_PASSWORD }}
+      releases-repo-push-token: ${{ secrets.GH_DE_RELEASES_PUSH_TOKEN }}

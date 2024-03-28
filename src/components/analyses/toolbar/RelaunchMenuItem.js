@@ -12,7 +12,10 @@ import { useTranslation } from "i18n";
 import React from "react";
 import ids from "../ids";
 
-const RelaunchMenuItem = React.forwardRef((props, ref) => {
+const RelaunchMenuItem = React.forwardRef(function RelaunchMenuItem(
+    props,
+    ref
+) {
     const { baseId, onClick, href } = props;
     const { t } = useTranslation("analyses");
     return (

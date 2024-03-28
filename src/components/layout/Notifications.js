@@ -38,7 +38,10 @@ import {
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
-const GotoOutputFolderButton = React.forwardRef((props, ref) => {
+const GotoOutputFolderButton = React.forwardRef(function GotoOutputFolderButton(
+    props,
+    ref
+) {
     const { onClick, href } = props;
     const { t } = useTranslation("analyses");
     const theme = useTheme();

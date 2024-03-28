@@ -14,7 +14,10 @@ import buildID from "components/utils/DebugIDUtil";
 import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import { Add as CreateAppIcon } from "@mui/icons-material";
 
-const CreateWorkflowMenuItem = React.forwardRef((props, ref) => {
+const CreateWorkflowMenuItem = React.forwardRef(function CreateWorkflowMenuItem(
+    props,
+    ref
+) {
     const { baseId } = props;
 
     const { t } = useTranslation("apps");

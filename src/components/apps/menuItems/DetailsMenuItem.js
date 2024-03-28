@@ -7,7 +7,7 @@ import { useTranslation } from "i18n";
 
 import ids from "../ids";
 
-const DetailsMenuItem = React.forwardRef((props, ref) => {
+const DetailsMenuItem = React.forwardRef(function DetailsMenuItem(props, ref) {
     const { baseId, onDetailsSelected, onClose } = props;
     const { t } = useTranslation("apps");
 

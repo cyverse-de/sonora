@@ -42,18 +42,19 @@ import {
     TableRow,
 } from "@mui/material";
 
-const IndeterminateCheckbox = React.forwardRef(
-    ({ indeterminate, ...rest }, ref) => {
-        const defaultRef = useRef();
-        const resolvedRef = ref || defaultRef;
+const IndeterminateCheckbox = React.forwardRef(function IndeterminateCheckbox(
+    { indeterminate, ...rest },
+    ref
+) {
+    const defaultRef = useRef();
+    const resolvedRef = ref || defaultRef;
 
-        useEffect(() => {
-            resolvedRef.current.indeterminate = indeterminate;
-        }, [resolvedRef, indeterminate]);
+    useEffect(() => {
+        resolvedRef.current.indeterminate = indeterminate;
+    }, [resolvedRef, indeterminate]);
 
-        return <Checkbox type="Checkbox" ref={resolvedRef} {...rest} />;
-    }
-);
+    return <Checkbox type="Checkbox" ref={resolvedRef} {...rest} />;
+});
 
 function PathListViewer(props) {
     const {

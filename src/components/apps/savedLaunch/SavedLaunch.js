@@ -16,7 +16,7 @@ const styles1 = (theme) => ({
     },
 });
 
-const SavedLaunch = React.forwardRef((props, ref) => {
+const SavedLaunch = React.forwardRef(function SavedLaunch(props, ref) {
     const {
         id,
         handleClick,

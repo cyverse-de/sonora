@@ -32,18 +32,19 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 
-const IndeterminateCheckbox = React.forwardRef(
-    ({ indeterminate, ...rest }, ref) => {
-        const defaultRef = React.useRef();
-        const resolvedRef = ref || defaultRef;
+const IndeterminateCheckbox = React.forwardRef(function IndeterminateCheckbox(
+    { indeterminate, ...rest },
+    ref
+) {
+    const defaultRef = React.useRef();
+    const resolvedRef = ref || defaultRef;
 
-        React.useEffect(() => {
-            resolvedRef.current.indeterminate = indeterminate;
-        }, [resolvedRef, indeterminate]);
+    React.useEffect(() => {
+        resolvedRef.current.indeterminate = indeterminate;
+    }, [resolvedRef, indeterminate]);
 
-        return <Checkbox type="Checkbox" ref={resolvedRef} {...rest} />;
-    }
-);
+    return <Checkbox type="Checkbox" ref={resolvedRef} {...rest} />;
+});
 
 const EnhancedTable = ({
     baseId,

@@ -32,14 +32,18 @@ const useStyles = makeStyles()((theme) => ({
     },
 }));
 
-export const BottomNavigationSkeleton = React.forwardRef((props, ref) => (
-    <Skeleton variant="rectangular" width="100%" ref={ref}>
-        <ButtonGroup>
-            <Button>&nbsp;</Button>
-            <Button>&nbsp;</Button>
-        </ButtonGroup>
-    </Skeleton>
-));
+export const BottomNavigationSkeleton = React.forwardRef(
+    function BottomNavigationSkeleton(_props, ref) {
+        return (
+            <Skeleton variant="rectangular" width="100%" ref={ref}>
+                <ButtonGroup>
+                    <Button>&nbsp;</Button>
+                    <Button>&nbsp;</Button>
+                </ButtonGroup>
+            </Skeleton>
+        );
+    }
+);
 
 const AppStepDisplay = (props) => {
     const {

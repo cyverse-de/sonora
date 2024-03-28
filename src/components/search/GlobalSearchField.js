@@ -159,44 +159,51 @@ const SearchOption = (props) => {
     const { classes } = useStyles();
     const theme = useTheme();
 
-    const OptionLink = React.forwardRef(({ onClick, href }, ref) => (
-        <>
-            <span className={classes.optionIcon}>{icon}</span>
-            <MuiLink
-                href={href}
-                onClick={(event) => {
-                    if (onOptionSelected) {
-                        event.preventDefault();
-                        onOptionSelected();
-                        return false;
-                    } else {
-                        onClick(event);
-                    }
-                }}
-                ref={ref}
-                id={id}
-                underline="none"
-                color="inherit"
-            >
-                <div className={classes.optionDiv}>
-                    <Typography
-                        variant={"subtitle2"}
-                        color={theme.palette.info.primary}
-                    >
-                        <Highlighter search={searchTerm}>{primary}</Highlighter>
-                    </Typography>
-                    <Typography
-                        variant={"caption"}
-                        color={theme.palette.info.primary}
-                    >
-                        <Highlighter search={searchTerm}>
-                            {secondary}
-                        </Highlighter>
-                    </Typography>
-                </div>
-            </MuiLink>
-        </>
-    ));
+    const OptionLink = React.forwardRef(function OptionLink(
+        { onClick, href },
+        ref
+    ) {
+        return (
+            <>
+                <span className={classes.optionIcon}>{icon}</span>
+                <MuiLink
+                    href={href}
+                    onClick={(event) => {
+                        if (onOptionSelected) {
+                            event.preventDefault();
+                            onOptionSelected();
+                            return false;
+                        } else {
+                            onClick(event);
+                        }
+                    }}
+                    ref={ref}
+                    id={id}
+                    underline="none"
+                    color="inherit"
+                >
+                    <div className={classes.optionDiv}>
+                        <Typography
+                            variant={"subtitle2"}
+                            color={theme.palette.info.primary}
+                        >
+                            <Highlighter search={searchTerm}>
+                                {primary}
+                            </Highlighter>
+                        </Typography>
+                        <Typography
+                            variant={"caption"}
+                            color={theme.palette.info.primary}
+                        >
+                            <Highlighter search={searchTerm}>
+                                {secondary}
+                            </Highlighter>
+                        </Typography>
+                    </div>
+                </MuiLink>
+            </>
+        );
+    });
 
     return onOptionSelected ? (
         <OptionLink />

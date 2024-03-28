@@ -37,7 +37,7 @@ function Usages(props) {
                     {usages &&
                         usages.length > 0 &&
                         usages.map((resource, index) => (
-                            <UsageAmounts index={index} resource={resource} />
+                            <UsageAmounts key={index} resource={resource} />
                         ))}
                 </TableBody>
                 <DETableHead
@@ -53,11 +53,11 @@ function Usages(props) {
 }
 
 function UsageAmounts(props) {
-    const { index, resource } = props;
+    const { resource } = props;
     let usageInBytes = resource.resource_type.unit.toLowerCase() === "bytes";
     if (usageInBytes) {
         return (
-            <DERow tabIndex={-1} key={index}>
+            <DERow tabIndex={-1}>
                 <TableCell width="50%" style={{ textAlign: "right" }}>
                     <Typography>
                         {formatFileSize(resource.usage).split(" ")[0]}
@@ -72,7 +72,7 @@ function UsageAmounts(props) {
         );
     } else {
         return (
-            <DERow tabIndex={-1} key={index}>
+            <DERow tabIndex={-1}>
                 <TableCell style={{ textAlign: "right" }}>
                     <Typography>{resource.usage}</Typography>
                 </TableCell>

@@ -40,7 +40,7 @@ function RunningViceTab(props) {
             <Typography>{t("runningVice")}</Typography>
             <List component="div" style={{ overflow: "auto" }}>
                 {runningViceJobs?.map((analysis) => (
-                    <ListItem>
+                    <ListItem key={analysis.id}>
                         <ListItemIcon>
                             <Web />
                         </ListItemIcon>

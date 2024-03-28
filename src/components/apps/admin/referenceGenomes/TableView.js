@@ -157,9 +157,13 @@ const EnhancedTable = ({
                 <Table size="small" stickyHeader {...getTableProps()}>
                     <TableHead>
                         {headerGroups.map((headerGroup) => (
-                            <TableRow {...headerGroup.getHeaderGroupProps()}>
+                            <TableRow
+                                key={headerGroup.id}
+                                {...headerGroup.getHeaderGroupProps()}
+                            >
                                 {headerGroup.headers.map((column) => (
                                     <TableCell
+                                        key={column.id}
                                         {...(column.id === "selection"
                                             ? column.getHeaderProps()
                                             : column.getHeaderProps(
@@ -187,6 +191,7 @@ const EnhancedTable = ({
                             prepareRow(row);
                             return (
                                 <TableRow
+                                    key={row.id}
                                     {...row.getRowProps()}
                                     onClick={(event) =>
                                         handleClick(event, row, index)
@@ -194,7 +199,10 @@ const EnhancedTable = ({
                                 >
                                     {row.cells.map((cell) => {
                                         return (
-                                            <TableCell {...cell.getCellProps()}>
+                                            <TableCell
+                                                key={cell.row.id}
+                                                {...cell.getCellProps()}
+                                            >
                                                 {cell.render("Cell")}
                                             </TableCell>
                                         );

@@ -172,6 +172,7 @@ function DrawerItems(props) {
             {open &&
                 runningViceJobs?.map((analysis) => (
                     <DrawerItem
+                        key={analysis.id}
                         nested
                         title={analysis.name}
                         id={analysis.id}

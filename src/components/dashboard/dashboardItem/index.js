@@ -7,7 +7,7 @@ import VideoItem from "./VideoItem";
 import EventItem from "./EventItem";
 import InstantLaunchItem from "./InstantLaunchItems";
 
-export default (props) => {
+const dashboardItem = (props) => {
     switch (props.kind) {
         case constants.KIND_ANALYSES:
             return AnalysisItem.create(props);
@@ -24,3 +24,5 @@ export default (props) => {
             return new NewsItem(props);
     }
 };
+
+export default dashboardItem;

@@ -10,7 +10,7 @@ import { handler as terrainHandler } from "./terrain";
 import * as auth from "../auth";
 import logger from "../logging";
 
-export default () => {
+const instantlaunches = () => {
     const api = express.Router();
 
     logger.info("************ Adding Instant Launch handlers **********");
@@ -232,3 +232,5 @@ export default () => {
 
     return api;
 };
+
+export default instantlaunches;

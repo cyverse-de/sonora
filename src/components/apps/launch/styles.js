@@ -1,6 +1,6 @@
 import commonStyles from "../commonStyles";
 
-export default (theme) => ({
+const styles = (theme) => ({
     ...commonStyles(theme),
 
     spacer: {
@@ -42,3 +42,5 @@ export default (theme) => ({
         float: "right",
     },
 });
+
+export default styles;

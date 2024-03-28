@@ -1,4 +1,4 @@
-export default (theme) => ({
+const styles = (theme) => ({
     card: {
         marginTop: theme.spacing(2),
     },
@@ -37,3 +37,5 @@ export default (theme) => ({
         top: 0,
     },
 });
+
+export default styles;

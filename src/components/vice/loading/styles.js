@@ -1,4 +1,4 @@
-export default (theme) => ({
+const styles = (theme) => ({
     animationBox: {
         maxWidth: "450px",
         margin: "0 auto",
@@ -39,3 +39,5 @@ export default (theme) => ({
         overflow: "auto",
     },
 });
+
+export default styles;

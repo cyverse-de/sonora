@@ -1,4 +1,4 @@
-export default (theme) => ({
+const styles = (theme) => ({
     divider: {
         flexGrow: 1,
     },
@@ -17,3 +17,5 @@ export default (theme) => ({
         },
     },
 });
+
+export default styles;

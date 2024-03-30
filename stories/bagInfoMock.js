@@ -1,6 +1,7 @@
-export default {
+const bagInfoMock = {
     id: "d2b9e454-0038-11ec-860b-008cfa5ae621",
     user_id: "6be9b792-854a-11e4-b877-cb0cf45dbbb0",
+
     contents: {
         items: [
             {
@@ -19,3 +20,5 @@ export default {
         ],
     },
 };
+
+export default bagInfoMock;

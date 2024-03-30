@@ -6,10 +6,12 @@
  */
 import systemId from "components/models/systemId";
 
-export default {
+const NewAppDefaults = {
     system_id: systemId.de,
     name: "",
     description: "",
     groups: [],
     tools: [],
 };
+
+export default NewAppDefaults;

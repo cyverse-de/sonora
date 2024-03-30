@@ -1,4 +1,4 @@
-export default {
+const InfoTypes = {
     ACE: "ace",
     BAM: "bam",
     BASH: "bash",
@@ -55,3 +55,5 @@ export default {
     VCFGZ: "vcfgz",
     ZIP: "zip",
 };
+
+export default InfoTypes;

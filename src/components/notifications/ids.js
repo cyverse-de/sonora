@@ -1,4 +1,4 @@
-export default {
+const ids = {
     ADMIN_JOIN_TEAM: {
         ADMIN: "admin",
         APPROVE: "radioApprove",
@@ -9,6 +9,7 @@ export default {
         READ: "member",
         SUBMIT_BTN: "submitBtn",
     },
+
     APPROVE_BTN: "approveBtn",
     BASE_DEBUG_ID: "notifications",
     CANCEL_BTN: "cancelBtn",
@@ -43,3 +44,5 @@ export default {
     VICE_HEADER: "runningViceTab",
     VIEW_ALL_NOTIFICATIONS: "view-all-notifications",
 };
+
+export default ids;

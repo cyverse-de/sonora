@@ -1,11 +1,13 @@
-export default {
+const TuxedoSuite = {
     description:
         "Tuexdo suite of tools to assess levels of differential expression between up to 4 separate conditions. The Tuxedo suite: Tophat2>Cufflinks>Cuffmerge>Cuffdiff>CummRbund. http://www.nature.com/nprot/journal/v7/n3/full/nprot.2012.016.html \nworkflow v1.0\n",
+
     requirements: [
         {
             step_number: 0,
         },
     ],
+
     deleted: false,
     disabled: false,
     name: "Tuxedo suite PE up to 4 conditions",
@@ -13,6 +15,7 @@ export default {
     label: "Tuxedo suite PE up to 4 conditions",
     id: "75fb1acc-6e66-11e5-b4e0-2f3df1a4e3ed",
     app_type: "DE",
+
     groups: [
         {
             id: "763de3de-6e66-11e5-8784-7bdaec7f08d0",
@@ -950,3 +953,5 @@ export default {
         },
     ],
 };
+
+export default TuxedoSuite;

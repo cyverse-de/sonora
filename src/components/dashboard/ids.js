@@ -1,4 +1,4 @@
-export default {
+const ids = {
     BASE: "dashboard",
     ITEM: "item",
     ROOT: "root",
@@ -16,3 +16,5 @@ export default {
     TOUR_BTN: "tourButton",
     SECTION_INSTANT_LAUNCHES: "section.instant-launches",
 };
+
+export default ids;

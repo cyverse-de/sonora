@@ -1,4 +1,4 @@
-export default {
+const data = {
     apps: {
         recentlyAdded: [
             {
@@ -246,6 +246,7 @@ export default {
             },
         ],
     },
+
     analyses: {
         recent: [
             {
@@ -361,6 +362,7 @@ export default {
             },
         ],
     },
+
     instantLaunches: [
         {
             id: "1e2483cc-90ae-11eb-9bfd-62d47aced14b",
@@ -392,6 +394,7 @@ export default {
             integrator: "upendra_35@iplantcollaborative.org",
         },
     ],
+
     feeds: {
         news: [
             {
@@ -634,3 +637,5 @@ export default {
         ],
     },
 };
+
+export default data;

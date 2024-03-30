@@ -1,4 +1,4 @@
-export default {
+const constants = {
     BASEID: "bag",
     CANCEL: "cancel",
     DIALOG: "dialog",
@@ -20,9 +20,12 @@ export default {
     LABEL: "label",
     AVATAR: "avatar",
     DELETE: "delete",
+
     FILTERBY: {
         ALL: "all",
         DOWNLOADABLE: "downloadable",
         SHAREABLE: "shareable",
     },
 };
+
+export default constants;

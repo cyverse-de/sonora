@@ -1,4 +1,4 @@
-export default {
+const ids = {
     ANALYSES_SEARCH_OPTION: "analysesSearchOption",
     ANALYSES_SEARCH_RESULTS_TAB: "analysesSearchResultsTab",
     APPS_SEARCH_OPTION: "appsSearchOption",
@@ -13,6 +13,7 @@ export default {
     OK_BTN: "okBtn",
     SEARCH: "search",
     SEARCH_FILTER_MENU: "searchFilterMenu",
+
     SEARCH_FILTER_MI: {
         ALL: "all",
         ANALYSES: "analyses",
@@ -20,6 +21,7 @@ export default {
         DATA: "data",
         TEAMS: "teams",
     },
+
     SEARCH_INPUT_FILED: "searchInput",
     SELECTION_TOOLBAR: "selectionToolbar",
     TABLE_VIEW: "tableView",
@@ -27,3 +29,5 @@ export default {
     TEAM_SEARCH_RESULTS_TAB: "teamSearchResultsTab",
     VIEW_ALL: "viewAll",
 };
+
+export default ids;

@@ -1,4 +1,4 @@
-export default {
+const ids = {
     ADMIN_APPS_FILTER: "adminAppsFilter",
     ADMIN_APPS_FILTER_FIELD: "adminAppsFilterField",
     ADMIN_APPS_SEARCH: "adminAppsSearch",
@@ -70,6 +70,7 @@ export default {
     DOC_MENU_ITEM: "documentation",
     EDIT_MENU_ITEM: "edit",
     SEARCH: "search",
+
     SAVED_LAUNCH: {
         NAME: "name",
         DESCRIPTION: "description",
@@ -80,10 +81,12 @@ export default {
         SHARE_SAVED_LAUNCH: "shareSavedLaunch",
         EMBED_SAVED_LAUNCH: "embedSavedLaunch",
     },
+
     EDIT_BTN: "editButton",
     SAVE_BTN: "saveButton",
     SUBMIT_BTN: "submitButton",
     CANCEL_BTN: "cancelButton",
+
     ADMIN_DETAILS: {
         NAME: "name",
         DESCRIPTION: "description",
@@ -97,20 +100,25 @@ export default {
         DOCUMENTATION: "documentation",
         HTCONDOR_EXTRA_REQS: "htcondorExtraReqs",
     },
+
     APP_STEPPER: {
         STEP_BTN: "stepButton",
         STEP_BACK: "stepBackButton",
         STEP_NEXT: "stepNextButton",
     },
+
     RUN_ERROR_DLG: "runErrorDlg",
+
     PUBLICATION_REQUESTS: {
         BASE_ID: "publicationRequests",
         TOOLS_USED_DIALOG: "toolsUsedDialog",
         TOOLS_USED_LISTING: "toolsUsedListing",
         REQUEST_LISTING: "requestListing",
     },
+
     PUBLISH_DLG: "publishDlg",
     PUBLISH_MENU_ITEM: "publishMenuItem",
+
     PUBLISH: {
         NAME: "name",
         DESCRIPTION: "description",
@@ -123,7 +131,10 @@ export default {
         LICENSE_TYPE: "licenseType",
         LICENSE_LINK: "licenseLink",
     },
+
     SELECT_COLLECTION_DLG: "selectCollectionDlg",
     INSTANT_LAUNCH_BTN: "instantLaunchBtn",
     INSTANT_LAUNCH_MI: "instantLaunchMI",
 };
+
+export default ids;

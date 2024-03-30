@@ -1,4 +1,4 @@
-export default {
+const DOIRequestStatus = {
     Submitted: "Submitted",
     Pending: "Pending",
     Evaluation: "Evaluation",
@@ -8,3 +8,5 @@ export default {
     Rejected: "Rejected",
     Test: "Test",
 };
+
+export default DOIRequestStatus;

@@ -1,4 +1,4 @@
-export default {
+const constants = {
     defaults: {
         KEYBOARD_SC_META_KEY: "Control + Shift +",
         DATA_SC: "D",
@@ -6,6 +6,7 @@ export default {
         ANALYSES_SC: "Y",
         NOTIFICATION_SC: "N",
     },
+
     keys: {
         REMEMBER_LAST_PATH: "rememberLastPath",
         ENABLE_IMPORT_EMAIL_NOTIFICATION: "enableImportEmailNotification",
@@ -21,3 +22,5 @@ export default {
         ANALYSES_KB_SC: "analysisKBShortcut",
     },
 };
+
+export default constants;

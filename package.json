@@ -46,21 +46,30 @@
             "plugin:jsx-a11y/recommended"
         ],
         "rules": {
-            "@next/next/no-img-element": "off",
-            "import/no-anonymous-default-export": [
-                "warn",
-                {
-                    "allowArray": false,
-                    "allowArrowFunction": false,
-                    "allowAnonymousClass": false,
-                    "allowAnonymousFunction": false,
-                    "allowCallExpression": true,
-                    "allowNew": false,
-                    "allowLiteral": false,
-                    "allowObject": true
-                }
-            ]
+            "@next/next/no-img-element": "off"
         },
+        "overrides": [
+            {
+                "files": [
+                    "./stories/**/*.stories.js"
+                ],
+                "rules": {
+                    "import/no-anonymous-default-export": [
+                        "warn",
+                        {
+                            "allowArray": false,
+                            "allowArrowFunction": false,
+                            "allowAnonymousClass": false,
+                            "allowAnonymousFunction": false,
+                            "allowCallExpression": true,
+                            "allowNew": false,
+                            "allowLiteral": false,
+                            "allowObject": true
+                        }
+                    ]
+                }
+            }
+        ],
         "plugins": [
             "jsx-a11y"
         ]

@@ -1,7 +1,7 @@
 /**
  * @author jstroot, psarando
  */
-export default {
+const ids = {
     APP_DESCRIPTION: "appDescription",
     APP_EDITOR_VIEW: "appEditorView",
     APP_NAME: "appName",
@@ -52,3 +52,5 @@ export default {
         VISIBLE: "isVisible",
     },
 };
+
+export default ids;

@@ -1,7 +1,8 @@
 import constants from "../../../../src/constants";
 
-export default {
+const PipelineApp = {
     description: "Example of an app with 2 steps.",
+
     requirements: [
         {
             max_cpu_cores: 4,
@@ -12,6 +13,7 @@ export default {
             step_number: 1,
         },
     ],
+
     deleted: false,
     disabled: false,
     name: "2-step workflow",
@@ -19,6 +21,7 @@ export default {
     label: "2-step workflow",
     id: "4b8214a0-254f-45dc-ba6a-0587a7228b5c",
     app_type: "DE",
+
     groups: [
         {
             id: "05a2ad8f-c452-4cdb-ad0a-774c879b8868",
@@ -80,3 +83,5 @@ export default {
         },
     ],
 };
+
+export default PipelineApp;

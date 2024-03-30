@@ -1,6 +1,7 @@
-export default {
+const ids = {
     ADMIN_LIST: "admins",
     APP_LIST: "appList",
+
     BUTTONS: {
         CREATE_BTN: "createBtn",
         CREATE_MI: "createMI",
@@ -12,6 +13,7 @@ export default {
         UNFOLLOW_BTN: "unfollowBtn",
         UNFOLLOW_MI: "unfollowMI",
     },
+
     COLLECTION_FILTER: "collectionFilter",
     COLLECTION_LINK: "collectionLink",
     DELETE_COLLECTION_DLG: "deleteCollectionDlg",
@@ -26,3 +28,5 @@ export default {
     TOOLBAR: "toolbar",
     UNFOLLOW_COLLECTION_DLG: "unfollowCollectionDlg",
 };
+
+export default ids;

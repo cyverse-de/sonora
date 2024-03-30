@@ -24,7 +24,7 @@ export const commonColumns = [
     defineColumn("User ID", COMMON_COLUMNS.USER_ID, "userID"),
 ];
 
-export default {
+const columns = {
     analyses: commonColumns,
 
     deployments: [
@@ -89,6 +89,9 @@ export default {
             "containerStatusStarted"
         ),
     ],
+
     configMaps: commonColumns,
     ingresses: commonColumns,
 };
+
+export default columns;

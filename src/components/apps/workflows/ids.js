@@ -1,7 +1,7 @@
 /**
  * @author psarando
  */
-export default {
+const ids = {
     DELETE_CONFIRM_DIALOG: "deleteConfirmDialog",
 
     WORKFLOW_DESCRIPTION: "description",
@@ -22,3 +22,5 @@ export default {
         SAVE_BTN: "save",
     },
 };
+
+export default ids;

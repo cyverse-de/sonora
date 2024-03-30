@@ -34,7 +34,9 @@ const newPalette = {
 };
 
 // Merge the two palettes for now. We'll eventually remove the old palette.
-export default {
+const CyVersePalette = {
     ...oldPalette,
     ...newPalette,
 };
+
+export default CyVersePalette;

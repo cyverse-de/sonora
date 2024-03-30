@@ -1,5 +1,6 @@
-export default {
+const userProfileMock = {
     id: "ipcdev",
+
     attributes: {
         email: "ipcdev@cyverse.org",
         entitlement: ["some-entitlement"],
@@ -8,3 +9,5 @@ export default {
         name: "Iplant Dev",
     },
 };
+
+export default userProfileMock;

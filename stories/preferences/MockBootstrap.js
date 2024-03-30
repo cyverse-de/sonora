@@ -1,4 +1,4 @@
-export default {
+const MockBootstrap = {
     user_info: {
         username: "ipcdev",
         full_username: "ipcdev@iplantcollaborative.org",
@@ -6,12 +6,14 @@ export default {
         first_name: "Ipc",
         last_name: "Dev",
     },
+
     session: {
         login_time: 1583266197702,
         auth_redirect: {
             agave: "https://agave.iplantc.org/oauth2/authorize?client_id=6CtVeTM3OvPnffaFbjo6TqxG5e4a&redirect_uri=https%3A%2F%2Fqa.cyverse.org%2Fde%2Foauth%2Fcallback%2Fagave&response_type=code&state=dd773bf2-75f1-4098-bd0c-b44383d6f439",
         },
     },
+
     apps_info: {
         webhooks: [
             {
@@ -37,11 +39,13 @@ export default {
             new_workspace: false,
         },
     },
+
     data_info: {
         user_home_path: "/iplant/home/ipcdev",
         user_trash_path: "/iplant/trash/home/de-irods/ipcdev",
         base_trash_path: "/iplant/trash/home/de-irods",
     },
+
     preferences: {
         rememberLastPath: false,
         notificationKBShortcut: "N",
@@ -68,6 +72,7 @@ export default {
         enableHPCPrompt: true,
     },
 };
+
 export const webhookTypes = {
     webhooktypes: [
         {
@@ -118,3 +123,5 @@ export const webhookTopics = {
         },
     ],
 };
+
+export default MockBootstrap;

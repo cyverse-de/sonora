@@ -2,7 +2,7 @@
  * Constants that define navigation routes.
  * Warning: server/index.js expects each value to be a string.
  */
-export default {
+const NavigationConstants = {
     ADMIN: "admin",
     ADMIN_USER_PORTAL_USERS: "/administrative/users",
     ANALYSES: "analyses",
@@ -39,3 +39,5 @@ export const NavigationParams = {
     // such as CONTENTS, DETAILS, or LISTING.
     VIEW: { METADATA: "metadata" },
 };
+
+export default NavigationConstants;

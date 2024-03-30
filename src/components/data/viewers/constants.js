@@ -8,7 +8,7 @@ export const CODE_MIRROR_MODES = {
     PERL: "perl",
 };
 
-export default {
+const constants = {
     DEFAULT_PAGE_SIZE: 8388608,
     DEFAULT_VIEWER_HEIGHT: "70vh",
     COMMA_DELIMITER: ",",
@@ -31,3 +31,5 @@ export default {
     GITHUB_FLAVOR_MARKDOWN: "gfm",
     IPC_VIEWER_TYPE: "ipc_viewer_type",
 };
+
+export default constants;

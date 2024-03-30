@@ -1,4 +1,4 @@
-export default {
+const ids = {
     ADVANCED_SEARCH_BTN: "advancedSearchBtn",
     ADVANCED_SEARCH_DLG: "advancedSearchDlg",
     CREATED: "created",
@@ -20,3 +20,5 @@ export default {
     TO_DATE: "toDate",
     USER_PANEL: "userPanel",
 };
+
+export default ids;

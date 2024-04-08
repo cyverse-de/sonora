@@ -458,7 +458,9 @@ function DataDotMenu(props) {
                 onClose={() => setPathListDlgOpen(false)}
                 onCreatePathList={(id, path) => {
                     setPathListDlgOpen(false);
-                    routeToFile(id, path);
+                    if (id && path) {
+                        routeToFile(id, path);
+                    }
                 }}
                 onCancel={() => setPathListDlgOpen(false)}
                 startingPath={path}

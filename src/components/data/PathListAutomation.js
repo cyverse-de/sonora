@@ -16,6 +16,9 @@ import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
 import FormSwitch from "components/forms/FormSwitch";
 
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { INFO } from "components/announcer/AnnouncerConstants";
+
 import SaveAsField from "./SaveAsField";
 import ids from "./ids";
 import { validateDiskResourceName } from "./utils";
@@ -100,6 +103,12 @@ export default function PathListAutomation(props) {
         {
             onSuccess: (data) => {
                 setCreatePathListError(null);
+                if (data.async_task_id) {
+                    announce({
+                        text: t("asyncPathListPending"),
+                        variant: INFO,
+                    });
+                }
                 onCreatePathList(data?.file?.id, data?.file?.path);
             },
             onError: (error, { onError }) => {

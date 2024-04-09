@@ -100,7 +100,7 @@ export default function PathListAutomation(props) {
         {
             onSuccess: (data) => {
                 setCreatePathListError(null);
-                onCreatePathList(data.file.id, data.file.path);
+                onCreatePathList(data?.file?.id, data?.file?.path);
             },
             onError: (error, { onError }) => {
                 let errMsg = null;

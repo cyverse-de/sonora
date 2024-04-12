@@ -9,6 +9,7 @@
     "asyncDataDeletePending": "Deletion in progress. You will be notified when completed.",
     "asyncDataEmptyTrashPending": "Emptying trash. You will be notified when completed.",
     "asyncMovePending": "Move in progress. You will be notified when completed.",
+    "asyncPathListPending": "Path List creation in progress. You will be notified when completed.",
     "asyncRenamePending": "Rename in progress. You will be notified when completed.",
     "asyncDataRestorePending": "Restoring requested item(s). You will be notified when completed.",
     "automateCreateHtPathList": "Generate HT analysis path list",

@@ -32,7 +32,6 @@ import {
     LocalContextsAttrs,
     parseProjectID,
 } from "components/models/metadata/LocalContexts";
-import ResourceTypes from "components/models/ResourceTypes";
 
 import InstantLaunchButton from "components/instantlaunches";
 import { defaultInstantLaunch } from "serviceFacades/instantlaunches";
@@ -70,12 +69,11 @@ function ResourceNameCell({
     const [localContextsProjectURI, setLocalContextsProjectURI] = useState();
 
     const resourceId = resource.id;
-    const isFolder = resource.type === ResourceTypes.FOLDER;
 
     useQuery({
         queryKey: [FILESYSTEM_METADATA_QUERY_KEY, { dataId: resourceId }],
         queryFn: () => getFilesystemMetadata({ dataId: resourceId }),
-        enabled: resourceId && isFolder,
+        enabled: !!resourceId,
         onSuccess: (metadata) => {
             const { avus } = metadata;
 

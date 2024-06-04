@@ -55,7 +55,6 @@ import TerminateAnalysisDialog from "components/analyses/TerminateAnalysisDialog
 import analysisStatus from "components/models/analysisStatus";
 import { cancelAnalysis } from "serviceFacades/analyses";
 import ResourceUsageItem from "./dashboardItem/ResourceUsageItem";
-import UserSurvey from "./dashboardItem/UserSurvey";
 
 const AppDetailsDrawer = dynamic(() =>
     import("components/apps/details/Drawer")
@@ -295,7 +294,6 @@ const Dashboard = (props) => {
     return (
         <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>
             {!userProfile?.id && <Banner />}
-            <UserSurvey />
             {userProfile?.id &&
                 bootstrapInfo && [
                     <Tour

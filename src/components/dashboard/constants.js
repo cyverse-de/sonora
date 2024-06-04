@@ -45,6 +45,4 @@ export const SM_PIXELS = 600;
 export const XS_NUM_COLUMNS = 1;
 export const XS_PIXELS = 0;
 
-export const USER_SURVEY = "https://cyver.se/srvy";
-export const PHX_BIO_URL = "https://www.phoenixbioinformatics.org/";
 export const FEATURE_MATRIX_URL = "https://cyverse.org/subscribe";

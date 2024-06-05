@@ -11,5 +11,7 @@ export const getSearchLink = ({ searchTerm = "", advancedDataQuery = "" }) => {
 };
 
 export const extractTotal = (result) => {
-    return result?.total?.value || result?.total;
+    return typeof result?.total === "object"
+        ? result?.total?.value
+        : result?.total;
 };

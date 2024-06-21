@@ -17,7 +17,7 @@ import buildID from "components/utils/DebugIDUtil";
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
-import appType from "components/models/AppType";
+import SystemIds from "components/models/systemId";
 
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import DEPagination from "components/utils/DEPagination";
@@ -485,7 +485,7 @@ function Listing(props) {
                 let toFilter = filter;
                 if (
                     category.system_id?.toLowerCase() ===
-                    appType.agave.value.toLowerCase()
+                    SystemIds.tapis.toLowerCase()
                 ) {
                     toFilter = null;
                 }

@@ -14,7 +14,7 @@ import { allowAnalysesCancel } from "../utils";
 
 import { useConfig } from "contexts/config";
 
-import AppsTypeFilter from "components/apps/AppsTypeFilter";
+import AppsTypeFilter, { getFilters } from "components/apps/AppsTypeFilter";
 
 import buildID from "components/utils/DebugIDUtil";
 
@@ -171,6 +171,17 @@ function AnalysesToolbar(props) {
         hasSelection && allowAnalysesCancel(selectedAnalyses, username, config);
     const { isSmDown, isMdDown } = useBreakpoints();
 
+    const typeFilter = (
+        <AppsTypeFilter
+            baseId={analysesNavId}
+            filter={appTypeFilter}
+            classes={classes}
+            handleFilterChange={handleAppTypeFilterChange}
+            options={getFilters(true)}
+            disabled={false}
+        />
+    );
+
     return (
         <>
             <Toolbar variant="dense" id={analysesNavId} style={{ padding: 0 }}>
@@ -182,13 +193,7 @@ function AnalysesToolbar(props) {
                             classes={classes}
                             handleFilterChange={handleOwnershipFilterChange}
                         />
-                        <AppsTypeFilter
-                            baseId={analysesNavId}
-                            filter={appTypeFilter}
-                            classes={classes}
-                            handleFilterChange={handleAppTypeFilterChange}
-                            disabled={false}
-                        />
+                        {typeFilter}
                     </>
                 )}
                 {viewFiltered && (
@@ -300,13 +305,7 @@ function AnalysesToolbar(props) {
                         handleFilterChange={handleOwnershipFilterChange}
                     />
                     <br />
-                    <AppsTypeFilter
-                        baseId={analysesNavId}
-                        filter={appTypeFilter}
-                        classes={classes}
-                        handleFilterChange={handleAppTypeFilterChange}
-                        disabled={false}
-                    />
+                    {typeFilter}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setOpenFilterDialog(false)}>

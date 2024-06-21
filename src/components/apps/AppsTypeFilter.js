@@ -6,12 +6,21 @@ import buildID from "components/utils/DebugIDUtil";
 import Autocomplete from "@mui/material/Autocomplete";
 import { TextField } from "@mui/material";
 
-function getFilters() {
-    return Object.values(appType);
+function getFilters(includeDeprecated = false) {
+    const filters = Object.values(appType);
+
+    return includeDeprecated ? filters : filters.filter((f) => !f.deprecated);
 }
 
 export default function AppsTypeFilter(props) {
-    const { baseId, filter, handleFilterChange, classes, disabled } = props;
+    const {
+        baseId,
+        filter,
+        handleFilterChange,
+        classes,
+        disabled,
+        options = getFilters(),
+    } = props;
     const { t } = useTranslation("apps");
 
     return (
@@ -19,7 +28,7 @@ export default function AppsTypeFilter(props) {
             id={buildID(baseId, ids.APPS_FILTER)}
             disabled={disabled}
             value={filter}
-            options={getFilters()}
+            options={options}
             size="small"
             onChange={(event, newValue) => {
                 handleFilterChange(newValue);

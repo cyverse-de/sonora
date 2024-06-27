@@ -144,7 +144,13 @@ const initGroupValues = (groups) =>
 
             if (paramArgs?.length > 0) {
                 const defaultArg =
-                    paramArgs.find((arg) => defaultValue?.id === arg.id) ||
+                    (defaultValue &&
+                        paramArgs.find((arg) => defaultValue.id === arg.id)) ||
+                    // param arg IDs can change between jobs
+                    (defaultValue &&
+                        paramArgs.find(
+                            (arg) => defaultValue.value === arg.value
+                        )) ||
                     paramArgs.find((arg) => arg.isDefault);
 
                 value = defaultArg || "";

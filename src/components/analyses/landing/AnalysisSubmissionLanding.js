@@ -3,6 +3,7 @@ import React from "react";
 import { useTranslation } from "i18n";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
+    ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSES_LISTING_QUERY_KEY,
     cancelAnalysis,
     extendVICEAnalysisTimeLimit,
@@ -162,6 +163,7 @@ export default function AnalysisSubmissionLanding(props) {
 
     const refreshAnalysis = () => {
         queryClient.invalidateQueries([ANALYSES_LISTING_QUERY_KEY, id]);
+        queryClient.invalidateQueries([ANALYSIS_HISTORY_QUERY_KEY, id]);
     };
 
     const { isFetching, error: analysisFetchError } = useQuery({

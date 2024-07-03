@@ -86,7 +86,7 @@
         "config": "^3.3.1",
         "connect-pg-simple": "^6.1.0",
         "date-fns": "^2.11.1",
-        "express": "^4.17.1",
+        "express": "^4.19.2",
         "express-session": "^1.17.1",
         "express-winston": "^4.0.2",
         "formik": "^2.2.5",

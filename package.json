@@ -117,7 +117,7 @@
         "unleash-client": "^3.8.1",
         "uuid": "^3.4.0",
         "winston": "^3.2.1",
-        "ws": "^8.13.0"
+        "ws": "^8.17.1"
     },
     "optionalDependencies": {
         "fsevents": "^1.2.11"

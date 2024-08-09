@@ -3,6 +3,7 @@ import ReactPlayer from "react-player/youtube";
 import { useTranslation } from "i18n";
 
 import AnalysisSubheader from "./AnalysisSubheader";
+import useAnalysisTimeLimitCountdown from "components/analyses/useAnalysisTimeLimitCountdown";
 import buildID from "components/utils/DebugIDUtil";
 import analysisStatus from "components/models/analysisStatus";
 
@@ -72,7 +73,7 @@ const DashboardItem = ({ item }) => {
     });
     const { classes: running } = useRunningAnalysesStyles();
 
-    const { t } = useTranslation(["dashboard", "apps"]);
+    const { t } = useTranslation(["dashboard", "apps", "analyses"]);
 
     const isMediumOrLarger = useMediaQuery(theme.breakpoints.up("md"));
 
@@ -85,6 +86,11 @@ const DashboardItem = ({ item }) => {
     const isRunningAnalysis =
         item.kind === "analyses" &&
         item.content.status === analysisStatus.RUNNING;
+
+    const { timeLimitCountdown } = useAnalysisTimeLimitCountdown(
+        isRunningAnalysis && item.content
+    );
+
     return (
         <Card
             classes={{ root: classes.dashboardCard }}
@@ -130,6 +136,19 @@ const DashboardItem = ({ item }) => {
                     classes: { colorPrimary: classes.cardHeaderText },
                 }}
             />
+            {timeLimitCountdown && (
+                <CardHeader
+                    className={running.backdrop}
+                    title={t("analyses:timeLimitCountdown", {
+                        timeLimitCountdown,
+                    })}
+                    titleTypographyProps={{
+                        noWrap: true,
+                        variant: "subtitle2",
+                        style: { color: theme.palette.primary.main },
+                    }}
+                />
+            )}
             <CardContent
                 classes={{
                     root: classes.root,

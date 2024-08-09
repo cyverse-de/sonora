@@ -35,6 +35,22 @@ const isInteractive = (analysis) => {
 };
 
 /**
+ * Check if the analysis of type VICE
+ * @param {object} analysis
+ * @returns {boolean}
+ */
+const isInteractiveRunning = (analysis) => {
+    if (!analysis) {
+        return false;
+    }
+
+    return (
+        analysis.interactive_urls?.length > 0 &&
+        analysis.status === analysisStatus.RUNNING
+    );
+};
+
+/**
  * Check if the user can extend the time limit
  * @param {object} analysis
  * @param {string} currentUser
@@ -42,12 +58,8 @@ const isInteractive = (analysis) => {
  * @returns {boolean}
  */
 const allowAnalysisTimeExtn = (analysis, currentUser, config) => {
-    if (!analysis) {
-        return false;
-    }
     return (
-        analysis?.interactive_urls?.length > 0 &&
-        analysis.status === analysisStatus.RUNNING &&
+        isInteractiveRunning(analysis) &&
         currentUser === getAnalysisUser(analysis, config)
     );
 };
@@ -237,6 +249,7 @@ const isTerminated = (analysis) => {
 export {
     getAnalysisUser,
     isInteractive,
+    isInteractiveRunning,
     allowAnalysisTimeExtn,
     isBatchAnalysis,
     allowAnalysesCancel,

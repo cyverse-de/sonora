@@ -13,16 +13,12 @@ import ids from "../ids";
 import buildID from "components/utils/DebugIDUtil";
 
 import {
-    allowAnalysesCancel,
-    allowAnalysisTimeExtn,
     isBatchAnalysis,
     isInteractive,
     isTerminated,
     useGotoOutputFolderLink,
     useRelaunchLink,
 } from "../utils";
-
-import { useConfig } from "contexts/config";
 
 import { Grid, IconButton } from "@mui/material";
 import {
@@ -92,26 +88,23 @@ export default function Actions(props) {
     const {
         analysis,
         allowBatchDrillDown = true,
+        allowCancel,
+        allowTimeExtn,
         handleDetailsClick,
         handleInteractiveUrlClick,
         handleTerminateSelected,
         handleBatchIconClick,
         setPendingTerminationDlgOpen,
         baseId,
-        username,
         handleTimeLimitExtnClick,
         setVICELogsDlgOpen,
     } = props;
-
-    const [config] = useConfig();
 
     const interactiveUrls = analysis.interactive_urls;
     const isDisabled = analysis.app_disabled;
 
     const isBatch = isBatchAnalysis(analysis);
     const isVICE = isInteractive(analysis);
-    const allowCancel = allowAnalysesCancel([analysis], username, config);
-    const allowTimeExtn = allowAnalysisTimeExtn(analysis, username, config);
     const [relaunchHref, relaunchAs] = useRelaunchLink(analysis);
     const [outputFolderHref, outputFolderAs] = useGotoOutputFolderLink(
         analysis?.resultfolderid

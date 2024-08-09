@@ -83,9 +83,9 @@ const DashboardItem = ({ item }) => {
     const description = fns.cleanDescription(item.content.description);
     const [origination, date] = item.getOrigination(t);
 
+    const isAnalysis = item.kind === constants.KIND_ANALYSES;
     const isRunningAnalysis =
-        item.kind === "analyses" &&
-        item.content.status === analysisStatus.RUNNING;
+        isAnalysis && item.content.status === analysisStatus.RUNNING;
 
     const { timeLimitCountdown } = useAnalysisTimeLimitCountdown(
         isRunningAnalysis && item.content
@@ -117,11 +117,17 @@ const DashboardItem = ({ item }) => {
                     classes: { colorPrimary: classes.cardHeaderText },
                 }}
                 subheader={
-                    item.kind === constants.KIND_ANALYSES ? (
-                        <AnalysisSubheader
-                            analysis={item.content}
-                            date={date}
-                        />
+                    isAnalysis ? (
+                        timeLimitCountdown ? (
+                            t("analyses:timeLimitCountdown", {
+                                timeLimitCountdown,
+                            })
+                        ) : (
+                            <AnalysisSubheader
+                                analysis={item.content}
+                                date={date}
+                            />
+                        )
                     ) : (
                         t("origination", {
                             origination,
@@ -133,22 +139,14 @@ const DashboardItem = ({ item }) => {
                 subheaderTypographyProps={{
                     noWrap: true,
                     variant: "caption",
-                    classes: { colorPrimary: classes.cardHeaderText },
+                    style:
+                        isRunningAnalysis && timeLimitCountdown
+                            ? {
+                                  color: theme.palette.primary.main,
+                              }
+                            : null,
                 }}
             />
-            {timeLimitCountdown && (
-                <CardHeader
-                    className={running.backdrop}
-                    title={t("analyses:timeLimitCountdown", {
-                        timeLimitCountdown,
-                    })}
-                    titleTypographyProps={{
-                        noWrap: true,
-                        variant: "subtitle2",
-                        style: { color: theme.palette.primary.main },
-                    }}
-                />
-            )}
             <CardContent
                 classes={{
                     root: classes.root,

@@ -1,5 +1,7 @@
 import React from "react";
 
+import { useQueryClient } from "react-query";
+
 import { useTranslation } from "i18n";
 
 import constants from "../../src/constants";
@@ -7,11 +9,13 @@ import constants from "../../src/constants";
 import { mockAxios } from "../axiosMock";
 
 import { info, listing } from "./AnalysesMocks";
+import { convertTimeLimitArgType, TimeLimitArgType } from "./ArgTypes";
 
 import Listing from "components/analyses/listing/Listing";
 import analysisFields from "components/analyses/analysisFields";
 
 import { NotificationsProvider } from "contexts/pushNotifications";
+import { VICE_TIME_LIMIT_QUERY_KEY } from "serviceFacades/analyses";
 
 export default {
     title: "Analyses / Listing",
@@ -70,8 +74,18 @@ const errorResponse = {
     reason: "This error will only occur once! Please try again...",
 };
 
-export const AnalysesListingTest = () => {
+export const AnalysesListingTest = ({ timeLimit }) => {
+    const queryClient = useQueryClient();
+
+    React.useEffect(() => {
+        queryClient.invalidateQueries(VICE_TIME_LIMIT_QUERY_KEY);
+    }, [timeLimit, queryClient]);
+
     mockAxios.onGet(new RegExp("/api/analyses/.*/history")).reply(200, info);
+    mockAxios.onGet(new RegExp("/api/analyses/.*/time-limit")).reply(200, {
+        time_limit: convertTimeLimitArgType(timeLimit),
+    });
+
     mockAxios.onGet("/api/analyses").reply(200, listing);
 
     mockAxios.onPost("/api/analyses/relauncher").replyOnce(500, errorResponse);
@@ -147,3 +161,8 @@ export const AnalysesListingTest = () => {
 
     return <ListingTest />;
 };
+
+AnalysesListingTest.args = {
+    timeLimit: "null",
+};
+AnalysesListingTest.argTypes = TimeLimitArgType;

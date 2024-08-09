@@ -38,6 +38,28 @@ export const agaveWordCountAnalysis = {
         "/iplant/home/ipcdev/analyses/Word_Count_DE-2_0.0.3_analysis1-2020-04-09-00-23-54.1",
 };
 
+export const runningVICEAnalysis = {
+    description: "",
+    name: "ten-rules-jupyter_analysis1",
+    can_share: true,
+    username: "ipcdev@iplantcollaborative.org",
+    app_id: "8ec235d8-f173-11e9-a56f-008cfa5ae621",
+    system_id: "de",
+    app_disabled: false,
+    batch: false,
+    enddate: "0",
+    status: "Running",
+    id: "8712ea7c-7f0c-11ea-be65-c2a97b34bb42",
+    startdate: "1586950235151",
+    app_description:
+        "Jupyter Notebooks for: Ten simple rules for writing and sharing computational analyses in Jupyter Notebooks. Rule A, Birmingham A, Zuniga C, Altintas I, Huang SC, Knight R, Moshiri N, Nguyen MH, Rosenthal SB, Pérez F, Rose PW. PLoS Comput Biol. 2019 Jul 25;15(7):e1007007. doi: 10.1371/journal.pcbi.1007007",
+    interactive_urls: ["https://a444587f3.cyverse.run:4343"],
+    notify: true,
+    resultfolderid:
+        "/iplant/home/ipcdev/analyses_qa/ten-rules-jupyter_analysis1-2020-04-15-11-30-35.1",
+    app_name: "ten-rules-jupyter",
+};
+
 export const listing = {
     analyses: [
         {
@@ -100,27 +122,7 @@ export const listing = {
                 "/iplant/home/ipcdev/analyses_qa/DE_Word_Count_analysis1-2020-04-15-11-31-27.4",
             app_name: "DE Word Count",
         },
-        {
-            description: "",
-            name: "ten-rules-jupyter_analysis1",
-            can_share: true,
-            username: "ipcdev@iplantcollaborative.org",
-            app_id: "8ec235d8-f173-11e9-a56f-008cfa5ae621",
-            system_id: "de",
-            app_disabled: false,
-            batch: false,
-            enddate: "0",
-            status: "Running",
-            id: "8712ea7c-7f0c-11ea-be65-c2a97b34bb42",
-            startdate: "1586950235151",
-            app_description:
-                "Jupyter Notebooks for: Ten simple rules for writing and sharing computational analyses in Jupyter Notebooks. Rule A, Birmingham A, Zuniga C, Altintas I, Huang SC, Knight R, Moshiri N, Nguyen MH, Rosenthal SB, Pérez F, Rose PW. PLoS Comput Biol. 2019 Jul 25;15(7):e1007007. doi: 10.1371/journal.pcbi.1007007",
-            interactive_urls: ["https://a444587f3.cyverse.run:4343"],
-            notify: true,
-            resultfolderid:
-                "/iplant/home/ipcdev/analyses_qa/ten-rules-jupyter_analysis1-2020-04-15-11-30-35.1",
-            app_name: "ten-rules-jupyter",
-        },
+        runningVICEAnalysis,
         deWordCountAnalysis,
         agaveWordCountAnalysis,
     ],
@@ -920,8 +922,8 @@ export const info = {
         {
             step_number: 1,
             external_id: "853900453991617001-242ac116-0001-007",
-            startdate: "1553818229058",
-            enddate: "1553818332000",
+            startdate: "1586398229058",
+            enddate: "1586398332000",
             status: "Completed",
             app_step_number: 1,
             step_type: "Agave",
@@ -929,96 +931,96 @@ export const info = {
                 {
                     status: "PENDING",
                     message: "Job accepted and queued for submission.",
-                    timestamp: "1553818231000",
+                    timestamp: "1586398231000",
                 },
                 {
                     status: "PROCESSING_INPUTS",
                     message: "Attempt 1 to stage job inputs",
-                    timestamp: "1553818247000",
+                    timestamp: "1586398247000",
                 },
                 {
                     status: "PROCESSING_INPUTS",
                     message: "Identifying input files for staging",
-                    timestamp: "1553818247000",
+                    timestamp: "1586398247000",
                 },
                 {
                     status: "STAGING_INPUTS",
                     message: "Copy in progress",
-                    timestamp: "1553818253000",
+                    timestamp: "1586398253000",
                 },
                 {
                     status: "STAGED",
                     message: "Job inputs staged to execution system",
-                    timestamp: "1553818256000",
+                    timestamp: "1586398256000",
                 },
                 {
                     status: "SUBMITTING",
                     message: "Preparing job for submission.",
-                    timestamp: "1553818275000",
+                    timestamp: "1586398275000",
                 },
                 {
                     status: "SUBMITTING",
                     message: "Attempt 1 to submit job",
-                    timestamp: "1553818275000",
+                    timestamp: "1586398275000",
                 },
                 {
                     status: "STAGING_JOB",
                     message:
                         // eslint-disable-next-line no-template-curly-in-string
                         "Fetching app assets from agave://data.iplantcollaborative.org/${foundation.service.apps.default.public.dir}/cut_columns-0.0.0u1.zip",
-                    timestamp: "1553818278000",
+                    timestamp: "1586398278000",
                 },
                 {
                     status: "STAGING_JOB",
                     message:
                         "Staging runtime assets to agave://cyverseUK-Batch2/sarahr/job-853900453991617001-242ac116-0001-007-6869ed8f-ab38-4aaf-bb12-d0842e9fcb73_0001",
-                    timestamp: "1553818283000",
+                    timestamp: "1586398283000",
                 },
                 {
                     status: "QUEUED",
                     message: "CLI job successfully forked as process id 928228",
-                    timestamp: "1553818304000",
+                    timestamp: "1586398304000",
                 },
                 {
                     status: "RUNNING",
                     message: "CLI job successfully forked as process id 928228",
-                    timestamp: "1553818304000",
+                    timestamp: "1586398304000",
                 },
                 {
                     status: "RUNNING",
                     message: "Job receieved duplicate RUNNING notification",
-                    timestamp: "1553818307000",
+                    timestamp: "1586398307000",
                 },
                 {
                     status: "CLEANING_UP",
                     message: "Job completion detected by process monitor.",
-                    timestamp: "1553818332000",
+                    timestamp: "1586398332000",
                 },
                 {
                     status: "ARCHIVING",
                     message: "Beginning to archive output.",
-                    timestamp: "1553818335000",
+                    timestamp: "1586398335000",
                 },
                 {
                     status: "ARCHIVING",
                     message: "Attempt 1 to archive job output",
-                    timestamp: "1553818335000",
+                    timestamp: "1586398335000",
                 },
                 {
                     status: "ARCHIVING",
                     message:
                         "Archiving agave://cyverseUK-Batch2/sarahr/job-853900453991617001-242ac116-0001-007-6869ed8f-ab38-4aaf-bb12-d0842e9fcb73_0001 to agave://qairods.cyverse.org//sarahr/analyses_qa/cut_201903281639-2019-03-29-00-10-15.5",
-                    timestamp: "1553818340000",
+                    timestamp: "1586398340000",
                 },
                 {
                     status: "ARCHIVING_FINISHED",
                     message: "Job archiving completed successfully.",
-                    timestamp: "1553818415000",
+                    timestamp: "1586398415000",
                 },
                 {
                     status: "FINISHED",
                     message: "Job complete",
-                    timestamp: "1553818416000",
+                    timestamp: "1586398416000",
                 },
             ],
         },

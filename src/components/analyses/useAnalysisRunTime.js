@@ -42,9 +42,11 @@ function useAnalysisRunTime(
             // Make sure we're looking at the correct step
             // (e.g. step_type === "Interactive" or step_number === 1)
             const step = resp?.steps?.find(stepFilterFn);
-            // Find the first Running update
+            // Find the first Running update, ignoring case for Tapis jobs.
             const runningUpdate = step?.updates?.find(
-                (update) => update.status === analysisStatus.RUNNING
+                (update) =>
+                    update.status.toUpperCase() ===
+                    analysisStatus.RUNNING.toUpperCase()
             );
             // Record the timestamp
             setRunningStart(parseInt(runningUpdate?.timestamp || 0));

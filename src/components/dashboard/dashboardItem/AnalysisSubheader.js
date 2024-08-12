@@ -1,6 +1,6 @@
 /**
  *
- * @author aramsey, sriram
+ * @author aramsey, sriram, psarando
  *
  * A component that displays analysis run time and status
  *
@@ -13,7 +13,7 @@ import useAnalysisRunTime from "components/analyses/useAnalysisRunTime";
 import analysisStatus from "components/models/analysisStatus";
 
 export default function AnalysisSubheader(props) {
-    const { analysis, date: formattedDate } = props;
+    const { analysis, date: formattedDate, timeLimitCountdown } = props;
     const { t } = useTranslation(["dashboard", "apps"]);
     const { elapsedTime, totalRunTime } = useAnalysisRunTime(analysis);
     const theme = useTheme();
@@ -32,7 +32,9 @@ export default function AnalysisSubheader(props) {
         <Trans
             t={t}
             i18nKey={
-                totalRunTime
+                timeLimitCountdown
+                    ? "analysisRunningTimeLimit"
+                    : totalRunTime
                     ? "analysisCompletedOrigination"
                     : elapsedTime
                     ? "analysisRunningOrigination"
@@ -43,6 +45,7 @@ export default function AnalysisSubheader(props) {
                 date: formattedDate,
                 runningTime: elapsedTime,
                 totalRunTime,
+                timeLimitCountdown,
             }}
             components={{
                 bold: <strong />,

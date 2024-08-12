@@ -85,11 +85,16 @@ function AnalysisName(props) {
 }
 
 function AnalysisDuration({ analysis, timeLimitCountdown }) {
+    const { t } = useTranslation("analyses");
     const { elapsedTime, totalRunTime } = useAnalysisRunTime(analysis);
 
     return (
         <Typography variant="body2">
-            {timeLimitCountdown || totalRunTime || elapsedTime}
+            {timeLimitCountdown
+                ? t("timeLimitCountdown", {
+                      timeLimitCountdown,
+                  })
+                : totalRunTime || elapsedTime}
         </Typography>
     );
 }

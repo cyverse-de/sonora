@@ -7,14 +7,14 @@
  * `/analyses/${id}/time-limit` endpoint, and converted into milliseconds.
  *
  * The countdown timer value is calculated from this time limit value,
- * and formatted with `date-fns/formatDuration`.
+ * and formatted as `HHh:MMm`.
  *
- * Updates the countdown timer value every second.
+ * Updates the countdown timer value every minute.
  */
 
 import { useEffect, useState } from "react";
 
-import { formatDuration, intervalToDuration, toDate } from "date-fns";
+import { millisecondsToHours, millisecondsToMinutes, toDate } from "date-fns";
 import { useQuery } from "react-query";
 
 import { useTranslation } from "i18n";
@@ -28,11 +28,16 @@ import { isInteractiveRunning } from "./utils";
 
 const timeLimitToCountdown = (timeLimitMS) => {
     if (timeLimitMS > 0) {
-        const start = new Date();
-        const end = toDate(parseInt(timeLimitMS, 10));
+        const now = new Date();
+        const end = toDate(timeLimitMS);
 
-        if (end > start) {
-            return formatDuration(intervalToDuration({ start, end }));
+        if (end > now) {
+            const millisRemaining = end - now;
+            const hours = millisecondsToHours(millisRemaining);
+            const mins = millisecondsToMinutes(millisRemaining) - hours * 60;
+            if (mins > 0 || hours > 0) {
+                return `${hours}h:${mins}m`;
+            }
         }
     }
 
@@ -73,7 +78,7 @@ function useAnalysisTimeLimitCountdown(analysis, showErrorAnnouncer) {
 
         let interval;
         if (runningVICE) {
-            interval = setInterval(handleUpdateRunningTime, 1000);
+            interval = setInterval(handleUpdateRunningTime, 60 * 1000);
             handleUpdateRunningTime();
         } else {
             setTimeLimitCountdown(null);

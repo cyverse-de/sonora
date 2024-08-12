@@ -118,16 +118,11 @@ const DashboardItem = ({ item }) => {
                 }}
                 subheader={
                     isAnalysis ? (
-                        timeLimitCountdown ? (
-                            t("analyses:timeLimitCountdown", {
-                                timeLimitCountdown,
-                            })
-                        ) : (
-                            <AnalysisSubheader
-                                analysis={item.content}
-                                date={date}
-                            />
-                        )
+                        <AnalysisSubheader
+                            analysis={item.content}
+                            date={date}
+                            timeLimitCountdown={timeLimitCountdown}
+                        />
                     ) : (
                         t("origination", {
                             origination,

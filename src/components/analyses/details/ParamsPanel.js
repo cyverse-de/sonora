@@ -80,7 +80,11 @@ function AnalysisParams(props) {
     let columns = columnData(t);
 
     if (isParamsFetching) {
-        return <TableLoading numColumns={3} numRows={10} />;
+        return (
+            <Table>
+                <TableLoading numColumns={3} numRows={10} />
+            </Table>
+        );
     }
 
     if (!parameters && !isParamsFetching && !paramsFetchError) {

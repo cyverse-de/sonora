@@ -59,7 +59,7 @@ function Updates(props) {
                 const timestamp = update.timestamp;
                 const message = update.message;
                 return (
-                    <>
+                    <React.Fragment key={updateIndex}>
                         <ListItem id={buildID(baseId, updateIndex)}>
                             <ListItemText
                                 primary={`${formatDate(timestamp)} - ${status}`}
@@ -69,7 +69,7 @@ function Updates(props) {
                             />
                         </ListItem>
                         <Divider component="li" />
-                    </>
+                    </React.Fragment>
                 );
             })}
         </List>

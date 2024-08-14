@@ -7,7 +7,7 @@
  * `/analyses/${id}/time-limit` endpoint, and converted into milliseconds.
  *
  * The countdown timer value is calculated from this time limit value,
- * and formatted as `HHh:MMm`.
+ * and formatted as `HH:MM`.
  *
  * Updates the countdown timer value every minute.
  */
@@ -36,7 +36,9 @@ const timeLimitToCountdown = (timeLimitMS) => {
             const hours = millisecondsToHours(millisRemaining);
             const mins = millisecondsToMinutes(millisRemaining) - hours * 60;
             if (mins > 0 || hours > 0) {
-                return `${hours}h:${mins}m`;
+                return [hours, mins]
+                    .map((n) => String(n).padStart(2, "0"))
+                    .join(":");
             }
         }
     }

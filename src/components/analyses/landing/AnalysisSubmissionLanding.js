@@ -7,12 +7,10 @@ import {
     cancelAnalysis,
     extendVICEAnalysisTimeLimit,
     getAnalysis,
-    getTimeLimitForVICEAnalysis,
     renameAnalysis,
     updateAnalysisComment,
     useAnalysisInfo,
     useAnalysisParameters,
-    VICE_TIME_LIMIT_QUERY_KEY,
 } from "serviceFacades/analyses";
 import { getAnalysisShareWithSupportRequest } from "serviceFacades/sharing";
 import {
@@ -29,6 +27,7 @@ import DetailsPanel from "../details/DetailsPanel";
 import InfoPanel from "../details/InfoPanel";
 import ParamsPanel from "../details/ParamsPanel";
 import AnalysisStatusIcon from "../AnalysisStatusIcon";
+import useAnalysisTimeLimitCountdown from "../useAnalysisTimeLimitCountdown";
 
 import ShareWithSupportDialog from "components/analyses/ShareWithSupportDialog";
 import TerminateAnalysisDialog from "components/analyses/TerminateAnalysisDialog";
@@ -104,16 +103,19 @@ export default function AnalysisSubmissionLanding(props) {
 
     const [confirmExtendTimeLimitDlgOpen, setConfirmExtendTimeLimitDlgOpen] =
         React.useState(false);
-    const [timeLimitQueryEnabled, setTimeLimitQueryEnabled] =
-        React.useState(false);
-    const [timeLimit, setTimeLimit] = React.useState();
     const [pendingTerminationDlgOpen, setPendingTerminationDlgOpen] =
         React.useState(false);
+
+    const { timeLimit, timeLimitCountdown } = useAnalysisTimeLimitCountdown(
+        analysis,
+        showErrorAnnouncer
+    );
 
     const username = getAnalysisUser(analysis, config);
     const isBatch = isBatchAnalysis(analysis);
     const isVICE = isInteractive(analysis);
-    const allowTimeExtn = allowAnalysisTimeExtn(analysis, username, config);
+    const allowTimeExtn =
+        timeLimit && allowAnalysisTimeExtn(analysis, username, config);
     const allowCancel = allowAnalysesCancel([analysis], username, config);
     const allowRelaunch = allowAnalysesRelaunch([analysis]);
     const allowEdit = allowAnalysisEdit(analysis, username, config);
@@ -186,22 +188,6 @@ export default function AnalysisSubmissionLanding(props) {
             enabled: !!id,
             onSuccess: setParameters,
         });
-
-    const { isFetching: isFetchingTimeLimit } = useQuery({
-        queryKey: [VICE_TIME_LIMIT_QUERY_KEY, id],
-        queryFn: () => getTimeLimitForVICEAnalysis(id),
-        enabled: timeLimitQueryEnabled,
-        onSuccess: (resp) => {
-            //convert the response from seconds to milliseconds
-            setTimeLimit({
-                [id]: formatDate(resp?.time_limit * 1000),
-            });
-            setConfirmExtendTimeLimitDlgOpen(true);
-        },
-        onError: (error) => {
-            showErrorAnnouncer(t("timeLimitError"), error);
-        },
-    });
 
     const { mutate: shareAnalysesMutation, isLoading: shareLoading } =
         useMutation(submitAnalysisSupportRequest, {
@@ -277,7 +263,6 @@ export default function AnalysisSubmissionLanding(props) {
         useMutation(extendVICEAnalysisTimeLimit, {
             onSuccess: (resp) => {
                 setConfirmExtendTimeLimitDlgOpen(false);
-                setTimeLimit(null);
                 //convert the response from seconds to milliseconds
                 announce({
                     text: t("timeLimitExtended", {
@@ -304,11 +289,7 @@ export default function AnalysisSubmissionLanding(props) {
         });
     };
 
-    const busy =
-        isFetching ||
-        analysisLoading ||
-        isFetchingTimeLimit ||
-        extensionLoading;
+    const busy = isFetching || analysisLoading || extensionLoading;
 
     if (busy) {
         return <GridLoading rows={25} baseId={baseId} />;
@@ -354,6 +335,16 @@ export default function AnalysisSubmissionLanding(props) {
                                     analysis={analysis}
                                     date={formatDate(analysis?.startdate)}
                                 />
+                                {timeLimitCountdown && (
+                                    <Typography
+                                        color="primary"
+                                        variant="subtitle2"
+                                    >
+                                        {t("timeLimitCountdown", {
+                                            timeLimitCountdown,
+                                        })}
+                                    </Typography>
+                                )}
                             </Grid>
                         </Grid>
                     </Grid>
@@ -461,7 +452,9 @@ export default function AnalysisSubmissionLanding(props) {
                                             }
                                             handleRefresh={refreshAnalysis}
                                             handleTimeLimitExtnClick={() => {
-                                                setTimeLimitQueryEnabled(true);
+                                                setConfirmExtendTimeLimitDlgOpen(
+                                                    true
+                                                );
                                             }}
                                             handleShareWithSupport={() =>
                                                 setHelpOpen(true)
@@ -593,7 +586,7 @@ export default function AnalysisSubmissionLanding(props) {
                 confirmButtonText={t("extend")}
                 title={t("extendTime")}
                 contentText={t("extendTimeLimitMessage", {
-                    timeLimit: timeLimit ? timeLimit[id] : "",
+                    timeLimit: formatDate(timeLimit),
                 })}
             />
         </PageWrapper>

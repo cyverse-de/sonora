@@ -8,6 +8,7 @@
 import React from "react";
 import { useTranslation } from "i18n";
 import Link from "next/link";
+import { useQuery } from "react-query";
 
 import ids from "../ids";
 
@@ -19,14 +20,22 @@ import {
     allowAnalysisTimeExtn,
     isBatchAnalysis,
     isInteractive,
+    isInteractiveRunning,
     useGotoOutputFolderLink,
     useRelaunchLink,
 } from "../utils";
 
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import buildID from "components/utils/DebugIDUtil";
 import DotMenu from "components/dotMenu/DotMenu";
 import { OutputFolderMenuItem } from "./OutputFolderMenuItem";
 import { RelaunchMenuItem } from "./RelaunchMenuItem";
+
+import {
+    VICE_TIME_LIMIT_QUERY_KEY,
+    getTimeLimitForVICEAnalysis,
+} from "serviceFacades/analyses";
+
 import {
     ListItemIcon,
     ListItemText,
@@ -83,6 +92,7 @@ function DotMenuItems(props) {
         onFilterSelected,
         setPendingTerminationDlgOpen,
         handleTimeLimitExtnClick,
+        timeLimit,
         setVICELogsDlgOpen,
     } = props;
     const { t } = useTranslation("analyses");
@@ -240,7 +250,7 @@ function DotMenuItems(props) {
                 id={buildID(baseId, ids.MENUITEM_EXTEND_TIME_LIMIT)}
                 onClick={() => {
                     onClose();
-                    handleTimeLimitExtnClick();
+                    handleTimeLimitExtnClick(timeLimit);
                 }}
             >
                 <ListItemIcon>
@@ -317,15 +327,19 @@ function AnalysesDotMenu({
     canShare,
     setSharingDlgOpen,
     setVICELogsDlgOpen,
+    showErrorAnnouncer,
     ...props
 }) {
     // These props need to be spread down into DotMenuItems below.
     const { baseId, isSingleSelection } = props;
-    const { t } = useTranslation("common");
+    const { t } = useTranslation(["analyses", "common"]);
 
     const [config] = useConfig();
 
+    const [timeLimit, setTimeLimit] = React.useState();
+
     const selectedAnalyses = getSelectedAnalyses ? getSelectedAnalyses() : null;
+    const analysis = isSingleSelection && selectedAnalyses[0];
 
     let isBatch = false,
         isVICE = false,
@@ -337,23 +351,29 @@ function AnalysesDotMenu({
 
     if (selectedAnalyses) {
         if (isSingleSelection) {
-            allowEdit = allowAnalysisEdit(
-                selectedAnalyses[0],
-                username,
-                config
-            );
-            isBatch = isBatchAnalysis(selectedAnalyses[0]);
-            isVICE = isInteractive(selectedAnalyses[0]);
-            allowTimeExtn = allowAnalysisTimeExtn(
-                selectedAnalyses[0],
-                username,
-                config
-            );
+            allowEdit = allowAnalysisEdit(analysis, username, config);
+            isBatch = isBatchAnalysis(analysis);
+            isVICE = isInteractive(analysis);
+            allowTimeExtn =
+                timeLimit && allowAnalysisTimeExtn(analysis, username, config);
         }
         allowCancel = allowAnalysesCancel(selectedAnalyses, username, config);
         allowDelete = allowAnalysesDelete(selectedAnalyses, username, config);
         allowRelaunch = allowAnalysesRelaunch(selectedAnalyses);
     }
+
+    useQuery({
+        queryKey: [VICE_TIME_LIMIT_QUERY_KEY, analysis?.id],
+        queryFn: () => getTimeLimitForVICEAnalysis(analysis?.id),
+        enabled: !!analysis?.id && isInteractiveRunning(analysis),
+        onSuccess: (resp) => {
+            //convert the response from seconds to milliseconds
+            setTimeLimit(resp?.time_limit * 1000 || null);
+        },
+        onError: (error) => {
+            showErrorAnnouncer(t("timeLimitError"), error);
+        },
+    });
 
     return (
         <DotMenu
@@ -375,10 +395,11 @@ function AnalysesDotMenu({
                     canShare={canShare}
                     setSharingDlgOpen={setSharingDlgOpen}
                     setVICELogsDlgOpen={setVICELogsDlgOpen}
+                    timeLimit={timeLimit}
                 />
             )}
         />
     );
 }
 
-export default AnalysesDotMenu;
+export default withErrorAnnouncer(AnalysesDotMenu);

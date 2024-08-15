@@ -3,6 +3,7 @@ import ReactPlayer from "react-player/youtube";
 import { useTranslation } from "i18n";
 
 import AnalysisSubheader from "./AnalysisSubheader";
+import useAnalysisTimeLimitCountdown from "components/analyses/useAnalysisTimeLimitCountdown";
 import buildID from "components/utils/DebugIDUtil";
 import analysisStatus from "components/models/analysisStatus";
 
@@ -72,7 +73,7 @@ const DashboardItem = ({ item }) => {
     });
     const { classes: running } = useRunningAnalysesStyles();
 
-    const { t } = useTranslation(["dashboard", "apps"]);
+    const { t } = useTranslation(["dashboard", "apps", "analyses"]);
 
     const isMediumOrLarger = useMediaQuery(theme.breakpoints.up("md"));
 
@@ -82,9 +83,14 @@ const DashboardItem = ({ item }) => {
     const description = fns.cleanDescription(item.content.description);
     const [origination, date] = item.getOrigination(t);
 
+    const isAnalysis = item.kind === constants.KIND_ANALYSES;
     const isRunningAnalysis =
-        item.kind === "analyses" &&
-        item.content.status === analysisStatus.RUNNING;
+        isAnalysis && item.content.status === analysisStatus.RUNNING;
+
+    const { timeLimitCountdown } = useAnalysisTimeLimitCountdown(
+        isRunningAnalysis && item.content
+    );
+
     return (
         <Card
             classes={{ root: classes.dashboardCard }}
@@ -111,10 +117,11 @@ const DashboardItem = ({ item }) => {
                     classes: { colorPrimary: classes.cardHeaderText },
                 }}
                 subheader={
-                    item.kind === constants.KIND_ANALYSES ? (
+                    isAnalysis ? (
                         <AnalysisSubheader
                             analysis={item.content}
                             date={date}
+                            timeLimitCountdown={timeLimitCountdown}
                         />
                     ) : (
                         t("origination", {
@@ -127,7 +134,12 @@ const DashboardItem = ({ item }) => {
                 subheaderTypographyProps={{
                     noWrap: true,
                     variant: "caption",
-                    classes: { colorPrimary: classes.cardHeaderText },
+                    style:
+                        isRunningAnalysis && timeLimitCountdown
+                            ? {
+                                  color: theme.palette.primary.main,
+                              }
+                            : null,
                 }}
             />
             <CardContent

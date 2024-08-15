@@ -1,12 +1,19 @@
 import React from "react";
 
-import Dashboard from "../../src/components/dashboard";
+import { useQueryClient } from "react-query";
+
+import Dashboard from "components/dashboard";
+import { VICE_TIME_LIMIT_QUERY_KEY } from "serviceFacades/analyses";
 
 import fetchMock from "fetch-mock";
 import { mockAxios } from "../axiosMock";
 
 import { appDetails, listingById } from "./appDetails";
 
+import {
+    convertTimeLimitArgType,
+    TimeLimitArgType,
+} from "../analyses/ArgTypes";
 import { instantLaunchAppInfo } from "../data/DataMocksInstantLaunch";
 import {
     usageSummaryResponse,
@@ -22,7 +29,14 @@ export default {
 const DashboardTestTemplate = ({
     instantLaunchAppInfoResponse,
     usageSummaryResponseBody,
+    timeLimit,
 }) => {
+    const queryClient = useQueryClient();
+
+    React.useEffect(() => {
+        queryClient.invalidateQueries(VICE_TIME_LIMIT_QUERY_KEY);
+    }, [timeLimit, queryClient]);
+
     const favoriteUriRegexp = /\/api\/apps\/[^/]+\/[^/]+\/favorite/;
     mockAxios
         .onGet(/\/api\/apps\/[^/]+\/[^/]+\/details/)
@@ -39,6 +53,10 @@ const DashboardTestTemplate = ({
     mockAxios
         .onGet(/\/api\/resource-usage\/summary.*/)
         .reply(200, usageSummaryResponseBody);
+
+    mockAxios.onGet(new RegExp("/api/analyses/.*/time-limit")).reply(200, {
+        time_limit: convertTimeLimitArgType(timeLimit),
+    });
 
     // mocks for noembed.com image thumbnails
     fetchMock.restore();
@@ -266,18 +284,23 @@ const DashboardTestTemplate = ({
 
 export const NoLimitsExceeded = DashboardTestTemplate.bind({});
 NoLimitsExceeded.args = {
+    timeLimit: "null",
     instantLaunchAppInfoResponse: instantLaunchAppInfo,
     usageSummaryResponseBody: usageSummaryResponse,
 };
+NoLimitsExceeded.argTypes = TimeLimitArgType;
 
 export const ComputeLimitExceeded = DashboardTestTemplate.bind({});
 ComputeLimitExceeded.args = {
+    timeLimit: "null",
     instantLaunchAppInfoResponse: instantLaunchAppInfo,
     usageSummaryResponseBody: usageSummaryComputeLimitExceededResponse,
 };
+ComputeLimitExceeded.argTypes = TimeLimitArgType;
 
 export const InstantLaunchLimitReached = DashboardTestTemplate.bind({});
 InstantLaunchLimitReached.args = {
+    timeLimit: "null",
     instantLaunchAppInfoResponse: {
         ...instantLaunchAppInfo,
         limitChecks: {
@@ -298,9 +321,11 @@ InstantLaunchLimitReached.args = {
     },
     usageSummaryResponse: usageSummaryResponse,
 };
+InstantLaunchLimitReached.argTypes = TimeLimitArgType;
 
 export const InstantLaunchVICEForbidden = DashboardTestTemplate.bind({});
 InstantLaunchVICEForbidden.args = {
+    timeLimit: "null",
     instantLaunchAppInfoResponse: {
         ...instantLaunchAppInfo,
         limitChecks: {
@@ -321,9 +346,11 @@ InstantLaunchVICEForbidden.args = {
     },
     usageSummaryResponse: usageSummaryResponse,
 };
+InstantLaunchVICEForbidden.argTypes = TimeLimitArgType;
 
 export const InstantLaunchPermissionNeeded = DashboardTestTemplate.bind({});
 InstantLaunchPermissionNeeded.args = {
+    timeLimit: "null",
     instantLaunchAppInfoResponse: {
         ...instantLaunchAppInfo,
         limitChecks: {
@@ -344,9 +371,11 @@ InstantLaunchPermissionNeeded.args = {
     },
     usageSummaryResponse: usageSummaryResponse,
 };
+InstantLaunchPermissionNeeded.argTypes = TimeLimitArgType;
 
 export const InstantLaunchPermissionPending = DashboardTestTemplate.bind({});
 InstantLaunchPermissionPending.args = {
+    timeLimit: "null",
     instantLaunchAppInfoResponse: {
         ...instantLaunchAppInfo,
         limitChecks: {
@@ -367,3 +396,4 @@ InstantLaunchPermissionPending.args = {
     },
     usageSummaryResponse: usageSummaryResponse,
 };
+InstantLaunchPermissionPending.argTypes = TimeLimitArgType;

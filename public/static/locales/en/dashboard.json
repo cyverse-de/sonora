@@ -5,6 +5,7 @@
     "analysisCompletedOrigination": "<status><bold>{{status}}</bold></status> in {{totalRunTime}} - ({{date}})",
     "analysisOrigination": "<status><bold>{{status}}</bold></status> - {{date}}",
     "analysisRunningOrigination": "<status><bold>{{status}}</bold></status> for {{runningTime}} ({{date}})",
+    "analysisRunningTimeLimit": "<status><bold>{{status}}</bold></status> - Time Remaining: {{timeLimitCountdown}}",
     "banner": "Banner",
     "buy": "Buy",
     "by": "By",

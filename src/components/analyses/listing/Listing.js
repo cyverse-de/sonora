@@ -19,7 +19,6 @@ import ViceLogsViewer from "components/analyses/ViceLogsViewer";
 
 import {
     ANALYSES_LISTING_QUERY_KEY,
-    VICE_TIME_LIMIT_QUERY_KEY,
     cancelAnalyses,
     deleteAnalyses,
     getAnalyses,
@@ -27,7 +26,6 @@ import {
     renameAnalysis,
     updateAnalysisComment,
     extendVICEAnalysisTimeLimit,
-    getTimeLimitForVICEAnalysis,
 } from "serviceFacades/analyses";
 
 import { useBagAddItems } from "serviceFacades/bags";
@@ -131,28 +129,12 @@ function Listing(props) {
         useState(false);
     const [terminateAnalysisDlgOpen, setTerminateAnalysisDlgOpen] =
         useState(false);
-    const [timeLimitQueryEnabled, setTimeLimitQueryEnabled] = useState(false);
     const [timeLimit, setTimeLimit] = useState();
 
     const handleTerminateSelected = () => setTerminateAnalysisDlgOpen(true);
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();
-
-    /**
-     * There is a small gap between when the user click on the Extend button / menu item
-     * and the time loading mask appears because the getTimeLimitForVICEAnalysis query is
-     * controlled by timeLimitQueryEnabled state. So the user has a chance to click
-     * on the same button again or choose to extend time limit on another analysis or
-     * even do something else. To avoid potential race condition,
-     * I am storing / checking the selected analysis id for which the timestamp is fetched.
-     * This should also help in debugging if the race condition still happens.
-     */
-    useEffect(() => {
-        if (timeLimit && selected?.length > 0 && timeLimit[selected[0]]) {
-            setConfirmExtendTimeLimitDlgOpen(true);
-        }
-    }, [timeLimit, selected]);
 
     const { isFetching, error } = useQuery({
         queryKey: analysesKey,
@@ -280,30 +262,16 @@ function Listing(props) {
             },
         });
 
-    const { isFetching: isFetchingTimeLimit } = useQuery({
-        queryKey: [VICE_TIME_LIMIT_QUERY_KEY, selected[0]],
-        queryFn: () => getTimeLimitForVICEAnalysis(selected[0]),
-        enabled: timeLimitQueryEnabled,
-        onSuccess: (resp) => {
-            //convert the response from seconds to milliseconds
-            setTimeLimit({
-                [selected[0]]: formatDate(resp?.time_limit * 1000),
-            });
-        },
-        onError: (error) => {
-            showErrorAnnouncer(t("timeLimitError"), error);
-        },
-    });
-
     const { mutate: doTimeLimitExtension, isLoading: extensionLoading } =
         useMutation(extendVICEAnalysisTimeLimit, {
             onSuccess: (resp) => {
                 setConfirmExtendTimeLimitDlgOpen(false);
-                setTimeLimit(null);
+                const newTimeLimit = resp?.time_limit * 1000;
+                setTimeLimit(newTimeLimit || null);
                 //convert the response from seconds to milliseconds
                 announce({
                     text: t("timeLimitExtended", {
-                        newTimeLimit: formatDate(resp?.time_limit * 1000),
+                        newTimeLimit: formatDate(newTimeLimit),
                         analysisName: getSelectedAnalyses()[0]?.name,
                     }),
                     variant: SUCCESS,
@@ -713,7 +681,6 @@ function Listing(props) {
         cancelLoading,
         deleteLoading,
         relaunchLoading,
-        isFetchingTimeLimit,
         extensionLoading,
     ]);
 
@@ -721,7 +688,6 @@ function Listing(props) {
         <>
             <AnalysesToolbar
                 baseId={baseId}
-                selected={selected}
                 username={userProfile?.id}
                 getSelectedAnalyses={getSelectedAnalyses}
                 handleAppTypeFilterChange={handleAppTypeFilterChange}
@@ -744,7 +710,10 @@ function Listing(props) {
                 handleBatchIconClick={handleBatchIconClick}
                 canShare={sharingEnabled}
                 setPendingTerminationDlgOpen={setPendingTerminationDlgOpen}
-                handleTimeLimitExtnClick={() => setTimeLimitQueryEnabled(true)}
+                handleTimeLimitExtnClick={(timeLimit) => {
+                    setTimeLimit(timeLimit);
+                    setConfirmExtendTimeLimitDlgOpen(true);
+                }}
                 onRefreshSelected={onRefreshSelected}
                 setVICELogsDlgOpen={setVICELogsDlgOpen}
             />
@@ -767,8 +736,9 @@ function Listing(props) {
                 handleDetailsClick={onDetailsSelected}
                 handleStatusClick={handleStatusClick}
                 setPendingTerminationDlgOpen={setPendingTerminationDlgOpen}
-                handleTimeLimitExtnClick={() => {
-                    setTimeLimitQueryEnabled(true);
+                handleTimeLimitExtnClick={(timeLimit) => {
+                    setTimeLimit(timeLimit);
+                    setConfirmExtendTimeLimitDlgOpen(true);
                 }}
                 setVICELogsDlgOpen={setVICELogsDlgOpen}
             />
@@ -865,7 +835,7 @@ function Listing(props) {
                 confirmButtonText={t("extend")}
                 title={t("extendTime")}
                 contentText={t("extendTimeLimitMessage", {
-                    timeLimit: timeLimit ? timeLimit[selected[0]] : "",
+                    timeLimit: formatDate(timeLimit),
                 })}
             />
             <ViceLogsViewer

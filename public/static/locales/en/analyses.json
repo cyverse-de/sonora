@@ -119,6 +119,7 @@
     "terminateAnalysisTitle": "Terminate Analysis",
     "terminateAnalysisTitle_plural": "Terminate Analyses",
     "terminateBtn": "Terminate",
+    "timeLimitCountdown": "Time Remaining: {{timeLimitCountdown}}",
     "timeLimitError": "Unable to get the current time limit. Please try again.",
     "timeLimitExtended": "Time limit for {{analysisName}} has been extended. This analysis will end on {{newTimeLimit}}",
     "theirs": "Shared with me",

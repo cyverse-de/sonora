@@ -37,10 +37,12 @@ import RatingWidget from "components/apps/RatingWidget";
 function MessageLink(props) {
     const { message, href, as } = props;
 
-    return (
+    return href ? (
         <Link href={href} as={as} passHref>
             <DELink text={message} />
         </Link>
+    ) : (
+        message
     );
 }
 
@@ -141,7 +143,7 @@ function DataLink(props) {
     const href =
         path && getFolderPage(rootFolderAction ? path : getParentPath(path));
 
-    return href ? <MessageLink href={href} message={message} /> : message;
+    return <MessageLink href={href} message={message} />;
 }
 
 function TeamLink(props) {

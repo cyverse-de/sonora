@@ -63,6 +63,7 @@ export default {
         analysisKBShortcut: "Y",
         saveSession: true,
         enableAnalysisEmailNotification: true,
+        enablePeriodicEmailNotification: true,
         enableHPCPrompt: true,
     },
 };

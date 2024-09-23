@@ -191,6 +191,24 @@ function General(props) {
                         label={t("urlImportEmailLbl")}
                     />
                 </Grid>
+                <Grid item>
+                    <Field
+                        id={buildID(
+                            baseId,
+                            ids.PERIODIC_EMAIL_NOTIFICATION_SWITCH
+                        )}
+                        component={FormSwitch}
+                        name={
+                            prefConstants.keys
+                                .ENABLE_PERIODIC_EMAIL_NOTIFICATION
+                        }
+                        color="primary"
+                        inputProps={{
+                            "aria-label": t("periodicEmailLbl"),
+                        }}
+                        label={t("periodicEmailLbl")}
+                    />
+                </Grid>
             </Grid>
             <Divider className={classes.dividers} />
             <Typography variant="h6" className={classes.sectionHeader}>

@@ -438,6 +438,7 @@ function Preferences(props) {
             analysisKBShortcut: "",
             saveSession: false,
             enableAnalysisEmailNotification: false,
+            enablePeriodicEmailNotification: true,
             enableHPCPrompt: false,
             showTourPrompt: false,
             webhook: { url: "", type: { type: "" } },

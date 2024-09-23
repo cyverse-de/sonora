@@ -11,6 +11,7 @@ export default {
         ENABLE_IMPORT_EMAIL_NOTIFICATION: "enableImportEmailNotification",
         ENABLE_WAIT_TIME_MESSAGE: "enableWaitTimeMessage",
         ENABLE_ANALYSIS_EMAIL_NOTIFICATION: "enableAnalysisEmailNotification",
+        ENABLE_PERIODIC_EMAIL_NOTIFICATION: "enablePeriodicEmailNotification",
         ENABLE_HPC_PROMPT: "enableHPCPrompt",
         DEFAULT_OUTPUT_FOLDER: "default_output_folder.path",
         NOTIFICATION_KB_SC: "notificationKBShortcut",

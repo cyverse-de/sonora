@@ -29,6 +29,7 @@
     "saveBtnLbl": "Save",
     "savePrefError": "Unable to save preferences. Please try again.",
     "urlImportEmailLbl": "Email me when my URL import status changes",
+    "periodicEmailLbl": "Email me periodically when analyses are running",
     "validationMessage": "Please fix all the errors before saving your preferences.",
     "waitTimesWarning": "Display Warning about wait times for submitting HPC apps",
     "webhooksPrompt": " Add incoming webhook integration. The DE will post  notifications to this URL:",

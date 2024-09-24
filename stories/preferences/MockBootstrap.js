@@ -64,6 +64,7 @@ export default {
         saveSession: true,
         enableAnalysisEmailNotification: true,
         enablePeriodicEmailNotification: true,
+        periodicNotificationPeriod: 14400,
         enableHPCPrompt: true,
     },
 };

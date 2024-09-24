@@ -4,6 +4,8 @@ export default {
         analysesViewShortcutLbl: "Open analyses view",
         analysisStatusEmailLbl: "Email me when my analysis status changes",
         periodicEmailLbl: "Email me periodically when analyses are running",
+        periodicPeriodLbl:
+            "How frequently to notify about currently running jobs",
         appsViewShortcutLbl: "Open apps view",
         browse: "Browse",
         cancelBtnLbl: "Cancel",

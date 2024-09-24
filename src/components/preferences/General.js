@@ -24,6 +24,7 @@ import constants from "../../constants";
 
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
+import FormSelectField from "components/forms/FormSelectField";
 import FormSwitch from "components/forms/FormSwitch";
 
 import {
@@ -32,6 +33,7 @@ import {
     Divider,
     Grid,
     InputAdornment,
+    MenuItem,
     Typography,
 } from "@mui/material";
 
@@ -208,6 +210,24 @@ function General(props) {
                         }}
                         label={t("periodicEmailLbl")}
                     />
+                </Grid>
+                <Grid item xs={6}>
+                    <Field
+                        id={buildID(baseId, ids.PERIODIC_NOTIFICATION_PERIOD)}
+                        name={prefConstants.keys.PERIODIC_NOTIFICATION_PERIOD}
+                        label={t("periodicPeriodLbl")}
+                        component={FormSelectField}
+                    >
+                        <MenuItem key={1} value={3600}>
+                            1 hour
+                        </MenuItem>
+                        <MenuItem key={2} value={14400}>
+                            4 hours
+                        </MenuItem>
+                        <MenuItem key={3} value={86400}>
+                            24 hours
+                        </MenuItem>
+                    </Field>
                 </Grid>
             </Grid>
             <Divider className={classes.dividers} />

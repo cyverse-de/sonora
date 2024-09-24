@@ -439,6 +439,7 @@ function Preferences(props) {
             saveSession: false,
             enableAnalysisEmailNotification: false,
             enablePeriodicEmailNotification: true,
+            periodicNotificationPeriod: 14400,
             enableHPCPrompt: false,
             showTourPrompt: false,
             webhook: { url: "", type: { type: "" } },

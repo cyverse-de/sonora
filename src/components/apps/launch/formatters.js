@@ -17,6 +17,8 @@ import AppParamTypes from "components/models/AppParamTypes";
  * @param {Object} t i18n translation function
  * @param {Object} appDescription
  * @param {boolean} appDescription.notify
+ * @param {boolean} appDescription.notifyPeriodic
+ * @param {integer} appDescription.periodicPeriod
  * @param {string} appDescription.defaultOutputDir
  * @param {Object} appDescription.app
  * @param {string} appDescription.app.id
@@ -31,6 +33,8 @@ const initAppLaunchValues = (
     t,
     {
         notify,
+        notifyPeriodic,
+        periodicPeriod,
         defaultOutputDir,
         app: { id, version_id, system_id, name, requirements, groups },
     }
@@ -59,6 +63,8 @@ const initAppLaunchValues = (
         launchSteps: [null, null, null, null],
         debug: false,
         notify,
+        notifyPeriodic,
+        periodicPeriod,
         output_dir: defaultOutputDir,
         name: formatAnalysisName(t, name),
         description: "",
@@ -150,6 +156,8 @@ const initGroupValues = (groups) =>
  * @param {string} defaultOutputDir
  * @param {Object} formValues
  * @param {boolean} formValues.notify
+ * @param {boolean} formValues.notifyPeriodic
+ * @param {integer} formValues.periodicPeriod
  * @param {boolean} formValues.debug
  * @param {string} formValues.name
  * @param {string} formValues.description
@@ -165,6 +173,8 @@ const formatSubmission = (
     defaultOutputDir,
     {
         notify,
+        notifyPeriodic,
+        periodicPeriod,
         debug,
         name,
         description,
@@ -177,6 +187,8 @@ const formatSubmission = (
     }
 ) => ({
     notify,
+    notify_periodic: notifyPeriodic,
+    periodic_period: periodicPeriod,
     debug,
     create_output_subdir: output_dir === defaultOutputDir,
     name: name.trim(),

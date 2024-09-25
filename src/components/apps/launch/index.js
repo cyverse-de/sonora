@@ -81,6 +81,8 @@ const Launch = ({
 
     const preferences = bootstrapInfo?.preferences;
     const notify = preferences?.enableAnalysisEmailNotification || false;
+    const notifyPeriodic = preferences?.enablePeriodicEmailNotification || true;
+    const periodicPeriod = preferences?.periodicNotificationPeriod || 14400;
 
     const defaultMaxCPUCores = config?.tools?.private.max_cpu_limit;
     const defaultMaxMemory = config?.tools?.private.max_memory_limit;
@@ -140,6 +142,8 @@ const Launch = ({
         <AppLaunchWizard
             baseId={baseId}
             notify={notify}
+            notifyPeriodic={notifyPeriodic}
+            periodicPeriod={periodicPeriod}
             defaultOutputDir={defaultOutputDir}
             defaultMaxCPUCores={defaultMaxCPUCores}
             defaultMaxMemory={defaultMaxMemory}

@@ -81,7 +81,7 @@ const Launch = ({
 
     const preferences = bootstrapInfo?.preferences;
     const notify = preferences?.enableAnalysisEmailNotification || false;
-    const notifyPeriodic = preferences?.enablePeriodicEmailNotification || true;
+    const notifyPeriodic = !!preferences?.enablePeriodicEmailNotification;
     const periodicPeriod = preferences?.periodicNotificationPeriod || 14400;
 
     const defaultMaxCPUCores = config?.tools?.private.max_cpu_limit;

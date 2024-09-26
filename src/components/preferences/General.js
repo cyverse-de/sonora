@@ -24,7 +24,6 @@ import constants from "../../constants";
 
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
-import FormSelectField from "components/forms/FormSelectField";
 import FormSwitch from "components/forms/FormSwitch";
 
 import {
@@ -216,17 +215,12 @@ function General(props) {
                         id={buildID(baseId, ids.PERIODIC_NOTIFICATION_PERIOD)}
                         name={prefConstants.keys.PERIODIC_NOTIFICATION_PERIOD}
                         label={t("periodicPeriodLbl")}
-                        component={FormSelectField}
+                        component={FormTextField}
+                        select
                     >
-                        <MenuItem key={1} value={3600}>
-                            1 hour
-                        </MenuItem>
-                        <MenuItem key={2} value={14400}>
-                            4 hours
-                        </MenuItem>
-                        <MenuItem key={3} value={86400}>
-                            24 hours
-                        </MenuItem>
+                        <MenuItem value={3600}>1 hour</MenuItem>
+                        <MenuItem value={14400}>4 hours</MenuItem>
+                        <MenuItem value={86400}>24 hours</MenuItem>
                     </Field>
                 </Grid>
             </Grid>

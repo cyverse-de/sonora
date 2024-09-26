@@ -97,6 +97,8 @@ const bootStrap = {
         analysisKBShortcut: "Y",
         saveSession: true,
         enableAnalysisEmailNotification: true,
+        enablePeriodicEmailNotification: true,
+        periodicNotificationPeriod: 14400,
         enableHPCPrompt: true,
     },
 };

@@ -60,54 +60,46 @@ function InstantLaunchButtonWrapper(props) {
         }
     }, [ilUrl]);
 
-    const { mutate: launch } = useMutation(
-        (args) => {
-            args.preferences = bootstrapInfo?.preferences;
-            return instantlyLaunch(args);
-        },
-        {
-            onSuccess: (listing) => {
-                if (listing.analyses.length > 0) {
-                    const analysis = listing.analyses[0];
-                    if (analysis.interactive_urls?.length > 0) {
-                        setIlUrl(
-                            `${
-                                constants.VICE_LOADING_PAGE
-                            }/${encodeURIComponent(
-                                analysis.interactive_urls[0]
-                            )}`
-                        );
-                    } else {
-                        setOpen(false);
-                    }
+    const { mutate: launch } = useMutation(instantlyLaunch, {
+        onSuccess: (listing) => {
+            if (listing.analyses.length > 0) {
+                const analysis = listing.analyses[0];
+                if (analysis.interactive_urls?.length > 0) {
+                    setIlUrl(
+                        `${constants.VICE_LOADING_PAGE}/${encodeURIComponent(
+                            analysis.interactive_urls[0]
+                        )}`
+                    );
                 } else {
                     setOpen(false);
                 }
-            },
-            onError: (err) => {
+            } else {
                 setOpen(false);
+            }
+        },
+        onError: (err) => {
+            setOpen(false);
 
-                const respData = err.response?.data;
-                const runErrorCode = respData?.error_code;
-                const details = respData?.details;
+            const respData = err.response?.data;
+            const runErrorCode = respData?.error_code;
+            const details = respData?.details;
 
-                if (runErrorCode === ERROR_CODES.ERR_PERMISSION_NEEDED) {
-                    if (details?.pendingRequest) {
-                        setPendingRequestDlgOpen(true);
-                    } else {
-                        setAccessRequestDialogOpen(true);
-                    }
-                } else if (
-                    runErrorCode === ERROR_CODES.ERR_LIMIT_REACHED ||
-                    runErrorCode === ERROR_CODES.ERR_FORBIDDEN
-                ) {
-                    setRunErrorDetails({ runErrorCode, ...details });
+            if (runErrorCode === ERROR_CODES.ERR_PERMISSION_NEEDED) {
+                if (details?.pendingRequest) {
+                    setPendingRequestDlgOpen(true);
                 } else {
-                    showErrorAnnouncer(err.message, err);
+                    setAccessRequestDialogOpen(true);
                 }
-            },
-        }
-    );
+            } else if (
+                runErrorCode === ERROR_CODES.ERR_LIMIT_REACHED ||
+                runErrorCode === ERROR_CODES.ERR_FORBIDDEN
+            ) {
+                setRunErrorDetails({ runErrorCode, ...details });
+            } else {
+                showErrorAnnouncer(err.message, err);
+            }
+        },
+    });
 
     const onClick = () => {
         if (userProfile?.id) {
@@ -115,7 +107,12 @@ function InstantLaunchButtonWrapper(props) {
                 showErrorAnnouncer(t("computeLimitExceededMsg"));
             } else {
                 setOpen(true);
-                launch({ instantLaunch, resource, output_dir });
+                launch({
+                    instantLaunch,
+                    resource,
+                    output_dir,
+                    preferences: bootstrapInfo?.preferences,
+                });
             }
         } else {
             setSignInDlgOpen(true);

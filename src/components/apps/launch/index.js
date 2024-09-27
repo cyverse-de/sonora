@@ -80,7 +80,7 @@ const Launch = ({
     );
 
     const preferences = bootstrapInfo?.preferences;
-    const notify = preferences?.enableAnalysisEmailNotification || false;
+    const notify = !!preferences?.enableAnalysisEmailNotification;
     const notifyPeriodic = !!preferences?.enablePeriodicEmailNotification;
     const periodicPeriod = preferences?.periodicNotificationPeriod || 14400;
 

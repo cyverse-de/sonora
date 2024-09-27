@@ -22,6 +22,7 @@ import VicePendingRequestDlg from "components/vice/VicePendingRequestDlg";
 
 import constants from "constants.js";
 import { useUserProfile } from "contexts/userProfile";
+import { useBootstrapInfo } from "contexts/bootstrap";
 import ids from "./ids";
 import { InstantLaunchSubmissionDialog } from "./index";
 import { instantlyLaunch } from "serviceFacades/instantlaunches";
@@ -38,6 +39,7 @@ function InstantLaunchButtonWrapper(props) {
     } = props;
     const output_dir = useDefaultOutputDir();
     const [userProfile] = useUserProfile();
+    const [bootstrapInfo] = useBootstrapInfo();
 
     const [open, setOpen] = React.useState(false);
     const [signInDlgOpen, setSignInDlgOpen] = React.useState(false);
@@ -105,7 +107,12 @@ function InstantLaunchButtonWrapper(props) {
                 showErrorAnnouncer(t("computeLimitExceededMsg"));
             } else {
                 setOpen(true);
-                launch({ instantLaunch, resource, output_dir });
+                launch({
+                    instantLaunch,
+                    resource,
+                    output_dir,
+                    preferences: bootstrapInfo?.preferences,
+                });
             }
         } else {
             setSignInDlgOpen(true);

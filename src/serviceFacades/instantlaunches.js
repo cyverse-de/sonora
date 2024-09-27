@@ -325,7 +325,12 @@ export const deleteInstantLaunchHandler = async (id) => {
  * @param {Object} instantLaunch - The instant launch object returned by defaultInstantLaunch().
  * @param {Object} resource - An array of resources to use as inputs to the instantly launched app.
  */
-export const instantlyLaunch = ({ instantLaunch, resource, output_dir }) => {
+export const instantlyLaunch = ({
+    instantLaunch,
+    resource,
+    output_dir,
+    preferences,
+}) => {
     let savedLaunchId; // The saved launch ID, used to get app information.
     let savedLaunchPromise; // The promise used to get saved launch information.
 
@@ -434,6 +439,19 @@ export const instantlyLaunch = ({ instantLaunch, resource, output_dir }) => {
         })
         .then((submission) => {
             submission.output_dir = output_dir;
+            return submission;
+        })
+        .then((submission) => {
+            const notify =
+                preferences?.enableAnalysisEmailNotification || false;
+            submission.notify = notify;
+            const notifyPeriodic =
+                !!preferences?.enablePeriodicEmailNotification;
+            submission.notify_periodic = notifyPeriodic;
+            const periodicPeriod =
+                preferences?.periodicNotificationPeriod || 14400;
+            submission.periodic_period = periodicPeriod;
+
             return submission;
         })
         .then((submission) => submitAnalysis(submission)) // submit the analysis

@@ -22,6 +22,7 @@ import VicePendingRequestDlg from "components/vice/VicePendingRequestDlg";
 
 import constants from "constants.js";
 import { useUserProfile } from "contexts/userProfile";
+import { useBootstrapInfo } from "contexts/bootstrap";
 import ids from "./ids";
 import { InstantLaunchSubmissionDialog } from "./index";
 import { instantlyLaunch } from "serviceFacades/instantlaunches";
@@ -38,6 +39,7 @@ function InstantLaunchButtonWrapper(props) {
     } = props;
     const output_dir = useDefaultOutputDir();
     const [userProfile] = useUserProfile();
+    const [bootstrapInfo] = useBootstrapInfo();
 
     const [open, setOpen] = React.useState(false);
     const [signInDlgOpen, setSignInDlgOpen] = React.useState(false);
@@ -58,46 +60,54 @@ function InstantLaunchButtonWrapper(props) {
         }
     }, [ilUrl]);
 
-    const { mutate: launch } = useMutation(instantlyLaunch, {
-        onSuccess: (listing) => {
-            if (listing.analyses.length > 0) {
-                const analysis = listing.analyses[0];
-                if (analysis.interactive_urls?.length > 0) {
-                    setIlUrl(
-                        `${constants.VICE_LOADING_PAGE}/${encodeURIComponent(
-                            analysis.interactive_urls[0]
-                        )}`
-                    );
+    const { mutate: launch } = useMutation(
+        (args) => {
+            args.preferences = bootstrapInfo?.preferences;
+            return instantlyLaunch(args);
+        },
+        {
+            onSuccess: (listing) => {
+                if (listing.analyses.length > 0) {
+                    const analysis = listing.analyses[0];
+                    if (analysis.interactive_urls?.length > 0) {
+                        setIlUrl(
+                            `${
+                                constants.VICE_LOADING_PAGE
+                            }/${encodeURIComponent(
+                                analysis.interactive_urls[0]
+                            )}`
+                        );
+                    } else {
+                        setOpen(false);
+                    }
                 } else {
                     setOpen(false);
                 }
-            } else {
+            },
+            onError: (err) => {
                 setOpen(false);
-            }
-        },
-        onError: (err) => {
-            setOpen(false);
 
-            const respData = err.response?.data;
-            const runErrorCode = respData?.error_code;
-            const details = respData?.details;
+                const respData = err.response?.data;
+                const runErrorCode = respData?.error_code;
+                const details = respData?.details;
 
-            if (runErrorCode === ERROR_CODES.ERR_PERMISSION_NEEDED) {
-                if (details?.pendingRequest) {
-                    setPendingRequestDlgOpen(true);
+                if (runErrorCode === ERROR_CODES.ERR_PERMISSION_NEEDED) {
+                    if (details?.pendingRequest) {
+                        setPendingRequestDlgOpen(true);
+                    } else {
+                        setAccessRequestDialogOpen(true);
+                    }
+                } else if (
+                    runErrorCode === ERROR_CODES.ERR_LIMIT_REACHED ||
+                    runErrorCode === ERROR_CODES.ERR_FORBIDDEN
+                ) {
+                    setRunErrorDetails({ runErrorCode, ...details });
                 } else {
-                    setAccessRequestDialogOpen(true);
+                    showErrorAnnouncer(err.message, err);
                 }
-            } else if (
-                runErrorCode === ERROR_CODES.ERR_LIMIT_REACHED ||
-                runErrorCode === ERROR_CODES.ERR_FORBIDDEN
-            ) {
-                setRunErrorDetails({ runErrorCode, ...details });
-            } else {
-                showErrorAnnouncer(err.message, err);
-            }
-        },
-    });
+            },
+        }
+    );
 
     const onClick = () => {
         if (userProfile?.id) {

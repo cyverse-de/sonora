@@ -24,6 +24,7 @@ export const DEWordCount = ({
     loading,
     loadingError,
     submissionError,
+    defaultSelectedMaxCpus,
     defaultMaxCPUCores,
     defaultMaxMemory,
     defaultMaxDiskSpace,
@@ -59,6 +60,7 @@ export const DEWordCount = ({
             app={!loadingError && app}
             loading={loading}
             appError={appError || (loadingError && errorObject)}
+            defaultSelectedMaxCpus={defaultSelectedMaxCpus}
             defaultMaxCPUCores={defaultMaxCPUCores}
             defaultMaxMemory={defaultMaxMemory}
             defaultMaxDiskSpace={defaultMaxDiskSpace}
@@ -120,6 +122,12 @@ DEWordCount.argTypes = {
             type: "boolean",
         },
     },
+    defaultSelectedMaxCpus: {
+        name: "Default Selected Max CPU Cores",
+        control: {
+            type: "number",
+        },
+    },
     defaultMaxCPUCores: {
         name: "Max CPU Cores",
         control: {
@@ -147,6 +155,7 @@ DEWordCount.args = {
     loading: false,
     loadingError: false,
     submissionError: false,
+    defaultSelectedMaxCpus: 4,
     defaultMaxCPUCores: 8,
     defaultMaxMemory: 4 * constants.ONE_GiB,
     defaultMaxDiskSpace: 64 * constants.ONE_GiB,

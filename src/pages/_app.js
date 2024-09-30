@@ -164,6 +164,8 @@ function MyApp({ Component, pageProps }) {
             poll_interval_ms: publicRuntimeConfig.SESSION_POLL_INTERVAL_MS,
         };
         const tools = {
+            default_selected_max_cpus:
+                publicRuntimeConfig.TOOLS_DEFAULT_SELECTED_MAX_CPUS,
             admin: {
                 max_cpu_limit: publicRuntimeConfig.TOOLS_ADMIN_MAX_CPU_LIMIT,
                 max_memory_limit:

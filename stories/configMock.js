@@ -20,6 +20,7 @@ export default {
         trash_path: "/iplant/trash/home/de-irods",
     },
     tools: {
+        default_selected_max_cpus: 4,
         admin: {
             max_cpu_limit: 48,
             max_memory_limit: 244 * constants.ONE_GiB,

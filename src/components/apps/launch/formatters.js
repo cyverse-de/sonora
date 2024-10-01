@@ -35,21 +35,28 @@ const initAppLaunchValues = (
         notify,
         notifyPeriodic,
         periodicPeriod,
+        defaultSelectedMaxCpus,
+        defaultMaxCpuCores = defaultSelectedMaxCpus,
         defaultOutputDir,
         app: { id, version_id, system_id, name, requirements, groups },
     }
 ) => {
+    // If no default_max_cpu_cores is returned from the API,
+    // then use the default from configs (if it's less than the actual max)
+    // so the max is not automatically submitted by the services.
     const reqInitValues = requirements?.map(
         ({
             step_number,
             max_cpu_cores,
-            default_max_cpu_cores = 0,
+            default_max_cpu_cores = max_cpu_cores < defaultMaxCpuCores
+                ? max_cpu_cores
+                : defaultMaxCpuCores,
             default_cpu_cores = 0,
             default_memory = 0,
             default_disk_space = 0,
         }) => ({
             step_number,
-            max_cpu_cores: default_max_cpu_cores || max_cpu_cores,
+            max_cpu_cores: default_max_cpu_cores,
             min_cpu_cores: default_cpu_cores,
             min_memory_limit: default_memory,
             min_disk_space: default_disk_space,

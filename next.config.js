@@ -41,6 +41,11 @@ module.exports = withBundleAnalyzer({
         SESSION_POLL_INTERVAL_MS: config.has("sessions.poll_interval_ms")
             ? config.get("sessions.poll_interval_ms")
             : 5000,
+        TOOLS_DEFAULT_SELECTED_MAX_CPUS: config.has(
+            "tools.default_selected_max_cpus"
+        )
+            ? config.get("tools.default_selected_max_cpus")
+            : 4,
         TOOLS_ADMIN_MAX_CPU_LIMIT: config.has("tools.admin.max_cpu_limit")
             ? config.get("tools.admin.max_cpu_limit")
             : 8,

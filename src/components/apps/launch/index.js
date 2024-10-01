@@ -84,6 +84,7 @@ const Launch = ({
     const notifyPeriodic = !!preferences?.enablePeriodicEmailNotification;
     const periodicPeriod = preferences?.periodicNotificationPeriod || 14400;
 
+    const defaultSelectedMaxCpus = config?.tools?.default_selected_max_cpus;
     const defaultMaxCPUCores = config?.tools?.private.max_cpu_limit;
     const defaultMaxMemory = config?.tools?.private.max_memory_limit;
     const defaultMaxDiskSpace = config?.tools?.private.max_disk_limit;
@@ -148,6 +149,7 @@ const Launch = ({
             defaultMaxCPUCores={defaultMaxCPUCores}
             defaultMaxMemory={defaultMaxMemory}
             defaultMaxDiskSpace={defaultMaxDiskSpace}
+            defaultSelectedMaxCpus={defaultSelectedMaxCpus}
             app={app}
             appError={submissionError}
             loading={loading}

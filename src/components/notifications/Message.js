@@ -54,6 +54,8 @@ function AnalysisLink(props) {
     const isShare = action === "share";
     const isComplete = isTerminated(analysis);
     const isJobStatusChange = action === "job_status_change";
+    const isPeriodicUpdate =
+        notification?.email_template === "analysis_periodic_notification";
 
     let message = getDisplayMessage(notification);
 
@@ -67,9 +69,9 @@ function AnalysisLink(props) {
         const analysisId =
             isShare && analysis?.analyses?.length > 0
                 ? analysis.analyses[0].analysis_id
-                : isJobStatusChange && analysis?.id;
+                : isJobStatusChange && (analysis?.id || analysis?.analysisid);
 
-        if (accessUrl) {
+        if (accessUrl && !isPeriodicUpdate) {
             return (
                 <ExternalLink href={`/vice/${encodeURIComponent(accessUrl)}`}>
                     {t("interactiveAnalysisUrl", { message })}
@@ -84,6 +86,9 @@ function AnalysisLink(props) {
             message = t("accessAnalysisOutput", { message });
         } else if (analysisId) {
             [href, as] = getAnalysisDetailsLinkRefs(analysisId);
+            if (isPeriodicUpdate) {
+                message = t("extendOrTerminateUrl", { message });
+            }
         }
 
         return (

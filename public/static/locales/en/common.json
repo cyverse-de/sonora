@@ -37,6 +37,7 @@
     "email": "Email",
     "environment": "<b>E</b>nvironment",
     "errorMarkAsSeen": "Unable to mark notifications as read.",
+    "extendOrTerminateUrl": "{{message}} You can terminate or extend the time limit here.",
     "filter": "Filter",
     "formatTermFreeTextOption": "Use \"{{inputValue}}\"",
     "help": "Help",

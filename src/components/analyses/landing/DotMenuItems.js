@@ -75,7 +75,7 @@ export default function DotMenuItems(props) {
                 <ListItemText primary={t("refresh")} />
             </MenuItem>
         ),
-        isMdDown && allowShareWithSupport && (
+        allowShareWithSupport && (
             <MenuItem
                 key={buildID(baseId, ids.MENUITEM_SHARE_WITH_SUPPORT)}
                 id={buildID(baseId, ids.MENUITEM_SHARE_WITH_SUPPORT)}
@@ -166,7 +166,7 @@ export default function DotMenuItems(props) {
                 <ListItemText primary={t("updateComments")} />
             </MenuItem>
         ),
-        allowTimeExtn && (
+        isMdDown && allowTimeExtn && (
             <MenuItem
                 key={buildID(baseId, ids.MENUITEM_EXTEND_TIME_LIMIT)}
                 id={buildID(baseId, ids.MENUITEM_EXTEND_TIME_LIMIT)}
@@ -181,7 +181,7 @@ export default function DotMenuItems(props) {
                 <ListItemText primary={t("extendTime")} />
             </MenuItem>
         ),
-        allowCancel && (
+        isMdDown && allowCancel && (
             <MenuItem
                 key={buildID(baseId, ids.MENUITEM_CANCEL)}
                 id={buildID(baseId, ids.MENUITEM_CANCEL)}

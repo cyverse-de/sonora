@@ -431,7 +431,9 @@ export default function AnalysisSubmissionLanding(props) {
                                                 onClick={() => {
                                                     handleTerminateSelected();
                                                 }}
-                                                startIcon={<CancelIcon />}
+                                                startIcon={
+                                                    <CancelIcon color="error" />
+                                                }
                                             >
                                                 {!isSmDown && (
                                                     <>{t("terminate")}</>

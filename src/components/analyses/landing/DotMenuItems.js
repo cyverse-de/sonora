@@ -191,7 +191,7 @@ export default function DotMenuItems(props) {
                 }}
             >
                 <ListItemIcon>
-                    <CancelIcon fontSize="small" />
+                    <CancelIcon color="error" fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary={t("terminate")} />
             </MenuItem>

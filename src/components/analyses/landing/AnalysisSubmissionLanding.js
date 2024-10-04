@@ -73,8 +73,9 @@ import {
     useTheme,
 } from "@mui/material";
 import {
-    ContactSupport,
+    Cancel as CancelIcon,
     ExpandMore,
+    HourglassEmptyRounded as HourGlassIcon,
     Refresh,
     Launch,
 } from "@mui/icons-material";
@@ -392,28 +393,54 @@ export default function AnalysisSubmissionLanding(props) {
                                             {!isSmDown && <>{t("refresh")}</>}
                                         </Button>
                                     </Grid>
-                                    <Grid item>
-                                        {allowShareWithSupport && (
+                                    {allowTimeExtn && (
+                                        <Grid item>
                                             <Button
                                                 id={buildID(
                                                     baseId,
-                                                    ids.SHARE_WITH_SUPPORT
+                                                    ids.MENUITEM_EXTEND_TIME_LIMIT
                                                 )}
                                                 variant="outlined"
-                                                onClick={() =>
-                                                    setHelpOpen(true)
-                                                }
                                                 size="small"
-                                                startIcon={
-                                                    <ContactSupport fontSize="small" />
-                                                }
+                                                disableElevation
                                                 color="primary"
-                                                title={t("requestHelp")}
+                                                onClick={() => {
+                                                    setConfirmExtendTimeLimitDlgOpen(
+                                                        true
+                                                    );
+                                                }}
+                                                startIcon={<HourGlassIcon />}
                                             >
-                                                {t("requestHelp")}
+                                                {!isSmDown && (
+                                                    <>{t("extendTime")}</>
+                                                )}
                                             </Button>
-                                        )}
-                                    </Grid>
+                                        </Grid>
+                                    )}
+                                    {allowCancel && (
+                                        <Grid item>
+                                            <Button
+                                                id={buildID(
+                                                    baseId,
+                                                    ids.MENUITEM_CANCEL
+                                                )}
+                                                variant="outlined"
+                                                size="small"
+                                                disableElevation
+                                                color="primary"
+                                                onClick={() => {
+                                                    handleTerminateSelected();
+                                                }}
+                                                startIcon={
+                                                    <CancelIcon color="error" />
+                                                }
+                                            >
+                                                {!isSmDown && (
+                                                    <>{t("terminate")}</>
+                                                )}
+                                            </Button>
+                                        </Grid>
+                                    )}
                                 </>
                             )}
 

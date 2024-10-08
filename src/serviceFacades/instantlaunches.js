@@ -20,6 +20,7 @@ export const DASHBOARD_INSTANT_LAUNCHES_KEY = "dashboardInstantLaunches";
 export const LIST_PUBLIC_SAVED_LAUNCHES_KEY = "listPublicSavedLaunches";
 export const LIST_INSTANT_LAUNCHES_BY_METADATA_KEY =
     "fetchInstantLaunchesByMetadata";
+export const GET_INSTANT_LAUNCH_FULL_KEY = "fetchFullInstantLaunch";
 
 export const getDefaultsMapping = () =>
     callApi({
@@ -74,6 +75,12 @@ export const listFullInstantLaunches = (id) =>
 export const getInstantLaunchMetadata = (id) =>
     callApi({
         endpoint: `/api/admin/instantlaunches/${id}/metadata`,
+        method: "GET",
+    });
+
+export const getFullInstantLaunch = (id) =>
+    callApi({
+        endpoint: `/api/instantlaunches/${id}/full`,
         method: "GET",
     });
 

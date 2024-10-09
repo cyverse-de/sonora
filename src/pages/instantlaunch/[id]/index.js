@@ -21,7 +21,7 @@ export default function InstantLaunch() {
 }
 
 export async function getServerSideProps({ locale }) {
-    const title = i18n.t("instantLaunches");
+    const title = i18n?.t("instantLaunches") || "";
 
     return {
         props: {

@@ -22,7 +22,6 @@ import globalConstants from "../../../constants";
 import { useTranslation } from "i18n";
 import isQueryLoading from "components/utils/isQueryLoading";
 import InstantLaunchButtonWrapper from "components/instantlaunches/InstantLaunchButtonWrapper";
-import DELink from "components/utils/DELink";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 const InstantLaunchStandalone = (props) => {
@@ -58,6 +57,7 @@ const InstantLaunchStandalone = (props) => {
     });
 
     const isLoading = isQueryLoading([status, isFetchingUsageSummary]);
+
     if (isLoading) {
         return <p>... loading ...</p>;
     } else if (error) {
@@ -69,21 +69,11 @@ const InstantLaunchStandalone = (props) => {
         );
     } else {
         return (
-            <>
-                {JSON.stringify(data)}
-                <br />
-                <InstantLaunchButtonWrapper
-                    instantLaunch={data}
-                    computeLimitExceeded={computeLimitExceeded}
-                    render={(onClick) => (
-                        <DELink
-                            onClick={onClick}
-                            text={"LAUNCH"}
-                            title={"LAUNCH"}
-                        />
-                    )}
-                />
-            </>
+            <InstantLaunchButtonWrapper
+                instantLaunch={data}
+                computeLimitExceeded={computeLimitExceeded}
+                autolaunch={true}
+            />
         );
     }
 };

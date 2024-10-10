@@ -25,6 +25,9 @@ import InstantLaunchButtonWrapper from "components/instantlaunches/InstantLaunch
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import LoadingAnimation from "components/vice/loading/LoadingAnimation";
 
+import ErrorTypography from "components/error/ErrorTypography";
+import DEErrorDialog from "components/error/DEErrorDialog";
+
 const InstantLaunchStandalone = (props) => {
     const { id: instant_launch_id, showErrorAnnouncer } = props;
     const [config] = useConfig();
@@ -32,6 +35,7 @@ const InstantLaunchStandalone = (props) => {
     const [computeLimitExceeded, setComputeLimitExceeded] = useState(
         !!config?.subscriptions?.enforce
     );
+    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
     const { t } = useTranslation(["instantlaunches", "common"]);
 
     const { data, status, error } = useQuery(
@@ -63,10 +67,17 @@ const InstantLaunchStandalone = (props) => {
         return <LoadingAnimation />;
     } else if (error) {
         return (
-            <p>
-                error{" "}
-                {error?.response?.status === 404 ? "not found" : "unsure why"}
-            </p>
+            <>
+                <ErrorTypography
+                    errorMessage={error.message}
+                    onDetailsClick={() => setErrorDialogOpen(true)}
+                />
+                <DEErrorDialog
+                    open={errorDialogOpen}
+                    errorObject={error}
+                    handleClose={() => setErrorDialogOpen(false)}
+                />
+            </>
         );
     } else {
         return (

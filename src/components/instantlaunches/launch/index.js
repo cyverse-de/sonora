@@ -23,6 +23,7 @@ import { useTranslation } from "i18n";
 import isQueryLoading from "components/utils/isQueryLoading";
 import InstantLaunchButtonWrapper from "components/instantlaunches/InstantLaunchButtonWrapper";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
+import LoadingAnimation from "components/vice/loading/LoadingAnimation";
 
 const InstantLaunchStandalone = (props) => {
     const { id: instant_launch_id, showErrorAnnouncer } = props;
@@ -59,7 +60,7 @@ const InstantLaunchStandalone = (props) => {
     const isLoading = isQueryLoading([status, isFetchingUsageSummary]);
 
     if (isLoading) {
-        return <p>... loading ...</p>;
+        return <LoadingAnimation />;
     } else if (error) {
         return (
             <p>

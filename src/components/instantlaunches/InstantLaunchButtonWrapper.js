@@ -8,7 +8,7 @@
  * The `onClick` function will handle launching the instant launch and
  * briefly displaying the Submission dialog to the user.
  */
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 
 import { useMutation } from "react-query";
 
@@ -36,12 +36,14 @@ function InstantLaunchButtonWrapper(props) {
         resource = {},
         render,
         showErrorAnnouncer,
+        autolaunch,
     } = props;
     const output_dir = useDefaultOutputDir();
     const [userProfile] = useUserProfile();
     const [bootstrapInfo] = useBootstrapInfo();
 
     const [open, setOpen] = React.useState(false);
+    const [hasLaunched, setHasLaunched] = React.useState(false);
     const [signInDlgOpen, setSignInDlgOpen] = React.useState(false);
     const [accessRequestDialogOpen, setAccessRequestDialogOpen] =
         React.useState(false);
@@ -101,8 +103,11 @@ function InstantLaunchButtonWrapper(props) {
         },
     });
 
-    const onClick = () => {
-        if (userProfile?.id) {
+    const preferences = bootstrapInfo?.preferences;
+    const userId = userProfile?.id;
+
+    const onClick = useCallback(() => {
+        if (userId) {
             if (computeLimitExceeded) {
                 showErrorAnnouncer(t("computeLimitExceededMsg"));
             } else {
@@ -111,17 +116,34 @@ function InstantLaunchButtonWrapper(props) {
                     instantLaunch,
                     resource,
                     output_dir,
-                    preferences: bootstrapInfo?.preferences,
+                    preferences,
                 });
             }
         } else {
             setSignInDlgOpen(true);
         }
-    };
+    }, [
+        preferences,
+        computeLimitExceeded,
+        instantLaunch,
+        launch,
+        output_dir,
+        resource,
+        showErrorAnnouncer,
+        t,
+        userId,
+    ]);
+
+    useEffect(() => {
+        if (autolaunch && !hasLaunched) {
+            onClick();
+            setHasLaunched(true);
+        }
+    }, [autolaunch, onClick, hasLaunched, setHasLaunched]);
 
     return (
         <>
-            {render(onClick)}
+            {!autolaunch && render && render(onClick)}
             <InstantLaunchSubmissionDialog open={open} />
             <SignInDialog
                 open={signInDlgOpen}

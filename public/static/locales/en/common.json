@@ -43,6 +43,7 @@
     "help": "Help",
     "home": "Home",
     "instantLaunches": "Instant Launches",
+    "instantLaunch": "Instant Launch",
     "interactiveAnalysisUrl": "{{message}}. Access your running analysis here.",
     "intercomAriaLabel": "Chat with CyVerse support",
     "learnMore": "Learn More",

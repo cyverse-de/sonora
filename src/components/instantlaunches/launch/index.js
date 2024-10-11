@@ -26,8 +26,7 @@ import InstantLaunchButtonWrapper from "components/instantlaunches/InstantLaunch
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import LoadingAnimation from "components/vice/loading/LoadingAnimation";
 
-import ErrorTypography from "components/error/ErrorTypography";
-import DEErrorDialog from "components/error/DEErrorDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 const InstantLaunchStandalone = (props) => {
     const {
@@ -40,7 +39,6 @@ const InstantLaunchStandalone = (props) => {
     const [computeLimitExceeded, setComputeLimitExceeded] = useState(
         !!config?.subscriptions?.enforce
     );
-    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
     const [resource, setResource] = useState(!!resource_path ? null : {});
 
     const { t } = useTranslation(["instantlaunches", "common"]);
@@ -88,17 +86,10 @@ const InstantLaunchStandalone = (props) => {
     } else if (error || resourceError) {
         const err = error || resourceError;
         return (
-            <>
-                <ErrorTypography
-                    errorMessage={err.message}
-                    onDetailsClick={() => setErrorDialogOpen(true)}
-                />
-                <DEErrorDialog
-                    open={errorDialogOpen}
-                    errorObject={err}
-                    handleClose={() => setErrorDialogOpen(false)}
-                />
-            </>
+            <ErrorTypographyWithDialog
+                errorMessage={t("instantLaunchError")}
+                errorObject={err}
+            />
         );
     } else {
         return (

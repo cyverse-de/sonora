@@ -39,7 +39,7 @@ const InstantLaunchStandalone = (props) => {
     const [computeLimitExceeded, setComputeLimitExceeded] = useState(
         !!config?.subscriptions?.enforce
     );
-    const [resource, setResource] = useState(!!resource_path ? null : {});
+    const [resource, setResource] = useState(null);
 
     const { t } = useTranslation(["instantlaunches", "common"]);
 

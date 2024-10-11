@@ -327,6 +327,24 @@ export const deleteInstantLaunchHandler = async (id) => {
 };
 
 /**
+ * Utility function to extract a saved launch ID from an instant launch in either format.
+ *
+ * @param {Object} instantLaunch - the instant launch object to pull the value out of
+ */
+export const extractLaunchId = (instantLaunch) => {
+    if (instantLaunch.hasOwnProperty("default")) {
+        // The data window logic.
+        // The saved launch ID is buried in the "default" map of the object passed in
+        // from the data window.
+        return instantLaunch.default["quick_launch_id"];
+    } else {
+        // The dashboard logic.
+        // The saved launch ID is a top-level property of the object passed in.
+        return instantLaunch.quick_launch_id;
+    }
+};
+
+/**
  * Event handler for the button that performs the instant launch.
  *
  * @param {Object} instantLaunch - The instant launch object returned by defaultInstantLaunch().
@@ -337,27 +355,21 @@ export const instantlyLaunch = ({
     resource,
     output_dir,
     preferences,
+    appInfo = null,
 }) => {
-    let savedLaunchId; // The saved launch ID, used to get app information.
+    let savedLaunchId = extractLaunchId(instantLaunch); // The saved launch ID, used to get app information.
+
     let savedLaunchPromise; // The promise used to get saved launch information.
+    let appInfoPromise; // The promise used to get app info for the saved launch.
 
     // The format of the instantLaunch object passed in by the data window is a bit different
     // than the format passed in by the dashboard, so a bit of normalization needs to take
     // place.
     if (instantLaunch.hasOwnProperty("default")) {
-        // The data window logic.
-        // The saved launch ID is buried in the "default" map of the object passed in
-        // from the data window.
-        savedLaunchId = instantLaunch.default["quick_launch_id"];
-
         // We'll need to get the saved launch info from the API since it contains the
         // submission, which isn't provided from the data window.
         savedLaunchPromise = getSavedLaunch(savedLaunchId);
     } else {
-        // The dashboard logic.
-        // The saved launch ID is a top-level property of the object passed in.
-        savedLaunchId = instantLaunch.quick_launch_id;
-
         // Wrap the instant launch object in a promise so we don't have to branch logic
         // farther down.
         savedLaunchPromise = new Promise((resolve, reject) => {
@@ -365,11 +377,16 @@ export const instantlyLaunch = ({
         });
     }
 
+    if (appInfo) {
+        appInfoPromise = new Promise((resolve, reject) => {
+            resolve(appInfo);
+        });
+    } else {
+        appInfoPromise = getAppInfo({ launchId: savedLaunchId });
+    }
+
     // Contains the Promises that resolve to the data needed to perform a job submission.
-    const promiseList = [
-        savedLaunchPromise,
-        getAppInfo({ launchId: savedLaunchId }),
-    ];
+    const promiseList = [savedLaunchPromise, appInfoPromise];
 
     return Promise.all(promiseList)
         .then((values) => {

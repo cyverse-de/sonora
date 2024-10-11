@@ -15,6 +15,7 @@ import {
     getResourceUsageSummary,
     RESOURCE_USAGE_QUERY_KEY,
 } from "serviceFacades/dashboard";
+import { useDataDetails } from "serviceFacades/filesystem";
 import { getUserQuota } from "common/resourceUsage";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
@@ -25,17 +26,21 @@ import InstantLaunchButtonWrapper from "components/instantlaunches/InstantLaunch
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import LoadingAnimation from "components/vice/loading/LoadingAnimation";
 
-import ErrorTypography from "components/error/ErrorTypography";
-import DEErrorDialog from "components/error/DEErrorDialog";
+import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
 const InstantLaunchStandalone = (props) => {
-    const { id: instant_launch_id, showErrorAnnouncer } = props;
+    const {
+        id: instant_launch_id,
+        resource: resource_path,
+        showErrorAnnouncer,
+    } = props;
     const [config] = useConfig();
     const [userProfile] = useUserProfile();
     const [computeLimitExceeded, setComputeLimitExceeded] = useState(
         !!config?.subscriptions?.enforce
     );
-    const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+    const [resource, setResource] = useState(null);
+
     const { t } = useTranslation(["instantlaunches", "common"]);
 
     const { data, status, error } = useQuery(
@@ -61,28 +66,36 @@ const InstantLaunchStandalone = (props) => {
         },
     });
 
-    const isLoading = isQueryLoading([status, isFetchingUsageSummary]);
+    const { isFetching: isLoadingResource, error: resourceError } =
+        useDataDetails({
+            paths: [resource_path],
+            enabled: !!resource_path,
+            onSuccess: (resp) => {
+                setResource(resp?.paths[resource_path]);
+            },
+        });
+
+    const isLoading = isQueryLoading([
+        status,
+        isLoadingResource,
+        isFetchingUsageSummary,
+    ]);
 
     if (isLoading) {
         return <LoadingAnimation />;
-    } else if (error) {
+    } else if (error || resourceError) {
+        const err = error || resourceError;
         return (
-            <>
-                <ErrorTypography
-                    errorMessage={error.message}
-                    onDetailsClick={() => setErrorDialogOpen(true)}
-                />
-                <DEErrorDialog
-                    open={errorDialogOpen}
-                    errorObject={error}
-                    handleClose={() => setErrorDialogOpen(false)}
-                />
-            </>
+            <ErrorTypographyWithDialog
+                errorMessage={t("instantLaunchError")}
+                errorObject={err}
+            />
         );
     } else {
         return (
             <InstantLaunchButtonWrapper
                 instantLaunch={data}
+                resource={resource}
                 computeLimitExceeded={computeLimitExceeded}
                 autolaunch={true}
             />

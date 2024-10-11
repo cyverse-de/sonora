@@ -15,9 +15,9 @@ import InstantLaunchStandalone from "components/instantlaunches/launch";
 
 export default function InstantLaunch() {
     const router = useRouter();
-    const { id } = router.query;
+    const { id, resource } = router.query;
 
-    return <InstantLaunchStandalone id={id} />;
+    return <InstantLaunchStandalone id={id} resource={resource} />;
 }
 
 export async function getServerSideProps({ locale }) {

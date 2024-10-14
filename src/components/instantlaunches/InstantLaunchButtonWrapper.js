@@ -12,6 +12,10 @@ import React, { useEffect, useCallback } from "react";
 
 import { useMutation } from "react-query";
 
+import { useRouter } from "next/router";
+
+import NavigationConstants from "common/NavigationConstants";
+
 import { useDefaultOutputDir } from "components/data/utils";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import { getHost } from "components/utils/getHost";
@@ -52,6 +56,7 @@ function InstantLaunchButtonWrapper(props) {
     const [runErrorDetails, setRunErrorDetails] = React.useState(null);
     const [ilUrl, setIlUrl] = React.useState();
 
+    const router = useRouter();
     const { t } = useTranslation("launch");
 
     React.useEffect(() => {
@@ -74,6 +79,12 @@ function InstantLaunchButtonWrapper(props) {
                     );
                 } else {
                     setOpen(false);
+                }
+                if (autolaunch) {
+                    // go to the analysis landing
+                    router.push(
+                        `/${NavigationConstants.ANALYSES}/${analysis?.id}`
+                    );
                 }
             } else {
                 setOpen(false);

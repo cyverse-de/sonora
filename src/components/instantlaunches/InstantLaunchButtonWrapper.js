@@ -55,22 +55,30 @@ function InstantLaunchButtonWrapper(props) {
         React.useState(false);
     const [runErrorDetails, setRunErrorDetails] = React.useState(null);
     const [ilUrl, setIlUrl] = React.useState();
+    const [landingUrl, setLandingUrl] = React.useState();
 
     const router = useRouter();
     const { t } = useTranslation("launch");
 
     React.useEffect(() => {
-        if (ilUrl) {
+        if (ilUrl && landingUrl) {
             window.open(`${getHost()}${ilUrl}`);
             setIlUrl(null);
             setOpen(false);
+            if (autolaunch) {
+                // go to the analysis landing, not keeping this page in browser history
+                router.replace(landingUrl);
+            }
         }
-    }, [ilUrl]);
+    }, [ilUrl, landingUrl, autolaunch, router]);
 
     const { mutate: launch } = useMutation(instantlyLaunch, {
         onSuccess: (listing) => {
             if (listing.analyses.length > 0) {
                 const analysis = listing.analyses[0];
+                setLandingUrl(
+                    `/${NavigationConstants.ANALYSES}/${analysis?.id}`
+                );
                 if (analysis.interactive_urls?.length > 0) {
                     setIlUrl(
                         `${constants.VICE_LOADING_PAGE}/${encodeURIComponent(
@@ -79,12 +87,6 @@ function InstantLaunchButtonWrapper(props) {
                     );
                 } else {
                     setOpen(false);
-                }
-                if (autolaunch) {
-                    // go to the analysis landing, not keeping this page in browser history
-                    router.replace(
-                        `/${NavigationConstants.ANALYSES}/${analysis?.id}`
-                    );
                 }
             } else {
                 setOpen(false);

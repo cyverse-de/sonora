@@ -81,8 +81,8 @@ function InstantLaunchButtonWrapper(props) {
                     setOpen(false);
                 }
                 if (autolaunch) {
-                    // go to the analysis landing
-                    router.push(
+                    // go to the analysis landing, not keeping this page in browser history
+                    router.replace(
                         `/${NavigationConstants.ANALYSES}/${analysis?.id}`
                     );
                 }

@@ -12,6 +12,10 @@ import React, { useEffect, useCallback } from "react";
 
 import { useMutation } from "react-query";
 
+import { useRouter } from "next/router";
+
+import NavigationConstants from "common/NavigationConstants";
+
 import { useDefaultOutputDir } from "components/data/utils";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import { getHost } from "components/utils/getHost";
@@ -51,21 +55,30 @@ function InstantLaunchButtonWrapper(props) {
         React.useState(false);
     const [runErrorDetails, setRunErrorDetails] = React.useState(null);
     const [ilUrl, setIlUrl] = React.useState();
+    const [landingUrl, setLandingUrl] = React.useState();
 
+    const router = useRouter();
     const { t } = useTranslation("launch");
 
     React.useEffect(() => {
-        if (ilUrl) {
+        if (ilUrl && landingUrl) {
             window.open(`${getHost()}${ilUrl}`);
             setIlUrl(null);
             setOpen(false);
+            if (autolaunch) {
+                // go to the analysis landing, not keeping this page in browser history
+                router.replace(landingUrl);
+            }
         }
-    }, [ilUrl]);
+    }, [ilUrl, landingUrl, autolaunch, router]);
 
     const { mutate: launch } = useMutation(instantlyLaunch, {
         onSuccess: (listing) => {
             if (listing.analyses.length > 0) {
                 const analysis = listing.analyses[0];
+                setLandingUrl(
+                    `/${NavigationConstants.ANALYSES}/${analysis?.id}`
+                );
                 if (analysis.interactive_urls?.length > 0) {
                     setIlUrl(
                         `${constants.VICE_LOADING_PAGE}/${encodeURIComponent(

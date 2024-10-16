@@ -62,7 +62,7 @@ export const InstantLaunchSubmissionDialog = ({
 
             <DialogContent>
                 {appInfo && (
-                    <Typography variant="h6">
+                    <Typography variant="body1">
                         Launching app: {appInfo.name}
                         {resource ? " with data " + resource.path : ""}
                     </Typography>

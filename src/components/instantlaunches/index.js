@@ -37,7 +37,11 @@ const useStyles = makeStyles()((theme) => ({
  * @param {Object} props - The component props.
  * @param {boolean} props.open - Whether or not the dialog is open.
  */
-export const InstantLaunchSubmissionDialog = ({ open }) => {
+export const InstantLaunchSubmissionDialog = ({
+    open,
+    appInfo,
+    resource = null,
+}) => {
     const baseID = buildID(ids.BASE, ids.SUBMISSION, ids.DIALOG);
     const { t } = useTranslation("instantlaunches");
     const { classes } = useStyles();
@@ -57,6 +61,16 @@ export const InstantLaunchSubmissionDialog = ({ open }) => {
             </DialogTitle>
 
             <DialogContent>
+                {appInfo && (
+                    <Typography variant="body1">
+                        {resource
+                            ? t("launchingAppWithData", {
+                                  appName: appInfo.name,
+                                  path: resource.path,
+                              })
+                            : t("launchingApp", { appName: appInfo.name })}
+                    </Typography>
+                )}
                 <div
                     className={classes.progress}
                     id={buildID(baseID, ids.PROGRESS)}

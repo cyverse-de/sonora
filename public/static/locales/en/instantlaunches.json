@@ -32,6 +32,8 @@
     "instantLaunch": "Instant Launch",
     "instantLaunchCreationError": "Error creating Instant Launch",
     "instantLaunchError": "There was a problem launching your analysis.",
+    "launchingAppWithData": "Launching app: {{appName}} with data {{path}}",
+    "launchingApp": "Launching app: {{appName}}",
     "listDescription": "Create new Instant Launches, add them to the dashboard, or delete them entirely.",
     "mappingDescription": "Control which files in the data listing are associated with Instant Launches based on their filenames.",
     "name": "Name",

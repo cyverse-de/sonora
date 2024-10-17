@@ -10,7 +10,7 @@
  */
 import React, { useEffect, useCallback } from "react";
 
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 import { useRouter } from "next/router";
 
@@ -29,7 +29,14 @@ import { useUserProfile } from "contexts/userProfile";
 import { useBootstrapInfo } from "contexts/bootstrap";
 import ids from "./ids";
 import { InstantLaunchSubmissionDialog } from "./index";
-import { instantlyLaunch } from "serviceFacades/instantlaunches";
+import {
+    instantlyLaunch,
+    extractLaunchId,
+} from "serviceFacades/instantlaunches";
+import {
+    SAVED_LAUNCH_APP_INFO,
+    getAppInfo,
+} from "serviceFacades/savedLaunches";
 import { useTranslation } from "i18n";
 import { ERROR_CODES } from "components/error/errorCode";
 
@@ -48,6 +55,8 @@ function InstantLaunchButtonWrapper(props) {
 
     const [open, setOpen] = React.useState(false);
     const [hasLaunched, setHasLaunched] = React.useState(false);
+    const [appInfo, setAppInfo] = React.useState(null);
+
     const [signInDlgOpen, setSignInDlgOpen] = React.useState(false);
     const [accessRequestDialogOpen, setAccessRequestDialogOpen] =
         React.useState(false);
@@ -71,6 +80,19 @@ function InstantLaunchButtonWrapper(props) {
             }
         }
     }, [ilUrl, landingUrl, autolaunch, router]);
+
+    const launchId = extractLaunchId(instantLaunch);
+
+    const { isFetching: savedLaunchLoading } = useQuery({
+        queryKey: [SAVED_LAUNCH_APP_INFO, { launchId }],
+        queryFn: () => getAppInfo({ launchId }),
+        enabled: open,
+        onSuccess: setAppInfo,
+        onError: (err) => {
+            setOpen(false);
+            showErrorAnnouncer(err.message, err);
+        },
+    });
 
     const { mutate: launch } = useMutation(instantlyLaunch, {
         onSuccess: (listing) => {
@@ -119,45 +141,54 @@ function InstantLaunchButtonWrapper(props) {
     const preferences = bootstrapInfo?.preferences;
     const userId = userProfile?.id;
 
+    useEffect(() => {
+        if (open && !savedLaunchLoading) {
+            launch({
+                instantLaunch,
+                resource,
+                output_dir,
+                preferences,
+                appInfo,
+            });
+        }
+    }, [
+        open,
+        savedLaunchLoading,
+        instantLaunch,
+        launch,
+        resource,
+        output_dir,
+        preferences,
+        appInfo,
+    ]);
+
     const onClick = useCallback(() => {
         if (userId) {
             if (computeLimitExceeded) {
                 showErrorAnnouncer(t("computeLimitExceededMsg"));
             } else {
                 setOpen(true);
-                launch({
-                    instantLaunch,
-                    resource,
-                    output_dir,
-                    preferences,
-                });
             }
         } else {
             setSignInDlgOpen(true);
         }
-    }, [
-        preferences,
-        computeLimitExceeded,
-        instantLaunch,
-        launch,
-        output_dir,
-        resource,
-        showErrorAnnouncer,
-        t,
-        userId,
-    ]);
+    }, [computeLimitExceeded, showErrorAnnouncer, t, userId]);
 
     useEffect(() => {
         if (autolaunch && !hasLaunched) {
             onClick();
             setHasLaunched(true);
         }
-    }, [autolaunch, onClick, hasLaunched, setHasLaunched]);
+    }, [autolaunch, onClick, hasLaunched]);
 
     return (
         <>
             {!autolaunch && render && render(onClick)}
-            <InstantLaunchSubmissionDialog open={open} />
+            <InstantLaunchSubmissionDialog
+                open={open}
+                appInfo={appInfo}
+                resource={resource}
+            />
             <SignInDialog
                 open={signInDlgOpen}
                 handleClose={() => setSignInDlgOpen(false)}

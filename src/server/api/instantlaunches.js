@@ -100,6 +100,19 @@ export default () => {
         })
     );
 
+    logger.info("adding the PUT /instantlaunches handler");
+    api.put(
+        "/instantlaunches",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PUT",
+            pathname: "/instantlaunches",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the GET /admin/instantlaunches/metadata/full handler");
     api.get(
         "/admin/instantlaunches/metadata/full",
@@ -120,6 +133,19 @@ export default () => {
         terrainHandler({
             method: "GET",
             pathname: "/instantlaunches/metadata/full",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("add the DELETE /instantlaunches/:id handler");
+    api.delete(
+        "/instantlaunches/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/instantlaunches/:id",
             headers: {
                 "Content-Type": "application/json",
             },

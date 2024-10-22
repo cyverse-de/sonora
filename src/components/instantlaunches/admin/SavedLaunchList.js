@@ -11,7 +11,7 @@ import {
     LIST_PUBLIC_SAVED_LAUNCHES_KEY,
     getPublicSavedLaunches,
     listFullInstantLaunches,
-    addInstantLaunch,
+    adminAddInstantLaunch,
 } from "serviceFacades/instantlaunches";
 
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
@@ -52,7 +52,7 @@ const SavedLaunchList = ({ showErrorAnnouncer }) => {
     const queryClient = useQueryClient();
     const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
 
-    const { mutate: promote } = useMutation(addInstantLaunch, {
+    const { mutate: promote } = useMutation(adminAddInstantLaunch, {
         onSuccess: () => {
             queryClient.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
             announce({

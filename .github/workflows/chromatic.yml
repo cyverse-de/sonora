@@ -27,3 +27,4 @@ jobs:
           projectToken: ${{ secrets.project_token }}
           exitZeroOnChanges: true
           allowConsoleErrors: true
+          onlyChanged: true

@@ -6,13 +6,20 @@
 import React from "react";
 
 import { FieldArray, Form, Formik } from "formik";
+import { useMutation } from "react-query";
 
 import { useTranslation } from "i18n";
 
 import ids from "./ids";
 import styles from "./styles";
 
+import { announce } from "components/announcer/CyVerseAnnouncer";
+import { SUCCESS } from "components/announcer/AnnouncerConstants";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import buildID from "components/utils/DebugIDUtil";
+import BackButton from "components/utils/BackButton";
+
+import { setAppVersionOrder } from "serviceFacades/apps";
 
 import {
     Button,
@@ -26,7 +33,6 @@ import {
 import { makeStyles } from "tss-react/mui";
 
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
-import BackButton from "components/utils/BackButton";
 
 const useStyles = makeStyles()(styles);
 
@@ -70,18 +76,52 @@ function VersionOrderForm(props) {
 }
 
 function VersionsOrderingForm(props) {
-    const { baseId, versions } = props;
+    const { baseId, app, showErrorAnnouncer } = props;
+    const { system_id: systemId, id: appId, versions } = app;
 
     const { t } = useTranslation(["app_editor", "common"]);
+
+    const { mutate: saveAppVersions } = useMutation(
+        ({ values }) =>
+            setAppVersionOrder({ systemId, appId, versions: values }),
+        {
+            onSuccess: (resp, { onSuccess }) => {
+                onSuccess(resp);
+            },
+            onError: (error, { onError }) => {
+                onError(error);
+            },
+        }
+    );
 
     return (
         <Formik
             initialValues={{ versions }}
-            onSubmit={({ versions }, actions) => {
-                console.log({ versions });
+            onSubmit={(values, actions) => {
+                const { resetForm, setSubmitting, setStatus } = actions;
+
+                const onSuccess = ({ versions }) => {
+                    setSubmitting(false);
+                    setStatus({ success: true });
+                    resetForm({ values: { versions } });
+
+                    announce({
+                        text: t("appSaved"),
+                        variant: SUCCESS,
+                    });
+                };
+
+                const onError = (errorMessage) => {
+                    showErrorAnnouncer(t("appSaveErr"), errorMessage);
+
+                    setSubmitting(false);
+                    setStatus({ success: false, errorMessage });
+                };
+
+                saveAppVersions({ values, onSuccess, onError });
             }}
         >
-            {({ handleSubmit, dirty, values }) => {
+            {({ handleSubmit, isSubmitting, dirty, values }) => {
                 return (
                     <Form>
                         <Toolbar variant="dense">
@@ -99,6 +139,7 @@ function VersionsOrderingForm(props) {
                                 variant="contained"
                                 type="submit"
                                 onClick={handleSubmit}
+                                disabled={!dirty || isSubmitting}
                             >
                                 {t("common:save")}
                             </Button>
@@ -142,4 +183,4 @@ function VersionsOrderingForm(props) {
     );
 }
 
-export default VersionsOrderingForm;
+export default withErrorAnnouncer(VersionsOrderingForm);

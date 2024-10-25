@@ -223,6 +223,19 @@ export default function appsRouter() {
         })
     );
 
+    logger.info("adding the PUT /apps/:systemId/:appId/versions handler");
+    api.put(
+        "/apps/:systemId/:appId/versions",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PUT",
+            pathname: "/apps/:systemId/:appId/versions",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info(
         "adding the GET /apps/:systemId/:appId/versions/:versionId handler"
     );

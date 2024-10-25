@@ -161,6 +161,14 @@ function addAppVersion({ systemId, appId, app }) {
     });
 }
 
+function setAppVersionOrder({ systemId, appId, versions }) {
+    return callApi({
+        endpoint: `/api/apps/${systemId}/${appId}/versions`,
+        method: "PUT",
+        body: versions,
+    });
+}
+
 function deleteApp({ systemId, appId }) {
     return callApi({
         endpoint: `/api/apps/${systemId}/${appId}`,
@@ -571,6 +579,7 @@ export {
     getAppPublicationRequests,
     adminPublishApp,
     requestToPublishApp,
+    setAppVersionOrder,
     ALL_APPS_QUERY_KEY,
     APP_DETAILS_QUERY_KEY,
     APPS_IN_CATEGORY_QUERY_KEY,

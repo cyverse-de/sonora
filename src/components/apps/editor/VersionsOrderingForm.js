@@ -16,6 +16,8 @@ import styles from "./styles";
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { SUCCESS } from "components/announcer/AnnouncerConstants";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import TableLoading from "components/table/TableLoading";
 import buildID from "components/utils/DebugIDUtil";
 import BackButton from "components/utils/BackButton";
 
@@ -26,6 +28,7 @@ import {
     ButtonGroup,
     Card,
     CardHeader,
+    Table,
     Toolbar,
     Typography,
 } from "@mui/material";
@@ -76,8 +79,8 @@ function VersionOrderForm(props) {
 }
 
 function VersionsOrderingForm(props) {
-    const { baseId, app, showErrorAnnouncer } = props;
-    const { system_id: systemId, id: appId, versions } = app;
+    const { baseId, app, isLoading, error, showErrorAnnouncer } = props;
+    const { system_id: systemId, id: appId, versions } = app || {};
 
     const { t } = useTranslation(["app_editor", "common"]);
 
@@ -94,7 +97,13 @@ function VersionsOrderingForm(props) {
         }
     );
 
-    return (
+    return error ? (
+        <WrappedErrorHandler errorObject={error} baseId={baseId} />
+    ) : isLoading ? (
+        <Table>
+            <TableLoading baseId={baseId} numColumns={2} numRows={3} />
+        </Table>
+    ) : (
         <Formik
             initialValues={{ versions }}
             onSubmit={(values, actions) => {

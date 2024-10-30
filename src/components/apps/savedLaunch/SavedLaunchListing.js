@@ -15,7 +15,11 @@ import ids from "../ids";
 import constants from "../constants";
 import SavedLaunch from "./SavedLaunch";
 
-import { getSavedLaunchPath } from "components/apps/utils";
+import {
+    getSavedLaunchPath,
+    getInstantLaunchPath,
+} from "components/apps/utils";
+import isQueryLoading from "components/utils/isQueryLoading";
 import SystemIds from "components/models/systemId";
 import { getHost } from "components/utils/getHost";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
@@ -23,12 +27,18 @@ import GridLoading from "components/utils/GridLoading";
 import { getUserName } from "components/utils/getUserName";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import NavigationConstants from "common/NavigationConstants";
+import { isInInstantLaunch } from "../../instantlaunches/functions";
 
 import {
     SAVED_LAUNCH_LISTING,
     listSavedLaunches,
     deleteSavedLaunch,
 } from "serviceFacades/savedLaunches";
+import {
+    ALL_INSTANT_LAUNCHES_KEY,
+    listFullInstantLaunches,
+} from "serviceFacades/instantlaunches";
+
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 
@@ -182,7 +192,9 @@ function ListSavedLaunches(props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
     const [selected, setSelected] = useState();
+    const [selectedIL, setSelectedIL] = useState();
     const [deleteError, setDeleteError] = useState();
+    const [useInstantLaunch, setUseInstantLaunch] = useState(false);
 
     const userName = userProfile?.id;
 
@@ -198,7 +210,25 @@ function ListSavedLaunches(props) {
         queryFn: () => listSavedLaunches({ appId }),
     });
 
+    const {
+        data: allILs,
+        error: errorILs,
+        isFetching: fetchingILs,
+    } = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
+
+    // probably a "list instant launches by saved launches" or "list instant launches by app" here?
+
     const savedLaunchClickHandler = (event, savedLaunch) => {
+        var instantLaunch = allILs.instant_launches.find(
+            (el) => el.quick_launch_id === savedLaunch.id
+        );
+        if (instantLaunch) {
+            setSelectedIL(instantLaunch);
+            setUseInstantLaunch(true);
+        } else {
+            setSelectedIL(null);
+            setUseInstantLaunch(false);
+        }
         setSelected(savedLaunch);
         if (savedLaunch.is_public) {
             setAnchorEl(event.currentTarget);
@@ -219,9 +249,15 @@ function ListSavedLaunches(props) {
     );
 
     const embedCodeClickHandler = () => {
-        const shareUrl = getShareUrl(selected.id);
+        var shareUrl = "";
         const host = getHost();
         const imgSrc = `${host}/${constants.SAVED_LAUNCH_EMBED_ICON}`;
+
+        if (useInstantLaunch) {
+            shareUrl = getIlUrl();
+        } else {
+            shareUrl = getShareUrl();
+        }
 
         const embed = `<a href="${shareUrl}" target="_blank" rel="noopener noreferrer"><img src="${imgSrc}"></a>`;
 
@@ -232,7 +268,7 @@ function ListSavedLaunches(props) {
 
     const shareClickHandler = () => {
         setAnchorEl(null);
-        setSavedLaunchUrl(getShareUrl(selected.id));
+        setSavedLaunchUrl(getShareUrl());
         setShareDialogOpen(true);
     };
 
@@ -246,22 +282,32 @@ function ListSavedLaunches(props) {
         return url;
     };
 
+    const getIlUrl = () => {
+        if (selectedIL?.id) {
+            const host = getHost();
+            const url = `${host}${getInstantLaunchPath(selectedIL?.id)}`;
+            return url;
+        } else {
+            return JSON.stringify(selectedIL) + " " + getShareUrl();
+        }
+    };
+
     const deleteSavedLaunchHandler = (event, savedLaunch) => {
         setSelected(savedLaunch);
         setDeleteConfirmOpen(true);
     };
 
-    if (error) {
+    if (error || errorILs) {
         return (
             <ErrorTypographyWithDialog
                 baseId={baseDebugId}
                 errorMessage={t("savedLaunchError")}
-                errorObject={error}
+                errorObject={error || errorILs}
             />
         );
     }
 
-    if (isFetching) {
+    if (isQueryLoading([isFetching, fetchingILs])) {
         return <GridLoading rows={3} baseId={baseDebugId} />;
     }
 
@@ -310,7 +356,15 @@ function ListSavedLaunches(props) {
                                     <Grid item key={index}>
                                         <SavedLaunch
                                             id={id}
-                                            label={savedLaunch.name}
+                                            label={
+                                                savedLaunch.name +
+                                                (isInInstantLaunch(
+                                                    savedLaunch.id,
+                                                    allILs.instant_launches
+                                                )
+                                                    ? " (IL)"
+                                                    : "")
+                                            }
                                             isPublic={is_public}
                                             handleClick={(event) =>
                                                 savedLaunchClickHandler(
@@ -381,6 +435,13 @@ function ListSavedLaunches(props) {
                         </IconButton>
                     </DialogTitle>
                     <DialogContent>
+                        {
+                            // Here is where we need to add a toggle for instant launch
+                            // If off, use what's alreay below
+                            // If on:
+                            //   if there's an instant launch, update the embed code to use it and show?
+                            //   if not, maybe a confirmation button? or should we just create it
+                        }
                         <CopyTextArea
                             debugIdPrefix={buildID(
                                 baseDebugId,

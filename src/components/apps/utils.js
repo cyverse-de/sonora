@@ -52,6 +52,21 @@ export const getSavedLaunchPath = (systemId, appId, launchId) =>
     `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?saved-launch-id=${launchId}`;
 
 /**
+ * Builds a path to the direct instant launch page.
+ *
+ * @param {string} ilId The Instant Launch ID
+ * @param {string} resourcePath A file or folder path to pass to the instant launch (optional)
+ */
+export const getInstantLaunchPath = (ilId, resourcePath = "") => {
+    var uri = `/${NavigationConstants.INSTANT_LAUNCH}/${ilId}`;
+    if (resourcePath !== "") {
+        return uri + `?resource=${resourcePath}`;
+    } else {
+        return uri;
+    }
+};
+
+/**
  * Builds a path to the App Editor for the app with the given IDs.
  *
  * @param {string} systemId The app's system ID.

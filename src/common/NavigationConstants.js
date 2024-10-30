@@ -14,6 +14,7 @@ export default {
     DOI: "doi",
     ERROR: "error",
     HELP: "help",
+    INSTANT_LAUNCH: "instantlaunch",
     INSTANT_LAUNCHES: "instantlaunches",
     LOGIN: "login",
     LOGOUT: "logout",

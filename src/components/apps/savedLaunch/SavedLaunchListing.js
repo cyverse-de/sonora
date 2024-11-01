@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "i18n";
 import { useQueryClient, useQuery, useMutation } from "react-query";
 import Link from "next/link";
@@ -248,31 +248,7 @@ function ListSavedLaunches(props) {
         }
     );
 
-    const embedCodeClickHandler = () => {
-        var shareUrl = "";
-        const host = getHost();
-        const imgSrc = `${host}/${constants.SAVED_LAUNCH_EMBED_ICON}`;
-
-        if (useInstantLaunch) {
-            shareUrl = getIlUrl();
-        } else {
-            shareUrl = getShareUrl();
-        }
-
-        const embed = `<a href="${shareUrl}" target="_blank" rel="noopener noreferrer"><img src="${imgSrc}"></a>`;
-
-        setAnchorEl(null);
-        setEmbedCode(embed);
-        setEmbedDialogOpen(true);
-    };
-
-    const shareClickHandler = () => {
-        setAnchorEl(null);
-        setSavedLaunchUrl(getShareUrl());
-        setShareDialogOpen(true);
-    };
-
-    const getShareUrl = () => {
+    const getShareUrl = useCallback(() => {
         const host = getHost();
         const url = `${host}${getSavedLaunchPath(
             systemId,
@@ -280,16 +256,34 @@ function ListSavedLaunches(props) {
             selected?.id
         )}`;
         return url;
+    }, [selected, systemId, appId]);
+
+    useEffect(() => {
+        var shareUrl = "";
+        const host = getHost();
+        const imgSrc = `${host}/${constants.SAVED_LAUNCH_EMBED_ICON}`;
+
+        if (useInstantLaunch && selectedIL?.id) {
+            const host = getHost();
+            shareUrl = `${host}${getInstantLaunchPath(selectedIL?.id)}`;
+        } else {
+            shareUrl = getShareUrl();
+        }
+
+        const embed = `<a href="${shareUrl}" target="_blank" rel="noopener noreferrer"><img src="${imgSrc}"></a>`;
+
+        setEmbedCode(embed);
+    }, [selected, selectedIL, useInstantLaunch, getShareUrl]);
+
+    const embedCodeClickHandler = () => {
+        setAnchorEl(null);
+        setEmbedDialogOpen(true);
     };
 
-    const getIlUrl = () => {
-        if (selectedIL?.id) {
-            const host = getHost();
-            const url = `${host}${getInstantLaunchPath(selectedIL?.id)}`;
-            return url;
-        } else {
-            return JSON.stringify(selectedIL) + " " + getShareUrl();
-        }
+    const shareClickHandler = () => {
+        setAnchorEl(null);
+        setSavedLaunchUrl(getShareUrl());
+        setShareDialogOpen(true);
     };
 
     const deleteSavedLaunchHandler = (event, savedLaunch) => {

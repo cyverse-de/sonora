@@ -52,6 +52,7 @@ import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Popover from "@mui/material/Popover";
+import Switch from "@mui/material/Switch";
 import Typography from "@mui/material/Typography";
 import { Link as MuiLink } from "@mui/material";
 import { useTheme } from "@mui/material";
@@ -436,6 +437,14 @@ function ListSavedLaunches(props) {
                             //   if there's an instant launch, update the embed code to use it and show?
                             //   if not, maybe a confirmation button? or should we just create it
                         }
+                        <Switch
+                            size="small"
+                            checked={useInstantLaunch}
+                            onChange={(event) =>
+                                setUseInstantLaunch(event.target.checked)
+                            }
+                            name={"Use instant launch if available"}
+                        />
                         <CopyTextArea
                             debugIdPrefix={buildID(
                                 baseDebugId,

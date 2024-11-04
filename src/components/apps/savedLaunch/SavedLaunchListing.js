@@ -211,13 +211,12 @@ function ListSavedLaunches(props) {
         queryFn: () => listSavedLaunches({ appId }),
     });
 
+    // It would be better to have a query that is limited to the selected app only
     const {
         data: allILs,
         error: errorILs,
         isFetching: fetchingILs,
     } = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
-
-    // probably a "list instant launches by saved launches" or "list instant launches by app" here?
 
     const savedLaunchClickHandler = (event, savedLaunch) => {
         var instantLaunch = allILs.instant_launches.find(
@@ -265,7 +264,6 @@ function ListSavedLaunches(props) {
         const imgSrc = `${host}/${constants.SAVED_LAUNCH_EMBED_ICON}`;
 
         if (useInstantLaunch && selectedIL?.id) {
-            const host = getHost();
             shareUrl = `${host}${getInstantLaunchPath(selectedIL?.id)}`;
         } else {
             shareUrl = getShareUrl();
@@ -422,13 +420,6 @@ function ListSavedLaunches(props) {
                         </IconButton>
                     </DialogTitle>
                     <DialogContent>
-                        {
-                            // Here is where we need to add a toggle for instant launch
-                            // If off, use what's alreay below
-                            // If on:
-                            //   if there's an instant launch, update the embed code to use it and show?
-                            //   if not, maybe a confirmation button? or should we just create it
-                        }
                         <FormControlLabel
                             disabled={!selectedIL}
                             control={

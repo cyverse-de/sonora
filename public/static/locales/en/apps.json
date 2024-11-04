@@ -146,6 +146,7 @@
     "savedLaunchDeleteConfirmation": "Do you wish to delete this Saved Launch? Note: Deleting a public Saved Launch will break embedded and shared links.",
     "savedLaunchDeleteError": "Unable to delete {{name}}.",
     "savedLaunchEmbedToolTip": "Copy embed code",
+    "savedLaunchEmbedUseInstantLaunch": "Use Instant Launch (if available)",
     "savedLaunchError": "Unable to get Saved Launch.",
     "savedLaunchNameLabel": "Name",
     "savedLaunchNotSupportedMessage": "Saved Launch not supported for Agave apps!",

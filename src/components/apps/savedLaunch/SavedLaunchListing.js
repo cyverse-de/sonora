@@ -27,7 +27,6 @@ import GridLoading from "components/utils/GridLoading";
 import { getUserName } from "components/utils/getUserName";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import NavigationConstants from "common/NavigationConstants";
-import { isInInstantLaunch } from "../../instantlaunches/functions";
 
 import {
     SAVED_LAUNCH_LISTING,
@@ -48,6 +47,7 @@ import CopyTextArea from "components/copy/CopyTextArea";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
@@ -351,15 +351,7 @@ function ListSavedLaunches(props) {
                                     <Grid item key={index}>
                                         <SavedLaunch
                                             id={id}
-                                            label={
-                                                savedLaunch.name +
-                                                (isInInstantLaunch(
-                                                    savedLaunch.id,
-                                                    allILs.instant_launches
-                                                )
-                                                    ? " (IL)"
-                                                    : "")
-                                            }
+                                            label={savedLaunch.name}
                                             isPublic={is_public}
                                             handleClick={(event) =>
                                                 savedLaunchClickHandler(
@@ -437,13 +429,25 @@ function ListSavedLaunches(props) {
                             //   if there's an instant launch, update the embed code to use it and show?
                             //   if not, maybe a confirmation button? or should we just create it
                         }
-                        <Switch
-                            size="small"
-                            checked={useInstantLaunch}
-                            onChange={(event) =>
-                                setUseInstantLaunch(event.target.checked)
+                        <FormControlLabel
+                            disabled={!selectedIL}
+                            control={
+                                <Switch
+                                    size="small"
+                                    checked={useInstantLaunch}
+                                    onChange={(event) =>
+                                        setUseInstantLaunch(
+                                            event.target.checked
+                                        )
+                                    }
+                                    name={t("savedLaunchEmbedUseInstantLaunch")}
+                                />
                             }
-                            name={"Use instant launch if available"}
+                            label={
+                                <Typography variant="body2">
+                                    {t("savedLaunchEmbedUseInstantLaunch")}
+                                </Typography>
+                            }
                         />
                         <CopyTextArea
                             debugIdPrefix={buildID(

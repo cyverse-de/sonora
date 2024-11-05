@@ -27,6 +27,7 @@ import {
     Button,
     ButtonGroup,
     Card,
+    CardContent,
     CardHeader,
     Table,
     Toolbar,
@@ -154,37 +155,45 @@ function VersionsOrderingForm(props) {
                             </Button>
                         </Toolbar>
 
-                        <FieldArray
-                            name="versions"
-                            render={(arrayHelpers) =>
-                                values.versions.map((version, index) => (
-                                    <VersionOrderForm
-                                        key={version.version_id}
-                                        baseId={baseId}
-                                        version={version}
-                                        onMoveUp={() => {
-                                            if (index > 0) {
-                                                arrayHelpers.move(
-                                                    index,
-                                                    index - 1
-                                                );
-                                            }
-                                        }}
-                                        onMoveDown={() => {
-                                            if (
-                                                index + 1 <
-                                                values.versions.length
-                                            ) {
-                                                arrayHelpers.move(
-                                                    index,
-                                                    index + 1
-                                                );
-                                            }
-                                        }}
-                                    />
-                                ))
-                            }
-                        />
+                        <Card>
+                            <CardHeader title={t("orderAppVersionsHelp")} />
+                            <CardContent>
+                                <FieldArray
+                                    name="versions"
+                                    render={(arrayHelpers) =>
+                                        values.versions.map(
+                                            (version, index) => (
+                                                <VersionOrderForm
+                                                    key={version.version_id}
+                                                    baseId={baseId}
+                                                    version={version}
+                                                    onMoveUp={() => {
+                                                        if (index > 0) {
+                                                            arrayHelpers.move(
+                                                                index,
+                                                                index - 1
+                                                            );
+                                                        }
+                                                    }}
+                                                    onMoveDown={() => {
+                                                        if (
+                                                            index + 1 <
+                                                            values.versions
+                                                                .length
+                                                        ) {
+                                                            arrayHelpers.move(
+                                                                index,
+                                                                index + 1
+                                                            );
+                                                        }
+                                                    }}
+                                                />
+                                            )
+                                        )
+                                    }
+                                />
+                            </CardContent>
+                        </Card>
                     </Form>
                 );
             }}

@@ -36,6 +36,7 @@ import {
 import {
     ALL_INSTANT_LAUNCHES_KEY,
     listFullInstantLaunches,
+    addInstantLaunch,
 } from "serviceFacades/instantlaunches";
 
 import { useConfig } from "contexts/config";
@@ -44,6 +45,7 @@ import { useUserProfile } from "contexts/userProfile";
 import buildID from "components/utils/DebugIDUtil";
 import CopyTextArea from "components/copy/CopyTextArea";
 
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -57,6 +59,7 @@ import Typography from "@mui/material/Typography";
 import { Link as MuiLink } from "@mui/material";
 import { useTheme } from "@mui/material";
 
+import Add from "@mui/icons-material/Add";
 import Code from "@mui/icons-material/Code";
 import Play from "@mui/icons-material/PlayArrow";
 import Share from "@mui/icons-material/Share";
@@ -196,6 +199,7 @@ function ListSavedLaunches(props) {
     const [selectedIL, setSelectedIL] = useState();
     const [deleteError, setDeleteError] = useState();
     const [useInstantLaunch, setUseInstantLaunch] = useState(false);
+    const [createILError, setCreateILError] = useState();
 
     const userName = userProfile?.id;
 
@@ -247,6 +251,15 @@ function ListSavedLaunches(props) {
             onError: setDeleteError,
         }
     );
+
+    const { mutate: createInstantLaunch } = useMutation(addInstantLaunch, {
+        onSuccess: (createdIL, { onSuccess }) => {
+            queryClient.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
+            setSelectedIL(createdIL);
+            setUseInstantLaunch(true);
+        },
+        onError: setCreateILError,
+    });
 
     const getShareUrl = useCallback(() => {
         const host = getHost();
@@ -420,26 +433,49 @@ function ListSavedLaunches(props) {
                         </IconButton>
                     </DialogTitle>
                     <DialogContent>
-                        <FormControlLabel
-                            disabled={!selectedIL}
-                            control={
-                                <Switch
-                                    size="small"
-                                    checked={useInstantLaunch}
-                                    onChange={(event) =>
-                                        setUseInstantLaunch(
-                                            event.target.checked
-                                        )
-                                    }
-                                    name={t("savedLaunchEmbedUseInstantLaunch")}
-                                />
-                            }
-                            label={
-                                <Typography variant="body2">
-                                    {t("savedLaunchEmbedUseInstantLaunch")}
-                                </Typography>
-                            }
-                        />
+                        {!!selectedIL ? (
+                            <FormControlLabel
+                                disabled={!selectedIL}
+                                control={
+                                    <Switch
+                                        size="small"
+                                        checked={useInstantLaunch}
+                                        onChange={(event) =>
+                                            setUseInstantLaunch(
+                                                event.target.checked
+                                            )
+                                        }
+                                        name={t(
+                                            "savedLaunchEmbedUseInstantLaunch"
+                                        )}
+                                    />
+                                }
+                                label={
+                                    <Typography variant="body2">
+                                        {t("savedLaunchEmbedUseInstantLaunch")}
+                                    </Typography>
+                                }
+                            />
+                        ) : (
+                            <Button
+                                variant="contained"
+                                startIcon={<Add />}
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    event.preventDefault();
+                                    createInstantLaunch(selected.id);
+                                }}
+                            >
+                                {t("common:create")}
+                            </Button>
+                        )}
+                        {createILError && (
+                            <ErrorTypographyWithDialog
+                                baseId={baseDebugId}
+                                errorMessage={t("instantLaunchCreateError")}
+                                errorObject={createILError}
+                            />
+                        )}
                         <CopyTextArea
                             debugIdPrefix={buildID(
                                 baseDebugId,

@@ -58,8 +58,8 @@ export const getSavedLaunchPath = (systemId, appId, launchId) =>
  * @param {string} resourcePath A file or folder path to pass to the instant launch (optional)
  */
 export const getInstantLaunchPath = (ilId, resourcePath = "") => {
-    var uri = `/${NavigationConstants.INSTANT_LAUNCH}/${ilId}`;
-    if (resourcePath !== "") {
+    const uri = `/${NavigationConstants.INSTANT_LAUNCH}/${ilId}`;
+    if (resourcePath) {
         return uri + `?resource=${resourcePath}`;
     } else {
         return uri;

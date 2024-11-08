@@ -223,7 +223,7 @@ function ListSavedLaunches(props) {
     } = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
 
     const savedLaunchClickHandler = (event, savedLaunch) => {
-        var instantLaunch = allILs.instant_launches.find(
+        const instantLaunch = allILs?.instant_launches.find(
             (el) => el.quick_launch_id === savedLaunch.id
         );
         if (instantLaunch) {
@@ -272,7 +272,7 @@ function ListSavedLaunches(props) {
     }, [selected, systemId, appId]);
 
     useEffect(() => {
-        var shareUrl = "";
+        let shareUrl = "";
         const host = getHost();
         const imgSrc = `${host}/${constants.SAVED_LAUNCH_EMBED_ICON}`;
 

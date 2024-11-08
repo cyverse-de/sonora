@@ -466,7 +466,7 @@ function ListSavedLaunches(props) {
                                     createInstantLaunch(selected.id);
                                 }}
                             >
-                                {t("common:create")}
+                                {t("instantLaunchCreate")}
                             </Button>
                         )}
                         {createILError && (
@@ -476,6 +476,15 @@ function ListSavedLaunches(props) {
                                 errorObject={createILError}
                             />
                         )}
+                        <Typography variant="body2">
+                            {!selectedIL && t("embedNoInstantLaunch")}
+                            {selectedIL &&
+                                useInstantLaunch &&
+                                t("embedInstantLaunchUsed")}
+                            {selectedIL &&
+                                !useInstantLaunch &&
+                                t("embedInstantLaunchNotUsed")}
+                        </Typography>
                         <CopyTextArea
                             debugIdPrefix={buildID(
                                 baseDebugId,

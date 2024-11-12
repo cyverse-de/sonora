@@ -1758,3 +1758,14 @@ export const appPublicationRequests = {
         },
     ],
 };
+
+export const testInstantLaunches = {
+    instant_launches: [
+        {
+            id: "6ae67c2a-8153-4575-8425-2cc7526daac5",
+            quick_launch_id: "3f8cd42a-ee04-42de-872d-1bd637a77ddc",
+            added_by: "aramsey@iplantcollaborative.org",
+            added_on: new Date(2021, 3, 27, 9, 22, 55),
+        },
+    ],
+};

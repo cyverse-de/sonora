@@ -1,6 +1,6 @@
 import React from "react";
 import ListSavedLaunches from "components/apps/savedLaunch/SavedLaunchListing";
-import { savedLaunches } from "../AppMocks";
+import { savedLaunches, testInstantLaunches } from "../AppMocks";
 import { mockAxios } from "../../axiosMock";
 
 export const SavedLaunchListingTest = () => {
@@ -20,6 +20,9 @@ export const SavedLaunchListingTest = () => {
     };
 
     mockAxios.onGet(`/api/quicklaunches/apps/456`).reply(200, savedLaunches);
+    mockAxios
+        .onGet("/api/instantlaunches/full")
+        .reply(200, testInstantLaunches);
 
     return (
         <ListSavedLaunches

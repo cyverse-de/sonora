@@ -6,7 +6,7 @@
  *
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "i18n";
 import { useQueryClient, useQuery, useMutation } from "react-query";
 import Link from "next/link";
@@ -15,7 +15,11 @@ import ids from "../ids";
 import constants from "../constants";
 import SavedLaunch from "./SavedLaunch";
 
-import { getSavedLaunchPath } from "components/apps/utils";
+import {
+    getSavedLaunchPath,
+    getInstantLaunchPath,
+} from "components/apps/utils";
+import isQueryLoading from "components/utils/isQueryLoading";
 import SystemIds from "components/models/systemId";
 import { getHost } from "components/utils/getHost";
 import ConfirmationDialog from "components/utils/ConfirmationDialog";
@@ -29,23 +33,33 @@ import {
     listSavedLaunches,
     deleteSavedLaunch,
 } from "serviceFacades/savedLaunches";
+import {
+    ALL_INSTANT_LAUNCHES_KEY,
+    listFullInstantLaunches,
+    addInstantLaunch,
+} from "serviceFacades/instantlaunches";
+
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 
 import buildID from "components/utils/DebugIDUtil";
 import CopyTextArea from "components/copy/CopyTextArea";
 
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Popover from "@mui/material/Popover";
+import Switch from "@mui/material/Switch";
 import Typography from "@mui/material/Typography";
 import { Link as MuiLink } from "@mui/material";
 import { useTheme } from "@mui/material";
 
+import Add from "@mui/icons-material/Add";
 import Code from "@mui/icons-material/Code";
 import Play from "@mui/icons-material/PlayArrow";
 import Share from "@mui/icons-material/Share";
@@ -182,7 +196,10 @@ function ListSavedLaunches(props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
     const [selected, setSelected] = useState();
+    const [selectedIL, setSelectedIL] = useState();
     const [deleteError, setDeleteError] = useState();
+    const [useInstantLaunch, setUseInstantLaunch] = useState(false);
+    const [createILError, setCreateILError] = useState();
 
     const userName = userProfile?.id;
 
@@ -198,7 +215,24 @@ function ListSavedLaunches(props) {
         queryFn: () => listSavedLaunches({ appId }),
     });
 
+    // It would be better to have a query that is limited to the selected app only
+    const {
+        data: allILs,
+        error: errorILs,
+        isFetching: fetchingILs,
+    } = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
+
     const savedLaunchClickHandler = (event, savedLaunch) => {
+        const instantLaunch = allILs?.instant_launches.find(
+            (el) => el.quick_launch_id === savedLaunch.id
+        );
+        if (instantLaunch) {
+            setSelectedIL(instantLaunch);
+            setUseInstantLaunch(true);
+        } else {
+            setSelectedIL(null);
+            setUseInstantLaunch(false);
+        }
         setSelected(savedLaunch);
         if (savedLaunch.is_public) {
             setAnchorEl(event.currentTarget);
@@ -218,25 +252,16 @@ function ListSavedLaunches(props) {
         }
     );
 
-    const embedCodeClickHandler = () => {
-        const shareUrl = getShareUrl(selected.id);
-        const host = getHost();
-        const imgSrc = `${host}/${constants.SAVED_LAUNCH_EMBED_ICON}`;
+    const { mutate: createInstantLaunch } = useMutation(addInstantLaunch, {
+        onSuccess: (createdIL, { onSuccess }) => {
+            queryClient.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
+            setSelectedIL(createdIL);
+            setUseInstantLaunch(true);
+        },
+        onError: setCreateILError,
+    });
 
-        const embed = `<a href="${shareUrl}" target="_blank" rel="noopener noreferrer"><img src="${imgSrc}"></a>`;
-
-        setAnchorEl(null);
-        setEmbedCode(embed);
-        setEmbedDialogOpen(true);
-    };
-
-    const shareClickHandler = () => {
-        setAnchorEl(null);
-        setSavedLaunchUrl(getShareUrl(selected.id));
-        setShareDialogOpen(true);
-    };
-
-    const getShareUrl = () => {
+    const getShareUrl = useCallback(() => {
         const host = getHost();
         const url = `${host}${getSavedLaunchPath(
             systemId,
@@ -244,6 +269,33 @@ function ListSavedLaunches(props) {
             selected?.id
         )}`;
         return url;
+    }, [selected, systemId, appId]);
+
+    useEffect(() => {
+        let shareUrl = "";
+        const host = getHost();
+        const imgSrc = `${host}/${constants.SAVED_LAUNCH_EMBED_ICON}`;
+
+        if (useInstantLaunch && selectedIL?.id) {
+            shareUrl = `${host}${getInstantLaunchPath(selectedIL?.id)}`;
+        } else {
+            shareUrl = getShareUrl();
+        }
+
+        const embed = `<a href="${shareUrl}" target="_blank" rel="noopener noreferrer"><img src="${imgSrc}"></a>`;
+
+        setEmbedCode(embed);
+    }, [selected, selectedIL, useInstantLaunch, getShareUrl]);
+
+    const embedCodeClickHandler = () => {
+        setAnchorEl(null);
+        setEmbedDialogOpen(true);
+    };
+
+    const shareClickHandler = () => {
+        setAnchorEl(null);
+        setSavedLaunchUrl(getShareUrl());
+        setShareDialogOpen(true);
     };
 
     const deleteSavedLaunchHandler = (event, savedLaunch) => {
@@ -251,17 +303,17 @@ function ListSavedLaunches(props) {
         setDeleteConfirmOpen(true);
     };
 
-    if (error) {
+    if (error || errorILs) {
         return (
             <ErrorTypographyWithDialog
                 baseId={baseDebugId}
                 errorMessage={t("savedLaunchError")}
-                errorObject={error}
+                errorObject={error || errorILs}
             />
         );
     }
 
-    if (isFetching) {
+    if (isQueryLoading([isFetching, fetchingILs])) {
         return <GridLoading rows={3} baseId={baseDebugId} />;
     }
 
@@ -381,6 +433,58 @@ function ListSavedLaunches(props) {
                         </IconButton>
                     </DialogTitle>
                     <DialogContent>
+                        {!!selectedIL ? (
+                            <FormControlLabel
+                                disabled={!selectedIL}
+                                control={
+                                    <Switch
+                                        size="small"
+                                        checked={useInstantLaunch}
+                                        onChange={(event) =>
+                                            setUseInstantLaunch(
+                                                event.target.checked
+                                            )
+                                        }
+                                        name={t(
+                                            "savedLaunchEmbedUseInstantLaunch"
+                                        )}
+                                    />
+                                }
+                                label={
+                                    <Typography variant="body2">
+                                        {t("savedLaunchEmbedUseInstantLaunch")}
+                                    </Typography>
+                                }
+                            />
+                        ) : (
+                            <Button
+                                variant="contained"
+                                startIcon={<Add />}
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    event.preventDefault();
+                                    createInstantLaunch(selected.id);
+                                }}
+                            >
+                                {t("instantLaunchCreate")}
+                            </Button>
+                        )}
+                        {createILError && (
+                            <ErrorTypographyWithDialog
+                                baseId={baseDebugId}
+                                errorMessage={t("instantLaunchCreateError")}
+                                errorObject={createILError}
+                            />
+                        )}
+                        <Typography variant="body2">
+                            {!selectedIL && t("embedNoInstantLaunch")}
+                            {selectedIL &&
+                                useInstantLaunch &&
+                                t("embedInstantLaunchUsed")}
+                            {selectedIL &&
+                                !useInstantLaunch &&
+                                t("embedInstantLaunchNotUsed")}
+                        </Typography>
                         <CopyTextArea
                             debugIdPrefix={buildID(
                                 baseDebugId,

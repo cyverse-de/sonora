@@ -9,7 +9,7 @@ import {
     DASHBOARD_INSTANT_LAUNCHES_KEY,
     addToDashboardHandler,
     removeFromDashboardHandler,
-    deleteInstantLaunchHandler,
+    adminDeleteInstantLaunchHandler,
     addToNavDrawer,
     removeFromNavDrawer,
     LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
@@ -312,7 +312,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     });
 
     const { mutate: deleteIL, status: deleteILStatus } = useMutation(
-        deleteInstantLaunchHandler,
+        adminDeleteInstantLaunchHandler,
         {
             onSuccess: () => {
                 queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);

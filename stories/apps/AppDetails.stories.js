@@ -2,7 +2,12 @@ import React from "react";
 
 import { mockAxios } from "../axiosMock";
 import userProfileMock from "../userProfileMock";
-import { appDetails, appDocumentation, savedLaunches } from "./AppMocks";
+import {
+    appDetails,
+    appDocumentation,
+    savedLaunches,
+    testInstantLaunches,
+} from "./AppMocks";
 
 import { UploadTrackingProvider } from "contexts/uploadTracking";
 import Drawer from "components/apps/details/Drawer";
@@ -60,6 +65,10 @@ export function DetailsDrawer({ docsEditable }) {
     mockAxios
         .onGet(`/api/quicklaunches/apps/${appId}`)
         .reply(200, savedLaunches);
+
+    mockAxios
+        .onGet("/api/instantlaunches/full")
+        .reply(200, testInstantLaunches);
 
     return (
         <UploadTrackingProvider>

@@ -48,6 +48,18 @@ export const addInstantLaunch = (id) => {
     };
 
     return callApi({
+        endpoint: `/api/instantlaunches`,
+        method: "PUT",
+        body: bodyObj,
+    });
+};
+
+export const adminAddInstantLaunch = (id) => {
+    const bodyObj = {
+        quick_launch_id: id,
+    };
+
+    return callApi({
         endpoint: `/api/admin/instantlaunches`,
         method: "PUT",
         body: bodyObj,
@@ -61,6 +73,12 @@ export const listInstantLaunches = (id) =>
     });
 
 export const deleteInstantLaunch = (id) =>
+    callApi({
+        endpoint: `/api/instantlaunches/${id}`,
+        method: "DELETE",
+    });
+
+export const adminDeleteInstantLaunch = (id) =>
     callApi({
         endpoint: `/api/admin/instantlaunches/${id}`,
         method: "DELETE",
@@ -320,9 +338,9 @@ export const removeFromInstantLaunchListing = (id) => {
  * Deletes an instant launch.
  * @param {*} id - The UUID of the instant launch to be deleted.
  */
-export const deleteInstantLaunchHandler = async (id) => {
+export const adminDeleteInstantLaunchHandler = async (id) => {
     return await removeFromDashboardHandler(id).then((_) =>
-        deleteInstantLaunch(id)
+        adminDeleteInstantLaunch(id)
     );
 };
 

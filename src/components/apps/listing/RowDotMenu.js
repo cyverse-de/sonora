@@ -32,6 +32,7 @@ import utilIds from "components/utils/ids";
 import { getAppListingLinkRefs } from "components/apps/utils";
 import { useUserProfile } from "contexts/userProfile";
 import PublishAppDialog from "../PublishAppDialog";
+import EditVersionOrderMenuItem from "../menuItems/EditVersionOrderMenuItem";
 
 function RowDotMenu(props) {
     const {
@@ -78,6 +79,14 @@ function RowDotMenu(props) {
                         onClose={onClose}
                         onDetailsSelected={onDetailsSelected}
                     />,
+                    !isAdminView && canEditLabels && (
+                        <EditMenuItem
+                            key={buildID(baseId, ids.EDIT_MENU_ITEM)}
+                            baseId={baseId}
+                            onClose={onClose}
+                            app={app}
+                        />
+                    ),
                     canEdit && (
                         <CreateVersionMenuItem
                             key={ids.CREATE_APP_VERSION_MENU_ITEM}
@@ -86,9 +95,9 @@ function RowDotMenu(props) {
                             app={app}
                         />
                     ),
-                    !isAdminView && canEditLabels && (
-                        <EditMenuItem
-                            key={buildID(baseId, ids.EDIT_MENU_ITEM)}
+                    canEdit && (
+                        <EditVersionOrderMenuItem
+                            key={ids.EDIT_APP_VERSION_ORDER_MENU_ITEM}
                             baseId={baseId}
                             onClose={onClose}
                             app={app}

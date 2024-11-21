@@ -54,6 +54,8 @@
     "newParamLabel": "New {{type}}",
     "newSectionLabel": "New Section",
     "noToolWarning": "The app will not be able to run since a tool has not been selected.",
+    "orderAppVersions": "Order App Versions",
+    "orderAppVersionsHelp": "Order versions with the newest (latest) at the top, and the oldest at the bottom.",
     "outputCategoryTitle": "Output",
     "parameters": "Parameters",
     "parameterLabel": "Parameter Label",

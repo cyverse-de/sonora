@@ -21,6 +21,7 @@ export default {
     CREATE_APP_VERSION_MENU_ITEM: "createAppVersionMenuItem",
     CREATE_MENU_ITEM: "createMenuItem",
     CREATE_WORKFLOW_MENU_ITEM: "createWorkflowMenuItem",
+    EDIT_APP_VERSION_ORDER_MENU_ITEM: "editAppVersionOrderMenuItem",
     DIALOG: "dialog",
     APP_SAVED_LAUNCH: "appSavedLaunch",
     LISTING_TABLE: "listingTable",

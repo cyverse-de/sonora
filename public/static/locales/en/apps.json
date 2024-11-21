@@ -77,6 +77,7 @@
     "done": "Done",
     "edit": "Edit",
     "editApp": "Edit App",
+    "editAppVersionOrder": "Edit Version Order",
     "editWorkflow": "Edit Workflow",
     "embedInstantLaunchNotUsed": "This embed code will send users to the app launch page. If you would prefer it launch the app immediately, turn on the \"Use Instant Launch\" switch.",
     "embedInstantLaunchUsed": "This embed code will cause users to launch the app immediately. If you would prefer they be sent to the app launch page, turn off the \"Use Instant Launch\" switch.",

@@ -142,7 +142,8 @@ function InstantLaunchButtonWrapper(props) {
     const userId = userProfile?.id;
 
     useEffect(() => {
-        if (open && !savedLaunchLoading) {
+        if (open && !savedLaunchLoading && !hasLaunched) {
+            setHasLaunched(true);
             launch({
                 instantLaunch,
                 resource,
@@ -154,6 +155,7 @@ function InstantLaunchButtonWrapper(props) {
     }, [
         open,
         savedLaunchLoading,
+        hasLaunched,
         instantLaunch,
         launch,
         resource,
@@ -177,7 +179,6 @@ function InstantLaunchButtonWrapper(props) {
     useEffect(() => {
         if (autolaunch && !hasLaunched) {
             onClick();
-            setHasLaunched(true);
         }
     }, [autolaunch, onClick, hasLaunched]);
 

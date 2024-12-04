@@ -3,9 +3,11 @@
  *
  * The component that launches a provided instant launch, immediately.
  */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useQuery } from "react-query";
+
+import { useRouter } from "next/router";
 
 import {
     GET_INSTANT_LAUNCH_FULL_KEY,
@@ -26,7 +28,7 @@ import InstantLaunchButtonWrapper from "components/instantlaunches/InstantLaunch
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import LoadingAnimation from "components/vice/loading/LoadingAnimation";
 
-import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
+import DEErrorDialog from "components/error/DEErrorDialog";
 
 const InstantLaunchStandalone = (props) => {
     const {
@@ -40,7 +42,10 @@ const InstantLaunchStandalone = (props) => {
         !!config?.subscriptions?.enforce
     );
     const [resource, setResource] = useState(null);
+    const [errDialogOpen, setErrDialogOpen] = useState(false);
+    const [dialogError, setDialogError] = useState(null);
 
+    const router = useRouter();
     const { t } = useTranslation(["instantlaunches", "common"]);
 
     const { data, status, error } = useQuery(
@@ -81,14 +86,24 @@ const InstantLaunchStandalone = (props) => {
         isFetchingUsageSummary,
     ]);
 
+    useEffect(() => {
+        if (error || resourceError) {
+            setDialogError(error || resourceError);
+            setErrDialogOpen(true);
+        }
+    }, [error, resourceError, setErrDialogOpen, setDialogError]);
+
     if (isLoading) {
         return <LoadingAnimation />;
     } else if (error || resourceError) {
-        const err = error || resourceError;
         return (
-            <ErrorTypographyWithDialog
-                errorMessage={t("instantLaunchError")}
-                errorObject={err}
+            <DEErrorDialog
+                open={errDialogOpen}
+                errorObject={dialogError}
+                handleClose={() => {
+                    setErrDialogOpen(false);
+                    router.push("/");
+                }}
             />
         );
     } else {

@@ -74,6 +74,8 @@ function InstantLaunchButtonWrapper(props) {
             window.open(`${getHost()}${ilUrl}`);
             setIlUrl(null);
             setOpen(false);
+            // reset the value so after it closes you can launch a second by reopening
+            setHasLaunched(false);
             if (autolaunch) {
                 // go to the analysis landing, not keeping this page in browser history
                 router.replace(landingUrl);

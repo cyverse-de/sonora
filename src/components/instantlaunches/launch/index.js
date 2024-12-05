@@ -26,7 +26,7 @@ import InstantLaunchButtonWrapper from "components/instantlaunches/InstantLaunch
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import LoadingAnimation from "components/vice/loading/LoadingAnimation";
 
-import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
 const InstantLaunchStandalone = (props) => {
     const {
@@ -84,13 +84,7 @@ const InstantLaunchStandalone = (props) => {
     if (isLoading) {
         return <LoadingAnimation />;
     } else if (error || resourceError) {
-        const err = error || resourceError;
-        return (
-            <ErrorTypographyWithDialog
-                errorMessage={t("instantLaunchError")}
-                errorObject={err}
-            />
-        );
+        return <WrappedErrorHandler errorObject={error || resourceError} />;
     } else {
         return (
             <InstantLaunchButtonWrapper

@@ -4,7 +4,6 @@
 import React, { useEffect, useRef } from "react";
 
 import { makeStyles } from "tss-react/mui";
-import lottie from "lottie-web";
 import animation from "./vice_loading.json";
 
 import styles from "./styles";
@@ -17,13 +16,17 @@ function LoadingAnimation() {
     const { classes } = useStyles();
 
     useEffect(() => {
-        lottie.loadAnimation({
-            container: animationContainer.current,
-            renderer: "svg",
-            loop: true,
-            autoplay: true,
-            animationData: animation,
-        });
+        const loadAnimation = async () => {
+            const lottie = (await import("lottie-web")).default;
+            lottie.loadAnimation({
+                container: animationContainer.current,
+                renderer: "svg",
+                loop: true,
+                autoplay: true,
+                animationData: animation,
+            });
+        };
+        loadAnimation();
     }, []);
 
     return <div className={classes.animationBox} ref={animationContainer} />;

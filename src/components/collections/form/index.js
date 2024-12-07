@@ -301,14 +301,14 @@ function CollectionsForm(props) {
                               },
                           ],
                           apps: apps,
-                          retagApps: null,
+                          retagApps: false,
                       }
                     : {
                           name: collectionName || "",
                           description: collection?.description || "",
                           admins: admins,
                           apps: apps,
-                          retagApps: null,
+                          retagApps: false,
                       }
             }
             onSubmit={handleSubmit}

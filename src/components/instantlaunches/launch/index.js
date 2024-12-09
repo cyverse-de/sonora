@@ -21,12 +21,13 @@ import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import globalConstants from "../../../constants";
 import { useTranslation } from "i18n";
+import ids from "components/instantlaunches/ids";
 import isQueryLoading from "components/utils/isQueryLoading";
 import InstantLaunchButtonWrapper from "components/instantlaunches/InstantLaunchButtonWrapper";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import LoadingAnimation from "components/vice/loading/LoadingAnimation";
 
-import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
 const InstantLaunchStandalone = (props) => {
     const {
@@ -84,11 +85,10 @@ const InstantLaunchStandalone = (props) => {
     if (isLoading) {
         return <LoadingAnimation />;
     } else if (error || resourceError) {
-        const err = error || resourceError;
         return (
-            <ErrorTypographyWithDialog
-                errorMessage={t("instantLaunchError")}
-                errorObject={err}
+            <WrappedErrorHandler
+                baseId={ids.BASE}
+                errorObject={error || resourceError}
             />
         );
     } else {

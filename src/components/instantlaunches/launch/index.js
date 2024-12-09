@@ -21,6 +21,7 @@ import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import globalConstants from "../../../constants";
 import { useTranslation } from "i18n";
+import ids from "components/instantlaunches/ids";
 import isQueryLoading from "components/utils/isQueryLoading";
 import InstantLaunchButtonWrapper from "components/instantlaunches/InstantLaunchButtonWrapper";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
@@ -84,7 +85,12 @@ const InstantLaunchStandalone = (props) => {
     if (isLoading) {
         return <LoadingAnimation />;
     } else if (error || resourceError) {
-        return <WrappedErrorHandler errorObject={error || resourceError} />;
+        return (
+            <WrappedErrorHandler
+                baseId={ids.BASE}
+                errorObject={error || resourceError}
+            />
+        );
     } else {
         return (
             <InstantLaunchButtonWrapper

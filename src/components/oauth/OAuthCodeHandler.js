@@ -37,7 +37,7 @@ function OAuthCodeHandler(props) {
     const determineListingUrl = useCallback(
         (data) => {
             const hpcCategory = data.categories.find(
-                (cat) => cat.system_id === systemId.agave
+                (cat) => cat.system_id === systemId.tapis
             );
             setListingUrl(
                 getListingPath(

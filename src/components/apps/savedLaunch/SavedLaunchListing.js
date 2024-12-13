@@ -318,7 +318,7 @@ function ListSavedLaunches(props) {
     }
 
     if (!savedLaunches || savedLaunches.length === 0) {
-        if (systemId !== SystemIds.agave) {
+        if (systemId !== SystemIds.tapis) {
             const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch`;
             const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch`;
             return (

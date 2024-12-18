@@ -55,7 +55,7 @@
     "popularFeaturedApps": "Featured Apps",
     "publicApps": "Public Apps",
     "publishedBy": "Published by",
-    "quotaEnforceAnnouncement": "CyVerse will begin enforcing data storage limits on March 1, 2025. Please see the <infoLink>announcement</infoLink> for more details.",
+    "quotaEnforceAnnouncement": "Starting <b>March 1, 2025</b>, we will begin to enforce data storage quotas on all Basic (free) and paid subscription accounts. <infoLink>More information and FAQ here</infoLink>.",
     "quotaLimit": "{{limit}} (Limit)",
     "recentAnalyses": "Recent Analyses",
     "recentlyAddedApps": "Recently Added Apps",

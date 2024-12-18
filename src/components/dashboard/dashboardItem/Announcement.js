@@ -54,6 +54,7 @@ export default function Announcement() {
                         t={t}
                         i18nKey="quotaEnforceAnnouncement"
                         components={{
+                            b: <b />,
                             infoLink: <ExternalLink href={QUOTA_ENFORCE_URL} />,
                         }}
                     />

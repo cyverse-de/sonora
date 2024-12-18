@@ -49,6 +49,7 @@ import { useSavePreferences } from "serviceFacades/users";
 
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import { useUserProfile } from "contexts/userProfile";
+import Announcement from "./dashboardItem/Announcement";
 import Banner from "./dashboardItem/Banner";
 import Tour from "./dashboardItem/Tour";
 import TerminateAnalysisDialog from "components/analyses/TerminateAnalysisDialog";
@@ -311,6 +312,7 @@ const Dashboard = (props) => {
                             mutatePreferences({ preferences: updatedPref });
                         }}
                     />,
+                    <Announcement key="Announcement" />,
                     <ResourceUsageItem
                         key="ResourceUsage"
                         resourceUsageSummary={resourceUsageSummary}

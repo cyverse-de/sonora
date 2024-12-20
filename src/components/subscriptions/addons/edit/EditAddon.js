@@ -122,7 +122,7 @@ function EditAddonDialog(props) {
             }}
             enableReinitialize={true}
         >
-            {({ handleSubmit, resetForm }) => {
+            {({ handleSubmit, resetForm, values }) => {
                 return (
                     <Form>
                         <DEDialog
@@ -173,7 +173,7 @@ function EditAddonDialog(props) {
                                 />
                             )}
                             <EditAddonForm
-                                addon={addon}
+                                addon={values}
                                 parentId={parentId}
                                 resourceTypes={resourceTypes}
                                 t={t}
@@ -187,7 +187,7 @@ function EditAddonDialog(props) {
 }
 
 function EditAddonForm(props) {
-    const { parentId, resourceTypes, t, addon } = props;
+    const { addon, parentId, resourceTypes, t } = props;
     const { t: i18nUtil } = useTranslation("util");
     return (
         <>
@@ -246,14 +246,21 @@ function EditAddonForm(props) {
             <FieldArray
                 name="addonRates"
                 render={(arrayHelpers) => {
+                    const onAdd = () => {
+                        arrayHelpers.unshift({
+                            rate: 0,
+                            effectiveDate: Date.now().toString(),
+                        });
+                    };
                     return (
                         <AddonRatesEditor
-                            addonRates={addon?.addon_rates}
+                            addonRates={addon?.addonRates}
                             baseId={buildID(
                                 parentId,
                                 ids.ADDONS_DLG.ADDON_RATES
                             )}
                             fieldName="addonRates"
+                            onAdd={onAdd}
                         />
                     );
                 }}

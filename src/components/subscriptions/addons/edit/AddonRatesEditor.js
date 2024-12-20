@@ -7,6 +7,7 @@
 import React from "react";
 import { useTranslation } from "i18n";
 import {
+    Button,
     TableContainer,
     Table,
     TableHead,
@@ -22,12 +23,14 @@ import {
 import buildID from "components/utils/DebugIDUtil";
 import { minValue, nonEmptyField } from "components/utils/validations";
 import { Field } from "formik";
+import { Add, Delete } from "@mui/icons-material";
 
 import ids from "../../ids";
 
 function AddonRateEditorRow(props) {
-    const { baseId, fieldName } = props;
-    const { t } = useTranslation("util");
+    const { baseId, fieldName, onDelete } = props;
+    const { t: i18nUtil } = useTranslation("util");
+    const { t } = useTranslation(["common"]);
 
     return (
         <TableRow>
@@ -37,7 +40,7 @@ function AddonRateEditorRow(props) {
                     id={buildID(baseId, ids.ADDONS_DLG.ADDON_RATE.RATE)}
                     name={`${fieldName}.rate`}
                     required
-                    validate={(value) => minValue(value, t)}
+                    validate={(value) => minValue(value, i18nUtil)}
                 />
             </TableCell>
             <TableCell>
@@ -49,29 +52,57 @@ function AddonRateEditorRow(props) {
                     )}
                     name={`${fieldName}.effectiveDate`}
                     required
-                    validate={(value) => nonEmptyField(value, t)}
+                    validate={(value) => nonEmptyField(value, i18nUtil)}
                 />
+            </TableCell>
+            <TableCell passing="none">
+                <Button
+                    id={buildID(baseId, ids.DELETE_BUTTON)}
+                    aria-label={t("common:delete")}
+                    onClick={onDelete}
+                >
+                    <Delete />
+                </Button>
             </TableCell>
         </TableRow>
     );
 }
 
 function AddonRatesEditor(props) {
-    const { addonRates, baseId, fieldName } = props;
+    const { addonRates, baseId, fieldName, onAdd } = props;
 
-    const { t } = useTranslation("subscriptions");
+    const { t } = useTranslation(["subscriptions", "common"]);
 
     return (
         <>
             <TableContainer>
                 <Table>
                     <Typography component="caption">
-                        {t("addonRates")}
+                        {t("subscriptions:addonRates")}
                     </Typography>
                     <TableHead>
                         <TableRow>
-                            <TableCell>{t("rate")}</TableCell>
-                            <TableCell>{t("effectiveDate")}</TableCell>
+                            <TableCell>
+                                <Typography>
+                                    {t("subscriptions:rate")}
+                                </Typography>
+                            </TableCell>
+                            <TableCell>
+                                <Typography>
+                                    {t("subscriptions:effectiveDate")}
+                                </Typography>
+                            </TableCell>
+                            <TableCell>
+                                <Button
+                                    id={buildID(baseId, ids.ADD_BUTTON)}
+                                    color="primary"
+                                    variant="outlined"
+                                    startIcon={<Add />}
+                                    onClick={onAdd}
+                                >
+                                    {t("common:add")}
+                                </Button>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

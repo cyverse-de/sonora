@@ -6,10 +6,12 @@ import { useTranslation } from "i18n";
 import buildID from "components/utils/DebugIDUtil";
 import { Button, MenuItem } from "@mui/material";
 import DEDialog from "components/utils/DEDialog";
-import { FastField, Field, Form, Formik } from "formik";
-import FormCheckbox from "components/forms/FormCheckbox";
-import FormNumberField from "components/forms/FormNumberField";
-import FormTextField from "components/forms/FormTextField";
+import { FastField, Field, FieldArray, Form, Formik } from "formik";
+import {
+    FormCheckbox,
+    FormNumberField,
+    FormTextField,
+} from "components/forms/FormField";
 import { nonEmptyField, nonZeroValue } from "components/utils/validations";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 
@@ -24,6 +26,7 @@ import {
     RESOURCE_TYPES_QUERY_KEY,
 } from "serviceFacades/subscriptions";
 import { announce } from "components/announcer/CyVerseAnnouncer";
+import AddonRatesEditor from "./AddonRatesEditor";
 
 function EditAddonDialog(props) {
     const { addon, open, onClose, parentId } = props;
@@ -183,7 +186,7 @@ function EditAddonDialog(props) {
 }
 
 function EditAddonForm(props) {
-    const { parentId, resourceTypes, t } = props;
+    const { parentId, resourceTypes, t, addon } = props;
     const { t: i18nUtil } = useTranslation("util");
     return (
         <>
@@ -238,6 +241,20 @@ function EditAddonForm(props) {
                 id={buildID(parentId, ids.ADDONS_DLG.DEFAULT_PAID)}
                 label={t("defaultPaid")}
                 name="defaultPaid"
+            />
+            <FieldArray
+                name="addonRates"
+                render={(arrayHelpers) => {
+                    return (
+                        <AddonRatesEditor
+                            addonRates={addon?.addon_rates}
+                            baseId={buildID(
+                                parentId,
+                                ids.ADDONS_DLG.ADDON_RATES
+                            )}
+                        />
+                    );
+                }}
             />
         </>
     );

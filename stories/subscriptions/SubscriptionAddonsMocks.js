@@ -11,6 +11,13 @@ export const availableAddons = {
                 name: "cpu.hours",
                 unit: "cpu hours",
             },
+            addon_rates: [
+                {
+                    uuid: "932ded25-fcad-4680-8e91-c44002b6e91b",
+                    rate: 125.0,
+                    effective_date: "2022-01-01T07:00:00Z",
+                },
+            ],
         },
         {
             uuid: "c21dd61f-aa41-40ad-8005-859679ceed9c",
@@ -23,6 +30,13 @@ export const availableAddons = {
                 name: "data.size",
                 unit: "bytes",
             },
+            addon_rates: [
+                {
+                    uuid: "932ded25-fcad-4680-8e91-c44002b6e91b",
+                    rate: 125.0,
+                    effective_date: "2022-01-01T07:00:00Z",
+                },
+            ],
         },
     ],
 };

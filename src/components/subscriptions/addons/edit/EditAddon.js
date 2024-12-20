@@ -247,11 +247,16 @@ function EditAddonForm(props) {
                 name="addonRates"
                 render={(arrayHelpers) => {
                     const onAdd = () => {
-                        arrayHelpers.unshift({
+                        arrayHelpers.push({
                             rate: 0,
                             effectiveDate: Date.now().toString(),
                         });
                     };
+
+                    const onDelete = (index) => {
+                        arrayHelpers.remove(index);
+                    };
+
                     return (
                         <AddonRatesEditor
                             addonRates={addon?.addonRates}
@@ -261,6 +266,7 @@ function EditAddonForm(props) {
                             )}
                             fieldName="addonRates"
                             onAdd={onAdd}
+                            onDelete={onDelete}
                         />
                     );
                 }}

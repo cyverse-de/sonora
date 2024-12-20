@@ -34,6 +34,7 @@ function mapPropsToValues(addon) {
             resourceType: resource_type.unit,
             addonRates: addon_rates.map((addonRate, index) => {
                 return {
+                    uuid,
                     effectiveDate: addonRate.effective_date,
                     key: `addonRates.${index}`,
                     rate: addonRate.rate,
@@ -72,6 +73,7 @@ function formatAddonSubmission(values, resourceTypes, update = false) {
         },
         addon_rates: addonRates.map((addonRate) => {
             return {
+                uuid,
                 effective_date: addonRate.effectiveDate,
                 rate: addonRate.rate,
             };

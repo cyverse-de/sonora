@@ -28,7 +28,7 @@ import { Add, Delete } from "@mui/icons-material";
 import ids from "../../ids";
 
 function AddonRateEditorRow(props) {
-    const { baseId, fieldName, onDelete } = props;
+    const { baseId, fieldName, key, onDelete } = props;
     const { t: i18nUtil } = useTranslation("util");
     const { t } = useTranslation(["common"]);
 
@@ -59,7 +59,9 @@ function AddonRateEditorRow(props) {
                 <Button
                     id={buildID(baseId, ids.DELETE_BUTTON)}
                     aria-label={t("common:delete")}
-                    onClick={onDelete}
+                    onClick={() => {
+                        onDelete(key);
+                    }}
                 >
                     <Delete />
                 </Button>
@@ -69,7 +71,7 @@ function AddonRateEditorRow(props) {
 }
 
 function AddonRatesEditor(props) {
-    const { addonRates, baseId, fieldName, onAdd } = props;
+    const { addonRates, baseId, fieldName, onAdd, onDelete } = props;
 
     const { t } = useTranslation(["subscriptions", "common"]);
 
@@ -112,6 +114,7 @@ function AddonRatesEditor(props) {
                                 baseId={buildID(baseId, index)}
                                 fieldName={`${fieldName}.${index}`}
                                 key={index}
+                                onDelete={onDelete}
                             />
                         ))}
                     </TableBody>

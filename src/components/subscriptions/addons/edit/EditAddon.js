@@ -173,6 +173,7 @@ function EditAddonDialog(props) {
                                 />
                             )}
                             <EditAddonForm
+                                addon={addon}
                                 parentId={parentId}
                                 resourceTypes={resourceTypes}
                                 t={t}
@@ -252,6 +253,7 @@ function EditAddonForm(props) {
                                 parentId,
                                 ids.ADDONS_DLG.ADDON_RATES
                             )}
+                            fieldName="addonRates"
                         />
                     );
                 }}

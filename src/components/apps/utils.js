@@ -21,6 +21,7 @@ import ReferenceGenomeSelect from "components/apps/launch/ReferenceGenomeSelect"
 
 import AppParamTypes from "components/models/AppParamTypes";
 import AppType from "components/models/AppType";
+import SystemIds from "components/models/systemId";
 import ToolTypes from "components/models/ToolTypes";
 import Permissions, {
     permissionHierarchy,
@@ -292,8 +293,8 @@ export const appUnavailable = (
 };
 
 export const getAppTypeDisplay = (app) => {
-    if (app?.system_id?.toLowerCase() === AppType.agave.value.toLowerCase()) {
-        return AppType.agave.display;
+    if (app?.system_id?.toLowerCase() === SystemIds.tapis.toLowerCase()) {
+        return AppType.tapis.display;
     }
 
     if (app?.step_count === 1) {

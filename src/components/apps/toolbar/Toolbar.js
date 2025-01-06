@@ -10,7 +10,7 @@ import AppNavigation from "./AppNavigation";
 import CreateAppMenuItem from "../menuItems/CreateAppMenuItem";
 import CreateWorkflowMenuItem from "../menuItems/CreateWorkflowMenuItem";
 
-import appType from "components/models/AppType";
+import SystemIds from "components/models/systemId";
 import AppsTypeFilter from "components/apps/AppsTypeFilter";
 
 import NavigationConstants from "common/NavigationConstants";
@@ -197,7 +197,7 @@ function AppsToolbar(props) {
                             handleFilterChange={handleFilterChange}
                             disabled={
                                 selectedCategory?.system_id?.toLowerCase() ===
-                                appType.agave.value.toLowerCase()
+                                SystemIds.tapis.toLowerCase()
                             }
                         />
                     )}
@@ -324,7 +324,7 @@ function AppsToolbar(props) {
                         handleFilterChange={handleFilterChange}
                         disabled={
                             selectedCategory?.system_id?.toLowerCase() ===
-                            appType.agave.value.toLowerCase()
+                            SystemIds.tapis.toLowerCase()
                         }
                     />
                 </DialogContent>

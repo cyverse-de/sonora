@@ -127,7 +127,7 @@ function AppNavigation(props) {
                 (cat) => cat.system_id === systemId.de
             );
             const hpcCat = data.categories.find(
-                (cat) => cat.system_id === systemId.agave
+                (cat) => cat.system_id === systemId.tapis
             );
 
             let categoryList = privateCat.categories;

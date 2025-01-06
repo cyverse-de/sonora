@@ -3,7 +3,6 @@
  *
  */
 import callApi from "../common/callApi";
-import appType from "../components/models/AppType";
 import constants from "../constants";
 import {
     betaAVU,
@@ -32,10 +31,7 @@ const ADMIN_APP_DETAILS_QUERY_KEY = "fetchAppDetailsForAdmin";
 const ADMIN_APP_AVU_QUERY_KEY = "fetchAppAVUs";
 
 const getAppTypeFilter = (appTypeFilter) => {
-    const typeFilter =
-        appTypeFilter && appTypeFilter !== appType.all
-            ? "&app-type=" + appTypeFilter
-            : "";
+    const typeFilter = appTypeFilter ? "&app-type=" + appTypeFilter : "";
     return typeFilter;
 };
 
@@ -370,11 +366,7 @@ function getAppsForAdmin({
         params["search"] = searchTerm;
     }
 
-    if (appTypeFilter && appTypeFilter !== appType.all) {
-        params["app-type"] = appTypeFilter;
-    } else {
-        params["app-type"] = "";
-    }
+    params["app-type"] = appTypeFilter || "";
 
     if (adminOwnershipFilter) {
         params["app-subset"] = adminOwnershipFilter;

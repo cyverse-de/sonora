@@ -61,7 +61,7 @@ function formatAddonSubmission(values, resourceTypes, update = false) {
         (resource) => resourceType === resource.unit
     );
 
-    const { id, unit, name } = resourceObj;
+    const { id, unit, name, consumable } = resourceObj;
 
     const submission = {
         name: addonName,
@@ -88,6 +88,7 @@ function formatAddonSubmission(values, resourceTypes, update = false) {
             ...submission.resource_type,
             unit,
             name,
+            consumable,
         };
     }
 

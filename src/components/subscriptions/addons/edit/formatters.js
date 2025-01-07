@@ -1,4 +1,10 @@
+import dateConstants from "components/utils/dateConstants";
+import { formatDateObject } from "components/utils/DateFormatter";
 import { bytesInGiB, bytesToGiB } from "../../utils";
+
+function formatEffectiveDate(effectiveDate) {
+    return formatDateObject(new Date(effectiveDate), dateConstants.ISO_8601);
+}
 
 function mapPropsToValues(addon) {
     let values = {
@@ -74,7 +80,7 @@ function formatAddonSubmission(values, resourceTypes, update = false) {
         addon_rates: addonRates.map((addonRate) => {
             return {
                 uuid,
-                effective_date: addonRate.effectiveDate,
+                effective_date: formatEffectiveDate(addonRate.effectiveDate),
                 rate: addonRate.rate,
             };
         }),

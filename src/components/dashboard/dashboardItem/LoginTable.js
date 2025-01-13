@@ -32,7 +32,7 @@ export default function LoginsTable() {
         );
     }
     if (status === "loading") {
-        return <Skeleton variant="rectangular" width={300} height={200} />;
+        return <Skeleton variant="rectangular" height={200} />;
     }
     return (
         <TableContainer component={Paper}>

@@ -78,7 +78,7 @@ function AddonRatesEditor(props) {
             <TableContainer>
                 <Table>
                     <Typography component="caption">
-                        {t("subscriptions:addonRates")}
+                        {t("addonRates")}
                     </Typography>
                     <TableHead>
                         <TableRow>

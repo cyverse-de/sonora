@@ -59,9 +59,7 @@ function AddonRateEditorRow(props) {
                 <Button
                     id={buildID(baseId, ids.DELETE_BUTTON)}
                     aria-label={t("common:delete")}
-                    onClick={() => {
-                        onDelete(key);
-                    }}
+                    onClick={onDelete}
                 >
                     <Delete />
                 </Button>

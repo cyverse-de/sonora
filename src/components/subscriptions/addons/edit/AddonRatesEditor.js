@@ -112,7 +112,7 @@ function AddonRatesEditor(props) {
                                 baseId={buildID(baseId, index)}
                                 fieldName={`${fieldName}.${index}`}
                                 key={index}
-                                onDelete={onDelete}
+                                onDelete={() => onDelete(index)}
                             />
                         ))}
                     </TableBody>

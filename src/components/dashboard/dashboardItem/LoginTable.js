@@ -11,6 +11,11 @@ import { useQuery } from "react-query";
 
 import { logins, LOGINS_QUERY_KEY } from "serviceFacades/users";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
+import { useTranslation } from "i18n";
+import {
+    formatDate,
+    getFormattedDistance,
+} from "components/utils/DateFormatter";
 import {
     useTheme,
     Skeleton,
@@ -24,6 +29,8 @@ import {
 } from "@mui/material";
 
 export default function LoginsTable() {
+    const { t } = useTranslation("common");
+
     const theme = useTheme();
     const { status, data, error } = useQuery({
         queryKey: [LOGINS_QUERY_KEY],
@@ -48,14 +55,24 @@ export default function LoginsTable() {
             <Table size="small">
                 <TableHead>
                     <TableRow>
-                        <TableCell align="right">Login Time</TableCell>
-                        <TableCell align="right">IP Address</TableCell>
+                        <TableCell>Login Time</TableCell>
+                        <TableCell></TableCell>
+                        <TableCell>IP Address</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {data["logins"].map((row) => (
                         <TableRow>
-                            <TableCell>{row["login_time"]}</TableCell>
+                            <TableCell>
+                                {t("timestamp", {
+                                    timestamp: getFormattedDistance(
+                                        row["login_time"] / 1000
+                                    ),
+                                })}
+                            </TableCell>
+                            <TableCell>
+                                ({formatDate(row["login_time"])})
+                            </TableCell>
                             <TableCell>{row["ip_address"]}</TableCell>
                         </TableRow>
                     ))}

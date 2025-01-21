@@ -38,11 +38,10 @@ function mapPropsToValues(addon) {
                     : default_amount,
             defaultPaid: default_paid,
             resourceType: resource_type.unit,
-            addonRates: addon_rates.map((addonRate, index) => {
+            addonRates: addon_rates.map((addonRate) => {
                 return {
                     uuid,
                     effectiveDate: addonRate.effective_date,
-                    key: `addonRates.${index}`,
                     rate: addonRate.rate,
                 };
             }),

@@ -40,7 +40,7 @@ function mapPropsToValues(addon) {
             resourceType: resource_type.unit,
             addonRates: addon_rates.map((addonRate) => {
                 return {
-                    uuid,
+                    uuid: addonRate.uuid,
                     effectiveDate: addonRate.effective_date,
                     rate: addonRate.rate,
                 };

@@ -29,7 +29,8 @@ import {
 } from "@mui/material";
 
 export default function LoginsTable() {
-    const { t } = useTranslation("common");
+    const { t } = useTranslation("dashboard");
+    const { t: i18nCommon } = useTranslation("common");
 
     const theme = useTheme();
     const { status, data, error } = useQuery({
@@ -55,16 +56,16 @@ export default function LoginsTable() {
             <Table size="small">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Login Time</TableCell>
+                        <TableCell>{t("loginTime")}</TableCell>
                         <TableCell></TableCell>
-                        <TableCell>IP Address</TableCell>
+                        <TableCell>{t("ipAddress")}</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {data["logins"].map((row) => (
                         <TableRow>
                             <TableCell>
-                                {t("timestamp", {
+                                {i18nCommon("timestamp", {
                                     timestamp: getFormattedDistance(
                                         row["login_time"] / 1000
                                     ),

@@ -7,7 +7,9 @@
  */
 
 import React from "react";
+import { useQuery } from "react-query";
 
+import { logins, LOGINS_QUERY_KEY } from "serviceFacades/users";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import {
     useTheme,
@@ -23,11 +25,11 @@ import {
 
 export default function LoginsTable() {
     const theme = useTheme();
-    var status = "loading";
-    var error = null;
-    var data = {
-        logins: [{ ip_address: "0.0.0.0", login_time: 1736962713000 }],
-    };
+    const { status, data, error } = useQuery({
+        queryKey: [LOGINS_QUERY_KEY],
+        queryFn: () => logins({ limit: 5 }),
+    });
+
     if (status === "error") {
         return (
             <div style={{ padding: theme.spacing(1) }}>

@@ -45,6 +45,16 @@ export default function userRouter() {
         })
     );
 
+    logger.info("adding the GET /logins handler");
+    api.get(
+        "/logins",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/secured/logins",
+        })
+    );
+
     logger.info("adding the POST /preferences handler");
     api.post(
         "/preferences",

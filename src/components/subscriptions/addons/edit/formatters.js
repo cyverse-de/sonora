@@ -78,7 +78,7 @@ function formatAddonSubmission(values, resourceTypes, update = false) {
         },
         addon_rates: addonRates.map((addonRate) => {
             return {
-                uuid,
+                uuid: addonRate.uuid,
                 effective_date: formatEffectiveDate(addonRate.effectiveDate),
                 rate: addonRate.rate,
             };

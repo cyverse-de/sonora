@@ -101,6 +101,20 @@ app.prepare()
         logger.info("configuring keycloak");
         server.use(keycloakClient.middleware());
 
+        server.get("/", keycloakClient.checkSso(), async (req, res, next) => {
+            try {
+                const userProfile = authn.getUserProfile(req);
+
+                if (userProfile) {
+                    return res.redirect(`/${NavigationConstants.DASHBOARD}`);
+                }
+
+                return nextHandler(req, res);
+            } catch (error) {
+                return next(error);
+            }
+        });
+
         logger.info("adding the /login handler");
         server.get("/login", keycloakClient.protect(), (req, res) => {
             res.redirect("/");

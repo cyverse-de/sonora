@@ -15,6 +15,7 @@
     "browse": "Browse",
     "clearInput": "Clear Input",
     "comments": "Comments",
+    "cpuCores": "CPU Cores",
     "delete": "Delete",
     "errorLoadingReferenceGenomes": "Error loading Reference Genomes",
     "errorResourceDoesNotExist": "The selected file/folder does not exist.",

@@ -127,8 +127,8 @@ const StepResourceRequirementsForm = ({
                 <Grid item xs={12}>
                     <FastField
                         id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
-                        name={`requirements.${index}.min_cpu_cores`}
-                        label={t("minCPUCores")}
+                        name={`requirements.${index}.cpu_cores`}
+                        label={t("cpuCores")}
                         component={FormSelectField}
                     >
                         {cpuCoreList.map((size, index) => (
@@ -167,28 +167,6 @@ const StepResourceRequirementsForm = ({
                         {minDiskSpaceList.map((size, index) => (
                             <MenuItem key={index} value={size}>
                                 {formatGBListItem(size)}
-                            </MenuItem>
-                        ))}
-                    </FastField>
-                </Grid>
-            </Grid>
-            <br />
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
-                    <Typography variant="subtitle2">
-                        {t("selectMaxes")}
-                    </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                    <FastField
-                        id={buildID(baseId, "MAX_CPU")}
-                        name={`requirements.${index}.max_cpu_cores`}
-                        label={t("maxCPUCores")}
-                        component={FormSelectField}
-                    >
-                        {cpuCoreList.map((size, index) => (
-                            <MenuItem key={index} value={size}>
-                                {size}
                             </MenuItem>
                         ))}
                     </FastField>
@@ -320,30 +298,19 @@ const StepResourceRequirementsReview = ({
     showAll,
 }) => {
     const { t } = useTranslation("launch");
-    const {
-        step_number,
-        min_cpu_cores,
-        min_memory_limit,
-        min_disk_space,
-        max_cpu_cores,
-    } = stepRequirements;
+    const { step_number, min_memory_limit, min_disk_space, cpu_cores } =
+        stepRequirements;
 
-    const hasRequest = !!(
-        min_cpu_cores ||
-        min_memory_limit ||
-        min_disk_space ||
-        max_cpu_cores
-    );
+    const hasRequest = !!(min_memory_limit || min_disk_space || cpu_cores);
 
     return (
         (showAll || hasRequest) && (
             <Accordion
                 defaultExpanded={
                     !!(
-                        stepRequirementErrors?.min_cpu_cores ||
                         stepRequirementErrors?.min_memory_limit ||
                         stepRequirementErrors?.min_disk_space ||
-                        stepRequirementErrors?.max_cpu_cores
+                        stepRequirementErrors?.cpu_cores
                     )
                 }
             >
@@ -372,11 +339,11 @@ const StepResourceRequirementsReview = ({
                         <Table>
                             <TableBody>
                                 <ResourceRequirementsReviewRow
-                                    label={t("minCPUCores")}
-                                    value={min_cpu_cores}
+                                    label={t("cpuCores")}
+                                    value={cpu_cores}
                                     valueFormatter={(value) => value}
                                     showAll={showAll}
-                                    error={stepRequirementErrors?.min_cpu_cores}
+                                    error={stepRequirementErrors?.cpu_cores}
                                 />
                                 <ResourceRequirementsReviewRow
                                     label={t("minMemory")}
@@ -395,13 +362,6 @@ const StepResourceRequirementsReview = ({
                                     error={
                                         stepRequirementErrors?.min_disk_space
                                     }
-                                />
-                                <ResourceRequirementsReviewRow
-                                    label={t("maxCPUCores")}
-                                    value={max_cpu_cores}
-                                    valueFormatter={(value) => value}
-                                    showAll={showAll}
-                                    error={stepRequirementErrors?.max_cpu_cores}
                                 />
                             </TableBody>
                         </Table>

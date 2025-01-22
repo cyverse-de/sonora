@@ -75,14 +75,6 @@ const validateAbove = (value, min, t) => {
     return null;
 };
 
-const validateNotAbove = (value, max, t) => {
-    if (value > max) {
-        return t("validationNotAbove", { max });
-    }
-
-    return null;
-};
-
 const validateBelow = (value, max, t) => {
     if (value >= max) {
         return t("validationBelow", { max });
@@ -238,18 +230,7 @@ const validate = (t, hasParams) => (values) => {
 
     if (values.requirements) {
         const reqErrors = [];
-        values.requirements.forEach((req, i) => {
-            if (req?.min_cpu_cores && req?.max_cpu_cores) {
-                const err = validateNotAbove(
-                    req.min_cpu_cores,
-                    req.max_cpu_cores,
-                    t
-                );
-                if (err) {
-                    reqErrors[i] = { min_cpu_cores: err };
-                }
-            }
-        });
+
         if (reqErrors?.length > 0) {
             errors.requirements = reqErrors;
             launchStepErrors[hasParams ? 2 : 1] = true;

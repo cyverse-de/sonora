@@ -41,6 +41,7 @@
     "learnMore": "Learn More",
     "login": "Login",
     "loginTime": "Login Time",
+    "loginsTableError": "Unable to get recent logins.",
     "loginSignUp": "Login or sign-up to access additional features.",
     "newsFeed": "News",
     "noAnalysesStats": "Looks like you haven't run any analyses yet.",

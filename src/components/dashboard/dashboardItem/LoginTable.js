@@ -43,7 +43,7 @@ export default function LoginsTable() {
             <div style={{ padding: theme.spacing(1) }}>
                 <ErrorTypographyWithDialog
                     errorObject={error}
-                    errorMessage={""}
+                    errorMessage={t("loginsTableError")}
                 />
             </div>
         );

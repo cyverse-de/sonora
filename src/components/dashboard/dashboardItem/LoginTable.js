@@ -56,7 +56,6 @@ export default function LoginsTable() {
                 <TableHead>
                     <TableRow>
                         <TableCell>{t("loginTime")}</TableCell>
-                        <TableCell></TableCell>
                         <TableCell>{t("ipAddress")}</TableCell>
                     </TableRow>
                 </TableHead>
@@ -64,14 +63,16 @@ export default function LoginsTable() {
                     {data?.logins.map((row, index) => (
                         <TableRow key={index}>
                             <TableCell>
-                                {t("common:timestamp", {
-                                    timestamp: getFormattedDistance(
-                                        row["login_time"] / 1000
-                                    ),
-                                })}
-                            </TableCell>
-                            <TableCell>
-                                ({formatDate(row["login_time"])})
+                                {formatDate(row["login_time"])}
+                                <em>
+                                    (
+                                    {t("common:timestamp", {
+                                        timestamp: getFormattedDistance(
+                                            row["login_time"] / 1000
+                                        ),
+                                    })}
+                                    )
+                                </em>
                             </TableCell>
                             <TableCell>{row["ip_address"]}</TableCell>
                         </TableRow>

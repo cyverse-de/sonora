@@ -43,9 +43,9 @@ function bootstrap() {
 }
 
 function logins({ limit }) {
-    console.log(`limit: ${limit}`);
     return callApi({
-        endpoint: `/api/logins?limit=${limit}`,
+        endpoint: `/api/logins`,
+        params: { limit },
         method: "GET",
         credentials: "include",
     });

@@ -64,6 +64,7 @@ export default function LoginsTable() {
                         <TableRow key={index}>
                             <TableCell>
                                 {formatDate(row["login_time"])}
+                                &nbsp;
                                 <em>
                                     (
                                     {t("common:timestamp", {

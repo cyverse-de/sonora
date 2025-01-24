@@ -132,3 +132,7 @@ storybook-static
 public/locales*
 
 .VSCodeCounter
+
+# editor backup/swap files
+*.swp
+*.bak

@@ -19,6 +19,7 @@ import {
 
 import DataConsumption from "./DataConsumption";
 import AnalysesStats from "./AnalysesStats";
+import LoginTable from "./LoginTable";
 import CPUConsumption from "./CPUConsumption";
 import ExternalLink from "components/utils/ExternalLink";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
@@ -145,9 +146,14 @@ export default function ResourceUsageItem(props) {
                                 </Card>
                             </Grid>
                         )}
-                        <Grid item xs={12} md={12}>
+                        <Grid item xs={12} md={6}>
                             <Card>
                                 <AnalysesStats />
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <Card>
+                                <LoginTable />
                             </Card>
                         </Grid>
                     </Grid>

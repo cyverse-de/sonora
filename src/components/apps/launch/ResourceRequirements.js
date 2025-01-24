@@ -120,11 +120,6 @@ const StepResourceRequirementsForm = ({
         <div style={{ margin: 8 }}>
             <Grid container spacing={1}>
                 <Grid item xs={12}>
-                    <Typography variant="subtitle2">
-                        {t("selectMins")}
-                    </Typography>
-                </Grid>
-                <Grid item xs={12}>
                     <FastField
                         id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
                         name={`requirements.${index}.max_cpu_cores`}

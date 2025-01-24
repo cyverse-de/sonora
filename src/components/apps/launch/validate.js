@@ -246,7 +246,7 @@ const validate = (t, hasParams) => (values) => {
                     t
                 );
                 if (err) {
-                    reqErrors[i] = { min_cpu_cores: err };
+                    reqErrors[i] = { max_cpu_cores: err };
                 }
             }
         });

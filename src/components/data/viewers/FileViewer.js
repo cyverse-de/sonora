@@ -270,6 +270,9 @@ export default function FileViewer(props) {
                         }
                         setViewerType(VIEWER_TYPE.PATH_LIST);
                         break;
+                    } else if (!mimeType.startsWith("text/")) {
+                        setViewerType(VIEWER_TYPE.DOCUMENT);
+                        break;
                     } else {
                         if (!createFileType) {
                             setReadChunkKey([

@@ -198,21 +198,28 @@ const formatSubmission = (
         requirements,
         groups,
     }
-) => ({
-    notify,
-    notify_periodic: notifyPeriodic,
-    periodic_period: periodicPeriod,
-    debug,
-    create_output_subdir: output_dir === defaultOutputDir,
-    name: name.trim(),
-    description,
-    output_dir,
-    system_id,
-    app_id,
-    app_version_id,
-    requirements,
-    config: groups?.reduce(paramConfigsReducer, {}),
-});
+) => {
+    const formattedRequirements = requirements.map((req) => ({
+        ...req,
+        min_cpu_cores: req.max_cpu_cores,
+    }));
+
+    return {
+        notify,
+        notify_periodic: notifyPeriodic,
+        periodic_period: periodicPeriod,
+        debug,
+        create_output_subdir: output_dir === defaultOutputDir,
+        name: name.trim(),
+        description,
+        output_dir,
+        system_id,
+        app_id,
+        app_version_id,
+        requirements: formattedRequirements,
+        config: groups?.reduce(paramConfigsReducer, {}),
+    };
+};
 
 /**
  * Appends the given group's parameter values to the given submission config.

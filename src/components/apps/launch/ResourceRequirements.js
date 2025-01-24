@@ -127,7 +127,7 @@ const StepResourceRequirementsForm = ({
                 <Grid item xs={12}>
                     <FastField
                         id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
-                        name={`requirements.${index}.cpu_cores`}
+                        name={`requirements.${index}.max_cpu_cores`}
                         label={t("cpuCores")}
                         component={FormSelectField}
                     >
@@ -298,10 +298,10 @@ const StepResourceRequirementsReview = ({
     showAll,
 }) => {
     const { t } = useTranslation("launch");
-    const { step_number, min_memory_limit, min_disk_space, cpu_cores } =
+    const { step_number, min_memory_limit, min_disk_space, max_cpu_cores } =
         stepRequirements;
 
-    const hasRequest = !!(min_memory_limit || min_disk_space || cpu_cores);
+    const hasRequest = !!(min_memory_limit || min_disk_space || max_cpu_cores);
 
     return (
         (showAll || hasRequest) && (
@@ -310,7 +310,7 @@ const StepResourceRequirementsReview = ({
                     !!(
                         stepRequirementErrors?.min_memory_limit ||
                         stepRequirementErrors?.min_disk_space ||
-                        stepRequirementErrors?.cpu_cores
+                        stepRequirementErrors?.max_cpu_cores
                     )
                 }
             >
@@ -340,10 +340,10 @@ const StepResourceRequirementsReview = ({
                             <TableBody>
                                 <ResourceRequirementsReviewRow
                                     label={t("cpuCores")}
-                                    value={cpu_cores}
+                                    value={max_cpu_cores}
                                     valueFormatter={(value) => value}
                                     showAll={showAll}
-                                    error={stepRequirementErrors?.cpu_cores}
+                                    error={stepRequirementErrors?.max_cpu_cores}
                                 />
                                 <ResourceRequirementsReviewRow
                                     label={t("minMemory")}

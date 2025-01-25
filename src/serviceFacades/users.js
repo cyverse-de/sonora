@@ -16,6 +16,7 @@ const WEBHOOKS_TOPICS_QUERY_KEY = "fetchHookTopics";
 const WEBHOOK_TEST_KEY = "testWebhook";
 const USER_PORTAL_QUERY_KEY = "fetchUserPortalStatus";
 const USER_PORTAL_DETAILS_QUERY_KEY = "fetchUserPortalDetails;";
+const LOGINS_QUERY_KEY = "logins";
 
 const getUserInfo = ({ userIds }) => {
     const userQuery = userIds.join("&username=");
@@ -36,6 +37,15 @@ function getUserProfile() {
 function bootstrap() {
     return callApi({
         endpoint: `/api/bootstrap`,
+        method: "GET",
+        credentials: "include",
+    });
+}
+
+function logins({ limit }) {
+    return callApi({
+        endpoint: `/api/logins`,
+        params: { limit },
         method: "GET",
         credentials: "include",
     });
@@ -198,10 +208,12 @@ export {
     WEBHOOKS_TOPICS_QUERY_KEY,
     WEBHOOKS_TYPES_QUERY_KEY,
     WEBHOOK_TEST_KEY,
+    LOGINS_QUERY_KEY,
     getUserInfo,
     getUserPortalDetails,
     getUserProfile,
     bootstrap,
+    logins,
     savePreferences,
     resetToken,
     getRedirectURIs,

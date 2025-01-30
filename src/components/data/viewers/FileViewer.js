@@ -271,18 +271,31 @@ export default function FileViewer(props) {
                         setViewerType(VIEWER_TYPE.PATH_LIST);
                         break;
                     } else {
-                        if (!createFileType) {
-                            setReadChunkKey([
-                                READ_CHUNK_QUERY_KEY,
-                                {
-                                    path,
-                                    chunkSize:
-                                        viewerConstants.DEFAULT_PAGE_SIZE,
-                                },
-                            ]);
-                            setReadChunkQueryEnabled(true);
+                        // Special handling for text-based formats that don't use text/ prefix
+                        const viewableApplicationTypes = [
+                            mimeTypes.JSON,
+                            mimeTypes.XML,
+                        ];
+
+                        if (
+                            manifest["content-type"].startsWith("text/") ||
+                            viewableApplicationTypes.includes(mimeType)
+                        ) {
+                            if (!createFileType) {
+                                setReadChunkKey([
+                                    READ_CHUNK_QUERY_KEY,
+                                    {
+                                        path,
+                                        chunkSize:
+                                            viewerConstants.DEFAULT_PAGE_SIZE,
+                                    },
+                                ]);
+                                setReadChunkQueryEnabled(true);
+                            }
+                            setViewerType(VIEWER_TYPE.PLAIN);
+                        } else {
+                            setViewerType(VIEWER_TYPE.DOCUMENT);
                         }
-                        setViewerType(VIEWER_TYPE.PLAIN);
                         break;
                     }
             }

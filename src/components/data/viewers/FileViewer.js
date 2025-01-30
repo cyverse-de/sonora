@@ -275,7 +275,6 @@ export default function FileViewer(props) {
                         const viewableApplicationTypes = [
                             mimeTypes.JSON,
                             mimeTypes.XML,
-                            mimeTypes.XHTML_XML,
                         ];
 
                         if (

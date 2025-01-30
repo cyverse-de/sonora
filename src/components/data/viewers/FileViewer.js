@@ -271,7 +271,17 @@ export default function FileViewer(props) {
                         setViewerType(VIEWER_TYPE.PATH_LIST);
                         break;
                     } else {
-                        if (manifest["content-type"].startsWith("text/")) {
+                        // Special handling for text-based formats that don't use text/ prefix
+                        const viewableApplicationTypes = [
+                            mimeTypes.JSON,
+                            mimeTypes.XML,
+                            mimeTypes.XHTML_XML,
+                        ];
+
+                        if (
+                            manifest["content-type"].startsWith("text/") ||
+                            viewableApplicationTypes.includes(mimeType)
+                        ) {
                             if (!createFileType) {
                                 setReadChunkKey([
                                     READ_CHUNK_QUERY_KEY,

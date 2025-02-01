@@ -224,13 +224,6 @@ export default function FileViewer(props) {
                     setViewerType(VIEWER_TYPE.DOCUMENT);
                     break;
 
-                case mimeTypes.X_SH:
-                case mimeTypes.X_RSRC:
-                case mimeTypes.X_PYTHON:
-                case mimeTypes.X_PERL:
-                case mimeTypes.X_WEB_MARKDOWN:
-                case mimeTypes.PLAIN:
-                case mimeTypes.PREVIEW:
                 default:
                     if (
                         infoTypes.CSV === infoType ||
@@ -271,10 +264,16 @@ export default function FileViewer(props) {
                         setViewerType(VIEWER_TYPE.PATH_LIST);
                         break;
                     } else {
-                        // Special handling for text-based formats that don't use text/ prefix
+                        // Special handling for text-based formats that may not use the `text/` prefix.
                         const viewableApplicationTypes = [
                             mimeTypes.JSON,
                             mimeTypes.XML,
+                            mimeTypes.X_SH,
+                            mimeTypes.X_RSRC,
+                            mimeTypes.X_PYTHON,
+                            mimeTypes.X_PERL,
+                            mimeTypes.X_WEB_MARKDOWN,
+                            mimeTypes.PREVIEW,
                         ];
 
                         if (

@@ -278,6 +278,7 @@ export default function FileViewer(props) {
 
                         if (
                             manifest["content-type"].startsWith("text/") ||
+                            (details && details["file-size"] === 0) ||
                             viewableApplicationTypes.includes(mimeType)
                         ) {
                             if (!createFileType) {
@@ -299,7 +300,7 @@ export default function FileViewer(props) {
                     }
             }
         }
-    }, [createFileType, manifest, path, separator]);
+    }, [createFileType, manifest, details, path, separator]);
 
     useEffect(() => {
         setEditable(

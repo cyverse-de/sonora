@@ -57,7 +57,7 @@ const VIEWER_TYPE = {
     STRUCTURED: "structured",
     IMAGE: "image",
     VIDEO: "video",
-    DOCUMENT: "document", //pdf,xml etc...
+    DOCUMENT: "document", //pdf,html etc...
 };
 
 export default function FileViewer(props) {
@@ -263,9 +263,11 @@ export default function FileViewer(props) {
                         }
                         setViewerType(VIEWER_TYPE.PATH_LIST);
                         break;
-                    } else {
+                    } else if (
+                        manifest["content-type"].startsWith("text/") ||
+                        (details && details["file-size"] === 0) ||
                         // Special handling for text-based formats that may not use the `text/` prefix.
-                        const viewableApplicationTypes = [
+                        [
                             mimeTypes.JSON,
                             mimeTypes.XML,
                             mimeTypes.X_SH,
@@ -274,28 +276,23 @@ export default function FileViewer(props) {
                             mimeTypes.X_PERL,
                             mimeTypes.X_WEB_MARKDOWN,
                             mimeTypes.PREVIEW,
-                        ];
-
-                        if (
-                            manifest["content-type"].startsWith("text/") ||
-                            (details && details["file-size"] === 0) ||
-                            viewableApplicationTypes.includes(mimeType)
-                        ) {
-                            if (!createFileType) {
-                                setReadChunkKey([
-                                    READ_CHUNK_QUERY_KEY,
-                                    {
-                                        path,
-                                        chunkSize:
-                                            viewerConstants.DEFAULT_PAGE_SIZE,
-                                    },
-                                ]);
-                                setReadChunkQueryEnabled(true);
-                            }
-                            setViewerType(VIEWER_TYPE.PLAIN);
-                        } else {
-                            setViewerType(VIEWER_TYPE.DOCUMENT);
+                        ].includes(mimeType)
+                    ) {
+                        if (!createFileType) {
+                            setReadChunkKey([
+                                READ_CHUNK_QUERY_KEY,
+                                {
+                                    path,
+                                    chunkSize:
+                                        viewerConstants.DEFAULT_PAGE_SIZE,
+                                },
+                            ]);
+                            setReadChunkQueryEnabled(true);
                         }
+                        setViewerType(VIEWER_TYPE.PLAIN);
+                        break;
+                    } else {
+                        setViewerType(VIEWER_TYPE.DOCUMENT);
                         break;
                     }
             }

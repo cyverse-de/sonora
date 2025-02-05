@@ -79,7 +79,7 @@ const metadataTemplateCSVhandler = async (req, res) => {
 
 const doDownloadFromTerrain = (userID, accessToken, apiURL) => {
     logger.info(`TERRAIN ${userID} GET ${apiURL.href}`);
-    let requestOptions = {
+    const requestOptions = {
         method: "GET",
         url: apiURL,
         headers: {

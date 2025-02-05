@@ -21,17 +21,9 @@ import { terrainURL } from "../configuration";
  * @returns null
  */
 const handler = async (req, res) => {
+    // When user isn't logged in, these will just end up empty and use the fallbacks defined in the backend services
     const accessToken = req?.kauth?.grant?.access_token;
-    if (!accessToken) {
-        res.status(401).send("authorization required");
-        return;
-    }
-
     const userID = accessToken?.content?.preferred_username;
-    if (!userID) {
-        res.status(401).send("authorization required");
-        return;
-    }
 
     const filePath = encodeURIComponent(req?.query?.path);
     const attachment = req?.query?.attachment || 0;
@@ -41,14 +33,11 @@ const handler = async (req, res) => {
     if (url) {
         apiURL.pathname = path.join(
             apiURL.pathname,
-            "/secured/filesystem/display-download"
+            "/filesystem/display-download"
         );
         apiURL.search = "path=" + filePath + "&attachment=" + attachment;
     } else {
-        apiURL.pathname = path.join(
-            apiURL.pathname,
-            "/secured/fileio/download"
-        );
+        apiURL.pathname = path.join(apiURL.pathname, "/fileio/download");
         apiURL.search = "path=" + filePath;
     }
 
@@ -94,11 +83,13 @@ const doDownloadFromTerrain = (userID, accessToken, apiURL) => {
         method: "GET",
         url: apiURL,
         headers: {
-            Authorization: `Bearer ${accessToken.token}`,
             Accept: "application/octet-stream",
         },
         disableUrlEncoding: true,
     };
+    if (accessToken) {
+        requestOptions.headers["Authorization"] = `Bearer ${accessToken.token}`;
+    }
     return request(requestOptions).on("error", function (err) {
         logger.error(err);
     });

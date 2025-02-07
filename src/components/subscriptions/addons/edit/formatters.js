@@ -1,4 +1,10 @@
+import dateConstants from "components/utils/dateConstants";
+import { formatDateObject } from "components/utils/DateFormatter";
 import { bytesInGiB, bytesToGiB } from "../../utils";
+
+function formatEffectiveDate(effectiveDate) {
+    return formatDateObject(new Date(effectiveDate), dateConstants.ISO_8601);
+}
 
 function mapPropsToValues(addon) {
     let values = {
@@ -7,6 +13,7 @@ function mapPropsToValues(addon) {
         defaultAmount: 0,
         defaultPaid: true,
         resourceType: "",
+        addonRates: [],
     };
 
     if (addon) {
@@ -17,6 +24,7 @@ function mapPropsToValues(addon) {
             default_amount,
             default_paid,
             resource_type,
+            addon_rates,
         } = addon;
 
         values = {
@@ -30,6 +38,13 @@ function mapPropsToValues(addon) {
                     : default_amount,
             defaultPaid: default_paid,
             resourceType: resource_type.unit,
+            addonRates: addon_rates.map((addonRate) => {
+                return {
+                    uuid: addonRate.uuid,
+                    effectiveDate: addonRate.effective_date,
+                    rate: addonRate.rate,
+                };
+            }),
         };
     }
 
@@ -44,13 +59,14 @@ function formatAddonSubmission(values, resourceTypes, update = false) {
         defaultAmount,
         defaultPaid,
         resourceType,
+        addonRates,
     } = values;
 
     const resourceObj = resourceTypes.find(
         (resource) => resourceType === resource.unit
     );
 
-    const { id, unit, name } = resourceObj;
+    const { id, unit, name, consumable } = resourceObj;
 
     const submission = {
         name: addonName,
@@ -60,6 +76,13 @@ function formatAddonSubmission(values, resourceTypes, update = false) {
         resource_type: {
             uuid: id,
         },
+        addon_rates: addonRates.map((addonRate) => {
+            return {
+                uuid: addonRate.uuid,
+                effective_date: formatEffectiveDate(addonRate.effectiveDate),
+                rate: addonRate.rate,
+            };
+        }),
     };
 
     // Include the submission's UUID if an update is requested
@@ -70,6 +93,7 @@ function formatAddonSubmission(values, resourceTypes, update = false) {
             ...submission.resource_type,
             unit,
             name,
+            consumable,
         };
     }
 

@@ -28,7 +28,7 @@ import { Add, Delete } from "@mui/icons-material";
 import ids from "../../ids";
 
 function AddonRateEditorRow(props) {
-    const { baseId, fieldName, key, onDelete } = props;
+    const { baseId, fieldName, onDelete } = props;
     const { t: i18nUtil } = useTranslation("util");
     const { t } = useTranslation(["common"]);
 
@@ -111,7 +111,7 @@ function AddonRatesEditor(props) {
                                 addonRate={addonRate}
                                 baseId={buildID(baseId, index)}
                                 fieldName={`${fieldName}.${index}`}
-                                key={index}
+                                key={addonRate.uuid}
                                 onDelete={() => onDelete(index)}
                             />
                         ))}

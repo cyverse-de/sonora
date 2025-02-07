@@ -3,6 +3,8 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useTranslation } from "i18n";
 
+import "crypto";
+
 import buildID from "components/utils/DebugIDUtil";
 import { Button, MenuItem } from "@mui/material";
 import DEDialog from "components/utils/DEDialog";
@@ -248,6 +250,7 @@ function EditAddonForm(props) {
                 render={(arrayHelpers) => {
                     const onAdd = () => {
                         arrayHelpers.push({
+                            uuid: crypto.randomUUID,
                             rate: 0,
                             effectiveDate: Date.now().toString(),
                         });

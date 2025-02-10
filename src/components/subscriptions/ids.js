@@ -27,6 +27,11 @@ export default {
         NAME: "name",
         RESOURCE_TYPE: "resourceType",
         RESOURCE_UNIT: "resourceUnit",
+        ADDON_RATES: "addonRates",
+        ADDON_RATE: {
+            RATE: "rate",
+            EFFECTIVE_DATE: "effectiveDate",
+        },
     },
     ADDONS_MENU_ITEM: "addonsMenuItem",
     CANCEL_BUTTON: "cancelButton",

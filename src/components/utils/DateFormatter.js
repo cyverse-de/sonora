@@ -2,7 +2,7 @@
  @author sriram
  */
 
-import lightFormat from "date-fns/lightFormat";
+import format from "date-fns/format";
 import toDate from "date-fns/toDate";
 import dateConstants from "./dateConstants";
 import { formatDistance, fromUnixTime } from "date-fns";
@@ -16,7 +16,7 @@ import { formatDistance, fromUnixTime } from "date-fns";
 function formatDate(longDate, dateFormat = dateConstants.LONG_DATE_FORMAT) {
     const longDateInt = parseInt(longDate, 10);
     return longDateInt
-        ? lightFormat(toDate(new Date(longDateInt)), dateFormat)
+        ? format(toDate(new Date(longDateInt)), dateFormat)
         : dateConstants.EMPTY_DATE;
 }
 

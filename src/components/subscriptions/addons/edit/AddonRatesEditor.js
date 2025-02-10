@@ -83,14 +83,10 @@ function AddonRatesEditor(props) {
                     <TableHead>
                         <TableRow>
                             <TableCell>
-                                <Typography>
-                                    {t("subscriptions:rate")}
-                                </Typography>
+                                <Typography>{t("rate")}</Typography>
                             </TableCell>
                             <TableCell>
-                                <Typography>
-                                    {t("subscriptions:effectiveDate")}
-                                </Typography>
+                                <Typography>{t("effectiveDate")}</Typography>
                             </TableCell>
                             <TableCell>
                                 <Button

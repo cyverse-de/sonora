@@ -250,7 +250,7 @@ function EditAddonForm(props) {
                 render={(arrayHelpers) => {
                     const onAdd = () => {
                         arrayHelpers.push({
-                            uuid: crypto.randomUUID,
+                            uuid: crypto.randomUUID(),
                             rate: 0,
                             effectiveDate: Date.now().toString(),
                         });

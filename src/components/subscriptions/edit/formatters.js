@@ -41,10 +41,10 @@ export function formatSubscriptions(values) {
         plan_name,
         paid,
         start_date: start_date
-            ? formatDateObject(start_date, dateConstants.ISO_8601)
+            ? formatDateObject(new Date(start_date), dateConstants.ISO_8601)
             : undefined,
         end_date: end_date
-            ? formatDateObject(end_date, dateConstants.ISO_8601)
+            ? formatDateObject(new Date(end_date), dateConstants.ISO_8601)
             : undefined,
     };
     console.log(submission);

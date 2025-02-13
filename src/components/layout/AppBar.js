@@ -25,7 +25,6 @@ import {
     useBootStrap,
     USER_PROFILE_QUERY_KEY,
 } from "serviceFacades/users";
-import { getUserPlan, USER_PLAN_QUERY_KEY } from "serviceFacades/subscriptions";
 
 import constants from "../../constants";
 import withErrorAnnouncer from "../error/withErrorAnnouncer";
@@ -160,16 +159,6 @@ function DEAppBar(props) {
         refetchInterval: profileRefetchInterval,
     });
 
-    useQuery({
-        queryKey: USER_PLAN_QUERY_KEY,
-        queryFn: getUserPlan,
-        enabled: !!config?.subscriptions?.enforce && !!userProfile?.id,
-        onSuccess: setUserSubscription,
-        onError: (e) => {
-            showErrorAnnouncer(t("userPlanError"), e);
-        },
-    });
-
     useEffect(() => {
         if (clientConfig) {
             let config = { ...clientConfig };
@@ -212,6 +201,7 @@ function DEAppBar(props) {
                 subscription
             );
 
+            setUserSubscription(subscription);
             setComputeLimitExceeded(computeUsage >= computeQuota);
             setDataUsagePercentage(
                 formatUsagePercentage(dataUsage, storageQuota)

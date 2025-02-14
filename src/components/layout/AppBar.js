@@ -164,7 +164,7 @@ function DEAppBar(props) {
             let config = { ...clientConfig };
             // Disable Intercom if a subscription is Basic
             if (userSubscription) {
-                let planName = userSubscription.result?.plan?.name;
+                let planName = userSubscription?.plan?.name;
                 let isBasic = planName?.toLowerCase() === "basic";
                 config.intercom = {
                     ...clientConfig.intercom,
@@ -507,7 +507,7 @@ function DEAppBar(props) {
                                     ids.ACCOUNT_MI
                                 )}
                                 profile={userProfile}
-                                subscription={userSubscription?.result}
+                                subscription={userSubscription}
                                 onLogoutClick={onLogoutClick}
                                 onManageAccountClick={() =>
                                     window.open(
@@ -553,7 +553,7 @@ function DEAppBar(props) {
                 <UserMenu
                     baseId={buildID(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}
                     profile={userProfile}
-                    subscription={userSubscription?.result}
+                    subscription={userSubscription}
                     onLogoutClick={onLogoutClick}
                     onManageAccountClick={() =>
                         window.open(userPortalURLRef.current, "_blank")

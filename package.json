@@ -11,8 +11,8 @@
         "build-docs": "jsdoc -r -d generated-docs ./src",
         "build": "run-p build-frontend build-server build-docs",
         "start": "cross-env NODE_ENV=production node -r './dist/server/tracing.js' dist/server/index.js",
-        "storybook": "start-storybook -p 9009 -s public",
-        "build-storybook": "build-storybook -s public",
+        "storybook": "storybook dev -p 9009",
+        "build-storybook": "storybook build",
         "test": "TZ=UTC jest",
         "test-watch": "TZ=UTC jest --watch",
         "format": "prettier --write 'src/**/*.js' './.storybook/**/*.js' 'stories/**/*.js' 'public/static/locales/**/*.json'",
@@ -148,12 +148,12 @@
         "@babel/cli": "^7.7.7",
         "@babel/core": "^7.9.6",
         "@babel/node": "^7.7.7",
-        "@storybook/addon-actions": "^6.5.9",
-        "@storybook/addon-console": "^1.2.3",
-        "@storybook/addon-essentials": "^6.5.9",
-        "@storybook/builder-webpack5": "^6.5.15",
-        "@storybook/manager-webpack5": "^6.5.15",
-        "@storybook/react": "^6.5.9",
+        "@chromatic-com/storybook": "^3.2.4",
+        "@storybook/addon-actions": "^8.5.8",
+        "@storybook/addon-console": "^3.0.0",
+        "@storybook/addon-essentials": "^8.5.8",
+        "@storybook/nextjs": "^8.5.8",
+        "@storybook/react": "^8.5.8",
         "@typescript-eslint/eslint-plugin": "^6.19.1",
         "@typescript-eslint/parser": "^6.19.1",
         "axios-mock-adapter": "^1.18.1",
@@ -174,16 +174,10 @@
         "prettier": "^2.0.5",
         "react-test-renderer": "^18.2.0",
         "rimraf": "^3.0.0",
-        "storybook-addon-next-router": "^4.0.2",
         "webpack": "^5.76.0"
     },
     "resolutions": {
         "@storybook/react/webpack": "^5"
-    },
-    "overrides": {
-        "storybook-addon-next-router": {
-            "next": "$next"
-        }
     },
     "prettier": {
         "trailingComma": "es5",

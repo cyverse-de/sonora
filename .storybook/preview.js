@@ -26,9 +26,7 @@ import { BagInfoProvider, useBagInfo } from "../src/contexts/bagInfo";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 
-import { addDecorator } from "@storybook/react";
 import { withConsole } from "@storybook/addon-console";
-import { RouterContext } from "next/dist/shared/lib/router-context";
 
 function MockUserProfile() {
     const [userProfile, setUserProfile] = useUserProfile();
@@ -74,9 +72,8 @@ const queryClient = new QueryClient({
     },
 });
 
-addDecorator((storyFn, context) => withConsole()(storyFn)(context));
-
 export const decorators = [
+    (storyFn, context) => withConsole()(storyFn)(context),
     (Story) => (
         <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme}>
@@ -91,7 +88,7 @@ export const decorators = [
                                 <I18nProviderWrapper>
                                     <BagInfoProvider>
                                         <MockBagInfo />
-                                        {Story()}
+                                        <Story />
                                     </BagInfoProvider>
                                 </I18nProviderWrapper>
 
@@ -106,11 +103,4 @@ export const decorators = [
 ];
 export const parameters = {
     chromatic: { delay: AXIOS_DELAY + 500 },
-    nextRouter: {
-        Provider: RouterContext.Provider,
-        path: "/", // defaults to `/`
-        asPath: "/", // defaults to `/`
-        query: {}, // defaults to `{}`
-        // push() {}, // defaults to using addon actions integration, can override any method in the router
-    },
 };

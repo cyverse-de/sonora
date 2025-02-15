@@ -1,16 +1,18 @@
 // .storybook/main.js
 const path = require("path");
 module.exports = {
-    stories: ["../stories/**/*.stories.@(js|mdx)"],
+    stories: ["../stories/**/*.@(mdx|stories.@(js))"],
+    staticDirs: ["../public"],
     addons: [
         "@storybook/addon-essentials",
         "@storybook/addon-actions",
-        "storybook-addon-next-router",
+        "@chromatic-com/storybook",
     ],
-    framework: "@storybook/react",
-    core: {
-        builder: "webpack5",
+
+    framework: {
+        name: "@storybook/nextjs",
     },
+
     webpackFinal: async (config, { configType }) => {
         config.resolve.modules = [
             path.resolve(__dirname, "..", "src"),
@@ -26,6 +28,7 @@ module.exports = {
             fs: false,
             vm: false,
         };
+        config.externals["node:fs"] = "commonjs node:fs";
 
         return config;
     },

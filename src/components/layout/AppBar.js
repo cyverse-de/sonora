@@ -25,7 +25,6 @@ import {
     useBootStrap,
     USER_PROFILE_QUERY_KEY,
 } from "serviceFacades/users";
-import { getUserPlan, USER_PLAN_QUERY_KEY } from "serviceFacades/subscriptions";
 
 import constants from "../../constants";
 import withErrorAnnouncer from "../error/withErrorAnnouncer";
@@ -160,22 +159,12 @@ function DEAppBar(props) {
         refetchInterval: profileRefetchInterval,
     });
 
-    useQuery({
-        queryKey: USER_PLAN_QUERY_KEY,
-        queryFn: getUserPlan,
-        enabled: !!config?.subscriptions?.enforce && !!userProfile?.id,
-        onSuccess: setUserSubscription,
-        onError: (e) => {
-            showErrorAnnouncer(t("userPlanError"), e);
-        },
-    });
-
     useEffect(() => {
         if (clientConfig) {
             let config = { ...clientConfig };
             // Disable Intercom if a subscription is Basic
             if (userSubscription) {
-                let planName = userSubscription.result?.plan?.name;
+                let planName = userSubscription?.plan?.name;
                 let isBasic = planName?.toLowerCase() === "basic";
                 config.intercom = {
                     ...clientConfig.intercom,
@@ -212,6 +201,7 @@ function DEAppBar(props) {
                 subscription
             );
 
+            setUserSubscription(subscription);
             setComputeLimitExceeded(computeUsage >= computeQuota);
             setDataUsagePercentage(
                 formatUsagePercentage(dataUsage, storageQuota)
@@ -517,7 +507,7 @@ function DEAppBar(props) {
                                     ids.ACCOUNT_MI
                                 )}
                                 profile={userProfile}
-                                subscription={userSubscription?.result}
+                                subscription={userSubscription}
                                 onLogoutClick={onLogoutClick}
                                 onManageAccountClick={() =>
                                     window.open(
@@ -563,7 +553,7 @@ function DEAppBar(props) {
                 <UserMenu
                     baseId={buildID(ids.APP_BAR_BASE, ids.ACCOUNT_MI)}
                     profile={userProfile}
-                    subscription={userSubscription?.result}
+                    subscription={userSubscription}
                     onLogoutClick={onLogoutClick}
                     onManageAccountClick={() =>
                         window.open(userPortalURLRef.current, "_blank")

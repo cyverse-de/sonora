@@ -2,6 +2,7 @@ import React from "react";
 
 import { AdminTeamJoinRequestNotification } from "./NotificationMocks";
 import AdminJoinTeamRequestDialog from "components/notifications/dialogs/AdminJoinTeamRequestDialog";
+import { NotificationsProvider } from "contexts/pushNotifications";
 import { mockAxios } from "../axiosMock";
 
 export const AdminTeamJoinRequestDlg = () => {
@@ -23,11 +24,15 @@ export const AdminTeamJoinRequestDlg = () => {
         .reply(200);
 
     return (
-        <AdminJoinTeamRequestDialog
-            open={true}
-            onClose={() => console.log("Close Admin Join Team Request Dialog")}
-            request={AdminTeamJoinRequestNotification.payload}
-        />
+        <NotificationsProvider wsEnabled={false}>
+            <AdminJoinTeamRequestDialog
+                open={true}
+                onClose={() =>
+                    console.log("Close Admin Join Team Request Dialog")
+                }
+                request={AdminTeamJoinRequestNotification.payload}
+            />
+        </NotificationsProvider>
     );
 };
 

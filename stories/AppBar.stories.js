@@ -186,7 +186,7 @@ const appBarTestTemplate = (args) => {
 
     return (
         <UserProfileProvider>
-            <NotificationsProvider>
+            <NotificationsProvider wsEnabled={false}>
                 <DEAppBar setAppBarRef={() => {}} clientConfig={testConfig} />
             </NotificationsProvider>
         </UserProfileProvider>

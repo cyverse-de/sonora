@@ -32,7 +32,7 @@ function ListingTest(props) {
     const selectedTypeFilter = null;
 
     return (
-        <NotificationsProvider>
+        <NotificationsProvider wsEnabled={false}>
             <Listing
                 baseId="tableView"
                 page={selectedPage}

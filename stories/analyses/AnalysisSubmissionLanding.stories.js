@@ -9,6 +9,7 @@ import {
 } from "./AnalysesMocks";
 
 import AnalysisSubmissionLanding from "components/analyses/landing/AnalysisSubmissionLanding";
+import { NotificationsProvider } from "contexts/pushNotifications";
 import { VICE_TIME_LIMIT_QUERY_KEY } from "serviceFacades/analyses";
 import { convertTimeLimitArgType, TimeLimitArgType } from "./ArgTypes";
 
@@ -36,10 +37,12 @@ export const AnalysisSubmissionLandingTest = ({ analysis, timeLimit }) => {
         .reply(200, { time_limit: convertTimeLimitArgType(timeLimit) });
 
     return (
-        <AnalysisSubmissionLanding
-            id={analysis.id}
-            baseId="submissionLanding"
-        />
+        <NotificationsProvider wsEnabled={false}>
+            <AnalysisSubmissionLanding
+                id={analysis.id}
+                baseId="submissionLanding"
+            />
+        </NotificationsProvider>
     );
 };
 AnalysisSubmissionLandingTest.parameters = {

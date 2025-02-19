@@ -4,7 +4,8 @@
  */
 
 import React from "react";
-import NotificationsMenu from "../../src/components/notifications/NotificationsMenu";
+import { NotificationsProvider } from "contexts/pushNotifications";
+import NotificationsMenu from "components/notifications/NotificationsMenu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import notificationsData from "./notificationsData";
 import { mockAxios } from "../axiosMock";
@@ -31,7 +32,7 @@ export const NotificationsPreviewTest = () => {
     };
 
     return (
-        <>
+        <NotificationsProvider wsEnabled={false}>
             <NotificationsIcon
                 aria-controls="simple-menu"
                 aria-haspopup="true"
@@ -46,6 +47,6 @@ export const NotificationsPreviewTest = () => {
                 setAnchorEl={setAnchorEl}
                 setUnSeenCount={(count) => console.log(count)}
             />
-        </>
+        </NotificationsProvider>
     );
 };

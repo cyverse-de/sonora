@@ -1,8 +1,9 @@
 import React from "react";
 import { AXIOS_DELAY, mockAxios } from "./axiosMock";
 import { portalUserStatus, STATUS } from "./UserPortalMocks";
-import DEAppBar from "../src/components/layout/AppBar";
-import { UserProfileProvider } from "../src/contexts/userProfile";
+import DEAppBar from "components/layout/AppBar";
+import { NotificationsProvider } from "contexts/pushNotifications";
+import { UserProfileProvider } from "contexts/userProfile";
 import testConfig from "./configMock";
 
 export default {
@@ -31,7 +32,9 @@ export function GracePeriod() {
         .reply(200, () => portalUserStatus(STATUS.GRACE));
     return (
         <UserProfileProvider>
-            <DEAppBar setAppBarRef={() => {}} clientConfig={testConfig} />
+            <NotificationsProvider wsEnabled={false}>
+                <DEAppBar setAppBarRef={() => {}} clientConfig={testConfig} />
+            </NotificationsProvider>
         </UserProfileProvider>
     );
 }
@@ -43,7 +46,9 @@ export function Expired() {
         .reply(200, () => portalUserStatus(STATUS.EXPIRED));
     return (
         <UserProfileProvider>
-            <DEAppBar setAppBarRef={() => {}} clientConfig={testConfig} />
+            <NotificationsProvider wsEnabled={false}>
+                <DEAppBar setAppBarRef={() => {}} clientConfig={testConfig} />
+            </NotificationsProvider>
         </UserProfileProvider>
     );
 }

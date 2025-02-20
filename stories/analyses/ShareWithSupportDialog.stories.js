@@ -50,14 +50,14 @@ export default {
         system: {
             control: {
                 type: "select",
-                options: analysisSystem,
             },
+            options: analysisSystem,
         },
         status: {
             control: {
                 type: "select",
-                options: status,
             },
+            options: status,
         },
     },
 };

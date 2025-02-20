@@ -112,8 +112,8 @@ export default {
         errorCode: {
             control: {
                 type: "select",
-                options: errorCodes,
             },
+            options: errorCodes,
         },
     },
 };

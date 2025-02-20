@@ -966,7 +966,6 @@ export const info = {
                 {
                     status: "STAGING_JOB",
                     message:
-                        // eslint-disable-next-line no-template-curly-in-string
                         "Fetching app assets from agave://data.iplantcollaborative.org/${foundation.service.apps.default.public.dir}/cut_columns-0.0.0u1.zip",
                     timestamp: "1586398278000",
                 },

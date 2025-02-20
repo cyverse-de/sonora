@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import React from "react";
 import Rate from "components/rating/Rate";
-// eslint-disable-next-line import/no-anonymous-default-export
+
 export default {
     title: "base/Rate",
 };

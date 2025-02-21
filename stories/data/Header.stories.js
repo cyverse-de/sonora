@@ -1,8 +1,15 @@
 import React from "react";
-import Header from "../../src/components/data/toolbar/Toolbar";
-import { UploadTrackingProvider } from "../../src/contexts/uploadTracking";
+
+import Header from "components/data/toolbar/Toolbar";
+import { UploadTrackingProvider } from "contexts/uploadTracking";
+
+import { mockAxios } from "../axiosMock";
+
+import { dataRootsResp } from "./DataMocks";
 
 export const HeaderTest = () => {
+    mockAxios.onGet(/\/api\/filesystem\/root.*/).reply(200, dataRootsResp);
+
     const logger = (message) => {
         console.log(message);
     };

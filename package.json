@@ -161,7 +161,6 @@
         "cross-env": "^6.0.3",
         "eslint": "^8.56.0",
         "eslint-config-next": "^14.2.24",
-        "fetch-mock": "^9.5.0",
         "husky": "^4.0.10",
         "i18next-http-backend": "^2.1.1",
         "jest": "^29.7.0",

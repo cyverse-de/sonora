@@ -39,22 +39,22 @@ class DeploymentsEFC extends ExtractFilterCompare {
 const deployments = {
     image: new DeploymentsEFC(
         () => "$.deployments[*].image",
-        (image) => `$.deployments[?(@.image=='${image}')]`
+        (image) => `$.deployments[?(@ && @.image=='${image}')]`
     ),
 
     port: new DeploymentsEFC(
         () => "$.deployments[*].port",
-        (port) => `$.deployments[?(@.port==${port})]`
+        (port) => `$.deployments[?(@ && @.port==${port})]`
     ),
 
     uid: new DeploymentsEFC(
         () => "$.deployments[*].user",
-        (uid) => `$.deployments[?(@.user==${uid})]`
+        (uid) => `$.deployments[?(@ && @.user==${uid})]`
     ),
 
     gid: new DeploymentsEFC(
         () => "$.deployments[*].group",
-        (gid) => `$.deployments[?(@.group==${gid})]`
+        (gid) => `$.deployments[?(@ && @.group==${gid})]`
     ),
 };
 
@@ -83,29 +83,30 @@ class ServicesEFC extends ExtractFilterCompare {
 const services = {
     portName: new ServicesEFC(
         () => "$.services[*].ports[*].name",
-        (portName) => `$.services[*].ports[?(@.name==='${portName}')]^^^`
+        (portName) => `$.services[*].ports[?(@ && @.name==='${portName}')]^^^`
     ),
 
     nodePort: new ServicesEFC(
         () => "$.services[*].ports[*].nodePort",
-        (nodePort) => `$.services[*].ports[?(@.nodePort===${nodePort})]^^^`
+        (nodePort) => `$.services[*].ports[?(@ && @.nodePort===${nodePort})]^^^`
     ),
 
     targetPort: new ServicesEFC(
         () => "$.services[*].ports[*].targetPort",
         (targetPort) =>
-            `$.services[*].ports[?(@.targetPort===${targetPort})]^^^`
+            `$.services[*].ports[?(@ && @.targetPort===${targetPort})]^^^`
     ),
 
     targetPortName: new ServicesEFC(
         () => "$.services[*].ports[*].targetPortName",
         (targetPortName) =>
-            `$.services[*].ports[?(@.targetPortName==='${targetPortName}')]^^^`
+            `$.services[*].ports[?(@ && @.targetPortName==='${targetPortName}')]^^^`
     ),
 
     protocol: new ServicesEFC(
         () => "$.services[*].ports[*].protocol",
-        (protocol) => `$.services[*].ports[?(@.protocol==='${protocol}')]^^^`
+        (protocol) =>
+            `$.services[*].ports[?(@ && @.protocol==='${protocol}')]^^^`
     ),
 };
 
@@ -127,43 +128,43 @@ class CommonEFC extends ExtractFilterCompare {
 const common = {
     analysisName: new CommonEFC(
         () => "$..analysisName",
-        (analysisName) => `$..[?(@.analysisName==='${analysisName}')]`
+        (analysisName) => `$..[?(@ && @.analysisName==='${analysisName}')]`
     ),
 
     appName: new CommonEFC(
         () => "$..appName",
-        (appName) => `$..[?(@.appName==='${appName}')]`
+        (appName) => `$..[?(@ && @.appName==='${appName}')]`
     ),
 
     appID: new CommonEFC(
         () => "$..appID",
-        (appID) => `$..[?(@.appID==='${appID}')]`
+        (appID) => `$..[?(@ && @.appID==='${appID}')]`
     ),
 
     externalID: new CommonEFC(
         () => "$..externalID",
-        (externalID) => `$..[?(@.externalID==='${externalID}')]`
+        (externalID) => `$..[?(@ && @.externalID==='${externalID}')]`
     ),
 
     namespace: new CommonEFC(
         () => "$..namespace",
-        (namespace) => `$..[?(@.namespace==='${namespace}')]`
+        (namespace) => `$..[?(@ && @.namespace==='${namespace}')]`
     ),
 
     userID: new CommonEFC(
         () => "$..userID",
-        (userID) => `$..[?(@.userID==='${userID}')]`
+        (userID) => `$..[?(@ && @.userID==='${userID}')]`
     ),
 
     username: new CommonEFC(
         () => "$..username",
-        (username) => `$..[?(@.username==='${username}')]`
+        (username) => `$..[?(@ && @.username==='${username}')]`
     ),
 
     creationTimestamp: new CommonEFC(
         () => "$..creationTimestamp",
         (creationTimestamp) =>
-            `$..[?(@.creationTimestamp==='${creationTimestamp}')]`
+            `$..[?(@ && @.creationTimestamp==='${creationTimestamp}')]`
     ),
 };
 
@@ -199,59 +200,59 @@ class PodsEFC extends ExtractFilterCompare {
 const pods = {
     phase: new PodsEFC(
         () => "$.pods[*].phase",
-        (phase) => `$..[?(@.phase==='${phase}')]`
+        (phase) => `$..[?(@ && @.phase==='${phase}')]`
     ),
 
     message: new PodsEFC(
         () => "$.pods[*].message",
-        (message) => `$..[?(@.message==='${message}')]`
+        (message) => `$..[?(@ && @.message==='${message}')]`
     ),
 
     reason: new PodsEFC(
         () => "$.pods[*].reason",
-        (reason) => `$..[?(@.reason==='${reason}')]`
+        (reason) => `$..[?(@ && @.reason==='${reason}')]`
     ),
 
     containerStatusName: new PodsEFC(
         () => "$.pods[*].containerStatuses[*].name",
         (containerStatusName) =>
-            `$..containerStatuses[?(@.name==='${containerStatusName}')]^^^`
+            `$..containerStatuses[?(@ && @.name==='${containerStatusName}')]^^^`
     ),
 
     containerStatusReady: new PodsEFC(
         () => "$.pods[*].containerStatuses[*].ready",
         (containerStatusReady) =>
-            `$..containerStatuses[?(@.ready===${containerStatusReady})]^^^`
+            `$..containerStatuses[?(@ && @.ready===${containerStatusReady})]^^^`
     ),
 
     containerStatusRestartCount: new PodsEFC(
         () => "$.pods[*].containerStatuses[*].restartCount",
         (containerStatusRestartCount) =>
-            `$..containerStatuses[?(@.restartCount===${containerStatusRestartCount})]^^^`
+            `$..containerStatuses[?(@ && @.restartCount===${containerStatusRestartCount})]^^^`
     ),
 
     containerStatusImage: new PodsEFC(
         () => "$.pods[*].containerStatuses[*].image",
         (containerStatusImage) =>
-            `$..containerStatuses[?(@.image==='${containerStatusImage}')]^^^`
+            `$..containerStatuses[?(@ && @.image==='${containerStatusImage}')]^^^`
     ),
 
     containerStatusImageID: new PodsEFC(
         () => "$.pods[*].containerStatuses[*].imageID",
         (containerStatusImageID) =>
-            `$..containerStatuses[?(@.imageID==='${containerStatusImageID}')]^^^`
+            `$..containerStatuses[?(@ && @.imageID==='${containerStatusImageID}')]^^^`
     ),
 
     containerStatusContainerID: new PodsEFC(
         () => "$.pods[*].containerStatuses[*].containerID",
         (containerStatusContainerID) =>
-            `$..containerStatuses[?(@.containerID==='${containerStatusContainerID}')]^^^`
+            `$..containerStatuses[?(@ && @.containerID==='${containerStatusContainerID}')]^^^`
     ),
 
     containerStatusStarted: new PodsEFC(
         () => "$.pods[*].containerStatuses[*].started",
         (containerStatusStarted) =>
-            `$..containerStatuses[?(@.started===${containerStatusStarted})]^^^`
+            `$..containerStatuses[?(@ && @.started===${containerStatusStarted})]^^^`
     ),
 };
 

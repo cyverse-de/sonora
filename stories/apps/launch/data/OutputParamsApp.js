@@ -1,10 +1,12 @@
-export default {
+const OutputParamsApp = {
     description: "File, folder, and multi-output parameters.",
+
     requirements: [
         {
             step_number: 0,
         },
     ],
+
     deleted: false,
     disabled: false,
     name: "Output params",
@@ -12,6 +14,7 @@ export default {
     label: "Output params",
     id: "1778b1d6-5a83-11ea-9e38-008cfa5ae621",
     app_type: "DE",
+
     groups: [
         {
             id: "59f5c03c-5ce3-11ea-aa6d-008cfa5ae621",
@@ -60,3 +63,5 @@ export default {
         },
     ],
 };
+
+export default OutputParamsApp;

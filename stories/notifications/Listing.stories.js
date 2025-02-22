@@ -5,6 +5,7 @@ import { mockAxios, errorResponseJSON } from "../axiosMock";
 import { mockNotificationsListing } from "./NotificationMocks";
 
 import NotificationsListing from "components/notifications/listing";
+import { NotificationsProvider } from "contexts/pushNotifications";
 
 export const Listing = () => {
     const teamName = "ipcdev:test_team";
@@ -56,7 +57,11 @@ export const Listing = () => {
         .onPost(`/api/teams/${encodeURIComponent(teamName)}/members`)
         .reply(200);
 
-    return <NotificationsListing baseDebugId="notificationsListing" />;
+    return (
+        <NotificationsProvider wsEnabled={false}>
+            <NotificationsListing baseDebugId="notificationsListing" />
+        </NotificationsProvider>
+    );
 };
 
 export default { title: "Notifications / Listing" };

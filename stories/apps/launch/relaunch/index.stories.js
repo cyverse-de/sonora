@@ -1,6 +1,6 @@
-export * from "./DEWordCount.stories";
-export * from "./InputParams.stories";
-export * from "./ReferenceGenomeParams.stories";
-export * from "./SelectParams.stories";
+export * from "./DEWordCount";
+export * from "./InputParams";
+export * from "./ReferenceGenomeParams";
+export * from "./SelectParams";
 
 export default { title: "Apps / Launch / Relaunch" };

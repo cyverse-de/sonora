@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { Skeleton } from "@mui/material";
 
-export default (props) => {
+const AppStepperFormSkeleton = (props) => {
     const { baseId, header } = props;
 
     const theme = useTheme();
@@ -68,3 +68,5 @@ export default (props) => {
         </Paper>
     );
 };
+
+export default AppStepperFormSkeleton;

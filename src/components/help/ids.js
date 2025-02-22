@@ -1,4 +1,4 @@
-export default {
+const ids = {
     FEEDBACK_DLG: "feedbackDialog",
     NAME: "name",
     EMAIL: "email",
@@ -14,3 +14,5 @@ export default {
     LC_BTN: "lcButton",
     GLOSSARY_BTN: "glossaryButton",
 };
+
+export default ids;

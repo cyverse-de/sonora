@@ -1,4 +1,4 @@
-export default {
+const constants = {
     keys: {
         NAME: "name",
         PATH: "path",
@@ -9,3 +9,5 @@ export default {
         LAST_MODIFIED_ON: "last_modified_on",
     },
 };
+
+export default constants;

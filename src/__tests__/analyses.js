@@ -5,6 +5,7 @@ import TestRenderer from "react-test-renderer";
 import { AnalysesTableViewTest } from "../../stories/analyses/TableView.stories";
 import { ConfigProvider } from "contexts/config";
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
+import { EmotionCacheProvider } from "__mocks__/EmotionCacheProvider";
 import { RQWrapper } from "../__mocks__/RQWrapper";
 
 import { ThemeProvider } from "@mui/material/styles";
@@ -22,9 +23,11 @@ test("renders Analyses Listing Table without crashing", () => {
         <RQWrapper>
             <I18nProviderWrapper>
                 <ConfigProvider>
-                    <ThemeProvider theme={theme}>
-                        <AnalysesTableViewTest />
-                    </ThemeProvider>
+                    <EmotionCacheProvider>
+                        <ThemeProvider theme={theme}>
+                            <AnalysesTableViewTest />
+                        </ThemeProvider>
+                    </EmotionCacheProvider>
                 </ConfigProvider>
             </I18nProviderWrapper>
         </RQWrapper>

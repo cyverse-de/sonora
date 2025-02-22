@@ -142,13 +142,17 @@ export default {
         resourceType: {
             control: {
                 type: "select",
-                options: resType,
             },
+            options: resType,
         },
         open: {
             control: {
                 type: "boolean",
             },
         },
+    },
+    args: {
+        resourceType: "FOLDER",
+        open: true,
     },
 };

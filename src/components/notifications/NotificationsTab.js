@@ -27,53 +27,55 @@ import { getFormattedDistance } from "components/utils/DateFormatter";
 
 const useStyles = makeStyles()(styles);
 
-const NotificationsListingButton = React.forwardRef((props, ref) => {
-    const { isMobile, handleClose, href, onClick } = props;
-    const { t } = useTranslation("common");
-    const buttonId = buildID(
-        ids.BASE_DEBUG_ID,
-        ids.NOTIFICATIONS_MENU,
-        ids.VIEW_ALL_NOTIFICATIONS
-    );
+const NotificationsListingButton = React.forwardRef(
+    function NotificationsListingButton(props, ref) {
+        const { isMobile, handleClose, href, onClick } = props;
+        const { t } = useTranslation("common");
+        const buttonId = buildID(
+            ids.BASE_DEBUG_ID,
+            ids.NOTIFICATIONS_MENU,
+            ids.VIEW_ALL_NOTIFICATIONS
+        );
 
-    const { classes } = useStyles();
+        const { classes } = useStyles();
 
-    return isMobile ? (
-        <IconButton
-            className={classes.viewAll}
-            id={buttonId}
-            ref={ref}
-            href={href}
-            onClick={(event) => {
-                onClick(event);
-                handleClose();
-            }}
-            size="large"
-        >
-            <OpenInNewIcon size="small" />
-        </IconButton>
-    ) : (
-        <Button
-            id={buttonId}
-            color="primary"
-            startIcon={<OpenInNewIcon size="small" />}
-            ref={ref}
-            href={href}
-            onClick={(event) => {
-                onClick(event);
-                handleClose();
-            }}
-        >
-            {t("viewAllNotifications")}
-        </Button>
-    );
-});
+        return isMobile ? (
+            <IconButton
+                className={classes.viewAll}
+                id={buttonId}
+                ref={ref}
+                href={href}
+                onClick={(event) => {
+                    onClick(event);
+                    handleClose();
+                }}
+                size="large"
+            >
+                <OpenInNewIcon size="small" />
+            </IconButton>
+        ) : (
+            <Button
+                id={buttonId}
+                color="primary"
+                startIcon={<OpenInNewIcon size="small" />}
+                ref={ref}
+                href={href}
+                onClick={(event) => {
+                    onClick(event);
+                    handleClose();
+                }}
+            >
+                {t("viewAllNotifications")}
+            </Button>
+        );
+    }
+);
 
 function NotificationsListingLink(props) {
     const href = `/${NavigationConstants.NOTIFICATIONS}`;
 
     return (
-        <Link href={href} as={href} passHref>
+        <Link href={href} as={href} passHref legacyBehavior>
             <NotificationsListingButton {...props} />
         </Link>
     );

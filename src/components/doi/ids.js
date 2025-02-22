@@ -1,4 +1,4 @@
-export default {
+const ids = {
     LISTING_TABLE: "tableView",
     USER: "user",
     PATH: "path",
@@ -17,3 +17,5 @@ export default {
     COMMENTS: "comments",
     DOI_CONFIRM_DIALOG: "doiConfirmDialog",
 };
+
+export default ids;

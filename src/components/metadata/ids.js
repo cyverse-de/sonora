@@ -1,4 +1,4 @@
-export default {
+const ids = {
     EDIT_METADATA_FORM: "editMetadataDialog",
     METADATA_TEMPLATE_LISTING: "metadataTemplateListing",
     METADATA_TEMPLATE_VIEW: "metadataTemplate",
@@ -9,6 +9,7 @@ export default {
     AVU_VALUE: "value",
     AVU_UNIT: "unit",
     AVU_AVUS: "avus",
+
     BUTTONS: {
         ADD: "addBtn",
         CONFIRM: "confirmBtn",
@@ -27,6 +28,7 @@ export default {
         VIEW_USER_METADATA: "viewUserMetadata",
         VIEW_IRODS_METADATA: "viewIRODSMetadata",
     },
+
     COL_ACTIONS: "actions",
     COL_HEADER: "colHeader",
     DIALOG: "dialog",
@@ -39,3 +41,5 @@ export default {
     METADATA_FILE: "metadataFile",
     BULK_METADATA_DIALOG: "bulkMetadataDialog",
 };
+
+export default ids;

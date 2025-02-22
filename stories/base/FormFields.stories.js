@@ -22,21 +22,18 @@ import { MenuItem, ListItemText } from "@mui/material";
 
 const helperText = {
     name: "Helper Text",
-    defaultValue: "",
     control: {
         type: "text",
     },
 };
 const required = {
     name: "Required?",
-    defaultValue: false,
     control: {
         type: "boolean",
     },
 };
 const readOnly = {
     name: "Read Only?",
-    defaultValue: false,
     control: {
         type: "boolean",
     },
@@ -87,7 +84,6 @@ export const TextField = ({
 TextField.argTypes = {
     label: {
         name: "Label",
-        defaultValue: "Text Field Label",
         control: {
             type: "text",
         },
@@ -96,12 +92,19 @@ TextField.argTypes = {
     required,
     loading: {
         name: "Loading Mask?",
-        defaultValue: false,
         control: {
             type: "boolean",
         },
     },
     readOnly,
+};
+
+TextField.args = {
+    label: "Text Field Label",
+    helperText: "",
+    required: false,
+    loading: false,
+    readOnly: false,
 };
 
 export const MultilineTextField = ({
@@ -128,7 +131,6 @@ export const MultilineTextField = ({
 MultilineTextField.argTypes = {
     label: {
         name: "Label",
-        defaultValue: "MultiLine Field Label",
         control: {
             type: "text",
         },
@@ -136,6 +138,13 @@ MultilineTextField.argTypes = {
     helperText,
     required,
     readOnly,
+};
+
+MultilineTextField.args = {
+    label: "MultiLine Field Label",
+    helperText: "",
+    required: false,
+    readOnly: false,
 };
 
 export const IntegerField = ({ label, helperText, required, readOnly }) => {
@@ -157,7 +166,6 @@ export const IntegerField = ({ label, helperText, required, readOnly }) => {
 IntegerField.argTypes = {
     label: {
         name: "Label",
-        defaultValue: "Integer Field Label",
         control: {
             type: "text",
         },
@@ -165,6 +173,13 @@ IntegerField.argTypes = {
     helperText,
     required,
     readOnly,
+};
+
+IntegerField.args = {
+    label: "Integer Field Label",
+    helperText: "",
+    required: false,
+    readOnly: false,
 };
 
 export const NumberField = ({ label, helperText, required, readOnly }) => {
@@ -186,7 +201,6 @@ export const NumberField = ({ label, helperText, required, readOnly }) => {
 NumberField.argTypes = {
     label: {
         name: "Label",
-        defaultValue: "Number Field Label",
         control: {
             type: "text",
         },
@@ -195,6 +209,14 @@ NumberField.argTypes = {
     required,
     readOnly,
 };
+
+NumberField.args = {
+    label: "Number Field Label",
+    helperText: "",
+    required: false,
+    readOnly: false,
+};
+
 export const SelectField = ({ label, helperText, required, readOnly }) => {
     const inputProps = { readOnly };
     return (
@@ -218,7 +240,6 @@ export const SelectField = ({ label, helperText, required, readOnly }) => {
 SelectField.argTypes = {
     label: {
         name: "Label",
-        defaultValue: "Select Field Label",
         control: {
             type: "text",
         },
@@ -226,6 +247,13 @@ SelectField.argTypes = {
     helperText,
     required,
     readOnly,
+};
+
+SelectField.args = {
+    label: "Select Field Label",
+    helperText: "",
+    required: false,
+    readOnly: false,
 };
 
 export const Checkbox = ({ label, helperText, readOnly }) => {
@@ -242,16 +270,22 @@ export const Checkbox = ({ label, helperText, readOnly }) => {
         </TestForm>
     );
 };
+
 Checkbox.argTypes = {
     label: {
         name: "Label",
-        defaultValue: "Checkbox Label",
         control: {
             type: "text",
         },
     },
     helperText,
     readOnly,
+};
+
+Checkbox.args = {
+    label: "Checkbox Label",
+    helperText: "",
+    readOnly: false,
 };
 
 export const Switch = ({ label, helperText, readOnly }) => {
@@ -272,13 +306,18 @@ export const Switch = ({ label, helperText, readOnly }) => {
 Switch.argTypes = {
     label: {
         name: "Label",
-        defaultValue: "Switch Label",
         control: {
             type: "text",
         },
     },
     helperText,
     readOnly,
+};
+
+Switch.args = {
+    label: "Switch Label",
+    helperText: "",
+    readOnly: false,
 };
 
 export const Timestamp = ({ label, helperText, readOnly }) => {
@@ -305,13 +344,18 @@ export const Timestamp = ({ label, helperText, readOnly }) => {
 Timestamp.argTypes = {
     label: {
         name: "Label",
-        defaultValue: "Timestamp Field Label",
         control: {
             type: "text",
         },
     },
     helperText,
     readOnly,
+};
+
+Timestamp.args = {
+    label: "Timestamp Field Label",
+    helperText: "",
+    readOnly: false,
 };
 
 export const SearchField = ({ label, helperText, required }) => {
@@ -403,7 +447,6 @@ export const SearchField = ({ label, helperText, required }) => {
 SearchField.argTypes = {
     label: {
         name: "Label",
-        defaultValue: "Search Field Label",
         control: {
             type: "text",
         },
@@ -412,5 +455,10 @@ SearchField.argTypes = {
     required,
 };
 
-// eslint-disable-next-line import/no-anonymous-default-export
+SearchField.args = {
+    label: "Search Field Label",
+    helperText: "",
+    required: false,
+};
+
 export default { title: "base/Form Fields" };

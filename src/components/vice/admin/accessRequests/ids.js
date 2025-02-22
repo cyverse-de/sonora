@@ -1,4 +1,4 @@
-export default {
+const ids = {
     APPROVE_BTN: "approveButton",
     REJECT_BTN: "rejectButton",
     JOB_LIMITS_DLG: "jobLimitDialog",
@@ -9,3 +9,5 @@ export default {
     REQUESTS_TABLE: "requestTable",
     REJECT_MESSAGE_TEXT_FIELD: "rejectMessageText",
 };
+
+export default ids;

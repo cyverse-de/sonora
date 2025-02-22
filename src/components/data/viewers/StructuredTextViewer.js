@@ -112,9 +112,15 @@ export default function StructuredTextViewer(props) {
             >
                 <TableHead>
                     {headerGroups.map((headerGroup) => (
-                        <TableRow {...headerGroup.getHeaderGroupProps()}>
+                        <TableRow
+                            key={headerGroup.id}
+                            {...headerGroup.getHeaderGroupProps()}
+                        >
                             {headerGroup.headers.map((column) => (
-                                <TableCell {...column.getHeaderProps()}>
+                                <TableCell
+                                    key={column.id}
+                                    {...column.getHeaderProps()}
+                                >
                                     {column.render("Header")}
                                 </TableCell>
                             ))}
@@ -122,13 +128,16 @@ export default function StructuredTextViewer(props) {
                     ))}
                 </TableHead>
                 <TableBody {...getTableBodyProps()}>
-                    {rows.map((row, index) => {
+                    {rows.map((row) => {
                         prepareRow(row);
                         return (
-                            <TableRow {...row.getRowProps()}>
+                            <TableRow key={row.id} {...row.getRowProps()}>
                                 {row.cells.map((cell) => {
                                     return (
-                                        <TableCell {...cell.getCellProps()}>
+                                        <TableCell
+                                            key={cell.row.id}
+                                            {...cell.getCellProps()}
+                                        >
                                             {cell.render("Cell")}
                                         </TableCell>
                                     );

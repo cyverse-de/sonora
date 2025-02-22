@@ -1,8 +1,9 @@
 // Add global constants here.
 
-export default {
+const constants = {
     // The CyVerse page for DE. Not the DE base URL.
     CYVERSE_POLICY_URL: "https://cyverse.org/policies",
+
     CYVERSE_ABOUT_URL: "https://cyverse.org/about",
     OLD_DE_LINK: "https://legacy-de.cyverse.org",
     DEFAULT_USER_PORTAL_URL: "https://user.cyverse.org",
@@ -30,10 +31,13 @@ export default {
     WSS_PROTOCOL: "wss://",
     USER_PORTAL: "https://user.cyverse.org/register",
     USER_PORTAL_FAQ: "https://learning.cyverse.org/faq/#user-account",
+
     IMPORT_IRODS_METADATA_LINK:
         "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027072/Using+Metadata+in+the+DE#UsingMetadataintheDE-irodsMetadataImport",
+
     DEFAULT_USERNAME_SUFFIX: "iplantcollaborative.org",
     WEBSOCKET_MAX_CONNECTION_ATTEMPTS: 10,
+
     LOCAL_STORAGE: {
         DATA: {
             COLUMNS: "sonora.data.columns",
@@ -52,10 +56,12 @@ export default {
             PAGE_SIZE: "sonora.tools.pageSize",
         },
     },
+
     CHROMATIC_IGNORE: "chromatic-ignore",
     AGAVE_SYSTEM_ID: "agave",
     SORT_ASCENDING: "asc",
     SORT_DESCENDING: "desc",
+
     HELP_DOCS: {
         APP_AND_TOOL_INFO:
             "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027152/Viewing+App+and+Tool+Information",
@@ -74,22 +80,30 @@ export default {
         SPECIAL_CHARS:
             "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027163/Troubleshooting+an+Analysis#TroubleshootinganAnalysis-3.Checktheinputfilesandparameter",
     },
+
     ANONYMOUS_USER: "anonymous",
+
     JAVA_PATTERN_DOC:
         "https://docs.oracle.com/javase/9/docs/api/java/util/regex/Pattern.html",
+
     URL_REGEX: /^(?:ftp|FTP|HTTPS?|https?):\/\/[^/]+\.[^/]+.*/i,
+
     EMAIL_REGEX:
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+
     DE_GUIDE: "https://learning.cyverse.org/de/",
     CYVERSE_LC: "https://learning.cyverse.org/",
     DEFAULT_EMAIL: "no-reply@cyverse.org",
     GETTING_STARTED: "https://learning.cyverse.org/",
     DOI_GUIDE: "https://learning.cyverse.org/ds/doi/",
+
     DC_USER_AGREEMENT:
         "https://cyverse.org/policies/data-commons-user-agreement",
+
     CYVERSE_GLOSSARY: "https://learning.cyverse.org/glossary/",
     XSEDE_ALLOC_LINK: "https://portal.xsede.org/allocation-request-steps",
     VICE_LOADING_PAGE: "/vice",
+
     METADATA: {
         COMMUNITY_ATTR: "cyverse-community",
         INSTANT_LAUNCH_LOCATION_ATTR: "ui_location",
@@ -97,6 +111,7 @@ export default {
         INSTANT_LAUNCH_NAV_DRAWER: "nav_drawer",
         INSTANT_LAUNCH_LISTING: "listing",
     },
+
     VICE_LOGS_POLLING_INTERVAL: 10000,
     DATA_STORAGE_QUOTA_LIMIT_DEFAULT: 50 * 2 ** 30,
     DATA_STORAGE_RESOURCE_NAME: "data.size",
@@ -104,3 +119,5 @@ export default {
     CPU_HOURS_QUOTA_LIMIT_DEFAULT: 20,
     CPU_HOURS_RESOURCE_NAME: "cpu.hours",
 };
+
+export default constants;

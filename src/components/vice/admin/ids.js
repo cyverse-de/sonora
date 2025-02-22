@@ -1,4 +1,4 @@
-export default {
+const ids = {
     BASE: "vice.admin",
     ROOT: "root",
     SKELETON: "skeleton",
@@ -7,3 +7,5 @@ export default {
     INSTANT_LAUNCHES_TAB: "instantLaunchesTab",
     DATA_MAPPING_TAB: "dataMappingTab",
 };
+
+export default ids;

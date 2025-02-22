@@ -1,4 +1,4 @@
-export default {
+const AppParamTypes = {
     DOUBLE: "Double",
     DOUBLE_SELECTION: "DoubleSelection",
     ENV_VAR: "EnvironmentVariable",
@@ -35,3 +35,5 @@ export const ValidatorTypes = {
     INT_RANGE: "IntRange",
     REGEX: "Regex",
 };
+
+export default AppParamTypes;

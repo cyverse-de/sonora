@@ -14,7 +14,11 @@ export default {
 export const TryUploadTrackingProvider = () => {
     const TestComponent = () => {
         const uploads = useUploadTrackingState();
-        return <div>Should be 0 => {uploads.uploads.length}</div>;
+        return (
+            <div>
+                Should be 0 ={">"} {uploads.uploads.length}
+            </div>
+        );
     };
 
     return (
@@ -29,8 +33,9 @@ export const WithOneUpload = () => {
         const tracked = useUploadTrackingState();
         return (
             <div>
-                Should be 1 => {tracked.uploads.length} <br /> Should be
-                test-value-0 => {tracked.uploads[0]?.filename}
+                Should be 1 ={">"} {tracked.uploads.length}
+                <br />
+                Should be test-value-0 ={">"} {tracked.uploads[0]?.filename}
             </div>
         );
     };

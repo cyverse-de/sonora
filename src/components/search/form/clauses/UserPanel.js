@@ -30,7 +30,7 @@ function UserPanel(props) {
         <Paper id={panelId} classes={{ root: classes.paperPadding }}>
             <Grid container spacing={1}>
                 {users?.map((user, index) => (
-                    <Grid item>
+                    <Grid key={user} item>
                         <Chip
                             id={buildID(panelId, user)}
                             onDelete={() => onDelete(index)}

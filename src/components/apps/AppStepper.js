@@ -27,7 +27,10 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 
 import { Skeleton } from "@mui/material";
 
-export const StepperSkeleton = React.forwardRef(({ baseId }, ref) => {
+export const StepperSkeleton = React.forwardRef(function StepperSkeleton(
+    { baseId },
+    ref
+) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -65,7 +68,7 @@ export const StepperSkeleton = React.forwardRef(({ baseId }, ref) => {
     );
 });
 
-const AppStepper = React.forwardRef((props, ref) => {
+const AppStepper = React.forwardRef(function AppStepper(props, ref) {
     const {
         baseId,
         steps,

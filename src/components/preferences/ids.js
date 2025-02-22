@@ -1,4 +1,4 @@
-export default {
+const ids = {
     ANALYSES_EMAIL_NOTIFICATION_SWITCH: "analysesEmailNotificationSwitch",
     PERIODIC_EMAIL_NOTIFICATION_SWITCH: "periodicEmailNotificationSwitch",
     PERIODIC_NOTIFICATION_PERIOD: "periodicNotificationPeriod",
@@ -29,3 +29,5 @@ export default {
     WEBHOOK_TEST_BTN: "webhookTestBtn",
     WEBHOOK_TOPIC_SWITCH: "webhookTopicSwitch",
 };
+
+export default ids;

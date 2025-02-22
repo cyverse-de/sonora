@@ -74,7 +74,7 @@ function AnalysisName(props) {
         ?.reduce((acc, cur, i) => [...acc, "_", <wbr key={i} />, cur]);
 
     return (
-        <Link href={href} as={as} passHref>
+        <Link href={href} as={as} passHref legacyBehavior>
             <DELink
                 id={buildID(baseId, ids.ANALYSIS_NAME_CELL)}
                 text={linkText}

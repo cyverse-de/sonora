@@ -32,18 +32,19 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 
-const IndeterminateCheckbox = React.forwardRef(
-    ({ indeterminate, ...rest }, ref) => {
-        const defaultRef = React.useRef();
-        const resolvedRef = ref || defaultRef;
+const IndeterminateCheckbox = React.forwardRef(function IndeterminateCheckbox(
+    { indeterminate, ...rest },
+    ref
+) {
+    const defaultRef = React.useRef();
+    const resolvedRef = ref || defaultRef;
 
-        React.useEffect(() => {
-            resolvedRef.current.indeterminate = indeterminate;
-        }, [resolvedRef, indeterminate]);
+    React.useEffect(() => {
+        resolvedRef.current.indeterminate = indeterminate;
+    }, [resolvedRef, indeterminate]);
 
-        return <Checkbox type="Checkbox" ref={resolvedRef} {...rest} />;
-    }
-);
+    return <Checkbox type="Checkbox" ref={resolvedRef} {...rest} />;
+});
 
 const EnhancedTable = ({
     baseId,
@@ -157,9 +158,13 @@ const EnhancedTable = ({
                 <Table size="small" stickyHeader {...getTableProps()}>
                     <TableHead>
                         {headerGroups.map((headerGroup) => (
-                            <TableRow {...headerGroup.getHeaderGroupProps()}>
+                            <TableRow
+                                key={headerGroup.id}
+                                {...headerGroup.getHeaderGroupProps()}
+                            >
                                 {headerGroup.headers.map((column) => (
                                     <TableCell
+                                        key={column.id}
                                         {...(column.id === "selection"
                                             ? column.getHeaderProps()
                                             : column.getHeaderProps(
@@ -187,6 +192,7 @@ const EnhancedTable = ({
                             prepareRow(row);
                             return (
                                 <TableRow
+                                    key={row.id}
                                     {...row.getRowProps()}
                                     onClick={(event) =>
                                         handleClick(event, row, index)
@@ -194,7 +200,10 @@ const EnhancedTable = ({
                                 >
                                     {row.cells.map((cell) => {
                                         return (
-                                            <TableCell {...cell.getCellProps()}>
+                                            <TableCell
+                                                key={cell.row.id}
+                                                {...cell.getCellProps()}
+                                            >
                                                 {cell.render("Cell")}
                                             </TableCell>
                                         );

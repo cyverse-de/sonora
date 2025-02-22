@@ -34,7 +34,6 @@ function DetailsPanel(props) {
         isPublic,
         isExternal,
         detailsError,
-        favMutationError,
         ratingMutationError,
     } = props;
     const { t } = useTranslation("apps");
@@ -47,8 +46,6 @@ function DetailsPanel(props) {
     let errorMessage;
     if (detailsError) {
         errorMessage = t("appDetailsError");
-    } else if (favMutationError) {
-        errorMessage = t("favMutationError");
     } else if (ratingMutationError) {
         errorMessage = t("ratingMutationError");
     }
@@ -64,11 +61,7 @@ function DetailsPanel(props) {
                     <DEErrorDialog
                         open={errorDialogOpen}
                         baseId={baseId}
-                        errorObject={
-                            detailsError ||
-                            favMutationError ||
-                            ratingMutationError
-                        }
+                        errorObject={detailsError || ratingMutationError}
                         handleClose={() => {
                             setErrorDialogOpen(false);
                         }}

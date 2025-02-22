@@ -15,13 +15,14 @@ import * as constants from "../constants";
 import ItemBase, { ItemAction, DashboardFeedItem } from "./ItemBase";
 
 class EventItem extends ItemBase {
-    constructor({ section, content, height, width }) {
+    constructor({ section, content, height, width, config }) {
         super({
             kind: constants.KIND_EVENTS,
             content,
             section,
             height,
             width,
+            config,
         });
     }
 

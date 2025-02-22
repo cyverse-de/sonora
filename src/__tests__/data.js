@@ -5,6 +5,7 @@ import { DataTableViewTest } from "../../stories/data/TableView.stories";
 import { PathListFileViewerTest } from "../../stories/data/viewers/PathListViewer.stories";
 import { PlainTextFileViewerTest } from "../../stories/data/viewers/TextViewer.stories";
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
+import { EmotionCacheProvider } from "__mocks__/EmotionCacheProvider";
 import { ConfigProvider } from "../contexts/config";
 import { RQWrapper } from "../__mocks__/RQWrapper";
 
@@ -18,9 +19,11 @@ beforeAll(async () => {
 const TestProviderWrapper = ({ children }) => (
     <RQWrapper>
         <I18nProviderWrapper>
-            <ThemeProvider theme={theme}>
-                <ConfigProvider>{children}</ConfigProvider>
-            </ThemeProvider>
+            <EmotionCacheProvider>
+                <ThemeProvider theme={theme}>
+                    <ConfigProvider>{children}</ConfigProvider>
+                </ThemeProvider>
+            </EmotionCacheProvider>
         </I18nProviderWrapper>
     </RQWrapper>
 );

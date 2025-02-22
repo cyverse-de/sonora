@@ -76,6 +76,7 @@ export default function BatchResults(props) {
                 Cell: ({ row }) => (
                     <Link
                         href={`/${NavigationConstants.ANALYSES}/${row?.original.id}?view=${BATCH_DRILL_DOWN}`}
+                        legacyBehavior
                     >
                         <DELink
                             id={row?.original.id}

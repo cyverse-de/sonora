@@ -1,4 +1,4 @@
-export default {
+const ids = {
     CHECKBOX: "checkbox",
     NAME: "name",
     OWNER: "owner",
@@ -134,3 +134,5 @@ export default {
     BATCH_PANEL_HEADER: "batchPanelHeader",
     BATCH_PANEL: "batchPanel",
 };
+
+export default ids;

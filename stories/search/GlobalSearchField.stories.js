@@ -67,7 +67,7 @@ function GlobalSearchFieldTest() {
                 open={!!appSearchDrawerQuery}
                 onConfirm={onConfirmSelectedApps}
                 onClose={() => setAppSearchDrawerQuery(null)}
-                searchTerm={appSearchDrawerQuery?.searchTerm}
+                searchTerm={appSearchDrawerQuery?.searchTerm || ""}
                 validateSelection={validateAppSelection}
             />
 

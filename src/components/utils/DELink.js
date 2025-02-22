@@ -16,6 +16,7 @@ import React from "react";
 import Highlighter from "components/highlighter/Highlighter";
 import { Link } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
+
 const useStyles = makeStyles()((theme) => ({
     link: {
         cursor: "pointer",
@@ -25,7 +26,8 @@ const useStyles = makeStyles()((theme) => ({
         },
     },
 }));
-const DELink = React.forwardRef((props, ref) => {
+
+const DELink = React.forwardRef(function DELink(props, ref) {
     const { id, text, title, searchTerm, onClick, href } = props;
     const { classes } = useStyles();
     return (

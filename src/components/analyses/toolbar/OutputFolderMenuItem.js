@@ -13,7 +13,10 @@ import React from "react";
 import ids from "../ids";
 import { isTerminated } from "../utils";
 
-const OutputFolderMenuItem = React.forwardRef((props, ref) => {
+const OutputFolderMenuItem = React.forwardRef(function OutputFolderMenuItem(
+    props,
+    ref
+) {
     const {
         baseId,
         onClick,

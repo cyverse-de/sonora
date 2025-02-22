@@ -1,4 +1,4 @@
-export default {
+const constants = {
     ALL: "all",
     ANALYSES: "analyses",
     APPS: "apps",
@@ -12,3 +12,5 @@ export default {
     VIEW_ALL_ANALYSES_ID: "viewAllAnalyses",
     VIEW_ALL_TEAMS_ID: "viewAllTeams",
 };
+
+export default constants;

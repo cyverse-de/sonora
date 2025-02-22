@@ -1,4 +1,4 @@
-export default {
+const ids = {
     ADD_TO_BAG_MI: "addToBagMenuItem",
     ADVANCED_DATA_SEARCH: "advancedDataSearchMenuItem",
     AUTO_CREATE_HT_FILE_MI: "autoCreateHTFileMenuItem",
@@ -118,3 +118,5 @@ export default {
     UPLOAD_QUEUE_MI: "uploadQueueMenuItem",
     WRITE: "write",
 };
+
+export default ids;

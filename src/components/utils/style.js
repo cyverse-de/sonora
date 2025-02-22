@@ -1,6 +1,6 @@
 import palette from "../theme/default/CyVersePalette";
 
-export default {
+const style = {
     errorHandlerTitle: {
         display: "flex",
     },
@@ -28,3 +28,5 @@ export default {
         marginTop: "10px",
     },
 };
+
+export default style;

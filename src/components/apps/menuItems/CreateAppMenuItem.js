@@ -14,13 +14,16 @@ import buildID from "components/utils/DebugIDUtil";
 import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import { Add as CreateAppIcon } from "@mui/icons-material";
 
-const CreateAppMenuItem = React.forwardRef((props, ref) => {
+const CreateAppMenuItem = React.forwardRef(function CreateAppMenuItem(
+    props,
+    ref
+) {
     const { baseId } = props;
 
     const { t } = useTranslation("apps");
 
     return (
-        <Link href={NavigationConstants.NEW_APP}>
+        <Link href={NavigationConstants.NEW_APP} legacyBehavior>
             <MenuItem ref={ref} id={buildID(baseId, ids.CREATE_APP_MENU_ITEM)}>
                 <ListItemIcon>
                     <CreateAppIcon fontSize="small" />

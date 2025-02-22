@@ -255,7 +255,7 @@ const pods = {
     ),
 };
 
-export default {
+const efcs = {
     deployments,
     services,
     analyses,
@@ -263,3 +263,5 @@ export default {
     ingresses,
     configMaps,
 };
+
+export default efcs;

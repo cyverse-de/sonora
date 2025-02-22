@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import { Typography, Collapse, Button, Divider } from "@mui/material";
 
+import { useConfig } from "contexts/config";
+
 import getItem from "./dashboardItem";
 
 import useStyles from "./styles";
@@ -30,6 +32,7 @@ const DashboardSection = ({
 }) => {
     const { classes, cx } = useStyles();
     const [expanded, setExpanded] = useState(false);
+    const [config] = useConfig();
 
     const isNewsSection = section === constants.SECTION_NEWS;
     const isEventsSection = section === constants.SECTION_EVENTS;
@@ -53,6 +56,7 @@ const DashboardSection = ({
             setDetailsAnalysis,
             setPendingAnalysis,
             setTerminateAnalysis,
+            config,
             theme,
             t,
             computeLimitExceeded,

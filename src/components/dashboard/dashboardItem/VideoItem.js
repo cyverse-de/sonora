@@ -7,13 +7,14 @@ import ItemBase, { DashboardVideoItem } from "./ItemBase";
 import NavConstants from "../../../common/NavigationConstants";
 
 class VideoItem extends ItemBase {
-    constructor({ section, content, height, width }) {
+    constructor({ section, content, height, width, config }) {
         super({
             kind: constants.KIND_FEEDS,
             content,
             section,
             height,
             width,
+            config,
         });
     }
 

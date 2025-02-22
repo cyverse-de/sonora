@@ -1,4 +1,4 @@
-export default {
+const ids = {
     APP_LAUNCH_FORM: "templateForm",
     APP_LAUNCH_COMMENTS: "comments",
     APP_LAUNCH_DOUBLE_SELECTION: "doubleSelection",
@@ -24,6 +24,7 @@ export default {
     APP_LAUNCH_REVIEW: "launchAnalysisReview",
     APP_LAUNCH_TEXT_INPUT: "textInput",
     APP_LAUNCH_TEXT_SELECTION: "textSelection",
+
     BUTTONS: {
         ADD: "addBtn",
         BROWSE: "browseBtn",
@@ -40,11 +41,16 @@ export default {
         STEP_BACK: "stepBackButton",
         STEP_NEXT: "stepNextButton",
     },
+
     LAUNCH_ANALYSIS_GROUP: "launchAnalysisGroup",
+
     RESOURCE_REQUESTS: {
         TOOL_CPU: "idToolCpu",
         TOOL_MEM: "idToolMem",
         MIN_DISK_SPACE: "minDiskSpace",
     },
+
     TEMPLATE_GROUP: "group",
 };
+
+export default ids;

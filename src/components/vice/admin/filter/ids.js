@@ -1,4 +1,4 @@
-export default {
+const ids = {
     BASE: "vice.admin.filter",
     ROOT: "root",
 
@@ -26,3 +26,5 @@ export default {
     COMMON_FIELD_SELECT: "commonFieldSelect",
     COMMON_FIELD_VALUE: "commonFieldValue",
 };
+
+export default ids;

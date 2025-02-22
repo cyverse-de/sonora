@@ -1,10 +1,12 @@
-export default {
+const FlagParamsApp = {
     description: "Tests variations of flag parameters.",
+
     requirements: [
         {
             step_number: 0,
         },
     ],
+
     deleted: false,
     disabled: false,
     name: "Flag params",
@@ -12,6 +14,7 @@ export default {
     label: "Flag params",
     id: "ddef9b02-5751-11ea-b2f6-008cfa5ae621",
     app_type: "DE",
+
     groups: [
         {
             id: "ddf164b4-5751-11ea-b2f6-008cfa5ae621",
@@ -73,3 +76,5 @@ export default {
         },
     ],
 };
+
+export default FlagParamsApp;

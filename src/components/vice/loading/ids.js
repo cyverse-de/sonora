@@ -1,4 +1,4 @@
-export default {
+const ids = {
     CANCEL_BTN: "cancelBtn",
     CONTACT_SUPPORT_BTN: "contactSupportBtn",
     CONTACT_SUPPORT_DLG: "contactSupportDlg",
@@ -13,3 +13,5 @@ export default {
     TOOLBAR: "toolbar",
     VIEW: "viceLoading",
 };
+
+export default ids;

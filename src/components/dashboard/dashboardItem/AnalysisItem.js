@@ -23,13 +23,14 @@ import { isTerminated } from "components/analyses/utils";
 import { isInteractive, openInteractiveUrl } from "components/analyses/utils";
 
 class AnalysisItem extends ItemBase {
-    constructor({ section, content, height, width }) {
+    constructor({ section, content, height, width, config }) {
         super({
             kind: constants.KIND_ANALYSES,
             content,
             section,
             height,
             width,
+            config,
         });
     }
 
@@ -55,6 +56,7 @@ class AnalysisItem extends ItemBase {
                 <Link
                     href={`/${NavConstants.ANALYSES}/[analysisId]/${NavConstants.RELAUNCH}`}
                     as={`/${NavConstants.ANALYSES}/${item.content.id}/${NavConstants.RELAUNCH}`}
+                    legacyBehavior
                 >
                     <IconButton
                         style={{
@@ -75,6 +77,7 @@ class AnalysisItem extends ItemBase {
                     <Link
                         href={`/${NavConstants.DATA}/ds/[...pathItems]`}
                         as={getFolderPage(item.content.resultfolderid)}
+                        legacyBehavior
                     >
                         <IconButton
                             style={{

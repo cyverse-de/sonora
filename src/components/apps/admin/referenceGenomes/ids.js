@@ -1,4 +1,4 @@
-export default {
+const ids = {
     ADD_BUTTON: "addButton",
     CANCEL_BUTTON: "cancelButton",
     CREATED_BY_TEXT: "createdBy",
@@ -13,3 +13,5 @@ export default {
     TABLE_VIEW: "tableView",
     TOOLBAR: "toolbar",
 };
+
+export default ids;

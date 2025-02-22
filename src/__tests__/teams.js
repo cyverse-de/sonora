@@ -5,6 +5,7 @@ import { View, SearchResults } from "../../stories/teams/Teams.stories";
 import { mockAxios } from "../../stories/axiosMock";
 import { UserProfileProvider } from "contexts/userProfile";
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
+import { EmotionCacheProvider } from "__mocks__/EmotionCacheProvider";
 import { getAllPrivileges, getPrivilegeUpdates } from "components/teams/util";
 import Privilege from "components/models/Privilege";
 import { RQWrapper } from "../__mocks__/RQWrapper";
@@ -27,9 +28,11 @@ test("Team view renders", () => {
         <RQWrapper>
             <UserProfileProvider>
                 <I18nProviderWrapper>
-                    <ThemeProvider theme={theme}>
-                        <View />
-                    </ThemeProvider>
+                    <EmotionCacheProvider>
+                        <ThemeProvider theme={theme}>
+                            <View />
+                        </ThemeProvider>
+                    </EmotionCacheProvider>
                 </I18nProviderWrapper>
             </UserProfileProvider>
         </RQWrapper>

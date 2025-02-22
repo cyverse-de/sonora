@@ -60,13 +60,15 @@ function WrappedDataIcon(dataUsagePercentage, t, theme) {
             <InfoIcon color="secondary" />
         );
 
-    return (props) => (
+    const DataIconWrapper = (props) => (
         <Tooltip title={usageTitle} placement="top-start">
             <Badge badgeContent={BadgeContent}>
                 <DataIcon {...props} />
             </Badge>
         </Tooltip>
     );
+
+    return DataIconWrapper;
 }
 
 function WrappedAnalysesIcon(analysesStats) {
@@ -172,6 +174,7 @@ function DrawerItems(props) {
             {open &&
                 runningViceJobs?.map((analysis) => (
                     <DrawerItem
+                        key={analysis.id}
                         nested
                         title={analysis.name}
                         id={analysis.id}

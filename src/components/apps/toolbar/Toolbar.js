@@ -244,7 +244,10 @@ function AppsToolbar(props) {
 
                     {!isSmDown && (
                         <>
-                            <Link href={`/${NavigationConstants.TOOLS}`}>
+                            <Link
+                                href={`/${NavigationConstants.TOOLS}`}
+                                legacyBehavior
+                            >
                                 <Button
                                     id={buildID(appsToolbarId, ids.TOOLS_BTN)}
                                     className={classes.toolbarItems}
@@ -259,6 +262,7 @@ function AppsToolbar(props) {
                             </Link>
                             <Link
                                 href={`/${NavigationConstants.INSTANT_LAUNCHES}`}
+                                legacyBehavior
                             >
                                 <Button
                                     id={buildID(

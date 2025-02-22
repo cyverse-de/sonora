@@ -1,8 +1,9 @@
 import constants from "../../../../src/constants";
 
-export default {
+const JupyterLabNoParamsApp = {
     description:
         "Launches a Jupyter Lab with ScyPy \n\nMaintained here: https://github.com/cyverse-vice/jupyterlab-scipy ",
+
     requirements: [
         {
             step_number: 0,
@@ -13,6 +14,7 @@ export default {
             default_disk_space: 128 * constants.ONE_GiB,
         },
     ],
+
     deleted: false,
     disabled: false,
     name: "Jupyter Lab no params",
@@ -22,3 +24,5 @@ export default {
     app_type: "DE",
     groups: [],
 };
+
+export default JupyterLabNoParamsApp;

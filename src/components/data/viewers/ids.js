@@ -1,4 +1,4 @@
-export default {
+const ids = {
     ADD_BTN: "addRowButton",
     ADD_MENU_ITEM: "addRowMenuItem",
     DATA_SELECTOR: "dataSelector",
@@ -38,3 +38,5 @@ export default {
     VIEWER_VIDEO: "video",
     WRAP_TEXT_SWITCH: "wrapTextSwitch",
 };
+
+export default ids;

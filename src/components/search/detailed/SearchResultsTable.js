@@ -118,9 +118,13 @@ const SearchResultsTable = ({
                 <Table size="small" stickyHeader {...getTableProps()}>
                     <TableHead>
                         {headerGroups.map((headerGroup) => (
-                            <TableRow {...headerGroup.getHeaderGroupProps()}>
+                            <TableRow
+                                key={headerGroup.id}
+                                {...headerGroup.getHeaderGroupProps()}
+                            >
                                 {headerGroup.headers.map((column) => (
                                     <TableCell
+                                        key={column.id}
                                         {...(column.id === "selection"
                                             ? column.getHeaderProps()
                                             : column.getHeaderProps(
@@ -167,13 +171,17 @@ const SearchResultsTable = ({
                     )}
                     {!loading && (
                         <TableBody>
-                            {rows.map((row, index) => {
+                            {rows.map((row) => {
                                 prepareRow(row);
                                 return (
-                                    <TableRow {...row.getRowProps()}>
+                                    <TableRow
+                                        key={row.id}
+                                        {...row.getRowProps()}
+                                    >
                                         {row.cells.map((cell) => {
                                             return (
                                                 <TableCell
+                                                    key={cell.row.id}
                                                     {...cell.getCellProps()}
                                                 >
                                                     {cell.render("Cell")}

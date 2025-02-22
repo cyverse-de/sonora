@@ -1,5 +1,6 @@
-export default {
+const ids = {
     LOADING_SKELETON: "loadingSkeleton",
+
     TEAMS: {
         ALL_TEAMS_MI: "allTeamsMI",
         BASE: "teams",
@@ -13,6 +14,7 @@ export default {
         SEARCH: "searchField",
         TABLE: "table",
     },
+
     EDIT_TEAM: {
         NAME: "name",
         DESCRIPTION: "description",
@@ -27,11 +29,13 @@ export default {
         LEAVE_TEAM_DLG: "leaveTeamDlg",
         DELETE_TEAM_DLG: "deleteTeamDlg",
     },
+
     JOIN_TEAM: {
         DIALOG: "joinTeamDlg",
         JOIN_BTN: "joinBtn",
         JOIN_MSG: "joinMsg",
     },
+
     BUTTONS: {
         CANCEL_BTN: "cancelBtn",
         CREATE_BTN: "createBtn",
@@ -47,3 +51,5 @@ export default {
         SAVE_BTN: "saveBtn",
     },
 };
+
+export default ids;

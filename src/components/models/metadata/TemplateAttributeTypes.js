@@ -3,7 +3,7 @@
  *
  * @author psarando
  */
-export default {
+const TemplateAttributeTypes = {
     BOOLEAN: "Boolean",
     ENUM: "Enum",
     GROUPING: "Grouping",
@@ -16,3 +16,5 @@ export default {
     TIMESTAMP: "Timestamp",
     URL: "URL/URI",
 };
+
+export default TemplateAttributeTypes;

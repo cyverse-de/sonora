@@ -3,9 +3,11 @@
  *
  * @author psarando
  */
-export default {
+const OntologyLookupServiceEntityTypeFilters = {
     CLASS: "class",
     PROPERTY: "property",
     INDIVIDUAL: "individual",
     ONTOLOGY: "ontology",
 };
+
+export default OntologyLookupServiceEntityTypeFilters;

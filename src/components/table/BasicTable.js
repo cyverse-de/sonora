@@ -53,9 +53,13 @@ function BasicTable(props) {
             >
                 <TableHead>
                     {headerGroups.map((headerGroup) => (
-                        <TableRow {...headerGroup.getHeaderGroupProps()}>
+                        <TableRow
+                            key={headerGroup.id}
+                            {...headerGroup.getHeaderGroupProps()}
+                        >
                             {headerGroup.headers.map((column) => (
                                 <TableCell
+                                    key={column.id}
                                     variant="head"
                                     {...column.getHeaderProps(
                                         sortable &&
@@ -98,10 +102,11 @@ function BasicTable(props) {
                         {rows.map((row) => {
                             prepareRow(row);
                             return (
-                                <TableRow {...row.getRowProps()}>
+                                <TableRow key={row.id} {...row.getRowProps()}>
                                     {row.cells.map((cell) => {
                                         return (
                                             <TableCell
+                                                key={cell.row.id}
                                                 padding={bodyCellPadding}
                                                 {...cell.getCellProps()}
                                             >

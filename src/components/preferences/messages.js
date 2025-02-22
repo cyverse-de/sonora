@@ -1,5 +1,6 @@
-export default {
+const messages = {
     locales: "en-us",
+
     messages: {
         analysesViewShortcutLbl: "Open analyses view",
         analysisStatusEmailLbl: "Email me when my analysis status changes",
@@ -42,3 +43,5 @@ export default {
             "Display Warning about wait times for submitting HPC apps",
     },
 };
+
+export default messages;

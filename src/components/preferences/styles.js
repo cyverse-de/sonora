@@ -1,4 +1,4 @@
-export default (theme) => ({
+const styles = (theme) => ({
     root: {
         overflowY: "auto",
         width: "100%",
@@ -49,3 +49,5 @@ export default (theme) => ({
         margin: theme.spacing(1),
     },
 });
+
+export default styles;

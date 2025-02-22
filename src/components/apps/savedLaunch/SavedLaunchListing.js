@@ -79,7 +79,7 @@ function SavedLaunchChipLink(props) {
     const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch?saved-launch-id=${launchId}`;
     const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?saved-launch-id=${launchId}`;
     return (
-        <Link href={href} as={as} passHref>
+        <Link href={href} as={as} passHref legacyBehavior>
             <SavedLaunch
                 id={id}
                 label={label}
@@ -97,7 +97,7 @@ function SavedLaunchButtonLink(props) {
     const href = `/${NavigationConstants.APPS}/[systemId]/[appId]/launch?saved-launch-id=${launchId}`;
     const as = `/${NavigationConstants.APPS}/${systemId}/${appId}/launch?saved-launch-id=${launchId}`;
     return (
-        <Link href={href} as={as} passHref>
+        <Link href={href} as={as} passHref legacyBehavior>
             <IconButton
                 id={id}
                 fontSize="small"
@@ -326,7 +326,7 @@ function ListSavedLaunches(props) {
                     <Typography variant="subtitle2">
                         {t("noSavedLaunches")}
                     </Typography>
-                    <Link href={href} as={as} passHref>
+                    <Link href={href} as={as} passHref legacyBehavior>
                         <MuiLink underline="hover">
                             {t("createSavedLaunchLabel")}
                         </MuiLink>

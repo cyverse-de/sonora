@@ -17,7 +17,7 @@ import {
     REQUEST_TO_JOIN,
 } from "components/notifications/utils";
 
-const NotificationsContext = React.createContext({});
+const NotificationsContext = React.createContext();
 
 /**
  *  A hook that returns state for obtaining push notification messages
@@ -42,11 +42,13 @@ function useNotifications() {
  * allowing them to get push notifications
  *
  * @param props
+ * @param props.wsEnabled Allows websockets to be disabled when this context is
+ *                        used in tests and stories.
  * @returns {*}
  * @constructor
  */
 function NotificationsProvider(props) {
-    const { children } = props;
+    const { children, wsEnabled = true } = props;
     const [userProfile] = useUserProfile();
     const [userId, setUserId] = useState(null);
     const [currentNotification, setCurrentNotification] = useState(null);
@@ -83,7 +85,7 @@ function NotificationsProvider(props) {
     // Allow websocket connection be cached between component unmounts.
     const wsConn = useRef(null);
     useEffect(() => {
-        if (userId && !wsConn.current) {
+        if (wsEnabled && userId && !wsConn.current) {
             const location = window.location;
             const protocol =
                 location.protocol.toLowerCase() === "https:"
@@ -110,7 +112,7 @@ function NotificationsProvider(props) {
             //example, when switching between apps and data
             setCurrentNotification(null);
         };
-    }, [currentNotification, userId, onMessage, wsConn]);
+    }, [currentNotification, wsEnabled, userId, onMessage, wsConn]);
 
     //when user logs out, close the websocket connection
     useEffect(() => {

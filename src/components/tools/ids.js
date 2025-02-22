@@ -1,4 +1,4 @@
-export default {
+const ids = {
     CHECKBOX: "checkbox",
     IMAGE_NAME: "image-name",
     INSTALLED_TOOLS_DLG: "installedToolsDlg",
@@ -9,6 +9,7 @@ export default {
     DETAILS_DRAWER: "detailsDrawer",
     INFO_TAB: "infoTab",
     APPS_USING_TOOL: "appsUsingTool",
+
     EDIT_TOOL_DLG: {
         NAME: "name",
         DESCRIPTION: "toolDesc",
@@ -55,6 +56,7 @@ export default {
         BIND_TO_HOST: "bindToHost",
         OVERWRITE_TOOL_DLG: "overWriteDialog",
     },
+
     BUTTONS: {
         SAVE: "saveBtn",
         CANCEL: "cancelBtn",
@@ -63,14 +65,17 @@ export default {
         SUBMIT: "submitBtn",
         OK: "okBtn",
     },
+
     PORTS_TABLE: {
         NAME: "name",
         DELETE: "remove",
     },
+
     DEVICES_TABLE: {
         HOST_PATH: "hostPath",
         CONTAINER_PATH: "containerPath",
     },
+
     MANAGE_TOOLS: {
         VIEW: "toolsView",
         TOOLBAR: "toolbar",
@@ -95,6 +100,7 @@ export default {
         TOOL_CHECKBOX: "checkBox",
         VIEW_FILTER_FIELD: "filterField",
     },
+
     TOOL_REQUEST: {
         ADMIN_TOOL_REQUEST_DETAILS: "adminToolRequestDetailsDlg",
         DIALOG: "toolRequestDlg",
@@ -112,3 +118,5 @@ export default {
         STATUS: "status",
     },
 };
+
+export default ids;

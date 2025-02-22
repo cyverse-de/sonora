@@ -1,4 +1,4 @@
-export default {
+const constants = {
     TYPE: "type",
     SYSTEM_ID: "system-id",
     APP_ID: "app-id",
@@ -10,3 +10,5 @@ export default {
     APP_NAME_RESTRICTED_STARTING_CHARS: "~.$",
     DOCUMENTATION_TEMPLATE_URL: "app-doc-template.txt",
 };
+
+export default constants;

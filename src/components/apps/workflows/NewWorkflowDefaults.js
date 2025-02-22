@@ -4,10 +4,12 @@
  *
  * @author psarando
  */
-export default {
+const NewWorkflowDefaults = {
     name: "",
     description: "",
     steps: [],
     tasks: [],
     mappings: [],
 };
+
+export default NewWorkflowDefaults;

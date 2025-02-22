@@ -38,7 +38,10 @@ function getTextColor(theme, severity) {
     return color;
 }
 
-const MySnackbarContent = React.forwardRef((props, ref) => {
+const MySnackbarContent = React.forwardRef(function MySnackbarContent(
+    props,
+    ref
+) {
     const { message, onClose, variant: severity, action } = props;
     const theme = useTheme();
     return (

@@ -1,4 +1,4 @@
-export default {
+const AgaveWordCount = {
     integration_date: "2018-06-19T20:09:42.000Z",
     description: "[no description provided]",
     deleted: false,
@@ -9,6 +9,7 @@ export default {
     id: "word-count-de-2-0.0.3",
     edited_date: "2018-06-19T20:09:42.000Z",
     app_type: "External",
+
     groups: [
         {
             id: "Inputs",
@@ -33,3 +34,5 @@ export default {
         },
     ],
 };
+
+export default AgaveWordCount;

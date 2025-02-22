@@ -69,47 +69,40 @@ ViceLoadingTest.parameters = { chromatic: { disableSnapshot: true } };
 
 ViceLoadingTest.argTypes = {
     statusEndpointError: {
-        defaultValue: false,
         control: {
             type: "boolean",
         },
     },
     deploymentComplete: {
-        defaultValue: false,
         control: {
             type: "boolean",
         },
     },
     serviceComplete: {
-        defaultValue: true,
         control: {
             type: "boolean",
         },
     },
     ingressComplete: {
-        defaultValue: true,
         control: {
             type: "boolean",
         },
     },
     configMapsComplete: {
-        defaultValue: true,
         control: {
             type: "boolean",
         },
     },
     foundHostForPods: {
-        defaultValue: false,
         control: {
             type: "boolean",
         },
     },
     uploadStatus: {
-        defaultValue: POD_STATUS.WAITING_INIT,
         control: {
             type: "select",
-            options: Object.values(POD_STATUS),
         },
+        options: Object.values(POD_STATUS),
     },
     viceProxyPodComplete: {
         control: {
@@ -122,18 +115,30 @@ ViceLoadingTest.argTypes = {
         },
     },
     analysisPodStatus: {
-        defaultValue: POD_STATUS.WAITING_INIT,
         control: {
             type: "select",
-            options: Object.values(POD_STATUS),
         },
+        options: Object.values(POD_STATUS),
     },
     urlReadyEndpointError: {
-        defaultValue: true,
         control: {
             type: "boolean",
         },
     },
+};
+
+ViceLoadingTest.args = {
+    statusEndpointError: false,
+    deploymentComplete: false,
+    serviceComplete: true,
+    ingressComplete: true,
+    configMapsComplete: true,
+    foundHostForPods: false,
+    uploadStatus: POD_STATUS.WAITING_INIT,
+    viceProxyPodComplete: false,
+    inputFilesPodComplete: false,
+    analysisPodStatus: POD_STATUS.WAITING_INIT,
+    urlReadyEndpointError: true,
 };
 
 export default {

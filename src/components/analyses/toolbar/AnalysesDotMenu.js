@@ -149,6 +149,7 @@ function DotMenuItems(props) {
                 href={outputFolderHref}
                 as={outputFolderAs}
                 passHref
+                legacyBehavior
             >
                 <OutputFolderMenuItem
                     baseId={baseId}
@@ -164,6 +165,7 @@ function DotMenuItems(props) {
                 href={href}
                 as={as}
                 passHref
+                legacyBehavior
             >
                 <RelaunchMenuItem baseId={baseId} />
             </Link>

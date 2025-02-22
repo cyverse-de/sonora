@@ -1,6 +1,7 @@
-export default {
+const ids = {
     ADD_BUTTON: "addButton",
     ADD_BUTTON_TOOLTIP: "addButtonTooltip",
+
     ADDONS: {
         DEFAULT_AMOUNT: "defaultAmount",
         DEFAULT_AMOUNT_CELL: "defaultAmountCell",
@@ -20,6 +21,7 @@ export default {
         RESOURCE_TYPE: "resourceType",
         RESOURCE_TYPE_CELL: "resourceTypeCell",
     },
+
     ADDONS_DLG: {
         DEFAULT_AMOUNT: "defaultAmount",
         DEFAULT_PAID: "defaultPaid",
@@ -33,17 +35,21 @@ export default {
             EFFECTIVE_DATE: "effectiveDate",
         },
     },
+
     ADDONS_MENU_ITEM: "addonsMenuItem",
     CANCEL_BUTTON: "cancelButton",
     DELETE_BUTTON: "deleteButton",
     DETAILS_DRAWER: "detailsDrawer",
     DETAILS_MENU_ITEM: "detail",
     DETAILS_PANEL: "detailsPanel",
+
     EDIT_ADDON_DLG: {
         NAME: "name",
     },
+
     EDIT_QUOTAS_MENU_ITEM: "editQuotasMenuItem",
     EDIT_SUBSCRIPTION_MENU_ITEM: "editSubscriptionMenuItem",
+
     EDIT_QUOTAS_DLG: {
         USERNAME: "username",
         PLAN_NAME: "planName",
@@ -52,6 +58,7 @@ export default {
         RESOURCE_NAME: "resourceName",
         RESOURCE_TYPE: "resourceType",
     },
+
     EDIT_SUB_DLG: {
         PAID: "paid",
         PLAN_NAME: "planName",
@@ -62,6 +69,7 @@ export default {
         USAGES_RESOURCE_TYPE: "usagesResourceType",
         USERNAME: "username",
     },
+
     END_DATE: "endDate",
     END_DATE_CELL: "endDateCell",
     ERROR_DLG: "errorDialog",
@@ -77,6 +85,7 @@ export default {
     SELECTED_USER: "selectedUser",
     START_DATE: "startDate",
     START_DATE_CELL: "startDateCell",
+
     SUB_ADDONS: {
         AVAILABLE_ADDONS: "availableAddons",
         EDIT_ADDONS_TABLE: "editAddonsTable",
@@ -84,6 +93,7 @@ export default {
         PAID_FIELD: "editAddonsPaidField",
         UUID_FIELD: "UUIDField",
     },
+
     SUBSCRIPTION_DETAILS: "subscriptionDetails",
     SUBSCRIPTION_DETAILS_TAB: "subscriptionDetailsTab",
     SUBSCRIPTION_LISTING: "subscriptionListing",
@@ -93,3 +103,5 @@ export default {
     USERNAME: "username",
     USERNAME_CELL: "usernameCell",
 };
+
+export default ids;

@@ -1,4 +1,4 @@
-export default {
+const ids = {
     BASE: "instantlaunches",
     LIST: "list",
     MAPPING: "mapping",
@@ -39,3 +39,5 @@ export default {
     ACCESS_REQUEST_DLG: "accessRequestDlg",
     RUN_ERROR_DLG: "runErrorDlg",
 };
+
+export default ids;

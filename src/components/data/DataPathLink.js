@@ -58,7 +58,7 @@ export default function DataPathLink(props) {
                 {isFetchingStat || statError ? (
                     displayValue
                 ) : (
-                    <Link passHref href={linkTarget}>
+                    <Link passHref href={linkTarget} legacyBehavior>
                         <DELink
                             id={id}
                             text={displayValue}

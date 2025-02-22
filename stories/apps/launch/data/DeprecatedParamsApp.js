@@ -1,10 +1,12 @@
-export default {
+const DeprecatedParamsApp = {
     description: "An app to test deprecated params.",
+
     requirements: [
         {
             step_number: 0,
         },
     ],
+
     deleted: false,
     disabled: false,
     name: "Hierarchical List Selector app",
@@ -14,10 +16,12 @@ export default {
     app_type: "DE",
     version: "v1",
     version_id: "8a1e3b3c-0d34-11ed-8b77-62d47aced14b",
+
     versions: [
         { version: "v2", version_id: "b9e1e332-0d34-11ed-ab8a-62d47aced14b" },
         { version: "v1", version_id: "8a1e3b3c-0d34-11ed-8b77-62d47aced14b" },
     ],
+
     groups: [
         {
             id: "d7679d4c-5a86-11ea-9e38-008cfa5ae621",
@@ -131,3 +135,5 @@ export default {
         },
     ],
 };
+
+export default DeprecatedParamsApp;

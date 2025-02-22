@@ -1,4 +1,4 @@
-export default {
+const ids = {
     LOADING_SKELETON: "loadingSkeleton",
     PAGE_SIZE_MENU: "pageSizeMenu",
     PAGINATION_TOOLBAR: "paginationToolbar",
@@ -24,16 +24,21 @@ export default {
     SAVE_BTN: "saveBtn",
     COPY_LINK_MENU_ITEM: "copyLinkMenuItem",
     COPY_LINK_BUTTON: "copyLinkButton",
+
     DIALOG: {
         CANCEL: "cancel",
         CONFIRM: "confirm",
         TITLE: "title",
     },
+
     BUTTONS: {
         DELETE: "deleteBtn",
         EXPAND: "expandBtn",
     },
+
     errorHandlerDlg: "errorHandlerDlg",
     HELPER_TEXT: "helper-text",
     okBtn: "okBtn",
 };
+
+export default ids;

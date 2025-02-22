@@ -1,4 +1,4 @@
-export default {
+const ids = {
     ABOUT_LINK: "aboutLink",
     ACCOUNT_BTN: "accountButton",
     ACCOUNT_MI: "accountMenuItem",
@@ -48,3 +48,5 @@ export default {
     USER_TOUR_DLG: "userTourDialog",
     VICE_MI: "viceMenuItem",
 };
+
+export default ids;

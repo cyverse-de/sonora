@@ -1,10 +1,12 @@
-export default {
+const TextParamsApp = {
     description: "Text input, info text, and env var parameters.",
+
     requirements: [
         {
             step_number: 0,
         },
     ],
+
     deleted: false,
     disabled: false,
     name: "Text params",
@@ -12,6 +14,7 @@ export default {
     label: "Text params",
     id: "1778b1d6-5a83-11ea-9e38-008cfa5ae621",
     app_type: "DE",
+
     groups: [
         {
             id: "177d4ae8-5a83-11ea-9e38-008cfa5ae621",
@@ -92,3 +95,5 @@ export default {
         },
     ],
 };
+
+export default TextParamsApp;

@@ -1,4 +1,4 @@
-export default (theme) => ({
+const styles = (theme) => ({
     analysesIcon: {
         width: "28px",
     },
@@ -31,3 +31,5 @@ export default (theme) => ({
         paddingBottom: theme.spacing(1),
     },
 });
+
+export default styles;

@@ -56,10 +56,15 @@ export default function Banner(props) {
                     <Image
                         src="/scienceBanner.svg"
                         alt={t("banner")}
+                        priority
                         height={400}
                         width={800}
                         loading="eager"
-                        layout="responsive"
+                        sizes="100vw"
+                        style={{
+                            width: "100%",
+                            height: "auto",
+                        }}
                     />
                 </Grid>
                 <Grid item xs={isMobile ? 12 : 6}>

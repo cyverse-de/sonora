@@ -1,4 +1,4 @@
-export default (theme) => ({
+const commonStyles = (theme) => ({
     accordionDetails: {
         flexDirection: "column",
         [theme.breakpoints.down("sm")]: {
@@ -23,3 +23,5 @@ export default (theme) => ({
         color: theme.palette.info.contrastText,
     },
 });
+
+export default commonStyles;

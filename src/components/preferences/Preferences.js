@@ -84,7 +84,7 @@ function Preferences(props) {
     const [defaultOutputFolder, setDefaultOutputFolder] = useState(null);
     const [defaultOutputFolderDetails, setDefaultOutputFolderDetails] =
         useState(null);
-    const [requireAgaveAuth, setRequireAgaveAuth] = useState(true);
+    const [requireTapisAuth, setRequireTapisAuth] = useState(true);
     const [outputFolderValidationError, setOutputFolderValidationError] =
         useState(null);
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
@@ -123,12 +123,8 @@ function Preferences(props) {
             setBootstrapQueryEnabled(false);
             setBootstrapInfo(respData);
             const session = respData?.session;
-            const agaveKey = session?.auth_redirect?.agave;
-            if (agaveKey) {
-                setRequireAgaveAuth(true);
-            } else {
-                setRequireAgaveAuth(false);
-            }
+            const hasTapisKey = !!session?.auth_redirect?.tapis;
+            setRequireTapisAuth(hasTapisKey);
         },
         [setBootstrapInfo]
     );
@@ -222,7 +218,7 @@ function Preferences(props) {
                     variant: SUCCESS,
                 });
                 setFetchRedirectURIsQueryEnabled(true);
-                setRequireAgaveAuth(true);
+                setRequireTapisAuth(true);
             },
             onError: (e) => {
                 showErrorAnnouncer(t("resetTokenError"), e);
@@ -554,7 +550,7 @@ function Preferences(props) {
                                 outputFolderValidationError={
                                     outputFolderValidationError
                                 }
-                                requireAgaveAuth={requireAgaveAuth}
+                                requireTapisAuth={requireTapisAuth}
                                 resetHPCToken={resetHPCToken}
                             />
                             <Divider className={classes.dividers} />

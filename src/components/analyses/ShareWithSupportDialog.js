@@ -144,7 +144,7 @@ function SubmittedStateSupport(props) {
                         i18nKey={
                             analysis.system_id === systemId.de
                                 ? "statusHelpCondorSubmitted"
-                                : "statusHelpAgaveSubmitted"
+                                : "statusHelpTapisSubmitted"
                         }
                         components={{
                             xsede: (
@@ -344,7 +344,7 @@ function RunningStateSupport(props) {
             ) : (
                 <dd>
                     <HelpContent component="span">
-                        {t("statusHelpAgaveRunning")}
+                        {t("statusHelpTapisRunning")}
                     </HelpContent>
                 </dd>
             )}

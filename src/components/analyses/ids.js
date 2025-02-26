@@ -79,11 +79,6 @@ const ids = {
     MINE: "mine",
     THEIRS: "theirs",
 
-    AGAVE: "agave",
-    DE: "de",
-    INTERACTIVE: "interactive",
-    OSG: "osg",
-
     DIALOG: {
         DELETE: "delete",
         CANCEL: "cancel",

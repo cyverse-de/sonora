@@ -153,7 +153,7 @@
     "savedLaunchEmbedUseInstantLaunch": "Use Instant Launch (if available)",
     "savedLaunchError": "Unable to get Saved Launch.",
     "savedLaunchNameLabel": "Name",
-    "savedLaunchNotSupportedMessage": "Saved Launch not supported for Agave apps!",
+    "savedLaunchNotSupportedMessage": "Saved Launch not supported for Tapis apps!",
     "savedLaunchShareToolTip": "Share Saved Launch URL",
     "savedLaunchToolTip": "Use this Saved Launch",
     "searchApps": "Search Apps",

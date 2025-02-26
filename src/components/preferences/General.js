@@ -46,7 +46,7 @@ function General(props) {
         onNewDefaultOutputFolder,
         isValidating,
         outputFolderValidationError,
-        requireAgaveAuth,
+        requireTapisAuth,
         resetHPCToken,
     } = props;
     const { t } = useTranslation("preferences");
@@ -236,7 +236,7 @@ function General(props) {
                         id={buildID(baseId, ids.RESET_HPC_BTN)}
                         color="primary"
                         variant="outlined"
-                        disabled={requireAgaveAuth}
+                        disabled={requireTapisAuth}
                         onClick={() =>
                             resetHPCToken({
                                 systemId: systemId.tapis,

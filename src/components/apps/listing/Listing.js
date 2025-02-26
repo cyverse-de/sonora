@@ -7,7 +7,7 @@
  */
 import React, { useCallback, useEffect, useState } from "react";
 
-import AgaveAuthPromptDialog from "../AgaveAuthPromptDialog";
+import TapisAuthPromptDialog from "../TapisAuthPromptDialog";
 import Drawer from "../details/Drawer";
 import TableView from "./TableView";
 import AppsToolbar from "../toolbar/Toolbar";
@@ -85,7 +85,7 @@ function Listing(props) {
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
 
     const [data, setData] = useState(null);
-    const [agaveAuthDialogOpen, setAgaveAuthDialogOpen] = useState(false);
+    const [tapisAuthDialogOpen, setTapisAuthDialogOpen] = useState(false);
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
 
@@ -329,9 +329,9 @@ function Listing(props) {
 
     useEffect(() => {
         if (data && data.Location && data.status === 302) {
-            setAgaveAuthDialogOpen(true);
+            setTapisAuthDialogOpen(true);
         }
-    }, [data, setAgaveAuthDialogOpen]);
+    }, [data, setTapisAuthDialogOpen]);
 
     useEffect(() => {
         const enabled = !!selected && selected.length === 1;
@@ -653,11 +653,11 @@ function Listing(props) {
 
     return (
         <>
-            <AgaveAuthPromptDialog
+            <TapisAuthPromptDialog
                 baseId={baseId}
-                open={agaveAuthDialogOpen}
+                open={tapisAuthDialogOpen}
                 location={data?.Location}
-                handleClose={() => setAgaveAuthDialogOpen(false)}
+                handleClose={() => setTapisAuthDialogOpen(false)}
             />
             <AppsToolbar
                 handleCategoryChange={handleCategoryChange}

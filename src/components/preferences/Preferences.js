@@ -48,6 +48,7 @@ import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import buildID from "components/utils/DebugIDUtil";
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { SUCCESS } from "components/announcer/AnnouncerConstants";
+import systemId from "components/models/systemId";
 
 import {
     Button,
@@ -236,7 +237,7 @@ function Preferences(props) {
         enabled: fetchRedirectURIsQueryEnabled,
         onSuccess: (resp) => {
             setFetchRedirectURIsQueryEnabled(false);
-            const redirectUrl = resp[constants.AGAVE_SYSTEM_ID];
+            const redirectUrl = resp[systemId.tapis];
             if (redirectUrl) {
                 setHPCAuthUrl(redirectUrl);
             }

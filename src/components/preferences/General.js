@@ -20,11 +20,10 @@ import SelectionDrawer from "../data/SelectionDrawer";
 import ResourceTypes from "../models/ResourceTypes";
 import GridLabelValue from "../utils/GridLabelValue";
 
-import constants from "../../constants";
-
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
 import FormSwitch from "components/forms/FormSwitch";
+import systemId from "components/models/systemId";
 
 import {
     Button,
@@ -240,7 +239,7 @@ function General(props) {
                         disabled={requireAgaveAuth}
                         onClick={() =>
                             resetHPCToken({
-                                systemId: constants.AGAVE_SYSTEM_ID,
+                                systemId: systemId.tapis,
                             })
                         }
                     >

@@ -58,7 +58,6 @@ const constants = {
     },
 
     CHROMATIC_IGNORE: "chromatic-ignore",
-    AGAVE_SYSTEM_ID: "agave",
     SORT_ASCENDING: "asc",
     SORT_DESCENDING: "desc",
 

@@ -25,7 +25,7 @@
     "myCollections": "My $t(featureName_plural)",
     "name": "Name",
     "noCollections": "No $t(featureName_plural)",
-    "noExternalApps": "Adding Agave/HPC apps is not currently supported",
+    "noExternalApps": "Adding Tapis/HPC apps is not currently supported",
     "noExternalAppsNote": "NOTE: $t(noExternalApps).",
     "pageTitle": "Collection - {{name}}",
     "remove": "Remove",

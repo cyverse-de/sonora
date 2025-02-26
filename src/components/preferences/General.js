@@ -20,11 +20,10 @@ import SelectionDrawer from "../data/SelectionDrawer";
 import ResourceTypes from "../models/ResourceTypes";
 import GridLabelValue from "../utils/GridLabelValue";
 
-import constants from "../../constants";
-
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
 import FormSwitch from "components/forms/FormSwitch";
+import systemId from "components/models/systemId";
 
 import {
     Button,
@@ -47,7 +46,7 @@ function General(props) {
         onNewDefaultOutputFolder,
         isValidating,
         outputFolderValidationError,
-        requireAgaveAuth,
+        requireTapisAuth,
         resetHPCToken,
     } = props;
     const { t } = useTranslation("preferences");
@@ -237,10 +236,10 @@ function General(props) {
                         id={buildID(baseId, ids.RESET_HPC_BTN)}
                         color="primary"
                         variant="outlined"
-                        disabled={requireAgaveAuth}
+                        disabled={requireTapisAuth}
                         onClick={() =>
                             resetHPCToken({
-                                systemId: constants.AGAVE_SYSTEM_ID,
+                                systemId: systemId.tapis,
                             })
                         }
                     >

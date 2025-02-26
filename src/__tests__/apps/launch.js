@@ -4,7 +4,7 @@ import TestRenderer from "react-test-renderer";
 import { mockAxios } from "../../../stories/axiosMock";
 
 import { DEWordCount } from "../../../stories/apps/launch/DEWordCount";
-import { AgaveWordCount } from "../../../stories/apps/launch/AgaveWordCount";
+import { TapisWordCount } from "../../../stories/apps/launch/TapisWordCount";
 import { DeprecatedParams } from "../../../stories/apps/launch/DeprecatedParamsApp";
 import { FlagParams } from "../../../stories/apps/launch/FlagParams";
 import { InputParams } from "../../../stories/apps/launch/InputParams";
@@ -50,10 +50,10 @@ test("App Launch DEWordCount renders", () => {
     component.unmount();
 });
 
-test("App Launch AgaveWordCount renders", () => {
+test("App Launch TapisWordCount renders", () => {
     const component = TestRenderer.create(
         <TestProviderWrapper>
-            <AgaveWordCount />
+            <TapisWordCount />
         </TestProviderWrapper>
     );
     component.unmount();

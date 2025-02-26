@@ -48,6 +48,7 @@ import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import buildID from "components/utils/DebugIDUtil";
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { SUCCESS } from "components/announcer/AnnouncerConstants";
+import systemId from "components/models/systemId";
 
 import {
     Button,
@@ -83,7 +84,7 @@ function Preferences(props) {
     const [defaultOutputFolder, setDefaultOutputFolder] = useState(null);
     const [defaultOutputFolderDetails, setDefaultOutputFolderDetails] =
         useState(null);
-    const [requireAgaveAuth, setRequireAgaveAuth] = useState(true);
+    const [requireTapisAuth, setRequireTapisAuth] = useState(true);
     const [outputFolderValidationError, setOutputFolderValidationError] =
         useState(null);
     const [bootstrapQueryEnabled, setBootstrapQueryEnabled] = useState(false);
@@ -122,12 +123,8 @@ function Preferences(props) {
             setBootstrapQueryEnabled(false);
             setBootstrapInfo(respData);
             const session = respData?.session;
-            const agaveKey = session?.auth_redirect?.agave;
-            if (agaveKey) {
-                setRequireAgaveAuth(true);
-            } else {
-                setRequireAgaveAuth(false);
-            }
+            const hasTapisKey = !!session?.auth_redirect?.tapis;
+            setRequireTapisAuth(hasTapisKey);
         },
         [setBootstrapInfo]
     );
@@ -221,7 +218,7 @@ function Preferences(props) {
                     variant: SUCCESS,
                 });
                 setFetchRedirectURIsQueryEnabled(true);
-                setRequireAgaveAuth(true);
+                setRequireTapisAuth(true);
             },
             onError: (e) => {
                 showErrorAnnouncer(t("resetTokenError"), e);
@@ -236,7 +233,7 @@ function Preferences(props) {
         enabled: fetchRedirectURIsQueryEnabled,
         onSuccess: (resp) => {
             setFetchRedirectURIsQueryEnabled(false);
-            const redirectUrl = resp[constants.AGAVE_SYSTEM_ID];
+            const redirectUrl = resp[systemId.tapis];
             if (redirectUrl) {
                 setHPCAuthUrl(redirectUrl);
             }
@@ -553,7 +550,7 @@ function Preferences(props) {
                                 outputFolderValidationError={
                                     outputFolderValidationError
                                 }
-                                requireAgaveAuth={requireAgaveAuth}
+                                requireTapisAuth={requireTapisAuth}
                                 resetHPCToken={resetHPCToken}
                             />
                             <Divider className={classes.dividers} />

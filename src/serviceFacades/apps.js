@@ -11,6 +11,7 @@ import {
     BETA_ATTR,
     BLESSED_ATTR,
 } from "components/apps/admin/avuUtils";
+import systemId from "components/models/systemId";
 
 const ALL_APPS_QUERY_KEY = "fetchAllApps";
 const APP_DETAILS_QUERY_KEY = "fetchAppDetails";
@@ -91,7 +92,7 @@ function getPrivateCategories(userId) {
                       ],
                   },
                   {
-                      system_id: constants.AGAVE_SYSTEM_ID,
+                      system_id: systemId.tapis,
                       id: "00000000-0000-0000-0000-000000000001",
                       name: constants.HPC,
                   },

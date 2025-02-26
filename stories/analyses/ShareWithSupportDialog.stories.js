@@ -1,10 +1,10 @@
 import React from "react";
 
-import { deWordCountAnalysis, agaveWordCountAnalysis } from "./AnalysesMocks";
+import { deWordCountAnalysis, tapisWordCountAnalysis } from "./AnalysesMocks";
 
 import ShareWithSupportDialog from "components/analyses/ShareWithSupportDialog";
 
-const analysisSystem = ["de", "agave"];
+const analysisSystem = ["de", "tapis"];
 const status = ["Submitted", "Running", "Completed", "Failed"];
 
 export const ShareAnalysisWithSupport = ({ system, status }) => {
@@ -18,7 +18,7 @@ export const ShareAnalysisWithSupport = ({ system, status }) => {
         };
     } else {
         analysis = {
-            ...agaveWordCountAnalysis,
+            ...tapisWordCountAnalysis,
             status,
         };
     }

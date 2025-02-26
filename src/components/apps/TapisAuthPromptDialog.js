@@ -1,7 +1,7 @@
 /**
  *
  * @author sriram
- * A simple dialog to prompt users to login with Agave
+ * A simple dialog to prompt users to login with Tapis
  */
 
 import React from "react";
@@ -19,7 +19,7 @@ import buildID from "components/utils/DebugIDUtil";
 
 import ids from "./ids";
 
-function AgaveAuthPromptDialog(props) {
+function TapisAuthPromptDialog(props) {
     const { baseId, location, open, handleClose } = props;
     const { t } = useTranslation("apps");
     const theme = useTheme();
@@ -30,23 +30,23 @@ function AgaveAuthPromptDialog(props) {
     };
     const dialogTitleId = buildID(
         baseId,
-        ids.AGAVE_AUTH_PROMPT_DIALOG,
-        ids.AGAVE_AUTH_PROMPT_DIALOG_TITLE
+        ids.TAPIS_AUTH_PROMPT_DIALOG,
+        ids.TAPIS_AUTH_PROMPT_DIALOG_TITLE
     );
     return (
         <Dialog
             open={open}
             onClose={handleClose}
-            id={buildID(baseId, ids.AGAVE_AUTH_PROMPT_DIALOG)}
+            id={buildID(baseId, ids.TAPIS_AUTH_PROMPT_DIALOG)}
             fullScreen={fullScreen}
             aria-labelledby={dialogTitleId}
         >
             <DialogTitle id={dialogTitleId}>
-                {t("agaveRedirectTitle")}
+                {t("tapisRedirectTitle")}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    {t("agaveRedirectMessage")}
+                    {t("tapisRedirectMessage")}
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -54,8 +54,8 @@ function AgaveAuthPromptDialog(props) {
                     onClick={handleClose}
                     id={buildID(
                         baseId,
-                        ids.AGAVE_AUTH_PROMPT_DIALOG,
-                        ids.AGAVE_AUTH_PROMPT_DIALOG_DENY_BTN
+                        ids.TAPIS_AUTH_PROMPT_DIALOG,
+                        ids.TAPIS_AUTH_PROMPT_DIALOG_DENY_BTN
                     )}
                 >
                     {t("declineAuthBtnText")}
@@ -65,8 +65,8 @@ function AgaveAuthPromptDialog(props) {
                     variant="contained"
                     id={buildID(
                         baseId,
-                        ids.AGAVE_AUTH_PROMPT_DIALOG,
-                        ids.AGAVE_AUTH_PROMPT_DIALOG_AUTH_BTN
+                        ids.TAPIS_AUTH_PROMPT_DIALOG,
+                        ids.TAPIS_AUTH_PROMPT_DIALOG_AUTH_BTN
                     )}
                 >
                     {t("authenticateBtnText")}
@@ -76,4 +76,4 @@ function AgaveAuthPromptDialog(props) {
     );
 }
 
-export default AgaveAuthPromptDialog;
+export default TapisAuthPromptDialog;

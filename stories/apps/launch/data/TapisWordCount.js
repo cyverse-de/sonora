@@ -1,10 +1,10 @@
-const AgaveWordCount = {
+const TapisWordCount = {
     integration_date: "2018-06-19T20:09:42.000Z",
     description: "[no description provided]",
     deleted: false,
     disabled: false,
     name: "Word Count DE-2 0.0.3",
-    system_id: "agave",
+    system_id: "tapis",
     label: "Word Count DE-2 0.0.3",
     id: "word-count-de-2-0.0.3",
     edited_date: "2018-06-19T20:09:42.000Z",
@@ -35,4 +35,4 @@ const AgaveWordCount = {
     ],
 };
 
-export default AgaveWordCount;
+export default TapisWordCount;

@@ -17,6 +17,8 @@ import { Link } from "@mui/icons-material";
 import { useTranslation } from "i18n";
 import { useQueryClient, useMutation, useQuery } from "react-query";
 
+import constants from "../../../constants";
+
 import ids from "../ids";
 import styles from "../styles";
 import TagSearch from "../TagSearch";
@@ -182,10 +184,12 @@ function DetailsTabPanel(props) {
                     />
                 </GridLabelValue>
                 <GridLabelValue label={t("deLink")}>
-                    <CopyTextArea
-                        text={`${getHost()}${partialLink}`}
-                        debugIdPrefix={buildID(baseId, ids.DE_LINK)}
-                    />
+                    <span className={constants.CHROMATIC_IGNORE}>
+                        <CopyTextArea
+                            text={`${getHost()}${partialLink}`}
+                            debugIdPrefix={buildID(baseId, ids.DE_LINK)}
+                        />
+                    </span>
                 </GridLabelValue>
                 {isFile && (
                     <Grid item xs={6}>

@@ -1,5 +1,5 @@
 export * from "./DEWordCount";
-export * from "./AgaveWordCount";
+export * from "./TapisWordCount";
 export * from "./JupyterLabNoParams";
 export * from "./DeprecatedParamsApp";
 export * from "./LoadingError";

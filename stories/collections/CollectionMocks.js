@@ -344,7 +344,7 @@ export const collectionApps = {
                 canRun: true,
                 results: [],
             },
-            system_id: "agave",
+            system_id: "tapis",
             is_public: true,
             id: "trinity-2.8.4u1",
             edited_date: "2021-06-11T21:38:17.000Z",

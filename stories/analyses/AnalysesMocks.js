@@ -19,13 +19,13 @@ export const deWordCountAnalysis = {
     app_name: "DE Word Count",
 };
 
-export const agaveWordCountAnalysis = {
+export const tapisWordCountAnalysis = {
     description: "",
     name: "Word_Count_DE-2_0.0.3_analysis1",
     can_share: true,
     username: "ipcdev@iplantcollaborative.org",
     app_id: "word-count-de-2-0.0.3",
-    system_id: "agave",
+    system_id: "tapis",
     app_disabled: false,
     batch: false,
     enddate: "1586394120300",
@@ -124,7 +124,7 @@ export const listing = {
         },
         runningVICEAnalysis,
         deWordCountAnalysis,
-        agaveWordCountAnalysis,
+        tapisWordCountAnalysis,
     ],
     timestamp: "1587108592817",
     total: 6,
@@ -926,7 +926,7 @@ export const info = {
             enddate: "1586398332000",
             status: "Completed",
             app_step_number: 1,
-            step_type: "Agave",
+            step_type: "Tapis",
             updates: [
                 {
                     status: "PENDING",
@@ -966,13 +966,13 @@ export const info = {
                 {
                     status: "STAGING_JOB",
                     message:
-                        "Fetching app assets from agave://data.iplantcollaborative.org/${foundation.service.apps.default.public.dir}/cut_columns-0.0.0u1.zip",
+                        "Fetching app assets from tapis://data.cyverse.org/${foundation.service.apps.default.public.dir}/cut_columns-0.0.0u1.zip",
                     timestamp: "1586398278000",
                 },
                 {
                     status: "STAGING_JOB",
                     message:
-                        "Staging runtime assets to agave://cyverseUK-Batch2/sarahr/job-853900453991617001-242ac116-0001-007-6869ed8f-ab38-4aaf-bb12-d0842e9fcb73_0001",
+                        "Staging runtime assets to tapis://cyverseUK-Batch2/sarahr/job-853900453991617001-242ac116-0001-007-6869ed8f-ab38-4aaf-bb12-d0842e9fcb73_0001",
                     timestamp: "1586398283000",
                 },
                 {
@@ -1008,7 +1008,7 @@ export const info = {
                 {
                     status: "ARCHIVING",
                     message:
-                        "Archiving agave://cyverseUK-Batch2/sarahr/job-853900453991617001-242ac116-0001-007-6869ed8f-ab38-4aaf-bb12-d0842e9fcb73_0001 to agave://qairods.cyverse.org//sarahr/analyses_qa/cut_201903281639-2019-03-29-00-10-15.5",
+                        "Archiving tapis://cyverseUK-Batch2/sarahr/job-853900453991617001-242ac116-0001-007-6869ed8f-ab38-4aaf-bb12-d0842e9fcb73_0001 to tapis://qairods.cyverse.org//sarahr/analyses_qa/cut_201903281639-2019-03-29-00-10-15.5",
                     timestamp: "1586398340000",
                 },
                 {

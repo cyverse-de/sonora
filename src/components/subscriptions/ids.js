@@ -62,6 +62,7 @@ const ids = {
     EDIT_SUB_DLG: {
         END_DATE: "endDate",
         PAID: "paid",
+        PERIODS: "subscriptionPeriods",
         PLAN_NAME: "planName",
         PLAN_TYPES: "planTypes",
         QUOTAS: "quotas",

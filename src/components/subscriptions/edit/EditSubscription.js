@@ -7,9 +7,10 @@ import DEDialog from "components/utils/DEDialog";
 import { Button, Grid, MenuItem } from "@mui/material";
 
 import FormCheckbox from "components/forms/FormCheckbox";
+import FormNumberField from "components/forms/FormNumberField";
 import FormTextField from "components/forms/FormTextField";
 import { announce } from "components/announcer/CyVerseAnnouncer";
-import { nonEmptyField } from "components/utils/validations";
+import { minValue, nonEmptyField } from "components/utils/validations";
 
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import SubscriptionErrorHandler from "../error/SubscriptionErrorHandler";
@@ -228,6 +229,14 @@ function EditSubscriptionForm(props) {
                     </MenuItem>
                 ))}
             </FastField>
+
+            <Field
+                component={FormNumberField}
+                id={buildID(parentId, ids.EDIT_SUB_DLG.PERIODS)}
+                label={t("subscriptionPeriods")}
+                name="periods"
+                validate={(value) => minValue(value, i18nUtil)}
+            />
 
             <Grid container spacing={1}>
                 <Grid item>

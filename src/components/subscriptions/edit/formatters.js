@@ -34,12 +34,13 @@ export function mapPropsToValues(subscription) {
 }
 
 export function formatSubscriptions(values) {
-    const { username, paid, plan_name, start_date, end_date } = values;
+    const { username, paid, periods, plan_name, start_date, end_date } = values;
 
     const submission = {
         username,
         plan_name,
         paid,
+        periods,
         start_date: start_date
             ? formatDateObject(new Date(start_date), dateConstants.ISO_8601)
             : undefined,

@@ -8,6 +8,7 @@ export function mapPropsToValues(subscription) {
         username: "",
         paid: true,
         plan_name: "",
+        periods: 1,
         quotas: [],
     };
 
@@ -17,6 +18,7 @@ export function mapPropsToValues(subscription) {
         values = {
             username: user.username,
             plan_name: plan.name,
+            periods: 1,
             paid,
         };
 
@@ -48,7 +50,6 @@ export function formatSubscriptions(values) {
             ? formatDateObject(new Date(end_date), dateConstants.ISO_8601)
             : undefined,
     };
-    console.log(submission);
     return submission;
 }
 

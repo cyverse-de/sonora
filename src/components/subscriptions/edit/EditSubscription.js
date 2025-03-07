@@ -4,12 +4,13 @@ import { FastField, Field, Form, Formik } from "formik";
 import { mapPropsToValues, formatSubscriptions } from "./formatters";
 
 import DEDialog from "components/utils/DEDialog";
-import { Button, MenuItem } from "@mui/material";
+import { Button, Grid, MenuItem } from "@mui/material";
 
 import FormCheckbox from "components/forms/FormCheckbox";
+import FormNumberField from "components/forms/FormNumberField";
 import FormTextField from "components/forms/FormTextField";
 import { announce } from "components/announcer/CyVerseAnnouncer";
-import { nonEmptyField } from "components/utils/validations";
+import { minValue, nonEmptyField } from "components/utils/validations";
 
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import SubscriptionErrorHandler from "../error/SubscriptionErrorHandler";
@@ -25,6 +26,7 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 import Usages from "./Usages";
 import { SUBSCRIPTIONS_QUERY_KEY } from "serviceFacades/subscriptions";
+import FormTimestampField from "components/forms/FormTimestampField";
 
 function EditSubscriptionDialog(props) {
     const { open, onClose, parentId, subscription } = props;
@@ -227,6 +229,34 @@ function EditSubscriptionForm(props) {
                     </MenuItem>
                 ))}
             </FastField>
+
+            <Field
+                component={FormNumberField}
+                id={buildID(parentId, ids.EDIT_SUB_DLG.PERIODS)}
+                label={t("subscriptionPeriods")}
+                name="periods"
+                validate={(value) => minValue(value, i18nUtil)}
+            />
+
+            <Grid container spacing={1}>
+                <Grid item>
+                    <Field
+                        name="start_date"
+                        component={FormTimestampField}
+                        helperText={t("startDate")}
+                        id={buildID(parentId, ids.EDIT_SUB_DLG.START_DATE)}
+                    />
+                </Grid>
+
+                <Grid item>
+                    <Field
+                        name="end_date"
+                        component={FormTimestampField}
+                        helperText={t("endDate")}
+                        id={buildID(parentId, ids.EDIT_SUB_DLG.END_DATE)}
+                    />
+                </Grid>
+            </Grid>
 
             <Field
                 name="paid"

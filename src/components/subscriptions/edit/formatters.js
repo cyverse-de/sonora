@@ -1,10 +1,14 @@
+import dateConstants from "components/utils/dateConstants";
+
 import { bytesInGiB, bytesToGiB } from "../utils";
+import { formatDateObject } from "components/utils/DateFormatter";
 
 export function mapPropsToValues(subscription) {
     let values = {
         username: "",
         paid: true,
         plan_name: "",
+        periods: 1,
         quotas: [],
     };
 
@@ -14,6 +18,7 @@ export function mapPropsToValues(subscription) {
         values = {
             username: user.username,
             plan_name: plan.name,
+            periods: 1,
             paid,
         };
 
@@ -31,12 +36,19 @@ export function mapPropsToValues(subscription) {
 }
 
 export function formatSubscriptions(values) {
-    const { username, paid, plan_name } = values;
+    const { username, paid, periods, plan_name, start_date, end_date } = values;
 
     const submission = {
         username,
         plan_name,
         paid,
+        periods,
+        start_date: start_date
+            ? formatDateObject(new Date(start_date), dateConstants.ISO_8601)
+            : undefined,
+        end_date: end_date
+            ? formatDateObject(new Date(end_date), dateConstants.ISO_8601)
+            : undefined,
     };
     return submission;
 }

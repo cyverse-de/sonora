@@ -106,7 +106,8 @@ function ResourceNameCell({
 
     const { data: project } = useQuery({
         queryKey: [LOCAL_CONTEXTS_QUERY_KEY, projectID],
-        queryFn: () => getLocalContextsProject({ projectID }),
+        queryFn: () =>
+            limitQueries(() => getLocalContextsProject({ projectID })),
         enabled: !!localContextsProjectURI,
         onError: (error) =>
             console.log("Error fetching Local Contexts project.", {

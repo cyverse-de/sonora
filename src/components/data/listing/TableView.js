@@ -6,6 +6,8 @@
 
 import React, { Fragment, useState } from "react";
 import { useQuery } from "react-query";
+import pLimit from "p-limit";
+
 import { useTranslation } from "i18n";
 import CustomizeColumns from "./CustomizeColumns";
 import dataFields from "../dataFields";
@@ -18,6 +20,9 @@ import TableLoading from "../../table/TableLoading";
 import constants from "../../../constants";
 import { getLocalStorage, setLocalStorage } from "../../utils/localStorage";
 import WrappedErrorHandler from "../../error/WrappedErrorHandler";
+
+import { useConfig } from "contexts/config";
+
 import { DERow } from "components/table/DERow";
 import DETableHead from "components/table/DETableHead";
 import { isPathInTrash, formatFileSize, useBaseTrashPath } from "../utils";
@@ -64,6 +69,7 @@ function ResourceNameCell({
     instantLaunch,
     computeLimitExceeded,
     handlePathChange,
+    limitQueries,
 }) {
     const theme = useTheme();
     const [localContextsProjectURI, setLocalContextsProjectURI] = useState();
@@ -72,7 +78,8 @@ function ResourceNameCell({
 
     useQuery({
         queryKey: [FILESYSTEM_METADATA_QUERY_KEY, { dataId: resourceId }],
-        queryFn: () => getFilesystemMetadata({ dataId: resourceId }),
+        queryFn: () =>
+            limitQueries(() => getFilesystemMetadata({ dataId: resourceId })),
         enabled: !!resourceId,
         onSuccess: (metadata) => {
             const { avus } = metadata;
@@ -269,11 +276,14 @@ function TableView(props) {
     const dataRecordFields = dataFields(t);
     const tableId = buildID(baseId, ids.LISTING_TABLE);
     const trashPath = useBaseTrashPath();
+    const [config] = useConfig();
 
     const [displayColumns, setDisplayColumns] = useState(
         getLocalStorageCols(rowDotMenuVisibility, dataRecordFields) ||
             getDefaultCols(rowDotMenuVisibility, dataRecordFields)
     );
+
+    const limitQueries = pLimit(config?.queriesConcurrencyLimit || 8);
 
     const onSetDisplayColumns = (columns) => {
         setLocalStorageCols(columns);
@@ -495,6 +505,7 @@ function TableView(props) {
                                                 computeLimitExceeded
                                             }
                                             handlePathChange={handlePathChange}
+                                            limitQueries={limitQueries}
                                         />
                                         {getColumnDetails(displayColumns).map(
                                             (column, index) => (

@@ -219,6 +219,8 @@ function MyApp({ Component, pageProps }) {
         const deFaq = publicRuntimeConfig.DE_FAQ;
         const cyverseURL = publicRuntimeConfig.CYVERSE_URL;
         const elasticEnabled = publicRuntimeConfig.ELASTIC_ENABLED;
+        const queriesConcurrencyLimit =
+            publicRuntimeConfig.QUERIES_CONCURRENCY_LIMIT;
 
         setConfig({
             intercom,
@@ -237,6 +239,7 @@ function MyApp({ Component, pageProps }) {
             deFaq,
             cyverseURL,
             elasticEnabled,
+            queriesConcurrencyLimit,
         });
 
         const jssStyles = document.querySelector("#jss-server-side");

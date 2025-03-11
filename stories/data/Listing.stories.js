@@ -20,6 +20,7 @@ import {
     usageSummaryStorageLimitExceededResponse,
     usageSummaryComputeLimitExceededResponse,
 } from "../usageSummaryMock";
+import { MockMetadata } from "../metadata/MetadataMocks";
 
 import { mockAxios } from "../axiosMock";
 import constants from "constants";
@@ -79,6 +80,12 @@ const DataListingTestTemplate = (args) => {
     mockAxios
         .onGet(/\/api\/resource-usage\/summary.*/)
         .reply(usageSummaryError ? 400 : 200, usageSummaryResponse);
+
+    mockAxios.onGet(/\/api\/filesystem\/.*\/metadata/).reply((config) => {
+        console.log("getMetadata", config.url);
+
+        return [200, MockMetadata];
+    });
 
     return <ListingTest />;
 };

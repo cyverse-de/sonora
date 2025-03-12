@@ -103,5 +103,6 @@ module.exports = withBundleAnalyzer({
         DE_FAQ: config.get("de_faq"),
         CYVERSE_URL: config.get("cyverse_url"),
         ELASTIC_ENABLED: config.get("elastic.enabled"),
+        QUERIES_CONCURRENCY_LIMIT: config.get("queriesConcurrencyLimit"),
     },
 });

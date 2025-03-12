@@ -7,6 +7,7 @@
 import React from "react";
 import { useTranslation } from "i18n";
 import Link from "next/link";
+import pLimit from "p-limit";
 
 import Actions from "./Actions";
 import ids from "../ids";
@@ -84,9 +85,12 @@ function AnalysisName(props) {
     );
 }
 
-function AnalysisDuration({ analysis, timeLimitCountdown }) {
+function AnalysisDuration({ analysis, timeLimitCountdown, limitQueries }) {
     const { t } = useTranslation("analyses");
-    const { elapsedTime, totalRunTime } = useAnalysisRunTime(analysis);
+    const { elapsedTime, totalRunTime } = useAnalysisRunTime(
+        analysis,
+        limitQueries
+    );
 
     return (
         <Typography variant="body2">
@@ -146,6 +150,7 @@ const AnalysisRow = withErrorAnnouncer((props) => {
         handleTimeLimitExtnClick,
         setVICELogsDlgOpen,
         showErrorAnnouncer,
+        limitQueries,
     } = props;
 
     const { timeLimit, timeLimitCountdown } = useAnalysisTimeLimitCountdown(
@@ -223,6 +228,7 @@ const AnalysisRow = withErrorAnnouncer((props) => {
                 <AnalysisDuration
                     analysis={analysis}
                     timeLimitCountdown={timeLimitCountdown}
+                    limitQueries={limitQueries}
                 />
             </TableCell>
             {!isSmall && (
@@ -318,6 +324,7 @@ function TableView(props) {
 
     const theme = useTheme();
     const { t } = useTranslation("analyses");
+    const [config] = useConfig();
 
     const isSmall = useMediaQuery(theme.breakpoints.down("md"));
     let columns = columnData(t);
@@ -326,6 +333,7 @@ function TableView(props) {
         columns = columns.filter((column) => column.id !== ids.ACTIONS);
     }
 
+    const limitQueries = pLimit(config?.queriesConcurrencyLimit || 8);
     const analyses = listing?.analyses;
     const tableId = buildID(baseId, ids.LISTING_TABLE);
 
@@ -396,6 +404,7 @@ function TableView(props) {
                                         handleTimeLimitExtnClick
                                     }
                                     setVICELogsDlgOpen={setVICELogsDlgOpen}
+                                    limitQueries={limitQueries}
                                 />
                             ))}
                     </TableBody>

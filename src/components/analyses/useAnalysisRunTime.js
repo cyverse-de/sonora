@@ -25,6 +25,7 @@ import { isTerminated } from "./utils";
 
 function useAnalysisRunTime(
     analysis,
+    limitQueries,
     stepFilterFn = (step) => step.step_number === 1
 ) {
     const isRunning = analysis?.status === analysisStatus.RUNNING;
@@ -34,9 +35,10 @@ function useAnalysisRunTime(
     const [elapsedTime, setElapsedTime] = useState(null);
     const [totalRunTime, setTotalRunTime] = useState(null);
 
+    const historyQuery = () => getAnalysisHistory(analysis?.id);
     useQuery({
         queryKey: [ANALYSIS_HISTORY_QUERY_KEY, analysis?.id],
-        queryFn: () => getAnalysisHistory(analysis?.id),
+        queryFn: limitQueries ? () => limitQueries(historyQuery) : historyQuery,
         enabled: isRunning || isComplete,
         onSuccess: (resp) => {
             // Make sure we're looking at the correct step

@@ -98,7 +98,7 @@
         "@opentelemetry/sdk-trace-base": "^1.22.0",
         "amqplib": "^0.8.0",
         "animated-number-react": "^0.1.1",
-        "axios": "^0.28.0",
+        "axios": "^1.8.3",
         "bowser": "^2.9.0",
         "camelcase": "^5.3.1",
         "chart.js": "^3.6.0",

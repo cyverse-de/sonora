@@ -103,7 +103,7 @@ export function getNotifications(user, ws) {
     const QUEUE = NOTIFICATION_QUEUE + user + "." + UUID();
 
     const connectionCleanUp = () => {
-        msgChannel.cancel(consumerTag);
+        msgChannel?.cancel(consumerTag);
         logger.info(
             "WEBSOCKET Closed. Consumer canceled for user: " +
                 user +

@@ -50,6 +50,16 @@ export default function metadataRouter() {
         metadataTemplateCSVhandler
     );
 
+    logger.info("adding the GET /api/filesystem/metadata handler");
+    api.get(
+        "/filesystem/metadata",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/filesystem/metadata",
+        })
+    );
+
     logger.info("adding the GET /api/filesystem/:dataId/metadata handler");
     api.get(
         "/filesystem/:dataId/metadata",

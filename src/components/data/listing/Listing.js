@@ -56,8 +56,8 @@ import {
 } from "serviceFacades/instantlaunches";
 
 import {
-    getFilesystemMetadata,
-    FILESYSTEM_METADATA_QUERY_KEY,
+    FILESYSTEM_FIND_METADATA_QUERY_KEY,
+    findFilesystemMetadata,
     LOCAL_CONTEXTS_QUERY_KEY,
     getLocalContextsProject,
 } from "serviceFacades/metadata";
@@ -126,6 +126,7 @@ function Listing(props) {
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
     const [data, setData] = useState({ total: 0, listing: [] });
     const [localContextsProjectURI, setLocalContextsProjectURI] = useState();
+    const [localContextsURIMap, setLocalContextsURIMap] = useState();
     const [detailsEnabled, setDetailsEnabled] = useState(false);
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [advancedSearchOpen, setAdvancedSearchOpen] = useState(false);
@@ -253,20 +254,30 @@ function Listing(props) {
         );
 
     useQuery({
-        queryKey: [FILESYSTEM_METADATA_QUERY_KEY, { dataId: data?.id }],
-        queryFn: () => getFilesystemMetadata({ dataId: data?.id }),
+        queryKey: [FILESYSTEM_FIND_METADATA_QUERY_KEY, { dataId: data?.id }],
+        queryFn: () =>
+            findFilesystemMetadata({
+                attribute: LocalContextsAttrs.LOCAL_CONTEXTS,
+                "target-id": [data.id, ...data.listing.map((r) => r.id)],
+            }),
         enabled: !!data?.id,
         onSuccess: (metadata) => {
             const { avus } = metadata;
 
-            const rightsURI = avus
-                ?.find((avu) => avu.attr === LocalContextsAttrs.LOCAL_CONTEXTS)
-                ?.avus?.find(
+            const rightsURIs = avus?.reduce((uriMap, avu) => {
+                const rightsURI = avu.avus?.find(
                     (childAVU) =>
                         childAVU.attr === LocalContextsAttrs.RIGHTS_URI
-                )?.value;
+                );
 
-            setLocalContextsProjectURI(rightsURI);
+                if (rightsURI) {
+                    uriMap[avu.target_id] = rightsURI.value;
+                }
+                return uriMap;
+            }, {});
+
+            setLocalContextsURIMap(rightsURIs);
+            setLocalContextsProjectURI(rightsURIs[data.id]);
         },
         onError: (error) =>
             console.log(
@@ -778,6 +789,7 @@ function Listing(props) {
                             instantLaunchDefaultsMapping
                         }
                         computeLimitExceeded={computeLimitExceeded}
+                        localContextsURIMap={localContextsURIMap}
                     />
                 )}
                 {isGridView && <span>Coming Soon!</span>}

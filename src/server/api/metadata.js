@@ -19,6 +19,19 @@ export default function metadataRouter() {
 
     logger.info("************ Adding Metadata handlers **********");
 
+    logger.info("adding the POST /api/filesystem/metadata/search handler");
+    api.post(
+        "/filesystem/metadata/search",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/filesystem/metadata/search",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the GET /api/filesystem/metadata/templates handler");
     api.get(
         "/filesystem/metadata/templates",
@@ -48,16 +61,6 @@ export default function metadataRouter() {
         "/filesystem/metadata/template/:templateId/zip-csv",
         auth.authnTokenMiddleware,
         metadataTemplateCSVhandler
-    );
-
-    logger.info("adding the GET /api/filesystem/metadata handler");
-    api.get(
-        "/filesystem/metadata",
-        auth.authnTokenMiddleware,
-        terrainHandler({
-            method: "GET",
-            pathname: "/filesystem/metadata",
-        })
     );
 
     logger.info("adding the GET /api/filesystem/:dataId/metadata handler");

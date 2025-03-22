@@ -257,7 +257,7 @@ function Listing(props) {
         queryKey: [FILESYSTEM_FIND_METADATA_QUERY_KEY, { dataId: data?.id }],
         queryFn: () =>
             findFilesystemMetadata({
-                attribute: LocalContextsAttrs.LOCAL_CONTEXTS,
+                attribute: [LocalContextsAttrs.LOCAL_CONTEXTS],
                 "target-id": [data.id, ...data.listing.map((r) => r.id)],
             }),
         enabled: !!data?.id,

@@ -15,6 +15,14 @@ const SEARCH_OLS_QUERY_KEY = "searchOntologyLookupServiceKey";
 const SEARCH_UAT_QUERY_KEY = "searchUnifiedAstronomyThesaurusKey";
 const LOCAL_CONTEXTS_QUERY_KEY = "localContextsKey";
 
+function findFilesystemMetadata(body) {
+    return callApi({
+        endpoint: `/api/filesystem/metadata/search`,
+        method: "POST",
+        body,
+    });
+}
+
 function getFilesystemMetadataTemplateListing() {
     return callApi({
         endpoint: "/api/filesystem/metadata/templates",
@@ -26,14 +34,6 @@ function getFilesystemMetadataTemplate(templateId) {
     return callApi({
         endpoint: `/api/filesystem/metadata/template/${templateId}`,
         method: "GET",
-    });
-}
-
-function findFilesystemMetadata(params) {
-    return callApi({
-        endpoint: `/api/filesystem/metadata`,
-        method: "GET",
-        params,
     });
 }
 

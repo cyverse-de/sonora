@@ -81,8 +81,8 @@ const DataListingTestTemplate = (args) => {
         .onGet(/\/api\/resource-usage\/summary.*/)
         .reply(usageSummaryError ? 400 : 200, usageSummaryResponse);
 
-    mockAxios.onGet("/api/filesystem/metadata").reply((config) => {
-        console.log("getMetadata", config.url, config.params);
+    mockAxios.onPost("/api/filesystem/metadata/search").reply((config) => {
+        console.log("Search Metadata", config.url, config.data);
 
         return [200, MockMetadata];
     });

@@ -4,7 +4,7 @@
 import React from "react";
 
 import { FieldArray, Formik } from "formik";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import PropTypes from "prop-types";
 
 import { Trans, useTranslation } from "i18n";
@@ -51,12 +51,16 @@ import { SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import { AppBar, Tab, Tabs } from "@mui/material";
 
+const formatValues = ({ avus, "irods-avus": irodsAVUs }) => ({
+    avus,
+    "irods-avus": irodsAVUs,
+});
+
 const MetadataFormListing = (props) => {
     const {
         baseId,
         editable,
         loading,
-        metadata,
         targetResource,
         onSelectTemplateBtnSelected,
         onSaveMetadataToFileBtnSelected,
@@ -64,7 +68,6 @@ const MetadataFormListing = (props) => {
         // from formik
         handleSubmit,
         resetForm,
-        setValues,
         setFieldValue,
         dirty,
         isSubmitting,
@@ -106,21 +109,9 @@ const MetadataFormListing = (props) => {
             setTabIndex(0);
             setIrodsAVUsSelected([]);
 
-            const { avus, "irods-avus": irodsAVUs } = metadata;
-
-            resetForm({ values: { avus, "irods-avus": irodsAVUs } });
+            resetForm({ values: formatValues(metadata) });
         },
     });
-
-    React.useEffect(() => {
-        // New metadata was loaded, possibly for the same target,
-        // and usually from a metadata template,
-        // so reset the view to default settings.
-        setTabIndex(0);
-        setIrodsAVUsSelected([]);
-
-        setValues(metadata);
-    }, [setValues, metadata]);
 
     const handleTabChange = (event, index) => {
         setTabIndex(index);
@@ -332,9 +323,10 @@ const MetadataForm = ({
     const [userProfile] = useUserProfile();
     const [bootstrapInfo] = useBootstrapInfo();
 
+    const queryClient = useQueryClient();
+
     const { t } = useTranslation(["metadata", "common", "data"]);
 
-    const [metadata, setMetadata] = React.useState({});
     const [templateMetadata, setTemplateMetadata] = React.useState({});
     const [templateId, setTemplateId] = React.useState(null);
 
@@ -445,32 +437,41 @@ const MetadataForm = ({
         return errors;
     };
 
-    const handleSubmit = (values, actions) => {
-        const { avus, "irods-avus": irodsAVUs } = values;
-        const { resetForm, setSubmitting, setStatus } = actions;
+    const showSaveSuccess = () => {
+        announce({
+            text: t("metadataSaved"),
+            variant: SUCCESS,
+        });
+    };
+    const showSaveError = (errorMessage) => {
+        showErrorAnnouncer(t("errSubmission"), errorMessage);
+    };
 
-        const updatedMetadata = { avus, "irods-avus": irodsAVUs };
+    const handleSubmit = (values, actions) => {
+        const { setSubmitting, setStatus } = actions;
 
         const onSuccess = () => {
             setSubmitting(false);
             setStatus({ success: true });
-            resetForm({ values });
 
-            announce({
-                text: t("metadataSaved"),
-                variant: SUCCESS,
-            });
+            // Reload metadata from the API after successful save.
+            queryClient.invalidateQueries([
+                FILESYSTEM_METADATA_QUERY_KEY,
+                { dataId: targetResource?.id },
+            ]);
+
+            showSaveSuccess();
         };
 
         const onError = (errorMessage) => {
-            showErrorAnnouncer(t("errSubmission"), errorMessage);
+            showSaveError(errorMessage);
 
             setSubmitting(false);
             setStatus({ success: false, errorMessage });
         };
 
         setDiskResourceMetadata({
-            metadata: updatedMetadata,
+            metadata: formatValues(values),
             onSuccess,
             onError,
         });
@@ -490,12 +491,9 @@ const MetadataForm = ({
         );
     }
 
-    // The enableReinitialize flag should be false so that prop updates from
-    // template dialogs do not reset the entire form.
     return (
         <>
             <Formik
-                enableReinitialize={false}
                 initialValues={{}}
                 validate={validate}
                 onSubmit={handleSubmit}
@@ -504,7 +502,6 @@ const MetadataForm = ({
                     <MetadataFormListing
                         baseId={baseId}
                         loading={loading}
-                        metadata={metadata}
                         editable={userProfile && writable}
                         onSaveMetadataToFileBtnSelected={() => {
                             if (userProfile) {
@@ -544,10 +541,30 @@ const MetadataForm = ({
             <MetadataTemplateView
                 open={templateViewOpen}
                 writable={writable}
-                updateMetadataFromTemplateView={(updatedMetadata) => {
-                    setMetadata(updatedMetadata);
-                    setTemplateViewOpen(false);
-                }}
+                updateMetadataFromTemplateView={(
+                    updatedMetadata,
+                    onSuccess,
+                    onError
+                ) =>
+                    setDiskResourceMetadata({
+                        metadata: formatValues(updatedMetadata),
+                        onSuccess: () => {
+                            // Reload metadata from the API after successful save.
+                            queryClient.invalidateQueries([
+                                FILESYSTEM_METADATA_QUERY_KEY,
+                                { dataId: targetResource?.id },
+                            ]);
+
+                            showSaveSuccess();
+                            setTemplateViewOpen(false);
+                            onSuccess();
+                        },
+                        onError: (errorMessage) => {
+                            showSaveError(errorMessage);
+                            onError();
+                        },
+                    })
+                }
                 onClose={() => setTemplateViewOpen(false)}
                 templateId={templateId}
                 metadata={templateMetadata}

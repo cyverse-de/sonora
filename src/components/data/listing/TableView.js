@@ -33,17 +33,12 @@ import EmptyTable from "components/table/EmptyTable";
 import { formatDate } from "components/utils/DateFormatter";
 
 import LocalContextsLabelDisplay from "components/metadata/LocalContextsLabelDisplay";
-import {
-    LocalContextsAttrs,
-    parseProjectID,
-} from "components/models/metadata/LocalContexts";
+import { parseProjectID } from "components/models/metadata/LocalContexts";
 
 import InstantLaunchButton from "components/instantlaunches";
 import { defaultInstantLaunch } from "serviceFacades/instantlaunches";
 
 import {
-    FILESYSTEM_METADATA_QUERY_KEY,
-    getFilesystemMetadata,
     getLocalContextsProject,
     LOCAL_CONTEXTS_QUERY_KEY,
 } from "serviceFacades/metadata";
@@ -70,37 +65,13 @@ function ResourceNameCell({
     computeLimitExceeded,
     handlePathChange,
     limitQueries,
+    localContextsURIMap,
 }) {
     const theme = useTheme();
-    const [localContextsProjectURI, setLocalContextsProjectURI] = useState();
 
     const resourceId = resource.id;
-
-    useQuery({
-        queryKey: [FILESYSTEM_METADATA_QUERY_KEY, { dataId: resourceId }],
-        queryFn: () =>
-            limitQueries(() => getFilesystemMetadata({ dataId: resourceId })),
-        enabled: !!resourceId,
-        onSuccess: (metadata) => {
-            const { avus } = metadata;
-
-            const rightsURI = avus
-                ?.find((avu) => avu.attr === LocalContextsAttrs.LOCAL_CONTEXTS)
-                ?.avus?.find(
-                    (childAVU) =>
-                        childAVU.attr === LocalContextsAttrs.RIGHTS_URI
-                )?.value;
-
-            if (rightsURI) {
-                setLocalContextsProjectURI(rightsURI);
-            }
-        },
-        onError: (error) =>
-            console.log(
-                "Unable to fetch metadata for folder " + resource.label,
-                error
-            ), // fail silently.
-    });
+    const localContextsProjectURI =
+        localContextsURIMap && localContextsURIMap[resourceId];
 
     const projectID = parseProjectID(localContextsProjectURI);
 
@@ -270,6 +241,7 @@ function TableView(props) {
         onMoveSelected,
         instantLaunchDefaultsMapping,
         computeLimitExceeded,
+        localContextsURIMap,
     } = props;
 
     const { classes: invalidRowClass } = invalidRowStyles();
@@ -507,6 +479,9 @@ function TableView(props) {
                                             }
                                             handlePathChange={handlePathChange}
                                             limitQueries={limitQueries}
+                                            localContextsURIMap={
+                                                localContextsURIMap
+                                            }
                                         />
                                         {getColumnDetails(displayColumns).map(
                                             (column, index) => (

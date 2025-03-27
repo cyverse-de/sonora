@@ -6,6 +6,7 @@ import axiosInstance from "../common/getAxios";
 
 const EXTERNAL_API_DEFAULT_RESULT_LIMIT = 50;
 const FILESYSTEM_METADATA_QUERY_KEY = "fetchFilesystemMetadataKey";
+const FILESYSTEM_FIND_METADATA_QUERY_KEY = "fetchFilesystemBulkMetadataKey";
 const FILESYSTEM_METADATA_TEMPLATE_QUERY_KEY =
     "fetchFilesystemMetadataTemplateKey";
 const FILESYSTEM_METADATA_TEMPLATE_LISTING_QUERY_KEY =
@@ -13,6 +14,14 @@ const FILESYSTEM_METADATA_TEMPLATE_LISTING_QUERY_KEY =
 const SEARCH_OLS_QUERY_KEY = "searchOntologyLookupServiceKey";
 const SEARCH_UAT_QUERY_KEY = "searchUnifiedAstronomyThesaurusKey";
 const LOCAL_CONTEXTS_QUERY_KEY = "localContextsKey";
+
+function findFilesystemMetadata(body) {
+    return callApi({
+        endpoint: `/api/filesystem/metadata/search`,
+        method: "POST",
+        body,
+    });
+}
 
 function getFilesystemMetadataTemplateListing() {
     return callApi({
@@ -149,6 +158,7 @@ function getLocalContextsProject({ projectID }) {
 }
 
 export {
+    FILESYSTEM_FIND_METADATA_QUERY_KEY,
     FILESYSTEM_METADATA_QUERY_KEY,
     FILESYSTEM_METADATA_TEMPLATE_QUERY_KEY,
     FILESYSTEM_METADATA_TEMPLATE_LISTING_QUERY_KEY,
@@ -156,6 +166,7 @@ export {
     SEARCH_OLS_QUERY_KEY,
     SEARCH_UAT_QUERY_KEY,
     getFilesystemMetadata,
+    findFilesystemMetadata,
     getFilesystemMetadataTemplate,
     getFilesystemMetadataTemplateListing,
     saveFilesystemMetadata,

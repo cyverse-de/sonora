@@ -43,6 +43,20 @@ function deleteNotifications(ids) {
     });
 }
 
+function allAlerts() {
+    return callApi({
+        endpoint: "/api/alerts/all",
+        method: "GET",
+    });
+}
+
+function activeAlerts() {
+    return callApi({
+        endpoint: "/api/alerts/active",
+        method: "GET",
+    });
+}
+
 export {
     NOTIFICATIONS_MESSAGES_QUERY_KEY,
     NOTIFICATIONS_MARK_ALL_SEEN_KEY,

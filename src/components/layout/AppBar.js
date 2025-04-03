@@ -21,6 +21,11 @@ import { useBootstrapInfo } from "contexts/bootstrap";
 import { intercomLogout } from "common/intercom";
 
 import {
+    activeAlerts,
+    ACTIVE_ALERTS_QUERY_KEY,
+} from "serviceFacades/notifications";
+
+import {
     getUserProfile,
     useBootStrap,
     USER_PROFILE_QUERY_KEY,
@@ -127,7 +132,7 @@ function DEAppBar(props) {
         !!config?.subscriptions?.enforce
     );
     const [dataUsagePercentage, setDataUsagePercentage] = useState(0);
-    const [activeAlerts, setActiveAlerts] = useState([]);
+    const [activeAlertsList, setActiveAlertsList] = useState([]);
 
     const { isSmUp, isSmDown } = useBreakpoints();
 
@@ -159,6 +164,20 @@ function DEAppBar(props) {
         enabled: profileRefetchInterval != null,
         onSuccess: updateUserProfile,
         refetchInterval: profileRefetchInterval,
+    });
+
+    function updateAlerts(queryresp) {
+        setActiveAlertsList(
+            queryresp?.alerts.map((alertMap) => alertMap.alert) || []
+        );
+    }
+
+    useQuery({
+        queryKey: ACTIVE_ALERTS_QUERY_KEY,
+        queryFn: activeAlerts,
+        enabled: true,
+        onSuccess: updateAlerts,
+        refetchInterval: 120000,
     });
 
     useEffect(() => {
@@ -404,7 +423,7 @@ function DEAppBar(props) {
                     [classes.appBarShift]: open,
                 })}
             >
-                {activeAlerts?.map((text) => {
+                {activeAlertsList?.map((text) => {
                     return (
                         <Toolbar
                             key={text}

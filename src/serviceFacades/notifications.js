@@ -57,6 +57,22 @@ function activeAlerts() {
     });
 }
 
+function addAlert(alert_spec) {
+    return callApi({
+        endpoint: "/api/admin/alerts",
+        method: "POST",
+        body: alert_spec,
+    });
+}
+
+function removeAlert(alert_spec) {
+    return callApi({
+        endpoint: "/api/admin/alerts",
+        method: "DELETE",
+        body: alert_spec,
+    });
+}
+
 export {
     NOTIFICATIONS_MESSAGES_QUERY_KEY,
     NOTIFICATIONS_MARK_ALL_SEEN_KEY,

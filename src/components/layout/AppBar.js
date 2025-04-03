@@ -127,6 +127,8 @@ function DEAppBar(props) {
         !!config?.subscriptions?.enforce
     );
     const [dataUsagePercentage, setDataUsagePercentage] = useState(0);
+    const [activeAlerts, setActiveAlerts] = useState([]);
+
     const { isSmUp, isSmDown } = useBreakpoints();
 
     if (activeView === NavigationConstants.APPS) {
@@ -402,6 +404,17 @@ function DEAppBar(props) {
                     [classes.appBarShift]: open,
                 })}
             >
+                {activeAlerts?.map((text) => {
+                    return (
+                        <Toolbar
+                            key={text}
+                            variant="dense"
+                            sx={{ bgcolor: "red" }}
+                        >
+                            <Typography>{text}</Typography>
+                        </Toolbar>
+                    );
+                })}
                 <Toolbar>
                     {!isSmUp && (
                         <>

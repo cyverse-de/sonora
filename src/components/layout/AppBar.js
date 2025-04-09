@@ -165,7 +165,7 @@ function DEAppBar(props) {
             // Disable Intercom if a subscription is Basic
             if (userSubscription) {
                 let planName = userSubscription?.plan?.name;
-                let isBasic = planName?.toLowerCase() === "basic";
+                let isBasic = planName === constants.PLAN_NAME_BASIC;
                 config.intercom = {
                     ...clientConfig.intercom,
                     enabled:

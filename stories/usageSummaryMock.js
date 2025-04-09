@@ -1,3 +1,5 @@
+import constants from "../src/constants";
+
 export const usageSummaryResponse = {
     cpu_usage: {
         id: "daafc764-42bf-425d-83c6-dbdfed410e26",
@@ -82,4 +84,16 @@ export const usageSummaryDiskUsage75percentResponse = {
 export const usageSummaryDiskUsage100percentResponse = {
     ...usageSummaryResponse,
     data_usage: { ...usageSummaryResponse.data_usage, total: 3298534883328 },
+};
+
+export const usageSummaryBasicSubscriptionResponse = {
+    ...usageSummaryResponse,
+    subscription: {
+        ...usageSummaryResponse.subscription,
+        plan: {
+            ...usageSummaryResponse.subscription.plan,
+            name: constants.PLAN_NAME_BASIC,
+            description: "Basic plan",
+        },
+    },
 };

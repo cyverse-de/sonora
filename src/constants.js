@@ -117,6 +117,7 @@ const constants = {
     DATA_STORE_INCREASE_FORM: "https://user.cyverse.org/requests/2",
     CPU_HOURS_QUOTA_LIMIT_DEFAULT: 20,
     CPU_HOURS_RESOURCE_NAME: "cpu.hours",
+    PLAN_NAME_BASIC: "Basic",
 };
 
 export default constants;

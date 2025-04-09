@@ -83,3 +83,15 @@ export const usageSummaryDiskUsage100percentResponse = {
     ...usageSummaryResponse,
     data_usage: { ...usageSummaryResponse.data_usage, total: 3298534883328 },
 };
+
+export const usageSummaryBasicSubscriptionResponse = {
+    ...usageSummaryResponse,
+    subscription: {
+        ...usageSummaryResponse.subscription,
+        plan: {
+            ...usageSummaryResponse.subscription.plan,
+            name: "Basic",
+            description: "Basic plan",
+        },
+    },
+};

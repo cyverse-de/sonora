@@ -45,6 +45,7 @@ function RowDotMenu(props) {
         onRenameSelected,
         onMoveSelected,
         inTrash,
+        canShare,
     } = props;
     const { t } = useTranslation("common");
     const { t: i18nData } = useTranslation("data");
@@ -53,7 +54,7 @@ function RowDotMenu(props) {
     const renameEnabled = !inTrash && isWritable(resource.permission);
     const publicLinkEnabled =
         !inTrash && isOwner && !containsFolders([resource]);
-    const sharingEnabled = !inTrash && isOwner;
+    const sharingEnabled = canShare && !inTrash && isOwner;
     const moveMiEnabled = !inTrash && isOwner;
     const partialLink = useDataNavigationLink(
         resource?.path,

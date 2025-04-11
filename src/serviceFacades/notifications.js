@@ -6,6 +6,7 @@ import callApi from "../common/callApi";
 const NOTIFICATIONS_MESSAGES_QUERY_KEY = "fetchNotificationsMessagesKey";
 const NOTIFICATIONS_MARK_ALL_SEEN_KEY = "markAllSeenKey";
 const ACTIVE_ALERTS_QUERY_KEY = "fetchActiveAlerts";
+const ALL_ALERTS_QUERY_KEY = "fetchAllAlerts";
 
 function getNotifications({ filter, orderBy, order, limit, offset }) {
     return callApi({
@@ -78,6 +79,7 @@ export {
     NOTIFICATIONS_MESSAGES_QUERY_KEY,
     NOTIFICATIONS_MARK_ALL_SEEN_KEY,
     ACTIVE_ALERTS_QUERY_KEY,
+    ALL_ALERTS_QUERY_KEY,
     deleteNotifications,
     getNotifications,
     markSeen,

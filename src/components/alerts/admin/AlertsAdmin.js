@@ -2,12 +2,12 @@ import React from "react";
 
 import { useQueryClient, useMutation, useQuery } from "react-query";
 
-import withErrorAnnouncer from "components/error/withErrorAnnouncer";
+import { Skeleton } from "@mui/material";
 
-import { Skeleton, TextField } from "@mui/material";
+import FormTextField from "components/forms/FormTextField";
 
 import { useTranslation } from "i18n";
-import { useFormik } from "formik";
+import { Field, Form, Formik } from "formik";
 
 import {
     allAlerts,
@@ -24,48 +24,32 @@ const initialValues = {
 };
 
 const AddAlertForm = ({ t, handleSubmit }) => {
-    const formik = useFormik({
-        initialValues,
-        onSubmit: handleSubmit,
-    });
-
-    // i18n
     return (
-        <form onSubmit={formik.handleSubmit}>
-            <TextField
-                variant="standard"
-                name="alertText"
-                label="Alert Text"
-                value={formik.values.alertText}
-                onChange={formik.handleChange}
-                error={formik.touched.alertText && formik.errors.alertText}
-                helperText={formik.touched.alertText && formik.errors.alertText}
-            />
-
-            <TextField
-                variant="standard"
-                name="endDate"
-                label="End Date"
-                value={formik.values.endDate}
-                onChange={formik.handleChange}
-                error={formik.touched.endDate && formik.errors.endDate}
-                helperText={formik.touched.endDate && formik.errors.endDate}
-            />
-
-            <TextField
-                variant="standard"
-                name="startDate"
-                label="Start Date (optional)"
-                value={formik.values.startDate}
-                onChange={formik.handleChange}
-                error={formik.touched.startDate && formik.errors.startDate}
-                helperText={formik.touched.startDate && formik.errors.startDate}
-            />
-        </form>
+        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+            {(props) => (
+                <Form>
+                    <Field
+                        component={FormTextField}
+                        name="alertText"
+                        required={true}
+                    />
+                    <Field
+                        component={FormTextField}
+                        name="endDate"
+                        required={true}
+                    />
+                    <Field
+                        component={FormTextField}
+                        name="startDate"
+                        required={false}
+                    />
+                </Form>
+            )}
+        </Formik>
     );
 };
 
-const AlertsEditor = ({ showErrorAnnouncer }) => {
+const AlertsEditor = (props) => {
     const isLoading = true;
     const isError = false;
 
@@ -87,4 +71,4 @@ const AlertsEditor = ({ showErrorAnnouncer }) => {
     );
 };
 
-export default withErrorAnnouncer(AlertsEditor);
+export default AlertsEditor;

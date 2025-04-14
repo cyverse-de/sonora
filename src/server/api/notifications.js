@@ -65,5 +65,52 @@ export default function notificationsRouter() {
         })
     );
 
+    logger.info("************ Adding Alerts handlers **********");
+    logger.info("adding the GET /alerts/all handler");
+    api.get(
+        "/alerts/all",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/alerts/all",
+        })
+    );
+
+    logger.info("adding the GET /alerts/active handler");
+    api.get(
+        "/alerts/active",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/alerts/active",
+        })
+    );
+
+    logger.info("adding the POST /admin/alerts handler");
+    api.post(
+        "/admin/alerts",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/alerts",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the DELETE /admin/alerts handler");
+    api.delete(
+        "/admin/alerts",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "DELETE",
+            pathname: "/admin/alerts",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     return api;
 }

@@ -17,6 +17,8 @@ import {
     removeAlert,
 } from "serviceFacades/notifications";
 
+import isQueryLoading from "components/utils/isQueryLoading";
+
 const initialValues = {
     startDate: "",
     endDate: "",
@@ -50,8 +52,45 @@ const AddAlertForm = ({ t, handleSubmit }) => {
 };
 
 const AlertsEditor = (props) => {
-    const isLoading = true;
-    const isError = false;
+    const [alertsList, setAlertsList] = useState([]);
+
+    function updateAlerts(queryresp) {
+        setAlertsList(queryresp?.alerts || []);
+    }
+
+    const {
+        isLoading: isLoadingList,
+        error: loadingError,
+        data,
+    } = useQuery({
+        queryKey: ALL_ALERTS_QUERY_KEY,
+        queryFn: allAlerts,
+        enabled: true,
+        onSuccess: updateAlerts,
+    });
+
+    const {
+        mutate: addAlertMutation,
+        error: addAlertError,
+        isFetching: isAddingAlert,
+    } = useMutation(addAlert, {
+        onSuccess: (createdAlert) => {},
+    });
+
+    const {
+        mutate: removeAlertMutation,
+        error: removeAlertError,
+        isFetching: isRemovingAlert,
+    } = useMutation(removeAlert, {
+        onSuccess: (resp) => {},
+    });
+
+    const isLoading = isQueryLoading([
+        isLoadingList,
+        isAddingAlert,
+        isRemovingAlert,
+    ]);
+    const error = loadingError || addAlertError || removeAlertError;
 
     return (
         <div>
@@ -63,9 +102,9 @@ const AlertsEditor = (props) => {
                     width="100%"
                 />
             ) : isError ? (
-                <></>
+                <>{error}</>
             ) : (
-                <></>
+                <>{alertsList}</>
             )}
         </div>
     );

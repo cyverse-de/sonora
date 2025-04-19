@@ -241,6 +241,7 @@ function TableView(props) {
         onMoveSelected,
         instantLaunchDefaultsMapping,
         computeLimitExceeded,
+        canShare,
         localContextsURIMap,
     } = props;
 
@@ -508,6 +509,7 @@ function TableView(props) {
                                                         )
                                                     }
                                                     resource={resource}
+                                                    canShare={canShare}
                                                     setSharingDlgOpen={
                                                         setSharingDlgOpen
                                                     }

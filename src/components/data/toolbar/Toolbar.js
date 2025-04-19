@@ -71,6 +71,7 @@ function DataToolbar(props) {
         onMoveSelected,
         onAdvancedDataSearchSelected,
         uploadsEnabled,
+        canShare,
     } = props;
 
     const { t } = useTranslation("data");
@@ -81,13 +82,12 @@ function DataToolbar(props) {
     const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
     const [emptyTrashConfirmOpen, setEmptyTrashConfirmOpen] = useState(false);
     const selectedResources = getSelectedResources();
-    const canShare = isOwner(selectedResources);
     const theme = useTheme();
     const isSmall = useMediaQuery(theme.breakpoints.down("md"));
 
     const inTrash = isPathInTrash(path, baseTrashPath);
     const uploadEnabled = !inTrash && isWritable(permission);
-    const sharingEnabled = !inTrash && canShare;
+    const sharingEnabled = canShare && !inTrash && isOwner(selectedResources);
     const bagEnabled = !inTrash && selected && selected.length > 0;
     const hasDotMenu =
         (selectedResources && selectedResources.length > 0 && !inTrash) ||
@@ -219,7 +219,6 @@ function DataToolbar(props) {
                             getSelectedResources={getSelectedResources}
                             selected={selected}
                             onCreateFileSelected={onCreateFileSelected}
-                            canShare={canShare}
                             setSharingDlgOpen={setSharingDlgOpen}
                             isSmall={isSmall}
                             onMetadataSelected={onMetadataSelected}

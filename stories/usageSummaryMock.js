@@ -97,3 +97,28 @@ export const usageSummaryBasicSubscriptionResponse = {
         },
     },
 };
+
+export const usageSummaryBasicSubscriptionAddonsResponse = {
+    ...usageSummaryBasicSubscriptionResponse,
+    subscription: {
+        ...usageSummaryBasicSubscriptionResponse.subscription,
+        addons: [
+            {
+                addon: {
+                    amount: 2000,
+                    resource_type: {
+                        name: constants.CPU_HOURS_RESOURCE_NAME,
+                    },
+                },
+            },
+            {
+                addon: {
+                    amount: 1099511627776,
+                    resource_type: {
+                        name: constants.DATA_STORAGE_RESOURCE_NAME,
+                    },
+                },
+            },
+        ],
+    },
+};

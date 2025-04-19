@@ -20,6 +20,7 @@ import {
     usageSummaryStorageLimitExceededResponse,
     usageSummaryComputeLimitExceededResponse,
     usageSummaryBasicSubscriptionResponse,
+    usageSummaryBasicSubscriptionAddonsResponse,
 } from "../usageSummaryMock";
 import { MockMetadata } from "../metadata/MetadataMocks";
 
@@ -219,5 +220,14 @@ export const BasicSubscriptionListing = DataListingTestTemplate.bind({});
 BasicSubscriptionListing.args = {
     instantLaunchAppInfoResponse: instantLaunchAppInfo,
     usageSummaryResponse: usageSummaryBasicSubscriptionResponse,
+    usageSummaryError: false,
+};
+
+export const BasicSubscriptionWithAddonsListing = DataListingTestTemplate.bind(
+    {}
+);
+BasicSubscriptionWithAddonsListing.args = {
+    instantLaunchAppInfoResponse: instantLaunchAppInfo,
+    usageSummaryResponse: usageSummaryBasicSubscriptionAddonsResponse,
     usageSummaryError: false,
 };

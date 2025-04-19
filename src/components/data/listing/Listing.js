@@ -329,8 +329,13 @@ function Listing(props) {
             );
 
             const planName = subscription?.plan?.name;
+            const hasDataAddon = subscription?.addons?.find(
+                ({ addon }) =>
+                    addon.resource_type.name ===
+                    constants.DATA_STORAGE_RESOURCE_NAME
+            );
 
-            setCanShare(planName !== constants.PLAN_NAME_BASIC);
+            setCanShare(planName !== constants.PLAN_NAME_BASIC || hasDataAddon);
             setUploadsEnabled(dataUsage < storageQuota);
             setComputeLimitExceeded(computeUsage >= computeQuota);
         },

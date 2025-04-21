@@ -54,6 +54,8 @@ const AddAlertForm = ({ t, handleSubmit }) => {
 const AlertsEditor = (props) => {
     const [alertsList, setAlertsList] = useState([]);
 
+    const queryClient = useQueryClient();
+
     function updateAlerts(queryresp) {
         setAlertsList(queryresp?.alerts || []);
     }
@@ -74,7 +76,9 @@ const AlertsEditor = (props) => {
         error: addAlertError,
         isFetching: isAddingAlert,
     } = useMutation(addAlert, {
-        onSuccess: (createdAlert) => {},
+        onSuccess: (createdAlert) => {
+            queryClient.invalidateQueries(ALL_ALERTS_QUERY_KEY);
+        },
     });
 
     const {
@@ -82,7 +86,9 @@ const AlertsEditor = (props) => {
         error: removeAlertError,
         isFetching: isRemovingAlert,
     } = useMutation(removeAlert, {
-        onSuccess: (resp) => {},
+        onSuccess: (resp) => {
+            queryClient.invalidateQueries(ALL_ALERTS_QUERY_KEY);
+        },
     });
 
     const isLoading = isQueryLoading([

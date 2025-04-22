@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useQueryClient, useMutation, useQuery } from "react-query";
 
@@ -107,10 +107,13 @@ const AlertsEditor = (props) => {
                     height={300}
                     width="100%"
                 />
-            ) : isError ? (
+            ) : error ? (
                 <>{error}</>
             ) : (
-                <>{alertsList}</>
+                <>
+                    <AddAlertForm handleSubmit={console.log} />
+                    {JSON.stringify(alertsList)}
+                </>
             )}
         </div>
     );

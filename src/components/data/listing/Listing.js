@@ -159,12 +159,12 @@ function Listing(props) {
     const [moveDlgOpen, setMoveDlgOpen] = useState(false);
     const [erroredUploadCount, setErroredUploadCount] = useState(0);
 
-    const [uploadsEnabled, setUploadsEnabled] = useState(
-        !config?.subscriptions?.enforce
-    );
-    const [computeLimitExceeded, setComputeLimitExceeded] = useState(
-        !!config?.subscriptions?.enforce
-    );
+    const enforceSubscriptions = config?.subscriptions?.enforce;
+
+    const [canShare, setCanShare] = useState(!enforceSubscriptions);
+    const [uploadsEnabled, setUploadsEnabled] = useState(!enforceSubscriptions);
+    const [computeLimitExceeded, setComputeLimitExceeded] =
+        useState(enforceSubscriptions);
 
     const onRenameClicked = () => setRenameDlgOpen(true);
     const onRenameDlgClose = () => setRenameDlgOpen(false);
@@ -314,7 +314,7 @@ function Listing(props) {
     const { isFetching: isFetchingUsageSummary } = useQuery({
         queryKey: [RESOURCE_USAGE_QUERY_KEY],
         queryFn: getResourceUsageSummary,
-        enabled: !!config?.subscriptions?.enforce && !!userProfile?.id,
+        enabled: enforceSubscriptions && !!userProfile?.id,
         onSuccess: (respData) => {
             const dataUsage = respData?.data_usage?.total || 0;
             const computeUsage = respData?.cpu_usage?.total || 0;
@@ -327,6 +327,15 @@ function Listing(props) {
                 globalConstants.CPU_HOURS_RESOURCE_NAME,
                 subscription
             );
+
+            const planName = subscription?.plan?.name;
+            const hasDataAddon = subscription?.addons?.find(
+                ({ addon }) =>
+                    addon.resource_type.name ===
+                    constants.DATA_STORAGE_RESOURCE_NAME
+            );
+
+            setCanShare(planName !== constants.PLAN_NAME_BASIC || hasDataAddon);
             setUploadsEnabled(dataUsage < storageQuota);
             setComputeLimitExceeded(computeUsage >= computeQuota);
         },
@@ -742,6 +751,7 @@ function Listing(props) {
                     onRenameSelected={onRenameClicked}
                     onMoveSelected={onMoveSelected}
                     uploadsEnabled={uploadsEnabled}
+                    canShare={canShare}
                 />
                 {localContextsProjectURI && localContextsProject && (
                     <Stack>
@@ -789,6 +799,7 @@ function Listing(props) {
                             instantLaunchDefaultsMapping
                         }
                         computeLimitExceeded={computeLimitExceeded}
+                        canShare={canShare}
                         localContextsURIMap={localContextsURIMap}
                     />
                 )}

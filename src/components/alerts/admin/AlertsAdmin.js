@@ -2,9 +2,11 @@ import React, { useState } from "react";
 
 import { useQueryClient, useMutation, useQuery } from "react-query";
 
-import { Skeleton } from "@mui/material";
+import { Paper, Typography, Skeleton } from "@mui/material";
 
 import FormTextField from "components/forms/FormTextField";
+
+import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
 import { useTranslation } from "i18n";
 import { Field, Form, Formik } from "formik";
@@ -19,31 +21,63 @@ import {
 
 import isQueryLoading from "components/utils/isQueryLoading";
 
+import { makeStyles } from "tss-react/mui";
+
 const initialValues = {
     startDate: "",
     endDate: "",
     alertText: "",
 };
 
+const useStyles = makeStyles()((theme) => ({
+    flexContainer: {
+        marginTop: 0,
+        marginLeft: theme.spacing(1),
+        marginBottom: theme.spacing(4),
+        marginRight: theme.spacing(2),
+        display: "flex",
+        flexWrap: "wrap",
+
+        "& .MuiTextField-root": {
+            width: 0,
+            margin: theme.spacing(1),
+            minWidth: "25ch",
+        },
+    },
+    flexItem: {
+        marginTop: 0,
+        marginBottom: 0,
+        marginRight: theme.spacing(2),
+        marginLeft: theme.spacing(2),
+    },
+}));
+
 const AddAlertForm = ({ t, handleSubmit }) => {
+    const { classes } = useStyles();
     return (
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
             {(props) => (
-                <Form>
+                <Form className={classes.flexContainer}>
                     <Field
                         component={FormTextField}
                         name="alertText"
+                        label="Alert Text"
                         required={true}
-                    />
-                    <Field
-                        component={FormTextField}
-                        name="endDate"
-                        required={true}
+                        className={classes.flexItem}
                     />
                     <Field
                         component={FormTextField}
                         name="startDate"
+                        label="Start Date"
                         required={false}
+                        className={classes.flexItem}
+                    />
+                    <Field
+                        component={FormTextField}
+                        name="endDate"
+                        label="End Date"
+                        required={true}
+                        className={classes.flexItem}
                     />
                 </Form>
             )}
@@ -108,12 +142,12 @@ const AlertsEditor = (props) => {
                     width="100%"
                 />
             ) : error ? (
-                <>{error}</>
+                <WrappedErrorHandler errorObject={error} />
             ) : (
-                <>
+                <Paper>
                     <AddAlertForm handleSubmit={console.log} />
                     {JSON.stringify(alertsList)}
-                </>
+                </Paper>
             )}
         </div>
     );

@@ -138,7 +138,10 @@ const bag_data = {
 const emptyAlerts = { alerts: [] };
 const nonEmptyAlerts = {
     alerts: [
-        { end_date: "2100-01-01T00:00:00Z", alert: "This is a testing alert." },
+        {
+            end_date: "2100-01-01T00:00:00Z",
+            alert: "This is a *testing* alert, with some *formatting* and a [link](https://cyverse.org).",
+        },
     ],
 };
 

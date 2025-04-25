@@ -79,6 +79,8 @@ import {
 } from "serviceFacades/dashboard";
 import { getUserQuota } from "common/resourceUsage";
 
+import markdownToHtml from "components/utils/markdownToHtml";
+
 import useBreakpoints from "./useBreakpoints";
 
 // hidden in xsDown
@@ -167,9 +169,17 @@ function DEAppBar(props) {
     });
 
     function updateAlerts(queryresp) {
-        setActiveAlertsList(
-            queryresp?.alerts.map((alertMap) => alertMap.alert) || []
+        const alertsMdPromises = queryresp?.alerts.map((alertMap) =>
+            markdownToHtml(alertMap.alert)
         );
+        Promise.all(alertsMdPromises).then((values) => {
+            if (
+                values.length !== activeAlertsList.length ||
+                !values.every((el, idx) => activeAlertsList[idx] === el)
+            ) {
+                setActiveAlertsList(values || []);
+            }
+        });
     }
 
     useQuery({
@@ -430,7 +440,9 @@ function DEAppBar(props) {
                             variant="dense"
                             sx={{ bgcolor: "red" }}
                         >
-                            <Typography>{text}</Typography>
+                            <Typography
+                                dangerouslySetInnerHTML={{ __html: text }}
+                            />
                         </Toolbar>
                     );
                 })}

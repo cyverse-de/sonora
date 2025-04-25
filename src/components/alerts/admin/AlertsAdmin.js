@@ -5,6 +5,7 @@ import { useQueryClient, useMutation, useQuery } from "react-query";
 import { Paper, Typography, Skeleton } from "@mui/material";
 
 import FormTextField from "components/forms/FormTextField";
+import FormTimestampField from "components/forms/FormTimestampField";
 
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
@@ -66,16 +67,16 @@ const AddAlertForm = ({ t, handleSubmit }) => {
                         className={classes.flexItem}
                     />
                     <Field
-                        component={FormTextField}
+                        component={FormTimestampField}
                         name="startDate"
-                        label="Start Date"
+                        helperText="Start Date"
                         required={false}
                         className={classes.flexItem}
                     />
                     <Field
-                        component={FormTextField}
+                        component={FormTimestampField}
                         name="endDate"
-                        label="End Date"
+                        helperText="End Date"
                         required={true}
                         className={classes.flexItem}
                     />

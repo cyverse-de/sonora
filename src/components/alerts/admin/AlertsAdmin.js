@@ -21,6 +21,8 @@ import {
 } from "serviceFacades/notifications";
 
 import isQueryLoading from "components/utils/isQueryLoading";
+import { formatDateObject } from "components/utis/DateFormatter";
+import dateConstants from "components/utils/dateConstants";
 
 import { makeStyles } from "tss-react/mui";
 
@@ -133,6 +135,24 @@ const AlertsEditor = (props) => {
     ]);
     const error = loadingError || addAlertError || removeAlertError;
 
+    function formatAlert(formValues) {
+        const { alertText, startDate, endDate } = values;
+        const alertSpec = {
+            "alert-text": alertText,
+            "end-date": endDate
+                ? formatDateObject(new Date(endDate), dateConstants.ISO_8601)
+                : undefined,
+            "start-date": startDate
+                ? formatDateObject(new Date(startDate), dateConstants.ISO_8601)
+                : undefined,
+        };
+        return alertSpec;
+    }
+
+    function handleSumbit(formValues) {
+        addAlertMutation(formatAlert(formValues));
+    }
+
     return (
         <div>
             {isLoading ? (
@@ -146,7 +166,7 @@ const AlertsEditor = (props) => {
                 <WrappedErrorHandler errorObject={error} />
             ) : (
                 <Paper>
-                    <AddAlertForm handleSubmit={console.log} />
+                    <AddAlertForm handleSubmit={handleSubmit} />
                     {JSON.stringify(alertsList)}
                 </Paper>
             )}

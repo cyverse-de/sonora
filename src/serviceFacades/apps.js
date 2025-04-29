@@ -491,6 +491,7 @@ function adminUpdateApp({ app, values }) {
     );
 
     const formDocumentation = documentation?.documentation;
+
     const appDocsReq = {
         systemId: system_id,
         appId: id,

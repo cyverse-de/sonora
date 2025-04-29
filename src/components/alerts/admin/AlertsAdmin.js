@@ -2,7 +2,17 @@ import React, { useState } from "react";
 
 import { useQueryClient, useMutation, useQuery } from "react-query";
 
-import { Paper, Typography, Skeleton } from "@mui/material";
+import {
+    Paper,
+    Table,
+    TableContainer,
+    TableHead,
+    TableCell,
+    TableRow,
+    TableBody,
+    Typography,
+    Skeleton,
+} from "@mui/material";
 
 import FormTextField from "components/forms/FormTextField";
 import FormTimestampField from "components/forms/FormTimestampField";
@@ -21,7 +31,7 @@ import {
 } from "serviceFacades/notifications";
 
 import isQueryLoading from "components/utils/isQueryLoading";
-import { formatDateObject } from "components/utis/DateFormatter";
+import { formatDateObject } from "components/utils/DateFormatter";
 import dateConstants from "components/utils/dateConstants";
 
 import { makeStyles } from "tss-react/mui";
@@ -149,7 +159,7 @@ const AlertsEditor = (props) => {
         return alertSpec;
     }
 
-    function handleSumbit(formValues) {
+    function handleSubmit(formValues) {
         addAlertMutation(formatAlert(formValues));
     }
 
@@ -167,7 +177,35 @@ const AlertsEditor = (props) => {
             ) : (
                 <Paper>
                     <AddAlertForm handleSubmit={handleSubmit} />
-                    {JSON.stringify(alertsList)}
+                    <TableContainer>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Start Date</TableCell>
+                                    <TableCell>End Date</TableCell>
+                                    <TableCell>Text</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {alertsList.map((alertData, index) => {
+                                    return (
+                                        <TableRow key={index}>
+                                            <TableCell>
+                                                {alertData["start_date"] ||
+                                                    "None"}
+                                            </TableCell>
+                                            <TableCell>
+                                                {alertData["end_date"]}
+                                            </TableCell>
+                                            <TableCell>
+                                                {alertData["alert"]}
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Paper>
             )}
         </div>

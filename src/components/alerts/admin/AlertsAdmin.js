@@ -149,7 +149,7 @@ const AlertsEditor = (props) => {
     const error = loadingError || addAlertError || removeAlertError;
 
     function formatAlert(formValues) {
-        const { alertText, startDate, endDate } = values;
+        const { alertText, startDate, endDate } = formValues;
         const alertSpec = {
             "alert-text": alertText,
             "end-date": endDate

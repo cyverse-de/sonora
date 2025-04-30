@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import {
+    IconButton,
     Paper,
     Table,
     TableContainer,
@@ -13,6 +14,8 @@ import {
     Typography,
     Skeleton,
 } from "@mui/material";
+
+import { Delete as DeleteIcon } from "@mui/icons-material";
 
 import FormTextField from "components/forms/FormTextField";
 import FormTimestampField from "components/forms/FormTimestampField";
@@ -184,6 +187,7 @@ const AlertsEditor = (props) => {
                                     <TableCell>Start Date</TableCell>
                                     <TableCell>End Date</TableCell>
                                     <TableCell>Text</TableCell>
+                                    <TableCell>Delete</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -199,6 +203,27 @@ const AlertsEditor = (props) => {
                                             </TableCell>
                                             <TableCell>
                                                 {alertData["alert"]}
+                                            </TableCell>
+                                            <TableCell>
+                                                <IconButton
+                                                    onClick={(event) => {
+                                                        event.stopPropagation();
+                                                        event.preventDefault();
+
+                                                        removeAlertMutation({
+                                                            end_date:
+                                                                alertData[
+                                                                    "end_date"
+                                                                ],
+                                                            alert: alertData[
+                                                                "alert"
+                                                            ],
+                                                        });
+                                                    }}
+                                                    size="large"
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton>
                                             </TableCell>
                                         </TableRow>
                                     );

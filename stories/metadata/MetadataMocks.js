@@ -95,12 +95,24 @@ export const DataCiteMetadata = {
     avus: [
         {
             attr: "title",
-            value: "My test title",
+            value: "My Test Title",
+            unit: "",
+            avus: [
+                {
+                    attr: "xml:lang",
+                    value: "en-us",
+                    unit: "",
+                },
+            ],
+        },
+        {
+            attr: "title",
+            value: "Test Subtitle",
             unit: "",
             avus: [
                 {
                     attr: "titleType",
-                    value: "TranslatedTitle",
+                    value: "Subtitle",
                     unit: "",
                 },
                 {
@@ -112,7 +124,7 @@ export const DataCiteMetadata = {
         },
         {
             attr: "creator",
-            value: "Paul",
+            value: "Paul S.",
             unit: "",
             avus: [
                 {
@@ -122,7 +134,7 @@ export const DataCiteMetadata = {
                 },
                 {
                     attr: "nameIdentifier",
-                    value: "0000-0000-1234-5678",
+                    value: "0000-0002-3767-3466",
                     unit: "",
                     avus: [
                         {
@@ -141,7 +153,7 @@ export const DataCiteMetadata = {
         },
         {
             attr: "contributor",
-            value: "Sriram",
+            value: "Sarah R.",
             unit: "",
             avus: [
                 {
@@ -151,12 +163,12 @@ export const DataCiteMetadata = {
                 },
                 {
                     attr: "contributorType",
-                    value: "DataCollector",
+                    value: "ProjectLeader",
                     unit: "",
                 },
                 {
                     attr: "nameIdentifier",
-                    value: "0000-0001-5432-1234",
+                    value: "0000-0003-2305-7926",
                     unit: "",
                     avus: [
                         {
@@ -180,7 +192,7 @@ export const DataCiteMetadata = {
         },
         {
             attr: "publicationYear",
-            value: "2019",
+            value: "2025",
             unit: "",
         },
         {
@@ -248,7 +260,7 @@ export const DataCiteMetadata = {
         },
         {
             attr: "alternateIdentifier",
-            value: "http://schema.datacite.org/schema/meta/kernel-3.1/example/datacite-example-full-v3.1.xml",
+            value: "https://schema.datacite.org/meta/kernel-4.2/example/datacite-example-full-v4.xml",
             unit: "",
             avus: [
                 {
@@ -389,7 +401,7 @@ export const DataCiteMetadata = {
         },
         {
             attr: "analysis_tool",
-            value: "https://qa.cyverse.org/de/",
+            value: "https://de.cyverse.org",
             unit: "",
         },
         {

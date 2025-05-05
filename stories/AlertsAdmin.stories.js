@@ -22,6 +22,27 @@ const alertsAdminTestTemplate = (args) => {
     const { mockAllAlerts } = args;
     //mockAxios.onGet("/api/...").reply(200, mockDataSpec)
     mockAxios.onGet("/api/alerts/all").reply(200, mockAllAlerts);
+    mockAxios.onPost("/api/admin/alerts").reply((config) => {
+        const {
+            "alert-text": alert,
+            "start-date": start_date,
+            "end-date": end_date,
+        } = JSON.parse(config.data);
+        mockAllAlerts.alerts.push({ alert, start_date, end_date });
+        return [201, {}];
+    });
+    mockAxios.onDelete("/api/admin/alerts").reply((config) => {
+        const d = JSON.parse(config.data);
+        const deleteIndex = mockAllAlerts.alerts.findIndex(
+            (alert) =>
+                alert.alert === d["alert-text"] &&
+                alert.end_date === d["end-date"]
+        );
+        if (deleteIndex !== -1) {
+            mockAllAlerts.alerts.splice(deleteIndex, 1);
+        }
+        return deleteIndex !== -1 ? [200, {}] : [500, {}];
+    });
     return <AlertsEditor />;
 };
 

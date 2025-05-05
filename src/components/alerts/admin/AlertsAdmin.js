@@ -211,13 +211,14 @@ const AlertsEditor = (props) => {
                                                         event.preventDefault();
 
                                                         removeAlertMutation({
-                                                            end_date:
+                                                            "end-date":
                                                                 alertData[
                                                                     "end_date"
                                                                 ],
-                                                            alert: alertData[
-                                                                "alert"
-                                                            ],
+                                                            "alert-text":
+                                                                alertData[
+                                                                    "alert"
+                                                                ],
                                                         });
                                                     }}
                                                     size="large"

@@ -438,7 +438,7 @@ function DEAppBar(props) {
                         <Toolbar
                             key={text}
                             variant="dense"
-                            sx={{ bgcolor: "red" }}
+                            className={classes.alertBar}
                         >
                             <Typography
                                 dangerouslySetInnerHTML={{ __html: text }}

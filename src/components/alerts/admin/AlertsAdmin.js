@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useQueryClient, useMutation, useQuery } from "react-query";
 
 import {
+    Button,
     IconButton,
     Paper,
     Table,
@@ -15,7 +16,7 @@ import {
     Skeleton,
 } from "@mui/material";
 
-import { Delete as DeleteIcon } from "@mui/icons-material";
+import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
 import FormTextField from "components/forms/FormTextField";
 import FormTimestampField from "components/forms/FormTimestampField";
@@ -95,6 +96,14 @@ const AddAlertForm = ({ t, handleSubmit }) => {
                         required={true}
                         className={classes.flexItem}
                     />
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        startIcon={<AddIcon />}
+                    >
+                        {t("common:add")}
+                    </Button>
                 </Form>
             )}
         </Formik>
@@ -106,12 +115,15 @@ const AlertsEditor = (props) => {
 
     const queryClient = useQueryClient();
 
+    const { t } = useTranslation(["common"]);
+
     function updateAlerts(queryresp) {
         setAlertsList(queryresp?.alerts || []);
     }
 
     const {
         isLoading: isLoadingList,
+        isFetching: isFetchingList,
         error: loadingError,
         data,
     } = useQuery({
@@ -124,7 +136,7 @@ const AlertsEditor = (props) => {
     const {
         mutate: addAlertMutation,
         error: addAlertError,
-        isFetching: isAddingAlert,
+        isLoading: isAddingAlert,
     } = useMutation(addAlert, {
         onSuccess: (createdAlert) => {
             queryClient.invalidateQueries(ALL_ALERTS_QUERY_KEY);
@@ -134,18 +146,15 @@ const AlertsEditor = (props) => {
     const {
         mutate: removeAlertMutation,
         error: removeAlertError,
-        isFetching: isRemovingAlert,
+        isLoading: isRemovingAlert,
     } = useMutation(removeAlert, {
         onSuccess: (resp) => {
             queryClient.invalidateQueries(ALL_ALERTS_QUERY_KEY);
         },
     });
 
-    const isLoading = isQueryLoading([
-        isLoadingList,
-        isAddingAlert,
-        isRemovingAlert,
-    ]);
+    const isMutating = isQueryLoading([isAddingAlert, isRemovingAlert]);
+
     const error = loadingError || addAlertError || removeAlertError;
 
     function formatAlert(formValues) {
@@ -168,7 +177,7 @@ const AlertsEditor = (props) => {
 
     return (
         <div>
-            {isLoading ? (
+            {isLoadingList ? (
                 <Skeleton
                     variant="rectangular"
                     animation="wave"
@@ -179,59 +188,79 @@ const AlertsEditor = (props) => {
                 <WrappedErrorHandler errorObject={error} />
             ) : (
                 <Paper>
-                    <AddAlertForm handleSubmit={handleSubmit} />
-                    <TableContainer>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Start Date</TableCell>
-                                    <TableCell>End Date</TableCell>
-                                    <TableCell>Text</TableCell>
-                                    <TableCell>Delete</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {alertsList.map((alertData, index) => {
-                                    return (
-                                        <TableRow key={index}>
-                                            <TableCell>
-                                                {alertData["start_date"] ||
-                                                    "None"}
-                                            </TableCell>
-                                            <TableCell>
-                                                {alertData["end_date"]}
-                                            </TableCell>
-                                            <TableCell>
-                                                {alertData["alert"]}
-                                            </TableCell>
-                                            <TableCell>
-                                                <IconButton
-                                                    onClick={(event) => {
-                                                        event.stopPropagation();
-                                                        event.preventDefault();
+                    {isMutating ? (
+                        <Skeleton
+                            variant="rectangular"
+                            animation="wave"
+                            height={150}
+                            width="100%"
+                        />
+                    ) : (
+                        <AddAlertForm t={t} handleSubmit={handleSubmit} />
+                    )}
+                    {isFetchingList || isMutating ? (
+                        <Skeleton
+                            variant="rectangular"
+                            animation="wave"
+                            height={200}
+                            width="100%"
+                        />
+                    ) : (
+                        <TableContainer>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Start Date</TableCell>
+                                        <TableCell>End Date</TableCell>
+                                        <TableCell>Text</TableCell>
+                                        <TableCell>Delete</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {alertsList.map((alertData, index) => {
+                                        return (
+                                            <TableRow key={index}>
+                                                <TableCell>
+                                                    {alertData["start_date"] ||
+                                                        "None"}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {alertData["end_date"]}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {alertData["alert"]}
+                                                </TableCell>
+                                                <TableCell>
+                                                    <IconButton
+                                                        onClick={(event) => {
+                                                            event.stopPropagation();
+                                                            event.preventDefault();
 
-                                                        removeAlertMutation({
-                                                            "end-date":
-                                                                alertData[
-                                                                    "end_date"
-                                                                ],
-                                                            "alert-text":
-                                                                alertData[
-                                                                    "alert"
-                                                                ],
-                                                        });
-                                                    }}
-                                                    size="large"
-                                                >
-                                                    <DeleteIcon />
-                                                </IconButton>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                                            removeAlertMutation(
+                                                                {
+                                                                    "end-date":
+                                                                        alertData[
+                                                                            "end_date"
+                                                                        ],
+                                                                    "alert-text":
+                                                                        alertData[
+                                                                            "alert"
+                                                                        ],
+                                                                }
+                                                            );
+                                                        }}
+                                                        size="large"
+                                                    >
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    )}
                 </Paper>
             )}
         </div>

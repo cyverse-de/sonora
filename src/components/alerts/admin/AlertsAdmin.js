@@ -13,6 +13,7 @@ import {
     TableRow,
     TableBody,
     Skeleton,
+    Stack,
 } from "@mui/material";
 
 import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
@@ -37,72 +38,53 @@ import isQueryLoading from "components/utils/isQueryLoading";
 import { formatDateObject } from "components/utils/DateFormatter";
 import dateConstants from "components/utils/dateConstants";
 
-import { makeStyles } from "tss-react/mui";
-
 const initialValues = {
     startDate: "",
     endDate: "",
     alertText: "",
 };
 
-const useStyles = makeStyles()((theme) => ({
-    flexContainer: {
-        marginTop: 0,
-        marginLeft: theme.spacing(1),
-        marginBottom: theme.spacing(4),
-        marginRight: theme.spacing(2),
-        display: "flex",
-        flexWrap: "wrap",
-
-        "& .MuiTextField-root": {
-            width: 0,
-            margin: theme.spacing(1),
-            minWidth: "25ch",
-        },
-    },
-    flexItem: {
-        marginTop: 0,
-        marginBottom: 0,
-        marginRight: theme.spacing(2),
-        marginLeft: theme.spacing(2),
-    },
-}));
-
 const AddAlertForm = ({ t, handleSubmit }) => {
-    const { classes } = useStyles();
     return (
         <Formik initialValues={initialValues} onSubmit={handleSubmit}>
             {(props) => (
-                <Form className={classes.flexContainer}>
-                    <Field
-                        component={FormTextField}
-                        name="alertText"
-                        label="Alert Text"
-                        required={true}
-                        className={classes.flexItem}
-                    />
-                    <Field
-                        component={FormTimestampField}
-                        name="startDate"
-                        helperText="Start Date"
-                        required={false}
-                        className={classes.flexItem}
-                    />
-                    <Field
-                        component={FormTimestampField}
-                        name="endDate"
-                        helperText="End Date"
-                        required={true}
-                        className={classes.flexItem}
-                    />
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        startIcon={<AddIcon />}
+                <Form>
+                    <Stack
+                        direction="row"
+                        spacing={2}
+                        alignItems="flex-start"
+                        justifyContent="flex-start"
                     >
-                        {t("common:add")}
-                    </Button>
+                        <Field
+                            component={FormTextField}
+                            name="alertText"
+                            label="Alert Text"
+                            required={true}
+                            sx={{ minWidth: "25ch", width: 0 }}
+                        />
+                        <Field
+                            component={FormTimestampField}
+                            name="startDate"
+                            helperText="Start Date"
+                            required={false}
+                            sx={{ minWidth: "25ch" }}
+                        />
+                        <Field
+                            component={FormTimestampField}
+                            name="endDate"
+                            helperText="End Date"
+                            required={true}
+                            sx={{ minWidth: "25ch" }}
+                        />
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            startIcon={<AddIcon />}
+                        >
+                            {t("common:add")}
+                        </Button>
+                    </Stack>
                 </Form>
             )}
         </Formik>
@@ -189,7 +171,7 @@ const AlertsEditor = (props) => {
                 <WrappedErrorHandler errorObject={error} />
             ) : (
                 <Paper>
-                    {isMutating ? (
+                    {isFetchingList || isMutating ? (
                         <Skeleton
                             variant="rectangular"
                             animation="wave"

@@ -2,8 +2,6 @@ import React from "react";
 import AlertsEditor from "../src/components/alerts/admin/AlertsAdmin";
 import { mockAxios } from "./axiosMock";
 
-//import testConfig from "./configMock";
-
 const emptyAlerts = { alerts: [] };
 const nonEmptyAlerts = {
     alerts: [
@@ -20,7 +18,6 @@ const nonEmptyAlerts = {
 
 const alertsAdminTestTemplate = (args) => {
     const { mockAllAlerts } = args;
-    //mockAxios.onGet("/api/...").reply(200, mockDataSpec)
     mockAxios.onGet("/api/alerts/all").reply(200, mockAllAlerts);
     mockAxios.onPost("/api/admin/alerts").reply((config) => {
         const {

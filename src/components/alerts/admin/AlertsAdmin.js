@@ -12,7 +12,6 @@ import {
     TableCell,
     TableRow,
     TableBody,
-    Typography,
     Skeleton,
 } from "@mui/material";
 
@@ -140,6 +139,7 @@ const AlertsEditor = (props) => {
     } = useMutation(addAlert, {
         onSuccess: (createdAlert) => {
             queryClient.invalidateQueries(ALL_ALERTS_QUERY_KEY);
+            queryClient.invalidateQueries(ACTIVE_ALERTS_QUERY_KEY);
         },
     });
 
@@ -150,6 +150,7 @@ const AlertsEditor = (props) => {
     } = useMutation(removeAlert, {
         onSuccess: (resp) => {
             queryClient.invalidateQueries(ALL_ALERTS_QUERY_KEY);
+            queryClient.invalidateQueries(ACTIVE_ALERTS_QUERY_KEY);
         },
     });
 

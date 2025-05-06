@@ -166,7 +166,7 @@ export default function AdminDrawerItems(props) {
                 </ListItem>
             </Tooltip>
 
-            <Tooltip title={"alerts"} placement="right" arrow>
+            <Tooltip title={t("alerts")} placement="right" arrow>
                 <ListItem
                     button
                     className={cx(classes.nested, classes.listItem)}
@@ -177,7 +177,7 @@ export default function AdminDrawerItems(props) {
                     <ListItemIcon>
                         <LabelImportantIcon className={classes.icon} />
                     </ListItemIcon>
-                    {open && <ListItemText>{"alerts"}</ListItemText>}
+                    {open && <ListItemText>{t("alerts")}</ListItemText>}
                 </ListItem>
             </Tooltip>
         </>

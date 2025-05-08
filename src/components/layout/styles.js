@@ -25,8 +25,8 @@ const LayoutStyles = (theme) => ({
         },
     },
     alertBar: {
-        backgroundColor: theme.palette.warning.main,
-        color: theme.palette.warning.contrastText,
+        backgroundColor: "#FFC972",
+        color: "#713916",
     },
     drawerIcon: {
         flexShrink: 0,

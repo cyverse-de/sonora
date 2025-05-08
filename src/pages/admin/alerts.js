@@ -23,7 +23,10 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, RequiredNamespaces)),
+            ...(await serverSideTranslations(locale, [
+                "alerts-admin",
+                ...RequiredNamespaces,
+            ])),
         },
     };
 }

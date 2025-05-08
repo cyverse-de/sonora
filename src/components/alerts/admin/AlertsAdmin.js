@@ -18,7 +18,7 @@ import {
 
 import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
-import FormTextField from "components/forms/FormTextField";
+import FormMultilineTextField from "components/forms/FormMultilineTextField";
 import FormTimestampField from "components/forms/FormTimestampField";
 
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
@@ -56,7 +56,7 @@ const AddAlertForm = ({ t, handleSubmit }) => {
                         justifyContent="flex-start"
                     >
                         <Field
-                            component={FormTextField}
+                            component={FormMultilineTextField}
                             name="alertText"
                             label={t("alerts-admin:alertText")}
                             required={true}

@@ -11,6 +11,7 @@ import {
     instantLaunchMetadata,
     instantLaunchMappings,
     publicQuicklaunches,
+    filetypeList,
 } from "./mocks";
 
 export default {
@@ -34,5 +35,6 @@ export const VICEAdminTest = () => {
     mockAxios
         .onGet(/\/api\/instantlaunches\/quicklaunches\/public.*/)
         .reply(200, publicQuicklaunches);
+    mockAxios.onGet("/api/filetypes/type-list").reply(200, filetypeList);
     return <VICEAdmin />;
 };

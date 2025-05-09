@@ -21,6 +21,11 @@ import { useBootstrapInfo } from "contexts/bootstrap";
 import { intercomLogout } from "common/intercom";
 
 import {
+    activeAlerts,
+    ACTIVE_ALERTS_QUERY_KEY,
+} from "serviceFacades/notifications";
+
+import {
     getUserProfile,
     useBootStrap,
     USER_PROFILE_QUERY_KEY,
@@ -73,6 +78,8 @@ import {
     getResourceUsageSummary,
 } from "serviceFacades/dashboard";
 import { getUserQuota } from "common/resourceUsage";
+
+import markdownToHtml from "components/utils/markdownToHtml";
 
 import useBreakpoints from "./useBreakpoints";
 
@@ -127,6 +134,8 @@ function DEAppBar(props) {
         !!config?.subscriptions?.enforce
     );
     const [dataUsagePercentage, setDataUsagePercentage] = useState(0);
+    const [activeAlertsList, setActiveAlertsList] = useState([]);
+
     const { isSmUp, isSmDown } = useBreakpoints();
 
     if (activeView === NavigationConstants.APPS) {
@@ -157,6 +166,28 @@ function DEAppBar(props) {
         enabled: profileRefetchInterval != null,
         onSuccess: updateUserProfile,
         refetchInterval: profileRefetchInterval,
+    });
+
+    function updateAlerts(queryresp) {
+        const alertsMdPromises = queryresp?.alerts.map((alertMap) =>
+            markdownToHtml(alertMap.alert)
+        );
+        Promise.all(alertsMdPromises).then((values) => {
+            if (
+                values.length !== activeAlertsList.length ||
+                !values.every((el, idx) => activeAlertsList[idx] === el)
+            ) {
+                setActiveAlertsList(values || []);
+            }
+        });
+    }
+
+    useQuery({
+        queryKey: ACTIVE_ALERTS_QUERY_KEY,
+        queryFn: activeAlerts,
+        enabled: true,
+        onSuccess: updateAlerts,
+        refetchInterval: 120000,
     });
 
     useEffect(() => {
@@ -402,6 +433,19 @@ function DEAppBar(props) {
                     [classes.appBarShift]: open,
                 })}
             >
+                {activeAlertsList?.map((text) => {
+                    return (
+                        <Toolbar
+                            key={text}
+                            variant="dense"
+                            className={classes.alertBar}
+                        >
+                            <Typography
+                                dangerouslySetInnerHTML={{ __html: text }}
+                            />
+                        </Toolbar>
+                    );
+                })}
                 <Toolbar>
                     {!isSmUp && (
                         <>

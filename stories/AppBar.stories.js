@@ -135,6 +135,16 @@ const bag_data = {
     },
 };
 
+const emptyAlerts = { alerts: [] };
+const nonEmptyAlerts = {
+    alerts: [
+        {
+            end_date: "2100-01-01T00:00:00Z",
+            alert: "This is a *testing* alert, with some *formatting* and a [link](https://cyverse.org).",
+        },
+    ],
+};
+
 const appBarTestTemplate = (args) => {
     const {
         mockUserProfile,
@@ -144,6 +154,7 @@ const appBarTestTemplate = (args) => {
         mockRunningViceJobs,
         mockInstantLaunches,
         mockUsageSummary,
+        mockGlobalAlerts,
     } = args;
 
     mockAxios.onGet("/api/profile").reply(200, mockUserProfile);
@@ -183,6 +194,7 @@ const appBarTestTemplate = (args) => {
             },
         ],
     });
+    mockAxios.onGet("/api/alerts/active").reply(200, mockGlobalAlerts);
 
     return (
         <UserProfileProvider>
@@ -202,6 +214,7 @@ NormalView.args = {
     mockRunningViceJobs: runningViceJobs,
     mockInstantLaunches: instantLaunchNavDrawerMock,
     mockUsageSummary: usageSummaryResponse,
+    mockGlobalAlerts: emptyAlerts,
 };
 
 export const ComputeLimitExceeded = appBarTestTemplate.bind({});
@@ -213,6 +226,7 @@ ComputeLimitExceeded.args = {
     mockRunningViceJobs: runningViceJobs,
     mockInstantLaunches: instantLaunchNavDrawerMock,
     mockUsageSummary: usageSummaryComputeLimitExceededResponse,
+    mockGlobalAlerts: emptyAlerts,
 };
 
 export const DataUsage50percent = appBarTestTemplate.bind({});
@@ -224,6 +238,7 @@ DataUsage50percent.args = {
     mockRunningViceJobs: runningViceJobs,
     mockInstantLaunches: instantLaunchNavDrawerMock,
     mockUsageSummary: usageSummaryDiskUsage50percentResponse,
+    mockGlobalAlerts: emptyAlerts,
 };
 
 export const DataUsage75percent = appBarTestTemplate.bind({});
@@ -235,6 +250,7 @@ DataUsage75percent.args = {
     mockRunningViceJobs: runningViceJobs,
     mockInstantLaunches: instantLaunchNavDrawerMock,
     mockUsageSummary: usageSummaryDiskUsage75percentResponse,
+    mockGlobalAlerts: emptyAlerts,
 };
 
 export const DataUsage100percent = appBarTestTemplate.bind({});
@@ -246,6 +262,19 @@ DataUsage100percent.args = {
     mockRunningViceJobs: runningViceJobs,
     mockInstantLaunches: instantLaunchNavDrawerMock,
     mockUsageSummary: usageSummaryDiskUsage100percentResponse,
+    mockGlobalAlerts: emptyAlerts,
+};
+
+export const HasGlobalAlerts = appBarTestTemplate.bind({});
+HasGlobalAlerts.args = {
+    mockUserProfile: mockUser,
+    mockBootstrapResponse: bootStrap,
+    mockNotificationsData: notificationsData,
+    mockBagData: bag_data,
+    mockRunningViceJobs: runningViceJobs,
+    mockInstantLaunches: instantLaunchNavDrawerMock,
+    mockUsageSummary: usageSummaryResponse,
+    mockGlobalAlerts: nonEmptyAlerts,
 };
 
 export default {

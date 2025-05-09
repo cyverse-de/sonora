@@ -165,6 +165,21 @@ export default function AdminDrawerItems(props) {
                     {open && <ListItemText>{t("vice")}</ListItemText>}
                 </ListItem>
             </Tooltip>
+
+            <Tooltip title={t("alerts")} placement="right" arrow>
+                <ListItem
+                    button
+                    className={cx(classes.nested, classes.listItem)}
+                    onClick={() =>
+                        router.push("/" + NavigationConstants.ADMIN + "/alerts")
+                    }
+                >
+                    <ListItemIcon>
+                        <LabelImportantIcon className={classes.icon} />
+                    </ListItemIcon>
+                    {open && <ListItemText>{t("alerts")}</ListItemText>}
+                </ListItem>
+            </Tooltip>
         </>
     );
 }

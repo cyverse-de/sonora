@@ -24,6 +24,10 @@ const LayoutStyles = (theme) => ({
             }),
         },
     },
+    alertBar: {
+        backgroundColor: "#FFC972",
+        color: "#713916",
+    },
     drawerIcon: {
         flexShrink: 0,
         marginRight: theme.spacing(3.5),

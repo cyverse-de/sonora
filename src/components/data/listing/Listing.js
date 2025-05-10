@@ -161,7 +161,7 @@ function Listing(props) {
 
     const enforceSubscriptions = config?.subscriptions?.enforce;
 
-    const [canShare, setCanShare] = useState(!enforceSubscriptions);
+    const [planCanShare, setPlanCanShare] = useState(!enforceSubscriptions);
     const [uploadsEnabled, setUploadsEnabled] = useState(!enforceSubscriptions);
     const [computeLimitExceeded, setComputeLimitExceeded] =
         useState(enforceSubscriptions);
@@ -335,7 +335,9 @@ function Listing(props) {
                     constants.DATA_STORAGE_RESOURCE_NAME
             );
 
-            setCanShare(planName !== constants.PLAN_NAME_BASIC || hasDataAddon);
+            setPlanCanShare(
+                planName !== constants.PLAN_NAME_BASIC || hasDataAddon
+            );
             setUploadsEnabled(dataUsage < storageQuota);
             setComputeLimitExceeded(computeUsage >= computeQuota);
         },
@@ -751,7 +753,7 @@ function Listing(props) {
                     onRenameSelected={onRenameClicked}
                     onMoveSelected={onMoveSelected}
                     uploadsEnabled={uploadsEnabled}
-                    canShare={canShare}
+                    planCanShare={planCanShare}
                 />
                 {localContextsProjectURI && localContextsProject && (
                     <Stack>
@@ -799,7 +801,7 @@ function Listing(props) {
                             instantLaunchDefaultsMapping
                         }
                         computeLimitExceeded={computeLimitExceeded}
-                        canShare={canShare}
+                        planCanShare={planCanShare}
                         localContextsURIMap={localContextsURIMap}
                     />
                 )}

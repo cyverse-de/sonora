@@ -71,7 +71,7 @@ function DataToolbar(props) {
         onMoveSelected,
         onAdvancedDataSearchSelected,
         uploadsEnabled,
-        canShare,
+        planCanShare,
     } = props;
 
     const { t } = useTranslation("data");
@@ -87,7 +87,7 @@ function DataToolbar(props) {
 
     const inTrash = isPathInTrash(path, baseTrashPath);
     const uploadEnabled = !inTrash && isWritable(permission);
-    const sharingEnabled = canShare && !inTrash && isOwner(selectedResources);
+    const sharingEnabled = !inTrash && isOwner(selectedResources);
     const bagEnabled = !inTrash && selected && selected.length > 0;
     const hasDotMenu =
         (selectedResources && selectedResources.length > 0 && !inTrash) ||
@@ -180,6 +180,7 @@ function DataToolbar(props) {
                                 <SharingButton
                                     size="small"
                                     baseId={toolbarId}
+                                    planCanShare={planCanShare}
                                     setSharingDlgOpen={setSharingDlgOpen}
                                 />
                             )}
@@ -229,6 +230,7 @@ function DataToolbar(props) {
                             onRefreshSelected={onRefreshSelected}
                             uploadEnabled={uploadEnabled}
                             sharingEnabled={sharingEnabled}
+                            planCanShare={planCanShare}
                             bagEnabled={bagEnabled}
                             handleEmptyTrash={() =>
                                 setEmptyTrashConfirmOpen(true)

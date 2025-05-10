@@ -45,5 +45,4 @@ export const SM_PIXELS = 600;
 export const XS_NUM_COLUMNS = 1;
 export const XS_PIXELS = 0;
 
-export const FEATURE_MATRIX_URL = "https://cyverse.org/subscribe";
 export const QUOTA_ENFORCE_URL = "https://cyverse.org/quota-enforce";

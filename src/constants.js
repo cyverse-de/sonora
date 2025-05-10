@@ -118,6 +118,8 @@ const constants = {
     CPU_HOURS_QUOTA_LIMIT_DEFAULT: 20,
     CPU_HOURS_RESOURCE_NAME: "cpu.hours",
     PLAN_NAME_BASIC: "Basic",
+
+    SUBSCRIBE_URL: "https://cyverse.org/subscribe",
 };
 
 export default constants;

@@ -120,7 +120,7 @@ function Announcer(props) {
 
 Announcer.propTypes = {
     open: PropTypes.bool.isRequired,
-    message: PropTypes.string,
+    message: PropTypes.node,
     variant: PropTypes.oneOf(["success", "warning", "error", "info"])
         .isRequired,
     duration: PropTypes.number,

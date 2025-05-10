@@ -12,10 +12,17 @@ import { Share } from "@mui/icons-material";
 
 import { useTranslation } from "i18n";
 import ids from "./ids";
+import announcePlanCannotShare from "./announcePlanCannotShare";
 
 function SharingButton(props) {
-    const { baseId, setSharingDlgOpen, size = "medium", margin = 1 } = props;
-    const { t } = useTranslation("sharing");
+    const {
+        baseId,
+        planCanShare,
+        setSharingDlgOpen,
+        size = "medium",
+        margin = 1,
+    } = props;
+    const { t } = useTranslation(["sharing", "common"]);
 
     return (
         <Button
@@ -24,7 +31,13 @@ function SharingButton(props) {
             disableElevation
             color="primary"
             size={size}
-            onClick={() => setSharingDlgOpen(true)}
+            onClick={() => {
+                if (planCanShare) {
+                    setSharingDlgOpen(true);
+                } else {
+                    announcePlanCannotShare(t);
+                }
+            }}
             startIcon={<Share />}
             style={{ margin }}
         >

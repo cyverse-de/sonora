@@ -2,6 +2,9 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+
+import constants from "../../../constants";
+
 import {
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSES_LISTING_QUERY_KEY,
@@ -13,6 +16,10 @@ import {
     useAnalysisInfo,
     useAnalysisParameters,
 } from "serviceFacades/analyses";
+import {
+    getResourceUsageSummary,
+    RESOURCE_USAGE_QUERY_KEY,
+} from "serviceFacades/dashboard";
 import { getAnalysisShareWithSupportRequest } from "serviceFacades/sharing";
 import {
     analysisSupportRequest,
@@ -87,11 +94,16 @@ import useBreakpoints from "components/layout/useBreakpoints";
 
 export default function AnalysisSubmissionLanding(props) {
     const { id, baseId, view, showErrorAnnouncer } = props;
-    const { t } = useTranslation("analyses");
+    const { t } = useTranslation(["analyses", "common"]);
     const theme = useTheme();
     const [userProfile] = useUserProfile();
     const [config] = useConfig();
     const { currentNotification } = useNotifications();
+
+    const enforceSubscriptions = config?.subscriptions?.enforce;
+    const [planCanShare, setPlanCanShare] = React.useState(
+        !enforceSubscriptions
+    );
 
     const [analysis, setAnalysis] = React.useState();
     const [helpOpen, setHelpOpen] = React.useState(false);
@@ -280,6 +292,22 @@ export default function AnalysisSubmissionLanding(props) {
             },
         });
 
+    const { isFetching: isFetchingSubscription } = useQuery({
+        queryKey: [RESOURCE_USAGE_QUERY_KEY],
+        queryFn: getResourceUsageSummary,
+        enabled: enforceSubscriptions && !!userProfile?.id,
+        onSuccess: (respData) => {
+            const subscription = respData?.subscription;
+
+            setPlanCanShare(
+                subscription?.plan?.name !== constants.PLAN_NAME_BASIC
+            );
+        },
+        onError: (e) => {
+            showErrorAnnouncer(t("common:usageSummaryError"), e);
+        },
+    });
+
     const handleCancel = () => {
         analysesCancelMutation({ id: analysis?.id });
     };
@@ -292,7 +320,11 @@ export default function AnalysisSubmissionLanding(props) {
         });
     };
 
-    const busy = isFetching || analysisLoading || extensionLoading;
+    const busy =
+        isFetching ||
+        analysisLoading ||
+        extensionLoading ||
+        isFetchingSubscription;
 
     if (busy) {
         return <GridLoading rows={25} baseId={baseId} />;
@@ -464,6 +496,7 @@ export default function AnalysisSubmissionLanding(props) {
                                             onClose={onClose}
                                             analysis={analysis}
                                             canShare={sharable}
+                                            planCanShare={planCanShare}
                                             setSharingDlgOpen={
                                                 setSharingDlgOpen
                                             }

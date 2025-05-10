@@ -27,6 +27,10 @@ import {
     updateAnalysisComment,
     extendVICEAnalysisTimeLimit,
 } from "serviceFacades/analyses";
+import {
+    getResourceUsageSummary,
+    RESOURCE_USAGE_QUERY_KEY,
+} from "serviceFacades/dashboard";
 
 import { useBagAddItems } from "serviceFacades/bags";
 import isQueryLoading from "components/utils/isQueryLoading";
@@ -96,7 +100,7 @@ function Listing(props) {
         typeFilter,
         showErrorAnnouncer,
     } = props;
-    const { t } = useTranslation("analyses");
+    const { t } = useTranslation(["analyses", "common"]);
     const [isGridView, setGridView] = useState(false);
 
     const [selected, setSelected] = useState([]);
@@ -107,6 +111,9 @@ function Listing(props) {
     const [config] = useConfig();
     const [userProfile] = useUserProfile();
     const { currentNotification } = useNotifications();
+
+    const enforceSubscriptions = config?.subscriptions?.enforce;
+    const [planCanShare, setPlanCanShare] = useState(!enforceSubscriptions);
 
     const [selectedAnalysis, setSelectedAnalysis] = useState(null);
     const [isSingleSelection, setSingleSelection] = useState(false);
@@ -281,6 +288,22 @@ function Listing(props) {
                 showErrorAnnouncer(t("analysesRelaunchError"), error);
             },
         });
+
+    const { isFetching: isFetchingSubscription } = useQuery({
+        queryKey: [RESOURCE_USAGE_QUERY_KEY],
+        queryFn: getResourceUsageSummary,
+        enabled: enforceSubscriptions && !!userProfile?.id,
+        onSuccess: (respData) => {
+            const subscription = respData?.subscription;
+
+            setPlanCanShare(
+                subscription?.plan?.name !== globalConstants.PLAN_NAME_BASIC
+            );
+        },
+        onError: (e) => {
+            showErrorAnnouncer(t("common:usageSummaryError"), e);
+        },
+    });
 
     const addItemsToBag = useBagAddItems({
         handleError: (error) => {
@@ -682,6 +705,7 @@ function Listing(props) {
         deleteLoading,
         relaunchLoading,
         extensionLoading,
+        isFetchingSubscription,
     ]);
 
     return (
@@ -709,6 +733,7 @@ function Listing(props) {
                 handleTerminateSelected={handleTerminateSelected}
                 handleBatchIconClick={handleBatchIconClick}
                 canShare={sharingEnabled}
+                planCanShare={planCanShare}
                 setPendingTerminationDlgOpen={setPendingTerminationDlgOpen}
                 handleTimeLimitExtnClick={(timeLimit) => {
                     setTimeLimit(timeLimit);

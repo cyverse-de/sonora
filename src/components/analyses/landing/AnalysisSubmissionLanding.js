@@ -463,7 +463,7 @@ export default function AnalysisSubmissionLanding(props) {
                                             allowEdit={allowEdit}
                                             onClose={onClose}
                                             analysis={analysis}
-                                            canShare={canShare}
+                                            canShare={sharable}
                                             setSharingDlgOpen={
                                                 setSharingDlgOpen
                                             }

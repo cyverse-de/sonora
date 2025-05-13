@@ -5,6 +5,7 @@ import { useTranslation } from "i18n";
 import { AXIOS_DELAY, errorResponseJSON, mockAxios } from "../axiosMock";
 import userProfileMock from "../userProfileMock";
 import {
+    usageSummaryBasicSubscriptionAddonsResponse,
     usageSummaryBasicSubscriptionResponse,
     usageSummaryResponse,
 } from "../usageSummaryMock";
@@ -216,3 +217,11 @@ BasicSubscriptionListing.args = {
 };
 BasicSubscriptionListing.argTypes = argTypes;
 BasicSubscriptionListing.parameters = parameters;
+
+export const BasicSubscriptionWithAddonsListing = AppsListingTemplate.bind({});
+BasicSubscriptionWithAddonsListing.args = {
+    ...args,
+    usageSummaryResponse: usageSummaryBasicSubscriptionAddonsResponse,
+};
+BasicSubscriptionWithAddonsListing.argTypes = argTypes;
+BasicSubscriptionWithAddonsListing.parameters = parameters;

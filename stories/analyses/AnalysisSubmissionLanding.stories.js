@@ -4,6 +4,7 @@ import { AXIOS_DELAY, mockAxios } from "../axiosMock";
 import {
     usageSummaryResponse,
     usageSummaryBasicSubscriptionResponse,
+    usageSummaryBasicSubscriptionAddonsResponse,
 } from "../usageSummaryMock";
 import {
     deWordCountAnalysis,
@@ -89,3 +90,12 @@ BasicSubscriptionLanding.args = {
     usageSummaryResponse: usageSummaryBasicSubscriptionResponse,
 };
 BasicSubscriptionLanding.argTypes = argTypes;
+
+export const BasicSubscriptionWithAddonsLanding =
+    AnalysisSubmissionLandingTemplate.bind({});
+BasicSubscriptionWithAddonsLanding.parameters = parameters;
+BasicSubscriptionWithAddonsLanding.args = {
+    ...args,
+    usageSummaryResponse: usageSummaryBasicSubscriptionAddonsResponse,
+};
+BasicSubscriptionWithAddonsLanding.argTypes = argTypes;

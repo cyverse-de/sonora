@@ -295,9 +295,15 @@ function Listing(props) {
         enabled: enforceSubscriptions && !!userProfile?.id,
         onSuccess: (respData) => {
             const subscription = respData?.subscription;
+            const planName = subscription?.plan?.name;
+            const hasCPUAddon = subscription?.addons?.find(
+                ({ addon }) =>
+                    addon.resource_type.name ===
+                    globalConstants.CPU_HOURS_RESOURCE_NAME
+            );
 
             setPlanCanShare(
-                subscription?.plan?.name !== globalConstants.PLAN_NAME_BASIC
+                planName !== globalConstants.PLAN_NAME_BASIC || hasCPUAddon
             );
         },
         onError: (e) => {

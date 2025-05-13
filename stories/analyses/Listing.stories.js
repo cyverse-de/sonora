@@ -11,6 +11,7 @@ import { mockAxios } from "../axiosMock";
 import {
     usageSummaryResponse,
     usageSummaryBasicSubscriptionResponse,
+    usageSummaryBasicSubscriptionAddonsResponse,
 } from "../usageSummaryMock";
 
 import { info, listing } from "./AnalysesMocks";
@@ -183,3 +184,12 @@ BasicSubscriptionListing.args = {
     usageSummaryResponse: usageSummaryBasicSubscriptionResponse,
 };
 BasicSubscriptionListing.argTypes = TimeLimitArgType;
+
+export const BasicSubscriptionWithAddonsListing = AnalysesListingTemplate.bind(
+    {}
+);
+BasicSubscriptionWithAddonsListing.args = {
+    timeLimit: "null",
+    usageSummaryResponse: usageSummaryBasicSubscriptionAddonsResponse,
+};
+BasicSubscriptionWithAddonsListing.argTypes = TimeLimitArgType;

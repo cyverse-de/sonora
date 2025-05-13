@@ -107,6 +107,7 @@ function TableView(props) {
         orderBy,
         selected,
         canShare,
+        planCanShare,
         onDetailsSelected,
         setSharingDlgOpen,
         onDocSelected,
@@ -312,6 +313,9 @@ function TableView(props) {
                                                         )}
                                                         app={app}
                                                         canShare={canShare}
+                                                        planCanShare={
+                                                            planCanShare
+                                                        }
                                                         handleDelete={
                                                             handleDelete
                                                         }

@@ -48,6 +48,7 @@ function AppsDotMenu(props) {
         addToBagEnabled,
         onAddToBagClicked,
         canShare,
+        planCanShare,
         setSharingDlgOpen,
         onDocSelected,
         onQLSelected,
@@ -113,6 +114,7 @@ function AppsDotMenu(props) {
                     <SharingMenuItem
                         key={buildID(baseId, shareIds.SHARING_MENU_ITEM)}
                         baseId={baseId}
+                        planCanShare={planCanShare}
                         onClose={onClose}
                         setSharingDlgOpen={setSharingDlgOpen}
                     />

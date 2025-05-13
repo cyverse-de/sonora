@@ -4,6 +4,10 @@ import { useTranslation } from "i18n";
 
 import { AXIOS_DELAY, errorResponseJSON, mockAxios } from "../axiosMock";
 import userProfileMock from "../userProfileMock";
+import {
+    usageSummaryBasicSubscriptionResponse,
+    usageSummaryResponse,
+} from "../usageSummaryMock";
 
 import {
     adminDetails,
@@ -36,7 +40,7 @@ export default {
     title: "Apps / Listing",
 };
 
-function ListingTest({ isAdminView }) {
+function ListingTest({ isAdminView, usageSummaryResponse }) {
     //Note: the params must exactly with original call made by react-query
     mockAxios.reset();
     mockAxios.onGet("/api/apps/categories?public=false").reply(200, categories);
@@ -114,6 +118,9 @@ function ListingTest({ isAdminView }) {
     mockAxios
         .onGet(/\/api\/user-info.*username=superman.*/)
         .reply(200, userInfoMemberResp);
+    mockAxios
+        .onGet(new RegExp("/api/resource-usage/summary.*"))
+        .reply(200, usageSummaryResponse);
 
     const { t } = useTranslation("apps");
     const fields = appFields(t);
@@ -167,21 +174,24 @@ function ListingTest({ isAdminView }) {
     );
 }
 
-export const AppsListingTest = ({ isAdminView }) => {
+const AppsListingTemplate = ({ isAdminView, usageSummaryResponse }) => {
     return (
         <UploadTrackingProvider>
             <UserProfileProvider>
-                <ListingTest isAdminView={isAdminView} />
+                <ListingTest
+                    isAdminView={isAdminView}
+                    usageSummaryResponse={usageSummaryResponse}
+                />
             </UserProfileProvider>
         </UploadTrackingProvider>
     );
 };
 
-AppsListingTest.args = {
+const args = {
     isAdminView: false,
 };
 
-AppsListingTest.argTypes = {
+const argTypes = {
     isAdminView: {
         name: "Admin View",
         control: {
@@ -190,6 +200,19 @@ AppsListingTest.argTypes = {
     },
 };
 
-AppsListingTest.parameters = {
+const parameters = {
     chromatic: { delay: AXIOS_DELAY * 2 + 500 },
 };
+
+export const NormalListing = AppsListingTemplate.bind({});
+NormalListing.args = { ...args, usageSummaryResponse };
+NormalListing.argTypes = argTypes;
+NormalListing.parameters = parameters;
+
+export const BasicSubscriptionListing = AppsListingTemplate.bind({});
+BasicSubscriptionListing.args = {
+    ...args,
+    usageSummaryResponse: usageSummaryBasicSubscriptionResponse,
+};
+BasicSubscriptionListing.argTypes = argTypes;
+BasicSubscriptionListing.parameters = parameters;

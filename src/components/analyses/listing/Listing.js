@@ -27,10 +27,6 @@ import {
     updateAnalysisComment,
     extendVICEAnalysisTimeLimit,
 } from "serviceFacades/analyses";
-import {
-    getResourceUsageSummary,
-    RESOURCE_USAGE_QUERY_KEY,
-} from "serviceFacades/dashboard";
 
 import { useBagAddItems } from "serviceFacades/bags";
 import isQueryLoading from "components/utils/isQueryLoading";
@@ -65,6 +61,7 @@ import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import { useNotifications } from "contexts/pushNotifications";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
+import useResourceUsageSummary from "common/useResourceUsageSummary";
 import PendingTerminationDlg from "../PendingTerminationDlg";
 
 /**
@@ -100,7 +97,7 @@ function Listing(props) {
         typeFilter,
         showErrorAnnouncer,
     } = props;
-    const { t } = useTranslation(["analyses", "common"]);
+    const { t } = useTranslation("analyses");
     const [isGridView, setGridView] = useState(false);
 
     const [selected, setSelected] = useState([]);
@@ -111,9 +108,6 @@ function Listing(props) {
     const [config] = useConfig();
     const [userProfile] = useUserProfile();
     const { currentNotification } = useNotifications();
-
-    const enforceSubscriptions = config?.subscriptions?.enforce;
-    const [planCanShare, setPlanCanShare] = useState(!enforceSubscriptions);
 
     const [selectedAnalysis, setSelectedAnalysis] = useState(null);
     const [isSingleSelection, setSingleSelection] = useState(false);
@@ -137,6 +131,9 @@ function Listing(props) {
     const [terminateAnalysisDlgOpen, setTerminateAnalysisDlgOpen] =
         useState(false);
     const [timeLimit, setTimeLimit] = useState();
+
+    const { isFetchingUsageSummary, planCanShare } =
+        useResourceUsageSummary(showErrorAnnouncer);
 
     const handleTerminateSelected = () => setTerminateAnalysisDlgOpen(true);
 
@@ -288,28 +285,6 @@ function Listing(props) {
                 showErrorAnnouncer(t("analysesRelaunchError"), error);
             },
         });
-
-    const { isFetching: isFetchingSubscription } = useQuery({
-        queryKey: [RESOURCE_USAGE_QUERY_KEY],
-        queryFn: getResourceUsageSummary,
-        enabled: enforceSubscriptions && !!userProfile?.id,
-        onSuccess: (respData) => {
-            const subscription = respData?.subscription;
-            const planName = subscription?.plan?.name;
-            const hasCPUAddon = subscription?.addons?.find(
-                ({ addon }) =>
-                    addon.resource_type.name ===
-                    globalConstants.CPU_HOURS_RESOURCE_NAME
-            );
-
-            setPlanCanShare(
-                planName !== globalConstants.PLAN_NAME_BASIC || hasCPUAddon
-            );
-        },
-        onError: (e) => {
-            showErrorAnnouncer(t("common:usageSummaryError"), e);
-        },
-    });
 
     const addItemsToBag = useBagAddItems({
         handleError: (error) => {
@@ -711,7 +686,7 @@ function Listing(props) {
         deleteLoading,
         relaunchLoading,
         extensionLoading,
-        isFetchingSubscription,
+        isFetchingUsageSummary,
     ]);
 
     return (

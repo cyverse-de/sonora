@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useQuery } from "react-query";
 
-import { i18n, RequiredNamespaces, useTranslation } from "i18n";
+import { i18n, RequiredNamespaces } from "i18n";
 
 import constants from "../../../constants";
 import {
@@ -18,19 +18,14 @@ import {
     ANALYSIS_RELAUNCH_QUERY_KEY,
 } from "serviceFacades/analyses";
 
-import { getResourceUsageSummary } from "serviceFacades/dashboard";
-import { useConfig } from "contexts/config";
-import { getUserQuota } from "../../../common/resourceUsage";
+import useResourceUsageSummary from "common/useResourceUsageSummary";
+
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 import AppLaunch from "components/apps/launch";
 import { useUserProfile } from "contexts/userProfile";
 
-import { APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY } from "pages/apps/[systemId]/[appId]/launch";
-
 const Relaunch = ({ showErrorAnnouncer }) => {
-    const { t } = useTranslation("common");
-    const [config] = useConfig();
     const [userProfile] = useUserProfile();
     const [relaunchKey, setRelaunchKey] = React.useState(
         ANALYSIS_RELAUNCH_QUERY_KEY
@@ -43,12 +38,12 @@ const Relaunch = ({ showErrorAnnouncer }) => {
     const [viceQuota, setViceQuota] = React.useState();
     const [runningJobs, setRunningJobs] = React.useState();
     const [hasPendingRequest, setHasPendingRequest] = React.useState();
-    const [computeLimitExceeded, setComputeLimitExceeded] = React.useState(
-        !!config?.subscriptions?.enforce
-    );
 
     const router = useRouter();
     const { analysisId } = router.query;
+
+    const { isFetchingUsageSummary, computeLimitExceeded } =
+        useResourceUsageSummary(showErrorAnnouncer);
 
     React.useEffect(() => {
         setRelaunchQueryEnabled(!!analysisId);
@@ -87,26 +82,8 @@ const Relaunch = ({ showErrorAnnouncer }) => {
         onError: setRelaunchError,
     });
 
-    const { isFetching: fetchingUsageSummary } = useQuery({
-        queryKey: [APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY],
-        queryFn: getResourceUsageSummary,
-        enabled: !!config?.subscriptions?.enforce && !!userProfile?.id,
-        onSuccess: (respData) => {
-            const usage = respData?.cpu_usage?.total || 0;
-            const subscription = respData?.subscription;
-            const quota = getUserQuota(
-                constants.CPU_HOURS_RESOURCE_NAME,
-                subscription
-            );
-            setComputeLimitExceeded(usage >= quota);
-        },
-        onError: (e) => {
-            showErrorAnnouncer(t("usageSummaryError"), e);
-        },
-    });
-
     const loading =
-        relaunchStatus === constants.LOADING || fetchingUsageSummary;
+        relaunchStatus === constants.LOADING || isFetchingUsageSummary;
 
     return (
         <AppLaunch

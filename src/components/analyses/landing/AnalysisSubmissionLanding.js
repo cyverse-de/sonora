@@ -3,8 +3,6 @@ import React from "react";
 import { useTranslation } from "i18n";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
-import constants from "../../../constants";
-
 import {
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSES_LISTING_QUERY_KEY,
@@ -16,10 +14,6 @@ import {
     useAnalysisInfo,
     useAnalysisParameters,
 } from "serviceFacades/analyses";
-import {
-    getResourceUsageSummary,
-    RESOURCE_USAGE_QUERY_KEY,
-} from "serviceFacades/dashboard";
 import { getAnalysisShareWithSupportRequest } from "serviceFacades/sharing";
 import {
     analysisSupportRequest,
@@ -67,6 +61,7 @@ import GridLoading from "components/utils/GridLoading";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import { useNotifications } from "contexts/pushNotifications";
+import useResourceUsageSummary from "common/useResourceUsageSummary";
 import AnalysisSubheader from "components/dashboard/dashboardItem/AnalysisSubheader";
 import { BATCH_DRILL_DOWN } from "pages/analyses/[analysisId]";
 
@@ -100,11 +95,6 @@ export default function AnalysisSubmissionLanding(props) {
     const [config] = useConfig();
     const { currentNotification } = useNotifications();
 
-    const enforceSubscriptions = config?.subscriptions?.enforce;
-    const [planCanShare, setPlanCanShare] = React.useState(
-        !enforceSubscriptions
-    );
-
     const [analysis, setAnalysis] = React.useState();
     const [helpOpen, setHelpOpen] = React.useState(false);
     const [history, setHistory] = React.useState(null);
@@ -124,6 +114,9 @@ export default function AnalysisSubmissionLanding(props) {
         analysis,
         showErrorAnnouncer
     );
+
+    const { isFetchingUsageSummary, planCanShare } =
+        useResourceUsageSummary(showErrorAnnouncer);
 
     const username = getAnalysisUser(analysis, config);
     const isBatch = isBatchAnalysis(analysis);
@@ -292,28 +285,6 @@ export default function AnalysisSubmissionLanding(props) {
             },
         });
 
-    const { isFetching: isFetchingSubscription } = useQuery({
-        queryKey: [RESOURCE_USAGE_QUERY_KEY],
-        queryFn: getResourceUsageSummary,
-        enabled: enforceSubscriptions && !!userProfile?.id,
-        onSuccess: (respData) => {
-            const subscription = respData?.subscription;
-            const planName = subscription?.plan?.name;
-            const hasCPUAddon = subscription?.addons?.find(
-                ({ addon }) =>
-                    addon.resource_type.name ===
-                    constants.CPU_HOURS_RESOURCE_NAME
-            );
-
-            setPlanCanShare(
-                planName !== constants.PLAN_NAME_BASIC || hasCPUAddon
-            );
-        },
-        onError: (e) => {
-            showErrorAnnouncer(t("common:usageSummaryError"), e);
-        },
-    });
-
     const handleCancel = () => {
         analysesCancelMutation({ id: analysis?.id });
     };
@@ -330,7 +301,7 @@ export default function AnalysisSubmissionLanding(props) {
         isFetching ||
         analysisLoading ||
         extensionLoading ||
-        isFetchingSubscription;
+        isFetchingUsageSummary;
 
     if (busy) {
         return <GridLoading rows={25} baseId={baseId} />;

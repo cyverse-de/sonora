@@ -45,10 +45,6 @@ import {
     COLLECTION_APPS_QUERY,
     getCollectionApps,
 } from "serviceFacades/groups";
-import {
-    getResourceUsageSummary,
-    RESOURCE_USAGE_QUERY_KEY,
-} from "serviceFacades/dashboard";
 
 import { useQueryClient, useMutation, useQuery } from "react-query";
 import { canShare } from "../utils";
@@ -57,10 +53,10 @@ import Sharing from "components/sharing";
 import { formatSharedApps } from "components/sharing/util";
 import AppDocDialog from "components/apps/details/AppDoc";
 import SavedLaunchDialog from "../savedLaunch/SavedLaunchDialog";
-import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import AdminAppDetailsDialog from "../admin/details/AdminAppDetails";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
+import useResourceUsageSummary from "common/useResourceUsageSummary";
 import SelectCollectionDialog from "../SelectCollectionDialog";
 
 function Listing(props) {
@@ -83,13 +79,7 @@ function Listing(props) {
     } = props;
     const { t } = useTranslation(["apps", "common"]);
     const [isGridView, setGridView] = useState(false);
-    const [config] = useConfig();
     const [userProfile] = useUserProfile();
-
-    const enforceSubscriptions = config?.subscriptions?.enforce;
-    const [planCanShare, setPlanCanShare] = useState(
-        !enforceSubscriptions || isAdminView
-    );
 
     const [selected, setSelected] = useState([]);
     const [selectedApp, setSelectedApp] = useState(null);
@@ -104,6 +94,9 @@ function Listing(props) {
 
     const [categoryStatus, setCategoryStatus] = useState(false);
     const [navError, setNavError] = useState(null);
+
+    const { isFetchingUsageSummary, planCanShare } =
+        useResourceUsageSummary(showErrorAnnouncer);
 
     const getSelectedApps = useCallback(() => {
         // Sometimes selected gets out of sync
@@ -337,28 +330,6 @@ function Listing(props) {
                 showErrorAnnouncer(t("appDisableError"), error);
             },
         });
-
-    const { isFetching: isFetchingSubscription } = useQuery({
-        queryKey: [RESOURCE_USAGE_QUERY_KEY],
-        queryFn: getResourceUsageSummary,
-        enabled: !isAdminView && enforceSubscriptions && !!userProfile?.id,
-        onSuccess: (respData) => {
-            const subscription = respData?.subscription;
-            const planName = subscription?.plan?.name;
-            const hasCPUAddon = subscription?.addons?.find(
-                ({ addon }) =>
-                    addon.resource_type.name ===
-                    constants.CPU_HOURS_RESOURCE_NAME
-            );
-
-            setPlanCanShare(
-                planName !== constants.PLAN_NAME_BASIC || hasCPUAddon
-            );
-        },
-        onError: (e) => {
-            showErrorAnnouncer(t("common:usageSummaryError"), e);
-        },
-    });
 
     useEffect(() => {
         if (data && data.Location && data.status === 302) {
@@ -710,7 +681,7 @@ function Listing(props) {
                 addToBagEnabled={addToBagEnabled}
                 onAddToBagClicked={onAddToBagClicked}
                 canShare={shareEnabled}
-                planCanShare={planCanShare}
+                planCanShare={isAdminView || planCanShare}
                 selectedApps={getSelectedApps()}
                 setSharingDlgOpen={setSharingDlgOpen}
                 onDocSelected={() => setDocDlgOpen(true)}
@@ -732,7 +703,7 @@ function Listing(props) {
                     disableLoading ||
                     appByIdStatus ||
                     appsInCollectionStatus ||
-                    isFetchingSubscription
+                    isFetchingUsageSummary
                 }
                 error={
                     appsInCategoryError ||
@@ -753,7 +724,7 @@ function Listing(props) {
                 handleDisable={handleDisable}
                 handleRequestSort={handleRequestSort}
                 canShare={shareEnabled}
-                planCanShare={planCanShare}
+                planCanShare={isAdminView || planCanShare}
                 onDetailsSelected={onDetailsSelected}
                 setSharingDlgOpen={setSharingDlgOpen}
                 onDocSelected={() => setDocDlgOpen(true)}

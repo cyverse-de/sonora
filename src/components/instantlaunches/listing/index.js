@@ -26,26 +26,14 @@ import {
     LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
     listInstantLaunchesByMetadata,
 } from "serviceFacades/instantlaunches";
-import {
-    getResourceUsageSummary,
-    RESOURCE_USAGE_QUERY_KEY,
-} from "serviceFacades/dashboard";
-import { getUserQuota } from "common/resourceUsage";
-import { useConfig } from "contexts/config";
-import { useUserProfile } from "contexts/userProfile";
-import globalConstants from "../../../constants";
+import useResourceUsageSummary from "common/useResourceUsageSummary";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 function Listing(props) {
     const { baseId, showErrorAnnouncer } = props;
     const [showAppDetails, setShowAppDetails] = useState(null);
-    const [config] = useConfig();
-    const [userProfile] = useUserProfile();
-    const [computeLimitExceeded, setComputeLimitExceeded] = useState(
-        !!config?.subscriptions?.enforce
-    );
 
-    const { t } = useTranslation(["instantlaunches", "common"]);
+    const { t } = useTranslation("instantlaunches");
     const instantLaunchLocationAttr =
         constants.METADATA.INSTANT_LAUNCH_LOCATION_ATTR;
     const instantLaunchListing = constants.METADATA.INSTANT_LAUNCH_LISTING;
@@ -64,23 +52,8 @@ function Listing(props) {
             })
     );
 
-    const { isFetching: isFetchingUsageSummary } = useQuery({
-        queryKey: [RESOURCE_USAGE_QUERY_KEY],
-        queryFn: getResourceUsageSummary,
-        enabled: !!config?.subscriptions?.enforce && !!userProfile?.id,
-        onSuccess: (respData) => {
-            const computeUsage = respData?.cpu_usage?.total || 0;
-            const subscription = respData?.subscription;
-            const computeQuota = getUserQuota(
-                globalConstants.CPU_HOURS_RESOURCE_NAME,
-                subscription
-            );
-            setComputeLimitExceeded(computeUsage >= computeQuota);
-        },
-        onError: (e) => {
-            showErrorAnnouncer(t("common:usageSummaryError"), e);
-        },
-    });
+    const { isFetchingUsageSummary, computeLimitExceeded } =
+        useResourceUsageSummary(showErrorAnnouncer);
 
     const columns = useMemo(() => {
         const listingId = buildID(baseId, ids.LISTING);

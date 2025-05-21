@@ -40,7 +40,13 @@ export const handler = ({ method, pathname, headers }) => {
             .then((apiResponse) => {
                 res.set(apiResponse.headers);
                 res.status(apiResponse.status);
-                res.send(apiResponse.data);
+                const stream = apiResponse.data;
+                stream.on("data", (chunk) => {
+                    res.write(chunk);
+                });
+                stream.on("end", () => {
+                    res.end();
+                });
             })
             .catch(async (err) => {
                 logger.error(err);
@@ -104,6 +110,7 @@ export const call = ({
         withCredentials: true,
         headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
         maxRedirects: 0,
+        responseType: "stream",
         data,
     };
 

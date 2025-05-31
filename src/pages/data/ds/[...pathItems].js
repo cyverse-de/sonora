@@ -207,6 +207,7 @@ export async function getServerSideProps(context) {
                 "data",
                 "localcontexts",
                 "metadata",
+                "preferences",
                 "upload",
                 "urlImport",
                 ...RequiredNamespaces,

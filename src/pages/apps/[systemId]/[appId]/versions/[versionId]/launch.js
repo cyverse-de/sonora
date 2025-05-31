@@ -91,6 +91,7 @@ export async function getServerSideProps({ locale }) {
             title,
             ...(await serverSideTranslations(locale, [
                 "data",
+                "preferences",
                 "upload",
                 "urlImport",
                 // "apps" and "launch" already included by RequiredNamespaces

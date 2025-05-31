@@ -43,6 +43,7 @@ export default function DotMenuItems(props) {
         allowEdit,
         onClose,
         canShare,
+        planCanShare,
         setSharingDlgOpen,
         setPendingTerminationDlgOpen,
         handleTimeLimitExtnClick,
@@ -109,6 +110,7 @@ export default function DotMenuItems(props) {
             <SharingMenuItem
                 key={buildID(baseId, shareIds.SHARING_MENU_ITEM)}
                 baseId={baseId}
+                planCanShare={planCanShare}
                 onClose={onClose}
                 setSharingDlgOpen={setSharingDlgOpen}
             />

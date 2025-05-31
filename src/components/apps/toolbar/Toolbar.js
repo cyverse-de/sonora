@@ -133,6 +133,7 @@ function AppsToolbar(props) {
         addToBagEnabled,
         onAddToBagClicked = () => {},
         canShare,
+        planCanShare,
         setSharingDlgOpen,
         onDocSelected,
         onQLSelected,
@@ -235,6 +236,7 @@ function AppsToolbar(props) {
                             {canShare && (
                                 <SharingButton
                                     baseId={baseId}
+                                    planCanShare={planCanShare}
                                     setSharingDlgOpen={setSharingDlgOpen}
                                     size="small"
                                 />
@@ -311,6 +313,7 @@ function AppsToolbar(props) {
                             onAddToBagClicked={onAddToBagClicked}
                             onFilterSelected={() => setOpenFilterDialog(true)}
                             canShare={canShare}
+                            planCanShare={planCanShare}
                             setSharingDlgOpen={setSharingDlgOpen}
                             onDocSelected={onDocSelected}
                             onQLSelected={onQLSelected}

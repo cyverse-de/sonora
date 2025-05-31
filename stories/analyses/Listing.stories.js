@@ -8,6 +8,12 @@ import constants from "../../src/constants";
 
 import { mockAxios } from "../axiosMock";
 
+import {
+    usageSummaryResponse,
+    usageSummaryBasicSubscriptionResponse,
+    usageSummaryBasicSubscriptionAddonsResponse,
+} from "../usageSummaryMock";
+
 import { info, listing } from "./AnalysesMocks";
 import { convertTimeLimitArgType, TimeLimitArgType } from "./ArgTypes";
 
@@ -74,7 +80,7 @@ const errorResponse = {
     reason: "This error will only occur once! Please try again...",
 };
 
-export const AnalysesListingTest = ({ timeLimit }) => {
+const AnalysesListingTemplate = ({ timeLimit, usageSummaryResponse }) => {
     const queryClient = useQueryClient();
 
     React.useEffect(() => {
@@ -158,11 +164,32 @@ export const AnalysesListingTest = ({ timeLimit }) => {
         console.log("Support Email", config.url, JSON.parse(config.data));
         return [200];
     });
+    mockAxios
+        .onGet(new RegExp("/api/resource-usage/summary.*"))
+        .reply(200, usageSummaryResponse);
 
     return <ListingTest />;
 };
 
-AnalysesListingTest.args = {
+export const NormalListing = AnalysesListingTemplate.bind({});
+NormalListing.args = {
     timeLimit: "null",
+    usageSummaryResponse,
 };
-AnalysesListingTest.argTypes = TimeLimitArgType;
+NormalListing.argTypes = TimeLimitArgType;
+
+export const BasicSubscriptionListing = AnalysesListingTemplate.bind({});
+BasicSubscriptionListing.args = {
+    timeLimit: "null",
+    usageSummaryResponse: usageSummaryBasicSubscriptionResponse,
+};
+BasicSubscriptionListing.argTypes = TimeLimitArgType;
+
+export const BasicSubscriptionWithAddonsListing = AnalysesListingTemplate.bind(
+    {}
+);
+BasicSubscriptionWithAddonsListing.args = {
+    timeLimit: "null",
+    usageSummaryResponse: usageSummaryBasicSubscriptionAddonsResponse,
+};
+BasicSubscriptionWithAddonsListing.argTypes = TimeLimitArgType;

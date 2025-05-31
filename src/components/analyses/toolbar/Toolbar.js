@@ -151,6 +151,7 @@ function AnalysesToolbar(props) {
         handleTerminateSelected,
         handleBatchIconClick,
         canShare,
+        planCanShare,
         setPendingTerminationDlgOpen,
         handleTimeLimitExtnClick,
         onRefreshSelected,
@@ -263,6 +264,7 @@ function AnalysesToolbar(props) {
                         {canShare && (
                             <SharingButton
                                 baseId={baseId}
+                                planCanShare={planCanShare}
                                 setSharingDlgOpen={setSharingDlgOpen}
                                 size="small"
                             />
@@ -287,6 +289,7 @@ function AnalysesToolbar(props) {
                         handleBatchIconClick={handleBatchIconClick}
                         onFilterSelected={() => setOpenFilterDialog(true)}
                         canShare={canShare}
+                        planCanShare={planCanShare}
                         setSharingDlgOpen={setSharingDlgOpen}
                         setPendingTerminationDlgOpen={
                             setPendingTerminationDlgOpen

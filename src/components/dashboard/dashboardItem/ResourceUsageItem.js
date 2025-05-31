@@ -25,7 +25,7 @@ import ExternalLink from "components/utils/ExternalLink";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import { formatDateObject } from "components/utils/DateFormatter";
 
-import { FEATURE_MATRIX_URL } from "../constants";
+import constants from "../../../constants";
 import { useConfig } from "contexts/config";
 
 import { Skeleton } from "@mui/material";
@@ -88,7 +88,9 @@ export default function ResourceUsageItem(props) {
                                         components={{
                                             featureMatrixLink: (
                                                 <ExternalLink
-                                                    href={FEATURE_MATRIX_URL}
+                                                    href={
+                                                        constants.SUBSCRIBE_URL
+                                                    }
                                                 />
                                             ),
                                         }}

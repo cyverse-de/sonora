@@ -87,6 +87,7 @@ function DotMenuItems(props) {
         onClose,
         selectedAnalyses,
         canShare,
+        planCanShare,
         setSharingDlgOpen,
         isSingleSelection,
         onFilterSelected,
@@ -139,6 +140,7 @@ function DotMenuItems(props) {
             <SharingMenuItem
                 key={buildID(baseId, shareIds.SHARING_MENU_ITEM)}
                 baseId={baseId}
+                planCanShare={planCanShare}
                 onClose={onClose}
                 setSharingDlgOpen={setSharingDlgOpen}
             />

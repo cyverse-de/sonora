@@ -45,7 +45,7 @@ function RowDotMenu(props) {
         onRenameSelected,
         onMoveSelected,
         inTrash,
-        canShare,
+        planCanShare,
     } = props;
     const { t } = useTranslation("common");
     const { t: i18nData } = useTranslation("data");
@@ -54,7 +54,7 @@ function RowDotMenu(props) {
     const renameEnabled = !inTrash && isWritable(resource.permission);
     const publicLinkEnabled =
         !inTrash && isOwner && !containsFolders([resource]);
-    const sharingEnabled = canShare && !inTrash && isOwner;
+    const sharingEnabled = !inTrash && isOwner;
     const moveMiEnabled = !inTrash && isOwner;
     const partialLink = useDataNavigationLink(
         resource?.path,
@@ -85,6 +85,7 @@ function RowDotMenu(props) {
                     <SharingMenuItem
                         key={buildID(baseId, shareIds.SHARING_MENU_ITEM)}
                         baseId={baseId}
+                        planCanShare={planCanShare}
                         onClose={onClose}
                         setSharingDlgOpen={setSharingDlgOpen}
                     />

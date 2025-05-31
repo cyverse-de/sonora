@@ -2,6 +2,7 @@ import React from "react";
 
 import { useTranslation } from "i18n";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+
 import {
     ANALYSIS_HISTORY_QUERY_KEY,
     ANALYSES_LISTING_QUERY_KEY,
@@ -60,6 +61,7 @@ import GridLoading from "components/utils/GridLoading";
 import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import { useNotifications } from "contexts/pushNotifications";
+import useResourceUsageSummary from "common/useResourceUsageSummary";
 import AnalysisSubheader from "components/dashboard/dashboardItem/AnalysisSubheader";
 import { BATCH_DRILL_DOWN } from "pages/analyses/[analysisId]";
 
@@ -87,7 +89,7 @@ import useBreakpoints from "components/layout/useBreakpoints";
 
 export default function AnalysisSubmissionLanding(props) {
     const { id, baseId, view, showErrorAnnouncer } = props;
-    const { t } = useTranslation("analyses");
+    const { t } = useTranslation(["analyses", "common"]);
     const theme = useTheme();
     const [userProfile] = useUserProfile();
     const [config] = useConfig();
@@ -112,6 +114,9 @@ export default function AnalysisSubmissionLanding(props) {
         analysis,
         showErrorAnnouncer
     );
+
+    const { isFetchingUsageSummary, planCanShare } =
+        useResourceUsageSummary(showErrorAnnouncer);
 
     const username = getAnalysisUser(analysis, config);
     const isBatch = isBatchAnalysis(analysis);
@@ -292,7 +297,11 @@ export default function AnalysisSubmissionLanding(props) {
         });
     };
 
-    const busy = isFetching || analysisLoading || extensionLoading;
+    const busy =
+        isFetching ||
+        analysisLoading ||
+        extensionLoading ||
+        isFetchingUsageSummary;
 
     if (busy) {
         return <GridLoading rows={25} baseId={baseId} />;
@@ -463,7 +472,8 @@ export default function AnalysisSubmissionLanding(props) {
                                             allowEdit={allowEdit}
                                             onClose={onClose}
                                             analysis={analysis}
-                                            canShare={canShare}
+                                            canShare={sharable}
+                                            planCanShare={planCanShare}
                                             setSharingDlgOpen={
                                                 setSharingDlgOpen
                                             }

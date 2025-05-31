@@ -61,6 +61,7 @@ import { useConfig } from "contexts/config";
 import { useUserProfile } from "contexts/userProfile";
 import { useNotifications } from "contexts/pushNotifications";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
+import useResourceUsageSummary from "common/useResourceUsageSummary";
 import PendingTerminationDlg from "../PendingTerminationDlg";
 
 /**
@@ -130,6 +131,9 @@ function Listing(props) {
     const [terminateAnalysisDlgOpen, setTerminateAnalysisDlgOpen] =
         useState(false);
     const [timeLimit, setTimeLimit] = useState();
+
+    const { isFetchingUsageSummary, planCanShare } =
+        useResourceUsageSummary(showErrorAnnouncer);
 
     const handleTerminateSelected = () => setTerminateAnalysisDlgOpen(true);
 
@@ -682,6 +686,7 @@ function Listing(props) {
         deleteLoading,
         relaunchLoading,
         extensionLoading,
+        isFetchingUsageSummary,
     ]);
 
     return (
@@ -709,6 +714,7 @@ function Listing(props) {
                 handleTerminateSelected={handleTerminateSelected}
                 handleBatchIconClick={handleBatchIconClick}
                 canShare={sharingEnabled}
+                planCanShare={planCanShare}
                 setPendingTerminationDlgOpen={setPendingTerminationDlgOpen}
                 handleTimeLimitExtnClick={(timeLimit) => {
                     setTimeLimit(timeLimit);

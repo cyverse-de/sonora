@@ -17,9 +17,11 @@ import {
 } from "serviceFacades/apps";
 
 import AppLaunch from "components/apps/launch";
+import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import { useUserProfile } from "contexts/userProfile";
+import useResourceUsageSummary from "common/useResourceUsageSummary";
 
-export default function Launch() {
+function Launch({ showErrorAnnouncer }) {
     const [userProfile] = useUserProfile();
     const [app, setApp] = React.useState(null);
     const [launchError, setLaunchError] = React.useState(null);
@@ -30,7 +32,10 @@ export default function Launch() {
     const router = useRouter();
     const { systemId, appId, versionId } = router.query;
 
-    const { isFetching: loading } = useQuery({
+    const { isFetchingUsageSummary, computeLimitExceeded } =
+        useResourceUsageSummary(showErrorAnnouncer);
+
+    const { isFetching: appDescriptionLoading } = useQuery({
         queryKey: [
             APP_DESCRIPTION_QUERY_KEY,
             {
@@ -63,6 +68,8 @@ export default function Launch() {
         onError: setLaunchError,
     });
 
+    const loading = appDescriptionLoading || isFetchingUsageSummary;
+
     return (
         <AppLaunch
             app={app}
@@ -71,6 +78,7 @@ export default function Launch() {
             viceQuota={viceQuota}
             runningJobs={runningJobs}
             pendingRequest={hasPendingRequest}
+            computeLimitExceeded={computeLimitExceeded}
         />
     );
 }
@@ -91,3 +99,5 @@ export async function getServerSideProps({ locale }) {
         },
     };
 }
+
+export default withErrorAnnouncer(Launch);

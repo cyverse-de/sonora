@@ -86,6 +86,7 @@ function DataDotMenu(props) {
         handleRestore,
         onRenameSelected,
         onMoveSelected,
+        planCanShare,
     } = props;
 
     const { t } = useTranslation("data");
@@ -216,6 +217,7 @@ function DataDotMenu(props) {
                                           shareIds.SHARING_MENU_ITEM
                                       )}
                                       baseId={baseId}
+                                      planCanShare={planCanShare}
                                       onClose={onClose}
                                       setSharingDlgOpen={setSharingDlgOpen}
                                   />

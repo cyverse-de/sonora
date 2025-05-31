@@ -56,6 +56,7 @@ import SavedLaunchDialog from "../savedLaunch/SavedLaunchDialog";
 import { useUserProfile } from "contexts/userProfile";
 import AdminAppDetailsDialog from "../admin/details/AdminAppDetails";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
+import useResourceUsageSummary from "common/useResourceUsageSummary";
 import SelectCollectionDialog from "../SelectCollectionDialog";
 
 function Listing(props) {
@@ -93,6 +94,9 @@ function Listing(props) {
 
     const [categoryStatus, setCategoryStatus] = useState(false);
     const [navError, setNavError] = useState(null);
+
+    const { isFetchingUsageSummary, planCanShare } =
+        useResourceUsageSummary(showErrorAnnouncer);
 
     const getSelectedApps = useCallback(() => {
         // Sometimes selected gets out of sync
@@ -677,6 +681,7 @@ function Listing(props) {
                 addToBagEnabled={addToBagEnabled}
                 onAddToBagClicked={onAddToBagClicked}
                 canShare={shareEnabled}
+                planCanShare={isAdminView || planCanShare}
                 selectedApps={getSelectedApps()}
                 setSharingDlgOpen={setSharingDlgOpen}
                 onDocSelected={() => setDocDlgOpen(true)}
@@ -697,7 +702,8 @@ function Listing(props) {
                     deleteLoading ||
                     disableLoading ||
                     appByIdStatus ||
-                    appsInCollectionStatus
+                    appsInCollectionStatus ||
+                    isFetchingUsageSummary
                 }
                 error={
                     appsInCategoryError ||
@@ -718,6 +724,7 @@ function Listing(props) {
                 handleDisable={handleDisable}
                 handleRequestSort={handleRequestSort}
                 canShare={shareEnabled}
+                planCanShare={isAdminView || planCanShare}
                 onDetailsSelected={onDetailsSelected}
                 setSharingDlgOpen={setSharingDlgOpen}
                 onDocSelected={() => setDocDlgOpen(true)}

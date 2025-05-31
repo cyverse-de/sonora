@@ -86,6 +86,7 @@
     "select": "Select",
     "selectAllLabel": "Select All",
     "settings": "Settings",
+    "sharingNotAvailable": "Sharing feature is not available for Basic subscriptions. Please upgrade your subscription tier. <subscriptionLink>More details here</subscriptionLink>.",
     "sortLabel": "Sort",
     "submit": "Submit",
     "subscriptions": "Subscriptions",

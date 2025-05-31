@@ -3,7 +3,7 @@ import TestRenderer from "react-test-renderer";
 
 import { AppsTableViewTest } from "../../stories/apps/TableView.stories";
 import { mockAxios } from "../../stories/axiosMock";
-import { AppsListingTest } from "../../stories/apps/Listing.stories";
+import { NormalListing } from "../../stories/apps/Listing.stories";
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { UserProfileProvider } from "contexts/userProfile";
 import { ConfigProvider } from "contexts/config";
@@ -38,7 +38,7 @@ test("App Listing view", () => {
         <RQWrapper>
             <I18nProviderWrapper>
                 <BagInfoProvider>
-                    <AppsListingTest />
+                    <NormalListing />
                 </BagInfoProvider>
             </I18nProviderWrapper>
         </RQWrapper>

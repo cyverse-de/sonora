@@ -11,18 +11,24 @@ import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import { Share } from "@mui/icons-material";
 
 import ids from "./ids";
+import announcePlanCannotShare from "./announcePlanCannotShare";
 import { useTranslation } from "i18n";
 
 function SharingMenuItem(props) {
-    const { baseId, onClose, setSharingDlgOpen } = props;
-    const { t } = useTranslation("sharing");
+    const { baseId, planCanShare, onClose, setSharingDlgOpen } = props;
+    const { t } = useTranslation(["sharing", "common"]);
 
     return (
         <MenuItem
             id={buildID(baseId, ids.SHARING_MENU_ITEM)}
             onClick={() => {
                 onClose();
-                setSharingDlgOpen(true);
+
+                if (planCanShare) {
+                    setSharingDlgOpen(true);
+                } else {
+                    announcePlanCannotShare(t);
+                }
             }}
         >
             <ListItemIcon>

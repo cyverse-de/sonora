@@ -40,6 +40,7 @@ function RowDotMenu(props) {
         baseId,
         ButtonProps,
         canShare,
+        planCanShare,
         handleDisable,
         handleDelete,
         setSharingDlgOpen,
@@ -108,6 +109,7 @@ function RowDotMenu(props) {
                             key={buildID(baseId, shareIds.SHARING_MENU_ITEM)}
                             baseId={baseId}
                             onClose={onClose}
+                            planCanShare={planCanShare}
                             setSharingDlgOpen={setSharingDlgOpen}
                         />
                     ),

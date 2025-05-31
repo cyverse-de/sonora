@@ -2,6 +2,11 @@ import React from "react";
 import { useQueryClient } from "react-query";
 import { AXIOS_DELAY, mockAxios } from "../axiosMock";
 import {
+    usageSummaryResponse,
+    usageSummaryBasicSubscriptionResponse,
+    usageSummaryBasicSubscriptionAddonsResponse,
+} from "../usageSummaryMock";
+import {
     deWordCountAnalysis,
     runningVICEAnalysis,
     params,
@@ -17,7 +22,11 @@ export default {
     title: "Analyses / Submission Landing",
 };
 
-export const AnalysisSubmissionLandingTest = ({ analysis, timeLimit }) => {
+const AnalysisSubmissionLandingTemplate = ({
+    analysis,
+    timeLimit,
+    usageSummaryResponse,
+}) => {
     const queryClient = useQueryClient();
 
     React.useEffect(() => {
@@ -35,6 +44,9 @@ export const AnalysisSubmissionLandingTest = ({ analysis, timeLimit }) => {
     mockAxios
         .onGet(new RegExp("/api/analyses/.*/time-limit"))
         .reply(200, { time_limit: convertTimeLimitArgType(timeLimit) });
+    mockAxios
+        .onGet(new RegExp("/api/resource-usage/summary.*"))
+        .reply(200, usageSummaryResponse);
 
     return (
         <NotificationsProvider wsEnabled={false}>
@@ -45,14 +57,14 @@ export const AnalysisSubmissionLandingTest = ({ analysis, timeLimit }) => {
         </NotificationsProvider>
     );
 };
-AnalysisSubmissionLandingTest.parameters = {
+const parameters = {
     chromatic: { delay: AXIOS_DELAY * 2 },
 };
-AnalysisSubmissionLandingTest.args = {
+const args = {
     analysis: "DE",
     timeLimit: "null",
 };
-AnalysisSubmissionLandingTest.argTypes = {
+const argTypes = {
     analysis: {
         options: ["DE", "VICE"],
         mapping: {
@@ -63,3 +75,27 @@ AnalysisSubmissionLandingTest.argTypes = {
     },
     ...TimeLimitArgType,
 };
+
+export const NormalLanding = AnalysisSubmissionLandingTemplate.bind({});
+NormalLanding.parameters = parameters;
+NormalLanding.args = { ...args, usageSummaryResponse };
+NormalLanding.argTypes = argTypes;
+
+export const BasicSubscriptionLanding = AnalysisSubmissionLandingTemplate.bind(
+    {}
+);
+BasicSubscriptionLanding.parameters = parameters;
+BasicSubscriptionLanding.args = {
+    ...args,
+    usageSummaryResponse: usageSummaryBasicSubscriptionResponse,
+};
+BasicSubscriptionLanding.argTypes = argTypes;
+
+export const BasicSubscriptionWithAddonsLanding =
+    AnalysisSubmissionLandingTemplate.bind({});
+BasicSubscriptionWithAddonsLanding.parameters = parameters;
+BasicSubscriptionWithAddonsLanding.args = {
+    ...args,
+    usageSummaryResponse: usageSummaryBasicSubscriptionAddonsResponse,
+};
+BasicSubscriptionWithAddonsLanding.argTypes = argTypes;

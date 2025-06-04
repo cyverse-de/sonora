@@ -67,7 +67,7 @@ function UserPortalUpdatePrompts() {
             const portalUrl = `${updateUrl}&redirectUrl=${encodeURIComponent(
                 window.location.href
             )}`;
-            window.location.replace(portalUrl);
+            window.location = portalUrl;
         }
     };
 

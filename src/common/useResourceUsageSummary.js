@@ -21,11 +21,16 @@ import { getUserQuota } from "./resourceUsage";
  * A hook to fetch a user's resource usage summary.
  *
  * @param {function} showErrorAnnouncer - Function to show error announcements.
+ * @param {string} [queryKey=RESOURCE_USAGE_QUERY_KEY] - Optional query key for
+ *                  fetching the resource usage summary.
  *
  * @returns {object} An object containing the resource usage summary
  *                   along with convenience flags and parsed values.
  */
-function useResourceUsageSummary(showErrorAnnouncer) {
+function useResourceUsageSummary(
+    showErrorAnnouncer,
+    queryKey = RESOURCE_USAGE_QUERY_KEY
+) {
     const { t } = useTranslation("common");
     const [config] = useConfig();
     const [userProfile] = useUserProfile();
@@ -37,7 +42,7 @@ function useResourceUsageSummary(showErrorAnnouncer) {
         data: resourceUsageSummary,
         error: resourceUsageError,
     } = useQuery({
-        queryKey: [RESOURCE_USAGE_QUERY_KEY, userProfile?.id],
+        queryKey: [queryKey, userProfile?.id],
         queryFn: getResourceUsageSummary,
         enabled: enforceSubscriptions && !!userProfile?.id,
         onError: (e) => {

@@ -15,6 +15,7 @@ import {
     getAppDescription,
     APP_DESCRIPTION_QUERY_KEY,
 } from "serviceFacades/apps";
+import { APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY } from "serviceFacades/dashboard";
 
 import AppLaunch from "components/apps/launch";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
@@ -33,7 +34,10 @@ function Launch({ showErrorAnnouncer }) {
     const { systemId, appId, versionId } = router.query;
 
     const { isFetchingUsageSummary, computeLimitExceeded } =
-        useResourceUsageSummary(showErrorAnnouncer);
+        useResourceUsageSummary(
+            showErrorAnnouncer,
+            APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY
+        );
 
     const { isFetching: appDescriptionLoading } = useQuery({
         queryKey: [

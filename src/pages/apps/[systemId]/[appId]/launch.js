@@ -17,6 +17,8 @@ import {
     APP_DESCRIPTION_QUERY_KEY,
 } from "serviceFacades/apps";
 
+import { APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY } from "serviceFacades/dashboard";
+
 import {
     SAVED_LAUNCH_APP_INFO,
     getAppInfo,
@@ -41,7 +43,10 @@ function Launch({ showErrorAnnouncer }) {
     const { systemId, appId } = router.query;
 
     const { isFetchingUsageSummary, computeLimitExceeded } =
-        useResourceUsageSummary(showErrorAnnouncer);
+        useResourceUsageSummary(
+            showErrorAnnouncer,
+            APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY
+        );
 
     const launchId =
         router.query["saved-launch-id"] || router.query["quick-launch-id"];

@@ -61,7 +61,17 @@ export const handler = ({ method, pathname, headers }) => {
                     });
                 } else {
                     res.status(e.response?.status || 500);
-                    res.send(e.response?.data);
+                    const stream = e.response?.data;
+                    if (stream) {
+                        stream.on("data", (chunk) => {
+                            res.write(chunk);
+                        });
+                        stream.on("end", () => {
+                            res.end();
+                        });
+                    } else {
+                        res.send();
+                    }
                 }
             });
     };

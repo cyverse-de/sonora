@@ -44,7 +44,7 @@ function useResourceUsageSummary(
     } = useQuery({
         queryKey: [queryKey, userProfile?.id],
         queryFn: getResourceUsageSummary,
-        enabled: enforceSubscriptions && !!userProfile?.id,
+        enabled: !!(enforceSubscriptions && userProfile?.id),
         onError: (e) => {
             showErrorAnnouncer(t("usageSummaryError"), e);
         },

@@ -17,6 +17,7 @@ import {
     getAnalysisRelaunchInfo,
     ANALYSIS_RELAUNCH_QUERY_KEY,
 } from "serviceFacades/analyses";
+import { APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY } from "serviceFacades/dashboard";
 
 import useResourceUsageSummary from "common/useResourceUsageSummary";
 
@@ -43,7 +44,10 @@ const Relaunch = ({ showErrorAnnouncer }) => {
     const { analysisId } = router.query;
 
     const { isFetchingUsageSummary, computeLimitExceeded } =
-        useResourceUsageSummary(showErrorAnnouncer);
+        useResourceUsageSummary(
+            showErrorAnnouncer,
+            APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY
+        );
 
     React.useEffect(() => {
         setRelaunchQueryEnabled(!!analysisId);

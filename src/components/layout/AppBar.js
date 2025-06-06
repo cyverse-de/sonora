@@ -21,11 +21,6 @@ import { useBootstrapInfo } from "contexts/bootstrap";
 import { intercomLogout } from "common/intercom";
 
 import {
-    activeAlerts,
-    ACTIVE_ALERTS_QUERY_KEY,
-} from "serviceFacades/notifications";
-
-import {
     getUserProfile,
     useBootStrap,
     USER_PROFILE_QUERY_KEY,
@@ -77,8 +72,6 @@ import {
 } from "serviceFacades/dashboard";
 import useResourceUsageSummary from "common/useResourceUsageSummary";
 
-import markdownToHtml from "components/utils/markdownToHtml";
-
 import useBreakpoints from "./useBreakpoints";
 
 // hidden in xsDown
@@ -127,7 +120,6 @@ function DEAppBar(props) {
     const [profileRefetchInterval, setProfileRefetchInterval] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
     const [runningViceJobs, setRunningViceJobs] = useState([]);
-    const [activeAlertsList, setActiveAlertsList] = useState([]);
 
     const { isSmUp, isSmDown } = useBreakpoints();
 
@@ -168,28 +160,6 @@ function DEAppBar(props) {
         enabled: profileRefetchInterval != null,
         onSuccess: updateUserProfile,
         refetchInterval: profileRefetchInterval,
-    });
-
-    function updateAlerts(queryresp) {
-        const alertsMdPromises = queryresp?.alerts.map((alertMap) =>
-            markdownToHtml(alertMap.alert)
-        );
-        Promise.all(alertsMdPromises).then((values) => {
-            if (
-                values.length !== activeAlertsList.length ||
-                !values.every((el, idx) => activeAlertsList[idx] === el)
-            ) {
-                setActiveAlertsList(values || []);
-            }
-        });
-    }
-
-    useQuery({
-        queryKey: ACTIVE_ALERTS_QUERY_KEY,
-        queryFn: activeAlerts,
-        enabled: true,
-        onSuccess: updateAlerts,
-        refetchInterval: 120000,
     });
 
     useEffect(() => {
@@ -406,19 +376,6 @@ function DEAppBar(props) {
                     [classes.appBarShift]: open,
                 })}
             >
-                {activeAlertsList?.map((text) => {
-                    return (
-                        <Toolbar
-                            key={text}
-                            variant="dense"
-                            className={classes.alertBar}
-                        >
-                            <Typography
-                                dangerouslySetInnerHTML={{ __html: text }}
-                            />
-                        </Toolbar>
-                    );
-                })}
                 <Toolbar>
                     {!isSmUp && (
                         <>

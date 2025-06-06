@@ -1,8 +1,12 @@
 import React from "react";
-import { UserProfileProvider } from "../src/contexts/userProfile";
-import DEAppBar from "../src/components/layout/AppBar";
+
+import { NotificationsProvider } from "contexts/pushNotifications";
+import { UserProfileProvider } from "contexts/userProfile";
+
+import DEAppBar from "components/layout/AppBar";
+import GlobalAlerts from "components/layout/GlobalAlerts";
+
 import { mockAxios } from "./axiosMock";
-import { NotificationsProvider } from "../src/contexts/pushNotifications";
 import notificationsData from "./notifications/notificationsData";
 import testConfig from "./configMock";
 import {
@@ -10,7 +14,7 @@ import {
     FOLDER_TYPE,
     ANALYSIS_TYPE,
     APP_TYPE,
-} from "../src/components/bags";
+} from "components/bags";
 import { runningViceJobs } from "./analyses/AnalysesMocks";
 import { instantLaunchNavDrawerMock } from "./instantlaunches/admin/SavedLaunchListData";
 import {
@@ -142,6 +146,10 @@ const nonEmptyAlerts = {
             end_date: "2100-01-01T00:00:00Z",
             alert: "This is a *testing* alert, with some *formatting* and a [link](https://cyverse.org).",
         },
+        {
+            end_date: "2100-01-01T00:00:00Z",
+            alert: "This is also a **test** of the _alert broadcast system_. _**This is only a test**_.",
+        },
     ],
 };
 
@@ -199,7 +207,9 @@ const appBarTestTemplate = (args) => {
     return (
         <UserProfileProvider>
             <NotificationsProvider wsEnabled={false}>
-                <DEAppBar setAppBarRef={() => {}} clientConfig={testConfig} />
+                <DEAppBar setAppBarRef={() => {}} clientConfig={testConfig}>
+                    <GlobalAlerts />
+                </DEAppBar>
             </NotificationsProvider>
         </UserProfileProvider>
     );

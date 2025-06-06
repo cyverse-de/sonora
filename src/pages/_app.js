@@ -24,6 +24,7 @@ import { NotificationsProvider } from "contexts/pushNotifications";
 import { BootstrapInfoProvider } from "contexts/bootstrap";
 import { BagInfoProvider } from "contexts/bagInfo";
 
+import GlobalAlerts from "components/layout/GlobalAlerts";
 import PageWrapper from "components/layout/PageWrapper";
 import useComponentHeight from "components/utils/useComponentHeight";
 import constants from "../constants";
@@ -296,6 +297,7 @@ function MyApp({ Component, pageProps }) {
                                                 <PageWrapper
                                                     appBarHeight={appBarHeight}
                                                 >
+                                                    <GlobalAlerts />
                                                     <Component {...pageProps} />
                                                 </PageWrapper>
                                                 <UploadManager />

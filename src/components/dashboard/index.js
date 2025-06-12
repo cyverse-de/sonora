@@ -41,8 +41,8 @@ import useResourceUsageSummary from "common/useResourceUsageSummary";
 import { useSavePreferences } from "serviceFacades/users";
 
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
+import GlobalAlerts from "components/layout/GlobalAlerts";
 import { useUserProfile } from "contexts/userProfile";
-import Announcement from "./dashboardItem/Announcement";
 import Banner from "./dashboardItem/Banner";
 import Tour from "./dashboardItem/Tour";
 import TerminateAnalysisDialog from "components/analyses/TerminateAnalysisDialog";
@@ -285,7 +285,7 @@ const Dashboard = (props) => {
                             mutatePreferences({ preferences: updatedPref });
                         }}
                     />,
-                    <Announcement key="Announcement" />,
+                    <GlobalAlerts key="GlobalAlerts" />,
                     <ResourceUsageItem
                         key="ResourceUsage"
                         resourceUsageSummary={resourceUsageSummary}

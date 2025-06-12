@@ -14,7 +14,8 @@ import {
     ACTIVE_ALERTS_QUERY_KEY,
 } from "serviceFacades/notifications";
 
-import { Paper, Toolbar, Typography } from "@mui/material";
+import { Card, CardHeader, Typography } from "@mui/material";
+import AnnounceIcon from "@mui/icons-material/Warning";
 
 const GlobalAlerts = () => {
     const [activeAlertsList, setActiveAlertsList] = useState([]);
@@ -39,32 +40,33 @@ const GlobalAlerts = () => {
         },
     });
 
-    return activeAlertsList.length < 1 ? null : (
-        <Paper
-            sx={{
-                marginBottom: 0.5,
-                padding: 0.5,
-            }}
-        >
-            {activeAlertsList.map((text) => {
-                return (
-                    <Toolbar
-                        key={text}
-                        variant="dense"
-                        sx={{
-                            backgroundColor: "#FFC972",
-                            color: "#713916",
-                            marginBottom: 1,
-                        }}
-                    >
-                        <Typography
-                            dangerouslySetInnerHTML={{ __html: text }}
-                        />
-                    </Toolbar>
-                );
-            })}
-        </Paper>
-    );
+    return activeAlertsList.length < 1
+        ? null
+        : activeAlertsList.map((text) => {
+              return (
+                  <Card
+                      key={text}
+                      sx={{
+                          marginTop: 2,
+                          marginBottom: 2,
+                      }}
+                  >
+                      <CardHeader
+                          avatar={
+                              <AnnounceIcon
+                                  sx={{ color: "gold" }}
+                                  fontSize="large"
+                              />
+                          }
+                          title={
+                              <Typography
+                                  dangerouslySetInnerHTML={{ __html: text }}
+                              />
+                          }
+                      />
+                  </Card>
+              );
+          });
 };
 
 export default GlobalAlerts;

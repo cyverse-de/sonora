@@ -176,19 +176,19 @@ function ToolListing(props) {
                     </TableCell>
                 )}
                 {isAdmin && [
-                    <TableCell key={tool.description}>
+                    <TableCell key="description">
                         <Typography>{tool.description}</Typography>
                     </TableCell>,
-                    <TableCell key={tool.location}>
+                    <TableCell key="location">
                         <Typography>{tool.location}</Typography>
                     </TableCell>,
-                    <TableCell key={tool.type}>
+                    <TableCell key="type">
                         <Typography>{tool.type}</Typography>
                     </TableCell>,
-                    <TableCell key={tool.attribution}>
+                    <TableCell key="attribution">
                         <Typography>{tool.attribution}</Typography>
                     </TableCell>,
-                    <TableCell key={tool.version}>
+                    <TableCell key="version">
                         <Typography>{tool.version}</Typography>
                     </TableCell>,
                 ]}

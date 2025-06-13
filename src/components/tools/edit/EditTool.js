@@ -133,8 +133,8 @@ function EditToolDialog(props) {
     });
 
     const { mutate: addNewTool, status: newToolStatus } = useMutation(
-        () =>
-            isAdmin ? adminAddTool(toolSubmission) : addTool(toolSubmission),
+        (submission) =>
+            isAdmin ? adminAddTool(submission) : addTool(submission),
         {
             onSuccess: (data) => {
                 announce({
@@ -154,14 +154,14 @@ function EditToolDialog(props) {
     };
 
     const { mutate: updateCurrentTool, status: updateToolStatus } = useMutation(
-        () =>
+        (submission) =>
             isAdmin
-                ? adminUpdateTool(toolSubmission, overwriteAppsAffectedByTool)
-                : updateTool(toolSubmission),
+                ? adminUpdateTool(submission, overwriteAppsAffectedByTool)
+                : updateTool(submission),
         {
             onSuccess: (data) => {
                 announce({
-                    text: t("toolUpdated"),
+                    text: t("toolUpdated", { name: data?.name }),
                 });
                 queryClient.invalidateQueries(TOOLS_QUERY_KEY);
                 setUpdateToolError(null);
@@ -186,12 +186,13 @@ function EditToolDialog(props) {
 
     React.useEffect(() => {
         if (overwriteAppsAffectedByTool) {
-            updateCurrentTool();
+            updateCurrentTool(toolSubmission);
         }
-    }, [overwriteAppsAffectedByTool, updateCurrentTool]);
+    }, [overwriteAppsAffectedByTool, toolSubmission, updateCurrentTool]);
 
     const handleSubmit = (values) => {
-        setToolSubmission(formatSubmission(values, config, isAdmin));
+        const submission = formatSubmission(values, config, isAdmin);
+        setToolSubmission(submission);
 
         //avoid dupe submission
         if (
@@ -199,9 +200,9 @@ function EditToolDialog(props) {
             updateToolStatus !== constants.LOADING
         ) {
             if (tool) {
-                updateCurrentTool();
+                updateCurrentTool(submission);
             } else {
-                addNewTool();
+                addNewTool(submission);
             }
         }
     };
@@ -404,14 +405,12 @@ function EditToolDialog(props) {
                 <Typography>{t("overwritePromptMessage")}</Typography>
                 <List>
                     {appsAffectedByTool?.map((app) => (
-                        <>
-                            <ListItem key={app.id}>
-                                <ListItemIcon>
-                                    <LabelIcon />
-                                </ListItemIcon>
-                                <ListItemText>{app.name}</ListItemText>
-                            </ListItem>
-                        </>
+                        <ListItem key={app.id}>
+                            <ListItemIcon>
+                                <LabelIcon />
+                            </ListItemIcon>
+                            <ListItemText>{app.name}</ListItemText>
+                        </ListItem>
                     ))}
                 </List>
             </DEDialog>

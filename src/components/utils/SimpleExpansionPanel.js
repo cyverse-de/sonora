@@ -37,7 +37,13 @@ const styles = (theme) => ({
 const useStyles = makeStyles()(styles);
 
 function SimpleExpansionPanel(props) {
-    const { header, parentId, defaultExpanded, children, hasErrors } = props;
+    const {
+        header,
+        parentId,
+        defaultExpanded = true,
+        children,
+        hasErrors,
+    } = props;
     const [expanded, setExpanded] = useState(defaultExpanded);
     const { classes } = useStyles();
 
@@ -64,10 +70,6 @@ function SimpleExpansionPanel(props) {
         </Accordion>
     );
 }
-
-SimpleExpansionPanel.defaultProps = {
-    defaultExpanded: true,
-};
 
 SimpleExpansionPanel.propTypes = {
     header: PropTypes.any.isRequired,

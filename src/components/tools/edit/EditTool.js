@@ -161,7 +161,7 @@ function EditToolDialog(props) {
         {
             onSuccess: (data) => {
                 announce({
-                    text: t("toolUpdated"),
+                    text: t("toolUpdated", { name: data?.name }),
                 });
                 queryClient.invalidateQueries(TOOLS_QUERY_KEY);
                 setUpdateToolError(null);

@@ -18,7 +18,7 @@ const FormSelectField = ({
     required,
     form: { touched, errors },
     children,
-    fullWidth,
+    fullWidth = true,
     ...custom
 }) => {
     const errorMsg = getFormError(field.name, touched, errors);
@@ -37,10 +37,6 @@ const FormSelectField = ({
             <FormHelperText>{errorMsg || helperText}</FormHelperText>
         </FormControl>
     );
-};
-
-FormSelectField.defaultProps = {
-    fullWidth: true,
 };
 
 export default FormSelectField;

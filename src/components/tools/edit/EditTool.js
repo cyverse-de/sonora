@@ -405,14 +405,12 @@ function EditToolDialog(props) {
                 <Typography>{t("overwritePromptMessage")}</Typography>
                 <List>
                     {appsAffectedByTool?.map((app) => (
-                        <>
-                            <ListItem key={app.id}>
-                                <ListItemIcon>
-                                    <LabelIcon />
-                                </ListItemIcon>
-                                <ListItemText>{app.name}</ListItemText>
-                            </ListItem>
-                        </>
+                        <ListItem key={app.id}>
+                            <ListItemIcon>
+                                <LabelIcon />
+                            </ListItemIcon>
+                            <ListItemText>{app.name}</ListItemText>
+                        </ListItem>
                     ))}
                 </List>
             </DEDialog>

@@ -19,81 +19,80 @@ spec:
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: de-app
-                operator: In
-                values:
-                - sonora
-            topologyKey: kubernetes.io/hostname
+            - labelSelector:
+                matchExpressions:
+                  - key: de-app
+                    operator: In
+                    values:
+                      - sonora
+              topologyKey: kubernetes.io/hostname
       restartPolicy: Always
       volumes:
-      - name: localtime
-        hostPath:
-          path: /etc/localtime
-      - name: service-configs
-        secret:
-          secretName: service-configs
-          items:
-          - key: sonora.yaml
-            path: local.yaml
-      containers:
-      - name: sonora
-        image: harbor.cyverse.org/de/sonora
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "1Gi"
-            ephemeral-storage: "1Gi"
-          limits:
-            cpu: "3000m"
-            memory: "3Gi"
-            ephemeral-storage: "1Gi"
-        env:
-          - name: OTEL_TRACES_EXPORTER
-            valueFrom:
-              secretKeyRef:
-                name: configs
-                key: OTEL_TRACES_EXPORTER
-          - name: OTEL_EXPORTER_JAEGER_ENDPOINT
-            valueFrom:
-              secretKeyRef:
-                name: configs
-                key: OTEL_EXPORTER_JAEGER_HTTP_ENDPOINT
-          - name: NODE_CONFIG_DIR
-            value: "./config:/etc/iplant/de"
-        volumeMounts:
-        - name: localtime
-          mountPath: /etc/localtime
-          readOnly: true
         - name: service-configs
-          mountPath: /etc/iplant/de
-          readOnly: true
-        ports:
-        - name: listen-port
-          containerPort: 3000
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 3000
-          initialDelaySeconds: 60
-          periodSeconds: 20
-          timeoutSeconds: 10
-        startupProbe:
-          httpGet:
-            path: /
-            port: 3000
-          initialDelaySeconds: 60
-          periodSeconds: 20
-          timeoutSeconds: 10
-          failureThreshold: 100
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 3000
-          initialDelaySeconds: 60
-          periodSeconds: 20
-          timeoutSeconds: 10
+          secret:
+            secretName: service-configs
+            items:
+              - key: sonora.yaml
+                path: local.yaml
+      containers:
+        - name: sonora
+          image: harbor.cyverse.org/de/sonora
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "1Gi"
+              ephemeral-storage: "1Gi"
+            limits:
+              cpu: "3000m"
+              memory: "3Gi"
+              ephemeral-storage: "1Gi"
+          env:
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: timezone
+                  key: timezone
+            - name: OTEL_TRACES_EXPORTER
+              valueFrom:
+                secretKeyRef:
+                  name: configs
+                  key: OTEL_TRACES_EXPORTER
+            - name: OTEL_EXPORTER_JAEGER_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: configs
+                  key: OTEL_EXPORTER_JAEGER_HTTP_ENDPOINT
+            - name: NODE_CONFIG_DIR
+              value: "./config:/etc/iplant/de"
+          volumeMounts:
+            - name: service-configs
+              mountPath: /etc/iplant/de
+              readOnly: true
+          ports:
+            - name: listen-port
+              containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 10
+            failureThreshold: 100
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 10
 ---
 apiVersion: v1
 kind: Service
@@ -103,6 +102,6 @@ spec:
   selector:
     de-app: sonora
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: listen-port
+    - protocol: TCP
+      port: 80
+      targetPort: listen-port

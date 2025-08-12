@@ -34,10 +34,7 @@ function Launch({ showErrorAnnouncer }) {
     const { systemId, appId, versionId } = router.query;
 
     const { isFetchingUsageSummary, computeLimitExceeded } =
-        useResourceUsageSummary(
-            showErrorAnnouncer,
-            APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY
-        );
+        useResourceUsageSummary(showErrorAnnouncer);
 
     const { isFetching: appDescriptionLoading } = useQuery({
         queryKey: [

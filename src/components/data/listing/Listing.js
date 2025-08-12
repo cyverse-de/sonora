@@ -40,6 +40,8 @@ import {
 } from "contexts/uploadTracking";
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
+import { DATA_LISTING_RESOURCE_USAGE_QUERY_KEY } from "serviceFacades/dashboard";
+
 import {
     deleteResources,
     emptyTrash,
@@ -155,7 +157,10 @@ function Listing(props) {
         computeLimitExceeded,
         dataLimitExceeded,
         planCanShare,
-    } = useResourceUsageSummary(showErrorAnnouncer);
+    } = useResourceUsageSummary(
+        showErrorAnnouncer,
+        DATA_LISTING_RESOURCE_USAGE_QUERY_KEY
+    );
 
     const uploadsEnabled = !dataLimitExceeded;
 

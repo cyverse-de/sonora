@@ -92,6 +92,7 @@ export async function getServerSideProps(context) {
         props: {
             title,
             ...(await serverSideTranslations(locale, [
+                "data",
                 "collections",
                 // "apps" already included by RequiredNamespaces
                 ...RequiredNamespaces,

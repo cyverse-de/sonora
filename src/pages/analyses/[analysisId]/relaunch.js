@@ -44,10 +44,7 @@ const Relaunch = ({ showErrorAnnouncer }) => {
     const { analysisId } = router.query;
 
     const { isFetchingUsageSummary, computeLimitExceeded } =
-        useResourceUsageSummary(
-            showErrorAnnouncer,
-            APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY
-        );
+        useResourceUsageSummary(showErrorAnnouncer);
 
     React.useEffect(() => {
         setRelaunchQueryEnabled(!!analysisId);

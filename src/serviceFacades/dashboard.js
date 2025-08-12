@@ -3,8 +3,8 @@ import callApi from "../common/callApi";
 const DASHBOARD_QUERY_KEY = "fetchDashboardItems";
 const ANALYSES_STATS_QUERY_KEY = "fetchAnalysesStats";
 const RESOURCE_USAGE_QUERY_KEY = "fetchResourceUsage";
-const APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY =
-    RESOURCE_USAGE_QUERY_KEY + "AppLaunch";
+const DATA_LISTING_RESOURCE_USAGE_QUERY_KEY =
+    RESOURCE_USAGE_QUERY_KEY + "DataListing";
 
 function getDashboard({ limit }) {
     return callApi({
@@ -41,6 +41,6 @@ export {
     getResourceUsageSummary,
     DASHBOARD_QUERY_KEY,
     ANALYSES_STATS_QUERY_KEY,
-    APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY,
+    DATA_LISTING_RESOURCE_USAGE_QUERY_KEY,
     RESOURCE_USAGE_QUERY_KEY,
 };

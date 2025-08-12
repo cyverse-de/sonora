@@ -43,10 +43,7 @@ function Launch({ showErrorAnnouncer }) {
     const { systemId, appId } = router.query;
 
     const { isFetchingUsageSummary, computeLimitExceeded } =
-        useResourceUsageSummary(
-            showErrorAnnouncer,
-            APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY
-        );
+        useResourceUsageSummary(showErrorAnnouncer);
 
     const launchId =
         router.query["saved-launch-id"] || router.query["quick-launch-id"];

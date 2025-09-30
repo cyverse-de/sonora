@@ -51,8 +51,7 @@ const configMock = {
     },
 
     subscriptions: {
-        checkout_url:
-            "https://cyverse-subscription-sandbox.phoenixbioinformatics.org",
+        checkout_url: "https://subscribe.cyverse.rocks",
         enforce: true,
     },
 

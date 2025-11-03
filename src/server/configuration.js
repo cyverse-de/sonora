@@ -151,6 +151,15 @@ export const isDevelopment = process.env.NODE_ENV !== "production";
 export const listenPort = parseInt(config.get("listen_port"), 10);
 
 /**
+ * The maximum request body size supported by the API. Takes its value from the
+ * 'max_request_body_size' setting in the configuration file. Please see
+ * https://github.com/expressjs/body-parser?tab=readme-ov-file#limit for more
+ * details.
+ * @type {string}
+ */
+export const maxRequestBodySize = config.get("max_request_body_size");
+
+/**
  * The URI to use when connecting to the database. Most database interaction
  * is managed by the API, but the UI does use the database to store user
  * session information.

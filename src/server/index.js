@@ -10,12 +10,12 @@ import debugRouter from "./api/debug";
 import doiRouter from "./api/doi";
 import fileIORouter from "./api/fileio";
 import groupsRouter from "./api/groups";
+import instantlaunchRouter from "./api/instantlaunches";
 import metadataRouter from "./api/metadata";
 import notificationsRouter from "./api/notifications";
 import oauthRouter from "./api/oauth";
 import pipelinesRouter from "./api/pipelines";
 import quickLaunchRouter from "./api/quickLaunch";
-import instantlaunchRouter from "./api/instantlaunches";
 import refGenomeRouter from "./api/referenceGenomes";
 import sharingRouter from "./api/sharing";
 import subscriptionsRouter from "./api/subscriptions";
@@ -34,9 +34,9 @@ import logger, { errorLogger, requestLogger } from "./logging";
 
 import NavigationConstants from "../common/NavigationConstants";
 import {
-    upgradeListener,
     notificationsHandler,
     setUpAmqpForNotifications,
+    upgradeListener,
 } from "./notifications";
 
 export const app = next({
@@ -87,7 +87,7 @@ app.prepare()
         logger.info("configuring the express logging middleware");
         server.use(errorLogger);
         server.use(requestLogger);
-        server.use(express.json());
+        server.use(express.json({limit: '2gb'}));
 
         logger.info("DEBUG: adding middleware to log cookies");
         server.use(authn.logSessionCookie);

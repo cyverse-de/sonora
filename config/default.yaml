@@ -6,6 +6,7 @@ support_email: support@cyverse.org
 de_faq: https://learning.cyverse.org/faq/
 cyverse_url: https://cyverse.org/discovery-environment #// The CyVerse page for DE. Not the DE base URL.
 queriesConcurrencyLimit: 8
+max_request_body_size: 10mb
 
 logging:
     level: info
@@ -51,7 +52,7 @@ irods:
     trash_path: /iplant/trash/home
     community_path: /iplant/home/shared
     web_dav:
-        anon_uri: https://data.cyverse.org/dav-anon  
+        anon_uri: https://data.cyverse.org/dav-anon
 
 fileIdentifier:
     htPathList: "# application/vnd.de.path-list+csv; version=1"

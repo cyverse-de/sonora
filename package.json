@@ -207,7 +207,7 @@
         "*.js": [
             "eslint --max-warnings=0 ./src/ ./stories/ ./.storybook/",
             "prettier --write",
-            "cross-env TZ=UTC jest --bail --findRelatedTests"
+            "cross-env TZ=UTC jest --bail --findRelatedTests --passWithNoTests"
         ]
     },
     "browserslist": {

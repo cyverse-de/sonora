@@ -430,6 +430,7 @@ function EditToolForm(props) {
         maxCPUCore,
         maxMemory,
         maxDiskSpace,
+        maxGPU,
         classes,
         values,
     } = props;

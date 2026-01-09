@@ -200,16 +200,16 @@ function Restrictions(props) {
             {isAdmin && (
                 <Field
                     name="container.min_gpus"
-                    label={t("minGpus")}
-                    id={buildID(parentId, ids.EDIT_TOOL_DLG.MIN_GPU_LIMIT)}
+                    label={t("minGPUs")}
+                    id={buildID(parentId, ids.EDIT_TOOL_DLG.MIN_GPUS)}
                     component={FormNumberField}
                     validate={validateMinGpus}
                 />
             )}
             <Field
                 name="container.max_gpus"
-                label={t("gpuLimit")}
-                id={buildID(parentId, ids.EDIT_TOOL_DLG.GPU_LIMIT)}
+                label={t("maxGPUs")}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.MAX_GPUS)}
                 component={FormSelectField}
                 validate={validateMaxGpus}
             >

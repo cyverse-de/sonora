@@ -86,6 +86,7 @@ function EditToolDialog(props) {
     const maxCPUCore = resourceConfigs?.max_cpu_limit;
     const maxMemory = resourceConfigs?.max_memory_limit;
     const maxDiskSpace = resourceConfigs?.max_disk_limit;
+    const maxGPU = resourceConfigs?.max_gpu_limit;
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();
@@ -313,6 +314,7 @@ function EditToolDialog(props) {
                                         maxCPUCore={maxCPUCore}
                                         maxMemory={maxMemory}
                                         maxDiskSpace={maxDiskSpace}
+                                        maxGPU={maxGPU}
                                         values={values}
                                     />
                                 )}
@@ -428,6 +430,7 @@ function EditToolForm(props) {
         maxCPUCore,
         maxMemory,
         maxDiskSpace,
+        maxGPU,
         classes,
         values,
     } = props;
@@ -628,6 +631,7 @@ function EditToolForm(props) {
                 maxDiskSpace={maxDiskSpace}
                 maxCPUCore={maxCPUCore}
                 maxMemory={maxMemory}
+                maxGPU={maxGPU}
                 component={Restrictions}
             />
         </>

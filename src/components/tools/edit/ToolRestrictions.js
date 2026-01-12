@@ -43,6 +43,7 @@ function Restrictions(props) {
         maxCPUCore,
         maxMemory,
         maxDiskSpace,
+        maxGPU,
         form: { values },
     } = props;
 
@@ -57,6 +58,7 @@ function Restrictions(props) {
         globalConstants.ONE_GiB,
         maxDiskSpace
     );
+    const gpuLimitList = maxGPU === 0 ? [0] : buildLimitList(1, maxGPU ?? 8);
 
     const validateMinCPUs = (value) => {
         if (value && value < 0) {
@@ -99,6 +101,28 @@ function Restrictions(props) {
         const min_memory_limit = getIn(values, "container.min_memory_limit");
         if (0 < value && value < min_memory_limit) {
             return t("validationErrMaxRAMLessThanMin");
+        }
+    };
+
+    const validateMinGpus = (value) => {
+        if (value && value < 0) {
+            return t("validationErrMustBePositive");
+        }
+
+        const gpu_limit = getIn(values, "container.max_gpus");
+        if (gpu_limit > 0 && value > gpu_limit) {
+            return t("validationErrMinGpusGreaterThanMax");
+        }
+    };
+
+    const validateMaxGpus = (value) => {
+        if (value && value < 0) {
+            return t("validationErrMustBePositive");
+        }
+
+        const min_gpu_limit = getIn(values, "container.min_gpus");
+        if (0 < value && value < min_gpu_limit) {
+            return t("validationErrMaxGpusLessThanMin");
         }
     };
 
@@ -170,6 +194,36 @@ function Restrictions(props) {
                         )}
                     >
                         {formatGBListItem(size)}
+                    </MenuItem>
+                ))}
+            </Field>
+            {isAdmin && (
+                <Field
+                    name="container.min_gpus"
+                    label={t("minGPUs")}
+                    id={buildID(parentId, ids.EDIT_TOOL_DLG.MIN_GPUS)}
+                    component={FormNumberField}
+                    validate={validateMinGpus}
+                />
+            )}
+            <Field
+                name="container.max_gpus"
+                label={t("maxGPUs")}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.MAX_GPUS)}
+                component={FormSelectField}
+                validate={validateMaxGpus}
+            >
+                {gpuLimitList.map((size, index) => (
+                    <MenuItem
+                        key={index}
+                        value={size}
+                        id={buildID(
+                            parentId,
+                            ids.EDIT_TOOL_DLG.GPU_LIMIT,
+                            size
+                        )}
+                    >
+                        {size}
                     </MenuItem>
                 ))}
             </Field>

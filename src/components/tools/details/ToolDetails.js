@@ -78,6 +78,12 @@ export default function ToolDetails(props) {
             <GridLabelValue label={t("minDiskSpaceLbl")}>
                 {tool.container.min_disk_space}
             </GridLabelValue>
+            <GridLabelValue label={t("minGPUsLbl")}>
+                {tool.container.min_gpus}
+            </GridLabelValue>
+            <GridLabelValue label={t("maxGPUsLbl")}>
+                {tool.container.max_gpus}
+            </GridLabelValue>
             <Grid item xs={12}>
                 <Typography variant="h6">{t("restrictionsLabel")}</Typography>
             </Grid>

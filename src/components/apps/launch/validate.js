@@ -249,6 +249,15 @@ const validate = (t, hasParams) => (values) => {
                     reqErrors[i] = { max_cpu_cores: err };
                 }
             }
+            if (req?.min_gpus && req?.max_gpus) {
+                const err = validateNotAbove(req.min_gpus, req.max_gpus, t);
+                if (err) {
+                    reqErrors[i] = {
+                        ...reqErrors[i],
+                        max_gpus: err,
+                    };
+                }
+            }
         });
         if (reqErrors?.length > 0) {
             errors.requirements = reqErrors;

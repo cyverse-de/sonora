@@ -55,6 +55,9 @@ module.exports = withBundleAnalyzer({
         TOOLS_ADMIN_MAX_DISK_LIMIT: config.has("tools.admin.max_disk_limit")
             ? config.get("tools.admin.max_disk_limit")
             : 512 * ONE_GiB,
+        TOOLS_ADMIN_MAX_GPU_LIMIT: config.has("tools.admin.max_gpu_limit")
+            ? config.get("tools.admin.max_gpu_limit")
+            : 0,
         TOOLS_PRIVATE_MAX_CPU_LIMIT: config.has("tools.private.max_cpu_limit")
             ? config.get("tools.private.max_cpu_limit")
             : 8,
@@ -66,6 +69,9 @@ module.exports = withBundleAnalyzer({
         TOOLS_PRIVATE_MAX_DISK_LIMIT: config.has("tools.private.max_disk_limit")
             ? config.get("tools.private.max_disk_limit")
             : 512 * ONE_GiB,
+        TOOLS_PRIVATE_MAX_GPU_LIMIT: config.has("tools.private.max_gpu_limit")
+            ? config.get("tools.private.max_gpu_limit")
+            : 0,
         HT_PATH_LIST_IDENTIFIER: config.get("fileIdentifier.htPathList"),
         MULTI_INPUT_PATH_LIST_IDENTIFIER: config.get(
             "fileIdentifier.multiInputPathList"

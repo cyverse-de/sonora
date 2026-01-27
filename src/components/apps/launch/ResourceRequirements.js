@@ -82,6 +82,8 @@ function buildLimitList(startValue, minValue, maxValue) {
  * @param {number} props.requirements.min_memory_limit
  * @param {number} props.requirements.memory_limit
  * @param {number} props.requirements.min_disk_space
+ * @param {number} props.requirements.min_gpus
+ * @param {number} props.requirements.max_gpus
  */
 const StepResourceRequirementsForm = ({
     baseId,
@@ -99,6 +101,8 @@ const StepResourceRequirementsForm = ({
         min_memory_limit,
         memory_limit,
         min_disk_space,
+        min_gpus,
+        max_gpus,
     } = requirements;
     const cpuCoreList = buildLimitList(
         1,
@@ -115,6 +119,7 @@ const StepResourceRequirementsForm = ({
         min_disk_space || 0,
         defaultMaxDiskSpace || 512 * constants.ONE_GiB
     );
+    const gpuList = buildLimitList(1, min_gpus || 0, max_gpus || 8);
 
     return (
         <div style={{ margin: 8 }}>
@@ -162,6 +167,20 @@ const StepResourceRequirementsForm = ({
                         {minDiskSpaceList.map((size, index) => (
                             <MenuItem key={index} value={size}>
                                 {formatGBListItem(size)}
+                            </MenuItem>
+                        ))}
+                    </FastField>
+                </Grid>
+                <Grid item xs={12}>
+                    <FastField
+                        id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_GPU)}
+                        name={`requirements.${index}.max_gpus`}
+                        label={t("gpus")}
+                        component={FormSelectField}
+                    >
+                        {gpuList.map((size, index) => (
+                            <MenuItem key={index} value={size}>
+                                {size}
                             </MenuItem>
                         ))}
                     </FastField>
@@ -293,10 +312,20 @@ const StepResourceRequirementsReview = ({
     showAll,
 }) => {
     const { t } = useTranslation("launch");
-    const { step_number, min_memory_limit, min_disk_space, max_cpu_cores } =
-        stepRequirements;
+    const {
+        step_number,
+        min_memory_limit,
+        min_disk_space,
+        max_cpu_cores,
+        max_gpus,
+    } = stepRequirements;
 
-    const hasRequest = !!(min_memory_limit || min_disk_space || max_cpu_cores);
+    const hasRequest = !!(
+        min_memory_limit ||
+        min_disk_space ||
+        max_cpu_cores ||
+        max_gpus
+    );
 
     return (
         (showAll || hasRequest) && (
@@ -305,7 +334,8 @@ const StepResourceRequirementsReview = ({
                     !!(
                         stepRequirementErrors?.min_memory_limit ||
                         stepRequirementErrors?.min_disk_space ||
-                        stepRequirementErrors?.max_cpu_cores
+                        stepRequirementErrors?.max_cpu_cores ||
+                        stepRequirementErrors?.max_gpus
                     )
                 }
             >
@@ -358,6 +388,13 @@ const StepResourceRequirementsReview = ({
                                         stepRequirementErrors?.min_disk_space
                                     }
                                 />
+                                <ResourceRequirementsReviewRow
+                                    label={t("gpus")}
+                                    value={max_gpus}
+                                    valueFormatter={(value) => value}
+                                    showAll={showAll}
+                                    error={stepRequirementErrors?.max_gpus}
+                                />
                             </TableBody>
                         </Table>
                     </TableContainer>
@@ -378,6 +415,7 @@ const StepResourceRequirementsReview = ({
  * @param {number} props.requirements[].min_cpu_cores
  * @param {number} props.requirements[].min_memory_limit
  * @param {number} props.requirements[].min_disk_space
+ * @param {number} props.requirements[].max_gpus
  */
 const ResourceRequirementsReview = ({
     baseId,

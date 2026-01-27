@@ -30,11 +30,13 @@ const configMock = {
             max_cpu_limit: 48,
             max_memory_limit: 244 * constants.ONE_GiB,
             max_disk_limit: 1024 * constants.ONE_GiB,
+            max_gpu_limit: 0,
         },
         private: {
             max_cpu_limit: 8,
             max_memory_limit: 16 * constants.ONE_GiB,
             max_disk_limit: 512 * constants.ONE_GiB,
+            max_gpu_limit: 0,
         },
     },
 

@@ -48,6 +48,7 @@ const ids = {
         TOOL_CPU: "idToolCpu",
         TOOL_MEM: "idToolMem",
         MIN_DISK_SPACE: "minDiskSpace",
+        TOOL_GPU: "idToolGpu",
     },
 
     TEMPLATE_GROUP: "group",

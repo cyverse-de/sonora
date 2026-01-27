@@ -171,6 +171,7 @@ function MyApp({ Component, pageProps }) {
                 max_memory_limit:
                     publicRuntimeConfig.TOOLS_ADMIN_MAX_MEMORY_LIMIT,
                 max_disk_limit: publicRuntimeConfig.TOOLS_ADMIN_MAX_DISK_LIMIT,
+                max_gpu_limit: publicRuntimeConfig.TOOLS_ADMIN_MAX_GPU_LIMIT,
             },
             private: {
                 max_cpu_limit: publicRuntimeConfig.TOOLS_PRIVATE_MAX_CPU_LIMIT,
@@ -178,6 +179,7 @@ function MyApp({ Component, pageProps }) {
                     publicRuntimeConfig.TOOLS_PRIVATE_MAX_MEMORY_LIMIT,
                 max_disk_limit:
                     publicRuntimeConfig.TOOLS_PRIVATE_MAX_DISK_LIMIT,
+                max_gpu_limit: publicRuntimeConfig.TOOLS_PRIVATE_MAX_GPU_LIMIT,
             },
         };
         const fileIdentifiers = {

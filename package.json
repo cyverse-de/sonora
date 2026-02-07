@@ -174,7 +174,7 @@
         "prettier": "^2.0.5",
         "react-test-renderer": "^18.2.0",
         "rimraf": "^3.0.0",
-        "webpack": "^5.76.0"
+        "webpack": "^5.105.0"
     },
     "resolutions": {
         "@storybook/react/webpack": "^5"

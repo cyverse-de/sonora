@@ -17,7 +17,7 @@
         "test-watch": "TZ=UTC jest --watch",
         "format": "prettier --write 'src/**/*.js' './.storybook/**/*.js' 'stories/**/*.js' 'public/static/locales/**/*.json'",
         "lint": "eslint --max-warnings=0 ./src/ ./stories/ ./.storybook/",
-        "clean": "rimraf ./.next ./dist ./generated-docs",
+        "clean": "rimraf ./.next ./dist ./generated-docs ./storybook-static",
         "check-format": "npx prettier --check ./src/**/*.js ./.storybook/**/*.js ./stories/**/*.js public/static/locales/**/*.json",
         "check-styles": "npm run check-format && npm run lint",
         "check": "npm run check-styles && TZ=UTC jest"
@@ -149,12 +149,11 @@
         "@babel/cli": "^7.26.4",
         "@babel/core": "^7.26.10",
         "@babel/node": "^7.26.0",
-        "@chromatic-com/storybook": "^3.2.5",
-        "@storybook/addon-actions": "^8.6.0",
+        "@chromatic-com/storybook": "^3.2.7",
+        "@storybook/addon-actions": "^8.6.17",
         "@storybook/addon-console": "^3.0.0",
-        "@storybook/addon-essentials": "^8.6.0",
-        "@storybook/nextjs": "^8.6.0",
-        "@storybook/react": "^8.6.0",
+        "@storybook/addon-essentials": "^8.6.17",
+        "@storybook/nextjs": "^8.6.17",
         "@typescript-eslint/eslint-plugin": "^6.19.1",
         "@typescript-eslint/parser": "^6.19.1",
         "axios-mock-adapter": "^1.18.1",
@@ -174,10 +173,7 @@
         "prettier": "^2.0.5",
         "react-test-renderer": "^18.2.0",
         "rimraf": "^3.0.0",
-        "webpack": "^5.105.2"
-    },
-    "resolutions": {
-        "@storybook/react/webpack": "^5"
+        "webpack": "5.101.2"
     },
     "prettier": {
         "trailingComma": "es5",

@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import React from "react";
 import preloadAll from "jest-next-dynamic";
 import renderer from "react-test-renderer";

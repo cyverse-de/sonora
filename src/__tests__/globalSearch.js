@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import React from "react";
 import renderer from "react-test-renderer";
 import { SearchField } from "../../stories/search/GlobalSearchField.stories";

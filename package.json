@@ -173,7 +173,7 @@
         "prettier": "^2.0.5",
         "react-test-renderer": "^18.2.0",
         "rimraf": "^3.0.0",
-        "webpack": "5.101.2"
+        "webpack": "5.105.3"
     },
     "prettier": {
         "trailingComma": "es5",

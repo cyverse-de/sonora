@@ -74,34 +74,34 @@ export const statusMock = (
                                             },
                                         }
                                       : analysisPodStatus ===
-                                        POD_STATUS.WAITING_ERROR
-                                      ? {
-                                            waiting: {
-                                                reason: "CrashLoopBackOff",
-                                                message:
-                                                    "back-off 10s restarting failed container=analysis pod=815b346d-fb00-48bb-96a7-c6d78416c9bb-bcf955fdf-87lks_vice-apps(8f565efd-6b78-43b1-8705-9f53745f1bf0)",
+                                          POD_STATUS.WAITING_ERROR
+                                        ? {
+                                              waiting: {
+                                                  reason: "CrashLoopBackOff",
+                                                  message:
+                                                      "back-off 10s restarting failed container=analysis pod=815b346d-fb00-48bb-96a7-c6d78416c9bb-bcf955fdf-87lks_vice-apps(8f565efd-6b78-43b1-8705-9f53745f1bf0)",
+                                              },
+                                          }
+                                        : analysisPodStatus ===
+                                            POD_STATUS.TERMINATED
+                                          ? {
+                                                terminated: {
+                                                    exitCode: 127,
+                                                    reason: "Error",
+                                                    startedAt:
+                                                        "2021-03-01T22:48:41Z",
+                                                    finishedAt:
+                                                        "2021-03-01T22:48:41Z",
+                                                    containerID:
+                                                        "docker://b6b06372c472fba06ad593d2a90237b1a5ba33f5a434f0508a5468e249e24296",
+                                                },
+                                            }
+                                          : {
+                                                running: {
+                                                    startedAt:
+                                                        "2021-02-22T17:02:01Z",
+                                                },
                                             },
-                                        }
-                                      : analysisPodStatus ===
-                                        POD_STATUS.TERMINATED
-                                      ? {
-                                            terminated: {
-                                                exitCode: 127,
-                                                reason: "Error",
-                                                startedAt:
-                                                    "2021-03-01T22:48:41Z",
-                                                finishedAt:
-                                                    "2021-03-01T22:48:41Z",
-                                                containerID:
-                                                    "docker://b6b06372c472fba06ad593d2a90237b1a5ba33f5a434f0508a5468e249e24296",
-                                            },
-                                        }
-                                      : {
-                                            running: {
-                                                startedAt:
-                                                    "2021-02-22T17:02:01Z",
-                                            },
-                                        },
                               lastState: {},
                               ready:
                                   analysisPodStatus === POD_STATUS.RUNNING ||
@@ -157,46 +157,46 @@ export const statusMock = (
                                             },
                                         }
                                       : uploadStatus ===
-                                        POD_STATUS.WAITING_ERROR
-                                      ? {
-                                            waiting: {
-                                                reason: "CrashLoopBackOff",
-                                                message:
-                                                    "back-off 10s restarting failed container=analysis pod=815b346d-fb00-48bb-96a7-c6d78416c9bb-bcf955fdf-87lks_vice-apps(8f565efd-6b78-43b1-8705-9f53745f1bf0)",
-                                            },
-                                        }
-                                      : uploadStatus === POD_STATUS.TERMINATED
-                                      ? {
-                                            terminated: {
-                                                exitCode: 127,
-                                                reason: "Error",
-                                                startedAt:
-                                                    "2021-03-01T22:48:41Z",
-                                                finishedAt:
-                                                    "2021-03-01T22:48:41Z",
-                                                containerID:
-                                                    "docker://b6b06372c472fba06ad593d2a90237b1a5ba33f5a434f0508a5468e249e24296",
-                                            },
-                                        }
-                                      : uploadStatus === POD_STATUS.RUNNING
-                                      ? {
-                                            running: {
-                                                startedAt:
-                                                    "2021-02-22T17:02:01Z",
-                                            },
-                                        }
-                                      : {
-                                            terminated: {
-                                                exitCode: 0,
-                                                reason: "Completed",
-                                                startedAt:
-                                                    "2021-02-22T16:40:08Z",
-                                                finishedAt:
-                                                    "2021-02-22T16:40:17Z",
-                                                containerID:
-                                                    "docker://0e4894febe2a431036b8b220c1dfef80b46510eeb6596f121e6451b3c59abe29",
-                                            },
-                                        },
+                                          POD_STATUS.WAITING_ERROR
+                                        ? {
+                                              waiting: {
+                                                  reason: "CrashLoopBackOff",
+                                                  message:
+                                                      "back-off 10s restarting failed container=analysis pod=815b346d-fb00-48bb-96a7-c6d78416c9bb-bcf955fdf-87lks_vice-apps(8f565efd-6b78-43b1-8705-9f53745f1bf0)",
+                                              },
+                                          }
+                                        : uploadStatus === POD_STATUS.TERMINATED
+                                          ? {
+                                                terminated: {
+                                                    exitCode: 127,
+                                                    reason: "Error",
+                                                    startedAt:
+                                                        "2021-03-01T22:48:41Z",
+                                                    finishedAt:
+                                                        "2021-03-01T22:48:41Z",
+                                                    containerID:
+                                                        "docker://b6b06372c472fba06ad593d2a90237b1a5ba33f5a434f0508a5468e249e24296",
+                                                },
+                                            }
+                                          : uploadStatus === POD_STATUS.RUNNING
+                                            ? {
+                                                  running: {
+                                                      startedAt:
+                                                          "2021-02-22T17:02:01Z",
+                                                  },
+                                              }
+                                            : {
+                                                  terminated: {
+                                                      exitCode: 0,
+                                                      reason: "Completed",
+                                                      startedAt:
+                                                          "2021-02-22T16:40:08Z",
+                                                      finishedAt:
+                                                          "2021-02-22T16:40:17Z",
+                                                      containerID:
+                                                          "docker://0e4894febe2a431036b8b220c1dfef80b46510eeb6596f121e6451b3c59abe29",
+                                                  },
+                                              },
 
                               lastState: {},
                               ready: uploadStatus === POD_STATUS.DONE,

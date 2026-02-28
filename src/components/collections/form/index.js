@@ -267,9 +267,9 @@ function CollectionsForm(props) {
             isCreatingCollection && !collectionNameSaved
                 ? createCollectionMutation
                 : collectionName !== newName ||
-                  collection?.description !== newDescription
-                ? updateCollectionNameDescMutation
-                : updateCollectionDetailsMutation;
+                    collection?.description !== newDescription
+                  ? updateCollectionNameDescMutation
+                  : updateCollectionDetailsMutation;
 
         mutation({
             originalName: collectionName,

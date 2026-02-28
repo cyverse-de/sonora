@@ -68,8 +68,8 @@ function toolNameComparisonFunction(ascending) {
         return nameA < nameB
             ? applyDirection(-1)
             : nameA > nameB
-            ? applyDirection(1)
-            : 0;
+              ? applyDirection(1)
+              : 0;
     };
 }
 

@@ -38,32 +38,31 @@ import {
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 
-const GotoOutputFolderButton = React.forwardRef(function GotoOutputFolderButton(
-    props,
-    ref
-) {
-    const { onClick, href } = props;
-    const { t } = useTranslation("analyses");
-    const theme = useTheme();
-    return (
-        <Button
-            size="small"
-            href={href}
-            onClick={onClick}
-            ref={ref}
-            color="primary"
-            title={t("goOutputFolder")}
-            variant="outlined"
-        >
-            <Typography
-                variant="button"
-                style={{ color: theme.palette.primary.contrastText }}
+const GotoOutputFolderButton = React.forwardRef(
+    function GotoOutputFolderButton(props, ref) {
+        const { onClick, href } = props;
+        const { t } = useTranslation("analyses");
+        const theme = useTheme();
+        return (
+            <Button
+                size="small"
+                href={href}
+                onClick={onClick}
+                ref={ref}
+                color="primary"
+                title={t("goOutputFolder")}
+                variant="outlined"
             >
-                {t("goOutputFolder")}
-            </Typography>
-        </Button>
-    );
-});
+                <Typography
+                    variant="button"
+                    style={{ color: theme.palette.primary.contrastText }}
+                >
+                    {t("goOutputFolder")}
+                </Typography>
+            </Button>
+        );
+    }
+);
 
 function AnalysisCustomAction(props) {
     const { outputFolderPath } = props;

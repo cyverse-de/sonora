@@ -104,8 +104,8 @@ function simplifyPrivileges(privileges, GrouperAllUsersId, GrouperAdminId) {
                 subjectId === GrouperAllUsersId
                     ? { ...privilege, name: Privilege.VIEW.value }
                     : privilegeLevel(currentPriv) > privilegeLevel(privilege)
-                    ? currentPriv
-                    : privilege,
+                      ? currentPriv
+                      : privilege,
         };
     }, {});
 }
@@ -202,9 +202,9 @@ export function getPrivilegeUpdates(original, updates) {
         return !updateMap[userId]
             ? acc
             : getIn(originalMap, `${userId}.0.name`) ===
-              getIn(updateMap, `${userId}.0.name`)
-            ? acc
-            : [...acc, ...updateMap[userId]];
+                getIn(updateMap, `${userId}.0.name`)
+              ? acc
+              : [...acc, ...updateMap[userId]];
     }, []);
 
     return {

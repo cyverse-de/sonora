@@ -291,8 +291,8 @@ function AppOrder(props) {
             return !invalidApp.pipeline_eligibility.is_valid
                 ? invalidApp.pipeline_eligibility.reason
                 : invalidApp.disabled
-                ? t("disabledAppsNotAllowed")
-                : t("privateAppsNotAllowed");
+                  ? t("disabledAppsNotAllowed")
+                  : t("privateAppsNotAllowed");
         }
         return null;
     };

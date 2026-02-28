@@ -857,8 +857,10 @@ function GlobalSearchField(props) {
     const filterOptions = singleSearchOption
         ? [selectedFilter]
         : config?.elasticEnabled
-        ? allFilterOptions
-        : allFilterOptions.filter((option) => option !== searchConstants.DATA);
+          ? allFilterOptions
+          : allFilterOptions.filter(
+                (option) => option !== searchConstants.DATA
+            );
 
     const variant = isMobile ? "outlined" : "standard";
     const inputProps = {};

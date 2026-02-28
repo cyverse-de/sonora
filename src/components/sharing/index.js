@@ -154,10 +154,10 @@ function Sharing(props) {
                   message: tSharing("cannotAddSelf"),
               })
             : userExist
-            ? setErrorDetails({
-                  message: tSharing("userAlreadyAdded"),
-              })
-            : addUser(user, onUserAdded);
+              ? setErrorDetails({
+                    message: tSharing("userAlreadyAdded"),
+                })
+              : addUser(user, onUserAdded);
     };
 
     const onRemoveUser = (user) => {

@@ -71,7 +71,7 @@ import buildID from "components/utils/DebugIDUtil";
 import { Trans, useTranslation } from "i18n";
 import { useBagAddItems } from "serviceFacades/bags";
 
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import { Button, Stack, Typography, useTheme } from "@mui/material";
 import DEDialog from "components/utils/DEDialog";

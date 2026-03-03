@@ -8,7 +8,7 @@ import React from "react";
 
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { i18n, RequiredNamespaces } from "i18n";
 

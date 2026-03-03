@@ -7,10 +7,10 @@
  */
 import React, { useEffect, useState } from "react";
 
-import { useQueryClient, useQuery } from "react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { Field, Form, Formik } from "formik";
 import { Trans, useTranslation } from "i18n";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";

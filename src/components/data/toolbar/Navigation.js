@@ -29,7 +29,7 @@ import buildID from "components/utils/DebugIDUtil";
 
 import { makeStyles } from "tss-react/mui";
 import { useTranslation } from "i18n";
-import { useQueryClient, useQuery } from "react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 
 import HomeIcon from "@mui/icons-material/Home";
 import FolderSharedIcon from "@mui/icons-material/FolderShared";

@@ -5,7 +5,7 @@
  *
  */
 
-import { useQuery, useInfiniteQuery, useMutation } from "react-query";
+import { useQuery, useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import { fileManifest, readFileChunk } from "serviceFacades/filesystem";
 import { uploadTextAsFile } from "serviceFacades/fileio";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { AXIOS_DELAY, mockAxios } from "../axiosMock";
 import {
     usageSummaryResponse,

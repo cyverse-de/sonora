@@ -14,7 +14,7 @@
 import { useEffect, useState } from "react";
 
 import { formatDistance, formatDistanceToNow } from "date-fns";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import analysisStatus from "components/models/analysisStatus";
 import {

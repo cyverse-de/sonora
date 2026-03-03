@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 import Dashboard from "components/dashboard";
 import { VICE_TIME_LIMIT_QUERY_KEY } from "serviceFacades/analyses";

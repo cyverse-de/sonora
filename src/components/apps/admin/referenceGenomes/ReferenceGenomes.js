@@ -10,7 +10,7 @@ import React, { useEffect } from "react";
 
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import NavigationConstants from "common/NavigationConstants";
 import { useUserProfile } from "contexts/userProfile";

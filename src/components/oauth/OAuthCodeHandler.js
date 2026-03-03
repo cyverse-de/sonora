@@ -4,7 +4,7 @@
 
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import buildID from "components/utils/DebugIDUtil";
 
 import {

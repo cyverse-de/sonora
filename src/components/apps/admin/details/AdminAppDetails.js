@@ -5,7 +5,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
 import { Field, Form, Formik } from "formik";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import ids from "../../ids";
 import constants from "../../../../constants";

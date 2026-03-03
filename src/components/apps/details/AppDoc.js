@@ -4,7 +4,7 @@
  **/
 
 import React, { useEffect, useState } from "react";
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 import { useTranslation } from "i18n";
 

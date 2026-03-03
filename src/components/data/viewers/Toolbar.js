@@ -7,7 +7,7 @@
  */
 import React, { useEffect, useState } from "react";
 
-import { useMutation, useQueryClient, useQuery } from "react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "i18n";
 import { NavigationParams } from "common/NavigationConstants";
 

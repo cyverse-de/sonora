@@ -13,7 +13,7 @@ import { useConfig } from "contexts/config";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
 
-import { useQueryClient, useQuery } from "react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 
 import NavigationConstants from "common/NavigationConstants";
 import infoTypes from "components/models/InfoTypes";

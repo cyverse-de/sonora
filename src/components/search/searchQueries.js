@@ -5,7 +5,7 @@
  *
  */
 
-import { useQuery, useInfiniteQuery } from "react-query";
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query";
 import { searchData, searchDataInfinite } from "serviceFacades/filesystem";
 import { searchApps, searchAppsInfiniteQuery } from "serviceFacades/apps";
 import { getAnalyses, searchAnalysesInfinite } from "serviceFacades/analyses";

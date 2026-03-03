@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "i18n";
 
 import TableView from "./TableView";

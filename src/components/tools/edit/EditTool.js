@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 
 import { useTranslation } from "i18n";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { formatSubmission, mapPropsToValues } from "./formatters";
 

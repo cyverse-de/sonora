@@ -629,7 +629,7 @@ function Listing(props) {
     const sharingData = formatSharedData(getSelectedResources());
 
     if (!infoTypes || infoTypes.length === 0) {
-        const infoTypesCache = queryClient.getQueryData("dataFetchInfoTypes");
+        const infoTypesCache = queryClient.getQueryData(["dataFetchInfoTypes"]);
         if (infoTypesCache) {
             setInfoTypes(infoTypesCache.types);
         }

@@ -122,7 +122,7 @@ function testWebhook({ url }) {
  */
 function useBootStrap(enabled, onSuccess, onError) {
     return useQuery({
-        queryKey: BOOTSTRAP_KEY,
+        queryKey: [BOOTSTRAP_KEY],
         queryFn: bootstrap,
         enabled,
         onSuccess,
@@ -130,6 +130,7 @@ function useBootStrap(enabled, onSuccess, onError) {
         staleTime: Infinity,
         cacheTime: Infinity,
         retry: 3,
+
         //copied from react-query doc. Add exponential delay for retry.
         retryDelay: (attempt) =>
             Math.min(attempt > 1 ? 2 ** attempt * 1000 : 1000, 30 * 1000),

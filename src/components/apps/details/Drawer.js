@@ -8,7 +8,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
 
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import DetailsPanel from "./DetailsPanel";
 import { Documentation } from "./AppDoc";

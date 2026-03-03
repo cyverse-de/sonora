@@ -18,7 +18,7 @@ import {
 import { makeStyles } from "tss-react/mui";
 import { HighlightOff } from "@mui/icons-material";
 import { Autocomplete } from "@mui/material";
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "i18n";
 
 import ids from "./ids";

@@ -17,7 +17,7 @@ import {
     useVICEAnalysisLogs,
     VICE_LOGS_QUERY_KEY,
 } from "serviceFacades/analyses";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import constants from "../../constants";
 import {
     Button,

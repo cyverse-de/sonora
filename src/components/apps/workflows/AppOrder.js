@@ -6,7 +6,7 @@
 import React from "react";
 
 import { FieldArray } from "formik";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { useTranslation } from "i18n";
 

@@ -20,7 +20,7 @@ import {
 import { makeStyles } from "tss-react/mui";
 import { Skeleton } from "@mui/material";
 import { useTranslation } from "i18n";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import Identity from "../Identity";
 import ids from "../ids";

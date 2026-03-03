@@ -9,7 +9,7 @@
 import React from "react";
 import { useTranslation } from "i18n";
 import { Field } from "formik";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";

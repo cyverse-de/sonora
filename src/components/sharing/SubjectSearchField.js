@@ -41,7 +41,7 @@ import {
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { Autocomplete } from "@mui/material";
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import ids from "./ids";
 import {

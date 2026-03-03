@@ -2,7 +2,7 @@ import callApi from "../common/callApi";
 
 import AnalysisStatus from "components/models/analysisStatus";
 import AppType from "components/models/AppType";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import {
     isInputType,

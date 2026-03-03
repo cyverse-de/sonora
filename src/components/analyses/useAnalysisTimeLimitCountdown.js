@@ -15,7 +15,7 @@
 import { useEffect, useState } from "react";
 
 import { millisecondsToHours, millisecondsToMinutes, toDate } from "date-fns";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { useTranslation } from "i18n";
 

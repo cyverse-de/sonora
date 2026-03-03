@@ -5,7 +5,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import ids from "./ids";
 
 import buildID from "components/utils/DebugIDUtil";

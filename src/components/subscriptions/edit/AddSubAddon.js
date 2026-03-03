@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Field, Form, Formik } from "formik";
 import { Button, MenuItem, Typography } from "@mui/material";

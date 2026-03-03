@@ -10,7 +10,7 @@ import { Paper, Table } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 import { Skeleton } from "@mui/material";
 import { Formik } from "formik";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import Privilege from "components/models/Privilege";
 import isQueryLoading from "components/utils/isQueryLoading";

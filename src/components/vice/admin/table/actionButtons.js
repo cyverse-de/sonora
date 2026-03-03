@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "i18n";
 
 import { Button } from "@mui/material";

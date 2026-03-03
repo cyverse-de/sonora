@@ -9,7 +9,7 @@ import { Paper, Table } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 import { Skeleton } from "@mui/material";
 import { Formik } from "formik";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { INFO } from "components/announcer/AnnouncerConstants";

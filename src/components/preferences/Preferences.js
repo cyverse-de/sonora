@@ -8,7 +8,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 
 import { Form, Formik } from "formik";
-import { useQuery, useQueryClient, useMutation } from "react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 
 import { useTranslation } from "i18n";

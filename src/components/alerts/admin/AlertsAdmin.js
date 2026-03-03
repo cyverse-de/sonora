@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import {
     Button,

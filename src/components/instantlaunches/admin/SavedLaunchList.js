@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 

@@ -5,7 +5,7 @@
  */
 
 import React, { Fragment, useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import pLimit from "p-limit";
 
 import { useTranslation } from "i18n";

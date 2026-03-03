@@ -6,7 +6,7 @@
  */
 import React, { useCallback, useEffect, useState } from "react";
 
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import { useTranslation } from "i18n";
 

@@ -8,7 +8,7 @@
 import React, { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 
-import { useQueryClient, useQuery, useMutation } from "react-query";
+import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import { useTranslation } from "i18n";
 
 import { Typography, useTheme } from "@mui/material";

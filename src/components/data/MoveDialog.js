@@ -12,7 +12,7 @@ import { useTranslation } from "i18n";
 import buildID from "components/utils/DebugIDUtil";
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { INFO } from "components/announcer/AnnouncerConstants";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import ids from "./ids";
 import ResourceIcon from "components/data/listing/ResourceIcon";
 import ResourceTypes from "components/models/ResourceTypes";

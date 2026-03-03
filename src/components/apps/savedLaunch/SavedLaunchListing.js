@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "i18n";
-import { useQueryClient, useQuery, useMutation } from "react-query";
+import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 
 import ids from "../ids";

@@ -5,7 +5,7 @@ import React, { Fragment } from "react";
 
 import { FieldArray, Formik } from "formik";
 import PropTypes from "prop-types";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { useTranslation } from "i18n";
 

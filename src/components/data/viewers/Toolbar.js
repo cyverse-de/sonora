@@ -129,7 +129,7 @@ function ViewerToolbar(props) {
     // Get QueryClient from the context
     const queryClient = useQueryClient();
 
-    let infoTypesCache = queryClient.getQueryData(INFO_TYPES_QUERY_KEY);
+    let infoTypesCache = queryClient.getQueryData([INFO_TYPES_QUERY_KEY]);
 
     useEffect(() => {
         if (!infoTypesCache || infoTypesCache.length === 0) {
@@ -152,7 +152,7 @@ function ViewerToolbar(props) {
     }, [path, download]);
 
     useQuery({
-        queryKey: INFO_TYPES_QUERY_KEY,
+        queryKey: [INFO_TYPES_QUERY_KEY],
         queryFn: getInfoTypes,
         enabled: infoTypesQueryEnabled,
         onSuccess: (resp) => setInfoTypes(resp.types),

@@ -44,7 +44,7 @@ function Listing(props) {
 
     // Data and data retrieval state variables.
     const [data, setData] = useState(null);
-    const [toolsKey, setToolsKey] = useState(TOOLS_QUERY_KEY);
+    const [toolsKey, setToolsKey] = useState([TOOLS_QUERY_KEY]);
     const [toolsListingQueryEnabled, setToolsListingQueryEnabled] =
         useState(false);
 

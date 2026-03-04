@@ -76,7 +76,7 @@ function PublicLinks(props) {
     const [successMsg, setSuccessMsg] = useState();
     const [errorMsg, setErrorMsg] = useState();
     const [refreshCacheEnabled, setRefreshCacheEnabled] = useState(false);
-    const [refreshCacheKey, setRefreshCacheKey] = useState();
+    const [refreshCacheKey, setRefreshCacheKey] = useState([]);
 
     const { t } = useTranslation("data");
     const { t: common } = useTranslation("common");

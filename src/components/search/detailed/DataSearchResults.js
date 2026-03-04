@@ -94,7 +94,7 @@ function DataSearchResults(props) {
         baseId,
         showErrorAnnouncer,
     } = props;
-    const [dataSearchKey, setDataSearchKey] = useState(DATA_SEARCH_QUERY_KEY);
+    const [dataSearchKey, setDataSearchKey] = useState([DATA_SEARCH_QUERY_KEY]);
     const [sortField, setSortField] = useState("label");
     const [sortOrder, setSortOrder] = useState("ascending");
     const [dataSearchQueryEnabled, setDataSearchQueryEnabled] = useState(false);
@@ -109,7 +109,7 @@ function DataSearchResults(props) {
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();
-    let infoTypesCache = queryClient.getQueryData(INFO_TYPES_QUERY_KEY);
+    let infoTypesCache = queryClient.getQueryData([INFO_TYPES_QUERY_KEY]);
 
     useEffect(() => {
         if (!infoTypesCache || infoTypesCache.length === 0) {
@@ -122,7 +122,7 @@ function DataSearchResults(props) {
     }, [infoTypes, infoTypesCache]);
 
     useQuery({
-        queryKey: INFO_TYPES_QUERY_KEY,
+        queryKey: [INFO_TYPES_QUERY_KEY],
         queryFn: getInfoTypes,
         enabled: infoTypesQueryEnabled,
         onSuccess: (resp) => setInfoTypes(resp.types),

@@ -33,7 +33,7 @@ const DashboardTestTemplate = ({
     const queryClient = useQueryClient();
 
     React.useEffect(() => {
-        queryClient.invalidateQueries(VICE_TIME_LIMIT_QUERY_KEY);
+        queryClient.invalidateQueries([VICE_TIME_LIMIT_QUERY_KEY]);
     }, [timeLimit, queryClient]);
 
     const favoriteUriRegexp = /\/api\/apps\/[^/]+\/[^/]+\/favorite/;

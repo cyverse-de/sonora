@@ -292,8 +292,8 @@ function Listing(props) {
                     ]);
                 }
 
-                queryClient.invalidateQueries(ADMIN_APPS_QUERY_KEY);
-                queryClient.invalidateQueries(APPS_IN_CATEGORY_QUERY_KEY);
+                queryClient.invalidateQueries([ADMIN_APPS_QUERY_KEY]);
+                queryClient.invalidateQueries([APPS_IN_CATEGORY_QUERY_KEY]);
             },
             onError: (error) => {
                 showErrorAnnouncer(t("appDeleteError"), error);
@@ -323,8 +323,8 @@ function Listing(props) {
                     ]);
                 }
 
-                queryClient.invalidateQueries(ADMIN_APPS_QUERY_KEY);
-                queryClient.invalidateQueries(APPS_IN_CATEGORY_QUERY_KEY);
+                queryClient.invalidateQueries([ADMIN_APPS_QUERY_KEY]);
+                queryClient.invalidateQueries([APPS_IN_CATEGORY_QUERY_KEY]);
             },
             onError: (error) => {
                 showErrorAnnouncer(t("appDisableError"), error);

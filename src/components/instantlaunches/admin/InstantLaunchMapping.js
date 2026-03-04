@@ -243,24 +243,24 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
     const { t } = useTranslation(["instantlaunches", "common"]);
 
     const defaultsMapping = useQuery(
-        DEFAULTS_MAPPING_QUERY_KEY,
+        [DEFAULTS_MAPPING_QUERY_KEY],
         getDefaultsMapping
     );
 
     const instantlaunches = useQuery(
-        ALL_INSTANT_LAUNCHES_KEY,
+        [ALL_INSTANT_LAUNCHES_KEY],
         listFullInstantLaunches
     );
 
     const allQL = useQuery(
-        LIST_PUBLIC_SAVED_LAUNCHES_KEY,
+        [LIST_PUBLIC_SAVED_LAUNCHES_KEY],
         getPublicSavedLaunches
     );
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();
 
-    const infoTypes = useQuery(INFO_TYPES_QUERY_KEY, getInfoTypes);
+    const infoTypes = useQuery([INFO_TYPES_QUERY_KEY], getInfoTypes);
 
     const handleDelete = async (mappingName) => {
         const { [mappingName]: _, ...newMapping } =
@@ -270,20 +270,20 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
 
     const { mutate: deleteEntry } = useMutation(handleDelete, {
         onSuccess: () =>
-            queryClient.invalidateQueries(DEFAULTS_MAPPING_QUERY_KEY),
+            queryClient.invalidateQueries([DEFAULTS_MAPPING_QUERY_KEY]),
         onError: (error) =>
             showErrorAnnouncer(t("deleteMappingEntryError"), error),
     });
 
     const { mutate: updateMapping } = useMutation(updateDefaultsMapping, {
         onSuccess: () =>
-            queryClient.invalidateQueries(DEFAULTS_MAPPING_QUERY_KEY),
+            queryClient.invalidateQueries([DEFAULTS_MAPPING_QUERY_KEY]),
         onError: (error) => showErrorAnnouncer(t("updateMappingError"), error),
     });
 
     const { mutate: createMapping } = useMutation(createDefaultsMapping, {
         onSuccess: () =>
-            queryClient.invalidateQueries(DEFAULTS_MAPPING_QUERY_KEY),
+            queryClient.invalidateQueries([DEFAULTS_MAPPING_QUERY_KEY]),
         onError: (error) => showErrorAnnouncer(t("createMappingError"), error),
     });
 

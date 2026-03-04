@@ -74,9 +74,9 @@ function Listing(props) {
                 open={updateDialogOpen}
                 onClose={() => {
                     setUpdateDialogOpen(false);
-                    queryClient.invalidateQueries(
-                        ADMIN_TOOL_REQUESTS_QUERY_KEY
-                    );
+                    queryClient.invalidateQueries([
+                        ADMIN_TOOL_REQUESTS_QUERY_KEY,
+                    ]);
                 }}
                 requestId={selected}
             />

@@ -38,7 +38,7 @@ function EditSubscriptionDialog(props) {
 
     const { t } = useTranslation("subscriptions");
     const queryClient = useQueryClient();
-    const planTypesCache = queryClient.getQueryData(PLAN_TYPES_QUERY_KEY);
+    const planTypesCache = queryClient.getQueryData([PLAN_TYPES_QUERY_KEY]);
 
     const preProcessPlanTypes = React.useCallback(
         (data) => {
@@ -74,7 +74,7 @@ function EditSubscriptionDialog(props) {
                         text: t("subscriptionUpdated"),
                     });
                     onClose();
-                    queryClient.invalidateQueries(SUBSCRIPTIONS_QUERY_KEY);
+                    queryClient.invalidateQueries([SUBSCRIPTIONS_QUERY_KEY]);
                 }
 
                 setMutateSubscriptionError(isFailed ? dataResult : null);

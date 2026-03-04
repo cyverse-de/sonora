@@ -100,7 +100,7 @@ export const VICEAdmin = () => {
         isLoading,
         data,
         error,
-    } = useQuery(VICE_ADMIN_QUERY_KEY, getData);
+    } = useQuery([VICE_ADMIN_QUERY_KEY], getData);
 
     const [filters, setFilters] = useState({});
 

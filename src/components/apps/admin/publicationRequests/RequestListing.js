@@ -144,7 +144,7 @@ function AppPublicationRequests(props) {
     const queryClient = useQueryClient();
 
     const { isFetching: isRequestsFetching } = useQuery({
-        queryKey: APP_PUBLICATION_REQUESTS_QUERY_KEY,
+        queryKey: [APP_PUBLICATION_REQUESTS_QUERY_KEY],
         queryFn: getAppPublicationRequests,
         enabled: true,
         onSuccess: (resp) => {
@@ -159,9 +159,9 @@ function AppPublicationRequests(props) {
         adminPublishApp,
         {
             onSuccess: (data) => {
-                queryClient.invalidateQueries(
-                    APP_PUBLICATION_REQUESTS_QUERY_KEY
-                );
+                queryClient.invalidateQueries([
+                    APP_PUBLICATION_REQUESTS_QUERY_KEY,
+                ]);
                 setError(null);
             },
             onError: (error, { appName }) =>

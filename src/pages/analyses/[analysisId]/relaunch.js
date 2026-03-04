@@ -17,7 +17,6 @@ import {
     getAnalysisRelaunchInfo,
     ANALYSIS_RELAUNCH_QUERY_KEY,
 } from "serviceFacades/analyses";
-import { APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY } from "serviceFacades/dashboard";
 
 import useResourceUsageSummary from "common/useResourceUsageSummary";
 

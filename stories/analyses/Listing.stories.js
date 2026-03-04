@@ -84,7 +84,7 @@ const AnalysesListingTemplate = ({ timeLimit, usageSummaryResponse }) => {
     const queryClient = useQueryClient();
 
     React.useEffect(() => {
-        queryClient.invalidateQueries(VICE_TIME_LIMIT_QUERY_KEY);
+        queryClient.invalidateQueries([VICE_TIME_LIMIT_QUERY_KEY]);
     }, [timeLimit, queryClient]);
 
     mockAxios.onGet(new RegExp("/api/analyses/.*/history")).reply(200, info);

@@ -123,7 +123,9 @@ function Listing(props) {
     const [confirmExtendTimeLimitDlgOpen, setConfirmExtendTimeLimitDlgOpen] =
         useState(false);
     const [viceLogsDlgOpen, setVICELogsDlgOpen] = useState(false);
-    const [analysesKey, setAnalysesKey] = useState(ANALYSES_LISTING_QUERY_KEY);
+    const [analysesKey, setAnalysesKey] = useState([
+        ANALYSES_LISTING_QUERY_KEY,
+    ]);
     const [analysesListingQueryEnabled, setAnalysesListingQueryEnabled] =
         useState(false);
     const [pendingTerminationDlgOpen, setPendingTerminationDlgOpen] =
@@ -154,7 +156,7 @@ function Listing(props) {
         useMutation(deleteAnalyses, {
             onSuccess: () => {
                 setSelected([]);
-                queryClient.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
+                queryClient.invalidateQueries([ANALYSES_LISTING_QUERY_KEY]);
             },
             onError: (error) => {
                 showErrorAnnouncer(t("analysesDeleteError"), error);
@@ -164,7 +166,7 @@ function Listing(props) {
     const { mutate: relaunchAnalysesMutation, isLoading: relaunchLoading } =
         useMutation(relaunchAnalyses, {
             onSuccess: () =>
-                queryClient.invalidateQueries(ANALYSES_LISTING_QUERY_KEY),
+                queryClient.invalidateQueries([ANALYSES_LISTING_QUERY_KEY]),
             onError: (error) => {
                 showErrorAnnouncer(t("analysesRelaunchError"), error);
             },
@@ -247,7 +249,7 @@ function Listing(props) {
                 );
                 if (selected.length > 1) {
                     // Some analyses may have been successfully canceled.
-                    queryClient.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
+                    queryClient.invalidateQueries([ANALYSES_LISTING_QUERY_KEY]);
                 }
             },
         });
@@ -677,7 +679,7 @@ function Listing(props) {
     const sharingEnabled = canShare(getSelectedAnalyses());
 
     const onRefreshSelected = () => {
-        queryClient.invalidateQueries(ANALYSES_LISTING_QUERY_KEY);
+        queryClient.invalidateQueries([ANALYSES_LISTING_QUERY_KEY]);
     };
 
     const isLoading = isQueryLoading([

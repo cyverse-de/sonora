@@ -221,7 +221,7 @@ function Sharing(props) {
                 } else {
                     handleClose();
                 }
-                queryClient.invalidateQueries(ADMIN_APPS_QUERY_KEY);
+                queryClient.invalidateQueries([ADMIN_APPS_QUERY_KEY]);
             },
             onError: (error) => {
                 setErrorDetails({

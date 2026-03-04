@@ -36,7 +36,7 @@ function EditQuotasDialog(props) {
                 });
                 setUpdateQuotasError(null);
                 onClose();
-                queryClient.invalidateQueries(SUBSCRIPTIONS_QUERY_KEY);
+                queryClient.invalidateQueries([SUBSCRIPTIONS_QUERY_KEY]);
             },
             onError: setUpdateQuotasError,
         }

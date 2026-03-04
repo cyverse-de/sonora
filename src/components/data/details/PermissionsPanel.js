@@ -67,13 +67,14 @@ function PermissionsTabPanel(props) {
     const { classes } = useStyles();
     const { baseId, resource, selfPermission } = props;
     const { t } = useTranslation("data");
-    const [fetchUserInfoKey, setFetchUserInfoKey] =
-        useState(USER_INFO_QUERY_KEY);
+    const [fetchUserInfoKey, setFetchUserInfoKey] = useState([
+        USER_INFO_QUERY_KEY,
+    ]);
     const [fetchUserInfoQueryEnabled, setFetchUserInfoQueryEnabled] =
         useState(false);
 
     const [fetchResourcePermissionsKey, setFetchResourcePermissionsKey] =
-        useState(RESOURCE_PERMISSIONS_KEY);
+        useState([RESOURCE_PERMISSIONS_KEY]);
     const [
         fetchResourcePermissionsQueryEnabled,
         setFetchResourcePermissionsQueryEnabled,

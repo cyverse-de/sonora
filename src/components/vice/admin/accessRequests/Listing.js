@@ -114,7 +114,7 @@ function Listing(props) {
         {
             onSuccess: () => {
                 queryClient.invalidateQueries(
-                    ADMIN_ACCESS_REQUEST_LISTING_QUERY_KEY
+                    [ADMIN_ACCESS_REQUEST_LISTING_QUERY_KEY]
                 );
             },
             onError: (error) => {

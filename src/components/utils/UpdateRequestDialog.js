@@ -90,7 +90,7 @@ export default function UpdateRequestDialog(props) {
                 announce({
                     text: t("requestUpdateSuccess"),
                 });
-                queryClient.invalidateQueries(DOI_LISTING_QUERY_KEY);
+                queryClient.invalidateQueries([DOI_LISTING_QUERY_KEY]);
                 setUpdateRequestError(null);
                 onClose();
             },

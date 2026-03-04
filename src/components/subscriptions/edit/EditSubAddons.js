@@ -88,7 +88,7 @@ function EditSubAddonsDialog(props) {
         (submission) => putSubAddon(subscriptionId, submission),
         {
             onSuccess: () => {
-                queryClient.invalidateQueries(SUBSCRIPTION_ADDONS_QUERY_KEY);
+                queryClient.invalidateQueries([SUBSCRIPTION_ADDONS_QUERY_KEY]);
                 announce({ text: t("subAddonsUpdated") });
                 onClose();
             },

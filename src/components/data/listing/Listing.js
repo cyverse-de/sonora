@@ -410,7 +410,7 @@ function Listing(props) {
         }
     }, [erroredUploadCount, t, viewUploadQueue]);
 
-    let infoTypesCache = queryClient.getQueryData(INFO_TYPES_QUERY_KEY);
+    let infoTypesCache = queryClient.getQueryData([INFO_TYPES_QUERY_KEY]);
 
     useEffect(() => {
         if (!infoTypesCache || infoTypesCache.length === 0) {
@@ -423,7 +423,7 @@ function Listing(props) {
     }, [infoTypes, infoTypesCache]);
 
     useQuery({
-        queryKey: INFO_TYPES_QUERY_KEY,
+        queryKey: [INFO_TYPES_QUERY_KEY],
         queryFn: getInfoTypes,
         enabled: infoTypesQueryEnabled,
         onSuccess: (resp) => setInfoTypes(resp.types),
@@ -629,7 +629,7 @@ function Listing(props) {
     const sharingData = formatSharedData(getSelectedResources());
 
     if (!infoTypes || infoTypes.length === 0) {
-        const infoTypesCache = queryClient.getQueryData(["dataFetchInfoTypes"]);
+        const infoTypesCache = queryClient.getQueryData([INFO_TYPES_QUERY_KEY]);
         if (infoTypesCache) {
             setInfoTypes(infoTypesCache.types);
         }

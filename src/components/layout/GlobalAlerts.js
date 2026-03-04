@@ -21,7 +21,7 @@ const GlobalAlerts = () => {
     const [activeAlertsList, setActiveAlertsList] = useState([]);
 
     useQuery({
-        queryKey: ACTIVE_ALERTS_QUERY_KEY,
+        queryKey: [ACTIVE_ALERTS_QUERY_KEY],
         queryFn: activeAlerts,
         enabled: true,
         refetchInterval: 2 * 60 * 1000, // 2 minutes

@@ -17,8 +17,6 @@ import {
     APP_DESCRIPTION_QUERY_KEY,
 } from "serviceFacades/apps";
 
-import { APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY } from "serviceFacades/dashboard";
-
 import {
     SAVED_LAUNCH_APP_INFO,
     getAppInfo,

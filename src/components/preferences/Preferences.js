@@ -76,9 +76,9 @@ function Preferences(props) {
 
     const [showRestoreConfirmation, setShowRestoreConfirmation] =
         useState(false);
-    const [fetchDetailsKey, setFetchDetailsKey] = useState(
-        DATA_DETAILS_QUERY_KEY
-    );
+    const [fetchDetailsKey, setFetchDetailsKey] = useState([
+        DATA_DETAILS_QUERY_KEY,
+    ]);
     const [fetchDetailsQueryEnabled, setFetchDetailsQueryEnabled] =
         useState(false);
     const [defaultOutputFolder, setDefaultOutputFolder] = useState(null);
@@ -105,13 +105,13 @@ function Preferences(props) {
     const queryClient = useQueryClient();
 
     //get from cache if not fetch now.
-    const prefCache = queryClient.getQueryData(BOOTSTRAP_KEY);
-    const webhookTypesCache = queryClient.getQueryData(
-        WEBHOOKS_TYPES_QUERY_KEY
-    );
-    const webhookTopicsCache = queryClient.getQueryData(
-        WEBHOOKS_TOPICS_QUERY_KEY
-    );
+    const prefCache = queryClient.getQueryData([BOOTSTRAP_KEY]);
+    const webhookTypesCache = queryClient.getQueryData([
+        WEBHOOKS_TYPES_QUERY_KEY,
+    ]);
+    const webhookTopicsCache = queryClient.getQueryData([
+        WEBHOOKS_TOPICS_QUERY_KEY,
+    ]);
 
     const preProcessData = useCallback(
         (respData) => {
@@ -202,7 +202,7 @@ function Preferences(props) {
                     text: t("prefSaveSuccess"),
                     variant: SUCCESS,
                 });
-                queryClient.invalidateQueries(BOOTSTRAP_KEY);
+                queryClient.invalidateQueries([BOOTSTRAP_KEY]);
             },
             (e) => {
                 showErrorAnnouncer(t("savePrefError"), e);
@@ -227,7 +227,7 @@ function Preferences(props) {
     );
 
     const { isFetching: isFetchingURIs } = useQuery({
-        queryKey: REDIRECT_URI_QUERY_KEY,
+        queryKey: [REDIRECT_URI_QUERY_KEY],
         queryFn: getRedirectURIs,
 
         enabled: fetchRedirectURIsQueryEnabled,
@@ -266,7 +266,7 @@ function Preferences(props) {
     });
 
     const { isFetching: isFetchingHookTypes } = useQuery({
-        queryKey: WEBHOOKS_TYPES_QUERY_KEY,
+        queryKey: [WEBHOOKS_TYPES_QUERY_KEY],
         queryFn: getWebhookTypes,
         enabled: webhookTypesQueryEnabled,
         onSuccess: (data) => setWebhookTypes(data?.webhooktypes),
@@ -276,7 +276,7 @@ function Preferences(props) {
     });
 
     const { isFetching: isFetchingHookTopics } = useQuery({
-        queryKey: WEBHOOKS_TOPICS_QUERY_KEY,
+        queryKey: [WEBHOOKS_TOPICS_QUERY_KEY],
         queryFn: getWebhookTopics,
         enabled: webhookTopicsQueryEnabled,
         onSuccess: (data) => setWebhookTopics(data?.topics),

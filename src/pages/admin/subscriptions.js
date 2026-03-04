@@ -57,9 +57,9 @@ export default function Subscriptions() {
     const [availableAddons, setAvailableAddons] = useState(null);
     const [getAddonsQueryEnabled, setGetAddonsQueryEnabled] = useState(false);
     const queryClient = useQueryClient();
-    const availableAddonsCache = queryClient.getQueryData(
-        AVAILABLE_ADDONS_QUERY_KEY
-    );
+    const availableAddonsCache = queryClient.getQueryData([
+        AVAILABLE_ADDONS_QUERY_KEY,
+    ]);
 
     const preProcessAvailableAddons = React.useCallback(
         (data) => {

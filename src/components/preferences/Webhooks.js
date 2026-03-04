@@ -45,7 +45,7 @@ export default function Webhooks(props) {
 
     const [enableTest, setEnableTest] = React.useState(false);
     const [enableTestButton, setEnableTestButton] = React.useState(false);
-    const [testKey, setTestKey] = React.useState(WEBHOOK_TEST_KEY);
+    const [testKey, setTestKey] = React.useState([WEBHOOK_TEST_KEY]);
     const [testError, setTestError] = React.useState();
     const [testSuccess, setTestSuccess] = React.useState(false);
 

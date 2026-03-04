@@ -75,7 +75,7 @@ export default function FileViewer(props) {
 
     const { t } = useTranslation("data");
     const router = useRouter();
-    const [readChunkKey, setReadChunkKey] = useState(READ_CHUNK_QUERY_KEY);
+    const [readChunkKey, setReadChunkKey] = useState([READ_CHUNK_QUERY_KEY]);
     const [readChunkQueryEnabled, setReadChunkQueryEnabled] = useState(false);
     const [readChunkRawQueryEnabled, setReadChunkRawQueryEnabled] =
         useState(false);

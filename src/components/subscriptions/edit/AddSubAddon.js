@@ -28,7 +28,7 @@ function AddSubAddonsDialog(props) {
             onSuccess: () => {
                 announce({ text: t("subscriptionUpdated") });
                 onClose();
-                queryClient.invalidateQueries(SUBSCRIPTION_ADDONS_QUERY_KEY);
+                queryClient.invalidateQueries([SUBSCRIPTION_ADDONS_QUERY_KEY]);
             },
             onError: setAddSubAddonError,
         }

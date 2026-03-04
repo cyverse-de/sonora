@@ -95,7 +95,7 @@ export default function AdminAppDetailsDialog(props) {
     const { mutate: adminMutateAppMetadata, status: metadataUpdateStatus } =
         useMutation(adminUpdateAppMetadata, {
             onSuccess: (data) => {
-                queryClient.invalidateQueries(ADMIN_APPS_QUERY_KEY);
+                queryClient.invalidateQueries([ADMIN_APPS_QUERY_KEY]);
                 handleClose();
             },
             onError: setUpdateAppError,

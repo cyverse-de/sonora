@@ -172,11 +172,11 @@ function Listing(props) {
         {
             onSuccess: () => {
                 announce({ text: t("subscriptionUpdated") });
-                queryClient.invalidateQueries(SUBSCRIPTION_ADDONS_QUERY_KEY);
+                queryClient.invalidateQueries([SUBSCRIPTION_ADDONS_QUERY_KEY]);
             },
             onError: (err) => {
                 showErrorAnnouncer(t("removeAddonError"), err);
-                queryClient.invalidateQueries(SUBSCRIPTION_ADDONS_QUERY_KEY);
+                queryClient.invalidateQueries([SUBSCRIPTION_ADDONS_QUERY_KEY]);
             },
         }
     );

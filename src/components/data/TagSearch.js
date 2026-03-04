@@ -80,7 +80,7 @@ function TagSearch(props) {
     });
 
     const { status: tagSuggestionStatus } = useQuery({
-        queryKey: { searchTerm },
+        queryKey: ["tagSuggestion", searchTerm],
         queryFn: () => getTagSuggestions({ searchTerm }),
         enabled: !!userProfile?.id,
         onSuccess: (resp) => {

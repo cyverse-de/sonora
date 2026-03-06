@@ -97,7 +97,7 @@ InstantLaunchLimitReached.args = {
             ],
         },
     },
-    usageSummaryResponse: usageSummaryResponse,
+    usageSummaryResponseBody: usageSummaryResponse,
 };
 InstantLaunchLimitReached.argTypes = TimeLimitArgType;
 
@@ -122,7 +122,7 @@ InstantLaunchVICEForbidden.args = {
             ],
         },
     },
-    usageSummaryResponse: usageSummaryResponse,
+    usageSummaryResponseBody: usageSummaryResponse,
 };
 InstantLaunchVICEForbidden.argTypes = TimeLimitArgType;
 
@@ -147,7 +147,7 @@ InstantLaunchPermissionNeeded.args = {
             ],
         },
     },
-    usageSummaryResponse: usageSummaryResponse,
+    usageSummaryResponseBody: usageSummaryResponse,
 };
 InstantLaunchPermissionNeeded.argTypes = TimeLimitArgType;
 
@@ -172,6 +172,6 @@ InstantLaunchPermissionPending.args = {
             ],
         },
     },
-    usageSummaryResponse: usageSummaryResponse,
+    usageSummaryResponseBody: usageSummaryResponse,
 };
 InstantLaunchPermissionPending.argTypes = TimeLimitArgType;

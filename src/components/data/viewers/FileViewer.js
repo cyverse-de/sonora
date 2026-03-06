@@ -95,7 +95,7 @@ export default function FileViewer(props) {
     const refreshViewer = (key) =>
         queryClient.invalidateQueries(key, {
             exact: true,
-            refetchInactive: true,
+            refetchType: "all",
         });
 
     const { isFetching, error: manifestError } = useFileManifest(

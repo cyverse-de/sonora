@@ -46,7 +46,11 @@
             "plugin:jsx-a11y/recommended"
         ],
         "rules": {
-            "@next/next/no-img-element": "off"
+            "@next/next/no-img-element": "off",
+            "@tanstack/query/exhaustive-deps": "off",
+            "@tanstack/query/no-deprecated-options": "error",
+            "@tanstack/query/prefer-query-object-syntax": "error",
+            "@tanstack/query/stable-query-client": "error"
         },
         "overrides": [
             {
@@ -71,6 +75,7 @@
             }
         ],
         "plugins": [
+            "@tanstack/query",
             "jsx-a11y"
         ]
     },
@@ -155,6 +160,7 @@
         "@storybook/addon-console": "^3.0.0",
         "@storybook/addon-essentials": "^8.6.17",
         "@storybook/nextjs": "^8.6.17",
+        "@tanstack/eslint-plugin-query": "^4.43.0",
         "axios-mock-adapter": "^1.18.1",
         "cross-env": "^6.0.3",
         "eslint": "^8.56.0",

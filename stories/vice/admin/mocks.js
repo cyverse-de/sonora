@@ -919,7 +919,7 @@ export const viceResources = {
             namespace: "vice-apps",
         },
     ],
-    ingresses: [
+    routes: [
         {
             appName: "jupyter-lab-scipy-notebook-latest",
             analysisName: "jupyter-lab-scipy-notebook-latest-analysis",

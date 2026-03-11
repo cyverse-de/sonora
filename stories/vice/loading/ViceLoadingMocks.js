@@ -13,7 +13,7 @@ export const POD_STATUS = {
 export const statusMock = (
     deploymentComplete,
     serviceComplete,
-    ingressComplete,
+    httpRouteComplete,
     configMapsComplete,
     foundHostForPods,
     uploadStatus,
@@ -275,7 +275,7 @@ export const statusMock = (
                   },
               ]
             : [],
-        ingresses: ingressComplete
+        routes: httpRouteComplete
             ? [
                   {
                       name: "a37abcf1-2cc9-4004-a9c5-7179d5d3ee57",

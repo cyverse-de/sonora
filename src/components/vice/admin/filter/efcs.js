@@ -172,7 +172,7 @@ const analyses = {
     ...common,
 };
 
-const ingresses = {
+const httpRoutes = {
     ...common,
 };
 
@@ -261,7 +261,7 @@ const efcs = {
     services,
     analyses,
     pods,
-    ingresses,
+    httpRoutes,
     configMaps,
 };
 

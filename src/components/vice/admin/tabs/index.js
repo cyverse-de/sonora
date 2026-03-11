@@ -146,7 +146,7 @@ const VICEAdminTabs = ({ data = {} }) => {
         "services",
         "pods",
         "configMaps",
-        "ingresses",
+        "httpRoutes",
     ];
 
     return (

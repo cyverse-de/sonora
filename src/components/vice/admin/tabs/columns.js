@@ -91,7 +91,7 @@ const columns = {
     ],
 
     configMaps: commonColumns,
-    ingresses: commonColumns,
+    httpRoutes: commonColumns,
 };
 
 export default columns;

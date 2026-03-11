@@ -37,7 +37,7 @@ it("deployment filter port returns values", () => {
     expect(result.deployments).toStrictEqual(expectedDeployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
     expect(result.services).toStrictEqual(data.services);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -47,7 +47,7 @@ it("deployment filter port returns nothing", () => {
     expect(result.deployments).toStrictEqual([]);
     expect(result.configMaps).toStrictEqual(data.configMaps);
     expect(result.services).toStrictEqual(data.services);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -57,7 +57,7 @@ it("deployment filter uid returns values", () => {
     expect(result.deployments).toStrictEqual(expectedDeployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
     expect(result.services).toStrictEqual(data.services);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -67,7 +67,7 @@ it("deployment filter uid returns nothing", () => {
     expect(result.deployments).toStrictEqual([]);
     expect(result.configMaps).toStrictEqual(data.configMaps);
     expect(result.services).toStrictEqual(data.services);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -77,7 +77,7 @@ it("deployment filter gid returns values", () => {
     expect(result.deployments).toStrictEqual(expectedDeployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
     expect(result.services).toStrictEqual(data.services);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -87,7 +87,7 @@ it("deployment filter gid returns nothing", () => {
     expect(result.deployments).toStrictEqual([]);
     expect(result.configMaps).toStrictEqual(data.configMaps);
     expect(result.services).toStrictEqual(data.services);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -101,7 +101,7 @@ it("service filter portName returns values", () => {
     expect(result.services).toStrictEqual(expectedServices);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -111,7 +111,7 @@ it("service filter portName returns nothing", () => {
     expect(result.services).toStrictEqual([]);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -121,7 +121,7 @@ it("service filter portName returns one value", () => {
     expect(result.services).toStrictEqual(data.services.slice(-1));
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -131,7 +131,7 @@ it("service filter targetPort returns values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -141,7 +141,7 @@ it("service filter targetPort returns nothing", () => {
     expect(result.services).toStrictEqual([]);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -151,7 +151,7 @@ it("service filter targetPort returns one result", () => {
     expect(result.services).toStrictEqual(data.services.slice(-1));
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -161,7 +161,7 @@ it("service filter targetPortName returns values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -174,7 +174,7 @@ it("service filter targetPortName returns nothing", () => {
     expect(result.services).toStrictEqual([]);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -187,7 +187,7 @@ it("service filter targetPortName returns one value", () => {
     expect(result.services).toStrictEqual(result.services.slice(-1));
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -197,7 +197,7 @@ it("service filter protocol returns values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -207,7 +207,7 @@ it("service filter protocol returns no valaues", () => {
     expect(result.services).toStrictEqual([]);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -217,7 +217,7 @@ it("service filter protocol returns one value", () => {
     expect(result.services).toStrictEqual(data.services.slice(-1));
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
     expect(result.pods).toStrictEqual(data.pods);
 });
 
@@ -227,19 +227,19 @@ it("analysis filter analysisName returns values", () => {
     expect(result.deployments.length).toBe(1);
     expect(result.services.length).toBe(1);
     expect(result.configMaps.length).toBe(2);
-    expect(result.ingresses.length).toBe(1);
+    expect(result.routes.length).toBe(1);
     expect(result.pods.length).toBe(1);
     expect(result.deployments[0].analysisName).toBe(expected);
     expect(result.services[0].analysisName).toBe(expected);
     expect(result.configMaps[0].analysisName).toBe(expected);
     expect(result.configMaps[1].analysisName).toBe(expected);
-    expect(result.ingresses[0].analysisName).toBe(expected);
+    expect(result.routes[0].analysisName).toBe(expected);
     expect(result.pods[0].analysisName).toBe(expected);
     expect(result.deployments[0]).toStrictEqual(data.deployments.slice(-1)[0]);
     expect(result.services[0]).toStrictEqual(data.services.slice(-1)[0]);
     expect(result.configMaps[0]).toStrictEqual(data.configMaps[3]);
     expect(result.configMaps[1]).toStrictEqual(data.configMaps[7]);
-    expect(result.ingresses[0]).toStrictEqual(data.ingresses.slice(-1)[0]);
+    expect(result.routes[0]).toStrictEqual(data.routes.slice(-1)[0]);
     expect(result.pods[0]).toStrictEqual(data.pods.slice(-1)[0]);
 });
 
@@ -249,12 +249,12 @@ it("analysis filter analysisName returns no values", () => {
     expect(result.deployments.length).toBe(0);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
-    expect(result.ingresses.length).toBe(0);
+    expect(result.routes.length).toBe(0);
     expect(result.pods.length).toBe(0);
     expect(result.deployments).toStrictEqual([]);
     expect(result.services).toStrictEqual([]);
     expect(result.configMaps).toStrictEqual([]);
-    expect(result.ingresses).toStrictEqual([]);
+    expect(result.routes).toStrictEqual([]);
     expect(result.pods).toStrictEqual([]);
 });
 
@@ -264,19 +264,19 @@ it("analysis filter appName returns values", () => {
     expect(result.deployments.length).toBe(1);
     expect(result.services.length).toBe(1);
     expect(result.configMaps.length).toBe(2);
-    expect(result.ingresses.length).toBe(1);
+    expect(result.routes.length).toBe(1);
     expect(result.pods.length).toBe(1);
     expect(result.deployments[0].appName).toBe(expected);
     expect(result.services[0].appName).toBe(expected);
     expect(result.configMaps[0].appName).toBe(expected);
     expect(result.configMaps[1].appName).toBe(expected);
-    expect(result.ingresses[0].appName).toBe(expected);
+    expect(result.routes[0].appName).toBe(expected);
     expect(result.pods[0].appName).toBe(expected);
     expect(result.deployments[0]).toStrictEqual(data.deployments.slice(-1)[0]);
     expect(result.services[0]).toStrictEqual(data.services.slice(-1)[0]);
     expect(result.configMaps[0]).toStrictEqual(data.configMaps[3]);
     expect(result.configMaps[1]).toStrictEqual(data.configMaps[7]);
-    expect(result.ingresses[0]).toStrictEqual(data.ingresses.slice(-1)[0]);
+    expect(result.routes[0]).toStrictEqual(data.routes.slice(-1)[0]);
     expect(result.pods[0]).toStrictEqual(data.pods.slice(-1)[0]);
 });
 
@@ -286,12 +286,12 @@ it("analysis filter appName returns no values", () => {
     expect(result.deployments.length).toBe(0);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
-    expect(result.ingresses.length).toBe(0);
+    expect(result.routes.length).toBe(0);
     expect(result.pods.length).toBe(0);
     expect(result.deployments).toStrictEqual([]);
     expect(result.services).toStrictEqual([]);
     expect(result.configMaps).toStrictEqual([]);
-    expect(result.ingresses).toStrictEqual([]);
+    expect(result.routes).toStrictEqual([]);
     expect(result.pods).toStrictEqual([]);
 });
 
@@ -301,19 +301,19 @@ it("analysis filter appID returns values", () => {
     expect(result.deployments.length).toBe(1);
     expect(result.services.length).toBe(1);
     expect(result.configMaps.length).toBe(2);
-    expect(result.ingresses.length).toBe(1);
+    expect(result.routes.length).toBe(1);
     expect(result.pods.length).toBe(1);
     expect(result.deployments[0].appID).toBe(expected);
     expect(result.services[0].appID).toBe(expected);
     expect(result.configMaps[0].appID).toBe(expected);
     expect(result.configMaps[1].appID).toBe(expected);
-    expect(result.ingresses[0].appID).toBe(expected);
+    expect(result.routes[0].appID).toBe(expected);
     expect(result.pods[0].appID).toBe(expected);
     expect(result.deployments[0]).toStrictEqual(data.deployments.slice(-1)[0]);
     expect(result.services[0]).toStrictEqual(data.services.slice(-1)[0]);
     expect(result.configMaps[0]).toStrictEqual(data.configMaps[3]);
     expect(result.configMaps[1]).toStrictEqual(data.configMaps[7]);
-    expect(result.ingresses[0]).toStrictEqual(data.ingresses.slice(-1)[0]);
+    expect(result.routes[0]).toStrictEqual(data.routes.slice(-1)[0]);
     expect(result.pods[0]).toStrictEqual(data.pods.slice(-1)[0]);
 });
 
@@ -323,12 +323,12 @@ it("analysis filter appID returns no values", () => {
     expect(result.deployments.length).toBe(0);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
-    expect(result.ingresses.length).toBe(0);
+    expect(result.routes.length).toBe(0);
     expect(result.pods.length).toBe(0);
     expect(result.deployments).toStrictEqual([]);
     expect(result.services).toStrictEqual([]);
     expect(result.configMaps).toStrictEqual([]);
-    expect(result.ingresses).toStrictEqual([]);
+    expect(result.routes).toStrictEqual([]);
     expect(result.pods).toStrictEqual([]);
 });
 
@@ -338,19 +338,19 @@ it("analysis filter externalID returns values", () => {
     expect(result.deployments.length).toBe(1);
     expect(result.services.length).toBe(1);
     expect(result.configMaps.length).toBe(2);
-    expect(result.ingresses.length).toBe(1);
+    expect(result.routes.length).toBe(1);
     expect(result.pods.length).toBe(1);
     expect(result.deployments[0].externalID).toBe(expected);
     expect(result.services[0].externalID).toBe(expected);
     expect(result.configMaps[0].externalID).toBe(expected);
     expect(result.configMaps[1].externalID).toBe(expected);
-    expect(result.ingresses[0].externalID).toBe(expected);
+    expect(result.routes[0].externalID).toBe(expected);
     expect(result.pods[0].externalID).toBe(expected);
     expect(result.deployments[0]).toStrictEqual(data.deployments.slice(-1)[0]);
     expect(result.services[0]).toStrictEqual(data.services.slice(-1)[0]);
     expect(result.configMaps[0]).toStrictEqual(data.configMaps[3]);
     expect(result.configMaps[1]).toStrictEqual(data.configMaps[7]);
-    expect(result.ingresses[0]).toStrictEqual(data.ingresses.slice(-1)[0]);
+    expect(result.routes[0]).toStrictEqual(data.routes.slice(-1)[0]);
     expect(result.pods[0]).toStrictEqual(data.pods.slice(-1)[0]);
 });
 
@@ -359,12 +359,12 @@ it("analysis filter externalID returns no values", () => {
     const result = efcs.analyses.externalID.filterIt(data, expected);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
-    expect(result.ingresses.length).toBe(0);
+    expect(result.routes.length).toBe(0);
     expect(result.pods.length).toBe(0);
     expect(result.deployments).toStrictEqual([]);
     expect(result.services).toStrictEqual([]);
     expect(result.configMaps).toStrictEqual([]);
-    expect(result.ingresses).toStrictEqual([]);
+    expect(result.routes).toStrictEqual([]);
     expect(result.pods).toStrictEqual([]);
 });
 
@@ -374,7 +374,7 @@ it("analyses filter namespace returns values", () => {
     expect(result.deployments.length).toBe(4);
     expect(result.services.length).toBe(4);
     expect(result.configMaps.length).toBe(8);
-    expect(result.ingresses.length).toBe(4);
+    expect(result.routes.length).toBe(4);
     expect(result.pods.length).toBe(4);
 
     for (const dep of result.deployments) {
@@ -389,7 +389,7 @@ it("analyses filter namespace returns values", () => {
         expect(cm.namespace).toBe(expected);
     }
 
-    for (const ing of result.ingresses) {
+    for (const ing of result.routes) {
         expect(ing.namespace).toBe(expected);
     }
 
@@ -403,12 +403,12 @@ it("analyses filter namespace returns no values", () => {
     const result = efcs.analyses.namespace.filterIt(data, expected);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
-    expect(result.ingresses.length).toBe(0);
+    expect(result.routes.length).toBe(0);
     expect(result.pods.length).toBe(0);
     expect(result.deployments).toStrictEqual([]);
     expect(result.services).toStrictEqual([]);
     expect(result.configMaps).toStrictEqual([]);
-    expect(result.ingresses).toStrictEqual([]);
+    expect(result.routes).toStrictEqual([]);
     expect(result.pods).toStrictEqual([]);
 });
 
@@ -418,19 +418,19 @@ it("analyses filter userID returns values", () => {
     expect(result.deployments.length).toBe(1);
     expect(result.services.length).toBe(1);
     expect(result.configMaps.length).toBe(2);
-    expect(result.ingresses.length).toBe(1);
+    expect(result.routes.length).toBe(1);
     expect(result.pods.length).toBe(1);
     expect(result.deployments[0].userID).toBe(expected);
     expect(result.services[0].userID).toBe(expected);
     expect(result.configMaps[0].userID).toBe(expected);
     expect(result.configMaps[1].userID).toBe(expected);
-    expect(result.ingresses[0].userID).toBe(expected);
+    expect(result.routes[0].userID).toBe(expected);
     expect(result.pods[0].userID).toBe(expected);
     expect(result.deployments[0]).toStrictEqual(data.deployments.slice(-1)[0]);
     expect(result.services[0]).toStrictEqual(data.services.slice(-1)[0]);
     expect(result.configMaps[0]).toStrictEqual(data.configMaps[3]);
     expect(result.configMaps[1]).toStrictEqual(data.configMaps[7]);
-    expect(result.ingresses[0]).toStrictEqual(data.ingresses.slice(-1)[0]);
+    expect(result.routes[0]).toStrictEqual(data.routes.slice(-1)[0]);
     expect(result.pods[0]).toStrictEqual(data.pods.slice(-1)[0]);
 });
 
@@ -439,12 +439,12 @@ it("analyses filter userID returns no values", () => {
     const result = efcs.analyses.userID.filterIt(data, expected);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
-    expect(result.ingresses.length).toBe(0);
+    expect(result.routes.length).toBe(0);
     expect(result.pods.length).toBe(0);
     expect(result.deployments).toStrictEqual([]);
     expect(result.services).toStrictEqual([]);
     expect(result.configMaps).toStrictEqual([]);
-    expect(result.ingresses).toStrictEqual([]);
+    expect(result.routes).toStrictEqual([]);
     expect(result.pods).toStrictEqual([]);
 });
 
@@ -454,19 +454,19 @@ it("analyses filter username returns values", () => {
     expect(result.deployments.length).toBe(1);
     expect(result.services.length).toBe(1);
     expect(result.configMaps.length).toBe(2);
-    expect(result.ingresses.length).toBe(1);
+    expect(result.routes.length).toBe(1);
     expect(result.pods.length).toBe(1);
     expect(result.deployments[0].username).toBe(expected);
     expect(result.services[0].username).toBe(expected);
     expect(result.configMaps[0].username).toBe(expected);
     expect(result.configMaps[1].username).toBe(expected);
-    expect(result.ingresses[0].username).toBe(expected);
+    expect(result.routes[0].username).toBe(expected);
     expect(result.pods[0].username).toBe(expected);
     expect(result.deployments[0]).toStrictEqual(data.deployments.slice(-1)[0]);
     expect(result.services[0]).toStrictEqual(data.services.slice(-1)[0]);
     expect(result.configMaps[0]).toStrictEqual(data.configMaps[3]);
     expect(result.configMaps[1]).toStrictEqual(data.configMaps[7]);
-    expect(result.ingresses[0]).toStrictEqual(data.ingresses.slice(-1)[0]);
+    expect(result.routes[0]).toStrictEqual(data.routes.slice(-1)[0]);
     expect(result.pods[0]).toStrictEqual(data.pods.slice(-1)[0]);
 });
 
@@ -475,12 +475,12 @@ it("analyses filter username returns no values", () => {
     const result = efcs.analyses.username.filterIt(data, expected);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
-    expect(result.ingresses.length).toBe(0);
+    expect(result.routes.length).toBe(0);
     expect(result.pods.length).toBe(0);
     expect(result.deployments).toStrictEqual([]);
     expect(result.services).toStrictEqual([]);
     expect(result.configMaps).toStrictEqual([]);
-    expect(result.ingresses).toStrictEqual([]);
+    expect(result.routes).toStrictEqual([]);
     expect(result.pods).toStrictEqual([]);
 });
 
@@ -490,19 +490,19 @@ it("analyses filter creationTimestamp returns values", () => {
     expect(result.deployments.length).toBe(1);
     expect(result.services.length).toBe(1);
     expect(result.configMaps.length).toBe(2);
-    expect(result.ingresses.length).toBe(1);
+    expect(result.routes.length).toBe(1);
     expect(result.pods.length).toBe(1);
     expect(result.deployments[0].creationTimestamp).toBe(expected);
     expect(result.services[0].creationTimestamp).toBe(expected);
     expect(result.configMaps[0].creationTimestamp).toBe(expected);
     expect(result.configMaps[1].creationTimestamp).toBe(expected);
-    expect(result.ingresses[0].creationTimestamp).toBe(expected);
+    expect(result.routes[0].creationTimestamp).toBe(expected);
     expect(result.pods[0].creationTimestamp).toBe(expected);
     expect(result.deployments[0]).toStrictEqual(data.deployments.slice(-1)[0]);
     expect(result.services[0]).toStrictEqual(data.services.slice(-1)[0]);
     expect(result.configMaps[0]).toStrictEqual(data.configMaps[3]);
     expect(result.configMaps[1]).toStrictEqual(data.configMaps[7]);
-    expect(result.ingresses[0]).toStrictEqual(data.ingresses.slice(-1)[0]);
+    expect(result.routes[0]).toStrictEqual(data.routes.slice(-1)[0]);
     expect(result.pods[0]).toStrictEqual(data.pods.slice(-1)[0]);
 });
 
@@ -511,12 +511,12 @@ it("analyses filter creationTimestamp returns no values", () => {
     const result = efcs.analyses.creationTimestamp.filterIt(data, expected);
     expect(result.services.length).toBe(0);
     expect(result.configMaps.length).toBe(0);
-    expect(result.ingresses.length).toBe(0);
+    expect(result.routes.length).toBe(0);
     expect(result.pods.length).toBe(0);
     expect(result.deployments).toStrictEqual([]);
     expect(result.services).toStrictEqual([]);
     expect(result.configMaps).toStrictEqual([]);
-    expect(result.ingresses).toStrictEqual([]);
+    expect(result.routes).toStrictEqual([]);
     expect(result.pods).toStrictEqual([]);
 });
 
@@ -533,7 +533,7 @@ it("pods filter phase returns values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter phase returns no values", () => {
@@ -544,7 +544,7 @@ it("pods filter phase returns no values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter message returns values", () => {
@@ -560,7 +560,7 @@ it("pods filter message returns values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter message returns no values", () => {
@@ -571,7 +571,7 @@ it("pods filter message returns no values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter reason returns values", () => {
@@ -582,7 +582,7 @@ it("pods filter reason returns values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter reason returns no values", () => {
@@ -593,7 +593,7 @@ it("pods filter reason returns no values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter containerStatusName returns values", () => {
@@ -604,7 +604,7 @@ it("pods filter containerStatusName returns values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter containerStatusName returns no values", () => {
@@ -615,7 +615,7 @@ it("pods filter containerStatusName returns no values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter containerStatusReady returns values", () => {
@@ -626,7 +626,7 @@ it("pods filter containerStatusReady returns values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter containerStatusReady returns no values", () => {
@@ -637,7 +637,7 @@ it("pods filter containerStatusReady returns no values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter containerStatusRestartCount returns values", () => {
@@ -651,7 +651,7 @@ it("pods filter containerStatusRestartCount returns values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter containerStatusRestartCount returns no values", () => {
@@ -665,7 +665,7 @@ it("pods filter containerStatusRestartCount returns no values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter containerStatusImage returns values", () => {
@@ -676,7 +676,7 @@ it("pods filter containerStatusImage returns values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter containerStatusImage returns no values", () => {
@@ -687,7 +687,7 @@ it("pods filter containerStatusImage returns no values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter containerStatusImageID returns values", () => {
@@ -699,7 +699,7 @@ it("pods filter containerStatusImageID returns values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter containerStatusImageID returns no values", () => {
@@ -710,7 +710,7 @@ it("pods filter containerStatusImageID returns no values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter containerStatusImageID resturns one value", () => {
@@ -722,7 +722,7 @@ it("pods filter containerStatusImageID resturns one value", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter containerStatusContainerID returns values", () => {
@@ -737,7 +737,7 @@ it("pods filter containerStatusContainerID returns values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter containerStatusContainerID returns no values", () => {
@@ -751,7 +751,7 @@ it("pods filter containerStatusContainerID returns no values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods filter containerStatusStarted returns values", () => {
@@ -762,7 +762,7 @@ it("pods filter containerStatusStarted returns values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });
 
 it("pods fitler containerStatusStarted returns no values", () => {
@@ -773,5 +773,5 @@ it("pods fitler containerStatusStarted returns no values", () => {
     expect(result.services).toStrictEqual(data.services);
     expect(result.deployments).toStrictEqual(data.deployments);
     expect(result.configMaps).toStrictEqual(data.configMaps);
-    expect(result.ingresses).toStrictEqual(data.ingresses);
+    expect(result.routes).toStrictEqual(data.routes);
 });

@@ -107,7 +107,7 @@ function InitContainerInfo(props) {
 }
 
 function DetailsContent(props) {
-    const { deployments, configMaps, services, ingresses, pods } = props;
+    const { deployments, configMaps, services, routes, pods } = props;
     const { t } = useTranslation("vice-loading");
     const { classes } = useStyles();
 
@@ -121,9 +121,9 @@ function DetailsContent(props) {
                     : t("servicePending")}
             </Typography>
             <Typography variant="h6">
-                {ingresses?.length > 0
-                    ? t("ingressComplete")
-                    : t("ingressPending")}
+                {routes?.length > 0
+                    ? t("httpRouteComplete")
+                    : t("httpRoutePending")}
             </Typography>
             <Typography variant="h6">
                 {configMaps?.length > 1

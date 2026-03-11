@@ -33,7 +33,7 @@ function ContactSupportDialog(props) {
         deployments,
         configMaps,
         services,
-        ingresses,
+        routes,
         pods,
         ready,
         progressMessage,
@@ -111,7 +111,7 @@ function ContactSupportDialog(props) {
                     restartCount: analysisStatus?.restartCount,
                 },
                 configMapsDone: configMaps?.length > 1,
-                ingressDone: ingresses?.length > 0,
+                httpRouteDone: routes?.length > 0,
                 serviceDone: services?.length > 0,
                 urlReady: ready,
                 displayMessage: progressMessage,
@@ -177,7 +177,7 @@ function ContactSupportDialog(props) {
                         deployments={deployments}
                         configMaps={configMaps}
                         services={services}
-                        ingresses={ingresses}
+                        routes={routes}
                         pods={pods}
                     />
                     {supportEmailError && (

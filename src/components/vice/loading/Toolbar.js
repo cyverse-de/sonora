@@ -27,7 +27,7 @@ function ViceLoadingToolbar(props) {
         deployments,
         configMaps,
         services,
-        ingresses,
+        routes,
         pods,
         ready,
         progressMessage,
@@ -77,7 +77,7 @@ function ViceLoadingToolbar(props) {
                 deployments={deployments}
                 configMaps={configMaps}
                 services={services}
-                ingresses={ingresses}
+                routes={routes}
                 pods={pods}
                 ready={ready}
                 progressMessage={progressMessage}
@@ -96,7 +96,7 @@ function ViceLoadingToolbar(props) {
                     deployments={deployments}
                     configMaps={configMaps}
                     services={services}
-                    ingresses={ingresses}
+                    routes={routes}
                     pods={pods}
                 />
             </Drawer>

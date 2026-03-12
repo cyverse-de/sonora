@@ -56,7 +56,7 @@ export const CONFIG_MAP_COLUMNS = {
 
 // We'll probably end up adding more columns, so this is getting
 // it's own set of constants.
-export const INGRESS_COLUMNS = {
+export const HTTP_ROUTE_COLUMNS = {
     ...COMMON_COLUMNS,
 };
 

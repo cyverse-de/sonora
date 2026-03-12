@@ -8,7 +8,7 @@ export const ViceLoadingTest = ({
     statusEndpointError,
     deploymentComplete,
     serviceComplete,
-    ingressComplete,
+    httpRouteComplete,
     configMapsComplete,
     foundHostForPods,
     uploadStatus,
@@ -30,7 +30,7 @@ export const ViceLoadingTest = ({
                   statusMock(
                       deploymentComplete,
                       serviceComplete,
-                      ingressComplete,
+                      httpRouteComplete,
                       configMapsComplete,
                       foundHostForPods,
                       uploadStatus,
@@ -83,7 +83,7 @@ ViceLoadingTest.argTypes = {
             type: "boolean",
         },
     },
-    ingressComplete: {
+    httpRouteComplete: {
         control: {
             type: "boolean",
         },
@@ -131,7 +131,7 @@ ViceLoadingTest.args = {
     statusEndpointError: false,
     deploymentComplete: false,
     serviceComplete: true,
-    ingressComplete: true,
+    httpRouteComplete: true,
     configMapsComplete: true,
     foundHostForPods: false,
     uploadStatus: POD_STATUS.WAITING_INIT,

@@ -5,7 +5,7 @@ const ids = {
     DEPLOYMENT: "deployment",
     SERVICE: "service",
     CONFIGMAPS: "configmaps",
-    INGRESS: "ingress",
+    HTTP_ROUTE: "httpRoute",
     PODS: "pods",
 
     DEPLOYMENT_FIELD_SELECT: "deploymentFieldSelect",
@@ -20,8 +20,8 @@ const ids = {
     CONFIGMAP_FIELD_SELECT: "configmapFieldSelect",
     CONFIGMAP_FIELD_VALUE: "configmapFieldValue",
 
-    INGRESS_FIELD_SELECT: "ingressFieldSelect",
-    INGRESS_FIELD_VALUE: "ingressFieldValue",
+    HTTP_ROUTE_FIELD_SELECT: "httpRouteFieldSelect",
+    HTTP_ROUTE_FIELD_VALUE: "httpRouteFieldValue",
 
     COMMON_FIELD_SELECT: "commonFieldSelect",
     COMMON_FIELD_VALUE: "commonFieldValue",

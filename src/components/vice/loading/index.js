@@ -59,7 +59,7 @@ function ViceLoading(props) {
         hasError: false,
     });
 
-    const { deployments, configMaps, services, ingresses, pods } = data;
+    const { deployments, configMaps, services, routes, pods } = data;
     const deployment = deployments?.[0];
     const appName = deployment?.appName;
 
@@ -96,7 +96,7 @@ function ViceLoading(props) {
         const deploymentsDone = deployments?.length > 0;
         const configMapsDone = configMaps?.length > 1;
         const servicesDone = services?.length > 0;
-        const ingressesDone = ingresses?.length > 0;
+        const routesDone = routes?.length > 0;
         const pod = pods?.[0];
         const hasPods = pod?.containerStatuses?.length > 0;
 
@@ -118,12 +118,7 @@ function ViceLoading(props) {
         } = getContainerDetails(pods, config?.vice?.analysisContainerName);
 
         if (
-            !(
-                deploymentsDone &&
-                configMapsDone &&
-                servicesDone &&
-                ingressesDone
-            )
+            !(deploymentsDone && configMapsDone && servicesDone && routesDone)
         ) {
             setTimerName("deployments");
             const hasError = timeoutError;
@@ -132,7 +127,7 @@ function ViceLoading(props) {
                     (deploymentsDone +
                         configMapsDone +
                         servicesDone +
-                        ingressesDone) *
+                        routesDone) *
                     5,
                 hasError,
                 message: (
@@ -268,7 +263,7 @@ function ViceLoading(props) {
         configMaps,
         data,
         deployments,
-        ingresses,
+        routes,
         pods,
         services,
         statusError,
@@ -293,7 +288,7 @@ function ViceLoading(props) {
                 deployments={deployments}
                 configMaps={configMaps}
                 services={services}
-                ingresses={ingresses}
+                routes={routes}
                 pods={pods}
                 ready={ready}
                 progressMessage={progress.message}

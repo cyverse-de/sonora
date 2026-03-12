@@ -50,7 +50,7 @@
     "gidColumn": "GID",
     "image": "Image",
     "imageColumn": "Image",
-    "ingresses": "Ingresses",
+    "httpRoutes": "HTTP Routes",
     "instantLaunchesTabLabel": "Instant Launches",
     "intercomProfile": "Intercom Profile",
     "jobLimitLookupError": "Error looking up job limit: {{error.message}}.",

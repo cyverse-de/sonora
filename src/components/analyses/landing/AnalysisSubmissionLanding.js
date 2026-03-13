@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useTranslation } from "i18n";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
     ANALYSIS_HISTORY_QUERY_KEY,

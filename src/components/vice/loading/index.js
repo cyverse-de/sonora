@@ -21,7 +21,7 @@ import buildID from "components/utils/DebugIDUtil";
 import { Container, Typography } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 import { Trans, useTranslation } from "i18n";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import ErrorHandler from "components/error/ErrorHandler";
 import LinearProgressWithLabel from "components/utils/LinearProgressWithLabel";

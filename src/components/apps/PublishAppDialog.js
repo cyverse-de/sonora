@@ -9,7 +9,7 @@
 import React from "react";
 import { useTranslation, Trans } from "i18n";
 import { Field, FieldArray, Form, Formik } from "formik";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import { nonEmptyField, urlField } from "components/utils/validations";
 import ids from "./ids";

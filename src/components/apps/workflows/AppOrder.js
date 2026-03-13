@@ -6,7 +6,7 @@
 import React from "react";
 
 import { FieldArray } from "formik";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { useTranslation } from "i18n";
 
@@ -291,8 +291,8 @@ function AppOrder(props) {
             return !invalidApp.pipeline_eligibility.is_valid
                 ? invalidApp.pipeline_eligibility.reason
                 : invalidApp.disabled
-                ? t("disabledAppsNotAllowed")
-                : t("privateAppsNotAllowed");
+                  ? t("disabledAppsNotAllowed")
+                  : t("privateAppsNotAllowed");
         }
         return null;
     };

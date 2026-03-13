@@ -6,7 +6,7 @@
 
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "i18n";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 
 import {
@@ -355,11 +355,11 @@ function GlobalSearchField(props) {
     const [options, setOptions] = useState([]);
     const [open, setOpen] = useState(false);
 
-    const [analysesSearchKey, setAnalysesSearchKey] = useState(
-        ANALYSES_SEARCH_QUERY_KEY
-    );
-    const [appsSearchKey, setAppsSearchKey] = useState(APPS_SEARCH_QUERY_KEY);
-    const [dataSearchKey, setDataSearchKey] = useState(DATA_SEARCH_QUERY_KEY);
+    const [analysesSearchKey, setAnalysesSearchKey] = useState([
+        ANALYSES_SEARCH_QUERY_KEY,
+    ]);
+    const [appsSearchKey, setAppsSearchKey] = useState([APPS_SEARCH_QUERY_KEY]);
+    const [dataSearchKey, setDataSearchKey] = useState([DATA_SEARCH_QUERY_KEY]);
     const [teamSearchKey, setTeamSearchKey] = useState([SEARCH_TEAMS_QUERY]);
 
     const [analysesSearchQueryEnabled, setAnalysesSearchQueryEnabled] =
@@ -378,7 +378,7 @@ function GlobalSearchField(props) {
     const queryClient = useQueryClient();
 
     //get bootstrap from cache.
-    const bootstrapCache = queryClient.getQueryData(BOOTSTRAP_KEY);
+    const bootstrapCache = queryClient.getQueryData([BOOTSTRAP_KEY]);
 
     const preProcessData = useCallback(
         (respData) => {
@@ -857,8 +857,10 @@ function GlobalSearchField(props) {
     const filterOptions = singleSearchOption
         ? [selectedFilter]
         : config?.elasticEnabled
-        ? allFilterOptions
-        : allFilterOptions.filter((option) => option !== searchConstants.DATA);
+          ? allFilterOptions
+          : allFilterOptions.filter(
+                (option) => option !== searchConstants.DATA
+            );
 
     const variant = isMobile ? "outlined" : "standard";
     const inputProps = {};

@@ -23,7 +23,7 @@ import {
 
 import { BagInfoProvider, useBagInfo } from "../src/contexts/bagInfo";
 
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 
 import { withConsole } from "@storybook/addon-console";

@@ -6,7 +6,7 @@ import {
 import viewerConstants from "components/data/viewers/constants";
 import constants from "constants.js";
 
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 export const DATA_LISTING_QUERY_KEY = "fetchDataListing";
 export const USER_INFO_QUERY_KEY = "fetchUserInfo";

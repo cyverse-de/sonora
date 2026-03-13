@@ -12,25 +12,24 @@ import { useTranslation } from "i18n";
 import React from "react";
 import ids from "../ids";
 
-const RelaunchMenuItem = React.forwardRef(function RelaunchMenuItem(
-    props,
-    ref
-) {
-    const { baseId, onClick, href } = props;
-    const { t } = useTranslation("analyses");
-    return (
-        <MenuItem
-            id={buildID(baseId, ids.MENUITEM_RELAUNCH)}
-            href={href}
-            onClick={onClick}
-            ref={ref}
-        >
-            <ListItemIcon>
-                <RelaunchIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText primary={t("relaunch")} />
-        </MenuItem>
-    );
-});
+const RelaunchMenuItem = React.forwardRef(
+    function RelaunchMenuItem(props, ref) {
+        const { baseId, onClick, href } = props;
+        const { t } = useTranslation("analyses");
+        return (
+            <MenuItem
+                id={buildID(baseId, ids.MENUITEM_RELAUNCH)}
+                href={href}
+                onClick={onClick}
+                ref={ref}
+            >
+                <ListItemIcon>
+                    <RelaunchIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary={t("relaunch")} />
+            </MenuItem>
+        );
+    }
+);
 
 export { RelaunchMenuItem };

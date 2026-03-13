@@ -41,7 +41,7 @@ import {
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { Autocomplete } from "@mui/material";
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import ids from "./ids";
 import {
@@ -51,7 +51,10 @@ import {
     RECENT_CONTACTS_QUERY,
     removeRecentContacts,
 } from "serviceFacades/groups";
-import { searchSubjects } from "serviceFacades/sharing";
+import {
+    SEARCH_SUBJECTS_QUERY_KEY,
+    searchSubjects,
+} from "serviceFacades/sharing";
 import isQueryLoading from "../utils/isQueryLoading";
 import { useTranslation } from "i18n";
 import { groupName, isGroup } from "components/sharing/util";
@@ -88,7 +91,7 @@ function SubjectSearchField(props) {
     const queryClient = useQueryClient();
 
     const { status: subjectSearchStatus } = useQuery({
-        queryKey: { searchTerm },
+        queryKey: [SEARCH_SUBJECTS_QUERY_KEY, searchTerm],
         queryFn: () => searchSubjects({ searchTerm }),
         enabled: !!(searchTerm && searchTerm.length > 2),
         onSuccess: (resp) => {

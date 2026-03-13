@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useCallback } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -57,9 +57,9 @@ export default function Subscriptions() {
     const [availableAddons, setAvailableAddons] = useState(null);
     const [getAddonsQueryEnabled, setGetAddonsQueryEnabled] = useState(false);
     const queryClient = useQueryClient();
-    const availableAddonsCache = queryClient.getQueryData(
-        AVAILABLE_ADDONS_QUERY_KEY
-    );
+    const availableAddonsCache = queryClient.getQueryData([
+        AVAILABLE_ADDONS_QUERY_KEY,
+    ]);
 
     const preProcessAvailableAddons = React.useCallback(
         (data) => {

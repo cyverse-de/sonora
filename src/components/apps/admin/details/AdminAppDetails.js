@@ -5,7 +5,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
 import { Field, Form, Formik } from "formik";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import ids from "../../ids";
 import constants from "../../../../constants";
@@ -95,7 +95,7 @@ export default function AdminAppDetailsDialog(props) {
     const { mutate: adminMutateAppMetadata, status: metadataUpdateStatus } =
         useMutation(adminUpdateAppMetadata, {
             onSuccess: (data) => {
-                queryClient.invalidateQueries(ADMIN_APPS_QUERY_KEY);
+                queryClient.invalidateQueries([ADMIN_APPS_QUERY_KEY]);
                 handleClose();
             },
             onError: setUpdateAppError,

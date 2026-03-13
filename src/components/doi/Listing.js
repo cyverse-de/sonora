@@ -5,7 +5,7 @@
  *
  */
 import React, { useState, useEffect } from "react";
-import { useQuery, useQueryClient, useMutation } from "react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useTranslation } from "i18n";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
@@ -79,7 +79,7 @@ function Listing(props) {
             );
     };
 
-    let infoTypesCache = queryClient.getQueryData(INFO_TYPES_QUERY_KEY);
+    let infoTypesCache = queryClient.getQueryData([INFO_TYPES_QUERY_KEY]);
 
     useEffect(() => {
         if (!infoTypesCache || infoTypesCache.length === 0) {
@@ -92,7 +92,7 @@ function Listing(props) {
     }, [infoTypes, infoTypesCache]);
 
     useQuery({
-        queryKey: INFO_TYPES_QUERY_KEY,
+        queryKey: [INFO_TYPES_QUERY_KEY],
         queryFn: getInfoTypes,
         enabled: infoTypesQueryEnabled,
         onSuccess: (resp) => setInfoTypes(resp.types),
@@ -111,7 +111,7 @@ function Listing(props) {
                     text: t("createDoiSuccess"),
                     variant: SUCCESS,
                 });
-                queryClient.invalidateQueries(DOI_LISTING_QUERY_KEY);
+                queryClient.invalidateQueries([DOI_LISTING_QUERY_KEY]);
             },
             onError: (error) => {
                 showErrorAnnouncer(t("createDoiError"), error);

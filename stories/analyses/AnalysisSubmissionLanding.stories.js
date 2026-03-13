@@ -1,5 +1,5 @@
 import React from "react";
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { AXIOS_DELAY, mockAxios } from "../axiosMock";
 import {
     usageSummaryResponse,
@@ -30,7 +30,7 @@ const AnalysisSubmissionLandingTemplate = ({
     const queryClient = useQueryClient();
 
     React.useEffect(() => {
-        queryClient.invalidateQueries(VICE_TIME_LIMIT_QUERY_KEY);
+        queryClient.invalidateQueries([VICE_TIME_LIMIT_QUERY_KEY]);
     }, [timeLimit, queryClient]);
 
     mockAxios.reset();

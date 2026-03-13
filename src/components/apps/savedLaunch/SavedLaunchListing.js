@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "i18n";
-import { useQueryClient, useQuery, useMutation } from "react-query";
+import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import Link from "next/link";
 
 import ids from "../ids";
@@ -220,7 +220,7 @@ function ListSavedLaunches(props) {
         data: allILs,
         error: errorILs,
         isFetching: fetchingILs,
-    } = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
+    } = useQuery([ALL_INSTANT_LAUNCHES_KEY], listFullInstantLaunches);
 
     const savedLaunchClickHandler = (event, savedLaunch) => {
         const instantLaunch = allILs?.instant_launches.find(
@@ -254,7 +254,7 @@ function ListSavedLaunches(props) {
 
     const { mutate: createInstantLaunch } = useMutation(addInstantLaunch, {
         onSuccess: (createdIL, { onSuccess }) => {
-            queryClient.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
+            queryClient.invalidateQueries([ALL_INSTANT_LAUNCHES_KEY]);
             setSelectedIL(createdIL);
             setUseInstantLaunch(true);
         },

@@ -9,7 +9,7 @@
 import React from "react";
 import { useTranslation } from "i18n";
 import { Field } from "formik";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
@@ -45,7 +45,7 @@ export default function Webhooks(props) {
 
     const [enableTest, setEnableTest] = React.useState(false);
     const [enableTestButton, setEnableTestButton] = React.useState(false);
-    const [testKey, setTestKey] = React.useState(WEBHOOK_TEST_KEY);
+    const [testKey, setTestKey] = React.useState([WEBHOOK_TEST_KEY]);
     const [testError, setTestError] = React.useState();
     const [testSuccess, setTestSuccess] = React.useState(false);
 

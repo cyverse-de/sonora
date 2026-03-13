@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import {
     Button,
@@ -103,7 +103,7 @@ const AlertsEditor = (props) => {
     }
 
     const { isFetching: isFetchingList, error: loadingError } = useQuery({
-        queryKey: ALL_ALERTS_QUERY_KEY,
+        queryKey: [ALL_ALERTS_QUERY_KEY],
         queryFn: allAlerts,
         enabled: true,
         onSuccess: updateAlerts,
@@ -115,8 +115,8 @@ const AlertsEditor = (props) => {
         isLoading: isAddingAlert,
     } = useMutation(addAlert, {
         onSuccess: (createdAlert) => {
-            queryClient.invalidateQueries(ALL_ALERTS_QUERY_KEY);
-            queryClient.invalidateQueries(ACTIVE_ALERTS_QUERY_KEY);
+            queryClient.invalidateQueries([ALL_ALERTS_QUERY_KEY]);
+            queryClient.invalidateQueries([ACTIVE_ALERTS_QUERY_KEY]);
         },
     });
 
@@ -126,8 +126,8 @@ const AlertsEditor = (props) => {
         isLoading: isRemovingAlert,
     } = useMutation(removeAlert, {
         onSuccess: (resp) => {
-            queryClient.invalidateQueries(ALL_ALERTS_QUERY_KEY);
-            queryClient.invalidateQueries(ACTIVE_ALERTS_QUERY_KEY);
+            queryClient.invalidateQueries([ALL_ALERTS_QUERY_KEY]);
+            queryClient.invalidateQueries([ACTIVE_ALERTS_QUERY_KEY]);
         },
     });
 

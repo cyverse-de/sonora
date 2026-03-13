@@ -15,7 +15,7 @@ import {
     APP_CATEGORIES_QUERY_KEY,
 } from "serviceFacades/apps";
 
-import { useQueryClient, useQuery } from "react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 
 import { useTranslation } from "i18n";
 

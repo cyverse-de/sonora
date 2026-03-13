@@ -15,7 +15,7 @@ import { makeStyles } from "tss-react/mui";
 import { Link } from "@mui/icons-material";
 
 import { useTranslation } from "i18n";
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import constants from "../../../constants";
 

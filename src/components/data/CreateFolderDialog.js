@@ -21,7 +21,7 @@ import {
 import { Close } from "@mui/icons-material";
 import { Field, Form, Formik } from "formik";
 import { useTranslation } from "i18n";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import { ERROR_CODES, getErrorCode } from "../error/errorCode";
 import ids from "./ids";

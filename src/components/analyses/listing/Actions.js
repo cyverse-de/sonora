@@ -51,40 +51,39 @@ const RelaunchButton = React.forwardRef(function RelaunchButton(props, ref) {
     );
 });
 
-const GotoOutputFolderButton = React.forwardRef(function GotoOutputFolderButton(
-    props,
-    ref
-) {
-    const {
-        baseId,
-        className,
-        href,
-        isTerminated,
-        setPendingTerminationDlgOpen,
-    } = props;
-    const { t } = useTranslation("analyses");
-    return (
-        <IconButton
-            size="small"
-            id={buildID(baseId, ids.ICONS.OUTPUT, ids.BUTTON)}
-            className={className}
-            href={href}
-            ref={ref}
-            onClick={(event) => {
-                if (!isTerminated) {
-                    event.preventDefault();
-                    setPendingTerminationDlgOpen(true);
-                    return false;
-                }
-                // else, do the default link behavior
-            }}
-            color="primary"
-            title={t("goOutputFolder")}
-        >
-            <OutputFolderIcon fontSize="small" />
-        </IconButton>
-    );
-});
+const GotoOutputFolderButton = React.forwardRef(
+    function GotoOutputFolderButton(props, ref) {
+        const {
+            baseId,
+            className,
+            href,
+            isTerminated,
+            setPendingTerminationDlgOpen,
+        } = props;
+        const { t } = useTranslation("analyses");
+        return (
+            <IconButton
+                size="small"
+                id={buildID(baseId, ids.ICONS.OUTPUT, ids.BUTTON)}
+                className={className}
+                href={href}
+                ref={ref}
+                onClick={(event) => {
+                    if (!isTerminated) {
+                        event.preventDefault();
+                        setPendingTerminationDlgOpen(true);
+                        return false;
+                    }
+                    // else, do the default link behavior
+                }}
+                color="primary"
+                title={t("goOutputFolder")}
+            >
+                <OutputFolderIcon fontSize="small" />
+            </IconButton>
+        );
+    }
+);
 
 export default function Actions(props) {
     const { t } = useTranslation("analyses");

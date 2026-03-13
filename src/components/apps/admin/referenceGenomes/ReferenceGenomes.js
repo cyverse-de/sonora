@@ -10,7 +10,7 @@ import React, { useEffect } from "react";
 
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import NavigationConstants from "common/NavigationConstants";
 import { useUserProfile } from "contexts/userProfile";
@@ -68,9 +68,9 @@ function ReferenceGenomes(props) {
                     text: t("updateSuccess"),
                     variant: SUCCESS,
                 });
-                queryClient.invalidateQueries(
-                    ADMIN_REFERENCE_GENOMES_QUERY_KEY
-                );
+                queryClient.invalidateQueries([
+                    ADMIN_REFERENCE_GENOMES_QUERY_KEY,
+                ]);
             },
             onError: (e) => {
                 showErrorAnnouncer(t("updateFailed"), e);
@@ -85,9 +85,9 @@ function ReferenceGenomes(props) {
                     text: t("createSuccess"),
                     variant: SUCCESS,
                 });
-                queryClient.invalidateQueries(
-                    ADMIN_REFERENCE_GENOMES_QUERY_KEY
-                );
+                queryClient.invalidateQueries([
+                    ADMIN_REFERENCE_GENOMES_QUERY_KEY,
+                ]);
             },
             onError: (e) => {
                 showErrorAnnouncer(t("createFailed"), e);

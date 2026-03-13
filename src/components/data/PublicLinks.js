@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { useTranslation } from "i18n";
 
@@ -76,7 +76,7 @@ function PublicLinks(props) {
     const [successMsg, setSuccessMsg] = useState();
     const [errorMsg, setErrorMsg] = useState();
     const [refreshCacheEnabled, setRefreshCacheEnabled] = useState(false);
-    const [refreshCacheKey, setRefreshCacheKey] = useState();
+    const [refreshCacheKey, setRefreshCacheKey] = useState([]);
 
     const { t } = useTranslation("data");
     const { t: common } = useTranslation("common");

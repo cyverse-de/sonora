@@ -26,10 +26,10 @@ function determineErrorCode(query) {
     return query.error_code
         ? query.error_code
         : !query.code
-        ? ERR_MISSING_AUTH_CODE
-        : !query.state
-        ? ERR_MISSING_STATE
-        : null;
+          ? ERR_MISSING_AUTH_CODE
+          : !query.state
+            ? ERR_MISSING_STATE
+            : null;
 }
 
 function OAuthCallbackHandler() {

@@ -23,7 +23,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 import { Close } from "@mui/icons-material";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
     addMissingResourcesToUser,
@@ -154,10 +154,10 @@ function Sharing(props) {
                   message: tSharing("cannotAddSelf"),
               })
             : userExist
-            ? setErrorDetails({
-                  message: tSharing("userAlreadyAdded"),
-              })
-            : addUser(user, onUserAdded);
+              ? setErrorDetails({
+                    message: tSharing("userAlreadyAdded"),
+                })
+              : addUser(user, onUserAdded);
     };
 
     const onRemoveUser = (user) => {
@@ -221,7 +221,7 @@ function Sharing(props) {
                 } else {
                     handleClose();
                 }
-                queryClient.invalidateQueries(ADMIN_APPS_QUERY_KEY);
+                queryClient.invalidateQueries([ADMIN_APPS_QUERY_KEY]);
             },
             onError: (error) => {
                 setErrorDetails({

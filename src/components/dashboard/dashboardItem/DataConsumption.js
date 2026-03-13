@@ -53,12 +53,12 @@ const options = (usage, quota, date, distance, title, theme, t) => {
         quotaGiB % 4 === 0
             ? 4
             : quotaGiB % 3 === 0
-            ? 3
-            : quotaGiB % 5 === 0
-            ? 5
-            : quotaGiB % 2 === 0
-            ? 2
-            : 4;
+              ? 3
+              : quotaGiB % 5 === 0
+                ? 5
+                : quotaGiB % 2 === 0
+                  ? 2
+                  : 4;
     let maxTicks = 6;
     let stepSize =
         usage <= (quota / divisor) * maxTicks

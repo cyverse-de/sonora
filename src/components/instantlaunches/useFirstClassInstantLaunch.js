@@ -4,7 +4,7 @@
  * A custom hook to fetch any instant launches that are considered "first class"
  * and should be shown in the navigation drawer
  */
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import {
     LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
     listInstantLaunchesByMetadata,

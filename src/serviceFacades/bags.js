@@ -1,4 +1,4 @@
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useBagInfo } from "contexts/bagInfo";
 import callAPI from "../common/callApi";
 

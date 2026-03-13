@@ -6,7 +6,7 @@
  **/
 import React from "react";
 
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import constants from "../../../constants";
 
@@ -43,9 +43,9 @@ const NotificationView = (props) => {
     const [filter, setFilter] = React.useState(NotificationCategory.ALL);
     const [markAsSeenEnabled, setMarkAsSeenEnabled] = React.useState(true);
 
-    const [notificationsKey, setNotificationsKey] = React.useState(
-        NOTIFICATIONS_MESSAGES_QUERY_KEY
-    );
+    const [notificationsKey, setNotificationsKey] = React.useState([
+        NOTIFICATIONS_MESSAGES_QUERY_KEY,
+    ]);
     const [
         notificationsMessagesQueryEnabled,
         setNotificationsMessagesQueryEnabled,
@@ -81,15 +81,7 @@ const NotificationView = (props) => {
             },
         ]);
         setNotificationsMessagesQueryEnabled(true);
-    }, [
-        filter,
-        offset,
-        order,
-        orderBy,
-        rowsPerPage,
-        setNotificationsKey,
-        setNotificationsMessagesQueryEnabled,
-    ]);
+    }, [filter, offset, order, orderBy, rowsPerPage]);
 
     React.useEffect(() => {
         setMarkAsSeenEnabled(
@@ -119,7 +111,9 @@ const NotificationView = (props) => {
     const { mutate: deleteNotificationsMutation, isLoading: deleteLoading } =
         useMutation(deleteNotifications, {
             onSuccess: () => {
-                queryClient.invalidateQueries(NOTIFICATIONS_MESSAGES_QUERY_KEY);
+                queryClient.invalidateQueries([
+                    NOTIFICATIONS_MESSAGES_QUERY_KEY,
+                ]);
                 setSelected([]);
             },
             onError: (error) => {

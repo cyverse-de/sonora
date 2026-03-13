@@ -8,7 +8,7 @@
 import React, { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 
-import { useQueryClient, useQuery, useMutation } from "react-query";
+import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import { useTranslation } from "i18n";
 
 import { Typography, useTheme } from "@mui/material";
@@ -50,14 +50,14 @@ import analysisStatus from "components/models/analysisStatus";
 import { cancelAnalysis } from "serviceFacades/analyses";
 import ResourceUsageItem from "./dashboardItem/ResourceUsageItem";
 
-const AppDetailsDrawer = dynamic(() =>
-    import("components/apps/details/Drawer")
+const AppDetailsDrawer = dynamic(
+    () => import("components/apps/details/Drawer")
 );
-const AnalysesDetailsDrawer = dynamic(() =>
-    import("components/analyses/details/Drawer")
+const AnalysesDetailsDrawer = dynamic(
+    () => import("components/analyses/details/Drawer")
 );
-const PendingTerminationDlg = dynamic(() =>
-    import("components/analyses/PendingTerminationDlg")
+const PendingTerminationDlg = dynamic(
+    () => import("components/analyses/PendingTerminationDlg")
 );
 
 const DashboardSkeleton = () => {

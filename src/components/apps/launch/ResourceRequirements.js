@@ -128,8 +128,10 @@ const StepResourceRequirementsForm = ({
 
     const selectedGpuModels =
         getIn(values, `requirements.${index}.gpu_models`) || [];
+    const currentMaxGpus =
+        getIn(values, `requirements.${index}.max_gpus`) ?? max_gpus;
     const showGpuModelsSelector =
-        availableGpuModels?.length > 1 && max_gpus > 0;
+        availableGpuModels?.length > 1 && currentMaxGpus > 0;
 
     return (
         <div style={{ margin: 8 }}>

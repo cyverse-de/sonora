@@ -9,7 +9,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import { FastField, getIn } from "formik";
+import { FastField, getIn, useFormikContext } from "formik";
 import numeral from "numeral";
 
 import constants from "../../../constants";
@@ -25,6 +25,8 @@ import {
     Accordion,
     AccordionSummary,
     AccordionDetails,
+    Autocomplete,
+    Chip,
     Grid,
     MenuItem,
     Paper,
@@ -33,6 +35,7 @@ import {
     TableCell,
     TableContainer,
     TableRow,
+    TextField,
     Typography,
 } from "@mui/material";
 
@@ -94,6 +97,7 @@ const StepResourceRequirementsForm = ({
     defaultMaxDiskSpace,
 }) => {
     const { t } = useTranslation("launch");
+    const { values, setFieldValue } = useFormikContext();
 
     const {
         min_cpu_cores,
@@ -103,6 +107,7 @@ const StepResourceRequirementsForm = ({
         min_disk_space,
         min_gpus,
         max_gpus,
+        gpu_models: availableGpuModels,
     } = requirements;
     const cpuCoreList = buildLimitList(
         1,
@@ -120,6 +125,11 @@ const StepResourceRequirementsForm = ({
         defaultMaxDiskSpace || 512 * constants.ONE_GiB
     );
     const gpuList = buildLimitList(1, min_gpus || 0, max_gpus || 8);
+
+    const selectedGpuModels =
+        getIn(values, `requirements.${index}.gpu_models`) || [];
+    const showGpuModelsSelector =
+        availableGpuModels?.length > 1 && max_gpus > 0;
 
     return (
         <div style={{ margin: 8 }}>
@@ -185,6 +195,43 @@ const StepResourceRequirementsForm = ({
                         ))}
                     </FastField>
                 </Grid>
+                {showGpuModelsSelector && (
+                    <Grid item xs={12}>
+                        <Autocomplete
+                            multiple
+                            id={buildID(
+                                baseId,
+                                ids.RESOURCE_REQUESTS.TOOL_GPU_MODELS
+                            )}
+                            options={availableGpuModels}
+                            value={selectedGpuModels}
+                            onChange={(event, newValue) => {
+                                setFieldValue(
+                                    `requirements.${index}.gpu_models`,
+                                    newValue
+                                );
+                            }}
+                            renderTags={(value, getTagProps) =>
+                                value.map((option, idx) => (
+                                    <Chip
+                                        label={option}
+                                        size="small"
+                                        {...getTagProps({ index: idx })}
+                                        key={option}
+                                    />
+                                ))
+                            }
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label={t("gpuModels")}
+                                    variant="outlined"
+                                    margin="normal"
+                                />
+                            )}
+                        />
+                    </Grid>
+                )}
             </Grid>
         </div>
     );
@@ -318,6 +365,7 @@ const StepResourceRequirementsReview = ({
         min_disk_space,
         max_cpu_cores,
         max_gpus,
+        gpu_models,
     } = stepRequirements;
 
     const hasRequest = !!(
@@ -395,6 +443,14 @@ const StepResourceRequirementsReview = ({
                                     showAll={showAll}
                                     error={stepRequirementErrors?.max_gpus}
                                 />
+                                {gpu_models?.length > 0 && (
+                                    <ResourceRequirementsReviewRow
+                                        label={t("gpuModels")}
+                                        value={gpu_models.join(", ")}
+                                        valueFormatter={(value) => value}
+                                        showAll={showAll}
+                                    />
+                                )}
                             </TableBody>
                         </Table>
                     </TableContainer>

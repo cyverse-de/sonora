@@ -26,6 +26,7 @@ const ids = {
         MAX_CPU_CORES: "maxCPUCores",
         MEMORY_LIMIT: "memoryLimit",
         MAX_GPUS: "maxGPUS",
+        GPU_MODELS: "gpuModels",
         MIN_DISK_SPACE: "minDiskSpace",
         CONTAINER_PORTS: "containerPorts",
         PIDS_LIMIT: "pidsLimit",

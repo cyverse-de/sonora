@@ -55,6 +55,8 @@ const initAppLaunchValues = (
             default_memory = 0,
             default_disk_space = 0,
             default_gpus = 0,
+            gpu_models,
+            default_gpu_models = gpu_models || [],
         }) => ({
             step_number,
             max_cpu_cores: default_max_cpu_cores,
@@ -62,6 +64,7 @@ const initAppLaunchValues = (
             min_memory_limit: default_memory,
             min_disk_space: default_disk_space,
             max_gpus: default_gpus,
+            gpu_models: default_gpu_models,
         })
     );
 
@@ -205,6 +208,7 @@ const formatSubmission = (
         ...req,
         min_cpu_cores: req.max_cpu_cores,
         min_gpus: req.max_gpus,
+        gpu_models: req.gpu_models || [],
     }));
 
     return {

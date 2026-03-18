@@ -47,18 +47,15 @@ function buildLimitList(startValue, maxValue) {
 
 function GpuModelsField({ parentId, isAdmin, values, form }) {
     const { t } = useTranslation("tools");
-    const [gpuModelOptions, setGpuModelOptions] = React.useState([]);
-
-    useQuery({
+    const { data } = useQuery({
         queryKey: [GPU_MODELS_QUERY_KEY],
-        queryFn: () => getValidGpuModels(),
+        queryFn: getValidGpuModels,
         enabled: isAdmin,
         staleTime: Infinity,
         cacheTime: Infinity,
-        onSuccess: (data) => {
-            setGpuModelOptions(data?.gpu_models || []);
-        },
     });
+
+    const gpuModelOptions = data?.gpu_models || [];
 
     const selectedModels = getIn(values, "container.gpu_models") || [];
 

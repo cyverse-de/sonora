@@ -448,8 +448,8 @@ const StepResourceRequirementsReview = ({
                                 {gpu_models?.length > 0 && (
                                     <ResourceRequirementsReviewRow
                                         label={t("gpuModels")}
-                                        value={gpu_models.join(", ")}
-                                        valueFormatter={(value) => value}
+                                        value={gpu_models}
+                                        valueFormatter={(value) => value.join(", ")}
                                         showAll={showAll}
                                     />
                                 )}

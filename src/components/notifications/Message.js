@@ -73,7 +73,7 @@ function AnalysisLink(props) {
 
         if (accessUrl && !isPeriodicUpdate) {
             return (
-                <ExternalLink href={`/vice/${encodeURIComponent(accessUrl)}`}>
+                <ExternalLink href={accessUrl}>
                     {t("interactiveAnalysisUrl", { message })}
                 </ExternalLink>
             );

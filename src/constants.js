@@ -104,6 +104,7 @@ const constants = {
     ACCESS_ALLOC_LINK: "https://allocations.access-ci.org/",
     TACC_LINK: "https://tacc.utexas.edu/",
     VICE_LOADING_PAGE: "/vice",
+    XSEDE_ALLOC_LINK: "https://portal.xsede.org/allocation-request-steps",
 
     METADATA: {
         COMMUNITY_ATTR: "cyverse-community",

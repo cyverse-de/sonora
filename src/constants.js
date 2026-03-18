@@ -101,7 +101,6 @@ const constants = {
 
     CYVERSE_GLOSSARY: "https://learning.cyverse.org/glossary/",
     XSEDE_ALLOC_LINK: "https://portal.xsede.org/allocation-request-steps",
-    VICE_LOADING_PAGE: "/vice",
 
     METADATA: {
         COMMUNITY_ATTR: "cyverse-community",

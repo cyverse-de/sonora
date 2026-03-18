@@ -17,7 +17,7 @@ import ids from "components/instantlaunches/ids";
 import isQueryLoading from "components/utils/isQueryLoading";
 import InstantLaunchButtonWrapper from "components/instantlaunches/InstantLaunchButtonWrapper";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
-import LoadingAnimation from "components/vice/loading/LoadingAnimation";
+import { CircularProgress } from "@mui/material";
 
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
 
@@ -53,7 +53,7 @@ const InstantLaunchStandalone = (props) => {
     ]);
 
     if (isLoading) {
-        return <LoadingAnimation />;
+        return <CircularProgress />;
     } else if (error || resourceError) {
         return (
             <WrappedErrorHandler

@@ -259,7 +259,6 @@ const HPCWaitTimesMessage = ({ baseId }) => {
             t={t}
             i18nKey="hpcAppWaitTimes"
             components={{
-                p: <p />,
                 support: (
                     <Link
                         id={buildID(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
@@ -278,11 +277,14 @@ const HPCWaitTimesMessage = ({ baseId }) => {
                         href={GlobalConstants.HELP_DOCS.HPC_APPS}
                     />
                 ),
-                xsede: (
+                accessLink: (
                     <ExternalLink
-                        key="xsede"
-                        href={GlobalConstants.XSEDE_ALLOC_LINK}
+                        key="access"
+                        href={GlobalConstants.ACCESS_ALLOC_LINK}
                     />
+                ),
+                taccLink: (
+                    <ExternalLink key="tacc" href={GlobalConstants.TACC_LINK} />
                 ),
             }}
         />

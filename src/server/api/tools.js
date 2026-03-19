@@ -40,6 +40,16 @@ export default function toolsRouter() {
         })
     );
 
+    logger.info("adding the GET /tools/gpu-models handler");
+    api.get(
+        "/tools/gpu-models",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/tools/gpu-models",
+        })
+    );
+
     logger.info("adding the GET /tools/:id handler");
     api.get(
         "/tools/:id",

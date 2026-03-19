@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "i18n";
+import { useQuery } from "react-query";
 
 import ids from "../ids";
 import SimpleExpansionPanel from "components/utils/SimpleExpansionPanel";
@@ -10,7 +11,15 @@ import FormCheckbox from "components/forms/FormCheckbox";
 import FormSelectField from "components/forms/FormSelectField";
 import FormNumberField from "components/forms/FormNumberField";
 
-import { MenuItem, Typography } from "@mui/material";
+import { getValidGpuModels, GPU_MODELS_QUERY_KEY } from "serviceFacades/tools";
+
+import {
+    Autocomplete,
+    Chip,
+    MenuItem,
+    TextField,
+    Typography,
+} from "@mui/material";
 import { Field, getIn } from "formik";
 import numeral from "numeral";
 import PropTypes from "prop-types";
@@ -34,6 +43,52 @@ function buildLimitList(startValue, maxValue) {
     }
 
     return limits;
+}
+
+function GpuModelsField({ parentId, isAdmin, values, form }) {
+    const { t } = useTranslation("tools");
+    const { data } = useQuery({
+        queryKey: [GPU_MODELS_QUERY_KEY],
+        queryFn: getValidGpuModels,
+        enabled: isAdmin,
+        staleTime: Infinity,
+        cacheTime: Infinity,
+    });
+
+    const gpuModelOptions = data?.gpu_models || [];
+
+    const selectedModels = getIn(values, "container.gpu_models") || [];
+
+    return (
+        <Autocomplete
+            multiple
+            id={buildID(parentId, ids.EDIT_TOOL_DLG.GPU_MODELS)}
+            options={gpuModelOptions}
+            value={selectedModels}
+            onChange={(event, newValue) => {
+                form.setFieldValue("container.gpu_models", newValue);
+            }}
+            renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                    <Chip
+                        label={option}
+                        size="small"
+                        {...getTagProps({ index })}
+                        key={option}
+                    />
+                ))
+            }
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                    label={t("gpuModels")}
+                    helperText={t("gpuModelsHelp")}
+                    variant="outlined"
+                    margin="normal"
+                />
+            )}
+        />
+    );
 }
 
 function Restrictions(props) {
@@ -227,6 +282,14 @@ function Restrictions(props) {
                     </MenuItem>
                 ))}
             </Field>
+            {isAdmin && (
+                <GpuModelsField
+                    parentId={parentId}
+                    isAdmin={isAdmin}
+                    values={values}
+                    form={props.form}
+                />
+            )}
             {isAdmin && (
                 <Field
                     name="container.cpu_shares"

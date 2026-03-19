@@ -84,6 +84,11 @@ export default function ToolDetails(props) {
             <GridLabelValue label={t("maxGPUsLbl")}>
                 {tool.container.max_gpus}
             </GridLabelValue>
+            <GridLabelValue label={t("gpuModels")}>
+                {tool.container.gpu_models?.length > 0
+                    ? tool.container.gpu_models.join(", ")
+                    : t("noGpuModels")}
+            </GridLabelValue>
             <Grid item xs={12}>
                 <Typography variant="h6">{t("restrictionsLabel")}</Typography>
             </Grid>

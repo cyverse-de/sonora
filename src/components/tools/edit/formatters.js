@@ -51,6 +51,7 @@ export function mapPropsToValues(tool, isAdmin) {
             pids_limit: "",
             network_mode: "",
             container_ports: [],
+            gpu_models: [],
         },
     };
 
@@ -67,6 +68,7 @@ export function mapPropsToValues(tool, isAdmin) {
                 min_cpu_cores: "",
                 min_memory_limit: "",
                 cpu_shares: "",
+                gpu_models: [],
                 container_devices: [],
                 container_volumes: [],
                 container_volumes_from: [],
@@ -248,6 +250,7 @@ export function formatSubmission(values, config, isAdmin) {
         memory_limit,
         min_disk_space,
         pids_limit,
+        gpu_models,
         container_ports,
         container_devices,
         container_volumes,
@@ -287,6 +290,7 @@ export function formatSubmission(values, config, isAdmin) {
             min_cpu_cores: min_cpu_cores || undefined,
             min_memory_limit: min_memory_limit || undefined,
             cpu_shares: cpu_shares || undefined,
+            gpu_models: gpu_models?.length > 0 ? gpu_models : undefined,
             container_devices: container_devices,
             container_volumes: container_volumes,
             container_volumes_from: container_volumes_from,

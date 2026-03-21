@@ -7,7 +7,7 @@
  */
 
 import React from "react";
-import { useQuery, useQueryClient, useMutation } from "react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useTranslation } from "i18n";
 
 import { stableSort, getSorting } from "components/table/TableSort";
@@ -114,7 +114,7 @@ function Listing(props) {
         {
             onSuccess: () => {
                 queryClient.invalidateQueries(
-                    ADMIN_ACCESS_REQUEST_LISTING_QUERY_KEY
+                    [ADMIN_ACCESS_REQUEST_LISTING_QUERY_KEY]
                 );
             },
             onError: (error) => {

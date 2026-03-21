@@ -12,7 +12,7 @@ import {
 
 import { makeStyles } from "tss-react/mui";
 
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useTranslation } from "i18n";
 
 import { id } from "./functions";

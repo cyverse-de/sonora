@@ -38,26 +38,25 @@ function getTextColor(theme, severity) {
     return color;
 }
 
-const MySnackbarContent = React.forwardRef(function MySnackbarContent(
-    props,
-    ref
-) {
-    const { message, onClose, variant: severity, action } = props;
-    const theme = useTheme();
-    return (
-        <Alert
-            elevation={6}
-            ref={ref}
-            variant="filled"
-            severity={severity}
-            onClose={onClose}
-            action={action}
-            style={{ color: getTextColor(theme, severity) }}
-        >
-            {message}
-        </Alert>
-    );
-});
+const MySnackbarContent = React.forwardRef(
+    function MySnackbarContent(props, ref) {
+        const { message, onClose, variant: severity, action } = props;
+        const theme = useTheme();
+        return (
+            <Alert
+                elevation={6}
+                ref={ref}
+                variant="filled"
+                severity={severity}
+                onClose={onClose}
+                action={action}
+                style={{ color: getTextColor(theme, severity) }}
+            >
+                {message}
+            </Alert>
+        );
+    }
+);
 
 MySnackbarContent.propTypes = {
     message: PropTypes.node,

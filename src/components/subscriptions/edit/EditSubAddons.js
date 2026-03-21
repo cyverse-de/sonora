@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
     formatUpdatedAddonSubmission,
@@ -88,7 +88,7 @@ function EditSubAddonsDialog(props) {
         (submission) => putSubAddon(subscriptionId, submission),
         {
             onSuccess: () => {
-                queryClient.invalidateQueries(SUBSCRIPTION_ADDONS_QUERY_KEY);
+                queryClient.invalidateQueries([SUBSCRIPTION_ADDONS_QUERY_KEY]);
                 announce({ text: t("subAddonsUpdated") });
                 onClose();
             },

@@ -20,7 +20,7 @@ import {
 import { makeStyles } from "tss-react/mui";
 import { Skeleton } from "@mui/material";
 import { useTranslation } from "i18n";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import Identity from "../Identity";
 import ids from "../ids";
@@ -67,13 +67,14 @@ function PermissionsTabPanel(props) {
     const { classes } = useStyles();
     const { baseId, resource, selfPermission } = props;
     const { t } = useTranslation("data");
-    const [fetchUserInfoKey, setFetchUserInfoKey] =
-        useState(USER_INFO_QUERY_KEY);
+    const [fetchUserInfoKey, setFetchUserInfoKey] = useState([
+        USER_INFO_QUERY_KEY,
+    ]);
     const [fetchUserInfoQueryEnabled, setFetchUserInfoQueryEnabled] =
         useState(false);
 
     const [fetchResourcePermissionsKey, setFetchResourcePermissionsKey] =
-        useState(RESOURCE_PERMISSIONS_KEY);
+        useState([RESOURCE_PERMISSIONS_KEY]);
     const [
         fetchResourcePermissionsQueryEnabled,
         setFetchResourcePermissionsQueryEnabled,

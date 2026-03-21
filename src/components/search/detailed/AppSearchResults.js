@@ -87,7 +87,7 @@ export default function AppSearchResults(props) {
         setSelectedApps,
         selectable,
     } = props;
-    const [appsSearchKey, setAppsSearchKey] = useState(APPS_SEARCH_QUERY_KEY);
+    const [appsSearchKey, setAppsSearchKey] = useState([APPS_SEARCH_QUERY_KEY]);
     const [appsSearchQueryEnabled, setAppsSearchQueryEnabled] = useState(false);
     const [detailsApp, setDetailsApp] = useState(null);
     const [flatData, setFlatData] = useState([]);

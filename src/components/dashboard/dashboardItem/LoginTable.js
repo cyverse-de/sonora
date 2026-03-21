@@ -7,7 +7,7 @@
  */
 
 import React from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { logins, LOGINS_QUERY_KEY } from "serviceFacades/users";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";

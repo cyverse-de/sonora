@@ -9,7 +9,7 @@ import React, { useMemo, useState } from "react";
 
 import { IconButton, Toolbar } from "@mui/material";
 import { Info } from "@mui/icons-material";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import Drawer from "components/apps/details/Drawer";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";

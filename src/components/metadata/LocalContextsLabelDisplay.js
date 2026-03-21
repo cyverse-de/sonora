@@ -20,8 +20,8 @@ const sizeToSpacing = (size, theme) =>
     size === "large"
         ? theme.spacing(8)
         : size === "small"
-        ? theme.spacing(3)
-        : theme.spacing(5);
+          ? theme.spacing(3)
+          : theme.spacing(5);
 
 const LocalContextsLabel = ({ baseId, label, project, size = "medium" }) => {
     const { t } = useTranslation("localcontexts");

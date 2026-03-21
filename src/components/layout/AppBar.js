@@ -9,7 +9,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "i18n";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import NavigationConstants from "common/NavigationConstants";
 import Bag from "components/bags";
@@ -155,7 +155,7 @@ function DEAppBar(props) {
     }
 
     useQuery({
-        queryKey: USER_PROFILE_QUERY_KEY,
+        queryKey: [USER_PROFILE_QUERY_KEY],
         queryFn: getUserProfile,
         enabled: profileRefetchInterval != null,
         onSuccess: updateUserProfile,

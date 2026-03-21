@@ -8,7 +8,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 
 import buildID from "components/utils/DebugIDUtil";
-import { useQueryClient, useQuery } from "react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 
 import BasicTable from "components/table/BasicTable";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";

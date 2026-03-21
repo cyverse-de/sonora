@@ -8,6 +8,7 @@ import { getAnalysisPermissions } from "./analyses";
 import { getToolPermissions } from "./tools";
 
 export const GET_PERMISSIONS_QUERY_KEY = "fetchSharingPermissions";
+export const SEARCH_SUBJECTS_QUERY_KEY = "searchSubjects";
 
 /**
  * @typedef DataSharingPath

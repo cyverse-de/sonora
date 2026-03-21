@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "i18n";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
@@ -44,7 +44,7 @@ function Listing(props) {
 
     // Data and data retrieval state variables.
     const [data, setData] = useState(null);
-    const [toolsKey, setToolsKey] = useState(TOOLS_QUERY_KEY);
+    const [toolsKey, setToolsKey] = useState([TOOLS_QUERY_KEY]);
     const [toolsListingQueryEnabled, setToolsListingQueryEnabled] =
         useState(false);
 

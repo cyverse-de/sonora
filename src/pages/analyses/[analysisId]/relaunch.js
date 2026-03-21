@@ -8,7 +8,7 @@ import React from "react";
 
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { i18n, RequiredNamespaces } from "i18n";
 
@@ -17,7 +17,6 @@ import {
     getAnalysisRelaunchInfo,
     ANALYSIS_RELAUNCH_QUERY_KEY,
 } from "serviceFacades/analyses";
-import { APP_LAUNCH_RESOURCE_USAGE_QUERY_KEY } from "serviceFacades/dashboard";
 
 import useResourceUsageSummary from "common/useResourceUsageSummary";
 

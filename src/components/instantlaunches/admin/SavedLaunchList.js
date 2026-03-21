@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
@@ -44,17 +44,20 @@ const SavedLaunchList = ({ showErrorAnnouncer }) => {
     const { t } = useTranslation(["instantlaunches", "common"]);
 
     const allSavedLaunches = useQuery(
-        LIST_PUBLIC_SAVED_LAUNCHES_KEY,
+        [LIST_PUBLIC_SAVED_LAUNCHES_KEY],
         getPublicSavedLaunches
     );
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();
-    const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
+    const allILs = useQuery(
+        [ALL_INSTANT_LAUNCHES_KEY],
+        listFullInstantLaunches
+    );
 
     const { mutate: promote } = useMutation(adminAddInstantLaunch, {
         onSuccess: () => {
-            queryClient.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
+            queryClient.invalidateQueries([ALL_INSTANT_LAUNCHES_KEY]);
             announce({
                 text: t("createdInstantLaunch"),
                 variant: SUCCESS,

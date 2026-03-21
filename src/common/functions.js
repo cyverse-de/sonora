@@ -26,15 +26,15 @@ export function deepMapKeys(obj, callback) {
     return typeof obj === "string"
         ? obj
         : Array.isArray(obj)
-        ? obj.map((item) => deepMapKeys(item, callback))
-        : isPlainObject(obj)
-        ? Object.fromEntries(
-              Object.entries(obj).map(([key, value]) => [
-                  callback(key),
-                  deepMapKeys(value, callback),
-              ])
-          )
-        : obj;
+          ? obj.map((item) => deepMapKeys(item, callback))
+          : isPlainObject(obj)
+            ? Object.fromEntries(
+                  Object.entries(obj).map(([key, value]) => [
+                      callback(key),
+                      deepMapKeys(value, callback),
+                  ])
+              )
+            : obj;
 }
 
 /**

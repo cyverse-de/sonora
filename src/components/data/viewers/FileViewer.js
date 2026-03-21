@@ -13,7 +13,7 @@ import { useConfig } from "contexts/config";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
 
-import { useQueryClient, useQuery } from "react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 
 import NavigationConstants from "common/NavigationConstants";
 import infoTypes from "components/models/InfoTypes";
@@ -75,7 +75,7 @@ export default function FileViewer(props) {
 
     const { t } = useTranslation("data");
     const router = useRouter();
-    const [readChunkKey, setReadChunkKey] = useState(READ_CHUNK_QUERY_KEY);
+    const [readChunkKey, setReadChunkKey] = useState([READ_CHUNK_QUERY_KEY]);
     const [readChunkQueryEnabled, setReadChunkQueryEnabled] = useState(false);
     const [readChunkRawQueryEnabled, setReadChunkRawQueryEnabled] =
         useState(false);
@@ -95,7 +95,7 @@ export default function FileViewer(props) {
     const refreshViewer = (key) =>
         queryClient.invalidateQueries(key, {
             exact: true,
-            refetchInactive: true,
+            refetchType: "all",
         });
 
     const { isFetching, error: manifestError } = useFileManifest(

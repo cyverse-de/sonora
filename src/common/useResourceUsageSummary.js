@@ -4,7 +4,7 @@
  *
  * @author psarando
  */
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import constants from "../constants";
 import { useTranslation } from "i18n";

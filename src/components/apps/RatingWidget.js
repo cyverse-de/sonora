@@ -5,7 +5,7 @@
  */
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import Rate from "components/rating/Rate";
 

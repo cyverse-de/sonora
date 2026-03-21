@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "i18n";
 
 import TableView from "./TableView";
@@ -172,11 +172,11 @@ function Listing(props) {
         {
             onSuccess: () => {
                 announce({ text: t("subscriptionUpdated") });
-                queryClient.invalidateQueries(SUBSCRIPTION_ADDONS_QUERY_KEY);
+                queryClient.invalidateQueries([SUBSCRIPTION_ADDONS_QUERY_KEY]);
             },
             onError: (err) => {
                 showErrorAnnouncer(t("removeAddonError"), err);
-                queryClient.invalidateQueries(SUBSCRIPTION_ADDONS_QUERY_KEY);
+                queryClient.invalidateQueries([SUBSCRIPTION_ADDONS_QUERY_KEY]);
             },
         }
     );

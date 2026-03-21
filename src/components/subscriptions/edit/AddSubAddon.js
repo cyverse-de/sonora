@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Field, Form, Formik } from "formik";
 import { Button, MenuItem, Typography } from "@mui/material";
@@ -28,7 +28,7 @@ function AddSubAddonsDialog(props) {
             onSuccess: () => {
                 announce({ text: t("subscriptionUpdated") });
                 onClose();
-                queryClient.invalidateQueries(SUBSCRIPTION_ADDONS_QUERY_KEY);
+                queryClient.invalidateQueries([SUBSCRIPTION_ADDONS_QUERY_KEY]);
             },
             onError: setAddSubAddonError,
         }

@@ -23,10 +23,10 @@ export default function AnalysisSubheader(props) {
         status === analysisStatus.COMPLETED
             ? theme.palette.success.main
             : status === analysisStatus.RUNNING
-            ? theme.palette.primary.main
-            : status === analysisStatus.FAILED
-            ? theme.palette.error.main
-            : null;
+              ? theme.palette.primary.main
+              : status === analysisStatus.FAILED
+                ? theme.palette.error.main
+                : null;
 
     return (
         <Trans
@@ -35,10 +35,10 @@ export default function AnalysisSubheader(props) {
                 timeLimitCountdown
                     ? "analysisRunningTimeLimit"
                     : totalRunTime
-                    ? "analysisCompletedOrigination"
-                    : elapsedTime
-                    ? "analysisRunningOrigination"
-                    : "analysisOrigination"
+                      ? "analysisCompletedOrigination"
+                      : elapsedTime
+                        ? "analysisRunningOrigination"
+                        : "analysisOrigination"
             }
             values={{
                 status,

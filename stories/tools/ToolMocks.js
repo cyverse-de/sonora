@@ -1355,6 +1355,7 @@ export const details = {
             osg_image_path: null,
         },
         skip_tmp_mount: false,
+        gpu_models: ["Tesla V100", "A100"],
     },
     attribution: "Ken Youensclark",
     version: "0.0.1",

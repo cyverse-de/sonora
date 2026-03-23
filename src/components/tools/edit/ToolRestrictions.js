@@ -13,13 +13,7 @@ import FormNumberField from "components/forms/FormNumberField";
 
 import { getValidGpuModels, GPU_MODELS_QUERY_KEY } from "serviceFacades/tools";
 
-import {
-    Autocomplete,
-    Chip,
-    MenuItem,
-    TextField,
-    Typography,
-} from "@mui/material";
+import { MenuItem, Typography } from "@mui/material";
 import { Field, getIn } from "formik";
 import numeral from "numeral";
 import PropTypes from "prop-types";
@@ -45,7 +39,7 @@ function buildLimitList(startValue, maxValue) {
     return limits;
 }
 
-function GpuModelsField({ parentId, isAdmin, values, form }) {
+function GpuModelsField({ parentId, isAdmin }) {
     const { t } = useTranslation("tools");
     const { data } = useQuery({
         queryKey: [GPU_MODELS_QUERY_KEY],
@@ -57,37 +51,22 @@ function GpuModelsField({ parentId, isAdmin, values, form }) {
 
     const gpuModelOptions = data?.gpu_models || [];
 
-    const selectedModels = getIn(values, "container.gpu_models") || [];
-
     return (
-        <Autocomplete
-            multiple
+        <Field
+            name="container.gpu_models"
+            label={t("gpuModels")}
+            helperText={t("gpuModelsHelp")}
             id={buildID(parentId, ids.EDIT_TOOL_DLG.GPU_MODELS)}
-            options={gpuModelOptions}
-            value={selectedModels}
-            onChange={(event, newValue) => {
-                form.setFieldValue("container.gpu_models", newValue);
-            }}
-            renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                    <Chip
-                        label={option}
-                        size="small"
-                        {...getTagProps({ index })}
-                        key={option}
-                    />
-                ))
-            }
-            renderInput={(params) => (
-                <TextField
-                    {...params}
-                    label={t("gpuModels")}
-                    helperText={t("gpuModelsHelp")}
-                    variant="outlined"
-                    margin="normal"
-                />
-            )}
-        />
+            component={FormSelectField}
+            multiple
+            renderValue={(selected) => selected.join(", ")}
+        >
+            {gpuModelOptions.map((model) => (
+                <MenuItem key={model} value={model}>
+                    {model}
+                </MenuItem>
+            ))}
+        </Field>
     );
 }
 
@@ -283,12 +262,7 @@ function Restrictions(props) {
                 ))}
             </Field>
             {isAdmin && (
-                <GpuModelsField
-                    parentId={parentId}
-                    isAdmin={isAdmin}
-                    values={values}
-                    form={props.form}
-                />
+                <GpuModelsField parentId={parentId} isAdmin={isAdmin} />
             )}
             {isAdmin && (
                 <Field

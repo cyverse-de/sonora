@@ -25,8 +25,6 @@ import {
     Accordion,
     AccordionSummary,
     AccordionDetails,
-    Autocomplete,
-    Chip,
     Grid,
     MenuItem,
     Paper,
@@ -35,7 +33,6 @@ import {
     TableCell,
     TableContainer,
     TableRow,
-    TextField,
     Typography,
 } from "@mui/material";
 
@@ -97,7 +94,7 @@ const StepResourceRequirementsForm = ({
     defaultMaxDiskSpace,
 }) => {
     const { t } = useTranslation("launch");
-    const { values, setFieldValue } = useFormikContext();
+    const { values } = useFormikContext();
 
     const {
         min_cpu_cores,
@@ -126,8 +123,6 @@ const StepResourceRequirementsForm = ({
     );
     const gpuList = buildLimitList(1, min_gpus || 0, max_gpus || 8);
 
-    const selectedGpuModels =
-        getIn(values, `requirements.${index}.gpu_models`) || [];
     const currentMaxGpus =
         getIn(values, `requirements.${index}.max_gpus`) ?? max_gpus;
     const showGpuModelsSelector =
@@ -199,39 +194,23 @@ const StepResourceRequirementsForm = ({
                 </Grid>
                 {showGpuModelsSelector && (
                     <Grid item xs={12}>
-                        <Autocomplete
-                            multiple
+                        <FastField
                             id={buildID(
                                 baseId,
                                 ids.RESOURCE_REQUESTS.TOOL_GPU_MODELS
                             )}
-                            options={availableGpuModels}
-                            value={selectedGpuModels}
-                            onChange={(event, newValue) => {
-                                setFieldValue(
-                                    `requirements.${index}.gpu_models`,
-                                    newValue
-                                );
-                            }}
-                            renderTags={(value, getTagProps) =>
-                                value.map((option, idx) => (
-                                    <Chip
-                                        label={option}
-                                        size="small"
-                                        {...getTagProps({ index: idx })}
-                                        key={option}
-                                    />
-                                ))
-                            }
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    label={t("gpuModels")}
-                                    variant="outlined"
-                                    margin="normal"
-                                />
-                            )}
-                        />
+                            name={`requirements.${index}.gpu_models`}
+                            label={t("gpuModels")}
+                            component={FormSelectField}
+                            multiple
+                            renderValue={(selected) => selected.join(", ")}
+                        >
+                            {availableGpuModels.map((model) => (
+                                <MenuItem key={model} value={model}>
+                                    {model}
+                                </MenuItem>
+                            ))}
+                        </FastField>
                     </Grid>
                 )}
             </Grid>
@@ -449,7 +428,9 @@ const StepResourceRequirementsReview = ({
                                     <ResourceRequirementsReviewRow
                                         label={t("gpuModels")}
                                         value={gpu_models}
-                                        valueFormatter={(value) => value.join(", ")}
+                                        valueFormatter={(value) =>
+                                            value.join(", ")
+                                        }
                                         showAll={showAll}
                                     />
                                 )}

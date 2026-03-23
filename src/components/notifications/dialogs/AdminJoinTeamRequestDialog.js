@@ -27,7 +27,7 @@ import {
 } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 import { Skeleton } from "@mui/material";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import Privilege, { MemberPrivileges } from "components/models/Privilege";
 import DEDialog from "components/utils/DEDialog";

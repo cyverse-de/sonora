@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 
 import { useTranslation } from "i18n";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { formatSubmission, mapPropsToValues } from "./formatters";
 
@@ -90,7 +90,7 @@ function EditToolDialog(props) {
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();
-    const toolTypesCache = queryClient.getQueryData(TOOL_TYPES_QUERY_KEY);
+    const toolTypesCache = queryClient.getQueryData([TOOL_TYPES_QUERY_KEY]);
 
     const preProcessToolTypes = React.useCallback(
         (data) => {
@@ -118,7 +118,7 @@ function EditToolDialog(props) {
     }, [preProcessToolTypes, toolTypesCache]);
 
     const { isFetching: isToolTypeFetching, error: toolTypeError } = useQuery({
-        queryKey: TOOL_TYPES_QUERY_KEY,
+        queryKey: [TOOL_TYPES_QUERY_KEY],
         queryFn: getToolTypes,
         enabled: toolTypeQueryEnabled,
         staleTime: Infinity,
@@ -141,7 +141,7 @@ function EditToolDialog(props) {
                 announce({
                     text: t("toolAdded"),
                 });
-                queryClient.invalidateQueries(TOOLS_QUERY_KEY);
+                queryClient.invalidateQueries([TOOLS_QUERY_KEY]);
                 setAddToolError(null);
                 onClose();
             },
@@ -164,7 +164,7 @@ function EditToolDialog(props) {
                 announce({
                     text: t("toolUpdated", { name: data?.name }),
                 });
-                queryClient.invalidateQueries(TOOLS_QUERY_KEY);
+                queryClient.invalidateQueries([TOOLS_QUERY_KEY]);
                 setUpdateToolError(null);
                 setOverwriteAppsAffectedByTool(false);
                 setAppsAffectedByTool(null);

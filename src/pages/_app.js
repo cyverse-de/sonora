@@ -32,8 +32,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import getConfig from "next/config";
 
-import { ReactQueryDevtools } from "react-query/devtools";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import { ThemeProvider, StyledEngineProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -266,10 +266,7 @@ function MyApp({ Component, pageProps }) {
             <ThemeProvider theme={theme}>
                 <UserProfileProvider>
                     <UploadTrackingProvider>
-                        <QueryClientProvider
-                            client={queryClient}
-                            contextSharing={true}
-                        >
+                        <QueryClientProvider client={queryClient}>
                             <CssBaseline />
                             <NotificationsProvider>
                                 <ConfigProvider>

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useQueryClient } from "react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 import Dashboard from "components/dashboard";
 import { VICE_TIME_LIMIT_QUERY_KEY } from "serviceFacades/analyses";
@@ -33,7 +33,7 @@ const DashboardTestTemplate = ({
     const queryClient = useQueryClient();
 
     React.useEffect(() => {
-        queryClient.invalidateQueries(VICE_TIME_LIMIT_QUERY_KEY);
+        queryClient.invalidateQueries([VICE_TIME_LIMIT_QUERY_KEY]);
     }, [timeLimit, queryClient]);
 
     const favoriteUriRegexp = /\/api\/apps\/[^/]+\/[^/]+\/favorite/;
@@ -97,7 +97,7 @@ InstantLaunchLimitReached.args = {
             ],
         },
     },
-    usageSummaryResponse: usageSummaryResponse,
+    usageSummaryResponseBody: usageSummaryResponse,
 };
 InstantLaunchLimitReached.argTypes = TimeLimitArgType;
 
@@ -122,7 +122,7 @@ InstantLaunchVICEForbidden.args = {
             ],
         },
     },
-    usageSummaryResponse: usageSummaryResponse,
+    usageSummaryResponseBody: usageSummaryResponse,
 };
 InstantLaunchVICEForbidden.argTypes = TimeLimitArgType;
 
@@ -147,7 +147,7 @@ InstantLaunchPermissionNeeded.args = {
             ],
         },
     },
-    usageSummaryResponse: usageSummaryResponse,
+    usageSummaryResponseBody: usageSummaryResponse,
 };
 InstantLaunchPermissionNeeded.argTypes = TimeLimitArgType;
 
@@ -172,6 +172,6 @@ InstantLaunchPermissionPending.args = {
             ],
         },
     },
-    usageSummaryResponse: usageSummaryResponse,
+    usageSummaryResponseBody: usageSummaryResponse,
 };
 InstantLaunchPermissionPending.argTypes = TimeLimitArgType;

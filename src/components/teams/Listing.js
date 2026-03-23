@@ -17,7 +17,7 @@ import { Info } from "@mui/icons-material";
 import ids from "./ids";
 import { useTranslation } from "i18n";
 import TableLoading from "../table/TableLoading";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import {
     ALL_TEAMS_QUERY,
     getAllTeams,

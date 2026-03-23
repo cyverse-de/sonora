@@ -3,7 +3,7 @@
  *
  * @author psarando
  */
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import {
     getAppElementInfoTypes,
@@ -19,7 +19,7 @@ import { stableSort } from "components/table/TableSort";
 
 export function useAppElementInfoTypes(enabled, onSuccess, onError) {
     return useQuery({
-        queryKey: APP_ELEMENT_INFO_TYPES_QUERY_KEY,
+        queryKey: [APP_ELEMENT_INFO_TYPES_QUERY_KEY],
         queryFn: () => getAppElementInfoTypes(),
         enabled,
         onSuccess: (resp) => {

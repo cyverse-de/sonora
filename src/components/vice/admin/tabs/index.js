@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useTranslation } from "i18n";
 
@@ -119,19 +119,19 @@ const VICEAdminTabs = ({ data = {} }) => {
     const queryClient = useQueryClient();
 
     const { mutate: mutantExit } = useMutation(exit, {
-        onSuccess: () => queryClient.invalidateQueries(VICE_ADMIN_QUERY_KEY),
+        onSuccess: () => queryClient.invalidateQueries([VICE_ADMIN_QUERY_KEY]),
     });
     const { mutate: mutantSaveAndExit } = useMutation(saveAndExit, {
-        onSuccess: () => queryClient.invalidateQueries(VICE_ADMIN_QUERY_KEY),
+        onSuccess: () => queryClient.invalidateQueries([VICE_ADMIN_QUERY_KEY]),
     });
     const { mutate: mutantExtendTimeLimit } = useMutation(extendTimeLimit, {
-        onSuccess: () => queryClient.invalidateQueries(VICE_ADMIN_QUERY_KEY),
+        onSuccess: () => queryClient.invalidateQueries([VICE_ADMIN_QUERY_KEY]),
     });
     const { mutate: mutantUploadOutputs } = useMutation(saveOutputFiles, {
-        onSuccess: () => queryClient.invalidateQueries(VICE_ADMIN_QUERY_KEY),
+        onSuccess: () => queryClient.invalidateQueries([VICE_ADMIN_QUERY_KEY]),
     });
     const { mutate: mutantDownloadInputs } = useMutation(downloadInputFiles, {
-        onSuccess: () => queryClient.invalidateQueries(VICE_ADMIN_QUERY_KEY),
+        onSuccess: () => queryClient.invalidateQueries([VICE_ADMIN_QUERY_KEY]),
     });
 
     const [analysisRows, setAnalysisRows] = useState([]);

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "i18n";
 
 import "crypto";
@@ -35,7 +35,7 @@ function EditAddonDialog(props) {
     const { t } = useTranslation("subscriptions");
     const queryClient = useQueryClient();
     const resourceTypesCache = queryClient.getQueryData(
-        RESOURCE_TYPES_QUERY_KEY
+        [RESOURCE_TYPES_QUERY_KEY]
     );
 
     const [resourceTypes, setResourceTypes] = useState();
@@ -78,7 +78,7 @@ function EditAddonDialog(props) {
                     text: t("addonCreated"),
                 });
                 onClose();
-                queryClient.invalidateQueries(AVAILABLE_ADDONS_QUERY_KEY);
+                queryClient.invalidateQueries([AVAILABLE_ADDONS_QUERY_KEY]);
             },
             onError: setSubscriptionAddonError,
         }
@@ -92,7 +92,7 @@ function EditAddonDialog(props) {
                     text: t("addonUpdated"),
                 });
                 onClose();
-                queryClient.invalidateQueries(AVAILABLE_ADDONS_QUERY_KEY);
+                queryClient.invalidateQueries([AVAILABLE_ADDONS_QUERY_KEY]);
             },
             onError: setSubscriptionAddonError,
         }

@@ -7,10 +7,10 @@
  */
 import React, { useEffect, useState } from "react";
 
-import { useQueryClient, useQuery } from "react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { Field, Form, Formik } from "formik";
 import { Trans, useTranslation } from "i18n";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import buildID from "components/utils/DebugIDUtil";
 import FormTextField from "components/forms/FormTextField";
@@ -83,10 +83,10 @@ export default function PathListAutomation(props) {
     // Get QueryClient from the context
     const queryClient = useQueryClient();
 
-    let infoTypesCache = queryClient.getQueryData(INFO_TYPES_QUERY_KEY);
+    let infoTypesCache = queryClient.getQueryData([INFO_TYPES_QUERY_KEY]);
 
     const { isFetching } = useQuery({
-        queryKey: INFO_TYPES_QUERY_KEY,
+        queryKey: [INFO_TYPES_QUERY_KEY],
         queryFn: getInfoTypes,
         enabled: infoTypesQueryEnabled,
         onSuccess: (resp) => {

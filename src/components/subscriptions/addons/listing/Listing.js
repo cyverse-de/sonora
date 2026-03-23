@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import {
     deleteAddons,
@@ -73,11 +73,11 @@ function AddOnsListing(props) {
                     text: t("addonDelete"),
                 });
                 setSelected([]);
-                queryClient.invalidateQueries(AVAILABLE_ADDONS_QUERY_KEY);
+                queryClient.invalidateQueries([AVAILABLE_ADDONS_QUERY_KEY]);
             },
             onError: (error) => {
                 showErrorAnnouncer(t("deleteAddonError"), error);
-                queryClient.invalidateQueries(AVAILABLE_ADDONS_QUERY_KEY);
+                queryClient.invalidateQueries([AVAILABLE_ADDONS_QUERY_KEY]);
             },
         }
     );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FieldArray, Form, Formik } from "formik";
 import { mapPropsToValues, formatQuotas } from "./formatters";
 import DEDialog from "components/utils/DEDialog";
@@ -36,7 +36,7 @@ function EditQuotasDialog(props) {
                 });
                 setUpdateQuotasError(null);
                 onClose();
-                queryClient.invalidateQueries(SUBSCRIPTIONS_QUERY_KEY);
+                queryClient.invalidateQueries([SUBSCRIPTIONS_QUERY_KEY]);
             },
             onError: setUpdateQuotasError,
         }

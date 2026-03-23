@@ -5,7 +5,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import ids from "../ids";
 import {

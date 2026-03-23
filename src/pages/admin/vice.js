@@ -7,7 +7,7 @@ import { i18n, RequiredNamespaces, useTranslation } from "i18n";
 
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { makeStyles } from "tss-react/mui";
 
@@ -100,7 +100,7 @@ export const VICEAdmin = () => {
         isLoading,
         data,
         error,
-    } = useQuery(VICE_ADMIN_QUERY_KEY, getData);
+    } = useQuery([VICE_ADMIN_QUERY_KEY], getData);
 
     const [filters, setFilters] = useState({});
 

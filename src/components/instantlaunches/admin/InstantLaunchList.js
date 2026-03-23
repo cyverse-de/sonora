@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useQueryClient, useMutation, useQuery } from "react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 import {
     listFullInstantLaunches,
@@ -172,7 +172,10 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const instantLaunchNavDrawer = constants.METADATA.INSTANT_LAUNCH_NAV_DRAWER;
     const instantLaunchListing = constants.METADATA.INSTANT_LAUNCH_LISTING;
 
-    const allILs = useQuery(ALL_INSTANT_LAUNCHES_KEY, listFullInstantLaunches);
+    const allILs = useQuery(
+        [ALL_INSTANT_LAUNCHES_KEY],
+        listFullInstantLaunches
+    );
     const dashboardILs = useQuery(
         [
             DASHBOARD_INSTANT_LAUNCHES_KEY,
@@ -219,7 +222,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
         addToDashboardHandler,
         {
             onSuccess: () => {
-                queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+                queryClient.invalidateQueries([DASHBOARD_INSTANT_LAUNCHES_KEY]);
                 announce({
                     text: t("addedToDashboard"),
                     variant: SUCCESS,
@@ -234,7 +237,7 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const { mutate: removeFromDash, status: removeFromDashStatus } =
         useMutation(removeFromDashboardHandler, {
             onSuccess: () => {
-                queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
+                queryClient.invalidateQueries([DASHBOARD_INSTANT_LAUNCHES_KEY]);
                 announce({
                     text: t("removedFromDashboard"),
                     variant: SUCCESS,
@@ -248,9 +251,9 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const { mutate: addToNavDrawerMutation, status: addToNavStatus } =
         useMutation(addToNavDrawer, {
             onSuccess: () => {
-                queryClient.invalidateQueries(
-                    LIST_INSTANT_LAUNCHES_BY_METADATA_KEY
-                );
+                queryClient.invalidateQueries([
+                    LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
+                ]);
                 announce({
                     text: t("addedToNavDrawer"),
                     variant: SUCCESS,
@@ -264,9 +267,9 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const { mutate: removeFromDrawerMutation, status: removeFromNavStatus } =
         useMutation(removeFromNavDrawer, {
             onSuccess: () => {
-                queryClient.invalidateQueries(
-                    LIST_INSTANT_LAUNCHES_BY_METADATA_KEY
-                );
+                queryClient.invalidateQueries([
+                    LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
+                ]);
                 announce({
                     text: t("removedFromNavDrawer"),
                     variant: SUCCESS,
@@ -280,9 +283,9 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const { mutate: addToListingMutation, status: addToListingStatus } =
         useMutation(addToInstantLaunchListing, {
             onSuccess: () => {
-                queryClient.invalidateQueries(
-                    LIST_INSTANT_LAUNCHES_BY_METADATA_KEY
-                );
+                queryClient.invalidateQueries([
+                    LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
+                ]);
                 announce({
                     text: t("addedToInstantLaunchListing"),
                     variant: SUCCESS,
@@ -298,9 +301,9 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
         status: removeFromListingStatus,
     } = useMutation(removeFromInstantLaunchListing, {
         onSuccess: () => {
-            queryClient.invalidateQueries(
-                LIST_INSTANT_LAUNCHES_BY_METADATA_KEY
-            );
+            queryClient.invalidateQueries([
+                LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
+            ]);
             announce({
                 text: t("removedFromInstantLaunchListing"),
                 variant: SUCCESS,
@@ -315,8 +318,8 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
         adminDeleteInstantLaunchHandler,
         {
             onSuccess: () => {
-                queryClient.invalidateQueries(DASHBOARD_INSTANT_LAUNCHES_KEY);
-                queryClient.invalidateQueries(ALL_INSTANT_LAUNCHES_KEY);
+                queryClient.invalidateQueries([DASHBOARD_INSTANT_LAUNCHES_KEY]);
+                queryClient.invalidateQueries([ALL_INSTANT_LAUNCHES_KEY]);
                 announce({
                     text: t("deletedInstantLaunch"),
                     variant: SUCCESS,

@@ -29,7 +29,7 @@ export function GracePeriod() {
     mockAxios.onGet("/api/profile").reply(200, mockUser);
     mockAxios
         .onGet(`api/users/${mockUser.id}/status`)
-        .reply(200, () => portalUserStatus(STATUS.GRACE));
+        .reply(200, portalUserStatus(STATUS.GRACE));
     return (
         <UserProfileProvider>
             <NotificationsProvider wsEnabled={false}>
@@ -43,7 +43,7 @@ export function Expired() {
     mockAxios.onGet("/api/profile").reply(200, mockUser);
     mockAxios
         .onGet(`api/users/${mockUser.id}/status`)
-        .reply(200, () => portalUserStatus(STATUS.EXPIRED));
+        .reply(200, portalUserStatus(STATUS.EXPIRED));
     return (
         <UserProfileProvider>
             <NotificationsProvider wsEnabled={false}>

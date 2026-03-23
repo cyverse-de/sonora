@@ -17,7 +17,7 @@ import {
 import { makeStyles } from "tss-react/mui";
 import { Field, Formik } from "formik";
 import { useTranslation } from "i18n";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import DEDialog from "components/utils/DEDialog";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";

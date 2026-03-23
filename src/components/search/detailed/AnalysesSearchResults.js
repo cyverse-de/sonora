@@ -46,9 +46,9 @@ function Name(props) {
 export default function AnalysesSearchResults(props) {
     const { searchTerm, updateResultCount, baseId } = props;
     const [userProfile] = useUserProfile();
-    const [analysesSearchKey, setAnalysesSearchKey] = useState(
-        ANALYSES_SEARCH_QUERY_KEY
-    );
+    const [analysesSearchKey, setAnalysesSearchKey] = useState([
+        ANALYSES_SEARCH_QUERY_KEY,
+    ]);
     const [analysesSearchQueryEnabled, setAnalysesSearchQueryEnabled] =
         useState(false);
 

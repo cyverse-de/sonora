@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useQueryClient, useMutation } from "react-query";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 
 import { useTranslation } from "i18n";
 

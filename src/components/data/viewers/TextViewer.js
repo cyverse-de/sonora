@@ -6,7 +6,7 @@
  */
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "i18n";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import ids from "./ids";
 import Toolbar from "./Toolbar";

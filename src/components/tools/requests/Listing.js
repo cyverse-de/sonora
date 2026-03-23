@@ -5,7 +5,7 @@
  *
  */
 import React, { useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import globalConstants from "../../../constants";
 import TableView from "components/tools/requests/TableView";
@@ -74,9 +74,9 @@ function Listing(props) {
                 open={updateDialogOpen}
                 onClose={() => {
                     setUpdateDialogOpen(false);
-                    queryClient.invalidateQueries(
-                        ADMIN_TOOL_REQUESTS_QUERY_KEY
-                    );
+                    queryClient.invalidateQueries([
+                        ADMIN_TOOL_REQUESTS_QUERY_KEY,
+                    ]);
                 }}
                 requestId={selected}
             />

@@ -135,8 +135,8 @@ function subscriptionUsernameComparison(sortAscending) {
         return userA < userB
             ? applyDirection(-1)
             : userA > userB
-            ? applyDirection(1)
-            : 0;
+              ? applyDirection(1)
+              : 0;
     };
 }
 

@@ -5,7 +5,7 @@
  */
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Field, Form, Formik } from "formik";
 
 import constants from "../../constants";
@@ -90,7 +90,7 @@ export default function UpdateRequestDialog(props) {
                 announce({
                     text: t("requestUpdateSuccess"),
                 });
-                queryClient.invalidateQueries(DOI_LISTING_QUERY_KEY);
+                queryClient.invalidateQueries([DOI_LISTING_QUERY_KEY]);
                 setUpdateRequestError(null);
                 onClose();
             },

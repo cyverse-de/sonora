@@ -70,7 +70,8 @@ const constants = {
             "https://wiki.cyverse.org/wiki/x/6gGO#UsingtheAppsWindowandSubmittinganAnalysis-AppStatus",
         EXAMPLE_FILE:
             "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027163/Troubleshooting+an+Analysis#TroubleshootinganAnalysis-5.Checkistheappisfunctioningproperly",
-        HPC_APPS: "https://cyverse.atlassian.net/wiki/x/6QltDg",
+        HPC_APPS:
+            "https://learning.cyverse.org/de/using_apps/#about-hpc-apps-in-the-discovery-environment",
         LOG_FILES:
             "https://cyverse.atlassian.net/wiki/spaces/DEmanual/pages/242027163/Troubleshooting+an+Analysis#TroubleshootinganAnalysis-2.Checkthelogfiles",
         SCI_INFORMATICIANS: "https://cyverse.org/team#science",
@@ -100,7 +101,8 @@ const constants = {
         "https://cyverse.org/policies/data-commons-user-agreement",
 
     CYVERSE_GLOSSARY: "https://learning.cyverse.org/glossary/",
-    XSEDE_ALLOC_LINK: "https://portal.xsede.org/allocation-request-steps",
+    ACCESS_ALLOC_LINK: "https://allocations.access-ci.org/",
+    TACC_LINK: "https://tacc.utexas.edu/",
     VICE_LOADING_PAGE: "/vice",
 
     METADATA: {

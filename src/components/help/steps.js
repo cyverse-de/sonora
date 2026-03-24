@@ -13,7 +13,7 @@ export function getSteps(t, isMobile) {
                 ),
                 target: ".menu-intro",
                 placement: "auto",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("menuTitle"),
             },
             {
@@ -21,12 +21,12 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="notifications"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".notifications-intro",
                 placement: "bottom",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("notificationTitle"),
             },
             {
@@ -34,12 +34,12 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="bag"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".bag-intro",
                 placement: "bottom",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("bagTitle"),
             },
             {
@@ -47,12 +47,12 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="support"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".support-intro",
                 placement: "bottom",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("supportTitle"),
             },
         ];
@@ -63,12 +63,12 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="dashboard"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".dashboard-intro",
                 placement: "right",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("dashboardTitle"),
             },
             {
@@ -76,12 +76,12 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="data"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".data-intro",
                 placement: "right",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("dataTitle"),
             },
 
@@ -90,12 +90,12 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="apps"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".apps-intro",
                 placement: "right",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("appsTitle"),
             },
             {
@@ -103,12 +103,12 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="analyses"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".analyses-intro",
                 placement: "right",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("analysesTitle"),
             },
             {
@@ -116,12 +116,12 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="preferences"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".preferences-intro",
                 placement: "right",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("preferencesTitle"),
             },
             {
@@ -129,12 +129,12 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="search"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".search-intro",
                 placement: "right",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("searchTitle"),
             },
             {
@@ -142,12 +142,12 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="notifications"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".notifications-intro",
                 placement: "bottom",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("notificationTitle"),
             },
             {
@@ -155,12 +155,12 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="bag"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".bag-intro",
                 placement: "bottom",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("bagTitle"),
             },
             {
@@ -168,12 +168,12 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="support"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".support-intro",
                 placement: "bottom",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("supportTitle"),
             },
         ];

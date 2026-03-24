@@ -5,6 +5,7 @@ import { useTranslation } from "i18n";
 import { getSteps } from "./steps";
 
 import { useMediaQuery, useTheme } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 
 // only new users
 const Joyride = dynamic(() =>
@@ -57,7 +58,7 @@ export default function ProductTour(props) {
                 overlayClickAction: false,
                 arrowColor: theme.palette.error.main,
                 backgroundColor: theme.palette.error.contrastText,
-                overlayColor: theme.palette.silver,
+                overlayColor: alpha(theme.palette.silver, 0.25),
                 primaryColor: theme.palette.error.main,
                 textColor: theme.palette.info.main,
                 zIndex: 10000000,

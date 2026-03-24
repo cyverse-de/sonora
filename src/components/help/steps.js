@@ -13,7 +13,7 @@ export function getSteps(t, isMobile) {
                 ),
                 target: ".menu-intro",
                 placement: "auto",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("menuTitle"),
             },
             {
@@ -26,7 +26,7 @@ export function getSteps(t, isMobile) {
                 ),
                 target: ".notifications-intro",
                 placement: "bottom",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("notificationTitle"),
             },
             {
@@ -39,7 +39,7 @@ export function getSteps(t, isMobile) {
                 ),
                 target: ".bag-intro",
                 placement: "bottom",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("bagTitle"),
             },
             {
@@ -52,7 +52,7 @@ export function getSteps(t, isMobile) {
                 ),
                 target: ".support-intro",
                 placement: "bottom",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("supportTitle"),
             },
         ];
@@ -68,7 +68,7 @@ export function getSteps(t, isMobile) {
                 ),
                 target: ".dashboard-intro",
                 placement: "right",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("dashboardTitle"),
             },
             {
@@ -81,7 +81,7 @@ export function getSteps(t, isMobile) {
                 ),
                 target: ".data-intro",
                 placement: "right",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("dataTitle"),
             },
 
@@ -95,7 +95,7 @@ export function getSteps(t, isMobile) {
                 ),
                 target: ".apps-intro",
                 placement: "right",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("appsTitle"),
             },
             {
@@ -108,7 +108,7 @@ export function getSteps(t, isMobile) {
                 ),
                 target: ".analyses-intro",
                 placement: "right",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("analysesTitle"),
             },
             {
@@ -121,7 +121,7 @@ export function getSteps(t, isMobile) {
                 ),
                 target: ".preferences-intro",
                 placement: "right",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("preferencesTitle"),
             },
             {
@@ -134,7 +134,7 @@ export function getSteps(t, isMobile) {
                 ),
                 target: ".search-intro",
                 placement: "right",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("searchTitle"),
             },
             {
@@ -147,7 +147,7 @@ export function getSteps(t, isMobile) {
                 ),
                 target: ".notifications-intro",
                 placement: "bottom",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("notificationTitle"),
             },
             {
@@ -160,7 +160,7 @@ export function getSteps(t, isMobile) {
                 ),
                 target: ".bag-intro",
                 placement: "bottom",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("bagTitle"),
             },
             {
@@ -173,7 +173,7 @@ export function getSteps(t, isMobile) {
                 ),
                 target: ".support-intro",
                 placement: "bottom",
-                disableBeacon: true,
+                skipBeacon: true,
                 title: t("supportTitle"),
             },
         ];

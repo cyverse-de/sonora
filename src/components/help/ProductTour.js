@@ -7,7 +7,9 @@ import { getSteps } from "./steps";
 import { useMediaQuery, useTheme } from "@mui/material";
 
 // only new users
-const Joyride = dynamic(() => import("react-joyride"));
+const Joyride = dynamic(() =>
+    import("react-joyride").then((mod) => mod.Joyride)
+);
 
 export default function ProductTour(props) {
     const { onTourExit, runTour } = props;
@@ -38,27 +40,28 @@ export default function ProductTour(props) {
         <Joyride
             steps={getSteps(i18nTour, isMobile)}
             run={runTour}
-            showProgress={true}
-            showSkipButton={true}
             continuous={true}
-            disableOverlayClose={true}
-            callback={handleJoyrideCallback}
+            onEvent={handleJoyrideCallback}
             stepIndex={tourStepIndex}
             styles={{
-                options: {
-                    arrowColor: theme.palette.error.main,
-                    backgroundColor: theme.palette.error.contrastText,
-                    overlayColor: theme.palette.silver,
-                    primaryColor: theme.palette.error.main,
-                    textColor: theme.palette.info.main,
-                    zIndex: 10000000,
-                },
                 tooltipContainer: {
                     textAlign: "left",
                 },
+
                 buttonSkip: {
                     color: theme.palette.error.main,
                 },
+            }}
+            options={{
+                showProgress: true,
+                overlayClickAction: false,
+                arrowColor: theme.palette.error.main,
+                backgroundColor: theme.palette.error.contrastText,
+                overlayColor: theme.palette.silver,
+                primaryColor: theme.palette.error.main,
+                textColor: theme.palette.info.main,
+                zIndex: 10000000,
+                buttons: ["back", "close", "primary", "skip"],
             }}
         />
     );

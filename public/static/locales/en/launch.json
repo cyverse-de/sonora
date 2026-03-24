@@ -20,6 +20,7 @@
     "errorLoadingReferenceGenomes": "Error loading Reference Genomes",
     "errorResourceDoesNotExist": "The selected file/folder does not exist.",
     "gpus": "GPUs",
+    "gpuModels": "GPU Models",
     "helpMsgResourceRequirements": "Resource Requirements may be adjusted so that the analysis can be requested to run with resources that match your need. Note that this may cause the analysis to wait longer in the submission queue until a node that matches those resource requirements becomes available. So generally it is advisable to leave the resource requests set to the defaults that the tool or app integrator has set.",
     "hpcAppWaitTimes": "This application runs at <taccLink>TACC</taccLink>, the Texas Advanced Computing Center. Analyses run on this system enter a queue that includes many non-CyVerse users. Wait times for your analyses (jobs) to submit and run may be up to several days for large-memory applications. Please do not resubmit your analysis. If the status of your analysis has not changed from Submitted to Running after several days, <support>contact support</support>. To learn more about HPC apps, including required allocation requests through the National Science Foundation's <accessLink>ACCESS</accessLink> project, see <hpcLink>Using HPC Apps in the DE</hpcLink>.",
     "jobLimitReached": "Analyses Limit Reached",

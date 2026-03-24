@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "i18n";
+import { useQuery } from "@tanstack/react-query";
 
 import ids from "../ids";
 import SimpleExpansionPanel from "components/utils/SimpleExpansionPanel";
@@ -9,6 +10,8 @@ import buildID from "components/utils/DebugIDUtil";
 import FormCheckbox from "components/forms/FormCheckbox";
 import FormSelectField from "components/forms/FormSelectField";
 import FormNumberField from "components/forms/FormNumberField";
+
+import { getValidGpuModels, GPU_MODELS_QUERY_KEY } from "serviceFacades/tools";
 
 import { MenuItem, Typography } from "@mui/material";
 import { Field, getIn } from "formik";
@@ -34,6 +37,37 @@ function buildLimitList(startValue, maxValue) {
     }
 
     return limits;
+}
+
+function GpuModelsField({ parentId, isAdmin }) {
+    const { t } = useTranslation("tools");
+    const { data } = useQuery({
+        queryKey: [GPU_MODELS_QUERY_KEY],
+        queryFn: getValidGpuModels,
+        enabled: isAdmin,
+        staleTime: Infinity,
+        cacheTime: Infinity,
+    });
+
+    const gpuModelOptions = data?.gpu_models || [];
+
+    return (
+        <Field
+            name="container.gpu_models"
+            label={t("gpuModels")}
+            helperText={t("gpuModelsHelp")}
+            id={buildID(parentId, ids.EDIT_TOOL_DLG.GPU_MODELS)}
+            component={FormSelectField}
+            multiple
+            renderValue={(selected) => selected.join(", ")}
+        >
+            {gpuModelOptions.map((model) => (
+                <MenuItem key={model} value={model}>
+                    {model}
+                </MenuItem>
+            ))}
+        </Field>
+    );
 }
 
 function Restrictions(props) {
@@ -227,6 +261,9 @@ function Restrictions(props) {
                     </MenuItem>
                 ))}
             </Field>
+            {isAdmin && (
+                <GpuModelsField parentId={parentId} isAdmin={isAdmin} />
+            )}
             {isAdmin && (
                 <Field
                     name="container.cpu_shares"

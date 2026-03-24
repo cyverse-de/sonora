@@ -31,6 +31,10 @@ export function EditToolTest({ admin, adminPub, newTool }) {
 
     mockAxios.onGet("api/apps/elements/tool-types").reply(200, toolTypes);
 
+    mockAxios.onGet("/api/tools/gpu-models").reply(200, {
+        gpu_models: ["Tesla V100", "A100", "H100", "L40S"],
+    });
+
     const parentId = "editToolDlg";
     const onClose = () => console.log("Dialog closed.");
 

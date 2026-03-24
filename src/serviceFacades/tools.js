@@ -4,6 +4,7 @@ const TOOLS_QUERY_KEY = "fetchTools";
 const TOOL_DETAILS_QUERY_KEY = "fetchToolDetails";
 const APPS_USING_QUERY_KEY = "fetchAppsUsed";
 const TOOL_TYPES_QUERY_KEY = "fetchToolTypes";
+const GPU_MODELS_QUERY_KEY = "fetchGpuModels";
 const ADMIN_TOOL_REQUESTS_QUERY_KEY = "fetchAdminToolRequests";
 const ADMIN_TOOL_REQUEST_DETAILS_QUERY_KEY = "fetchAdminToolRequestDetails";
 
@@ -192,6 +193,13 @@ function adminUpdateToolRequest({ id, status, comments }) {
     });
 }
 
+function getValidGpuModels() {
+    return callApi({
+        endpoint: `/api/tools/gpu-models`,
+        method: "GET",
+    });
+}
+
 export {
     getTools,
     getToolPermissions,
@@ -200,6 +208,7 @@ export {
     TOOL_DETAILS_QUERY_KEY,
     APPS_USING_QUERY_KEY,
     TOOL_TYPES_QUERY_KEY,
+    GPU_MODELS_QUERY_KEY,
     ADMIN_TOOL_REQUESTS_QUERY_KEY,
     ADMIN_TOOL_REQUEST_DETAILS_QUERY_KEY,
     getAppsUsed,
@@ -213,4 +222,5 @@ export {
     getAdminToolRequests,
     getAdminToolRequestDetails,
     adminUpdateToolRequest,
+    getValidGpuModels,
 };

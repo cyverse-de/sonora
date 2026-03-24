@@ -19,6 +19,7 @@ const FormSelectField = ({
     form: { touched, errors },
     children,
     fullWidth = true,
+    multiple,
     ...custom
 }) => {
     const errorMsg = getFormError(field.name, touched, errors);
@@ -31,7 +32,13 @@ const FormSelectField = ({
             <InputLabel htmlFor={id} required={required}>
                 {label}
             </InputLabel>
-            <Select id={id} value={value || ""} {...field} {...custom}>
+            <Select
+                id={id}
+                value={multiple ? value || [] : value || ""}
+                multiple={multiple}
+                {...field}
+                {...custom}
+            >
                 {children}
             </Select>
             <FormHelperText>{errorMsg || helperText}</FormHelperText>

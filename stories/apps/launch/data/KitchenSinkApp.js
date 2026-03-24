@@ -7,6 +7,11 @@ const KitchenSinkApp = {
             default_memory: 2147483648,
             default_disk_space: 1073741824,
             default_cpu_cores: 1,
+            min_gpus: 0,
+            max_gpus: 4,
+            default_gpus: 1,
+            gpu_models: ["Tesla V100", "A100", "H100", "L40S"],
+            default_gpu_models: ["Tesla V100", "A100"],
         },
     ],
 

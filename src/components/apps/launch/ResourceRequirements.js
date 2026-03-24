@@ -9,7 +9,7 @@
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import { FastField, getIn } from "formik";
+import { FastField, getIn, useFormikContext } from "formik";
 import numeral from "numeral";
 
 import constants from "../../../constants";
@@ -94,6 +94,7 @@ const StepResourceRequirementsForm = ({
     defaultMaxDiskSpace,
 }) => {
     const { t } = useTranslation("launch");
+    const { values } = useFormikContext();
 
     const {
         min_cpu_cores,
@@ -103,6 +104,7 @@ const StepResourceRequirementsForm = ({
         min_disk_space,
         min_gpus,
         max_gpus,
+        gpu_models: availableGpuModels,
     } = requirements;
     const cpuCoreList = buildLimitList(
         1,
@@ -120,6 +122,11 @@ const StepResourceRequirementsForm = ({
         defaultMaxDiskSpace || 512 * constants.ONE_GiB
     );
     const gpuList = buildLimitList(1, min_gpus || 0, max_gpus || 8);
+
+    const currentMaxGpus =
+        getIn(values, `requirements.${index}.max_gpus`) ?? max_gpus;
+    const showGpuModelsSelector =
+        availableGpuModels?.length > 1 && currentMaxGpus > 0;
 
     return (
         <div style={{ margin: 8 }}>
@@ -185,6 +192,27 @@ const StepResourceRequirementsForm = ({
                         ))}
                     </FastField>
                 </Grid>
+                {showGpuModelsSelector && (
+                    <Grid item xs={12}>
+                        <FastField
+                            id={buildID(
+                                baseId,
+                                ids.RESOURCE_REQUESTS.TOOL_GPU_MODELS
+                            )}
+                            name={`requirements.${index}.gpu_models`}
+                            label={t("gpuModels")}
+                            component={FormSelectField}
+                            multiple
+                            renderValue={(selected) => selected.join(", ")}
+                        >
+                            {availableGpuModels.map((model) => (
+                                <MenuItem key={model} value={model}>
+                                    {model}
+                                </MenuItem>
+                            ))}
+                        </FastField>
+                    </Grid>
+                )}
             </Grid>
         </div>
     );
@@ -318,6 +346,7 @@ const StepResourceRequirementsReview = ({
         min_disk_space,
         max_cpu_cores,
         max_gpus,
+        gpu_models,
     } = stepRequirements;
 
     const hasRequest = !!(
@@ -395,6 +424,16 @@ const StepResourceRequirementsReview = ({
                                     showAll={showAll}
                                     error={stepRequirementErrors?.max_gpus}
                                 />
+                                {gpu_models?.length > 0 && (
+                                    <ResourceRequirementsReviewRow
+                                        label={t("gpuModels")}
+                                        value={gpu_models}
+                                        valueFormatter={(value) =>
+                                            value.join(", ")
+                                        }
+                                        showAll={showAll}
+                                    />
+                                )}
                             </TableBody>
                         </Table>
                     </TableContainer>

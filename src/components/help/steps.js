@@ -21,7 +21,7 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="notifications"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".notifications-intro",
@@ -34,7 +34,7 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="bag"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".bag-intro",
@@ -47,7 +47,7 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="support"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".support-intro",
@@ -63,7 +63,7 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="dashboard"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".dashboard-intro",
@@ -76,7 +76,7 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="data"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".data-intro",
@@ -90,7 +90,7 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="apps"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".apps-intro",
@@ -103,7 +103,7 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="analyses"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".analyses-intro",
@@ -116,7 +116,7 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="preferences"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".preferences-intro",
@@ -129,7 +129,7 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="search"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".search-intro",
@@ -142,7 +142,7 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="notifications"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".notifications-intro",
@@ -155,7 +155,7 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="bag"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".bag-intro",
@@ -168,7 +168,7 @@ export function getSteps(t, isMobile) {
                     <Trans
                         t={t}
                         i18nKey="support"
-                        components={{ ul: <ul />, li: <li /> }}
+                        components={{ div: <div />, ul: <ul />, li: <li /> }}
                     />
                 ),
                 target: ".support-intro",

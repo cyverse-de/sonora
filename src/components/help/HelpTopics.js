@@ -79,7 +79,7 @@ function TopicCard(props) {
 export default function HelpTopics(props) {
     const { baseId } = props;
     const [runTour, setRunTour] = useState(false);
-    const [feedbackOpen, setFeedbackOpen] = useState();
+    const [feedbackOpen, setFeedbackOpen] = useState(false);
     const { classes } = useStyles();
     const { t } = useTranslation("help");
     const [config] = useConfig();

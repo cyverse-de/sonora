@@ -20,16 +20,17 @@ import {
 } from "serviceFacades/apps";
 
 export default function VersionsOrderEdit() {
-    const [app, setApp] = React.useState(null);
-
     const router = useRouter();
     const { systemId, appId } = router.query;
 
-    const { isFetching, error } = useQuery({
+    const {
+        data: app,
+        isFetching,
+        error,
+    } = useQuery({
         queryKey: [APP_DESCRIPTION_QUERY_KEY, { systemId, appId }],
         queryFn: () => getAppDescription({ systemId, appId }),
         enabled: !!(systemId && appId),
-        onSuccess: setApp,
     });
 
     return (

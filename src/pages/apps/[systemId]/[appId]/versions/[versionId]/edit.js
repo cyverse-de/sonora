@@ -30,30 +30,31 @@ import {
 import { getPipelineUI, PIPELINE_UI_QUERY_KEY } from "serviceFacades/pipelines";
 
 export default function AppEdit() {
-    const [app, setApp] = React.useState(null);
-    const [workflowDescription, setWorkflowDescription] = React.useState(null);
-    const [appListingInfo, setAppListingInfo] = React.useState(null);
-    const [loadingError, setLoadingError] = React.useState(null);
-
     const [userProfile] = useUserProfile();
 
     const router = useRouter();
     const { systemId, appId, versionId } = router.query;
 
-    const isPublic = appListingInfo?.is_public;
-    const isWorkflow = appListingInfo?.step_count > 1;
-
-    const { isFetching: appInfoLoading } = useQuery({
+    const {
+        data: appInfoResult,
+        isFetching: appInfoLoading,
+        error: appInfoError,
+    } = useQuery({
         queryKey: [APP_BY_ID_QUERY_KEY, { systemId, appId }],
         queryFn: () => getAppById({ systemId, appId }),
         enabled: !!(userProfile?.id && systemId && appId),
-        onSuccess: (result) => {
-            setAppListingInfo(result?.apps[0]);
-        },
-        onError: setLoadingError,
     });
 
-    const { isFetching: appUILoading } = useQuery({
+    const appListingInfo = appInfoResult?.apps[0];
+
+    const isPublic = appListingInfo?.is_public;
+    const isWorkflow = appListingInfo?.step_count > 1;
+
+    const {
+        data: app,
+        isFetching: appUILoading,
+        error: appUIError,
+    } = useQuery({
         queryKey: [APP_UI_QUERY_KEY, { systemId, appId, versionId }],
         queryFn: () => getAppUI({ systemId, appId, versionId }),
         enabled: !!(
@@ -64,27 +65,24 @@ export default function AppEdit() {
             appListingInfo &&
             !isWorkflow
         ),
-        onSuccess: setApp,
-        onError: setLoadingError,
     });
 
-    const { isFetching: workflowUILoading } = useQuery({
+    const {
+        data: workflowDescription,
+        isFetching: workflowUILoading,
+        error: workflowUIError,
+    } = useQuery({
         queryKey: [PIPELINE_UI_QUERY_KEY, { appId, versionId }],
         queryFn: () => getPipelineUI({ appId, versionId }),
         enabled: !!(userProfile?.id && appId && versionId && isWorkflow),
-        onSuccess: setWorkflowDescription,
-        onError: setLoadingError,
     });
 
-    React.useEffect(() => {
-        if (userProfile?.id) {
-            setLoadingError(null);
-        } else {
-            setLoadingError(signInErrorResponse);
-        }
-    }, [userProfile]);
-
     const loading = appInfoLoading || appUILoading || workflowUILoading;
+    const loadingError =
+        (!userProfile?.id && signInErrorResponse) ||
+        appInfoError ||
+        appUIError ||
+        workflowUIError;
 
     if (isWorkflow) {
         return (

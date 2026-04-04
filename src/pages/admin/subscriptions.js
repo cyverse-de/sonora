@@ -54,39 +54,23 @@ export default function Subscriptions() {
     const onTabSelectionChange = (_event, selectedTab) => {
         setSelectedTab(selectedTab);
     };
-    const [availableAddons, setAvailableAddons] = useState(null);
-    const [getAddonsQueryEnabled, setGetAddonsQueryEnabled] = useState(false);
     const queryClient = useQueryClient();
     const availableAddonsCache = queryClient.getQueryData([
         AVAILABLE_ADDONS_QUERY_KEY,
     ]);
 
-    const preProcessAvailableAddons = React.useCallback(
-        (data) => {
-            if (data?.addons?.length > 0) {
-                setAvailableAddons(data);
-            }
-        },
-        [setAvailableAddons]
-    );
-
-    React.useEffect(() => {
-        if (!!availableAddonsCache) {
-            preProcessAvailableAddons(availableAddonsCache);
-        } else {
-            setGetAddonsQueryEnabled(true);
-        }
-    }, [preProcessAvailableAddons, availableAddonsCache]);
-
-    const { isFetchingAvailableAddons, errorFetchingAvailableAddons } =
-        useQuery({
-            queryKey: [AVAILABLE_ADDONS_QUERY_KEY],
-            queryFn: getAvailableAddOns,
-            enabled: getAddonsQueryEnabled,
-            staleTime: Infinity,
-            cacheTime: Infinity,
-            onSuccess: preProcessAvailableAddons,
-        });
+    const {
+        data,
+        isFetching: isFetchingAvailableAddons,
+        error: errorFetchingAvailableAddons,
+    } = useQuery({
+        queryKey: [AVAILABLE_ADDONS_QUERY_KEY],
+        queryFn: getAvailableAddOns,
+        enabled: !availableAddonsCache,
+        staleTime: Infinity,
+        cacheTime: Infinity,
+    });
+    const availableAddons = availableAddonsCache || data;
 
     const onRouteToListing = useCallback(
         (order, orderBy, page, rowsPerPage, searchTerm) => {

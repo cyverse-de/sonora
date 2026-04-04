@@ -70,28 +70,29 @@ const appGroupCopy = ({ id, ...group }) => {
 };
 
 export default function AppVersionCreate() {
-    const [appDescription, setAppDescription] = React.useState(null);
-    const [workflowDescription, setWorkflowDescription] = React.useState(null);
-    const [appDetails, setAppDetails] = React.useState(null);
-    const [loadingError, setLoadingError] = React.useState(null);
-
     const [userProfile] = useUserProfile();
 
     const router = useRouter();
     const { systemId, appId, versionId } = router.query;
 
-    const isPublic = appDetails?.is_public;
-    const isWorkflow = appDetails?.step_count > 1;
-
-    const { isFetching: appInfoLoading } = useQuery({
+    const {
+        data: appDetails,
+        isFetching: appInfoLoading,
+        error: appInfoError,
+    } = useQuery({
         queryKey: [APP_DETAILS_QUERY_KEY, { systemId, appId }],
         queryFn: () => getAppDetails({ systemId, appId }),
         enabled: !!(userProfile?.id && systemId && appId),
-        onSuccess: setAppDetails,
-        onError: setLoadingError,
     });
 
-    const { isFetching: appUILoading } = useQuery({
+    const isPublic = appDetails?.is_public;
+    const isWorkflow = appDetails?.step_count > 1;
+
+    const {
+        data: appUI,
+        isFetching: appUILoading,
+        error: appUIError,
+    } = useQuery({
         queryKey: [APP_UI_QUERY_KEY, { systemId, appId, versionId }],
         queryFn: () => getAppUI({ systemId, appId, versionId }),
         enabled: !!(
@@ -102,35 +103,34 @@ export default function AppVersionCreate() {
             appDetails &&
             !isWorkflow
         ),
-        onSuccess: (appUI) => {
-            const { version_id, ...appCopy } = appUI;
-            appCopy.groups = appCopy.groups?.map(appGroupCopy);
-
-            setAppDescription(appCopy);
-        },
-        onError: setLoadingError,
     });
 
-    const { isFetching: workflowUILoading } = useQuery({
+    const { version_id, ...appCopy } = appUI || {};
+    const appDescription = appUI && {
+        ...appCopy,
+        groups: appCopy.groups?.map(appGroupCopy),
+    };
+
+    const {
+        data: workflowUI,
+        isFetching: workflowUILoading,
+        error: workflowUIError,
+    } = useQuery({
         queryKey: [PIPELINE_UI_QUERY_KEY, { appId, versionId }],
         queryFn: () => getPipelineUI({ appId, versionId }),
         enabled: !!(userProfile?.id && appId && versionId && isWorkflow),
-        onSuccess: (workflowUI) => {
-            const { version_id, ...workflowCopy } = workflowUI;
-            setWorkflowDescription(workflowCopy);
-        },
-        onError: setLoadingError,
     });
 
-    React.useEffect(() => {
-        if (userProfile?.id) {
-            setLoadingError(null);
-        } else {
-            setLoadingError(signInErrorResponse);
-        }
-    }, [userProfile]);
+    const { version_id: _workflow_version_id, ...workflowCopy } =
+        workflowUI || {};
+    const workflowDescription = workflowCopy;
 
     const loading = appInfoLoading || appUILoading || workflowUILoading;
+    const loadingError =
+        (!userProfile?.id && signInErrorResponse) ||
+        appInfoError ||
+        appUIError ||
+        workflowUIError;
 
     if (isWorkflow) {
         return (

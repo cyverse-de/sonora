@@ -108,7 +108,7 @@ export default function FileViewer(props) {
     );
 
     const {
-        status,
+        isFetching: isFetchingChunk,
         data,
         isFetchingNextPage,
         fetchNextPage,
@@ -316,7 +316,7 @@ export default function FileViewer(props) {
     const busy = isQueryLoading([
         isFetching,
         isFetchingRaw,
-        status,
+        isFetchingChunk,
         detailsLoading,
     ]);
 

@@ -156,12 +156,12 @@ const getFormattedData = (data, theme) => {
 export default function AnalysesStats() {
     const { t } = useTranslation("dashboard");
     const theme = useTheme();
-    const { status, data, error } = useQuery(
+    const { isFetching, isError, data, error } = useQuery(
         [ANALYSES_STATS_QUERY_KEY],
         getAnalysesStats
     );
 
-    if (status === "error") {
+    if (isError) {
         return (
             <div style={{ padding: theme.spacing(1) }}>
                 <ErrorTypographyWithDialog
@@ -171,7 +171,7 @@ export default function AnalysesStats() {
             </div>
         );
     }
-    if (status === "loading") {
+    if (isFetching) {
         return <Skeleton variant="rectangular" width={300} height={200} />;
     }
     const jobTotal = data["status-count"].reduce(

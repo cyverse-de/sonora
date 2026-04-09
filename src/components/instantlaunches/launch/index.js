@@ -29,7 +29,7 @@ const InstantLaunchStandalone = (props) => {
     } = props;
     const [resource, setResource] = useState(null);
 
-    const { data, status, error } = useQuery(
+    const { data, isFetching, error } = useQuery(
         [GET_INSTANT_LAUNCH_FULL_KEY, instant_launch_id],
         () => getFullInstantLaunch(instant_launch_id)
     );
@@ -47,7 +47,7 @@ const InstantLaunchStandalone = (props) => {
         });
 
     const isLoading = isQueryLoading([
-        status,
+        isFetching,
         isLoadingResource,
         isFetchingUsageSummary,
     ]);

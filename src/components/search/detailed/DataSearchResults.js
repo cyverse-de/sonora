@@ -17,7 +17,6 @@ import { ERROR, SUCCESS } from "components/announcer/AnnouncerConstants";
 
 import DELink from "components/utils/DELink";
 
-import constants from "../../../constants";
 import SearchResultsTable from "./SearchResultsTable";
 import { useDataSearchInfinite } from "../searchQueries";
 import searchConstants from "../constants";
@@ -134,7 +133,7 @@ function DataSearchResults(props) {
     });
 
     const {
-        status,
+        isFetching,
         data,
         isFetchingNextPage,
         fetchNextPage,
@@ -317,7 +316,7 @@ function DataSearchResults(props) {
         );
     }
     if (
-        status !== constants.LOADING &&
+        !isFetching &&
         (!data || data.pages.length === 0 || data.pages[0]?.hits?.length === 0)
     ) {
         return (
@@ -342,7 +341,7 @@ function DataSearchResults(props) {
                 columns={columns}
                 data={flatData}
                 baseId={baseId}
-                loading={status === constants.LOADING}
+                loading={isFetching}
                 fetchMore={fetchNextPage}
                 isFetchingMore={isFetchingNextPage}
                 canFetchMore={hasNextPage}

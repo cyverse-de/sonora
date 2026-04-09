@@ -15,7 +15,6 @@ import React, {
 import { useRowSelect, useTable } from "react-table";
 import { useTranslation } from "i18n";
 
-import constants from "../../../constants";
 import { UploadTrackingProvider } from "contexts/uploadTracking";
 
 import ids from "./ids";
@@ -77,7 +76,7 @@ function PathListViewer(props) {
 
     const [dirty, setDirty] = useState(false);
     const [editorData, setEditorData] = useState([]);
-    const [fileSaveStatus, setFileSaveStatus] = useState();
+    const [fileSaving, setFileSaving] = useState(false);
 
     const defaultStartingPath = useSelectorDefaultFolderPath();
 
@@ -197,11 +196,14 @@ function PathListViewer(props) {
                 createFileType={createFileType}
                 onNewFileSaved={onNewFileSaved}
                 getFileContent={getContent}
-                onSaving={setFileSaveStatus}
-                onSaveComplete={() => setDirty(false)}
+                onSaving={() => setFileSaving(true)}
+                onSaveComplete={() => {
+                    setFileSaving(false);
+                    setDirty(false);
+                }}
                 isPathListViewer={true}
             />
-            {(loading || fileSaveStatus === constants.LOADING) && (
+            {(loading || fileSaving) && (
                 <CircularProgress
                     thickness={7}
                     color="primary"

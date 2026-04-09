@@ -97,7 +97,7 @@ export default function AppSearchResults(props) {
     const [order, setOrder] = useState(constants.SORT_ASCENDING);
     const [orderBy, setOrderBy] = useState(appRecordFields.NAME.key);
     const {
-        status,
+        isFetching,
         data,
         isFetchingNextPage,
         fetchNextPage,
@@ -204,7 +204,7 @@ export default function AppSearchResults(props) {
         );
     }
     if (
-        status !== constants.LOADING &&
+        !isFetching &&
         (!data || data.pages.length === 0 || data.pages[0].apps.length === 0)
     ) {
         return <Typography>{t("noResults")}</Typography>;
@@ -218,7 +218,7 @@ export default function AppSearchResults(props) {
                 columns={columns}
                 data={flatData}
                 baseId={baseId}
-                loading={status === constants.LOADING}
+                loading={isFetching}
                 fetchMore={fetchNextPage}
                 isFetchingMore={isFetchingNextPage}
                 canFetchMore={hasNextPage}

@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 
 import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "i18n";
+import constants from "../../../constants";
 import { NavigationParams } from "common/NavigationConstants";
 
 import ids from "./ids";
@@ -163,7 +164,7 @@ function ViewerToolbar(props) {
         },
     });
 
-    const { mutate: saveTextAsFile, isLoading: fileSaveLoading } = useMutation(
+    const { mutate: saveTextAsFile, status: fileSaveStatus } = useMutation(
         uploadTextAsFile,
         {
             onSuccess: (resp) => {
@@ -200,7 +201,7 @@ function ViewerToolbar(props) {
         if (createFileType) {
             setSaveAsDialogOpen(true);
         } else {
-            onSaving(fileSaveLoading);
+            onSaving();
             saveTextAsFile({
                 dest: path,
                 content: getFileContent(),
@@ -606,7 +607,7 @@ function ViewerToolbar(props) {
                         newFile: createFileType ? true : false,
                     });
                 }}
-                loading={fileSaveLoading}
+                loading={fileSaveStatus === constants.LOADING}
             />
         </>
     );

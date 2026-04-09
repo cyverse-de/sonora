@@ -37,7 +37,7 @@ export default function BatchResults(props) {
     let analysisRecordFields = analysisFields(t);
 
     const {
-        status,
+        isFetching,
         data,
         isFetchingNextPage,
         fetchNextPage,
@@ -104,7 +104,7 @@ export default function BatchResults(props) {
         );
     }
     if (
-        status !== constants.LOADING &&
+        !isFetching &&
         (!data ||
             data.pages.length === 0 ||
             data.pages[0].analyses.length === 0)

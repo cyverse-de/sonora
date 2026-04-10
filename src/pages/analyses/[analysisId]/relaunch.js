@@ -12,7 +12,6 @@ import { useQuery } from "@tanstack/react-query";
 
 import { i18n, RequiredNamespaces } from "i18n";
 
-import constants from "../../../constants";
 import {
     getAnalysisRelaunchInfo,
     ANALYSIS_RELAUNCH_QUERY_KEY,
@@ -58,7 +57,7 @@ const Relaunch = ({ showErrorAnnouncer }) => {
         }
     }, [analysisId, setRelaunchQueryEnabled]);
 
-    const { status: relaunchStatus } = useQuery({
+    const { isFetching: isFetchingRelaunchInfo } = useQuery({
         queryKey: relaunchKey,
         queryFn: () => getAnalysisRelaunchInfo(relaunchKey[1]),
         enabled: relaunchQueryEnabled,
@@ -82,8 +81,7 @@ const Relaunch = ({ showErrorAnnouncer }) => {
         onError: setRelaunchError,
     });
 
-    const loading =
-        relaunchStatus === constants.LOADING || isFetchingUsageSummary;
+    const loading = isFetchingRelaunchInfo || isFetchingUsageSummary;
 
     return (
         <AppLaunch

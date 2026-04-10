@@ -38,7 +38,7 @@ function Listing(props) {
         constants.METADATA.INSTANT_LAUNCH_LOCATION_ATTR;
     const instantLaunchListing = constants.METADATA.INSTANT_LAUNCH_LISTING;
 
-    const { data, status, error } = useQuery(
+    const { data, isFetching, error } = useQuery(
         [
             LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
             instantLaunchLocationAttr,
@@ -116,7 +116,7 @@ function Listing(props) {
         ];
     }, [baseId, t, computeLimitExceeded]);
 
-    const isLoading = isQueryLoading([status, isFetchingUsageSummary]);
+    const isLoading = isQueryLoading([isFetching, isFetchingUsageSummary]);
 
     if (error) {
         return <WrappedErrorHandler errorObject={error} baseId={baseId} />;

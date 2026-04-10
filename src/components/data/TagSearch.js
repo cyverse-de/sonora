@@ -79,7 +79,7 @@ function TagSearch(props) {
         },
     });
 
-    const { status: tagSuggestionStatus } = useQuery({
+    const { isFetching: tagSuggestionFetching } = useQuery({
         queryKey: ["tagSuggestion", searchTerm],
         queryFn: () => getTagSuggestions({ searchTerm }),
         enabled: !!userProfile?.id,
@@ -182,7 +182,7 @@ function TagSearch(props) {
         tagCreationStatus,
         tagDetachStatus,
         isFetchingTags,
-        tagSuggestionStatus,
+        tagSuggestionFetching,
     ]);
 
     return (

@@ -58,12 +58,10 @@ const ActionButtons = ({
 
     const externalID = row.original.externalID;
 
-    const { status, data, error } = useQuery(["async-data", externalID], () =>
-        asyncData(externalID)
+    const { isFetching, isError, data, error } = useQuery(
+        ["async-data", externalID],
+        () => asyncData(externalID)
     );
-
-    const isLoading = status === "loading";
-    const hasErrored = status === "error";
 
     const onClick = (_event, dataFn, msgKey) => {
         let tlErr;
@@ -84,19 +82,19 @@ const ActionButtons = ({
     };
 
     useEffect(() => {
-        if (hasErrored) {
+        if (isError) {
             announce({
                 text: `Action buttons not available: ${error.message}`,
                 variant: ERROR,
             });
         }
-    }, [hasErrored, error]);
+    }, [isError, error]);
 
     return (
         <div className={classes.actions}>
-            {isLoading ? (
+            {isFetching ? (
                 <ActionButtonsSkeleton id={id(externalID, "skeleton")} />
-            ) : !hasErrored ? (
+            ) : !isError ? (
                 <>
                     <ActionButton
                         external={externalID}
@@ -133,7 +131,7 @@ const ActionButtons = ({
                     <ActionButton
                         externalID={externalID}
                         name="saveAndExit"
-                        handler={handleExit}
+                        handler={handleSaveAndExit}
                         popperMsgKey="saveAndExitCommandSent"
                         onClick={onClick}
                     />

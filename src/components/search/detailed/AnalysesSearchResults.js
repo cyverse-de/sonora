@@ -62,7 +62,7 @@ export default function AnalysesSearchResults(props) {
     const [selectedAnalysis, setSelectedAnalysis] = useState();
 
     const {
-        status,
+        isFetching,
         data,
         isFetchingNextPage,
         fetchNextPage,
@@ -172,7 +172,7 @@ export default function AnalysesSearchResults(props) {
         );
     }
     if (
-        status !== constants.LOADING &&
+        !isFetching &&
         (!data ||
             data.pages.length === 0 ||
             data.pages[0].analyses.length === 0)
@@ -193,7 +193,7 @@ export default function AnalysesSearchResults(props) {
                 columns={columns}
                 data={flatData}
                 baseId={baseId}
-                loading={status === constants.LOADING}
+                loading={isFetching}
                 fetchMore={fetchNextPage}
                 isFetchingMore={isFetchingNextPage}
                 canFetchMore={hasNextPage}

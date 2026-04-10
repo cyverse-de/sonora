@@ -37,7 +37,7 @@ export default function BatchResults(props) {
     let analysisRecordFields = analysisFields(t);
 
     const {
-        status,
+        isFetching,
         data,
         isFetchingNextPage,
         fetchNextPage,
@@ -103,14 +103,6 @@ export default function BatchResults(props) {
             />
         );
     }
-    if (
-        status !== constants.LOADING &&
-        (!data ||
-            data.pages.length === 0 ||
-            data.pages[0].analyses.length === 0)
-    ) {
-        return <Typography>{t("noResults")}</Typography>;
-    }
 
     let flatData = [];
     if (data && data.pages[0].analyses.length > 0) {
@@ -133,7 +125,8 @@ export default function BatchResults(props) {
                     baseId={baseId}
                     columns={columns}
                     data={flatData}
-                    loading={isFetchingNextPage}
+                    loading={isFetching || isFetchingNextPage}
+                    emptyDataMessage={t("noAnalyses")}
                     sortable
                 />
             </AccordionDetails>

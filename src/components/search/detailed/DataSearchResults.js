@@ -317,7 +317,10 @@ function DataSearchResults(props) {
     }
     if (
         !isFetching &&
-        (!data || data.pages.length === 0 || data.pages[0]?.hits?.length === 0)
+        (!data ||
+            data.pages.length === 0 ||
+            !data.pages[0]?.hits ||
+            data.pages[0]?.hits.length === 0)
     ) {
         return (
             <>

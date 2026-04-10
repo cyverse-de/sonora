@@ -131,7 +131,7 @@ const ActionButtons = ({
                     <ActionButton
                         externalID={externalID}
                         name="saveAndExit"
-                        handler={handleExit}
+                        handler={handleSaveAndExit}
                         popperMsgKey="saveAndExitCommandSent"
                         onClick={onClick}
                     />

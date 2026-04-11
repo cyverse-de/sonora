@@ -23,11 +23,6 @@ import useResourceUsageSummary from "common/useResourceUsageSummary";
 
 function Launch({ showErrorAnnouncer }) {
     const [userProfile] = useUserProfile();
-    const [app, setApp] = React.useState(null);
-    const [launchError, setLaunchError] = React.useState(null);
-    const [viceQuota, setViceQuota] = React.useState();
-    const [runningJobs, setRunningJobs] = React.useState();
-    const [hasPendingRequest, setHasPendingRequest] = React.useState();
 
     const router = useRouter();
     const { systemId, appId, versionId } = router.query;
@@ -35,7 +30,11 @@ function Launch({ showErrorAnnouncer }) {
     const { isFetchingUsageSummary, computeLimitExceeded } =
         useResourceUsageSummary(showErrorAnnouncer);
 
-    const { isFetching: appDescriptionLoading } = useQuery({
+    const {
+        isFetching: appDescriptionLoading,
+        data: app,
+        error: launchError,
+    } = useQuery({
         queryKey: [
             APP_DESCRIPTION_QUERY_KEY,
             {
@@ -51,29 +50,21 @@ function Launch({ showErrorAnnouncer }) {
                 versionId,
             }),
         enabled: !!(systemId && appId && versionId),
-        onSuccess: (resp) => {
-            const checks = resp?.limitChecks;
-            if (checks?.canRun || !userProfile?.id) {
-                setApp(resp);
-            } else {
-                const checkResults = resp?.limitChecks?.results[0];
-                const additionalInfo = checkResults?.additionalInfo;
-
-                setLaunchError(checkResults?.reasonCodes[0]);
-                setViceQuota(additionalInfo?.maxJobs);
-                setRunningJobs(additionalInfo?.runningJobs);
-                setHasPendingRequest(additionalInfo?.pendingRequest);
-            }
-        },
-        onError: setLaunchError,
     });
+
+    const canRun = app?.limitChecks?.canRun || !userProfile?.id;
+    const limitCheck = !canRun && app?.limitChecks?.results[0];
+    const limitCheckReason = limitCheck?.reasonCodes?.[0];
+    const viceQuota = limitCheck?.additionalInfo?.maxJobs;
+    const runningJobs = limitCheck?.additionalInfo?.runningJobs;
+    const hasPendingRequest = limitCheck?.additionalInfo?.pendingRequest;
 
     const loading = appDescriptionLoading || isFetchingUsageSummary;
 
     return (
         <AppLaunch
             app={app}
-            launchError={launchError}
+            launchError={launchError || limitCheckReason}
             loading={loading}
             viceQuota={viceQuota}
             runningJobs={runningJobs}

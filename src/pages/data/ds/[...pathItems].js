@@ -69,9 +69,6 @@ export default function DataStore() {
     const path = fullPath.replace(baseRoutingPath, "").split("?")[0];
     const resourcePath = decodeURIComponent(path);
 
-    const [details, setDetails] = useState(null);
-    const [errorObject, setErrorObject] = useState(null);
-
     const handlePathChange = useCallback(
         (path, query) => {
             const pathname = `${baseRoutingPath}${getEncodedPath(path)}`;
@@ -137,15 +134,17 @@ export default function DataStore() {
         [baseRoutingPath, router]
     );
 
-    const { isFetching: detailsLoading } = useQuery({
+    const {
+        isFetching: detailsLoading,
+        data: detailsData,
+        error: errorObject,
+    } = useQuery({
         queryKey: [DATA_DETAILS_FROM_PAGE_QUERY_KEY, { paths: [resourcePath] }],
         queryFn: () => getResourceDetails({ paths: [resourcePath] }),
         enabled: (viewMetadata || isFile) && !createFileType,
-        onSuccess: (resp) => {
-            setDetails(resp?.paths[resourcePath]);
-        },
-        onError: setErrorObject,
     });
+
+    const details = detailsData?.paths?.[resourcePath];
 
     if (viewMetadata) {
         return (

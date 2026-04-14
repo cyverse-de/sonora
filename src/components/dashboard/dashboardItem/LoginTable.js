@@ -32,12 +32,12 @@ export default function LoginsTable() {
     const { t } = useTranslation(["dashboard", "common"]);
 
     const theme = useTheme();
-    const { status, data, error } = useQuery({
+    const { isFetching, isError, data, error } = useQuery({
         queryKey: [LOGINS_QUERY_KEY],
         queryFn: () => logins({ limit: 5 }),
     });
 
-    if (status === "error") {
+    if (isError) {
         return (
             <div style={{ padding: theme.spacing(1) }}>
                 <ErrorTypographyWithDialog
@@ -47,7 +47,7 @@ export default function LoginsTable() {
             </div>
         );
     }
-    if (status === "loading") {
+    if (isFetching) {
         return <Skeleton variant="rectangular" height={200} />;
     }
     return (

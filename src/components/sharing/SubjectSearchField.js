@@ -90,7 +90,7 @@ function SubjectSearchField(props) {
     // Get QueryClient from the context
     const queryClient = useQueryClient();
 
-    const { status: subjectSearchStatus } = useQuery({
+    const { isFetching: subjectSearchFetching } = useQuery({
         queryKey: [SEARCH_SUBJECTS_QUERY_KEY, searchTerm],
         queryFn: () => searchSubjects({ searchTerm }),
         enabled: !!(searchTerm && searchTerm.length > 2),
@@ -109,7 +109,7 @@ function SubjectSearchField(props) {
         },
     });
 
-    const { status: recentContactsStatus } = useQuery({
+    const { isFetching: recentContactsFetching } = useQuery({
         queryKey: [RECENT_CONTACTS_QUERY],
         queryFn: fetchRecentContactsList,
         onSuccess: (resp) => {
@@ -217,8 +217,8 @@ function SubjectSearchField(props) {
     };
 
     const loading = isQueryLoading([
-        subjectSearchStatus,
-        recentContactsStatus,
+        subjectSearchFetching,
+        recentContactsFetching,
         addRecentContactStatus,
         removeRecentContactStatus,
     ]);

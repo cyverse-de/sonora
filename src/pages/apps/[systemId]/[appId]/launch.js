@@ -31,11 +31,6 @@ import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 
 function Launch({ showErrorAnnouncer }) {
     const [userProfile] = useUserProfile();
-    const [app, setApp] = React.useState(null);
-    const [launchError, setLaunchError] = React.useState(null);
-    const [viceQuota, setViceQuota] = React.useState();
-    const [runningJobs, setRunningJobs] = React.useState();
-    const [hasPendingRequest, setHasPendingRequest] = React.useState();
 
     const router = useRouter();
     const { systemId, appId } = router.query;
@@ -46,41 +41,41 @@ function Launch({ showErrorAnnouncer }) {
     const launchId =
         router.query["saved-launch-id"] || router.query["quick-launch-id"];
 
-    const { isFetching: appDescriptionLoading } = useQuery({
+    const {
+        data: app,
+        isFetching: appDescriptionLoading,
+        error: appDescriptionError,
+    } = useQuery({
         queryKey: [APP_DESCRIPTION_QUERY_KEY, { systemId, appId }],
         queryFn: () => getAppDescription({ systemId, appId }),
         enabled: !!(systemId && appId && !launchId),
-        onSuccess: (resp) => {
-            const checks = resp?.limitChecks;
-            if (checks?.canRun || !userProfile?.id) {
-                setApp(resp);
-            } else {
-                const checkResults = resp?.limitChecks?.results[0];
-                const additionalInfo = checkResults?.additionalInfo;
-
-                setLaunchError(checkResults?.reasonCodes[0]);
-                setViceQuota(additionalInfo?.maxJobs);
-                setRunningJobs(additionalInfo?.runningJobs);
-                setHasPendingRequest(additionalInfo?.pendingRequest);
-            }
-        },
-        onError: setLaunchError,
     });
 
-    const { isFetching: savedLaunchLoading } = useQuery({
+    const canRun = app?.limitChecks?.canRun || !userProfile?.id;
+    const limitCheck = !canRun && app?.limitChecks?.results[0];
+    const limitCheckReason = limitCheck?.reasonCodes?.[0];
+    const viceQuota = limitCheck?.additionalInfo?.maxJobs;
+    const runningJobs = limitCheck?.additionalInfo?.runningJobs;
+    const hasPendingRequest = limitCheck?.additionalInfo?.pendingRequest;
+
+    const {
+        data: savedLaunchAppInfo,
+        isFetching: savedLaunchLoading,
+        error: savedLaunchError,
+    } = useQuery({
         queryKey: [SAVED_LAUNCH_APP_INFO, { launchId }],
         queryFn: () => getAppInfo({ launchId }),
         enabled: !!launchId,
-        onSuccess: setApp,
-        onError: setLaunchError,
     });
 
+    const launchError =
+        appDescriptionError || savedLaunchError || limitCheckReason;
     const loading =
         appDescriptionLoading || savedLaunchLoading || isFetchingUsageSummary;
 
     return (
         <AppLaunch
-            app={app}
+            app={app || savedLaunchAppInfo}
             launchError={launchError}
             loading={loading}
             viceQuota={viceQuota}

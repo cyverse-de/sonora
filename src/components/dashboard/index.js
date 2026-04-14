@@ -131,14 +131,13 @@ const Dashboard = (props) => {
         dashboardEl,
     });
 
-    const { status, data, error } = useQuery(
+    const { isFetching, isError, data, error } = useQuery(
         [DASHBOARD_QUERY_KEY, { limit: constants.SECTION_ITEM_LIMIT }],
         () => getDashboard({ limit: constants.SECTION_ITEM_LIMIT })
     );
-    const hasErrored = status === "error";
 
     // Display the error message if an error occurred.
-    if (hasErrored) {
+    if (isError) {
         showErrorAnnouncer(t("dashboardInitError", { error: error.message }));
     }
 
@@ -262,8 +261,7 @@ const Dashboard = (props) => {
     // The base ID for the dashboard.
     const baseId = fns.makeID(ids.ROOT);
 
-    const isLoading =
-        status === "loading" || analysisLoading || isFetchingUsageSummary;
+    const isLoading = isFetching || analysisLoading || isFetchingUsageSummary;
 
     return (
         <div ref={dashboardEl} id={baseId} className={classes.gridRoot}>

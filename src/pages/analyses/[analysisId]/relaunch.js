@@ -12,7 +12,6 @@ import { useQuery } from "@tanstack/react-query";
 
 import { i18n, RequiredNamespaces } from "i18n";
 
-import constants from "../../../constants";
 import {
     getAnalysisRelaunchInfo,
     ANALYSIS_RELAUNCH_QUERY_KEY,
@@ -33,12 +32,6 @@ const Relaunch = ({ showErrorAnnouncer }) => {
     const [relaunchQueryEnabled, setRelaunchQueryEnabled] =
         React.useState(false);
 
-    const [app, setApp] = React.useState(null);
-    const [relaunchError, setRelaunchError] = React.useState(null);
-    const [viceQuota, setViceQuota] = React.useState();
-    const [runningJobs, setRunningJobs] = React.useState();
-    const [hasPendingRequest, setHasPendingRequest] = React.useState();
-
     const router = useRouter();
     const { analysisId } = router.query;
 
@@ -58,37 +51,29 @@ const Relaunch = ({ showErrorAnnouncer }) => {
         }
     }, [analysisId, setRelaunchQueryEnabled]);
 
-    const { status: relaunchStatus } = useQuery({
+    const {
+        isFetching: isFetchingRelaunchInfo,
+        data: app,
+        error: relaunchError,
+    } = useQuery({
         queryKey: relaunchKey,
         queryFn: () => getAnalysisRelaunchInfo(relaunchKey[1]),
         enabled: relaunchQueryEnabled,
-        onSuccess: (resp) => {
-            if (resp?.limitChecks?.canRun || !userProfile?.id) {
-                setApp(resp);
-            } else {
-                setRelaunchError(resp?.limitChecks?.results[0]?.reasonCodes[0]);
-                setViceQuota(
-                    resp?.limitChecks?.results[0]?.additionalInfo?.maxJobs
-                );
-                setRunningJobs(
-                    resp?.limitChecks?.results[0]?.additionalInfo?.runningJobs
-                );
-                setHasPendingRequest(
-                    resp?.limitChecks?.results[0]?.additionalInfo
-                        ?.pendingRequest
-                );
-            }
-        },
-        onError: setRelaunchError,
     });
 
-    const loading =
-        relaunchStatus === constants.LOADING || isFetchingUsageSummary;
+    const canRun = app?.limitChecks?.canRun || !userProfile?.id;
+    const limitCheck = !canRun && app?.limitChecks?.results[0];
+    const limitCheckReason = limitCheck?.reasonCodes?.[0];
+    const viceQuota = limitCheck?.additionalInfo?.maxJobs;
+    const runningJobs = limitCheck?.additionalInfo?.runningJobs;
+    const hasPendingRequest = limitCheck?.additionalInfo?.pendingRequest;
+
+    const loading = isFetchingRelaunchInfo || isFetchingUsageSummary;
 
     return (
         <AppLaunch
             app={app}
-            launchError={relaunchError}
+            launchError={relaunchError || limitCheckReason}
             loading={loading}
             viceQuota={viceQuota}
             runningJobs={runningJobs}

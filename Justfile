@@ -63,32 +63,4 @@ write-build-file output-file="build.json":
     EOF
 
 clean:
-    #!/usr/bin/env bash
-    go clean
-    if [ -f bin/app-exposer ]; then
-        rm bin/app-exposer
-    fi
-    if [ -f bin/vice-operator ]; then
-        rm bin/vice-operator
-    fi
-    if [ -f bin/workflow-builder ]; then
-        rm bin/workflow-builder
-    fi
-    if [ -f bin/vice-export ]; then
-        rm bin/vice-export
-    fi
-    if [ -f bin/vice-import ]; then
-        rm bin/vice-import
-    fi
-    if [ -f bin/vice-launch ]; then
-        rm bin/vice-launch
-    fi
-    if [ -f bin/vice-list ]; then
-        rm bin/vice-list
-    fi
-    if [ -f bin/vice-bundle ]; then
-        rm bin/vice-bundle
-    fi
-    if [ -f bin/vice-userid ]; then
-        rm bin/vice-userid
-    fi
+    npm run clean

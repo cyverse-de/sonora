@@ -152,9 +152,9 @@ export default function AppSearchResults(props) {
     const columns = React.useMemo(
         () => [
             {
-                Header: appRecordFields.NAME.fieldName,
-                accessor: appRecordFields.NAME.key,
-                Cell: ({ row }) => (
+                header: appRecordFields.NAME.fieldName,
+                accessorKey: appRecordFields.NAME.key,
+                cell: ({ row }) => (
                     <Name
                         selectedOption={row?.original}
                         searchTerm={searchTerm}
@@ -162,17 +162,17 @@ export default function AppSearchResults(props) {
                 ),
             },
             {
-                Header: appRecordFields.TYPE.fieldName,
-                accessor: appRecordFields.TYPE.key,
-                Cell: ({ row }) => {
+                header: appRecordFields.TYPE.fieldName,
+                accessorKey: appRecordFields.TYPE.key,
+                cell: ({ row }) => {
                     const app = row?.original;
                     return getAppTypeDisplay(app);
                 },
             },
             {
-                Header: "",
-                accessor: "actions",
-                Cell: ({ row }) => {
+                header: "",
+                accessorKey: "actions",
+                cell: ({ row }) => {
                     const app = row?.original;
                     return (
                         <AppActionCell
@@ -182,7 +182,7 @@ export default function AppSearchResults(props) {
                         />
                     );
                 },
-                disableSortBy: true,
+                enableSorting: false,
             },
         ],
         [

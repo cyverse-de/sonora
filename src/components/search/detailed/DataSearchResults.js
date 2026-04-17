@@ -66,6 +66,65 @@ function Name(props) {
     );
 }
 
+function DataActionCell(props) {
+    const { resource, baseId, setDetailsResource, dataI18n } = props;
+    const { t: i18nCommon } = useTranslation("common");
+    const partialLink = useDataNavigationLink(
+        resource?._source.path,
+        resource?._id,
+        resource?._type || resource?._source?.doc_type
+    )[1];
+
+    return (
+        <Grid spacing={1}>
+            <Grid item>
+                <IconButton
+                    id={buildID(baseId, ids.DETAILS_BUTTON)}
+                    onClick={() => setDetailsResource(resource)}
+                    size="small"
+                    color="primary"
+                >
+                    <Info fontSize="small" />
+                </IconButton>
+            </Grid>
+            <Grid item>
+                <CopyLinkButton
+                    baseId={baseId}
+                    onCopyLinkSelected={() => {
+                        const link = `${getHost()}${partialLink}`;
+                        const copyPromise = copyStringToClipboard(link);
+                        copyLinkToClipboardHandler(i18nCommon, copyPromise);
+                    }}
+                />
+            </Grid>
+            <Grid item>
+                <CopyPathButton
+                    baseId={baseId}
+                    onCopyPathSelected={() => {
+                        const copyPromise = copyStringToClipboard(
+                            resource?._source.path
+                        );
+                        copyPromise.then(
+                            () => {
+                                announce({
+                                    text: dataI18n("pathCopied"),
+                                    variant: SUCCESS,
+                                });
+                            },
+                            () => {
+                                announce({
+                                    text: dataI18n("pathCopiedFailed"),
+                                    variant: ERROR,
+                                });
+                            }
+                        );
+                    }}
+                />
+            </Grid>
+        </Grid>
+    );
+}
+
 function CopyPathButton(props) {
     const { baseId, onCopyPathSelected } = props;
     const { t } = useTranslation("data");
@@ -196,9 +255,9 @@ function DataSearchResults(props) {
     const columns = React.useMemo(
         () => [
             {
-                Header: "",
-                accessor: "icon",
-                Cell: ({ row }) => {
+                header: "",
+                accessorKey: "icon",
+                cell: ({ row }) => {
                     const original = row?.original;
                     return (
                         <ResourceIcon
@@ -208,90 +267,32 @@ function DataSearchResults(props) {
                         />
                     );
                 },
-                disableSortBy: true,
+                enableSorting: false,
             },
             {
-                Header: dataRecordFields.NAME.fieldName,
-                accessor: "_source.label",
-                Cell: ({ row }) => (
+                header: dataRecordFields.NAME.fieldName,
+                accessorKey: "_source.label",
+                cell: ({ row }) => (
                     <Name resource={row?.original} searchTerm={searchTerm} />
                 ),
             },
             {
-                Header: dataRecordFields.PATH.fieldName,
-                accessor: "_source.path",
-                disableSortBy: true,
+                header: dataRecordFields.PATH.fieldName,
+                accessorKey: "_source.path",
+                enableSorting: false,
             },
             {
-                Header: "",
-                accessor: "actions",
-                Cell: ({ row }) => {
-                    const original = row?.original;
-                    const { t: i18nCommon } = useTranslation("common");
-                    const partialLink = useDataNavigationLink(
-                        original?._source.path,
-                        original?._id,
-                        original?._type || original?._source?.doc_type
-                    )[1];
-                    return (
-                        <Grid spacing={1}>
-                            <Grid item>
-                                <IconButton
-                                    id={buildID(baseId, ids.DETAILS_BUTTON)}
-                                    onClick={() => setDetailsResource(original)}
-                                    size="small"
-                                    color="primary"
-                                >
-                                    <Info fontSize="small" />
-                                </IconButton>
-                            </Grid>
-                            <Grid item>
-                                <CopyLinkButton
-                                    baseId={baseId}
-                                    onCopyLinkSelected={() => {
-                                        const link = `${getHost()}${partialLink}`;
-                                        const copyPromise =
-                                            copyStringToClipboard(link);
-                                        copyLinkToClipboardHandler(
-                                            i18nCommon,
-                                            copyPromise
-                                        );
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <CopyPathButton
-                                    baseId={baseId}
-                                    onCopyPathSelected={() => {
-                                        const copyPromise =
-                                            copyStringToClipboard(
-                                                original?._source.path
-                                            );
-                                        copyPromise.then(
-                                            () => {
-                                                announce({
-                                                    text: dataI18n(
-                                                        "pathCopied"
-                                                    ),
-                                                    variant: SUCCESS,
-                                                });
-                                            },
-                                            () => {
-                                                announce({
-                                                    text: dataI18n(
-                                                        "pathCopiedFailed"
-                                                    ),
-                                                    variant: ERROR,
-                                                });
-                                            }
-                                        );
-                                    }}
-                                />
-                            </Grid>
-                        </Grid>
-                    );
-                },
-                disableSortBy: true,
+                header: "",
+                accessorKey: "actions",
+                cell: ({ row }) => (
+                    <DataActionCell
+                        baseId={baseId}
+                        resource={row?.original}
+                        setDetailsResource={setDetailsResource}
+                        dataI18n={dataI18n}
+                    />
+                ),
+                enableSorting: false,
             },
         ],
         [

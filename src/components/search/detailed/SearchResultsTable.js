@@ -6,8 +6,14 @@
  *
  */
 
-import React, { useEffect } from "react";
-import { useRowSelect, useSortBy, useTable } from "react-table";
+import React, { useEffect, useMemo, useState } from "react";
+import {
+    useReactTable,
+    getCoreRowModel,
+    getSortedRowModel,
+    getFilteredRowModel,
+    flexRender,
+} from "@tanstack/react-table";
 import { useTranslation } from "i18n";
 
 import PageWrapper from "components/layout/PageWrapper";
@@ -46,56 +52,67 @@ const SearchResultsTable = ({
     selectable,
     setSelectedResources,
 }) => {
-    const {
-        toggleSortBy,
-        getTableProps,
-        headerGroups,
-        rows,
-        prepareRow,
-        selectedFlatRows,
-    } = useTable(
-        {
-            columns,
-            data,
-            manualSortBy: true,
-            disableMultiSort: true,
-            initialState: {
-                sortBy: initialSortBy,
-            },
-        },
-        useSortBy,
-        useRowSelect,
-        (hooks) =>
-            hooks.visibleColumns.push((columns) => {
-                return selectable
-                    ? [
-                          {
-                              id: "selection",
-                              Header: ({ getToggleAllRowsSelectedProps }) => (
-                                  <DECheckbox
-                                      {...getToggleAllRowsSelectedProps()}
-                                  />
-                              ),
-                              Cell: ({ row }) => (
-                                  <DECheckbox
-                                      {...row.getToggleRowSelectedProps()}
-                                  />
-                              ),
-                          },
-                          ...columns,
-                      ]
-                    : columns;
-            })
+    const [sorting, setSorting] = useState(initialSortBy || []);
+    const [rowSelection, setRowSelection] = useState({});
+
+    const selectionColumn = useMemo(
+        () => ({
+            id: "selection",
+            header: ({ table }) => (
+                <DECheckbox
+                    checked={table.getIsAllRowsSelected()}
+                    indeterminate={table.getIsSomeRowsSelected()}
+                    onChange={table.getToggleAllRowsSelectedHandler()}
+                />
+            ),
+            cell: ({ row }) => (
+                <DECheckbox
+                    checked={row.getIsSelected()}
+                    disabled={!row.getCanSelect()}
+                    onChange={row.getToggleSelectedHandler()}
+                />
+            ),
+            enableSorting: false,
+        }),
+        []
     );
+
+    const tableColumns = useMemo(
+        () => (selectable ? [selectionColumn, ...columns] : columns),
+        [selectable, selectionColumn, columns]
+    );
+
+    const table = useReactTable({
+        columns: tableColumns,
+        data,
+        state: { sorting, rowSelection },
+        onSortingChange: (updater) => {
+            const newSorting =
+                typeof updater === "function" ? updater(sorting) : updater;
+            setSorting(newSorting);
+            if (newSorting.length > 0) {
+                onSort?.(newSorting[0].id, newSorting[0].desc);
+            }
+        },
+        onRowSelectionChange: setRowSelection,
+        enableRowSelection: selectable,
+        manualSorting: true,
+        enableMultiSort: false,
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+    });
+
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const tableId = buildID(baseId, ids.TABLE_VIEW);
     const { t } = useTranslation("search");
 
     useEffect(() => {
-        setSelectedResources &&
-            setSelectedResources(selectedFlatRows.map((row) => row.original));
-    }, [selectedFlatRows, setSelectedResources]);
+        setSelectedResources?.(
+            table.getSelectedRowModel().rows.map((row) => row.original)
+        );
+    }, [rowSelection, setSelectedResources, table]);
 
     return (
         <PageWrapper appBarHeight={isMobile ? 250 : 270}>
@@ -115,43 +132,31 @@ const SearchResultsTable = ({
                 style={{ overflow: "auto" }}
                 id={tableId}
             >
-                <Table size="small" stickyHeader {...getTableProps()}>
+                <Table size="small" stickyHeader>
                     <TableHead>
-                        {headerGroups.map((headerGroup) => (
-                            <TableRow
-                                key={headerGroup.id}
-                                {...headerGroup.getHeaderGroupProps()}
-                            >
-                                {headerGroup.headers.map((column) => (
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => (
                                     <TableCell
-                                        key={column.id}
-                                        {...(column.id === "selection"
-                                            ? column.getHeaderProps()
-                                            : column.getHeaderProps(
-                                                  column.getSortByToggleProps()
-                                              ))}
-                                        onClick={() => {
-                                            if (column.id !== "selection") {
-                                                onSort &&
-                                                    onSort(
-                                                        column.id,
-                                                        !column.isSortedDesc
-                                                    );
-                                                toggleSortBy(
-                                                    column.id,
-                                                    !column.isSortedDesc,
-                                                    false
-                                                );
-                                            }
-                                        }}
+                                        key={header.id}
+                                        onClick={
+                                            header.column.getCanSort()
+                                                ? header.column.getToggleSortingHandler()
+                                                : undefined
+                                        }
                                     >
-                                        {column.render("Header")}
-                                        {column.canSort &&
-                                        column.id !== "selection" ? (
+                                        {flexRender(
+                                            header.column.columnDef.header,
+                                            header.getContext()
+                                        )}
+                                        {header.column.getCanSort() ? (
                                             <TableSortLabel
-                                                active={column.isSorted}
+                                                active={
+                                                    !!header.column.getIsSorted()
+                                                }
                                                 direction={
-                                                    column.isSortedDesc
+                                                    header.column.getIsSorted() ===
+                                                    "desc"
                                                         ? "desc"
                                                         : "asc"
                                                 }
@@ -171,26 +176,18 @@ const SearchResultsTable = ({
                     )}
                     {!loading && (
                         <TableBody>
-                            {rows.map((row) => {
-                                prepareRow(row);
-                                return (
-                                    <TableRow
-                                        key={row.id}
-                                        {...row.getRowProps()}
-                                    >
-                                        {row.cells.map((cell) => {
-                                            return (
-                                                <TableCell
-                                                    key={cell.row.id}
-                                                    {...cell.getCellProps()}
-                                                >
-                                                    {cell.render("Cell")}
-                                                </TableCell>
-                                            );
-                                        })}
-                                    </TableRow>
-                                );
-                            })}
+                            {table.getRowModel().rows.map((row) => (
+                                <TableRow key={row.id}>
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell key={cell.id}>
+                                            {flexRender(
+                                                cell.column.columnDef.cell,
+                                                cell.getContext()
+                                            )}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))}
                         </TableBody>
                     )}
                 </Table>

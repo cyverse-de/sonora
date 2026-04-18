@@ -270,6 +270,7 @@ function DataSearchResults(props) {
                 enableSorting: false,
             },
             {
+                id: "label",
                 header: dataRecordFields.NAME.fieldName,
                 accessorKey: "_source.label",
                 cell: ({ row }) => (
@@ -277,9 +278,9 @@ function DataSearchResults(props) {
                 ),
             },
             {
+                id: "path",
                 header: dataRecordFields.PATH.fieldName,
                 accessorKey: "_source.path",
-                enableSorting: false,
             },
             {
                 header: "",
@@ -351,12 +352,12 @@ function DataSearchResults(props) {
                 canFetchMore={hasNextPage}
                 initialSortBy={[
                     {
-                        id: "_source." + sortField,
+                        id: sortField,
                         desc: sortOrder === "descending",
                     },
                 ]}
                 onSort={(colId, descending) => {
-                    setSortField(colId?.split(".")[1]);
+                    setSortField(colId);
                     descending
                         ? setSortOrder("descending")
                         : setSortOrder("ascending");

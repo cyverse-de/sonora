@@ -97,6 +97,7 @@ const SearchResultsTable = ({
         onRowSelectionChange: setRowSelection,
         enableRowSelection: selectable,
         manualSorting: true,
+        enableSortingRemoval: false,
         enableMultiSort: false,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),

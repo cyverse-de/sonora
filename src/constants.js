@@ -103,7 +103,6 @@ const constants = {
     CYVERSE_GLOSSARY: "https://learning.cyverse.org/glossary/",
     ACCESS_ALLOC_LINK: "https://allocations.access-ci.org/",
     TACC_LINK: "https://tacc.utexas.edu/",
-    VICE_LOADING_PAGE: "/vice",
 
     METADATA: {
         COMMUNITY_ATTR: "cyverse-community",

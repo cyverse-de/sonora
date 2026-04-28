@@ -18,13 +18,11 @@ import NavigationConstants from "common/NavigationConstants";
 
 import { useDefaultOutputDir } from "components/data/utils";
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
-import { getHost } from "components/utils/getHost";
 import SignInDialog from "components/utils/SignInDialog";
 import AccessRequestDialog from "components/vice/AccessRequestDialog";
 import RunErrorDialog from "components/vice/RunErrorDialog";
 import VicePendingRequestDlg from "components/vice/VicePendingRequestDlg";
 
-import constants from "constants.js";
 import { useUserProfile } from "contexts/userProfile";
 import { useBootstrapInfo } from "contexts/bootstrap";
 import ids from "./ids";
@@ -71,7 +69,7 @@ function InstantLaunchButtonWrapper(props) {
 
     React.useEffect(() => {
         if (ilUrl && landingUrl) {
-            window.open(`${getHost()}${ilUrl}`);
+            window.open(ilUrl);
             setIlUrl(null);
             setOpen(false);
             // reset the value so after it closes you can launch a second by reopening
@@ -104,11 +102,7 @@ function InstantLaunchButtonWrapper(props) {
                     `/${NavigationConstants.ANALYSES}/${analysis?.id}`
                 );
                 if (analysis.interactive_urls?.length > 0) {
-                    setIlUrl(
-                        `${constants.VICE_LOADING_PAGE}/${encodeURIComponent(
-                            analysis.interactive_urls[0]
-                        )}`
-                    );
+                    setIlUrl(analysis.interactive_urls[0]);
                 } else {
                     setOpen(false);
                 }

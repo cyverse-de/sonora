@@ -166,7 +166,7 @@
         "eslint": "^8.56.0",
         "eslint-config-next": "^14.2.35",
         "husky": "^4.0.10",
-        "i18next-http-backend": "^2.1.1",
+        "i18next-http-backend": "^3.0.5",
         "jest": "^30.3.0",
         "jest-environment-jsdom": "^30.3.0",
         "jest-next-dynamic": "^1.0.1",

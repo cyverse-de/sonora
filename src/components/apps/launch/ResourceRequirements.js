@@ -178,20 +178,22 @@ const StepResourceRequirementsForm = ({
                         ))}
                     </FastField>
                 </Grid>
-                <Grid item xs={12}>
-                    <FastField
-                        id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_GPU)}
-                        name={`requirements.${index}.max_gpus`}
-                        label={t("gpus")}
-                        component={FormSelectField}
-                    >
-                        {gpuList.map((size, index) => (
-                            <MenuItem key={index} value={size}>
-                                {size}
-                            </MenuItem>
-                        ))}
-                    </FastField>
-                </Grid>
+                {max_gpus > 0 && min_gpus !== max_gpus && (
+                    <Grid item xs={12}>
+                        <FastField
+                            id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_GPU)}
+                            name={`requirements.${index}.max_gpus`}
+                            label={t("gpus")}
+                            component={FormSelectField}
+                        >
+                            {gpuList.map((size, index) => (
+                                <MenuItem key={index} value={size}>
+                                    {size}
+                                </MenuItem>
+                            ))}
+                        </FastField>
+                    </Grid>
+                )}
                 {showGpuModelsSelector && (
                     <Grid item xs={12}>
                         <FastField

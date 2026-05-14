@@ -8,17 +8,20 @@ build-flags := ""
 
 default: build
 
-test:
-    npm run test
-
 deps:
     npm install
 
 build: deps
-    npm run build	
+    npm run build
+
+dev:
+    npm run dev
+
+run:
+    npm start
 
 build-image:
-    {{ container-runtime }} build -f {{ build-context}}/{{ dockerfile }} -t {{ image-name }}:{{ tag }} --platform {{ platform }} {{ build-flags }} {{ build-context}}
+    {{ container-runtime }} build -f {{ build-context }}/{{ dockerfile }} -t {{ image-name }}:{{ tag }} --platform {{ platform }} {{ build-flags }} {{ build-context }}
 
 push:
     {{ container-runtime }} push {{ image-name }}:{{ tag }}
@@ -61,6 +64,26 @@ write-build-file output-file="build.json":
       ]
     }
     EOF
+
+test:
+    npm test
+
+lint:
+    npm run lint
+
+fmt-check:
+    npm run check-format
+
+fmt-fix:
+    npm run format
+
+check: fmt-check lint test
+
+storybook:
+    npm run storybook
+
+build-storybook:
+    npm run build-storybook
 
 clean:
     npm run clean

@@ -41,17 +41,8 @@ const OperatorEditor = ({
     const { t } = useTranslation("vice-admin");
     const isEdit = mode === "edit";
 
-    // Run the shared validator and translate its { key, values } results into
-    // the plain message strings Formik expects.
-    const validate = (values) => {
-        const errs = validateOperator(values, allOperators, initial?.id);
-        return Object.fromEntries(
-            Object.entries(errs).map(([field, { key, values: v }]) => [
-                field,
-                t(key, v),
-            ])
-        );
-    };
+    const validate = (values) =>
+        validateOperator(t, values, allOperators, initial?.id);
 
     const handleSubmit = (values) => {
         onSave({

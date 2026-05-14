@@ -10,33 +10,34 @@ const NAME_RE = /^[a-z0-9]([-a-z0-9]*[a-z0-9])?$/;
 
 /**
  * Live validation for the operator editor. Returns an object whose keys are
- * field names ("name", "url", "priority") and values are translation
- * arguments — { key, values? } — so the caller can resolve them with `t()`.
+ * field names ("name", "url", "priority") and values are the translated error
+ * messages Formik expects.
  *
- * @param {object} draft           the in-progress operator
- * @param {Array}  allOperators    the existing operators (for uniqueness)
- * @param {string} originalId      the id of the operator being edited (skipped
- *                                 in uniqueness checks); undefined for create.
+ * @param {function} t              the i18n translation function
+ * @param {object}   draft          the in-progress operator
+ * @param {Array}    allOperators   the existing operators (for uniqueness)
+ * @param {string}   originalId     the id of the operator being edited (skipped
+ *                                  in uniqueness checks); undefined for create.
  */
-export const validateOperator = (draft, allOperators = [], originalId) => {
+export const validateOperator = (t, draft, allOperators = [], originalId) => {
     const errs = {};
 
     // ---- name ----
     if (!draft.name || !draft.name.trim()) {
-        errs.name = { key: "operatorNameRequired" };
+        errs.name = t("operatorNameRequired");
     } else if (draft.name.length > 63) {
-        errs.name = { key: "operatorNameTooLong" };
+        errs.name = t("operatorNameTooLong");
     } else if (!NAME_RE.test(draft.name)) {
-        errs.name = { key: "operatorNameInvalid" };
+        errs.name = t("operatorNameInvalid");
     } else if (
         allOperators.some((o) => o.name === draft.name && o.id !== originalId)
     ) {
-        errs.name = { key: "operatorNameTaken" };
+        errs.name = t("operatorNameTaken");
     }
 
     // ---- url ----
     if (!draft.url || !draft.url.trim()) {
-        errs.url = { key: "operatorUrlRequired" };
+        errs.url = t("operatorUrlRequired");
     } else {
         let parsed;
         try {
@@ -45,14 +46,14 @@ export const validateOperator = (draft, allOperators = [], originalId) => {
             // fall through
         }
         if (!parsed) {
-            errs.url = { key: "operatorUrlInvalid" };
+            errs.url = t("operatorUrlInvalid");
         } else if (
             parsed.protocol !== "http:" &&
             parsed.protocol !== "https:"
         ) {
-            errs.url = { key: "operatorUrlScheme" };
+            errs.url = t("operatorUrlScheme");
         } else if (!parsed.hostname) {
-            errs.url = { key: "operatorUrlNoHost" };
+            errs.url = t("operatorUrlNoHost");
         }
     }
 
@@ -62,19 +63,19 @@ export const validateOperator = (draft, allOperators = [], originalId) => {
         draft.priority === null ||
         draft.priority === undefined
     ) {
-        errs.priority = { key: "operatorPriorityRequired" };
+        errs.priority = t("operatorPriorityRequired");
     } else {
         const n = Number(draft.priority);
         if (!Number.isInteger(n)) {
-            errs.priority = { key: "operatorPriorityInteger" };
+            errs.priority = t("operatorPriorityInteger");
         } else if (n < 0) {
-            errs.priority = { key: "operatorPriorityNonNegative" };
+            errs.priority = t("operatorPriorityNonNegative");
         } else if (n > 9999) {
-            errs.priority = { key: "operatorPriorityTooLarge" };
+            errs.priority = t("operatorPriorityTooLarge");
         } else if (
             allOperators.some((o) => o.priority === n && o.id !== originalId)
         ) {
-            errs.priority = { key: "operatorPriorityTaken" };
+            errs.priority = t("operatorPriorityTaken");
         }
     }
 

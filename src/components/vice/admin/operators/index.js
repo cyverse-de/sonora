@@ -6,7 +6,7 @@
  * operators or edit existing ones. Backed by terrain's
  * `/api/admin/vice/operators` endpoints (terrain PR #323).
  *
- * @author your-name
+ * @author johnworth, Claude Opus 4.7
  */
 import React, { useMemo, useState } from "react";
 
@@ -23,7 +23,6 @@ import {
     IconButton,
     InputAdornment,
     Link,
-    Skeleton,
     Stack,
     Table,
     TableBody,
@@ -49,6 +48,7 @@ import GppMaybeIcon from "@mui/icons-material/GppMaybe";
 
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
+import TableLoading from "components/table/TableLoading";
 
 import {
     VICE_OPERATORS_QUERY_KEY,
@@ -266,12 +266,6 @@ const Operators = ({ showErrorAnnouncer }) => {
 
                 {isError ? (
                     <WrappedErrorHandler errorObject={error} baseId={BASE_ID} />
-                ) : isLoading ? (
-                    <Stack spacing={1}>
-                        <Skeleton variant="rectangular" height={48} />
-                        <Skeleton variant="rectangular" height={48} />
-                        <Skeleton variant="rectangular" height={48} />
-                    </Stack>
                 ) : (
                     <TableContainer>
                         <Table id={id(ids.TABLE)} size="small">
@@ -297,120 +291,148 @@ const Operators = ({ showErrorAnnouncer }) => {
                                     </TableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
-                                {filtered.length === 0 && (
-                                    <TableRow>
-                                        <TableCell
-                                            colSpan={5}
-                                            className={classes.empty}
-                                        >
-                                            <Typography variant="subtitle1">
-                                                {operators.length === 0
-                                                    ? t("operatorsEmptyTitle")
-                                                    : t("operatorsNoMatch")}
-                                            </Typography>
-                                            <Typography
-                                                variant="body2"
-                                                color="text.secondary"
+                            {isLoading ? (
+                                <TableLoading
+                                    numColumns={5}
+                                    numRows={3}
+                                    baseId={id(ids.TABLE)}
+                                />
+                            ) : (
+                                <TableBody>
+                                    {filtered.length === 0 && (
+                                        <TableRow>
+                                            <TableCell
+                                                colSpan={5}
+                                                className={classes.empty}
                                             >
-                                                {operators.length === 0
-                                                    ? t("operatorsEmptyHint")
-                                                    : t("operatorsNoMatchHint")}
-                                            </Typography>
-                                            {operators.length === 0 && (
-                                                <Button
-                                                    sx={{ mt: 2 }}
-                                                    onClick={openNew}
-                                                    startIcon={<AddIcon />}
-                                                    variant="contained"
-                                                    color="primary"
+                                                <Typography variant="subtitle1">
+                                                    {operators.length === 0
+                                                        ? t(
+                                                              "operatorsEmptyTitle"
+                                                          )
+                                                        : t("operatorsNoMatch")}
+                                                </Typography>
+                                                <Typography
+                                                    variant="body2"
+                                                    color="text.secondary"
                                                 >
-                                                    {t("new")}
-                                                </Button>
-                                            )}
-                                        </TableCell>
-                                    </TableRow>
-                                )}
-                                {filtered.map((op) => (
-                                    <TableRow
-                                        hover
-                                        key={op.id}
-                                        id={id(ids.ROW, op.id)}
-                                    >
-                                        <TableCell>
-                                            <Chip
-                                                size="small"
-                                                label={op.priority}
-                                                className={classes.priorityPill}
-                                            />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography
-                                                variant="body2"
-                                                fontWeight={500}
-                                            >
-                                                {op.name}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell className={classes.urlCell}>
-                                            <Link
-                                                href={op.url}
-                                                target="_blank"
-                                                rel="noreferrer noopener"
-                                                underline="hover"
-                                                className={classes.urlLink}
-                                            >
-                                                <span>{op.url}</span>
-                                                <OpenInNewIcon
-                                                    className={classes.urlIcon}
-                                                />
-                                            </Link>
-                                        </TableCell>
-                                        <TableCell>
-                                            {op.skipTlsVerify ? (
-                                                <Chip
-                                                    size="small"
-                                                    icon={<GppMaybeIcon />}
-                                                    label={t("operatorTlsSkip")}
-                                                    color="warning"
-                                                    variant="outlined"
-                                                />
-                                            ) : (
-                                                <Chip
-                                                    size="small"
-                                                    icon={<VerifiedUserIcon />}
-                                                    label={t(
-                                                        "operatorTlsVerified"
-                                                    )}
-                                                    color="success"
-                                                    variant="outlined"
-                                                />
-                                            )}
-                                        </TableCell>
-                                        <TableCell>
-                                            <Box className={classes.rowActions}>
-                                                <Tooltip title={t("edit")}>
-                                                    <IconButton
-                                                        id={id(
-                                                            ids.EDIT_BUTTON,
-                                                            op.id
-                                                        )}
-                                                        size="small"
-                                                        onClick={() =>
-                                                            openEdit(op)
-                                                        }
+                                                    {operators.length === 0
+                                                        ? t(
+                                                              "operatorsEmptyHint"
+                                                          )
+                                                        : t(
+                                                              "operatorsNoMatchHint"
+                                                          )}
+                                                </Typography>
+                                                {operators.length === 0 && (
+                                                    <Button
+                                                        sx={{ mt: 2 }}
+                                                        onClick={openNew}
+                                                        startIcon={<AddIcon />}
+                                                        variant="contained"
+                                                        color="primary"
                                                     >
-                                                        <EditIcon fontSize="small" />
-                                                    </IconButton>
-                                                </Tooltip>
-                                            </Box>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
+                                                        {t("new")}
+                                                    </Button>
+                                                )}
+                                            </TableCell>
+                                        </TableRow>
+                                    )}
+                                    {filtered.map((op) => (
+                                        <TableRow
+                                            hover
+                                            key={op.id}
+                                            id={id(ids.ROW, op.id)}
+                                        >
+                                            <TableCell>
+                                                <Chip
+                                                    size="small"
+                                                    label={op.priority}
+                                                    className={
+                                                        classes.priorityPill
+                                                    }
+                                                />
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography
+                                                    variant="body2"
+                                                    fontWeight={500}
+                                                >
+                                                    {op.name}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell
+                                                className={classes.urlCell}
+                                            >
+                                                <Link
+                                                    href={op.url}
+                                                    target="_blank"
+                                                    rel="noreferrer noopener"
+                                                    underline="hover"
+                                                    className={classes.urlLink}
+                                                >
+                                                    <span>{op.url}</span>
+                                                    <OpenInNewIcon
+                                                        className={
+                                                            classes.urlIcon
+                                                        }
+                                                    />
+                                                </Link>
+                                            </TableCell>
+                                            <TableCell>
+                                                {op.tls_skip_verify ? (
+                                                    <Chip
+                                                        size="small"
+                                                        icon={<GppMaybeIcon />}
+                                                        label={t(
+                                                            "operatorTlsSkip"
+                                                        )}
+                                                        color="warning"
+                                                        variant="outlined"
+                                                    />
+                                                ) : (
+                                                    <Chip
+                                                        size="small"
+                                                        icon={
+                                                            <VerifiedUserIcon />
+                                                        }
+                                                        label={t(
+                                                            "operatorTlsVerified"
+                                                        )}
+                                                        color="success"
+                                                        variant="outlined"
+                                                    />
+                                                )}
+                                            </TableCell>
+                                            <TableCell>
+                                                <Box
+                                                    className={
+                                                        classes.rowActions
+                                                    }
+                                                >
+                                                    <Tooltip title={t("edit")}>
+                                                        <IconButton
+                                                            id={id(
+                                                                ids.EDIT_BUTTON,
+                                                                op.id
+                                                            )}
+                                                            size="small"
+                                                            onClick={() =>
+                                                                openEdit(op)
+                                                            }
+                                                        >
+                                                            <EditIcon fontSize="small" />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </Box>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            )}
                         </Table>
 
-                        {filtered.length > 0 && (
+                        {!isLoading && filtered.length > 0 && (
                             <Box className={classes.tableFoot}>
                                 <span>
                                     {t("operatorsCount", {

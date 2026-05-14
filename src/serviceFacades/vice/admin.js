@@ -93,45 +93,26 @@ export const userExists = ({ username }) => {
 
 export const VICE_OPERATORS_QUERY_KEY = "fetchViceOperators";
 
-// Translate the snake_case operator payload from terrain into the camelCase
-// shape the React components expect.
-const fromTerrain = (op) => ({
-    id: op.id,
-    name: op.name,
-    url: op.url,
-    priority: op.priority,
-    skipTlsVerify: op.tls_skip_verify,
-});
-
-// Translate a camelCase draft from the editor back to the snake_case shape
-// terrain accepts.
-const toTerrain = ({ name, url, priority, skipTlsVerify }) => ({
-    name,
-    url,
-    priority,
-    tls_skip_verify: skipTlsVerify,
-});
-
 export const getOperators = () =>
     callApi({
         endpoint: "/api/admin/vice/operators",
         method: "GET",
-    }).then((data) => (data ?? []).map(fromTerrain));
+    }).then((data) => data ?? []);
 
 export const createOperator = (body) =>
     callApi({
         endpoint: "/api/admin/vice/operators",
         method: "POST",
-        body: toTerrain(body),
-    }).then(fromTerrain);
+        body,
+    });
 
 // Terrain exposes the per-operator endpoint at /operators/id/:id (UUID).
 export const updateOperator = ({ id, ...body }) =>
     callApi({
         endpoint: `/api/admin/vice/operators/id/${id}`,
         method: "PATCH",
-        body: toTerrain(body),
-    }).then(fromTerrain);
+        body,
+    });
 
 const resources = () =>
     callApi({

@@ -148,6 +148,42 @@ export default function viceRouter() {
         })
     );
 
+    logger.info("adding the GET /admin/vice/operators handler");
+    api.get(
+        "/admin/vice/operators",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "GET",
+            pathname: "/admin/vice/operators",
+        })
+    );
+
+    logger.info("adding the POST /admin/vice/operators handler");
+    api.post(
+        "/admin/vice/operators",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "POST",
+            pathname: "/admin/vice/operators",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
+    logger.info("adding the PATCH /admin/vice/operators/id/:id handler");
+    api.patch(
+        "/admin/vice/operators/id/:id",
+        auth.authnTokenMiddleware,
+        terrainHandler({
+            method: "PATCH",
+            pathname: "/admin/vice/operators/id/:id",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+    );
+
     logger.info("adding the GET /vice/resources handler");
     api.get(
         "/vice/resources",

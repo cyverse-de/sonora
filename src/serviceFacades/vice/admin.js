@@ -91,6 +91,29 @@ export const userExists = ({ username }) => {
     }).then((data) => data.workspaces.length > 0);
 };
 
+export const VICE_OPERATORS_QUERY_KEY = "fetchViceOperators";
+
+export const getOperators = () =>
+    callApi({
+        endpoint: "/api/admin/vice/operators",
+        method: "GET",
+    }).then((data) => data ?? []);
+
+export const createOperator = (body) =>
+    callApi({
+        endpoint: "/api/admin/vice/operators",
+        method: "POST",
+        body,
+    });
+
+// Terrain exposes the per-operator endpoint at /operators/id/:id (UUID).
+export const updateOperator = ({ id, ...body }) =>
+    callApi({
+        endpoint: `/api/admin/vice/operators/id/${id}`,
+        method: "PATCH",
+        body,
+    });
+
 const resources = () =>
     callApi({
         endpoint: "/api/admin/vice/resources",

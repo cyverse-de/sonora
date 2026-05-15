@@ -4,6 +4,7 @@ const ids = {
     SKELETON: "skeleton",
     REQUEST_LIMIT_TAB: "requestLimitTab",
     USER_ANALYSES_TAB: "userAnalysesTab",
+    OPERATORS_TAB: "operatorsTab",
     INSTANT_LAUNCHES_TAB: "instantLaunchesTab",
     DATA_MAPPING_TAB: "dataMappingTab",
 };

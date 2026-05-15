@@ -20,6 +20,7 @@ import { DETabPanel, DETabs, DETab } from "components/utils/DETabs";
 
 import RowFilter from "components/vice/admin/filter";
 import JobLimits from "components/vice/admin/joblimits";
+import Operators from "components/vice/admin/operators";
 import efcs from "components/vice/admin/filter/efcs";
 
 import ids from "components/vice/admin/ids";
@@ -38,6 +39,7 @@ const id = (...values) => buildID(ids.ROOT, ...values);
 const TABS = {
     quotaRequests: "QUOTA REQUESTS",
     analyses: "ANALYSES",
+    operators: "OPERATORS",
     instantLaunches: "INSTANT LAUNCHES",
     dataMapping: "DATA MAPPING",
 };
@@ -146,6 +148,12 @@ export const VICEAdmin = () => {
                 />
 
                 <DETab
+                    value={TABS.operators}
+                    label={t("operatorsTabLabel")}
+                    id={id(ids.OPERATORS_TAB)}
+                />
+
+                <DETab
                     value={TABS.instantLaunches}
                     label={t("instantLaunchesTabLabel")}
                     id={id(ids.INSTANT_LAUNCHES_TAB)}
@@ -188,6 +196,15 @@ export const VICEAdmin = () => {
                         <VICEAdminTabs data={filteredData} />
                     </>
                 )}
+            </DETabPanel>
+
+            <DETabPanel
+                tabId={id(ids.OPERATORS_TAB)}
+                value={TABS.operators}
+                selectedTab={selectedTab}
+                showDivider={false}
+            >
+                <Operators />
             </DETabPanel>
 
             <DETabPanel

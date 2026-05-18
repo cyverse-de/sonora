@@ -1,6 +1,7 @@
 import React from "react";
 import TestRenderer from "react-test-renderer";
 
+import { buildGpuLimitList } from "components/apps/launch/ResourceRequirements";
 import { initAppLaunchValues } from "components/apps/launch/formatters";
 import validate from "components/apps/launch/validate";
 
@@ -284,5 +285,19 @@ describe("validate GPU min/max requirements", () => {
         const errors = validator(makeValues([{}]));
         const gpuErr = errors.requirements?.[0]?.max_gpus;
         expect(gpuErr).toBeFalsy();
+    });
+});
+
+describe("buildGpuLimitList", () => {
+    test("includes 0 when min_gpus is 0", () => {
+        expect(buildGpuLimitList(0, 8)).toEqual([0, 1, 2, 4, 8]);
+    });
+
+    test("excludes 0 when min_gpus is greater than 0", () => {
+        expect(buildGpuLimitList(2, 8)).toEqual([2, 4, 8]);
+    });
+
+    test("uses min_gpus as only option when min_gpus is above max_gpus", () => {
+        expect(buildGpuLimitList(3, 2)).toEqual([3]);
     });
 });

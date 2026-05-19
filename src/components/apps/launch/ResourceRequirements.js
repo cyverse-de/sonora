@@ -66,6 +66,12 @@ function buildLimitList(startValue, minValue, maxValue) {
     return limits;
 }
 
+function buildGpuLimitList(minValue, maxValue) {
+    const limits = buildLimitList(1, minValue, maxValue);
+
+    return minValue > 0 ? limits.filter((value) => value !== 0) : limits;
+}
+
 /**
  * Form fields for selecting a step's resource requirements.
  *
@@ -121,7 +127,8 @@ const StepResourceRequirementsForm = ({
         min_disk_space || 0,
         defaultMaxDiskSpace || 512 * constants.ONE_GiB
     );
-    const gpuList = buildLimitList(1, min_gpus || 0, max_gpus || 8);
+    const gpuMinValue = min_gpus ?? 0;
+    const gpuList = buildGpuLimitList(gpuMinValue, max_gpus || 8);
 
     const currentMaxGpus =
         getIn(values, `requirements.${index}.max_gpus`) ?? max_gpus;
@@ -480,4 +487,8 @@ const ResourceRequirementsReview = ({
         />
     ));
 };
-export { ResourceRequirementsForm, ResourceRequirementsReview };
+export {
+    ResourceRequirementsForm,
+    ResourceRequirementsReview,
+    buildGpuLimitList,
+};

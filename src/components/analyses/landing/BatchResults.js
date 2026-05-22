@@ -71,9 +71,9 @@ export default function BatchResults(props) {
     const columns = React.useMemo(
         () => [
             {
-                Header: analysisRecordFields.NAME.fieldName,
-                accessor: analysisRecordFields.NAME.key,
-                Cell: ({ row }) => (
+                header: analysisRecordFields.NAME.fieldName,
+                accessorKey: analysisRecordFields.NAME.key,
+                cell: ({ row }) => (
                     <Link
                         href={`/${NavigationConstants.ANALYSES}/${row?.original.id}?view=${BATCH_DRILL_DOWN}`}
                         legacyBehavior
@@ -87,8 +87,8 @@ export default function BatchResults(props) {
                 ),
             },
             {
-                Header: analysisRecordFields.STATUS.fieldName,
-                accessor: analysisRecordFields.STATUS.key,
+                header: analysisRecordFields.STATUS.fieldName,
+                accessorKey: analysisRecordFields.STATUS.key,
             },
         ],
         [analysisRecordFields]

@@ -64,9 +64,10 @@ function Admins(props) {
 
         return [
             {
-                Header: t("sharing:user"),
-                accessor: getUserPrimaryText,
-                Cell: ({ row }) => {
+                header: t("sharing:user"),
+                accessorFn: getUserPrimaryText,
+                id: "user",
+                cell: ({ row }) => {
                     return (
                         <Field name={`${name}.${row.index}`}>
                             {({ field: { value } }) => {
@@ -77,9 +78,9 @@ function Admins(props) {
                 },
             },
             {
-                Header: "",
-                accessor: "id",
-                Cell: ({ row }) => {
+                header: "",
+                accessorKey: "id",
+                cell: ({ row }) => {
                     const subject = row.original;
                     const rowId = getRowId(row);
                     if (isAdmin && !isSelf(subject)) {

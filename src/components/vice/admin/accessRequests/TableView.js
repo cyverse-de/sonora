@@ -33,10 +33,11 @@ export default function TableView(props) {
     const columns = useMemo(
         () => [
             {
-                Header: t("user"),
-                accessor: "requesting_user",
-                Cell: ({ row, value }) => {
+                header: t("user"),
+                accessorKey: "requesting_user",
+                cell: ({ row, getValue }) => {
                     const original = row.original;
+                    const value = getValue();
                     return (
                         <>
                             <Typography>
@@ -60,9 +61,9 @@ export default function TableView(props) {
                 },
             },
             {
-                Header: t("approve"),
+                header: t("approve"),
                 id: ids.APPROVE_BTN,
-                Cell: ({ row, value }) => {
+                cell: ({ row }) => {
                     const original = row.original;
                     return (
                         <IconButton
@@ -89,9 +90,9 @@ export default function TableView(props) {
                 },
             },
             {
-                Header: t("reject"),
+                header: t("reject"),
                 id: ids.REJECT_BTN,
-                Cell: ({ row, value }) => {
+                cell: ({ row }) => {
                     const original = row.original;
                     return (
                         <IconButton
@@ -116,30 +117,30 @@ export default function TableView(props) {
                 },
             },
             {
-                Header: t("requestedDate"),
-                accessor: "created_date",
-                Cell: ({ row, value }) => {
+                header: t("requestedDate"),
+                accessorKey: "created_date",
+                cell: ({ getValue }) => {
                     return (
                         <Typography>
-                            {formatDateObject(new Date(value))}
+                            {formatDateObject(new Date(getValue()))}
                         </Typography>
                     );
                 },
             },
             {
-                Header: t("useCase"),
-                accessor: "details.intended_use",
-                Cell: ({ row, value }) => {
-                    return <Typography>{value}</Typography>;
+                header: t("useCase"),
+                accessorKey: "details.intended_use",
+                cell: ({ getValue }) => {
+                    return <Typography>{getValue()}</Typography>;
                 },
             },
             {
-                Header: t("lastUpdated"),
-                accessor: "updated_date",
-                Cell: ({ row, value }) => {
+                header: t("lastUpdated"),
+                accessorKey: "updated_date",
+                cell: ({ getValue }) => {
                     return (
                         <Typography>
-                            {formatDateObject(new Date(value))}
+                            {formatDateObject(new Date(getValue()))}
                         </Typography>
                     );
                 },

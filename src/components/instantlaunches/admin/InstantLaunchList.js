@@ -335,10 +335,10 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
     const columns = React.useMemo(() => {
         return [
             {
-                Header: "",
-                accessor: "quick_launch_id",
-                disableSortBy: true,
-                Cell: ({ row }) => {
+                header: "",
+                accessorKey: "quick_launch_id",
+                enableSorting: false,
+                cell: ({ row }) => {
                     const il = row.original;
 
                     const inDashboard = isInDashboard(
@@ -364,29 +364,29 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                 },
             },
             {
-                Header: t("common:name"),
-                accessor: "quick_launch_name",
+                header: t("common:name"),
+                accessorKey: "quick_launch_name",
             },
             {
-                Header: t("app"),
-                accessor: "app_name",
+                header: t("app"),
+                accessorKey: "app_name",
             },
             {
-                Header: t("appVersion"),
-                accessor: "app_version",
+                header: t("appVersion"),
+                accessorKey: "app_version",
             },
             {
-                Header: t("createdBy"),
-                accessor: "added_by",
-                Cell: ({ row }) => {
+                header: t("createdBy"),
+                accessorKey: "added_by",
+                cell: ({ row }) => {
                     const instantLaunch = row.original;
                     return shortenUsername(instantLaunch.added_by);
                 },
             },
             {
-                Header: t("addedOn"),
-                accessor: "added_on",
-                Cell: ({ row }) => {
+                header: t("addedOn"),
+                accessorKey: "added_on",
+                cell: ({ row }) => {
                     const instantLaunch = row.original;
                     const addedOn = Date.parse(instantLaunch.added_on);
 
@@ -394,10 +394,10 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                 },
             },
             {
-                Header: "",
-                accessor: "id",
-                disableSortBy: true,
-                Cell: ({ row }) => {
+                header: "",
+                accessorKey: "id",
+                enableSorting: false,
+                cell: ({ row }) => {
                     const il = row.original;
 
                     const rowID = buildID(baseID, ids.TABLE, ids.ROW, il.id);

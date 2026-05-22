@@ -116,9 +116,10 @@ function Members(props) {
 
         return [
             {
-                Header: t("sharing:user"),
-                accessor: (row) => getUserPrimaryText(row.subject),
-                Cell: ({ row }) => {
+                header: t("sharing:user"),
+                accessorFn: (row) => getUserPrimaryText(row.subject),
+                id: "user",
+                cell: ({ row }) => {
                     return (
                         <Field name={`${name}.${row.index}.subject`}>
                             {({ field: { value } }) => {
@@ -129,9 +130,9 @@ function Members(props) {
                 },
             },
             {
-                Header: t("privilege"),
-                accessor: "name",
-                Cell: ({ row }) => {
+                header: t("privilege"),
+                accessorKey: "name",
+                cell: ({ row }) => {
                     const privilege = row.original;
                     const rowId = getRowId(row);
                     return (
@@ -154,9 +155,9 @@ function Members(props) {
                 },
             },
             {
-                Header: "",
-                accessor: "subject.id",
-                Cell: ({ row }) => {
+                header: "",
+                accessorKey: "subject.id",
+                cell: ({ row }) => {
                     const privilege = row.original;
                     const rowId = getRowId(row);
                     if (isAdmin && !isSelf(privilege)) {

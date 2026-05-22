@@ -67,9 +67,9 @@ function Listing(props) {
     const columns = useMemo(() => {
         const baseColumns = [
             {
-                Header: TEAM_COLUMNS.NAME.fieldName,
-                accessor: TEAM_COLUMNS.NAME.key,
-                Cell: ({ row, value }) => {
+                header: TEAM_COLUMNS.NAME.fieldName,
+                accessorKey: TEAM_COLUMNS.NAME.key,
+                cell: ({ row, getValue }) => {
                     const team = row.original;
                     const rowId = buildID(tableId, team.id);
                     return (
@@ -77,18 +77,18 @@ function Listing(props) {
                             id={buildID(rowId, ids.TEAMS.LINK)}
                             onClick={() => onTeamNameSelected(team.name)}
                             searchTerm={searchTerm}
-                            text={value}
+                            text={getValue()}
                         />
                     );
                 },
             },
             {
-                Header: TEAM_COLUMNS.CREATOR.fieldName,
-                accessor: TEAM_COLUMNS.CREATOR.key,
+                header: TEAM_COLUMNS.CREATOR.fieldName,
+                accessorKey: TEAM_COLUMNS.CREATOR.key,
             },
             {
-                Header: TEAM_COLUMNS.DESCRIPTION.fieldName,
-                accessor: TEAM_COLUMNS.DESCRIPTION.key,
+                header: TEAM_COLUMNS.DESCRIPTION.fieldName,
+                accessorKey: TEAM_COLUMNS.DESCRIPTION.key,
             },
         ];
 
@@ -97,10 +97,10 @@ function Listing(props) {
             : [
                   ...baseColumns,
                   {
-                      Header: TEAM_COLUMNS.DETAILS.fieldName,
-                      accessor: TEAM_COLUMNS.DETAILS.key,
-                      defaultCanSort: false,
-                      Cell: ({ row }) => {
+                      header: TEAM_COLUMNS.DETAILS.fieldName,
+                      accessorKey: TEAM_COLUMNS.DETAILS.key,
+                      enableSorting: false,
+                      cell: ({ row }) => {
                           const team = row.original;
                           return (
                               <IconButton

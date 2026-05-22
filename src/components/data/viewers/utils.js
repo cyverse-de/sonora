@@ -5,7 +5,7 @@ const LINE_NUMBER_ACCESSOR = "lineNumber";
 
 /**
  *
- * Get columns array definition to use with react-table in PathListViewer and StructuredTextViewer
+ * Get columns array definition to use with @tanstack/react-table in PathListViewer and StructuredTextViewer
  *
  * @param {string} data - data to be displayed in react table.
  * @param {boolean} firstRowHeader - first row to be used as header or not
@@ -14,10 +14,10 @@ const LINE_NUMBER_ACCESSOR = "lineNumber";
 function getColumns(data, firstRowHeader, pathLabel) {
     let cols = [
         {
-            Header: "#",
-            accessor: LINE_NUMBER_ACCESSOR,
-            disableSortBy: true,
-            Cell: ({ row }) => {
+            header: "#",
+            accessorKey: LINE_NUMBER_ACCESSOR,
+            enableSorting: false,
+            cell: ({ row }) => {
                 return (
                     <Typography color="primary">
                         {row.original[LINE_NUMBER_ACCESSOR]}
@@ -33,9 +33,9 @@ function getColumns(data, firstRowHeader, pathLabel) {
 
     if (pathLabel) {
         cols.push({
-            Header: pathLabel,
-            accessor: Object.keys(data[0])[0],
-            disableSortBy: true,
+            header: pathLabel,
+            accessorKey: Object.keys(data[0])[0],
+            enableSorting: false,
         });
         return cols;
     }
@@ -48,15 +48,15 @@ function getColumns(data, firstRowHeader, pathLabel) {
         if (colId !== LINE_NUMBER_ACCESSOR) {
             if (colHeaders) {
                 cols.push({
-                    Header: colHeaders[colId],
-                    accessor: colId,
-                    disableSortBy: true,
+                    header: colHeaders[colId],
+                    accessorKey: colId,
+                    enableSorting: false,
                 });
             } else {
                 cols.push({
-                    Header: colId,
-                    accessor: colId,
-                    disableSortBy: true,
+                    header: colId,
+                    accessorKey: colId,
+                    enableSorting: false,
                 });
             }
         }

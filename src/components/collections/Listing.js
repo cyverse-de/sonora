@@ -61,23 +61,23 @@ function Listing(props) {
     const columns = useMemo(() => {
         return [
             {
-                Header: COLLECTION_COLUMNS.NAME.fieldName,
-                accessor: COLLECTION_COLUMNS.NAME.key,
-                Cell: ({ row, value }) => {
+                header: COLLECTION_COLUMNS.NAME.fieldName,
+                accessorKey: COLLECTION_COLUMNS.NAME.key,
+                cell: ({ row, getValue }) => {
                     const collection = row.original;
                     const rowId = buildID(tableId, collection.id);
                     return (
                         <DELink
                             id={buildID(rowId, ids.COLLECTION_LINK)}
                             onClick={() => onCollectionSelected(collection)}
-                            text={value}
+                            text={getValue()}
                         />
                     );
                 },
             },
             {
-                Header: COLLECTION_COLUMNS.DESCRIPTION.fieldName,
-                accessor: COLLECTION_COLUMNS.DESCRIPTION.key,
+                header: COLLECTION_COLUMNS.DESCRIPTION.fieldName,
+                accessorKey: COLLECTION_COLUMNS.DESCRIPTION.key,
             },
         ];
     }, [COLLECTION_COLUMNS, onCollectionSelected, tableId]);

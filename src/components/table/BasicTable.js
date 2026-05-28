@@ -1,7 +1,7 @@
 /**
  * @author aramsey
  *
- * A simple table using react-table's helper functions
+ * A simple table using @tanstack/react-table's helper functions
  * Enabling sorting is optional
  */
 
@@ -20,7 +20,12 @@ import {
     TableSortLabel,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { useSortBy, useTable } from "react-table";
+import {
+    useReactTable,
+    getCoreRowModel,
+    getSortedRowModel,
+    flexRender,
+} from "@tanstack/react-table";
 
 import constants from "constants.js";
 
@@ -35,48 +40,53 @@ function BasicTable(props) {
         loading,
         emptyDataMessage,
     } = props;
-    const { getTableProps, headerGroups, rows, prepareRow } = useTable(
-        {
-            columns,
-            data,
-        },
-        sortable && useSortBy
-    );
+
+    const table = useReactTable({
+        columns,
+        data,
+        getCoreRowModel: getCoreRowModel(),
+        ...(sortable && { getSortedRowModel: getSortedRowModel() }),
+    });
 
     return (
         <TableContainer style={{ overflow: "auto" }}>
             <Table
                 size={tableSize}
                 stickyHeader
-                {...getTableProps()}
                 style={{ overflow: "auto" }}
             >
                 <TableHead>
-                    {headerGroups.map((headerGroup) => (
-                        <TableRow
-                            key={headerGroup.id}
-                            {...headerGroup.getHeaderGroupProps()}
-                        >
-                            {headerGroup.headers.map((column) => (
+                    {table.getHeaderGroups().map((headerGroup) => (
+                        <TableRow key={headerGroup.id}>
+                            {headerGroup.headers.map((header) => (
                                 <TableCell
-                                    key={column.id}
+                                    key={header.id}
                                     variant="head"
-                                    {...column.getHeaderProps(
+                                    onClick={
                                         sortable &&
-                                            column.getSortByToggleProps()
-                                    )}
+                                        header.column.getCanSort()
+                                            ? header.column.getToggleSortingHandler()
+                                            : undefined
+                                    }
                                 >
-                                    {column.render("Header")}
-                                    {sortable && column.canSort && (
-                                        <TableSortLabel
-                                            active={column.isSorted}
-                                            direction={
-                                                column.isSortedDesc
-                                                    ? constants.SORT_DESCENDING
-                                                    : constants.SORT_ASCENDING
-                                            }
-                                        />
+                                    {flexRender(
+                                        header.column.columnDef.header,
+                                        header.getContext()
                                     )}
+                                    {sortable &&
+                                        header.column.getCanSort() && (
+                                            <TableSortLabel
+                                                active={
+                                                    !!header.column.getIsSorted()
+                                                }
+                                                direction={
+                                                    header.column.getIsSorted() ===
+                                                    "desc"
+                                                        ? constants.SORT_DESCENDING
+                                                        : constants.SORT_ASCENDING
+                                                }
+                                            />
+                                        )}
                                 </TableCell>
                             ))}
                         </TableRow>
@@ -99,18 +109,19 @@ function BasicTable(props) {
                 )}
                 {!loading && data?.length > 0 && (
                     <TableBody>
-                        {rows.map((row) => {
-                            prepareRow(row);
+                        {table.getRowModel().rows.map((row) => {
                             return (
-                                <TableRow key={row.id} {...row.getRowProps()}>
-                                    {row.cells.map((cell) => {
+                                <TableRow key={row.id}>
+                                    {row.getVisibleCells().map((cell) => {
                                         return (
                                             <TableCell
-                                                key={cell.row.id}
+                                                key={cell.id}
                                                 padding={bodyCellPadding}
-                                                {...cell.getCellProps()}
                                             >
-                                                {cell.render("Cell")}
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
                                             </TableCell>
                                         );
                                     })}

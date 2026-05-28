@@ -124,29 +124,29 @@ export default function AnalysesSearchResults(props) {
     const columns = React.useMemo(
         () => [
             {
-                Header: analysisRecordFields.NAME.fieldName,
-                accessor: analysisRecordFields.NAME.key,
-                Cell: ({ row }) => (
+                header: analysisRecordFields.NAME.fieldName,
+                accessorKey: analysisRecordFields.NAME.key,
+                cell: ({ row }) => (
                     <Name analysis={row?.original} searchTerm={searchTerm} />
                 ),
             },
             {
-                Header: analysisRecordFields.START_DATE.fieldName,
-                accessor: analysisRecordFields.START_DATE.key,
-                Cell: ({ row }) => {
+                header: analysisRecordFields.START_DATE.fieldName,
+                accessorKey: analysisRecordFields.START_DATE.key,
+                cell: ({ row }) => {
                     const sd =
                         row.original[analysisRecordFields.START_DATE.key];
                     return <Typography>{formatDate(sd)}</Typography>;
                 },
             },
             {
-                Header: analysisRecordFields.STATUS.fieldName,
-                accessor: analysisRecordFields.STATUS.key,
+                header: analysisRecordFields.STATUS.fieldName,
+                accessorKey: analysisRecordFields.STATUS.key,
             },
             {
-                Header: "",
-                accessor: analysisRecordFields.ACTIONS.key,
-                Cell: ({ row }) => (
+                header: "",
+                accessorKey: analysisRecordFields.ACTIONS.key,
+                cell: ({ row }) => (
                     <Actions
                         analysis={row.original}
                         username={userProfile?.id}
@@ -156,7 +156,7 @@ export default function AnalysesSearchResults(props) {
                         handleDetailsClick={setSelectedAnalysis}
                     />
                 ),
-                disableSortBy: true,
+                enableSorting: false,
             },
         ],
         [analysisRecordFields, baseId, searchTerm, userProfile]

@@ -59,9 +59,9 @@ function Listing(props) {
         const listingId = buildID(baseId, ids.LISTING);
         return [
             {
-                Header: t("name"),
-                accessor: "quick_launch_name",
-                Cell: ({ row }) => {
+                header: t("name"),
+                accessorKey: "quick_launch_name",
+                cell: ({ row }) => {
                     const instantLaunch = row.original;
                     return (
                         <InstantLaunchButtonWrapper
@@ -80,17 +80,17 @@ function Listing(props) {
                 },
             },
             {
-                Header: t("app"),
-                accessor: "app_name",
+                header: t("app"),
+                accessorKey: "app_name",
             },
             {
-                Header: t("appVersion"),
-                accessor: "app_version",
+                header: t("appVersion"),
+                accessorKey: "app_version",
             },
             {
-                Header: "",
-                accessor: "id",
-                Cell: ({ row }) => {
+                header: "",
+                accessorKey: "id",
+                cell: ({ row }) => {
                     const instantLaunch = row.original;
                     const { app_id, app_version_id, submission } =
                         instantLaunch;

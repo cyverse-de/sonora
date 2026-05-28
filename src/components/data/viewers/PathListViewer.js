@@ -4,15 +4,13 @@
  * @author sriram
  *
  */
-import React, {
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
-import { useRowSelect, useTable } from "react-table";
+import {
+    useReactTable,
+    getCoreRowModel,
+    flexRender,
+} from "@tanstack/react-table";
 import { useTranslation } from "i18n";
 
 import { UploadTrackingProvider } from "contexts/uploadTracking";
@@ -41,20 +39,6 @@ import {
     TableRow,
 } from "@mui/material";
 
-const IndeterminateCheckbox = React.forwardRef(function IndeterminateCheckbox(
-    { indeterminate, ...rest },
-    ref
-) {
-    const defaultRef = useRef();
-    const resolvedRef = ref || defaultRef;
-
-    useEffect(() => {
-        resolvedRef.current.indeterminate = indeterminate;
-    }, [resolvedRef, indeterminate]);
-
-    return <Checkbox type="Checkbox" ref={resolvedRef} {...rest} />;
-});
-
 function PathListViewer(props) {
     const {
         baseId,
@@ -77,6 +61,8 @@ function PathListViewer(props) {
     const [dirty, setDirty] = useState(false);
     const [editorData, setEditorData] = useState([]);
     const [fileSaving, setFileSaving] = useState(false);
+    const [columnVisibility, setColumnVisibility] = useState({});
+    const [rowSelection, setRowSelection] = useState({});
 
     const defaultStartingPath = useSelectorDefaultFolderPath();
 
@@ -85,7 +71,33 @@ function PathListViewer(props) {
         [data, t]
     );
 
-    const pathAccessor = columns[1].accessor;
+    const pathAccessor = columns[1]?.accessorKey;
+
+    const selectionColumn = useMemo(
+        () => ({
+            id: "selection",
+            header: ({ table }) => (
+                <Checkbox
+                    checked={table.getIsAllRowsSelected()}
+                    indeterminate={table.getIsSomeRowsSelected()}
+                    onChange={table.getToggleAllRowsSelectedHandler()}
+                />
+            ),
+            cell: ({ row }) => (
+                <Checkbox
+                    checked={row.getIsSelected()}
+                    indeterminate={row.getIsSomeSelected()}
+                    onChange={row.getToggleSelectedHandler()}
+                />
+            ),
+        }),
+        []
+    );
+
+    const tableColumns = useMemo(
+        () => [selectionColumn, ...columns],
+        [selectionColumn, columns]
+    );
 
     const setLineNumbers = useCallback(
         (tableData) => {
@@ -118,48 +130,17 @@ function PathListViewer(props) {
         return content;
     };
 
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow,
-        setHiddenColumns,
-        selectedFlatRows,
-        state: { hiddenColumns, selectedRowIds },
-    } = useTable(
-        {
-            columns,
-            data: editorData,
-            initialState: {
-                hiddenColumns: [],
-            },
-        },
-        useRowSelect,
-        (hooks) => {
-            hooks.allColumns.push((columns) => [
-                // Let's make a column for selection
-                {
-                    id: "selection",
-                    // The header can use the table's getToggleAllRowsSelectedProps method
-                    // to render a checkbox
-                    Header: ({ getToggleAllRowsSelectedProps }) => (
-                        <IndeterminateCheckbox
-                            {...getToggleAllRowsSelectedProps()}
-                        />
-                    ),
-                    // The cell can use the individual row's getToggleRowSelectedProps method
-                    // to the render a checkbox
-                    Cell: ({ row }) => (
-                        <IndeterminateCheckbox
-                            {...row.getToggleRowSelectedProps()}
-                        />
-                    ),
-                },
-                ...columns,
-            ]);
-        }
-    );
+    const table = useReactTable({
+        columns: tableColumns,
+        data: editorData,
+        state: { columnVisibility, rowSelection },
+        onColumnVisibilityChange: setColumnVisibility,
+        onRowSelectionChange: setRowSelection,
+        getCoreRowModel: getCoreRowModel(),
+    });
+
+    const selectedRows = table.getSelectedRowModel().rows;
+
     return (
         <PageWrapper appBarHeight={120}>
             <Toolbar
@@ -167,29 +148,31 @@ function PathListViewer(props) {
                 path={path}
                 resourceId={resourceId}
                 allowLineNumbers={true}
-                showLineNumbers={!hiddenColumns?.includes(LINE_NUMBER_ACCESSOR)}
-                onShowLineNumbers={(showLineNumbers) => {
-                    if (showLineNumbers) {
-                        setHiddenColumns([]);
-                    } else {
-                        setHiddenColumns([LINE_NUMBER_ACCESSOR]);
-                    }
+                showLineNumbers={
+                    columnVisibility[LINE_NUMBER_ACCESSOR] !== false
+                }
+                onShowLineNumbers={(show) => {
+                    setColumnVisibility({
+                        ...columnVisibility,
+                        [LINE_NUMBER_ACCESSOR]: show,
+                    });
                 }}
                 editable={editable}
                 onAddRow={() => {
                     setOpen(true);
                 }}
                 onDeleteRow={() => {
-                    selectedFlatRows.forEach((selRow) => {
+                    selectedRows.forEach((selRow) => {
                         const newData = editorData.filter(
                             (row, index) => index !== selRow.index
                         );
                         setEditorData(setLineNumbers([...newData]));
                         setDirty(true);
                     });
+                    setRowSelection({});
                 }}
                 dirty={dirty}
-                selectionCount={Object.keys(selectedRowIds).length}
+                selectionCount={selectedRows.length}
                 handlePathChange={handlePathChange}
                 onRefresh={onRefresh}
                 fileName={fileName}
@@ -219,43 +202,34 @@ function PathListViewer(props) {
                     id={buildID(baseId, ids.VIEWER_STRUCTURED, fileName)}
                     size="small"
                     stickyHeader
-                    {...getTableProps()}
                 >
                     <TableHead>
-                        {headerGroups.map((headerGroup) => (
-                            <TableRow
-                                key={headerGroup.id}
-                                {...headerGroup.getHeaderGroupProps()}
-                            >
-                                {headerGroup.headers.map((column) => (
-                                    <TableCell
-                                        key={column.id}
-                                        {...column.getHeaderProps()}
-                                    >
-                                        {column.render("Header")}
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => (
+                                    <TableCell key={header.id}>
+                                        {flexRender(
+                                            header.column.columnDef.header,
+                                            header.getContext()
+                                        )}
                                     </TableCell>
                                 ))}
                             </TableRow>
                         ))}
                     </TableHead>
-                    <TableBody {...getTableBodyProps()}>
-                        {rows.map((row) => {
-                            prepareRow(row);
-                            return (
-                                <TableRow key={row.id} {...row.getRowProps()}>
-                                    {row.cells.map((cell) => {
-                                        return (
-                                            <TableCell
-                                                key={cell.row.id}
-                                                {...cell.getCellProps()}
-                                            >
-                                                {cell.render("Cell")}
-                                            </TableCell>
-                                        );
-                                    })}
-                                </TableRow>
-                            );
-                        })}
+                    <TableBody>
+                        {table.getRowModel().rows.map((row) => (
+                            <TableRow key={row.id}>
+                                {row.getVisibleCells().map((cell) => (
+                                    <TableCell key={cell.id}>
+                                        {flexRender(
+                                            cell.column.columnDef.cell,
+                                            cell.getContext()
+                                        )}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        ))}
                     </TableBody>
                 </Table>
             </TableContainer>

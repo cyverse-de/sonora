@@ -5,14 +5,15 @@
  *
  */
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import {
-    useRowSelect,
-    useGlobalFilter,
-    useSortBy,
-    useTable,
-} from "react-table";
+    useReactTable,
+    getCoreRowModel,
+    getFilteredRowModel,
+    getSortedRowModel,
+    flexRender,
+} from "@tanstack/react-table";
 
 import refGenomeConstants from "./constants";
 import TableToolbar from "./Toolbar";
@@ -32,20 +33,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 
-const IndeterminateCheckbox = React.forwardRef(function IndeterminateCheckbox(
-    { indeterminate, ...rest },
-    ref
-) {
-    const defaultRef = React.useRef();
-    const resolvedRef = ref || defaultRef;
-
-    React.useEffect(() => {
-        resolvedRef.current.indeterminate = indeterminate;
-    }, [resolvedRef, indeterminate]);
-
-    return <Checkbox type="Checkbox" ref={resolvedRef} {...rest} />;
-});
-
 const EnhancedTable = ({
     baseId,
     columns,
@@ -54,80 +41,82 @@ const EnhancedTable = ({
     onDeletedClicked,
 }) => {
     const [lastSelectIndex, setLastSelectIndex] = useState(-1);
-    const {
-        getTableProps,
-        headerGroups,
-        prepareRow,
-        rows,
-        preGlobalFilteredRows,
-        setGlobalFilter,
-        selectedFlatRows,
-        state: { globalFilter },
-        toggleRowSelected,
-    } = useTable(
-        {
-            columns,
-            data,
-            disableSortBy: true,
-            initialState: {
-                sortBy: [
-                    {
-                        id: refGenomeConstants.keys.NAME,
-                        desc: false,
-                    },
-                ],
-            },
-        },
-        useGlobalFilter,
-        useSortBy,
-        useRowSelect,
-        (hooks) => {
-            hooks.allColumns.push((columns) => [
-                // Let's make a column for selection
-                {
-                    id: "selection",
-                    // The header can use the table's getToggleAllRowsSelectedProps method
-                    // to render a checkbox
-                    Header: ({ getToggleAllRowsSelectedProps }) => (
-                        <IndeterminateCheckbox
-                            {...getToggleAllRowsSelectedProps()}
-                        />
-                    ),
-                    // The cell can use the individual row's getToggleRowSelectedProps method
-                    // to the render a checkbox
-                    Cell: ({ row }) => (
-                        <IndeterminateCheckbox
-                            {...row.getToggleRowSelectedProps()}
-                        />
-                    ),
-                },
-                ...columns,
-            ]);
-        }
+    const [globalFilter, setGlobalFilter] = useState("");
+    const [rowSelection, setRowSelection] = useState({});
+    const [sorting, setSorting] = useState([
+        { id: refGenomeConstants.keys.NAME, desc: false },
+    ]);
+
+    const selectionColumn = useMemo(
+        () => ({
+            id: "selection",
+            header: ({ table }) => (
+                <Checkbox
+                    checked={table.getIsAllRowsSelected()}
+                    indeterminate={table.getIsSomeRowsSelected()}
+                    onChange={table.getToggleAllRowsSelectedHandler()}
+                />
+            ),
+            cell: ({ row }) => (
+                <Checkbox
+                    checked={row.getIsSelected()}
+                    indeterminate={row.getIsSomeSelected()}
+                    onChange={row.getToggleSelectedHandler()}
+                />
+            ),
+            enableSorting: false,
+        }),
+        []
     );
 
-    const select = (rows) => {
-        let newSelected = [...new Set([...selectedFlatRows, ...rows])];
-        newSelected.forEach((row) => toggleRowSelected(row.index, true));
+    const tableColumns = useMemo(
+        () => [selectionColumn, ...columns],
+        [selectionColumn, columns]
+    );
+
+    const table = useReactTable({
+        columns: tableColumns,
+        data,
+        state: { globalFilter, rowSelection, sorting },
+        onGlobalFilterChange: setGlobalFilter,
+        onRowSelectionChange: setRowSelection,
+        onSortingChange: setSorting,
+        enableSortingRemoval: false,
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+    });
+
+    const rows = table.getRowModel().rows;
+
+    const select = (targetRows) => {
+        const newSelection = { ...rowSelection };
+        targetRows.forEach((row) => {
+            newSelection[row.id] = true;
+        });
+        setRowSelection(newSelection);
     };
 
-    const deselect = (rows) => {
-        const newSelected = selectedFlatRows.filter((row) =>
-            rows.includes(row)
-        );
-
-        newSelected.forEach((row) => toggleRowSelected(row.index, false));
+    const deselect = (targetRows) => {
+        const newSelection = { ...rowSelection };
+        targetRows.forEach((row) => {
+            // Need to delete this key, rather than simply set it to `false`,
+            // otherwise the `indeterminate` flag in the `selectionColumn`
+            // header Checkbox does not work correctly.
+            delete newSelection[row.id];
+        });
+        setRowSelection(newSelection);
     };
 
     const rangeSelect = (start, end, row) => {
         if (start > -1) {
-            const rangeIds = [];
+            const rangeRows = [];
             for (let i = start; i <= end; i++) {
-                rangeIds.push(rows[i]);
+                rangeRows.push(rows[i]);
             }
 
-            let isTargetSelected = selectedFlatRows.includes(row);
-            isTargetSelected ? deselect(rangeIds) : select(rangeIds);
+            let isTargetSelected = row.getIsSelected();
+            isTargetSelected ? deselect(rangeRows) : select(rangeRows);
         }
     };
 
@@ -137,7 +126,7 @@ const EnhancedTable = ({
                 ? rangeSelect(index, lastSelectIndex, row)
                 : rangeSelect(lastSelectIndex, index, row);
         } else {
-            toggleRowSelected(index, !row.isSelected);
+            row.toggleSelected(!row.getIsSelected());
         }
 
         setLastSelectIndex(index);
@@ -148,35 +137,38 @@ const EnhancedTable = ({
         <>
             <TableToolbar
                 baseId={tableId}
-                preGlobalFilteredRows={preGlobalFilteredRows}
+                preGlobalFilteredRows={table.getPreFilteredRowModel().rows}
                 setGlobalFilter={setGlobalFilter}
                 globalFilter={globalFilter}
                 onAddClicked={onAddClicked}
                 onDeletedClicked={onDeletedClicked}
             />
             <TableContainer component={Paper} style={{ overflow: "auto" }}>
-                <Table size="small" stickyHeader {...getTableProps()}>
+                <Table size="small" stickyHeader>
                     <TableHead>
-                        {headerGroups.map((headerGroup) => (
-                            <TableRow
-                                key={headerGroup.id}
-                                {...headerGroup.getHeaderGroupProps()}
-                            >
-                                {headerGroup.headers.map((column) => (
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => (
                                     <TableCell
-                                        key={column.id}
-                                        {...(column.id === "selection"
-                                            ? column.getHeaderProps()
-                                            : column.getHeaderProps(
-                                                  column.getSortByToggleProps()
-                                              ))}
+                                        key={header.id}
+                                        onClick={
+                                            header.column.getCanSort()
+                                                ? header.column.getToggleSortingHandler()
+                                                : undefined
+                                        }
                                     >
-                                        {column.render("Header")}
-                                        {column.id !== "selection" ? (
+                                        {flexRender(
+                                            header.column.columnDef.header,
+                                            header.getContext()
+                                        )}
+                                        {header.column.getCanSort() ? (
                                             <TableSortLabel
-                                                active={column.isSorted}
+                                                active={
+                                                    !!header.column.getIsSorted()
+                                                }
                                                 direction={
-                                                    column.isSortedDesc
+                                                    header.column.getIsSorted() ===
+                                                    "desc"
                                                         ? "desc"
                                                         : "asc"
                                                 }
@@ -189,22 +181,20 @@ const EnhancedTable = ({
                     </TableHead>
                     <TableBody>
                         {rows.map((row, index) => {
-                            prepareRow(row);
                             return (
                                 <TableRow
                                     key={row.id}
-                                    {...row.getRowProps()}
                                     onClick={(event) =>
                                         handleClick(event, row, index)
                                     }
                                 >
-                                    {row.cells.map((cell) => {
+                                    {row.getVisibleCells().map((cell) => {
                                         return (
-                                            <TableCell
-                                                key={cell.row.id}
-                                                {...cell.getCellProps()}
-                                            >
-                                                {cell.render("Cell")}
+                                            <TableCell key={cell.id}>
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
                                             </TableCell>
                                         );
                                     })}

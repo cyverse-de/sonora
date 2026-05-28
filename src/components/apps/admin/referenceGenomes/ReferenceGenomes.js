@@ -99,9 +99,9 @@ function ReferenceGenomes(props) {
     const columns = React.useMemo(
         () => [
             {
-                Header: t("name"),
-                accessor: refGenomeConstants.keys.NAME,
-                Cell: ({ row, value }) => (
+                header: t("name"),
+                accessorKey: refGenomeConstants.keys.NAME,
+                cell: ({ row, getValue }) => (
                     <>
                         {row?.original?.deleted && (
                             <RemoveCircleIcon
@@ -115,22 +115,22 @@ function ReferenceGenomes(props) {
                             }}
                             underline="hover"
                         >
-                            {value}
+                            {getValue()}
                         </Link>
                     </>
                 ),
             },
             {
-                Header: t("path"),
-                accessor: refGenomeConstants.keys.PATH,
+                header: t("path"),
+                accessorKey: refGenomeConstants.keys.PATH,
             },
             {
-                Header: t("createdBy"),
-                accessor: refGenomeConstants.keys.CREATED_BY,
+                header: t("createdBy"),
+                accessorKey: refGenomeConstants.keys.CREATED_BY,
             },
             {
-                Header: t("createdOn"),
-                accessor: refGenomeConstants.keys.CREATED_ON,
+                header: t("createdOn"),
+                accessorKey: refGenomeConstants.keys.CREATED_ON,
             },
         ],
         [t, theme.palette.error.main]

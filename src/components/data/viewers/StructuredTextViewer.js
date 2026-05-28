@@ -4,8 +4,12 @@
  * @author sriram
  *
  */
-import React, { useEffect, useMemo } from "react";
-import { useTable } from "react-table";
+import React, { useEffect, useMemo, useState } from "react";
+import {
+    useReactTable,
+    getCoreRowModel,
+    flexRender,
+} from "@tanstack/react-table";
 import { useTranslation } from "i18n";
 
 import ids from "./ids";
@@ -52,6 +56,7 @@ export default function StructuredTextViewer(props) {
     const [isFileSaving, setFileSaving] = React.useState();
     const [editorValue, setEditorValue] = React.useState();
     const [initialValue, setInitialValue] = React.useState();
+    const [columnVisibility, setColumnVisibility] = useState({});
 
     useEffect(() => {
         setInitialValue(rawData);
@@ -80,22 +85,17 @@ export default function StructuredTextViewer(props) {
         return editorValue;
     };
 
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow,
-        setHiddenColumns,
-        state,
-    } = useTable({
+    const table = useReactTable({
         columns,
         data: dataToDisplay,
-        initialState: {
-            hiddenColumns: [],
-        },
+        state: { columnVisibility },
+        onColumnVisibilityChange: setColumnVisibility,
+        getCoreRowModel: getCoreRowModel(),
     });
+
     const busy = loading || isFileSaving;
+
+    const showLineNumbers = columnVisibility[LINE_NUMBER_ACCESSOR] !== false;
 
     const TableView = () => (
         <TableContainer
@@ -108,43 +108,34 @@ export default function StructuredTextViewer(props) {
                 id={buildID(baseId, ids.VIEWER_STRUCTURED, fileName)}
                 size="small"
                 stickyHeader
-                {...getTableProps()}
             >
                 <TableHead>
-                    {headerGroups.map((headerGroup) => (
-                        <TableRow
-                            key={headerGroup.id}
-                            {...headerGroup.getHeaderGroupProps()}
-                        >
-                            {headerGroup.headers.map((column) => (
-                                <TableCell
-                                    key={column.id}
-                                    {...column.getHeaderProps()}
-                                >
-                                    {column.render("Header")}
+                    {table.getHeaderGroups().map((headerGroup) => (
+                        <TableRow key={headerGroup.id}>
+                            {headerGroup.headers.map((header) => (
+                                <TableCell key={header.id}>
+                                    {flexRender(
+                                        header.column.columnDef.header,
+                                        header.getContext()
+                                    )}
                                 </TableCell>
                             ))}
                         </TableRow>
                     ))}
                 </TableHead>
-                <TableBody {...getTableBodyProps()}>
-                    {rows.map((row) => {
-                        prepareRow(row);
-                        return (
-                            <TableRow key={row.id} {...row.getRowProps()}>
-                                {row.cells.map((cell) => {
-                                    return (
-                                        <TableCell
-                                            key={cell.row.id}
-                                            {...cell.getCellProps()}
-                                        >
-                                            {cell.render("Cell")}
-                                        </TableCell>
-                                    );
-                                })}
-                            </TableRow>
-                        );
-                    })}
+                <TableBody>
+                    {table.getRowModel().rows.map((row) => (
+                        <TableRow key={row.id}>
+                            {row.getVisibleCells().map((cell) => (
+                                <TableCell key={cell.id}>
+                                    {flexRender(
+                                        cell.column.columnDef.cell,
+                                        cell.getContext()
+                                    )}
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    ))}
                 </TableBody>
             </Table>
         </TableContainer>
@@ -156,15 +147,12 @@ export default function StructuredTextViewer(props) {
                 path={path}
                 resourceId={resourceId}
                 allowLineNumbers={true}
-                showLineNumbers={
-                    !state?.hiddenColumns?.includes(LINE_NUMBER_ACCESSOR)
-                }
-                onShowLineNumbers={(showLineNumbers) => {
-                    if (showLineNumbers) {
-                        setHiddenColumns([]);
-                    } else {
-                        setHiddenColumns([LINE_NUMBER_ACCESSOR]);
-                    }
+                showLineNumbers={showLineNumbers}
+                onShowLineNumbers={(show) => {
+                    setColumnVisibility({
+                        ...columnVisibility,
+                        [LINE_NUMBER_ACCESSOR]: show,
+                    });
                 }}
                 firstRowHeader={firstRowHeader}
                 onFirstRowHeader={(header) => setFirstRowHeader(header)}
@@ -196,11 +184,7 @@ export default function StructuredTextViewer(props) {
                     leftPanel={
                         <Editor
                             baseId={baseId}
-                            showLineNumbers={
-                                !state?.hiddenColumns?.includes(
-                                    LINE_NUMBER_ACCESSOR
-                                )
-                            }
+                            showLineNumbers={showLineNumbers}
                             editable={editable}
                             initialValue={initialValue}
                             setEditorValue={setEditorValue}

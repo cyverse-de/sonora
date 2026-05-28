@@ -20,7 +20,13 @@ import {
 
 import { KeyboardArrowUp, KeyboardArrowDown } from "@mui/icons-material";
 
-import { useTable, useExpanded, useSortBy } from "react-table";
+import {
+    useReactTable,
+    getCoreRowModel,
+    getSortedRowModel,
+    getExpandedRowModel,
+    flexRender,
+} from "@tanstack/react-table";
 
 import ActionButtons from "./actionButtons";
 
@@ -46,15 +52,15 @@ const ExtendedDataCard = ({
     const columnIDs = columns.map((c) => c.id);
 
     // Find only the cells for the hidden columns.
-    const filteredCells = row.allCells.filter((row) => {
-        return columnIDs.includes(row.column.id);
+    const filteredCells = row.getAllCells().filter((cell) => {
+        return columnIDs.includes(cell.column.id);
     });
 
     const newID = (value) => id(ids.BASE, collapseID, "cell", value);
 
     return (
         <Box>
-            <div className={classes.extended} {...row.getRowProps()}>
+            <div className={classes.extended}>
                 {filteredCells.map((cell, index) => {
                     const thisID = newID(index);
                     return (
@@ -63,8 +69,14 @@ const ExtendedDataCard = ({
                             key={thisID}
                             id={thisID}
                         >
-                            {cell.render("Header")}
-                            {cell.render("Cell")}
+                            {flexRender(
+                                cell.column.columnDef.header,
+                                cell.getContext()
+                            )}
+                            {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                            )}
                         </div>
                     );
                 })}
@@ -104,16 +116,14 @@ const CollapsibleTableRow = ({
 
     return (
         <>
-            <TableRow
-                className={classes.row}
-                key={rowID}
-                id={rowID}
-                {...row.getRowProps()}
-            >
-                {row.cells.map((cell) => {
+            <TableRow className={classes.row} key={rowID} id={rowID}>
+                {row.getVisibleCells().map((cell) => {
                     return (
-                        <TableCell key={cell.row.id} {...cell.getCellProps()}>
-                            {cell.render("Cell")}
+                        <TableCell key={cell.id}>
+                            {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                            )}
                         </TableCell>
                     );
                 })}
@@ -127,7 +137,7 @@ const CollapsibleTableRow = ({
                             paddingTop: 0,
                             width: "5%",
                         }}
-                        colSpan={row.isExpanded ? 1 : 0}
+                        colSpan={row.getIsExpanded() ? 1 : 0}
                     ></TableCell>
                 ) : null}
 
@@ -139,7 +149,11 @@ const CollapsibleTableRow = ({
                     }}
                     colSpan={visibleColumns.length}
                 >
-                    <Collapse in={row.isExpanded} timeout="auto" unmountOnExit>
+                    <Collapse
+                        in={row.getIsExpanded()}
+                        timeout="auto"
+                        unmountOnExit
+                    >
                         <ExtendedDataCard
                             columns={hiddenColumns}
                             row={row}
@@ -158,25 +172,25 @@ const CollapsibleTableRow = ({
     );
 };
 
+function ExpanderCell({ row }) {
+    const { t } = useTranslation("vice-admin");
+
+    return (
+        <IconButton
+            aria-label={t("expandRow")}
+            size="small"
+            onClick={row.getToggleExpandedHandler()}
+        >
+            {row.getIsExpanded() ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+        </IconButton>
+    );
+}
+
 export const ExpanderColumn = {
     id: "expander",
-    Header: () => null,
-    Cell: ({ row }) => {
-        const { t } = useTranslation("vice-admin");
-
-        return (
-            <span {...row.getToggleRowExpandedProps()}>
-                <IconButton aria-label={t("expandRow")} size="small">
-                    {row.isExpanded ? (
-                        <KeyboardArrowUp />
-                    ) : (
-                        <KeyboardArrowDown />
-                    )}
-                </IconButton>
-            </span>
-        );
-    },
-    disableSortBy: true,
+    header: () => null,
+    cell: ({ row }) => <ExpanderCell row={row} />,
+    enableSorting: false,
 };
 
 export const defineColumn = (
@@ -186,20 +200,19 @@ export const defineColumn = (
     align = "left",
     enableSorting = true
 ) => ({
-    Header: (_table, _columnModel) => (
+    header: () => (
         <Typography variant="subtitle1" align={align}>
             {name}
         </Typography>
     ),
-    Cell: ({ value }) => (
+    cell: ({ getValue }) => (
         <Typography variant="body2" align={align}>
-            {value}
+            {getValue()}
         </Typography>
     ),
-    accessor: field,
+    accessorKey: field,
     align,
-    disableSortBy: !enableSorting,
-    key: keyID,
+    enableSorting,
     id: keyID,
 });
 
@@ -226,25 +239,21 @@ const CollapsibleTable = ({
     // Needs to be set in the useLayoutEffect, otherwise it acts weird
     // because the media queries generate incorrect results on the server.
     const [isMobile, setIsMobile] = useState(false);
-
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        prepareRow,
-        setHiddenColumns,
-        rows,
-        visibleColumns,
-    } = useTable(
-        {
-            columns,
-            data,
-        },
-        useSortBy,
-        useExpanded
-    );
-
+    const [columnVisibility, setColumnVisibility] = useState({});
     const [hiddenColumnObjs, setHiddenColumnObjs] = useState([]);
+
+    const table = useReactTable({
+        columns,
+        data,
+        state: { columnVisibility },
+        onColumnVisibilityChange: setColumnVisibility,
+        getRowCanExpand: () => true,
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getExpandedRowModel: getExpandedRowModel(),
+    });
+
+    const visibleColumns = table.getVisibleLeafColumns();
 
     useLayoutEffect(() => {
         let numCols;
@@ -266,16 +275,13 @@ const CollapsibleTable = ({
 
         const hidden = columns.slice(numCols);
         setHiddenColumnObjs(hidden);
-        setHiddenColumns(hidden.map((column) => column.id));
-    }, [
-        setHiddenColumns,
-        columns,
-        isXL,
-        isLarge,
-        isMedium,
-        isSmall,
-        isExtraSmall,
-    ]);
+
+        const hiddenVisibility = {};
+        hidden.forEach((column) => {
+            hiddenVisibility[column.id] = false;
+        });
+        setColumnVisibility(hiddenVisibility);
+    }, [columns, isXL, isLarge, isMedium, isSmall, isExtraSmall]);
 
     const tableID = id(ids.ROOT);
 
@@ -290,37 +296,42 @@ const CollapsibleTable = ({
             </Typography>
 
             <TableContainer classes={{ root: classes.root }}>
-                <Table
-                    id={tableID}
-                    classes={{ root: classes.table }}
-                    {...getTableProps()}
-                >
+                <Table id={tableID} classes={{ root: classes.table }}>
                     <TableHead>
-                        {headerGroups.map((headerGroup) => (
-                            <TableRow
-                                key={headerGroup.id}
-                                {...headerGroup.getHeaderGroupProps()}
-                            >
-                                {headerGroup.headers.map((column) => (
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => (
                                     <TableCell
-                                        key={column.id}
-                                        {...column.getHeaderProps(
-                                            column.getSortByToggleProps()
-                                        )}
+                                        key={header.id}
+                                        onClick={
+                                            header.column.getCanSort()
+                                                ? header.column.getToggleSortingHandler()
+                                                : undefined
+                                        }
                                     >
-                                        {column.canSort ? (
+                                        {header.column.getCanSort() ? (
                                             <TableSortLabel
-                                                active={column.isSorted}
+                                                active={
+                                                    !!header.column.getIsSorted()
+                                                }
                                                 direction={
-                                                    column.isSortedDesc
+                                                    header.column.getIsSorted() ===
+                                                    "desc"
                                                         ? "desc"
                                                         : "asc"
                                                 }
                                             >
-                                                {column.render("Header")}
+                                                {flexRender(
+                                                    header.column.columnDef
+                                                        .header,
+                                                    header.getContext()
+                                                )}
                                             </TableSortLabel>
                                         ) : (
-                                            column.render("Header")
+                                            flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext()
+                                            )
                                         )}
                                     </TableCell>
                                 ))}
@@ -328,10 +339,8 @@ const CollapsibleTable = ({
                         ))}
                     </TableHead>
 
-                    <TableBody {...getTableBodyProps()}>
-                        {rows?.map((row) => {
-                            prepareRow(row);
-
+                    <TableBody>
+                        {table.getRowModel().rows?.map((row) => {
                             return (
                                 <CollapsibleTableRow
                                     row={row}

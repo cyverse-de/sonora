@@ -53,17 +53,19 @@ function UserTable(props) {
     const columns = useMemo(
         () => [
             {
-                Header: t("user"),
-                accessor: getUserPrimaryText,
-                Cell: ({ row, value }) => {
+                header: t("user"),
+                accessorFn: getUserPrimaryText,
+                id: "user",
+                cell: ({ row }) => {
                     const user = row.original;
                     return <SubjectTableCell subject={user} />;
                 },
             },
             {
-                Header: t("permission"),
-                accessor: (row) => row.displayPermission,
-                Cell: ({ row, value }) => {
+                header: t("permission"),
+                accessorFn: (row) => row.displayPermission,
+                id: "permission",
+                cell: ({ row, getValue }) => {
                     const user = row.original;
                     return (
                         <SharingPermissionSelector
@@ -72,7 +74,7 @@ function UserTable(props) {
                                 user.id,
                                 ids.PERMISSION_SELECTOR
                             )}
-                            currentPermission={value}
+                            currentPermission={getValue()}
                             onPermissionChange={(updatedPermission) =>
                                 onPermissionChange(user, updatedPermission)
                             }

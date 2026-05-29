@@ -152,12 +152,17 @@ To help with this, there's a `build` helper function in the `ui-lib` repo [here]
 
 ### CSS
 
-If your component(s) require a lot of CSS, create a separate `styles` file to keep things minimal. Example file [here](/src/data/listing/styles.js).
+New code should prefer setting styles directly on MUI components with the
+[sx prop](https://mui.com/system/getting-started/the-sx-prop/).
 
-For utilizing styles, use `makeStyles` from `tss-react/mui"` as a hook. Here's a small example of using `makeStyles`:
+Legacy components that required a lot of CSS created a separate `styles` file to keep things minimal
+(example file [here](/src/data/listing/styles.js)),
+and `makeStyles` from `tss-react/mui`.
+
+Here's a small example of using `makeStyles`:
 
 ```
-import { makeStyles } from "tss-react/mui"";
+import { makeStyles } from "tss-react/mui";
 import myStylesFile from "./styles";
 
 const useStyles = makeStyles()(myStylesFile);

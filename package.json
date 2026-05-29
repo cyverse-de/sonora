@@ -89,9 +89,9 @@
         "@emotion/react": "^11.11.1",
         "@emotion/server": "^11.11.0",
         "@emotion/styled": "^11.11.0",
-        "@mui/icons-material": "^5.14.9",
-        "@mui/lab": "^5.0.0-alpha.152",
-        "@mui/material": "^5.14.9",
+        "@mui/icons-material": "^6.5.0",
+        "@mui/lab": "^6.0.1-beta",
+        "@mui/material": "^6.5.0",
         "@next/bundle-analyzer": "^12.3.4",
         "@tanstack/react-query": "^4.43.0",
         "@tanstack/react-query-devtools": "^4.43.0",
@@ -124,11 +124,12 @@
         "numeral": "^2.0.6",
         "p-limit": "^3.1.0",
         "postman-request": "^2.88.1-postman.18",
-        "react": "^18.2.0",
+        "react": "^18.3.1",
         "react-chartjs-2": "^5.3.1",
-        "react-dom": "^18.2.0",
+        "react-dom": "^18.3.1",
         "react-highlighter-ts": "^2.2.0",
         "react-i18next": "^13.5.0",
+        "react-is": "^18.3.1",
         "react-joyride": "^3.0.0",
         "react-player": "^2.6.2",
         "sanitize-html": "^2.3.2",
@@ -139,6 +140,9 @@
         "uuid": "^3.4.0",
         "winston": "^3.2.1",
         "ws": "^8.13.0"
+    },
+    "overrides": {
+        "react-is": "^18.3.1"
     },
     "optionalDependencies": {
         "fsevents": "^1.2.11"

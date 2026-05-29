@@ -22,6 +22,7 @@ import { useTranslation } from "i18n";
 import {
     List,
     ListItem,
+    ListItemButton,
     ListItemIcon,
     ListItemText,
     Menu,
@@ -219,8 +220,7 @@ function AppNavigation(props) {
                 id={buildID(appNavId, ids.APPS_CATEGORIES)}
                 className={classes.list}
             >
-                <ListItem
-                    button
+                <ListItemButton
                     aria-haspopup="true"
                     onClick={handleClickListItem}
                     className={classes.selectedListItem}
@@ -242,7 +242,7 @@ function AppNavigation(props) {
                     <ListItemIcon style={{ minWidth: 20 }}>
                         <ArrowDropDownIcon />
                     </ListItemIcon>
-                </ListItem>
+                </ListItemButton>
             </List>
             <Menu
                 id={buildID(appNavId, ids.APP_CATEGORIES_MENU)}

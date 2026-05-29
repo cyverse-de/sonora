@@ -43,7 +43,7 @@ import {
     Grid,
     Paper,
     List,
-    ListItem,
+    ListItemButton,
     ListItemIcon,
     ListItemText,
     Typography,
@@ -361,10 +361,9 @@ export default function PathListAutomation(props) {
                                                     infoTypes.map((type) => {
                                                         const labelId = `checkbox-list-label-${type}`;
                                                         return (
-                                                            <ListItem
+                                                            <ListItemButton
                                                                 key={type}
                                                                 dense
-                                                                button
                                                                 onClick={handleToggle(
                                                                     type
                                                                 )}
@@ -391,7 +390,7 @@ export default function PathListAutomation(props) {
                                                                         type
                                                                     }
                                                                 />
-                                                            </ListItem>
+                                                            </ListItemButton>
                                                         );
                                                     })}
                                             </List>

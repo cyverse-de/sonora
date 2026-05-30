@@ -51,7 +51,7 @@ Components use **@tanstack/react-query v4** for server state. The pattern:
 
 ### Styling
 
-Legacy components use **tss-react/mui** (`makeStyles`) for component styles, with  component-specific styles in a `styles.js` file alongside the component, though now the `sx` prop is preferred. The CyVerse theme is defined in `src/components/theme/default/`.
+Legacy components use **tss-react/mui** (`makeStyles`) for component styles, with component-specific styles in a `styles.js` file alongside the component, though now the `sx` prop is preferred. The CyVerse theme is defined in `src/components/theme/default/`.
 
 ### Internationalization
 
@@ -72,8 +72,9 @@ Components use hierarchical IDs for QA testing (`parentId.childId.grandchildId`)
 
 ## New Code Guidelines
 
-- Don't install new npm packages without asking first.
-  List what you'd install and why, then wait.
+- Never install new npm packages without asking first.
+- Do not modify `package.json` to add dependencies. Run `npm install <package>`.
+- Always list proposed packages and wait for explicit confirmation before execution.
 - Set styles directly on MUI components with the `sx` prop.
 - Build forms with `formik` plus the field components in `components/forms/`
   (`FormTextField`, `FormSwitch`, etc.). Don't hand-roll form state or

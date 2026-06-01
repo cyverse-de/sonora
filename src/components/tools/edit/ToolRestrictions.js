@@ -39,12 +39,11 @@ function buildLimitList(startValue, maxValue) {
     return limits;
 }
 
-function GpuModelsField({ parentId, isAdmin }) {
+function GpuModelsField({ parentId }) {
     const { t } = useTranslation("tools");
     const { data } = useQuery({
         queryKey: [GPU_MODELS_QUERY_KEY],
         queryFn: getValidGpuModels,
-        enabled: isAdmin,
         staleTime: Infinity,
         cacheTime: Infinity,
     });
@@ -231,15 +230,13 @@ function Restrictions(props) {
                     </MenuItem>
                 ))}
             </Field>
-            {isAdmin && (
-                <Field
-                    name="container.min_gpus"
-                    label={t("minGPUs")}
-                    id={buildID(parentId, ids.EDIT_TOOL_DLG.MIN_GPUS)}
-                    component={FormNumberField}
-                    validate={validateMinGpus}
-                />
-            )}
+            <Field
+                name="container.min_gpus"
+                label={t("minGPUs")}
+                id={buildID(parentId, ids.EDIT_TOOL_DLG.MIN_GPUS)}
+                component={FormNumberField}
+                validate={validateMinGpus}
+            />
             <Field
                 name="container.max_gpus"
                 label={t("maxGPUs")}
@@ -261,9 +258,7 @@ function Restrictions(props) {
                     </MenuItem>
                 ))}
             </Field>
-            {isAdmin && (
-                <GpuModelsField parentId={parentId} isAdmin={isAdmin} />
-            )}
+            <GpuModelsField parentId={parentId} />
             {isAdmin && (
                 <Field
                     name="container.cpu_shares"

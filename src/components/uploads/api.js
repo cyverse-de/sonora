@@ -63,6 +63,18 @@ export const startUpload = (
         signal,
     })
         .then((resp) => {
+            // Mirror the axios interceptor: a maintenance-mode 503 forces a hard
+            // reload so the browser lands on the gateway's maintenance page.
+            if (
+                resp.status === 503 &&
+                resp.headers.get("x-maintenance-mode") === "true" &&
+                typeof window !== "undefined" &&
+                !window.__deMaintenanceReloading
+            ) {
+                window.__deMaintenanceReloading = true;
+                window.location.reload();
+                return new Promise(() => {});
+            }
             // resp.json() contains the response body, but returns another promise
             return resp.json().then((data) => ({
                 ok: resp.ok,

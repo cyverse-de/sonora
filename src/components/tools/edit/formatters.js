@@ -70,7 +70,6 @@ export function mapPropsToValues(tool, isAdmin) {
                 min_cpu_cores: "",
                 min_memory_limit: "",
                 cpu_shares: "",
-                gpu_models: [],
                 container_devices: [],
                 container_volumes: [],
                 container_volumes_from: [],

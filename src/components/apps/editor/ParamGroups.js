@@ -69,6 +69,9 @@ function ParamGroupForm(props) {
     return (
         <Accordion ref={groupEl} defaultExpanded>
             <AccordionSummary
+                // Make the summary a `div`, instead of the default `button`,
+                // to prevent hydration errors with the nested layout action buttons.
+                component="div"
                 className={classes.paramsViewSummary}
                 expandIcon={
                     <ExpandMore className={classes.paramsViewsExpandIcon} />

@@ -113,9 +113,9 @@ function Listing(props) {
         adminUpdateRequestStatus,
         {
             onSuccess: () => {
-                queryClient.invalidateQueries(
-                    [ADMIN_ACCESS_REQUEST_LISTING_QUERY_KEY]
-                );
+                queryClient.invalidateQueries([
+                    ADMIN_ACCESS_REQUEST_LISTING_QUERY_KEY,
+                ]);
             },
             onError: (error) => {
                 showErrorAnnouncer(t("accessRequestUpdateFailure"), error);
@@ -215,7 +215,7 @@ function Listing(props) {
                 }
             >
                 <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                         <Typography
                             id={buildID(
                                 ids.JOB_LIMITS_DLG,
@@ -227,7 +227,7 @@ function Listing(props) {
                             })}
                         </Typography>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                         <Slider
                             style={{ marginTop: theme.spacing(2) }}
                             value={jobLimit}
@@ -262,14 +262,14 @@ function Listing(props) {
                 }
             >
                 <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                         <Typography>
                             {t("requestDeniedPrompt", {
                                 username: selectedRequest?.requesting_user,
                             })}
                         </Typography>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                         <TextField
                             id={buildID(
                                 ids.REJECT_REQUEST_DLG,

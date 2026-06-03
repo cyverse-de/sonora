@@ -79,7 +79,7 @@ export default function ResourceUsageItem(props) {
                 <>
                     {resourceUsageSummary && (
                         <Grid container spacing={3}>
-                            <Grid item xs={6}>
+                            <Grid size={6}>
                                 <Typography>
                                     <Trans
                                         t={t}
@@ -97,7 +97,7 @@ export default function ResourceUsageItem(props) {
                                     />
                                 </Typography>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid size={6}>
                                 <Button
                                     color="primary"
                                     size="small"
@@ -112,7 +112,7 @@ export default function ResourceUsageItem(props) {
                                     {t("buy")}
                                 </Button>
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                                 <Typography>
                                     {t("effectiveTimePeriod", {
                                         startDate,
@@ -124,7 +124,12 @@ export default function ResourceUsageItem(props) {
                     )}
                     <Grid container spacing={2}>
                         {resourceUsageSummary && (
-                            <Grid item xs={12} md={6}>
+                            <Grid
+                                size={{
+                                    xs: 12,
+                                    md: 6,
+                                }}
+                            >
                                 <Card>
                                     <DataConsumption
                                         data={dataUsage}
@@ -137,7 +142,12 @@ export default function ResourceUsageItem(props) {
                         )}
 
                         {resourceUsageSummary && (
-                            <Grid item xs={12} md={6}>
+                            <Grid
+                                size={{
+                                    xs: 12,
+                                    md: 6,
+                                }}
+                            >
                                 <Card>
                                     <CPUConsumption
                                         data={cpuUsage}
@@ -148,12 +158,22 @@ export default function ResourceUsageItem(props) {
                                 </Card>
                             </Grid>
                         )}
-                        <Grid item xs={12} md={6}>
+                        <Grid
+                            size={{
+                                xs: 12,
+                                md: 6,
+                            }}
+                        >
                             <Card>
                                 <AnalysesStats />
                             </Card>
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid
+                            size={{
+                                xs: 12,
+                                md: 6,
+                            }}
+                        >
                             <Card>
                                 <LoginTable />
                             </Card>

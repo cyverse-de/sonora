@@ -166,7 +166,7 @@ function DEPagination(props) {
     return (
         <Paper className={classes.paper}>
             <Grid container justifyContent="center">
-                <Grid item>
+                <Grid>
                     <Pagination
                         id={buildID(baseId, ids.PAGINATION_TOOLBAR)}
                         size={matches ? "small" : "medium"}
@@ -177,7 +177,7 @@ function DEPagination(props) {
                         page={page}
                     />
                 </Grid>
-                <Grid item>
+                <Grid>
                     <ItemsPerPage
                         onPageSizeChange={onPageSizeChange}
                         selectedPageSize={pageSize}

@@ -55,7 +55,7 @@ export function AppActionCell(props) {
     const { t } = useTranslation("common");
     return (
         <Grid container spacing={1}>
-            <Grid item>
+            <Grid>
                 <IconButton
                     id={buildID(baseId, ids.DETAILS_BUTTON)}
                     onClick={() => onDetailsSelected(app)}
@@ -65,7 +65,7 @@ export function AppActionCell(props) {
                     <Info fontSize="small" />
                 </IconButton>
             </Grid>
-            <Grid item>
+            <Grid>
                 <CopyLinkButton
                     baseId={baseId}
                     onCopyLinkSelected={() => {

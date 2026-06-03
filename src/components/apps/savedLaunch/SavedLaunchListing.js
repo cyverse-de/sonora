@@ -359,7 +359,7 @@ function ListSavedLaunches(props) {
                                     : undefined;
                             if (is_public) {
                                 return (
-                                    <Grid item key={index}>
+                                    <Grid key={index}>
                                         <SavedLaunch
                                             id={id}
                                             label={savedLaunch.name}
@@ -376,7 +376,7 @@ function ListSavedLaunches(props) {
                                 );
                             } else {
                                 return (
-                                    <Grid item key={index}>
+                                    <Grid key={index}>
                                         <SavedLaunchChipLink
                                             id={id}
                                             launchId={savedLaunch.id}

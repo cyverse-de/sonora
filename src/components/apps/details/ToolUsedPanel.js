@@ -48,9 +48,7 @@ function ToolsUsedPanel({ details, loading, baseId, error }) {
                 </AccordionSummary>
                 <AccordionDetails>
                     <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            {t("details")}
-                        </Grid>
+                        <Grid size={12}>{t("details")}</Grid>
                         <GridLabelValue label={t("toolNameLabel")}>
                             {toolInfo.name}
                         </GridLabelValue>

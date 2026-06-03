@@ -192,7 +192,7 @@ function DetailsTabPanel(props) {
                     </span>
                 </GridLabelValue>
                 {isFile && (
-                    <Grid item xs={6}>
+                    <Grid size={6}>
                         <Button
                             id={buildID(baseId, ids.PATH_LINK_BTN)}
                             color="primary"

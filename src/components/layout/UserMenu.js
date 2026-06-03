@@ -100,7 +100,7 @@ export default function UserMenu(props) {
                 >
                     {id.charAt(0).toUpperCase()}
                 </Avatar>
-                <Grid item>
+                <Grid>
                     <Typography
                         id={buildID(baseId, ids.NAME_LBL)}
                         variant="caption"
@@ -109,7 +109,7 @@ export default function UserMenu(props) {
                         {name}
                     </Typography>
                 </Grid>
-                <Grid item>
+                <Grid>
                     <Typography
                         id={buildID(baseId, ids.USERNAME_LBL)}
                         variant="caption"
@@ -118,7 +118,7 @@ export default function UserMenu(props) {
                         {t("username")}: {id}
                     </Typography>
                 </Grid>
-                <Grid item>
+                <Grid>
                     <Typography
                         id={buildID(baseId, ids.EMAIL_LBL)}
                         variant="caption"
@@ -128,7 +128,7 @@ export default function UserMenu(props) {
                     </Typography>
                 </Grid>
                 {!!subscription && (
-                    <Grid item>
+                    <Grid>
                         <Typography
                             id={buildID(baseId, ids.SUBSCRIPTION_LBL)}
                             variant="caption"
@@ -138,7 +138,7 @@ export default function UserMenu(props) {
                         </Typography>
                     </Grid>
                 )}
-                <Grid item>
+                <Grid>
                     <Button
                         id={buildID(baseId, ids.MANAGE_ACCOUNT_BTN)}
                         variant="outlined"
@@ -158,7 +158,7 @@ export default function UserMenu(props) {
                 alignItems="center"
                 spacing={1}
             >
-                <Grid item>
+                <Grid>
                     <Button
                         id={buildID(baseId, ids.LOGOUT_BUTTON)}
                         variant="outlined"
@@ -178,7 +178,7 @@ export default function UserMenu(props) {
                 alignItems="center"
                 spacing={1}
             >
-                <Grid item>
+                <Grid>
                     <ExternalLink
                         id={buildID(baseId, ids.POLICY_LINK)}
                         href={constants.CYVERSE_POLICY_URL}
@@ -191,10 +191,10 @@ export default function UserMenu(props) {
                         </Typography>
                     </ExternalLink>
                 </Grid>
-                <Grid item>
+                <Grid>
                     <Typography variant="caption">•</Typography>
                 </Grid>
-                <Grid item>
+                <Grid>
                     <ExternalLink
                         id={buildID(baseId, ids.ABOUT_LINK)}
                         href={constants.CYVERSE_ABOUT_URL}

@@ -48,7 +48,7 @@ function Metadata(props) {
 
     return (
         <Grid container spacing={1}>
-            <Grid item>
+            <Grid>
                 <FastField
                     name={`${name}.attribute`}
                     label={t("attribute")}
@@ -57,7 +57,7 @@ function Metadata(props) {
                     component={FormTextField}
                 />
             </Grid>
-            <Grid item>
+            <Grid>
                 <FastField
                     name={`${name}.value`}
                     label={t("value")}

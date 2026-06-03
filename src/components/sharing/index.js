@@ -274,7 +274,7 @@ function Sharing(props) {
                 )}
                 {!isLoading && (
                     <Grid container spacing={1}>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                             <SubjectSearchField
                                 baseId={buildID(ids.DIALOG, ids.SEARCH_FIELD)}
                                 onUserSelected={onUserSelected}
@@ -301,7 +301,12 @@ function Sharing(props) {
                                 </>
                             )}
                         </Grid>
-                        <Grid item sm={12} md={6} zeroMinWidth>
+                        <Grid
+                            size={{
+                                sm: 12,
+                                md: 6,
+                            }}
+                        >
                             <>
                                 <Typography>
                                     {tSharing("sharingAccess")}
@@ -317,10 +322,11 @@ function Sharing(props) {
                             </>
                         </Grid>
                         <Grid
-                            item
-                            sm={12}
-                            md={1}
                             classes={{ root: !isMobile && classes.dividerGrid }}
+                            size={{
+                                sm: 12,
+                                md: 1,
+                            }}
                         >
                             <Divider
                                 orientation={
@@ -328,14 +334,19 @@ function Sharing(props) {
                                 }
                             />
                         </Grid>
-                        <Grid item sm={12} md={5} zeroMinWidth>
+                        <Grid
+                            size={{
+                                sm: 12,
+                                md: 5,
+                            }}
+                        >
                             <Typography>{tSharing("resources")}</Typography>
                             <List>
                                 {resources &&
                                     Object.keys(resources).map((type) => {
                                         return resources[type].map(
                                             (resource, index) => (
-                                                <Grid item key={index}>
+                                                <Grid key={index}>
                                                     <SharedItem
                                                         baseId={baseId}
                                                         type={type}

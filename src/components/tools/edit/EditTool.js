@@ -326,7 +326,7 @@ function EditToolDialog(props) {
                                     spacing={1}
                                 >
                                     {toolTypeError && (
-                                        <Grid item xs>
+                                        <Grid size="grow">
                                             <ErrorTypographyWithDialog
                                                 errorObject={toolTypeError}
                                                 errorMessage={t(
@@ -337,7 +337,7 @@ function EditToolDialog(props) {
                                         </Grid>
                                     )}
                                     {toolFetchError && (
-                                        <Grid item xs>
+                                        <Grid size="grow">
                                             <ErrorTypographyWithDialog
                                                 errorObject={toolFetchError}
                                                 errorMessage={t(
@@ -349,7 +349,7 @@ function EditToolDialog(props) {
                                     )}
 
                                     {addToolError && (
-                                        <Grid item xs>
+                                        <Grid size="grow">
                                             <ErrorTypographyWithDialog
                                                 errorObject={addToolError}
                                                 errorMessage={t("toolAddError")}
@@ -357,7 +357,7 @@ function EditToolDialog(props) {
                                         </Grid>
                                     )}
                                     {updateToolError && (
-                                        <Grid item xs>
+                                        <Grid size="grow">
                                             <ErrorTypographyWithDialog
                                                 errorObject={updateToolError}
                                                 errorMessage={t(

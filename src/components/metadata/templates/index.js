@@ -298,13 +298,12 @@ const MetadataTemplateAttributeForm = (props) => {
                             const avuField = (
                                 <Fragment key={avuFieldName}>
                                     <Grid
-                                        item
                                         container
                                         spacing={2}
                                         justifyContent="flex-start"
                                         alignItems="center"
                                     >
-                                        <Grid item xs>
+                                        <Grid size="grow">
                                             <FieldComponent
                                                 id={rowID}
                                                 avuFieldName={avuFieldName}
@@ -315,13 +314,11 @@ const MetadataTemplateAttributeForm = (props) => {
                                             />
                                         </Grid>
                                         {!isGroupingAttr && (
-                                            <Grid item xs={1}>
-                                                {deleteBtn}
-                                            </Grid>
+                                            <Grid size={1}>{deleteBtn}</Grid>
                                         )}
                                     </Grid>
                                     {childAVUs && (
-                                        <Grid item>
+                                        <Grid>
                                             {isGroupingAttr ? (
                                                 <fieldset>
                                                     <legend
@@ -417,7 +414,7 @@ const MetadataTemplateAttributeForm = (props) => {
                                         justifyContent="flex-start"
                                         alignItems="stretch"
                                     >
-                                        <Grid item xs>
+                                        <Grid size="grow">
                                             <AttributeDescription
                                                 attribute={attribute}
                                             />

@@ -59,7 +59,7 @@ function FileSize(props) {
 
     return (
         <Grid container spacing={1}>
-            <Grid item>
+            <Grid>
                 <FastField
                     name={`${name}.from.value`}
                     helperText={t("fileSizeGreater")}
@@ -69,7 +69,7 @@ function FileSize(props) {
                     component={FormNumberField}
                 />
             </Grid>
-            <Grid item>
+            <Grid>
                 <FastField
                     name={`${name}.from.unit`}
                     id={buildID(parentId, ids.FILE_SIZE_GREATER_UNIT)}
@@ -77,7 +77,7 @@ function FileSize(props) {
                     component={SizeUnit}
                 />
             </Grid>
-            <Grid item>
+            <Grid>
                 <FastField
                     name={`${name}.to.value`}
                     helperText={t("fileSizeLessThan")}
@@ -87,7 +87,7 @@ function FileSize(props) {
                     component={FormNumberField}
                 />
             </Grid>
-            <Grid item>
+            <Grid>
                 <FastField
                     name={`${name}.to.unit`}
                     id={buildID(parentId, ids.FILE_SIZE_LESS_THAN_UNIT)}

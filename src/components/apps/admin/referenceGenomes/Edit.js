@@ -142,7 +142,7 @@ function Edit(props) {
                                 }}
                             />
                         </GridLabelValue>
-                        <Grid item>
+                        <Grid>
                             <Field
                                 id={buildID(baseId, ids.DELETED_SWITCH)}
                                 component={FormSwitch}
@@ -154,7 +154,7 @@ function Edit(props) {
                         </Grid>
                     </Grid>
                     <Grid container justifyContent="flex-end">
-                        <Grid item>
+                        <Grid>
                             <Button
                                 id={buildID(baseId, ids.CANCEL_BUTTON)}
                                 className={classes.actionButton}
@@ -163,7 +163,7 @@ function Edit(props) {
                                 {t("cancel")}
                             </Button>
                         </Grid>
-                        <Grid item>
+                        <Grid>
                             <Button
                                 id={buildID(baseId, ids.OK_BUTTON)}
                                 className={classes.actionButton}

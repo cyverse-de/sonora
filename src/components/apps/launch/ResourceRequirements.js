@@ -138,7 +138,7 @@ const StepResourceRequirementsForm = ({
     return (
         <div style={{ margin: 8 }}>
             <Grid container spacing={1}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                     <FastField
                         id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
                         name={`requirements.${index}.max_cpu_cores`}
@@ -152,7 +152,7 @@ const StepResourceRequirementsForm = ({
                         ))}
                     </FastField>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                     <FastField
                         id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_MEM)}
                         name={`requirements.${index}.min_memory_limit`}
@@ -167,7 +167,7 @@ const StepResourceRequirementsForm = ({
                         ))}
                     </FastField>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                     <FastField
                         id={buildID(
                             baseId,
@@ -186,7 +186,7 @@ const StepResourceRequirementsForm = ({
                     </FastField>
                 </Grid>
                 {max_gpus > 0 && min_gpus !== max_gpus && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                         <FastField
                             id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_GPU)}
                             name={`requirements.${index}.max_gpus`}
@@ -202,7 +202,7 @@ const StepResourceRequirementsForm = ({
                     </Grid>
                 )}
                 {showGpuModelsSelector && (
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                         <FastField
                             id={buildID(
                                 baseId,

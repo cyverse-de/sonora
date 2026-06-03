@@ -331,12 +331,12 @@ export default function AnalysisSubmissionLanding(props) {
             >
                 {view === BATCH_DRILL_DOWN && <BackButton />}
                 <Grid container spacing={1}>
-                    <Grid item>
+                    <Grid>
                         <Grid container spacing={1}>
-                            <Grid item>
+                            <Grid>
                                 <AnalysisStatusIcon status={analysis?.status} />
                             </Grid>
-                            <Grid item>
+                            <Grid>
                                 <Typography
                                     variant={"subtitle2"}
                                     color="primary"
@@ -360,12 +360,12 @@ export default function AnalysisSubmissionLanding(props) {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item>
+                    <Grid>
                         <Grid container spacing={1}>
                             {!isMdDown && (
                                 <>
                                     {isVICE && !isTerminatedAnalysis && (
-                                        <Grid item>
+                                        <Grid>
                                             <Button
                                                 id={buildID(
                                                     baseId,
@@ -388,7 +388,7 @@ export default function AnalysisSubmissionLanding(props) {
                                             </Button>
                                         </Grid>
                                     )}
-                                    <Grid item>
+                                    <Grid>
                                         <Button
                                             id={buildID(
                                                 baseId,
@@ -405,7 +405,7 @@ export default function AnalysisSubmissionLanding(props) {
                                         </Button>
                                     </Grid>
                                     {allowTimeExtn && (
-                                        <Grid item>
+                                        <Grid>
                                             <Button
                                                 id={buildID(
                                                     baseId,
@@ -429,7 +429,7 @@ export default function AnalysisSubmissionLanding(props) {
                                         </Grid>
                                     )}
                                     {allowCancel && (
-                                        <Grid item>
+                                        <Grid>
                                             <Button
                                                 id={buildID(
                                                     baseId,
@@ -455,7 +455,7 @@ export default function AnalysisSubmissionLanding(props) {
                                 </>
                             )}
 
-                            <Grid item>
+                            <Grid>
                                 <DotMenu
                                     baseId={buildID(
                                         baseId,

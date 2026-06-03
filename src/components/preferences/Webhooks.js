@@ -76,17 +76,17 @@ export default function Webhooks(props) {
                 {t("webhooks")}
             </Typography>
             <Grid container spacing={1} className={classes.grid}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                     <Typography>{t("webhooksPrompt")}</Typography>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={6}>
                     <Field
                         id={buildID(baseId, ids.WEBHOOK_URL_TEXT)}
                         component={FormTextField}
                         name="webhook.url"
                     />
                 </Grid>
-                <Grid item>
+                <Grid>
                     <Field
                         name="webhook.type.type"
                         id={buildID(baseId, ids.WEBHOOK_TYPES_SELECT)}
@@ -117,7 +117,7 @@ export default function Webhooks(props) {
                         ))}
                     </Field>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                     <Typography variant="subtitle2">
                         {t("webhookSelectedTopics")}
                     </Typography>
@@ -125,7 +125,7 @@ export default function Webhooks(props) {
             </Grid>
             <Grid container spacing={3} className={classes.grid}>
                 {webhookTopics?.map((topic, index) => (
-                    <Grid item xs={12} key={index}>
+                    <Grid key={index} size={12}>
                         <Field
                             id={buildID(
                                 baseId,
@@ -142,11 +142,11 @@ export default function Webhooks(props) {
             </Grid>
             <Grid container spacing={3} className={classes.grid}>
                 {isTesting && (
-                    <Grid item>
+                    <Grid>
                         <CircularProgress size={30} thickness={5} />
                     </Grid>
                 )}
-                <Grid item>
+                <Grid>
                     <Button
                         id={buildID(baseId, ids.WEBHOOK_TEST_BTN)}
                         variant="outlined"
@@ -173,7 +173,7 @@ export default function Webhooks(props) {
                     </Button>
                 </Grid>
                 {testError && (
-                    <Grid item>
+                    <Grid>
                         <ErrorTypographyWithDialog
                             baseId={baseId}
                             errorMessage={t("webhookTestFailed")}

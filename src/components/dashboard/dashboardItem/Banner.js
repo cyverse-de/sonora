@@ -52,7 +52,7 @@ export default function Banner(props) {
                 alignItems="center"
                 spacing={isMobile ? 1 : 3}
             >
-                <Grid item xs={isMobile ? 12 : 6}>
+                <Grid size={isMobile ? 12 : 6}>
                     <Image
                         src="/scienceBanner.svg"
                         alt={t("banner")}
@@ -67,7 +67,7 @@ export default function Banner(props) {
                         }}
                     />
                 </Grid>
-                <Grid item xs={isMobile ? 12 : 6}>
+                <Grid size={isMobile ? 12 : 6}>
                     <Grid
                         container
                         direction="column"
@@ -75,7 +75,7 @@ export default function Banner(props) {
                         alignItems="center"
                         spacing={isMobile ? 1 : 3}
                     >
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                             <Typography
                                 variant={isMobile ? "subtitle2" : "h6"}
                                 color="primary"
@@ -83,14 +83,14 @@ export default function Banner(props) {
                                 {t("welcome")}
                             </Typography>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                             <Typography
                                 variant={isMobile ? "caption" : "subtitle2"}
                             >
                                 {t("loginSignUp")}
                             </Typography>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                             <ExternalLink
                                 color="primary"
                                 style={{

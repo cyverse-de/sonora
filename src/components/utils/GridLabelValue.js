@@ -19,20 +19,29 @@ export default function GridLabelValue({
 }) {
     return (
         <>
-            <Grid item sm={3} xs={6} md={3} lg={3} id={id}>
+            <Grid
+                id={id}
+                size={{
+                    sm: 3,
+                    xs: 6,
+                    md: 3,
+                    lg: 3,
+                }}
+            >
                 <Typography component="span" variant="subtitle2" {...props}>
                     {label}
                 </Typography>
             </Grid>
             <Grid
-                item
-                sm={9}
-                xs={6}
-                md={9}
-                lg={9}
                 style={{
                     maxWidth: "100%",
                     wordBreak,
+                }}
+                size={{
+                    sm: 9,
+                    xs: 6,
+                    md: 9,
+                    lg: 9,
                 }}
             >
                 {children}

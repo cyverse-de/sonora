@@ -60,6 +60,11 @@ export const handler = ({ method, pathname, headers }) => {
                         status: 302,
                     });
                 } else {
+                    // Forward the upstream response headers so signals like
+                    // `x-maintenance-mode` survive the proxy and reach the browser.
+                    if (e.response?.headers) {
+                        res.set(e.response.headers);
+                    }
                     res.status(e.response?.status || 500);
                     const stream = e.response?.data;
                     if (stream) {

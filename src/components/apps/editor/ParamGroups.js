@@ -77,7 +77,7 @@ function ParamGroupForm(props) {
                     <ExpandMore className={classes.paramsViewsExpandIcon} />
                 }
             >
-                <Grid container justifyContent="space-between">
+                <Grid container justifyContent="space-between" width="100%">
                     <Typography variant="subtitle2">{group.label}</Typography>
                     <ParamLayoutActions
                         baseId={groupBaseId}

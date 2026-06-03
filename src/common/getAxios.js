@@ -4,6 +4,8 @@
  */
 import axios from "axios";
 
+import { isMaintenanceResponse, triggerMaintenanceReload } from "./maintenance";
+
 const axiosInstance = axios.create({
     timeout: 20000, //service call timeout
 });
@@ -16,18 +18,10 @@ if (typeof window !== "undefined") {
     axiosInstance.interceptors.response.use(
         (resp) => resp,
         (error) => {
-            const resp = error?.response;
-            const isMaintenance =
-                resp &&
-                resp.status === 503 &&
-                (resp.headers?.["x-maintenance-mode"] === "true" ||
-                    resp.data?.maintenance === true);
-
-            if (isMaintenance && !window.__deMaintenanceReloading) {
-                // Guard against many concurrent in-flight calls triggering repeat reloads.
-                window.__deMaintenanceReloading = true;
-                window.location.reload();
-                // Never resolve so no error UI flashes before the page reloads.
+            if (error?.response && isMaintenanceResponse(error.response)) {
+                triggerMaintenanceReload();
+                // Never resolve so no error UI flashes before the page reloads,
+                // even for concurrent calls that arrive after the reload starts.
                 return new Promise(() => {});
             }
             return Promise.reject(error);

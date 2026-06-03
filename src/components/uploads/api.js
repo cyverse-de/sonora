@@ -7,6 +7,10 @@
  */
 
 import { IntercomEvents, trackIntercomEvent } from "common/intercom";
+import {
+    isMaintenanceResponse,
+    triggerMaintenanceReload,
+} from "common/maintenance";
 
 import {
     errorAction,
@@ -64,23 +68,30 @@ export const startUpload = (
     })
         .then((resp) => {
             // Mirror the axios interceptor: a maintenance-mode 503 forces a hard
-            // reload so the browser lands on the gateway's maintenance page.
+            // reload so the browser lands on the gateway's maintenance page. Check
+            // the header before parsing so a non-JSON maintenance body can't throw
+            // first, then re-check once the body is available.
             if (
-                resp.status === 503 &&
-                resp.headers.get("x-maintenance-mode") === "true" &&
-                typeof window !== "undefined" &&
-                !window.__deMaintenanceReloading
+                isMaintenanceResponse({
+                    status: resp.status,
+                    headers: resp.headers,
+                })
             ) {
-                window.__deMaintenanceReloading = true;
-                window.location.reload();
+                triggerMaintenanceReload();
                 return new Promise(() => {});
             }
             // resp.json() contains the response body, but returns another promise
-            return resp.json().then((data) => ({
-                ok: resp.ok,
-                status: resp.status,
-                data,
-            }));
+            return resp.json().then((data) => {
+                if (isMaintenanceResponse({ status: resp.status, data })) {
+                    triggerMaintenanceReload();
+                    return new Promise(() => {});
+                }
+                return {
+                    ok: resp.ok,
+                    status: resp.status,
+                    data,
+                };
+            });
         })
         .then((resp) => {
             if (!resp.ok) {

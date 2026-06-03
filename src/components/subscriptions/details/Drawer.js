@@ -324,9 +324,7 @@ function SubscriptionSubheader() {
     return (
         <div className={classes.drawerSubheader}>
             <Grid container>
-                <Grid size={12}>
-                    <item>{t("details")}</item>
-                </Grid>
+                <Grid size={12}>{t("details")}</Grid>
             </Grid>
         </div>
     );

@@ -78,12 +78,8 @@ function DetailsPanel(props) {
                         spacing={3}
                         id={buildID(baseId, details.id, ids.APP_DETAILS)}
                     >
-                        <Grid item xs={12}>
-                            {details.description}
-                        </Grid>
-                        <Grid item xs={12}>
-                            {t("details")}
-                        </Grid>
+                        <Grid size={12}>{details.description}</Grid>
+                        <Grid size={12}>{t("details")}</Grid>
                         {!isExternal && isPublic && (
                             <GridLabelValue label={t("yourRating")}>
                                 <Rate

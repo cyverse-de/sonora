@@ -23,6 +23,7 @@ import {
     List,
     ListItem,
     ListItemAvatar,
+    ListItemButton,
     ListItemText,
     ListItemSecondaryAction,
     ListSubheader,
@@ -157,7 +158,7 @@ function ParamTypeListItem(props) {
 
     return isMobile ? (
         <>
-            <ListItem id={id} divider={!helpOpen} button onClick={onClick}>
+            <ListItemButton id={id} divider={!helpOpen} onClick={onClick}>
                 <ParamTypeIcon paramType={paramType} />
                 <ListItemText primary={t(paramType)} />
                 <ListItemSecondaryAction>
@@ -171,7 +172,7 @@ function ParamTypeListItem(props) {
                         <HelpIcon color="primary" />
                     </IconButton>
                 </ListItemSecondaryAction>
-            </ListItem>
+            </ListItemButton>
             <Collapse in={helpOpen} timeout="auto" unmountOnExit>
                 <ListItem divider>
                     <ParamTypeListItemHelpText paramType={paramType} />
@@ -179,13 +180,13 @@ function ParamTypeListItem(props) {
             </Collapse>
         </>
     ) : (
-        <ListItem id={id} divider button onClick={onClick}>
+        <ListItemButton id={id} divider onClick={onClick}>
             <ParamTypeIcon paramType={paramType} />
             <ParamTypeListItemHelpText
                 paramType={paramType}
                 primaryText={t(paramType)}
             />
-        </ListItem>
+        </ListItemButton>
     );
 }
 

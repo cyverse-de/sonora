@@ -239,7 +239,7 @@ function EditSubscriptionForm(props) {
             />
 
             <Grid container spacing={1}>
-                <Grid item>
+                <Grid>
                     <Field
                         name="start_date"
                         component={FormTimestampField}
@@ -248,7 +248,7 @@ function EditSubscriptionForm(props) {
                     />
                 </Grid>
 
-                <Grid item>
+                <Grid>
                     <Field
                         name="end_date"
                         component={FormTimestampField}

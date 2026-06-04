@@ -228,10 +228,20 @@ function PermissionsTabPanel(props) {
             >
                 {arrayRows.map((el, index) => (
                     <Fragment key={index}>
-                        <Grid item sm={6} xs={6}>
+                        <Grid
+                            size={{
+                                sm: 6,
+                                xs: 6,
+                            }}
+                        >
                             <Skeleton variant="text" />
                         </Grid>
-                        <Grid item sm={6} xs={6}>
+                        <Grid
+                            size={{
+                                sm: 6,
+                                xs: 6,
+                            }}
+                        >
                             <Skeleton variant="text" />
                         </Grid>
                     </Fragment>

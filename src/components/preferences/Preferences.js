@@ -506,7 +506,7 @@ function Preferences(props) {
                             )}
                         >
                             <Grid container justifyContent="flex-end">
-                                <Grid item>
+                                <Grid>
                                     <Button
                                         id={buildID(
                                             baseId,
@@ -522,7 +522,7 @@ function Preferences(props) {
                                         {t("restoreDefaultsBtnLbl")}
                                     </Button>
                                 </Grid>
-                                <Grid item>
+                                <Grid>
                                     <Button
                                         id={buildID(
                                             baseId,
@@ -566,7 +566,7 @@ function Preferences(props) {
                                 baseId={buildID(baseId, ids.KB_SHORTCUTS)}
                             /> */}
                             <Grid container justifyContent="flex-end">
-                                <Grid item>
+                                <Grid>
                                     <Button
                                         id={buildID(
                                             baseId,
@@ -582,7 +582,7 @@ function Preferences(props) {
                                         {t("restoreDefaultsBtnLbl")}
                                     </Button>
                                 </Grid>
-                                <Grid item>
+                                <Grid>
                                     <Button
                                         id={buildID(
                                             baseId,

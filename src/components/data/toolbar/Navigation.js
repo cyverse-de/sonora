@@ -45,6 +45,7 @@ import {
     Button,
     List,
     ListItem,
+    ListItemButton,
     ListItemIcon,
     ListItemText,
     Menu,
@@ -188,8 +189,7 @@ function FolderSelectorMenu({
                     id={buildID(baseId, ids.PATH_ITEMS)}
                     className={classes.list}
                 >
-                    <ListItem
-                        button
+                    <ListItemButton
                         aria-haspopup="true"
                         aria-controls={t("selectedFolderAriaMenuItemControl")}
                         aria-label={pathItems[selectedIndex]}
@@ -214,7 +214,7 @@ function FolderSelectorMenu({
                         <ListItemIcon style={{ minWidth: 20 }}>
                             <ArrowDropDownIcon />
                         </ListItemIcon>
-                    </ListItem>
+                    </ListItemButton>
                 </List>
 
                 <Menu
@@ -509,8 +509,7 @@ function Navigation(props) {
                 id={buildID(dataNavId, ids.DATA_ROOTS)}
                 className={classes.list}
             >
-                <ListItem
-                    button
+                <ListItemButton
                     aria-haspopup="true"
                     aria-controls={t("selectedDataRootAriaMenuItemControl")}
                     aria-label={dataRoots[selectedIndex].label}
@@ -533,7 +532,7 @@ function Navigation(props) {
                     <ListItemIcon style={{ minWidth: 20 }}>
                         <ArrowDropDownIcon />
                     </ListItemIcon>
-                </ListItem>
+                </ListItemButton>
             </List>
             <Menu
                 id={buildID(baseId, ids.DATA_ROOTS_MENU)}

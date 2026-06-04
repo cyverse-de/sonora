@@ -25,7 +25,7 @@ import {
     Button,
     IconButton,
     List,
-    ListItem,
+    ListItemButton,
     ListItemSecondaryAction,
     ListItemText,
 } from "@mui/material";
@@ -40,10 +40,9 @@ const TemplateListItem = (props) => {
     const { t } = useTranslation("metadata");
 
     return (
-        <ListItem
+        <ListItemButton
             id={baseId}
             divider
-            button
             selected={selected}
             onClick={onClick}
         >
@@ -62,7 +61,7 @@ const TemplateListItem = (props) => {
                     <CloudDownload />
                 </IconButton>
             </ListItemSecondaryAction>
-        </ListItem>
+        </ListItemButton>
     );
 };
 

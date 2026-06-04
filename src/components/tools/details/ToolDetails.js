@@ -61,7 +61,7 @@ export default function ToolDetails(props) {
             <GridLabelValue label={t("versionLbl")}>
                 {tool.version}
             </GridLabelValue>
-            <Grid item xs={12}>
+            <Grid size={12}>
                 <Typography variant="h6">
                     {t("resourceRequirementsLbl")}
                 </Typography>
@@ -89,7 +89,7 @@ export default function ToolDetails(props) {
                     ? tool.container.gpu_models.join(", ")
                     : t("noGpuModels")}
             </GridLabelValue>
-            <Grid item xs={12}>
+            <Grid size={12}>
                 <Typography variant="h6">{t("restrictionsLabel")}</Typography>
             </Grid>
             <GridLabelValue label={t("memoryLimitLabel")}>

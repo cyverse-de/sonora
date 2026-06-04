@@ -87,7 +87,7 @@ export default function RatingWidget(props) {
     }
     return (
         <Grid container spacing={1}>
-            <Grid item xs={6}>
+            <Grid size={6}>
                 {!loading && (
                     <Typography variant="caption">
                         {t("rateApp", {
@@ -96,7 +96,7 @@ export default function RatingWidget(props) {
                     </Typography>
                 )}
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
                 {!loading && (
                     <Rate
                         name={"user." + appId}

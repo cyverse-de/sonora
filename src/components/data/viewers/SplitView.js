@@ -70,13 +70,13 @@ export default function SplitView(props) {
             style={{ flexGrow: 1 }}
             spacing={0}
         >
-            <Grid item xs={leftWidth} id={ids.LEFT_PANEL}>
+            <Grid id={ids.LEFT_PANEL} size={leftWidth}>
                 <Typography className={classes.panelHeader} variant="subtitle2">
                     {leftPanelTitle}
                 </Typography>
                 {leftPanel}
             </Grid>
-            <Grid item>
+            <Grid>
                 <ToggleButtonGroup
                     value={hidden}
                     exclusive
@@ -115,7 +115,7 @@ export default function SplitView(props) {
                     </ToggleButton>
                 </ToggleButtonGroup>
             </Grid>
-            <Grid item xs={rightWidth} id={ids.RIGHT_PANEL}>
+            <Grid id={ids.RIGHT_PANEL} size={rightWidth}>
                 <Typography className={classes.panelHeader} variant="subtitle2">
                     {rightPanelTitle}
                 </Typography>

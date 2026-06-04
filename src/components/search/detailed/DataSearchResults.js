@@ -77,7 +77,7 @@ function DataActionCell(props) {
 
     return (
         <Grid spacing={1}>
-            <Grid item>
+            <Grid>
                 <IconButton
                     id={buildID(baseId, ids.DETAILS_BUTTON)}
                     onClick={() => setDetailsResource(resource)}
@@ -87,7 +87,7 @@ function DataActionCell(props) {
                     <Info fontSize="small" />
                 </IconButton>
             </Grid>
-            <Grid item>
+            <Grid>
                 <CopyLinkButton
                     baseId={baseId}
                     onCopyLinkSelected={() => {
@@ -97,7 +97,7 @@ function DataActionCell(props) {
                     }}
                 />
             </Grid>
-            <Grid item>
+            <Grid>
                 <CopyPathButton
                     baseId={baseId}
                     onCopyPathSelected={() => {

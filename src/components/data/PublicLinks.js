@@ -208,7 +208,11 @@ function PublicLinks(props) {
                     style={{ width: "100%" }}
                 />
                 <Grid container>
-                    <Grid item sm={3}>
+                    <Grid
+                        size={{
+                            sm: 3,
+                        }}
+                    >
                         <Tooltip title={t("copyLinks")}>
                             <Button
                                 variant="outlined"
@@ -223,7 +227,11 @@ function PublicLinks(props) {
                             </Button>
                         </Tooltip>
                     </Grid>
-                    <Grid item sm={3}>
+                    <Grid
+                        size={{
+                            sm: 3,
+                        }}
+                    >
                         <Tooltip title={t("saveToFile")}>
                             <Button
                                 variant="outlined"
@@ -238,7 +246,11 @@ function PublicLinks(props) {
                             </Button>
                         </Tooltip>
                     </Grid>
-                    <Grid item sm={3}>
+                    <Grid
+                        size={{
+                            sm: 3,
+                        }}
+                    >
                         <Tooltip title={t("download")}>
                             <Button
                                 variant="outlined"
@@ -253,7 +265,11 @@ function PublicLinks(props) {
                             </Button>
                         </Tooltip>
                     </Grid>
-                    <Grid item sm={3}>
+                    <Grid
+                        size={{
+                            sm: 3,
+                        }}
+                    >
                         <Tooltip title={t("refreshCacheTooltip")}>
                             <Button
                                 variant="outlined"

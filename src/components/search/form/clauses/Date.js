@@ -64,7 +64,7 @@ function Date(props) {
 
     return (
         <Grid container spacing={1}>
-            <Grid item>
+            <Grid>
                 <FastField
                     name={`${name}.from`}
                     helperText={t("startDate")}
@@ -72,7 +72,7 @@ function Date(props) {
                     component={FormTimestampField}
                 />
             </Grid>
-            <Grid item>
+            <Grid>
                 <FastField
                     name={`${name}.to`}
                     helperText={t("endDate")}

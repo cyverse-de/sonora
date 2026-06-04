@@ -43,7 +43,7 @@ import {
     Grid,
     Paper,
     List,
-    ListItem,
+    ListItemButton,
     ListItemIcon,
     ListItemText,
     Typography,
@@ -251,7 +251,7 @@ export default function PathListAutomation(props) {
                                     spacing={1}
                                 >
                                     {createPathListError && (
-                                        <Grid item xs>
+                                        <Grid size="grow">
                                             <ErrorTypographyWithDialog
                                                 baseId={baseId}
                                                 errorMessage={errorMsg}
@@ -261,7 +261,7 @@ export default function PathListAutomation(props) {
                                             />
                                         </Grid>
                                     )}
-                                    <Grid item xs>
+                                    <Grid size="grow">
                                         <Typography variant="body2">
                                             {t("pathListInputLbl")}
                                         </Typography>
@@ -288,7 +288,7 @@ export default function PathListAutomation(props) {
                                             )}
                                         />
                                     </Grid>
-                                    <Grid item xs>
+                                    <Grid size="grow">
                                         <Field
                                             id={buildID(
                                                 baseId,
@@ -306,7 +306,7 @@ export default function PathListAutomation(props) {
                                             }
                                         />
                                     </Grid>
-                                    <Grid item xs>
+                                    <Grid size="grow">
                                         <Typography variant="body2">
                                             <Trans
                                                 t={t}
@@ -334,7 +334,7 @@ export default function PathListAutomation(props) {
                                             variant="outlined"
                                         />
                                     </Grid>
-                                    <Grid item xs>
+                                    <Grid size="grow">
                                         <Typography variant="body2">
                                             {t("pathListInfoTypeLbl")}
                                         </Typography>
@@ -361,10 +361,9 @@ export default function PathListAutomation(props) {
                                                     infoTypes.map((type) => {
                                                         const labelId = `checkbox-list-label-${type}`;
                                                         return (
-                                                            <ListItem
+                                                            <ListItemButton
                                                                 key={type}
                                                                 dense
-                                                                button
                                                                 onClick={handleToggle(
                                                                     type
                                                                 )}
@@ -391,13 +390,13 @@ export default function PathListAutomation(props) {
                                                                         type
                                                                     }
                                                                 />
-                                                            </ListItem>
+                                                            </ListItemButton>
                                                         );
                                                     })}
                                             </List>
                                         </Paper>
                                     </Grid>
-                                    <Grid item xs>
+                                    <Grid size="grow">
                                         <Paper
                                             style={{
                                                 padding: theme.spacing(1),
@@ -441,7 +440,7 @@ export default function PathListAutomation(props) {
                                     spacing={1}
                                 >
                                     {createPathListError && (
-                                        <Grid item xs>
+                                        <Grid size="grow">
                                             <ErrorTypographyWithDialog
                                                 baseId={baseId}
                                                 errorMessage={errorMsg}
@@ -451,7 +450,7 @@ export default function PathListAutomation(props) {
                                             />
                                         </Grid>
                                     )}
-                                    <Grid item>
+                                    <Grid>
                                         <Button
                                             id={buildID(
                                                 baseId,
@@ -462,7 +461,7 @@ export default function PathListAutomation(props) {
                                             {i18nCommon("cancel")}
                                         </Button>
                                     </Grid>
-                                    <Grid item>
+                                    <Grid>
                                         <Button
                                             id={buildID(
                                                 baseId,

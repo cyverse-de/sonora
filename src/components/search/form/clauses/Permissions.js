@@ -49,7 +49,7 @@ function Permissions(props) {
 
     return (
         <Grid container spacing={1}>
-            <Grid item>
+            <Grid>
                 <FastField
                     name={permissionFieldName}
                     id={buildID(parentId, ids.PERMISSION_VALUE)}
@@ -65,7 +65,11 @@ function Permissions(props) {
                     )}
                 </FastField>
             </Grid>
-            <Grid item sm={12}>
+            <Grid
+                size={{
+                    sm: 12,
+                }}
+            >
                 <FieldArray
                     name={usersFieldName}
                     render={(arrayHelpers) => (

@@ -93,7 +93,7 @@ export default function HelpTopics(props) {
                 {t("support")}
             </Typography>
             <Grid container spacing={3}>
-                <Grid item>
+                <Grid>
                     <TopicCard
                         title={t("faq_title")}
                         description={t("faq_prompt")}
@@ -111,7 +111,7 @@ export default function HelpTopics(props) {
                         }
                     />
                 </Grid>
-                <Grid item>
+                <Grid>
                     <TopicCard
                         title={t("contact_title")}
                         description={t("contact_prompt")}
@@ -144,7 +144,7 @@ export default function HelpTopics(props) {
                         }
                     />
                 </Grid>
-                <Grid item>
+                <Grid>
                     <TopicCard
                         title={t("feedback_title")}
                         description={t("feedback_prompt")}
@@ -167,7 +167,7 @@ export default function HelpTopics(props) {
                 {t("learn")}
             </Typography>
             <Grid container spacing={3}>
-                <Grid item>
+                <Grid>
                     <TopicCard
                         title={t("product_tour_title")}
                         description={t("product_tour_prompt")}
@@ -184,7 +184,7 @@ export default function HelpTopics(props) {
                         }
                     />
                 </Grid>
-                <Grid item>
+                <Grid>
                     <TopicCard
                         title={t("guide_title")}
                         description={t("guide_prompt")}
@@ -204,7 +204,7 @@ export default function HelpTopics(props) {
                         }
                     />
                 </Grid>
-                <Grid item>
+                <Grid>
                     <TopicCard
                         title={t("glossary_title")}
                         description={t("glossary_prompt")}
@@ -227,7 +227,7 @@ export default function HelpTopics(props) {
                         }
                     />
                 </Grid>
-                <Grid item>
+                <Grid>
                     <TopicCard
                         title={t("learning_center_title")}
                         description={t("learning_center_prompt")}

@@ -59,7 +59,7 @@ function General(props) {
                 {t("general")}
             </Typography>
             <Grid container spacing={2} className={classes.grid}>
-                <Grid item>
+                <Grid>
                     <Field
                         id={buildID(baseId, ids.REMEMBER_LAST_PATH_SWITCH)}
                         component={FormSwitch}
@@ -71,7 +71,7 @@ function General(props) {
                         }}
                     />
                 </Grid>
-                <Grid item>
+                <Grid>
                     <Field
                         id={buildID(baseId, ids.HPC_LOGIN_PROMPT_SWITCH)}
                         component={FormSwitch}
@@ -83,7 +83,7 @@ function General(props) {
                         }}
                     />
                 </Grid>
-                <Grid item>
+                <Grid>
                     <Field
                         id={buildID(baseId, ids.HPC_WAIT_TIMES_SWITCH)}
                         component={FormSwitch}
@@ -101,7 +101,7 @@ function General(props) {
                 {t("defaultFolderHeaderLbl")}
             </Typography>
             <Grid container spacing={3} className={classes.grid}>
-                <Grid item>
+                <Grid>
                     <>
                         <Field
                             id={buildID(baseId, ids.DEFAULT_OUTPUT_FOLDER)}
@@ -156,7 +156,7 @@ function General(props) {
                 {t("emailNotificationsHeaderLbl")}
             </Typography>
             <Grid container spacing={3} className={classes.grid}>
-                <Grid item>
+                <Grid>
                     <Field
                         id={buildID(
                             baseId,
@@ -174,7 +174,7 @@ function General(props) {
                         label={t("analysisStatusEmailLbl")}
                     />
                 </Grid>
-                <Grid item>
+                <Grid>
                     <Field
                         id={buildID(
                             baseId,
@@ -191,7 +191,7 @@ function General(props) {
                         label={t("urlImportEmailLbl")}
                     />
                 </Grid>
-                <Grid item>
+                <Grid>
                     <Field
                         id={buildID(
                             baseId,
@@ -209,7 +209,7 @@ function General(props) {
                         label={t("periodicEmailLbl")}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={6}>
                     <Field
                         id={buildID(baseId, ids.PERIODIC_NOTIFICATION_PERIOD)}
                         name={prefConstants.keys.PERIODIC_NOTIFICATION_PERIOD}

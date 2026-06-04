@@ -28,18 +28,17 @@ export default function CheckboxPropertyFields(props) {
 
     return (
         <Grid container>
-            <Grid item xs={12}>
+            <Grid size={12}>
                 <LabelField baseId={baseId} fieldName={fieldName} />
             </Grid>
             <Grid
-                item
-                xs={12}
                 container
                 direction="row"
                 justifyContent="flex-start"
                 alignItems="flex-start"
+                size={12}
             >
-                <Grid item xs={6}>
+                <Grid size={6}>
                     <FastField
                         id={buildID(baseId, ids.PARAM_FIELDS.CHECKED_OPTION)}
                         name={`${fieldName}.name.checked.option`}
@@ -50,7 +49,7 @@ export default function CheckboxPropertyFields(props) {
                         disabled={cosmeticOnly}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={6}>
                     <FastField
                         id={buildID(baseId, ids.PARAM_FIELDS.CHECKED_VALUE)}
                         name={`${fieldName}.name.checked.value`}
@@ -62,14 +61,13 @@ export default function CheckboxPropertyFields(props) {
                 </Grid>
             </Grid>
             <Grid
-                item
-                xs={12}
                 container
                 direction="row"
                 justifyContent="flex-start"
                 alignItems="flex-start"
+                size={12}
             >
-                <Grid item xs={6}>
+                <Grid size={6}>
                     <FastField
                         id={buildID(baseId, ids.PARAM_FIELDS.UNCHECKED_OPTION)}
                         name={`${fieldName}.name.unchecked.option`}
@@ -80,7 +78,7 @@ export default function CheckboxPropertyFields(props) {
                         disabled={cosmeticOnly}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid size={6}>
                     <FastField
                         id={buildID(baseId, ids.PARAM_FIELDS.UNCHECKED_VALUE)}
                         name={`${fieldName}.name.unchecked.value`}
@@ -91,7 +89,7 @@ export default function CheckboxPropertyFields(props) {
                     />
                 </Grid>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
                 <FastField
                     id={buildID(baseId, ids.PARAM_FIELDS.DEFAULT_VALUE)}
                     name={`${fieldName}.defaultValue`}

@@ -58,13 +58,12 @@ function ReferencesField(props) {
                             values.references.map((link, index) => (
                                 <>
                                     <Grid
-                                        item
-                                        xs={6}
                                         key={buildID(
                                             parentId,
                                             ids.PUBLISH.LINK,
                                             index
                                         )}
+                                        size={6}
                                     >
                                         <Field
                                             id={buildID(
@@ -80,14 +79,13 @@ function ReferencesField(props) {
                                         />
                                     </Grid>
                                     <Grid
-                                        item
-                                        xs={3}
                                         key={buildID(
                                             parentId,
                                             ids.PUBLISH.LINK,
                                             index,
                                             ids.PUBLISH.LINK_DEL_BTN
                                         )}
+                                        size={3}
                                     >
                                         <IconButton
                                             id={buildID(
@@ -104,14 +102,13 @@ function ReferencesField(props) {
                                         </IconButton>
                                     </Grid>
                                     <Grid
-                                        item
-                                        xs={3}
                                         key={buildID(
                                             parentId,
                                             ids.PUBLISH.LINK,
                                             index,
                                             ids.PUBLISH.LINK_ADD_BTN
                                         )}
+                                        size={3}
                                     >
                                         <IconButton
                                             id={buildID(
@@ -130,7 +127,7 @@ function ReferencesField(props) {
                                 </>
                             ))
                         ) : (
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                                 <Button
                                     id={buildID(
                                         parentId,

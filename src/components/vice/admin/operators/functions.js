@@ -8,10 +8,29 @@ export const id = (...name) => buildID(ids.BASE, ...name);
 // must start and end with an alphanumeric, max 63 chars.
 const NAME_RE = /^[a-z0-9]([-a-z0-9]*[a-z0-9])?$/;
 
+// Validates an http(s) base URL, returning a translated error key or undefined
+// when valid. `prefix` selects the matching i18n keys (e.g. "operatorUrl").
+const validateHttpUrl = (t, value, prefix) => {
+    let parsed;
+    try {
+        parsed = new URL(value);
+    } catch (_) {
+        // fall through
+    }
+    if (!parsed) {
+        return t(`${prefix}Invalid`);
+    } else if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+        return t(`${prefix}Scheme`);
+    } else if (!parsed.hostname) {
+        return t(`${prefix}NoHost`);
+    }
+    return undefined;
+};
+
 /**
  * Live validation for the operator editor. Returns an object whose keys are
- * field names ("name", "url", "priority") and values are the translated error
- * messages Formik expects.
+ * field names ("name", "url", "base_url", "priority") and values are the
+ * translated error messages Formik expects.
  *
  * @param {function} t              the i18n translation function
  * @param {object}   draft          the in-progress operator
@@ -39,21 +58,21 @@ export const validateOperator = (t, draft, allOperators = [], originalId) => {
     if (!draft.url || !draft.url.trim()) {
         errs.url = t("operatorUrlRequired");
     } else {
-        let parsed;
-        try {
-            parsed = new URL(draft.url);
-        } catch (_) {
-            // fall through
+        const urlError = validateHttpUrl(t, draft.url, "operatorUrl");
+        if (urlError) {
+            errs.url = urlError;
         }
-        if (!parsed) {
-            errs.url = t("operatorUrlInvalid");
-        } else if (
-            parsed.protocol !== "http:" &&
-            parsed.protocol !== "https:"
-        ) {
-            errs.url = t("operatorUrlScheme");
-        } else if (!parsed.hostname) {
-            errs.url = t("operatorUrlNoHost");
+    }
+
+    // ---- base_url (optional) ----
+    if (draft.base_url && draft.base_url.trim()) {
+        const baseUrlError = validateHttpUrl(
+            t,
+            draft.base_url.trim(),
+            "operatorBaseUrl"
+        );
+        if (baseUrlError) {
+            errs.base_url = baseUrlError;
         }
     }
 

@@ -62,7 +62,13 @@ const OperatorEditor = ({
     return (
         <Formik
             initialValues={
-                initial ? { ...BLANK_OPERATOR, ...initial } : BLANK_OPERATOR
+                initial
+                    ? {
+                          ...BLANK_OPERATOR,
+                          ...initial,
+                          base_url: initial.base_url ?? "",
+                      }
+                    : BLANK_OPERATOR
             }
             validate={validate}
             onSubmit={handleSubmit}

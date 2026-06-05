@@ -45,6 +45,9 @@ import ClearIcon from "@mui/icons-material/Clear";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import GppMaybeIcon from "@mui/icons-material/GppMaybe";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import PauseCircleOutlineIcon from "@mui/icons-material/PauseCircleOutline";
+import BlockIcon from "@mui/icons-material/Block";
 
 import withErrorAnnouncer from "components/error/withErrorAnnouncer";
 import WrappedErrorHandler from "components/error/WrappedErrorHandler";
@@ -271,16 +274,19 @@ const Operators = ({ showErrorAnnouncer }) => {
                         <Table id={id(ids.TABLE)} size="small">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell sx={{ width: "10%" }}>
+                                    <TableCell sx={{ width: "8%" }}>
                                         {t("operatorPriority")}
                                     </TableCell>
-                                    <TableCell sx={{ width: "26%" }}>
+                                    <TableCell sx={{ width: "22%" }}>
                                         {t("operatorName")}
                                     </TableCell>
-                                    <TableCell sx={{ width: "40%" }}>
+                                    <TableCell sx={{ width: "32%" }}>
                                         {t("operatorUrl")}
                                     </TableCell>
-                                    <TableCell sx={{ width: "16%" }}>
+                                    <TableCell sx={{ width: "18%" }}>
+                                        {t("operatorStatus")}
+                                    </TableCell>
+                                    <TableCell sx={{ width: "12%" }}>
                                         {t("operatorTls")}
                                     </TableCell>
                                     <TableCell
@@ -293,7 +299,7 @@ const Operators = ({ showErrorAnnouncer }) => {
                             </TableHead>
                             {isLoading ? (
                                 <TableLoading
-                                    numColumns={5}
+                                    numColumns={6}
                                     numRows={3}
                                     baseId={id(ids.TABLE)}
                                 />
@@ -302,7 +308,7 @@ const Operators = ({ showErrorAnnouncer }) => {
                                     {filtered.length === 0 && (
                                         <TableRow>
                                             <TableCell
-                                                colSpan={5}
+                                                colSpan={6}
                                                 className={classes.empty}
                                             >
                                                 <Typography variant="subtitle1">
@@ -378,6 +384,51 @@ const Operators = ({ showErrorAnnouncer }) => {
                                                         }
                                                     />
                                                 </Link>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Stack
+                                                    direction="row"
+                                                    spacing={0.5}
+                                                    flexWrap="wrap"
+                                                    useFlexGap
+                                                >
+                                                    {op.accepting_launches ? (
+                                                        <Chip
+                                                            size="small"
+                                                            icon={
+                                                                <PlayCircleOutlineIcon />
+                                                            }
+                                                            label={t(
+                                                                "operatorAccepting"
+                                                            )}
+                                                            color="success"
+                                                            variant="outlined"
+                                                        />
+                                                    ) : (
+                                                        <Chip
+                                                            size="small"
+                                                            icon={
+                                                                <PauseCircleOutlineIcon />
+                                                            }
+                                                            label={t(
+                                                                "operatorPaused"
+                                                            )}
+                                                            color="warning"
+                                                            variant="outlined"
+                                                        />
+                                                    )}
+                                                    {op.deactivated && (
+                                                        <Chip
+                                                            size="small"
+                                                            icon={<BlockIcon />}
+                                                            label={t(
+                                                                "operatorDeactivated"
+                                                            )}
+                                                            color="error"
+                                                            variant="outlined"
+                                                        />
+                                                    )}
+                                                </Stack>
                                             </TableCell>
                                             <TableCell>
                                                 {op.tls_skip_verify ? (

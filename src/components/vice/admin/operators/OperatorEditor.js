@@ -25,6 +25,7 @@ import ids from "./ids";
 const BLANK_OPERATOR = {
     name: "",
     url: "",
+    base_url: "",
     tls_skip_verify: false,
     priority: "",
 };
@@ -45,11 +46,13 @@ const OperatorEditor = ({
         validateOperator(t, values, allOperators, initial?.id);
 
     const handleSubmit = (values) => {
+        const trimmedBaseUrl = values.base_url?.trim();
         onSave({
             ...values,
             name: values.name.trim(),
             url: values.url.trim(),
             priority: Number(values.priority),
+            base_url: trimmedBaseUrl || null,
         });
     };
 
@@ -59,7 +62,13 @@ const OperatorEditor = ({
     return (
         <Formik
             initialValues={
-                initial ? { ...BLANK_OPERATOR, ...initial } : BLANK_OPERATOR
+                initial
+                    ? {
+                          ...BLANK_OPERATOR,
+                          ...initial,
+                          base_url: initial.base_url ?? "",
+                      }
+                    : BLANK_OPERATOR
             }
             validate={validate}
             onSubmit={handleSubmit}
@@ -117,6 +126,15 @@ const OperatorEditor = ({
                             placeholder="https://operator.cyverse.org/api"
                         />
                         <Field
+                            id={id(ids.DIALOG_BASE_URL)}
+                            name="base_url"
+                            component={FormTextField}
+                            label={t("operatorBaseUrl")}
+                            helperText={t("operatorBaseUrlHelper")}
+                            inputProps={{ spellCheck: false }}
+                            placeholder="https://analyses.cyverse.org"
+                        />
+                        <Field
                             id={id(ids.DIALOG_PRIORITY)}
                             name="priority"
                             component={FormTextField}
@@ -145,6 +163,24 @@ const OperatorEditor = ({
                             label={t("operatorSkipTlsVerify")}
                             color="warning"
                         />
+                        {isEdit && (
+                            <>
+                                <Field
+                                    id={id(ids.DIALOG_ACCEPTING)}
+                                    name="accepting_launches"
+                                    component={FormSwitch}
+                                    label={t("operatorAcceptingLaunches")}
+                                    color="success"
+                                />
+                                <Field
+                                    id={id(ids.DIALOG_DEACTIVATED)}
+                                    name="deactivated"
+                                    component={FormSwitch}
+                                    label={t("operatorDeactivated")}
+                                    color="error"
+                                />
+                            </>
+                        )}
                     </DEDialog>
                 </Form>
             )}

@@ -12,6 +12,7 @@ import {
     instantLaunchMappings,
     publicQuicklaunches,
     filetypeList,
+    viceOperators,
 } from "./mocks";
 
 export default {
@@ -36,5 +37,10 @@ export const VICEAdminTest = () => {
         .onGet(/\/api\/instantlaunches\/quicklaunches\/public.*/)
         .reply(200, publicQuicklaunches);
     mockAxios.onGet("/api/filetypes/type-list").reply(200, filetypeList);
+    mockAxios
+        .onGet(/\/api\/admin\/vice\/operators.*/)
+        .reply(200, viceOperators);
+    mockAxios.onPost(/\/api\/admin\/vice\/operators.*/).reply(200, {});
+    mockAxios.onPatch(/\/api\/admin\/vice\/operators\/id\/.*/).reply(200, {});
     return <VICEAdmin />;
 };

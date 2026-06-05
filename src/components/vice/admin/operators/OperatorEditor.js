@@ -177,7 +177,7 @@ const OperatorEditor = ({
                                     name="deactivated"
                                     component={FormSwitch}
                                     label={t("operatorDeactivated")}
-                                    color="warning"
+                                    color="error"
                                 />
                             </>
                         )}

@@ -7065,3 +7065,46 @@ export const filetypeList = {
         "zip",
     ],
 };
+
+export const viceOperators = [
+    {
+        id: "5f3c8a1e-7b2d-4e6a-9c1f-0a2b3c4d5e6f",
+        name: "vice-operator-prod",
+        url: "https://operator-prod.cyverse.org/api",
+        base_url: "https://analyses.cyverse.org",
+        priority: 1,
+        tls_skip_verify: false,
+        accepting_launches: true,
+        deactivated: false,
+    },
+    {
+        id: "9a8b7c6d-5e4f-3a2b-1c0d-9e8f7a6b5c4d",
+        name: "vice-operator-staging",
+        url: "https://operator-staging.cyverse.org/api",
+        base_url: "https://analyses-staging.cyverse.org",
+        priority: 5,
+        tls_skip_verify: false,
+        accepting_launches: false,
+        deactivated: false,
+    },
+    {
+        id: "1d2e3f4a-5b6c-7d8e-9f0a-1b2c3d4e5f6a",
+        name: "vice-operator-retired",
+        url: "https://operator-retired.cyverse.org/api",
+        base_url: "https://analyses-old.cyverse.org",
+        priority: 10,
+        tls_skip_verify: false,
+        accepting_launches: false,
+        deactivated: true,
+    },
+    {
+        id: "7c6b5a4d-3e2f-1a0b-9c8d-7e6f5a4b3c2d",
+        name: "vice-operator-dev",
+        url: "https://operator-dev.local:8443/api",
+        base_url: null,
+        priority: 20,
+        tls_skip_verify: true,
+        accepting_launches: true,
+        deactivated: false,
+    },
+];

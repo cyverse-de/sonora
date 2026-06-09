@@ -10,6 +10,7 @@ import MockAdapter from "axios-mock-adapter";
 const AXIOS_DELAY = 2000;
 const mockAxios = new MockAdapter(axiosInstance, {
     delayResponse: AXIOS_DELAY,
+    onNoMatch: "throwException",
 });
 
 const errorResponseJSON = {

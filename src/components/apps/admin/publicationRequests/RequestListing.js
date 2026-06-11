@@ -204,12 +204,13 @@ function AppPublicationRequests(props) {
                         />
                     )}
                     <TableBody>
-                        {(!requests || requests.length === 0) && (
-                            <EmptyTable
-                                message={t("noRequests")}
-                                numColumns={appColumnData(t).length}
-                            />
-                        )}
+                        {!isRequestsFetching &&
+                            (!requests || requests.length === 0) && (
+                                <EmptyTable
+                                    message={t("noRequests")}
+                                    numColumns={appColumnData(t).length}
+                                />
+                            )}
                         {requests &&
                             requests.length > 0 &&
                             requests.map((request) => (

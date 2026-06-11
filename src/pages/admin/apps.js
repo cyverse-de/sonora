@@ -137,7 +137,10 @@ export default function Apps() {
                     value={TABS.pubRequest}
                     selectedTab={selectedTab}
                 >
-                    <AppPublicationRequests parentId={"pubRequestListing"} />
+                    <AppPublicationRequests
+                        parentId={"pubRequestListing"}
+                        tabIsActive={selectedTab === TABS.pubRequest}
+                    />
                 </DETabPanel>
             </>
         );

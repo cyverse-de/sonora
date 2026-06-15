@@ -135,7 +135,7 @@ function ToolsUsed(props) {
     );
 }
 function AppPublicationRequests(props) {
-    const { parentId } = props;
+    const { parentId, tabIsActive } = props;
     const { t } = useTranslation("apps");
 
     const [requests, setRequests] = React.useState();
@@ -146,7 +146,7 @@ function AppPublicationRequests(props) {
     const { isFetching: isRequestsFetching } = useQuery({
         queryKey: [APP_PUBLICATION_REQUESTS_QUERY_KEY],
         queryFn: getAppPublicationRequests,
-        enabled: true,
+        enabled: !!tabIsActive,
         onSuccess: (resp) => {
             setRequests(resp?.publication_requests);
             setError(null);
@@ -204,12 +204,13 @@ function AppPublicationRequests(props) {
                         />
                     )}
                     <TableBody>
-                        {(!requests || requests.length === 0) && (
-                            <EmptyTable
-                                message={t("noRequests")}
-                                numColumns={appColumnData(t).length}
-                            />
-                        )}
+                        {!isRequestsFetching &&
+                            (!requests || requests.length === 0) && (
+                                <EmptyTable
+                                    message={t("noRequests")}
+                                    numColumns={appColumnData(t).length}
+                                />
+                            )}
                         {requests &&
                             requests.length > 0 &&
                             requests.map((request) => (

@@ -139,7 +139,7 @@
         "unleash-client": "^6.9.5",
         "uuid": "^3.4.0",
         "winston": "^3.2.1",
-        "ws": "^8.13.0"
+        "ws": "^8.21.0"
     },
     "overrides": {
         "react-is": "^18.3.1"
@@ -148,9 +148,9 @@
         "fsevents": "^1.2.11"
     },
     "devDependencies": {
-        "@babel/cli": "^7.26.4",
-        "@babel/core": "^7.26.10",
-        "@babel/node": "^7.26.0",
+        "@babel/cli": "^7.29.7",
+        "@babel/core": "^7.29.7",
+        "@babel/node": "^7.29.7",
         "@chromatic-com/storybook": "^3.2.7",
         "@storybook/addon-actions": "^8.6.17",
         "@storybook/addon-console": "^3.0.0",
@@ -163,8 +163,8 @@
         "eslint-config-next": "^14.2.35",
         "husky": "^4.0.10",
         "i18next-http-backend": "^3.0.5",
-        "jest": "^30.3.0",
-        "jest-environment-jsdom": "^30.3.0",
+        "jest": "^30.4.2",
+        "jest-environment-jsdom": "^30.4.1",
         "jest-next-dynamic": "^1.0.1",
         "jsdoc": "^4.0.4",
         "lint-staged": "^10.2.2",

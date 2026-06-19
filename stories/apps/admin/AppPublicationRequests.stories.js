@@ -14,5 +14,5 @@ export function AppPublicationRequestsTest() {
         .onGet(`/api/admin/apps/publication-requests`)
         .reply(200, appPublicationRequests);
 
-    return <RequestListing parentId={parentId} />;
+    return <RequestListing parentId={parentId} tabIsActive />;
 }

@@ -1,5 +1,4 @@
 import React from "react";
-import { v4 as uuidv4 } from "uuid";
 import { Apps, Label, InsertDriveFile, Folder } from "@mui/icons-material";
 import AnalysesIcon from "components/icons/AnalysesIcon";
 
@@ -100,7 +99,7 @@ export const APP_TYPE = "app";
 
 export const createNewBagItem = (item) => {
     if (!item.id) {
-        item.id = uuidv4();
+        item.id = crypto.randomUUID();
     }
 
     if (item?.path && item?.path && item?.type !== FOLDER_TYPE) {

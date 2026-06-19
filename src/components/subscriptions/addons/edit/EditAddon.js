@@ -3,8 +3,6 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "i18n";
 
-import "crypto";
-
 import buildID from "components/utils/DebugIDUtil";
 import { Button, MenuItem } from "@mui/material";
 import DEDialog from "components/utils/DEDialog";
@@ -34,9 +32,9 @@ function EditAddonDialog(props) {
     const { addon, open, onClose, parentId } = props;
     const { t } = useTranslation("subscriptions");
     const queryClient = useQueryClient();
-    const resourceTypesCache = queryClient.getQueryData(
-        [RESOURCE_TYPES_QUERY_KEY]
-    );
+    const resourceTypesCache = queryClient.getQueryData([
+        RESOURCE_TYPES_QUERY_KEY,
+    ]);
 
     const [resourceTypes, setResourceTypes] = useState();
     const [resourceTypesQueryEnabled, setResourceTypesQueryEnabled] =

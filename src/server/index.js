@@ -65,17 +65,6 @@ function buildNavigationRouteRegexp() {
 // Configure the Keycloak client.
 const keycloakClient = authn.getKeycloakClient();
 
-// Configure the Unleash SDK
-const unleash = require("unleash-client");
-
-unleash.initialize({
-    url: config.unleashApiURL,
-    appName: "de",
-    customHeaders: {
-        Authorization: config.unleashClientSecret,
-    },
-});
-
 app.prepare()
 
     .then(() => {
@@ -161,15 +150,9 @@ app.prepare()
         logger.info("mapping / to /dashboard in the app");
         server.use("/", compression());
 
-        logger.info("Adding the unleash handler");
+        // Serve static files from the public directory,
+        // such as the favicon and maintenance page.
         server.use(express.static("public"));
-        server.use((req, res, next) => {
-            if (unleash.isEnabled(config.unleashMaintenanceFlag)) {
-                res.sendFile("maintenance.html", { root: "public" });
-            } else {
-                next();
-            }
-        });
 
         // URL paths that might appear in the browser address bar should match this route.
         const userRouteRegexp = buildNavigationRouteRegexp();

@@ -107,11 +107,6 @@ const validate = () => {
     validateConfigSetting("services.ontology_lookup_service.base");
     validateConfigSetting("services.unified_astronomy_thesaurus.base");
 
-    //unleash settings
-    validateConfigSetting("unleash.api_url");
-    validateConfigSetting("unleash.client_secret");
-    validateConfigSetting("unleash.maintenance_flag");
-
     //username settings
     validateConfigSetting("username.suffix");
 };
@@ -317,21 +312,6 @@ export const userPortalAPIURL = `${config.get("user_portal_url")}/api`;
  *
  */
 export const anonFilesBaseURL = config.get("irods.web_dav.anon_uri");
-
-/**
- * The unleash API url
- */
-export const unleashApiURL = config.get("unleash.api_url");
-
-/**
- * The unleash API token secret
- */
-export const unleashClientSecret = config.get("unleash.client_secret");
-
-/**
- * The unleash flag for DE maintenance
- */
-export const unleashMaintenanceFlag = config.get("unleash.maintenance_flag");
 
 /**
  * The usermame suffix.

@@ -78,14 +78,18 @@ app.prepare()
         server.use(requestLogger);
         server.use(express.json({ limit: config.maxRequestBodySize }));
 
-        logger.info("DEBUG: adding middleware to log cookies");
-        server.use(authn.logSessionCookie);
+        if (logger.isDebugEnabled()) {
+            logger.info("DEBUG: adding middleware to log cookies");
+            server.use(authn.logSessionCookie);
+        }
 
         logger.info("configuring express sessions");
         server.use(authn.sessionMiddleware());
 
-        logger.info("DEBUG: adding middleware to log session info");
-        server.use(authn.logSessionInfo);
+        if (logger.isDebugEnabled()) {
+            logger.info("DEBUG: adding middleware to log session info");
+            server.use(authn.logSessionInfo);
+        }
 
         logger.info("configuring keycloak");
         server.use(keycloakClient.middleware());

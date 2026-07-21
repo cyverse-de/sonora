@@ -22,6 +22,7 @@ const JupyterLabNoParamsApp = {
     label: "Jupyter Lab no params",
     id: "4dcda8a6-5761-11ea-bd06-008cfa5ae621",
     app_type: "DE",
+    overall_job_type: "interactive",
     groups: [],
 };
 

@@ -19,7 +19,9 @@ import ids from "./ids";
 import styles from "./styles";
 
 import buildID from "components/utils/DebugIDUtil";
+import FormCheckbox from "components/forms/FormCheckbox";
 import FormSelectField from "components/forms/FormSelectField";
+import TOOL_TYPES from "components/models/ToolTypes";
 
 import {
     Accordion,
@@ -235,10 +237,12 @@ const ResourceRequirementsForm = ({
     defaultMaxCPUCores,
     defaultMaxMemory,
     defaultMaxDiskSpace,
+    overallJobType,
     limits,
 }) => {
     const { classes } = useStyles();
     const { t } = useTranslation("launch");
+    const isVICE = overallJobType === TOOL_TYPES.INTERACTIVE;
     return (
         <>
             <Accordion defaultExpanded>
@@ -319,6 +323,15 @@ const ResourceRequirementsForm = ({
                     )}
                 </AccordionDetails>
             </Accordion>
+            {isVICE && (
+                <FastField
+                    id={buildID(baseId, ids.RESOURCE_REQUESTS.MOUNT_DATA_STORE)}
+                    name="mount_data_store"
+                    label={t("mountDataStore")}
+                    helperText={t("mountDataStoreHelp")}
+                    component={FormCheckbox}
+                />
+            )}
         </>
     );
 };

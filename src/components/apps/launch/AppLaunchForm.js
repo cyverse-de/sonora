@@ -166,6 +166,7 @@ const AppLaunchForm = (props) => {
             version_id,
             name: appName,
             app_type,
+            overall_job_type,
             groups,
             requirements,
         },
@@ -417,6 +418,7 @@ const AppLaunchForm = (props) => {
                                         <ResourceRequirementsForm
                                             baseId={stepIdResources}
                                             limits={values.limits}
+                                            overallJobType={overall_job_type}
                                             defaultMaxCPUCores={
                                                 defaultMaxCPUCores
                                             }

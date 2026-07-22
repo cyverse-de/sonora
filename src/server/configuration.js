@@ -155,6 +155,18 @@ export const listenPort = parseInt(config.get("listen_port"), 10);
 export const maxRequestBodySize = config.get("max_request_body_size");
 
 /**
+ * The default body request timeout for all routes, in milliseconds.
+ * @type {number}
+ */
+export const requestTimeoutDefault = config.get("requestTimeoutDefault");
+
+/**
+ * The body request timeout for uploads, in milliseconds (zero = unlimited).
+ * @type {number}
+ */
+export const requestTimeoutUploads = config.get("requestTimeoutUploads");
+
+/**
  * The URI to use when connecting to the database. Most database interaction
  * is managed by the API, but the UI does use the database to store user
  * session information.

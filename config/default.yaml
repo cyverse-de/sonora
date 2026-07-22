@@ -8,6 +8,12 @@ cyverse_url: https://cyverse.org/discovery-environment #// The CyVerse page for 
 queriesConcurrencyLimit: 8
 max_request_body_size: 10mb
 
+# The default body request timeout for all routes, in milliseconds.
+requestTimeoutDefault: 300000   # 5 minutes, the node http server default.
+
+# The body request timeout for uploads, in milliseconds (zero = unlimited)
+requestTimeoutUploads: 7200000  # 2 hours
+
 logging:
     level: info
     label: sonora server

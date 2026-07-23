@@ -32,6 +32,8 @@
     "minDiskSpace": "Minimum Disk Space",
     "minCPUCores": "Minimum CPU Cores",
     "minMemory": "Minimum Memory",
+    "mountDataStore": "Mount data store in analysis",
+    "mountDataStoreHelp": "When enabled, your analysis reads and writes directly to the Data Store. When disabled, files are copied in at launch and copied back when the analysis completes.",
     "multiInputEmptyLabel": "Select the \"Browse\" button to add inputs.",
     "newAnalysisName": "{{appName}} analysis1",
     "name": "Name",

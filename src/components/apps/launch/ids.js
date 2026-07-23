@@ -50,6 +50,7 @@ const ids = {
         MIN_DISK_SPACE: "minDiskSpace",
         TOOL_GPU: "idToolGpu",
         TOOL_GPU_MODELS: "idToolGpuModels",
+        MOUNT_DATA_STORE: "mountDataStore",
     },
 
     TEMPLATE_GROUP: "group",

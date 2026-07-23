@@ -38,7 +38,15 @@ const initAppLaunchValues = (
         defaultSelectedMaxCpus,
         defaultMaxCpuCores = defaultSelectedMaxCpus,
         defaultOutputDir,
-        app: { id, version_id, system_id, name, requirements, groups },
+        app: {
+            id,
+            version_id,
+            system_id,
+            name,
+            requirements,
+            groups,
+            mount_data_store,
+        },
     }
 ) => {
     // If no default_max_cpu_cores is returned from the API,
@@ -83,6 +91,7 @@ const initAppLaunchValues = (
         app_id: id,
         app_version_id: version_id,
         system_id,
+        mount_data_store: mount_data_store ?? true,
         groups: initGroupValues(groups),
         limits: requirements,
         requirements: reqInitValues || [],
@@ -200,6 +209,7 @@ const formatSubmission = (
         system_id,
         app_id,
         app_version_id,
+        mount_data_store,
         requirements,
         groups,
     }
@@ -223,6 +233,7 @@ const formatSubmission = (
         system_id,
         app_id,
         app_version_id,
+        mount_data_store,
         requirements: formattedRequirements,
         config: groups?.reduce(paramConfigsReducer, {}),
     };

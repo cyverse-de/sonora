@@ -153,7 +153,7 @@
         "@storybook/addon-actions": "^8.6.17",
         "@storybook/addon-console": "^3.0.0",
         "@storybook/addon-essentials": "^8.6.17",
-        "@storybook/nextjs": "^8.6.17",
+        "@storybook/nextjs": "^10.5.3",
         "@tanstack/eslint-plugin-query": "^4.43.0",
         "axios-mock-adapter": "^1.18.1",
         "cross-env": "^6.0.3",

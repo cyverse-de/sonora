@@ -5,7 +5,7 @@
  * thumbnail/tile view.
  */
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import TableView from "./TableView";
 
@@ -182,19 +182,30 @@ function Listing(props) {
         processSelectedFiles(files, trackAllUploads);
     };
 
-    // Selections can outlive the listing they came from: moving or deleting an
-    // item leaves its ID in `selected` while the refreshed listing no longer
-    // contains it. Drop the misses so callers never see undefined entries.
+    // Selections outlive the listing they came from: moving or deleting an item
+    // leaves its ID in `selected` while the refreshed listing no longer contains
+    // it. Derive the surviving IDs during render rather than pruning in an
+    // effect -- an effect runs too late to stop the render in between from
+    // resolving a stale ID to undefined. Everything downstream reads this, so
+    // `listedSelected.length` and `getSelectedResources().length` always agree.
+    const listedSelected = useMemo(
+        () =>
+            selected.filter((id) =>
+                data?.listing?.some((resource) => resource.id === id)
+            ),
+        [data.listing, selected]
+    );
+
     const getSelectedResources = useCallback(
         (resources) => {
-            const items = resources ? resources : selected;
+            const items = resources ? resources : listedSelected;
             return items
                 .map((id) =>
                     data?.listing?.find((resource) => resource.id === id)
                 )
                 .filter(Boolean);
         },
-        [data.listing, selected]
+        [data.listing, listedSelected]
     );
 
     const { error, isFetching } = useQuery({
@@ -331,7 +342,7 @@ function Listing(props) {
         {
             onSuccess: (resp) => {
                 trackIntercomEvent(IntercomEvents.SUBMITTED_DOI_REQUEST, {
-                    folder: selected[0],
+                    folder: listedSelected[0],
                 });
             },
             onError: (e) => {
@@ -370,20 +381,6 @@ function Listing(props) {
         setSelected([]);
         setLocalContextsProjectURI(null);
     }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
-
-    // A move or delete refreshes the listing without changing `path`, so the
-    // effect above doesn't fire and stale IDs linger. Returning the original
-    // array when nothing was dropped keeps this from looping.
-    useEffect(() => {
-        setSelected((currentSelected) => {
-            const stillListed = currentSelected.filter((id) =>
-                data?.listing?.find((resource) => resource.id === id)
-            );
-            return stillListed.length === currentSelected.length
-                ? currentSelected
-                : stillListed;
-        });
-    }, [data.listing]);
 
     const viewUploadQueue = useCallback(() => {
         return (
@@ -454,8 +451,8 @@ function Listing(props) {
     });
 
     useEffect(() => {
-        setDetailsEnabled(selected && selected.length === 1);
-    }, [selected]);
+        setDetailsEnabled(listedSelected.length === 1);
+    }, [listedSelected]);
 
     useEffect(() => {
         if (download) {
@@ -489,7 +486,7 @@ function Listing(props) {
     };
 
     const handleSelectAllClick = (event) => {
-        if (event.target.checked && !selected.length && multiSelect) {
+        if (event.target.checked && !listedSelected.length && multiSelect) {
             const newSelecteds =
                 data?.listing?.map((resource) => resource.id) || [];
             setSelected(newSelecteds);
@@ -512,7 +509,7 @@ function Listing(props) {
                 rangeIds.push(data?.listing[i].id);
             }
 
-            let isTargetSelected = selected.includes(targetId);
+            let isTargetSelected = listedSelected.includes(targetId);
             isTargetSelected ? deselect(rangeIds) : select(rangeIds);
         }
     };
@@ -535,7 +532,7 @@ function Listing(props) {
     };
 
     const toggleSelection = (resourceId) => {
-        if (selected.includes(resourceId)) {
+        if (listedSelected.includes(resourceId)) {
             deselect([resourceId]);
         } else {
             select([resourceId]);
@@ -544,7 +541,7 @@ function Listing(props) {
 
     const select = (resourceIds) => {
         if (multiSelect) {
-            let newSelected = [...new Set([...selected, ...resourceIds])];
+            let newSelected = [...new Set([...listedSelected, ...resourceIds])];
             setSelected(newSelected);
         } else {
             setSelected(resourceIds);
@@ -552,7 +549,7 @@ function Listing(props) {
     };
 
     const deselect = (resourceIds) => {
-        const newSelected = selected.filter(
+        const newSelected = listedSelected.filter(
             (selectedID) => !resourceIds.includes(selectedID)
         );
 
@@ -621,7 +618,7 @@ function Listing(props) {
 
     const onDetailsSelected = () => {
         setDetailsOpen(true);
-        const selectedId = selected[0];
+        const selectedId = listedSelected[0];
         const resourceIndex = data.listing.findIndex(
             (item) => item.id === selectedId
         );
@@ -696,11 +693,11 @@ function Listing(props) {
     const localUploadId = buildID(baseId, ids.UPLOAD_MI, ids.UPLOAD_INPUT);
     return (
         <>
-            {render && render(selected.length, getSelectedResources)}
+            {render && render(listedSelected.length, getSelectedResources)}
             <UploadDropTarget path={path} uploadsEnabled={uploadsEnabled}>
                 <DataToolbar
                     path={path}
-                    selected={selected}
+                    selected={listedSelected}
                     getSelectedResources={getSelectedResources}
                     handlePathChange={onPathChange}
                     permission={data?.permission}
@@ -769,7 +766,7 @@ function Listing(props) {
                         handleClick={handleClick}
                         order={order}
                         orderBy={orderBy}
-                        selected={selected}
+                        selected={listedSelected}
                         setSharingDlgOpen={setSharingDlgOpen}
                         onMetadataSelected={onMetadataSelected}
                         onPublicLinksSelected={() =>
@@ -854,7 +851,7 @@ function Listing(props) {
                             onClick={() => {
                                 setConfirmDOIRequestDialogOpen(false);
                                 requestDOI({
-                                    folder: selected[0],
+                                    folder: listedSelected[0],
                                     type: "DOI",
                                 });
                             }}
@@ -895,7 +892,7 @@ function Listing(props) {
                 selectedResources={getSelectedResources()}
                 onClose={() => setMoveDlgOpen(false)}
                 onRemoveResource={(resource) => {
-                    const newSelected = selected?.filter(
+                    const newSelected = listedSelected.filter(
                         (sel) => sel !== resource?.id
                     );
                     setSelected(newSelected);

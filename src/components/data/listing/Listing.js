@@ -182,12 +182,17 @@ function Listing(props) {
         processSelectedFiles(files, trackAllUploads);
     };
 
+    // Selections can outlive the listing they came from: moving or deleting an
+    // item leaves its ID in `selected` while the refreshed listing no longer
+    // contains it. Drop the misses so callers never see undefined entries.
     const getSelectedResources = useCallback(
         (resources) => {
             const items = resources ? resources : selected;
-            return items.map((id) =>
-                data?.listing?.find((resource) => resource.id === id)
-            );
+            return items
+                .map((id) =>
+                    data?.listing?.find((resource) => resource.id === id)
+                )
+                .filter(Boolean);
         },
         [data.listing, selected]
     );
@@ -365,6 +370,20 @@ function Listing(props) {
         setSelected([]);
         setLocalContextsProjectURI(null);
     }, [path, rowsPerPage, orderBy, order, page, uploadsCompleted]);
+
+    // A move or delete refreshes the listing without changing `path`, so the
+    // effect above doesn't fire and stale IDs linger. Returning the original
+    // array when nothing was dropped keeps this from looping.
+    useEffect(() => {
+        setSelected((currentSelected) => {
+            const stillListed = currentSelected.filter((id) =>
+                data?.listing?.find((resource) => resource.id === id)
+            );
+            return stillListed.length === currentSelected.length
+                ? currentSelected
+                : stillListed;
+        });
+    }, [data.listing]);
 
     const viewUploadQueue = useCallback(() => {
         return (

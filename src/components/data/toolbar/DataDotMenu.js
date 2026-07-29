@@ -140,7 +140,8 @@ function DataDotMenu(props) {
     };
 
     const applyBulkMetadataEnabled =
-        metadataMiEnabled && selectedResources[0].type === ResourceTypes.FOLDER;
+        metadataMiEnabled &&
+        selectedResources?.[0]?.type === ResourceTypes.FOLDER;
 
     return (
         <>

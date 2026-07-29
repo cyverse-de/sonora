@@ -29,7 +29,6 @@ const constants = {
     ONE_GiB: 2 ** 30,
     WS_PROTOCOL: "ws://",
     WSS_PROTOCOL: "wss://",
-    USER_PORTAL: "https://user.cyverse.org/register",
     USER_PORTAL_FAQ: "https://learning.cyverse.org/faq/#user-account",
 
     IMPORT_IRODS_METADATA_LINK:

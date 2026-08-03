@@ -8,6 +8,8 @@ import { validateDiskResourceName } from "components/data/utils";
 
 import AppParamTypes, { ValidatorTypes } from "components/models/AppParamTypes";
 
+import { formatDuration } from "./formatters";
+
 /**
  * @param {*} value - The app parameter value to check.
  * @return {boolean} True if `value` is falsey, with the exception that Numbers can be exactly 0, and Arrays should have at least 1 item.
@@ -216,7 +218,7 @@ const validateDouble = ({ value, validators }, t) => {
  * May also contain custom error fields not found in `values`.
  * If an empty object is returned, then there were no errors.
  */
-const validate = (t, hasParams) => (values) => {
+const validate = (t, hasParams, maxTimeLimitSeconds) => (values) => {
     const errors = {};
     const launchStepErrors = [];
 
@@ -233,6 +235,17 @@ const validate = (t, hasParams) => (values) => {
 
     if (!values.output_dir) {
         errors.output_dir = t("required");
+        launchStepErrors[0] = true;
+    }
+
+    if (
+        maxTimeLimitSeconds &&
+        values.initialTimeLimitSeconds &&
+        values.initialTimeLimitSeconds > maxTimeLimitSeconds
+    ) {
+        errors.initialTimeLimitSeconds = t("initialDurationInvalidMax", {
+            max: formatDuration(maxTimeLimitSeconds),
+        });
         launchStepErrors[0] = true;
     }
 

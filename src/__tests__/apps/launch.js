@@ -2,7 +2,11 @@ import React from "react";
 import TestRenderer from "react-test-renderer";
 
 import { buildGpuLimitList } from "components/apps/launch/ResourceRequirements";
-import { initAppLaunchValues } from "components/apps/launch/formatters";
+import {
+    buildDurationLimitList,
+    formatDuration,
+    initAppLaunchValues,
+} from "components/apps/launch/formatters";
 import validate from "components/apps/launch/validate";
 
 import { mockAxios } from "../../../stories/axiosMock";
@@ -299,5 +303,104 @@ describe("buildGpuLimitList", () => {
 
     test("uses min_gpus as only option when min_gpus is above max_gpus", () => {
         expect(buildGpuLimitList(3, 2)).toEqual([3]);
+    });
+});
+
+// --- buildDurationLimitList unit tests ---
+
+describe("buildDurationLimitList", () => {
+    const SECONDS_PER_HOUR = 3600;
+    const SECONDS_PER_DAY = 86400;
+    const H = (n) => n * SECONDS_PER_HOUR;
+    const D = (n) => n * SECONDS_PER_DAY;
+
+    test("30 days max returns the full ladder without duplicates", () => {
+        expect(buildDurationLimitList(D(30))).toEqual([
+            H(1),
+            H(2),
+            H(4),
+            H(8),
+            H(12),
+            D(1),
+            D(2),
+            D(3),
+            D(4),
+            D(7),
+            D(14),
+            D(30),
+        ]);
+    });
+
+    test("7 days max truncates the ladder at 7 days", () => {
+        expect(buildDurationLimitList(D(7))).toEqual([
+            H(1),
+            H(2),
+            H(4),
+            H(8),
+            H(12),
+            D(1),
+            D(2),
+            D(3),
+            D(4),
+            D(7),
+        ]);
+    });
+
+    test("45 days max appends the exact max after the ladder", () => {
+        expect(buildDurationLimitList(D(45))).toEqual([
+            H(1),
+            H(2),
+            H(4),
+            H(8),
+            H(12),
+            D(1),
+            D(2),
+            D(3),
+            D(4),
+            D(7),
+            D(14),
+            D(30),
+            D(45),
+        ]);
+    });
+
+    test("max that matches a ladder value is not duplicated", () => {
+        expect(buildDurationLimitList(D(1))).toEqual([
+            H(1),
+            H(2),
+            H(4),
+            H(8),
+            H(12),
+            D(1),
+        ]);
+    });
+
+    test("max below the smallest ladder value returns just the max", () => {
+        expect(buildDurationLimitList(H(0.5))).toEqual([H(0.5)]);
+    });
+});
+
+// --- formatDuration unit tests ---
+
+describe("formatDuration", () => {
+    test("1 hour", () => {
+        expect(formatDuration(3600)).toBe("1 hour");
+    });
+
+    test("12 hours", () => {
+        expect(formatDuration(43200)).toBe("12 hours");
+    });
+
+    test("1 day", () => {
+        expect(formatDuration(86400)).toBe("1 day");
+    });
+
+    test("365 days", () => {
+        expect(formatDuration(31536000)).toBe("365 days");
+    });
+
+    test("falsey input returns an empty string", () => {
+        expect(formatDuration(0)).toBe("");
+        expect(formatDuration(null)).toBe("");
     });
 });

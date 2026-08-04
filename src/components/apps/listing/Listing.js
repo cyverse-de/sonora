@@ -244,7 +244,7 @@ function Listing(props) {
             queryKey: [
                 COLLECTION_APPS_QUERY,
                 {
-                    name: category?.fullCollectionName,
+                    collectionId: category?.collectionId,
                     sortField: orderBy,
                     sortDir: order,
                     appFilter: filter,
@@ -252,7 +252,7 @@ function Listing(props) {
             ],
             queryFn: () =>
                 getCollectionApps({
-                    name: category?.fullCollectionName,
+                    collectionId: category?.collectionId,
                     sortField: orderBy,
                     sortDir: order,
                     appFilter: filter,
@@ -523,7 +523,7 @@ function Listing(props) {
         let newCategory = {
             id: constants.MY_COLLECTIONS,
             name: collection.name,
-            fullCollectionName: collection.display_name,
+            collectionId: collection.id,
         };
         setSelected([]);
         onRouteToListing &&

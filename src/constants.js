@@ -105,7 +105,6 @@ const constants = {
     TACC_LINK: "https://tacc.utexas.edu/",
 
     METADATA: {
-        COMMUNITY_ATTR: "cyverse-community",
         INSTANT_LAUNCH_LOCATION_ATTR: "ui_location",
         INSTANT_LAUNCH_DASHBOARD: "dashboard",
         INSTANT_LAUNCH_NAV_DRAWER: "nav_drawer",

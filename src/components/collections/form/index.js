@@ -35,7 +35,6 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 import styles from "../styles";
 import CollectionToolbar from "./Toolbar";
-import constants from "constants.js";
 
 const useStyles = makeStyles()(styles);
 
@@ -70,14 +69,14 @@ function CollectionsForm(props) {
             COLLECTION_DETAILS_QUERY,
             {
                 name: collectionName,
-                fullName: collection?.display_name,
+                collectionId: collection?.id,
                 userId: userProfile?.id,
             },
         ],
         queryFn: () =>
             getCollectionDetails({
                 name: collectionName,
-                fullName: collection?.display_name,
+                collectionId: collection?.id,
                 userId: userProfile?.id,
             }),
         enabled: !isCreatingCollection,
@@ -176,15 +175,14 @@ function CollectionsForm(props) {
         mutate: updateCollectionNameDescMutation,
         status: updateCollectionNameDescStatus,
     } = useMutation(updateCollectionNameDesc, {
-        onSuccess: (resp, { newAdmins, newApps, attr }) => {
+        onSuccess: (resp, { newAdmins, newApps }) => {
             updateCollectionDetailsMutation({
                 name: resp?.name,
-                fullName: resp?.display_name,
+                collectionId: resp?.id,
                 oldAdmins: admins,
                 oldApps: apps,
                 newAdmins,
                 newApps,
-                attr,
             });
         },
         onError: (error) => {
@@ -219,17 +217,16 @@ function CollectionsForm(props) {
 
     const { mutate: createCollectionMutation, status: createCollectionStatus } =
         useMutation(createCollection, {
-            onSuccess: (resp, { newAdmins, newApps, attr }) => {
+            onSuccess: (resp, { newAdmins, newApps }) => {
                 setCollection(resp);
                 setCollectionNameSaved(true);
                 updateCollectionDetailsMutation({
                     name: resp?.name,
-                    fullName: resp?.display_name,
+                    collectionId: resp?.id,
                     oldAdmins: admins,
                     oldApps: apps,
                     newAdmins,
                     newApps,
-                    attr,
                 });
             },
             onError: (error) => {
@@ -274,7 +271,7 @@ function CollectionsForm(props) {
         mutation({
             originalName: collectionName,
             originalDescription: collection?.description,
-            fullName: collection?.display_name,
+            collectionId: collection?.id,
             name: newName,
             description: newDescription,
             oldAdmins: admins,
@@ -282,7 +279,6 @@ function CollectionsForm(props) {
             newAdmins,
             newApps,
             retagApps,
-            attr: constants.METADATA.COMMUNITY_ATTR,
         });
     };
 

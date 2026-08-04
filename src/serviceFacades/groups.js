@@ -391,7 +391,7 @@ function getCollectionFollowers({ name }) {
     });
 }
 
-function getCollectionApps({ name, sortField, sortDir, appFilter }) {
+function getCollectionApps({ collectionId, sortField, sortDir, appFilter }) {
     const params = {
         "sort-field": sortField || "name",
         "sort-dir": sortDir?.toUpperCase() || "ASC",
@@ -401,7 +401,9 @@ function getCollectionApps({ name, sortField, sortDir, appFilter }) {
     }
 
     return callApi({
-        endpoint: `/api/apps/communities/${encodeURIComponent(name)}/apps`,
+        endpoint: `/api/apps/communities/${encodeURIComponent(
+            collectionId
+        )}/apps`,
         method: "GET",
         params,
     });
@@ -409,7 +411,7 @@ function getCollectionApps({ name, sortField, sortDir, appFilter }) {
 
 function getCollectionDetails({
     name,
-    fullName,
+    collectionId,
     userId,
     sortField,
     sortDir,
@@ -420,7 +422,7 @@ function getCollectionDetails({
         getCollectionAdmins({ name }),
         getCollectionFollowers({ name }),
         getCollectionApps({
-            name: fullName,
+            collectionId,
             sortField,
             sortDir,
             appFilter,
@@ -546,56 +548,44 @@ function removeCollectionAdmins({ name, adminIds }) {
     });
 }
 
-function addAppToCollection({ avu, appId }) {
+function addAppToCollection({ collectionId, appId }) {
     return callApi({
         endpoint: `/api/apps/${appId}/communities`,
         method: "POST",
         body: {
-            avus: [avu],
+            community_ids: [collectionId],
         },
     });
 }
 
-function addAppsToCollection({ name, apps, attr }) {
-    const avu = {
-        attr,
-        value: name,
-        unit: "",
-    };
-
-    return Promise.all(apps.map((appId) => addAppToCollection({ avu, appId })));
-}
-
-function removeAppFromCollection({ avu, appId }) {
-    return callApi({
-        endpoint: `/api/apps/${appId}/communities`,
-        method: "DELETE",
-        body: {
-            avus: [avu],
-        },
-    });
-}
-
-function removeAppsFromCollection({ name, apps, attr }) {
-    const avu = {
-        attr,
-        value: name,
-        unit: "",
-    };
-
+function addAppsToCollection({ collectionId, apps }) {
     return Promise.all(
-        apps.map((appId) => removeAppFromCollection({ avu, appId }))
+        apps.map((appId) => addAppToCollection({ collectionId, appId }))
+    );
+}
+
+function removeAppFromCollection({ collectionId, appId }) {
+    return callApi({
+        endpoint: `/api/apps/${appId}/communities/${encodeURIComponent(
+            collectionId
+        )}`,
+        method: "DELETE",
+    });
+}
+
+function removeAppsFromCollection({ collectionId, apps }) {
+    return Promise.all(
+        apps.map((appId) => removeAppFromCollection({ collectionId, appId }))
     );
 }
 
 function updateCollectionDetails({
     name,
-    fullName,
+    collectionId,
     oldAdmins,
     newAdmins,
     oldApps,
     newApps,
-    attr,
 }) {
     const oldAdminIds = oldAdmins.map((admin) => admin.id);
     const newAdminIds = newAdmins.map((admin) => admin.id);
@@ -622,16 +612,13 @@ function updateCollectionDetails({
         );
     }
     if (addAppIds.length > 0) {
-        promises.push(
-            addAppsToCollection({ name: fullName, apps: addAppIds, attr })
-        );
+        promises.push(addAppsToCollection({ collectionId, apps: addAppIds }));
     }
     if (removeAppIds.length > 0) {
         promises.push(
             removeAppsFromCollection({
-                name: fullName,
+                collectionId,
                 apps: removeAppIds,
-                attr,
             })
         );
     }

@@ -239,12 +239,17 @@ function Listing(props) {
         },
     });
 
+    // Fall back to the legacy `fullCollectionName` key so bookmarks and
+    // history minted before the collection-ID cutover still resolve; the
+    // backend accepts either identifier. Drop the fallback after cutover.
+    const collectionId = category?.collectionId ?? category?.fullCollectionName;
+
     const { isFetching: appsInCollectionStatus, error: appsInCollectionError } =
         useQuery({
             queryKey: [
                 COLLECTION_APPS_QUERY,
                 {
-                    collectionId: category?.collectionId,
+                    collectionId,
                     sortField: orderBy,
                     sortDir: order,
                     appFilter: filter,
@@ -252,12 +257,13 @@ function Listing(props) {
             ],
             queryFn: () =>
                 getCollectionApps({
-                    collectionId: category?.collectionId,
+                    collectionId,
                     sortField: orderBy,
                     sortDir: order,
                     appFilter: filter,
                 }),
-            enabled: category?.id === constants.MY_COLLECTIONS,
+            enabled:
+                category?.id === constants.MY_COLLECTIONS && !!collectionId,
             onSuccess: (resp) => {
                 trackIntercomEvent(IntercomEvents.VIEWED_APPS, {
                     systemId: selectedSystemId,

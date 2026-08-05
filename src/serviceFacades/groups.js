@@ -494,19 +494,10 @@ function createCollection({ name, description }) {
     });
 }
 
-function updateCollectionNameDesc({
-    originalName,
-    name,
-    description,
-    retagApps,
-}) {
-    const params = {
-        "retag-apps": retagApps,
-    };
+function updateCollectionNameDesc({ originalName, name, description }) {
     return callApi({
         endpoint: `/api/communities/${encodeURIComponent(originalName)}`,
         method: "PATCH",
-        params,
         body: {
             name,
             description,

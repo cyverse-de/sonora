@@ -13,9 +13,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { announce } from "components/announcer/CyVerseAnnouncer";
 import { INFO } from "components/announcer/AnnouncerConstants";
-import { ERROR_CODES, getErrorCode } from "components/error/errorCode";
 import TableLoading from "components/table/TableLoading";
-import ConfirmationDialog from "components/utils/ConfirmationDialog";
 import isQueryLoading from "components/utils/isQueryLoading";
 import { useUserProfile } from "contexts/userProfile";
 import {
@@ -32,7 +30,6 @@ import {
 
 import FormFields from "./FormFields";
 import { useTranslation } from "i18n";
-import ids from "../ids";
 import styles from "../styles";
 import CollectionToolbar from "./Toolbar";
 
@@ -51,7 +48,6 @@ function CollectionsForm(props) {
     const [apps, setApps] = useState([]);
     const [queryError, setQueryError] = useState(null);
     const [collectionNameSaved, setCollectionNameSaved] = useState(false);
-    const [showRetagAppsDlg, setShowRetagAppsDlg] = useState(false);
 
     const queryClient = useQueryClient();
 
@@ -186,16 +182,10 @@ function CollectionsForm(props) {
             });
         },
         onError: (error) => {
-            const errorCode = getErrorCode(error);
-
-            if (errorCode === ERROR_CODES.ERR_EXISTS) {
-                setShowRetagAppsDlg(true);
-            } else {
-                setQueryError({
-                    message: t("updateCollectionNameDescError"),
-                    object: error,
-                });
-            }
+            setQueryError({
+                message: t("updateCollectionNameDescError"),
+                object: error,
+            });
         },
     });
 
@@ -253,7 +243,6 @@ function CollectionsForm(props) {
             description: newDescription,
             admins: newAdmins,
             apps: newApps,
-            retagApps,
         } = values;
 
         const newName = untrimmedName.trim();
@@ -278,7 +267,6 @@ function CollectionsForm(props) {
             oldApps: apps,
             newAdmins,
             newApps,
-            retagApps,
         });
     };
 
@@ -297,19 +285,17 @@ function CollectionsForm(props) {
                               },
                           ],
                           apps: apps,
-                          retagApps: false,
                       }
                     : {
                           name: collectionName || "",
                           description: collection?.description || "",
                           admins: admins,
                           apps: apps,
-                          retagApps: false,
                       }
             }
             onSubmit={handleSubmit}
         >
-            {({ handleSubmit, setFieldValue, dirty }) => (
+            {({ handleSubmit, dirty }) => (
                 <>
                     <CollectionToolbar
                         parentId={parentId}
@@ -352,20 +338,6 @@ function CollectionsForm(props) {
                             />
                         )}
                     </Paper>
-                    <ConfirmationDialog
-                        baseId={ids.RETAG_APPS_DLG}
-                        open={showRetagAppsDlg}
-                        onClose={() => setShowRetagAppsDlg(false)}
-                        onConfirm={() => {
-                            setShowRetagAppsDlg(false);
-                            setFieldValue("retagApps", true);
-                            handleSubmit();
-                        }}
-                        title={t("retagAppsTitle")}
-                        contentText={t("retagAppsMessage", {
-                            name: collectionName,
-                        })}
-                    />
                 </>
             )}
         </Formik>

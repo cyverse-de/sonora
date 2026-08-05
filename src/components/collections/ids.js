@@ -22,7 +22,6 @@ const ids = {
     FOLLOW_COLLECTION_DLG: "followCollectionDlg",
     HELP_DLG: "collectionHelpDlg",
     NAME: "collectionName",
-    RETAG_APPS_DLG: "retagAppsDlg",
     SUBJECT_SEARCH: "subjectSearch",
     TABLE: "table",
     TOOLBAR: "toolbar",

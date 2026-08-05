@@ -67,12 +67,7 @@ function InitialDurationField({ baseId, maxTimeLimitSeconds }) {
     );
 }
 
-const AnalysisInfoForm = ({
-    formId,
-    appType,
-    overallJobType,
-    maxTimeLimitSeconds,
-}) => {
+const AnalysisInfoForm = ({ formId, overallJobType, maxTimeLimitSeconds }) => {
     const { t } = useTranslation("launch");
     const isVICE = overallJobType === TOOL_TYPES.INTERACTIVE;
 

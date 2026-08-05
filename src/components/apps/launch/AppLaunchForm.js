@@ -398,7 +398,6 @@ const AppLaunchForm = (props) => {
                                 {activeStepInfo === stepAnalysisInfo ? (
                                     <AnalysisInfoForm
                                         formId={formId}
-                                        appType={app_type}
                                         overallJobType={overall_job_type}
                                         maxTimeLimitSeconds={
                                             max_time_limit_seconds

@@ -314,8 +314,8 @@ describe("buildDurationLimitList", () => {
     const H = (n) => n * SECONDS_PER_HOUR;
     const D = (n) => n * SECONDS_PER_DAY;
 
-    test("30 days max returns the full ladder without duplicates", () => {
-        expect(buildDurationLimitList(D(30))).toEqual([
+    test("365 days max returns the full ladder without duplicates", () => {
+        expect(buildDurationLimitList(D(365))).toEqual([
             H(1),
             H(2),
             H(4),
@@ -328,10 +328,14 @@ describe("buildDurationLimitList", () => {
             D(7),
             D(14),
             D(30),
+            D(60),
+            D(90),
+            D(180),
+            D(365),
         ]);
     });
 
-    test("7 days max truncates the ladder at 7 days", () => {
+    test("7 days max truncates the ladder at 7 days without duplicating it", () => {
         expect(buildDurationLimitList(D(7))).toEqual([
             H(1),
             H(2),
@@ -361,17 +365,6 @@ describe("buildDurationLimitList", () => {
             D(14),
             D(30),
             D(45),
-        ]);
-    });
-
-    test("max that matches a ladder value is not duplicated", () => {
-        expect(buildDurationLimitList(D(1))).toEqual([
-            H(1),
-            H(2),
-            H(4),
-            H(8),
-            H(12),
-            D(1),
         ]);
     });
 

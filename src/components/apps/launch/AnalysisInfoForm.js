@@ -27,7 +27,7 @@ import { MenuItem } from "@mui/material";
 /**
  * Dropdown for selecting the initial duration of a VICE analysis.
  * Stores the selected value (in seconds, or "" for "use default") as
- * `initialTimeLimitSeconds` in Formik state.
+ * `time_limit_seconds` in Formik state.
  */
 function InitialDurationField({ baseId, maxTimeLimitSeconds }) {
     const { t } = useTranslation("launch");
@@ -37,7 +37,7 @@ function InitialDurationField({ baseId, maxTimeLimitSeconds }) {
 
     // Include the current value as an option on relaunch, in case it exceeds
     // the standard ladder of options (e.g. an extended running analysis).
-    const current = values.initialTimeLimitSeconds;
+    const current = values.time_limit_seconds;
     if (
         typeof current === "number" &&
         current > 0 &&
@@ -50,7 +50,7 @@ function InitialDurationField({ baseId, maxTimeLimitSeconds }) {
     return (
         <FastField
             id={buildID(baseId, ids.RESOURCE_REQUESTS.INITIAL_DURATION)}
-            name="initialTimeLimitSeconds"
+            name="time_limit_seconds"
             label={t("initialDuration")}
             helperText={t("initialDurationHelp")}
             component={FormSelectField}

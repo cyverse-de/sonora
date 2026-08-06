@@ -240,10 +240,10 @@ const validate = (t, hasParams, maxTimeLimitSeconds) => (values) => {
 
     if (
         maxTimeLimitSeconds &&
-        values.initialTimeLimitSeconds &&
-        values.initialTimeLimitSeconds > maxTimeLimitSeconds
+        values.time_limit_seconds &&
+        values.time_limit_seconds > maxTimeLimitSeconds
     ) {
-        errors.initialTimeLimitSeconds = t("initialDurationInvalidMax", {
+        errors.time_limit_seconds = t("initialDurationInvalidMax", {
             max: formatDuration(maxTimeLimitSeconds),
         });
         launchStepErrors[0] = true;

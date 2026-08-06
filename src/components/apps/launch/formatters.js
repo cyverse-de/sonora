@@ -94,7 +94,7 @@ const initAppLaunchValues = (
         app_version_id: version_id,
         system_id,
         mount_data_store: mount_data_store ?? true,
-        initialTimeLimitSeconds: time_limit_seconds || "",
+        time_limit_seconds: time_limit_seconds || "",
         groups: initGroupValues(groups),
         limits: requirements,
         requirements: reqInitValues || [],
@@ -213,7 +213,7 @@ const formatSubmission = (
         app_id,
         app_version_id,
         mount_data_store,
-        initialTimeLimitSeconds,
+        time_limit_seconds,
         requirements,
         groups,
     }
@@ -238,8 +238,8 @@ const formatSubmission = (
         app_id,
         app_version_id,
         mount_data_store,
-        ...(initialTimeLimitSeconds && {
-            time_limit_seconds: initialTimeLimitSeconds,
+        ...(time_limit_seconds && {
+            time_limit_seconds,
         }),
         requirements: formattedRequirements,
         config: groups?.reduce(paramConfigsReducer, {}),

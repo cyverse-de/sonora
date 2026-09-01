@@ -33,6 +33,7 @@ const ids = {
     NOTIFICATION_BTN: "notificationButton",
     POLICY_LINK: "policyLink",
     REF_GENOME_MI: "referenceGenomeMenuItem",
+    RESOURCE_PRESETS_ADMIN_MI: "resourcePresetsAdminMenuItem",
     SEARCH_BTN: "searchButton",
     SEARCH_MI: "searchMenuItem",
     SETTINGS_MI: "settingsMenuItem",

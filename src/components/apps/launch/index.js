@@ -7,7 +7,7 @@
 import React from "react";
 
 import { useRouter } from "next/router";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "i18n";
 
 import NavigationConstants from "common/NavigationConstants";
@@ -19,6 +19,10 @@ import { useBootstrapInfo } from "contexts/bootstrap";
 
 import { submitAnalysis } from "serviceFacades/analyses";
 import { addSavedLaunch } from "serviceFacades/savedLaunches";
+import {
+    RESOURCE_PRESETS_QUERY_KEY,
+    getResourcePresets,
+} from "serviceFacades/resourcePresets";
 
 import { trackIntercomEvent, IntercomEvents } from "common/intercom";
 
@@ -89,6 +93,13 @@ const Launch = ({
     const defaultMaxMemory = config?.tools?.private.max_memory_limit;
     const defaultMaxDiskSpace = config?.tools?.private.max_disk_limit;
 
+    const { data: presetsData } = useQuery(
+        [RESOURCE_PRESETS_QUERY_KEY],
+        getResourcePresets,
+        { staleTime: 5 * 60 * 1000, enabled: !!app }
+    );
+    const resourcePresets = presetsData?.resource_presets || [];
+
     const baseId = "apps";
 
     if (launchError) {
@@ -150,6 +161,7 @@ const Launch = ({
             defaultMaxMemory={defaultMaxMemory}
             defaultMaxDiskSpace={defaultMaxDiskSpace}
             defaultSelectedMaxCpus={defaultSelectedMaxCpus}
+            resourcePresets={resourcePresets}
             app={app}
             appError={submissionError}
             loading={loading}

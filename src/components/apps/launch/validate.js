@@ -246,7 +246,7 @@ const validate = (t, hasParams, maxTimeLimitSeconds) => (values) => {
         errors.time_limit_seconds = t("initialDurationInvalidMax", {
             max: formatDuration(maxTimeLimitSeconds),
         });
-        launchStepErrors[0] = true;
+        launchStepErrors[hasParams ? 2 : 1] = true;
     }
 
     if (values.requirements) {

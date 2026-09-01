@@ -5,6 +5,7 @@ import { buildGpuLimitList } from "components/apps/launch/ResourceRequirements";
 import {
     buildDurationLimitList,
     formatDuration,
+    formatSubmission,
     initAppLaunchValues,
 } from "components/apps/launch/formatters";
 import validate from "components/apps/launch/validate";
@@ -395,5 +396,317 @@ describe("formatDuration", () => {
     test("falsey input returns an empty string", () => {
         expect(formatDuration(0)).toBe("");
         expect(formatDuration(null)).toBe("");
+    });
+});
+
+// --- Resource Preset unit tests ---
+
+describe("initAppLaunchValues resource presets", () => {
+    const makePresetAppDesc = (requirements, resourcePresets) => ({
+        notify: false,
+        notifyPeriodic: false,
+        periodicPeriod: 0,
+        defaultOutputDir: "/iplant/home/testuser/analyses",
+        resourcePresets,
+        app: {
+            id: "app-id",
+            version_id: "version-id",
+            system_id: "de",
+            name: "TestApp",
+            requirements,
+            groups: [],
+        },
+    });
+
+    const smallPreset = {
+        id: "preset-small",
+        label: "Small",
+        max_cpu_cores: 2,
+        min_memory_limit: 8589934592, // 8 GiB
+        max_gpus: 0,
+        time_limit_seconds: 7200,
+        is_default: true,
+        is_enabled: true,
+    };
+
+    const gpuPreset = {
+        id: "preset-gpu",
+        label: "GPU",
+        max_cpu_cores: 4,
+        min_memory_limit: 17179869184, // 16 GiB
+        max_gpus: 1,
+        time_limit_seconds: null,
+        is_default: false,
+        is_enabled: true,
+    };
+
+    test("applies default preset to compatible step", () => {
+        const desc = makePresetAppDesc(
+            [{ step_number: 0, max_cpu_cores: 8, memory_limit: 34359738368 }],
+            [smallPreset, gpuPreset]
+        );
+        const result = initAppLaunchValues(t, desc);
+        expect(result.requirements[0].resource_preset_id).toBe("preset-small");
+        expect(result.requirements[0].max_cpu_cores).toBe(2);
+        expect(result.requirements[0].min_memory_limit).toBe(8589934592);
+        expect(result.requirements[0].max_gpus).toBe(0);
+    });
+
+    test("clamps preset CPU to tool ceiling", () => {
+        const desc = makePresetAppDesc(
+            [{ step_number: 0, max_cpu_cores: 1, memory_limit: 34359738368 }],
+            [smallPreset]
+        );
+        const result = initAppLaunchValues(t, desc);
+        expect(result.requirements[0].max_cpu_cores).toBe(1);
+    });
+
+    test("clamps preset memory to tool ceiling", () => {
+        const desc = makePresetAppDesc(
+            [{ step_number: 0, max_cpu_cores: 8, memory_limit: 4294967296 }], // 4 GiB ceiling
+            [smallPreset]
+        );
+        const result = initAppLaunchValues(t, desc);
+        expect(result.requirements[0].min_memory_limit).toBe(4294967296);
+    });
+
+    test("does not clamp memory when tool has no memory_limit", () => {
+        const desc = makePresetAppDesc(
+            [{ step_number: 0, max_cpu_cores: 8 }],
+            [smallPreset]
+        );
+        const result = initAppLaunchValues(t, desc);
+        expect(result.requirements[0].min_memory_limit).toBe(8589934592);
+    });
+
+    test("does not apply incompatible preset (tool requires GPUs)", () => {
+        const desc = makePresetAppDesc(
+            [{ step_number: 0, max_cpu_cores: 8, min_gpus: 1, max_gpus: 4 }],
+            [smallPreset] // smallPreset has max_gpus: 0
+        );
+        const result = initAppLaunchValues(t, desc);
+        expect(result.requirements[0].resource_preset_id).toBeNull();
+    });
+
+    test("does not apply preset when it exceeds tool max_gpus", () => {
+        const desc = makePresetAppDesc(
+            [{ step_number: 0, max_cpu_cores: 8, max_gpus: 0 }],
+            [gpuPreset] // gpuPreset has max_gpus: 1
+        );
+        const result = initAppLaunchValues(t, desc);
+        expect(result.requirements[0].resource_preset_id).toBeNull();
+    });
+
+    test("sets time_limit_seconds from default preset when compatible", () => {
+        const desc = makePresetAppDesc(
+            [{ step_number: 0, max_cpu_cores: 8 }],
+            [smallPreset]
+        );
+        desc.app.max_time_limit_seconds = 86400;
+        desc.app.overall_job_type = "interactive";
+        const result = initAppLaunchValues(t, desc);
+        expect(result.time_limit_seconds).toBe(7200);
+    });
+
+    test("clamps preset time_limit_seconds to max_time_limit_seconds", () => {
+        const bigTimePreset = {
+            ...smallPreset,
+            time_limit_seconds: 172800, // 48 hours
+        };
+        const desc = makePresetAppDesc(
+            [{ step_number: 0, max_cpu_cores: 8 }],
+            [bigTimePreset]
+        );
+        desc.app.max_time_limit_seconds = 86400; // 24 hours
+        desc.app.overall_job_type = "interactive";
+        const result = initAppLaunchValues(t, desc);
+        expect(result.time_limit_seconds).toBe(86400);
+    });
+
+    test("no default preset falls back to empty time_limit_seconds", () => {
+        const nonDefaultPreset = { ...smallPreset, is_default: false };
+        const desc = makePresetAppDesc(
+            [{ step_number: 0, max_cpu_cores: 8 }],
+            [nonDefaultPreset]
+        );
+        const result = initAppLaunchValues(t, desc);
+        expect(result.requirements[0].resource_preset_id).toBeNull();
+        expect(result.time_limit_seconds).toBe("");
+    });
+
+    test("empty resourcePresets array produces null resource_preset_id", () => {
+        const desc = makePresetAppDesc(
+            [{ step_number: 0, max_cpu_cores: 4 }],
+            []
+        );
+        const result = initAppLaunchValues(t, desc);
+        expect(result.requirements[0].resource_preset_id).toBeNull();
+    });
+
+    test("relaunch: matches saved values to a preset by effective values", () => {
+        const preset = {
+            id: "preset-medium",
+            label: "Medium",
+            max_cpu_cores: 4,
+            min_memory_limit: 17179869184, // 16 GiB
+            max_gpus: 0,
+            time_limit_seconds: null,
+            is_default: true,
+            is_enabled: true,
+        };
+        // Relaunch: tool ceiling is 2 cores, so effective CPU for the preset
+        // would be min(4, 2) = 2. The saved values match that effective output.
+        const desc = makePresetAppDesc(
+            [
+                {
+                    step_number: 0,
+                    max_cpu_cores: 2,
+                    memory_limit: 34359738368,
+                    default_cpu_cores: 2,
+                    default_memory: 17179869184,
+                    default_gpus: 0,
+                },
+            ],
+            [preset]
+        );
+        const result = initAppLaunchValues(t, desc);
+        expect(result.requirements[0].resource_preset_id).toBe("preset-medium");
+        // Values should be the saved values (relaunch), not the preset's raw values
+        expect(result.requirements[0].max_cpu_cores).toBe(2);
+        expect(result.requirements[0].min_memory_limit).toBe(17179869184);
+    });
+
+    test("relaunch: no matching preset falls back to Custom", () => {
+        const preset = {
+            id: "preset-small",
+            label: "Small",
+            max_cpu_cores: 2,
+            min_memory_limit: 8589934592, // 8 GiB
+            max_gpus: 0,
+            time_limit_seconds: null,
+            is_default: true,
+            is_enabled: true,
+        };
+        // Saved values don't match the preset (user used 3 cores custom)
+        const desc = makePresetAppDesc(
+            [
+                {
+                    step_number: 0,
+                    max_cpu_cores: 8,
+                    default_cpu_cores: 3,
+                    default_memory: 8589934592,
+                    default_gpus: 0,
+                },
+            ],
+            [preset]
+        );
+        const result = initAppLaunchValues(t, desc);
+        expect(result.requirements[0].resource_preset_id).toBeNull();
+        expect(result.requirements[0].max_cpu_cores).toBe(3);
+    });
+
+    test("relaunch: does not apply default preset over saved values", () => {
+        const preset = {
+            id: "preset-large",
+            label: "Large",
+            max_cpu_cores: 8,
+            min_memory_limit: 34359738368, // 32 GiB
+            max_gpus: 0,
+            time_limit_seconds: null,
+            is_default: true,
+            is_enabled: true,
+        };
+        // Saved values are 2 cores / 8 GiB — don't match the Large preset
+        const desc = makePresetAppDesc(
+            [
+                {
+                    step_number: 0,
+                    max_cpu_cores: 16,
+                    memory_limit: 68719476736,
+                    default_cpu_cores: 2,
+                    default_memory: 8589934592,
+                    default_gpus: 0,
+                },
+            ],
+            [preset]
+        );
+        const result = initAppLaunchValues(t, desc);
+        // Should NOT select the default preset since saved values don't match
+        expect(result.requirements[0].resource_preset_id).toBeNull();
+        // Should use the saved values
+        expect(result.requirements[0].max_cpu_cores).toBe(2);
+        expect(result.requirements[0].min_memory_limit).toBe(8589934592);
+    });
+});
+
+describe("formatSubmission strips resource_preset_id", () => {
+    test("resource_preset_id is not present in formatted requirements", () => {
+        const values = {
+            notify: false,
+            notifyPeriodic: false,
+            periodicPeriod: 0,
+            debug: false,
+            name: "test_analysis",
+            description: "",
+            output_dir: "/iplant/home/testuser/analyses",
+            system_id: "de",
+            app_id: "app-id",
+            app_version_id: "version-id",
+            mount_data_store: true,
+            time_limit_seconds: 7200,
+            requirements: [
+                {
+                    step_number: 0,
+                    max_cpu_cores: 2,
+                    min_memory_limit: 8589934592,
+                    max_gpus: 0,
+                    gpu_models: [],
+                    resource_preset_id: "preset-small",
+                },
+            ],
+            groups: [],
+        };
+        const result = formatSubmission(
+            "/iplant/home/testuser/analyses",
+            values
+        );
+        expect(result.requirements[0].resource_preset_id).toBeUndefined();
+        expect(result.requirements[0].max_cpu_cores).toBe(2);
+        expect(result.requirements[0].min_cpu_cores).toBe(2);
+    });
+
+    test("submission works with null resource_preset_id (custom mode)", () => {
+        const values = {
+            notify: false,
+            notifyPeriodic: false,
+            periodicPeriod: 0,
+            debug: false,
+            name: "test_analysis",
+            description: "",
+            output_dir: "/iplant/home/testuser/analyses",
+            system_id: "de",
+            app_id: "app-id",
+            app_version_id: "version-id",
+            mount_data_store: true,
+            time_limit_seconds: "",
+            requirements: [
+                {
+                    step_number: 0,
+                    max_cpu_cores: 4,
+                    min_memory_limit: 17179869184,
+                    max_gpus: 1,
+                    gpu_models: ["A100"],
+                    resource_preset_id: null,
+                },
+            ],
+            groups: [],
+        };
+        const result = formatSubmission(
+            "/iplant/home/testuser/analyses",
+            values
+        );
+        expect(result.requirements[0].resource_preset_id).toBeUndefined();
+        expect(result.requirements[0].max_cpu_cores).toBe(4);
+        expect(result.requirements[0].gpu_models).toEqual(["A100"]);
     });
 });

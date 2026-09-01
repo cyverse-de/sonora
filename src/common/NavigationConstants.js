@@ -24,6 +24,7 @@ const NavigationConstants = {
     NOTIFICATIONS: "notifications",
     NOTIFICATION_WS: "/websocket/notifications",
     REF_GENOMES: "refgenomes",
+    RESOURCE_PRESETS: "resource-presets",
     RELAUNCH: "relaunch",
     SEARCH: "search",
     SETTINGS: "settings",

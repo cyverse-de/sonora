@@ -409,24 +409,11 @@ function getCollectionApps({ collectionId, sortField, sortDir, appFilter }) {
     });
 }
 
-function getCollectionDetails({
-    name,
-    collectionId,
-    userId,
-    sortField,
-    sortDir,
-    appFilter,
-}) {
+function getCollectionDetails({ name, userId }) {
     return Promise.all([
         getCollectionInfo({ name }),
         getCollectionAdmins({ name }),
         getCollectionFollowers({ name }),
-        getCollectionApps({
-            collectionId,
-            sortField,
-            sortDir,
-            appFilter,
-        }),
     ]).then((resp) => {
         if (resp) {
             const collection = resp[0];
@@ -440,8 +427,7 @@ function getCollectionDetails({
                 (member) => member.id === userId
             );
 
-            const apps = resp[3];
-            return { collection, isAdmin, admins, isFollower, apps };
+            return { collection, isAdmin, admins, isFollower };
         }
     });
 }

@@ -17,10 +17,12 @@ import TableLoading from "components/table/TableLoading";
 import isQueryLoading from "components/utils/isQueryLoading";
 import { useUserProfile } from "contexts/userProfile";
 import {
+    COLLECTION_APPS_QUERY,
     COLLECTION_DETAILS_QUERY,
     createCollection,
     deleteCollection,
     followCollection,
+    getCollectionApps,
     getCollectionDetails,
     MY_COLLECTIONS_QUERY,
     unfollowCollection,
@@ -45,7 +47,6 @@ function CollectionsForm(props) {
     const [isAdmin, setAdmin] = useState(false);
     const [admins, setAdmins] = useState([]);
     const [isFollower, setFollower] = useState(false);
-    const [apps, setApps] = useState([]);
     const [queryError, setQueryError] = useState(null);
     const [collectionNameSaved, setCollectionNameSaved] = useState(false);
 
@@ -65,26 +66,22 @@ function CollectionsForm(props) {
             COLLECTION_DETAILS_QUERY,
             {
                 name: collectionName,
-                collectionId: collection?.id,
                 userId: userProfile?.id,
             },
         ],
         queryFn: () =>
             getCollectionDetails({
                 name: collectionName,
-                collectionId: collection?.id,
                 userId: userProfile?.id,
             }),
         enabled: !isCreatingCollection,
         onSuccess: (results) => {
             if (results) {
-                const { collection, isAdmin, admins, isFollower, apps } =
-                    results;
+                const { collection, isAdmin, admins, isFollower } = results;
                 setCollection(collection);
                 setAdmin(isAdmin);
                 setAdmins(admins);
                 setFollower(isFollower);
-                setApps(apps?.apps);
             }
         },
         onError: (error) => {
@@ -94,6 +91,23 @@ function CollectionsForm(props) {
             });
         },
     });
+
+    const collectionId = collection?.id;
+
+    const { data: collectionApps, isFetching: fetchingCollectionApps } =
+        useQuery({
+            queryKey: [COLLECTION_APPS_QUERY, { collectionId }],
+            queryFn: () => getCollectionApps({ collectionId }),
+            enabled: !isCreatingCollection && !!collectionId,
+            onError: (error) => {
+                setQueryError({
+                    message: t("getCollectionFail"),
+                    object: error,
+                });
+            },
+        });
+
+    const apps = collectionApps?.apps || [];
 
     const { mutate: followMutation, status: followStatus } = useMutation(
         followCollection,
@@ -229,6 +243,7 @@ function CollectionsForm(props) {
 
     const loading = isQueryLoading([
         fetchingCollectionDetails,
+        fetchingCollectionApps,
         followStatus,
         unfollowStatus,
         deleteStatus,
@@ -260,7 +275,7 @@ function CollectionsForm(props) {
         mutation({
             originalName: collectionName,
             originalDescription: collection?.description,
-            collectionId: collection?.id,
+            collectionId,
             name: newName,
             description: newDescription,
             oldAdmins: admins,

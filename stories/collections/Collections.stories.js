@@ -35,7 +35,7 @@ export const ViewCollection = () => {
         .reply(200, collectionFollowers);
     mockAxios
         .onGet(
-            `/api/apps/communities/${encodeURIComponent(collectionName)}/apps`
+            `/api/apps/communities/${encodeURIComponent(devCollection.id)}/apps`
         )
         .reply(200, collectionApps);
     mockAxios.onGet(/\/api\/apps.*/).reply(200, appsSearchResp);
@@ -65,7 +65,7 @@ export const EditCollection = () => {
         .reply(200, collectionFollowers);
     mockAxios
         .onGet(
-            `/api/apps/communities/${encodeURIComponent(collectionName)}/apps`
+            `/api/apps/communities/${encodeURIComponent(devCollection.id)}/apps`
         )
         .reply(200, collectionApps);
     mockAxios.onGet(/\/api\/apps.*/).reply(200, appsSearchResp);
@@ -115,7 +115,7 @@ export const EditCollection = () => {
         });
 
     mockAxios
-        .onDelete(/\/api\/apps\/.*\/communities/)
+        .onDelete(/\/api\/apps\/[^/]+\/communities\/[^/]+$/)
         .replyOnce((req) => {
             logRequest(req);
             return [
@@ -126,7 +126,7 @@ export const EditCollection = () => {
                 },
             ];
         })
-        .onDelete(/\/api\/apps\/.*\/communities/)
+        .onDelete(/\/api\/apps\/[^/]+\/communities\/[^/]+$/)
         .reply((req) => {
             logRequest(req);
             return [200];

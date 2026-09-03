@@ -266,13 +266,13 @@ export default function groupsRouter() {
         })
     );
 
-    logger.info("adding the GET /apps/communities/:name/apps handler");
+    logger.info("adding the GET /apps/communities/:communityId/apps handler");
     api.get(
-        "/apps/communities/:name/apps",
+        "/apps/communities/:communityId/apps",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "GET",
-            pathname: "/apps/communities/:name/apps",
+            pathname: "/apps/communities/:communityId/apps",
         })
     );
 

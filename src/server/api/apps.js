@@ -46,16 +46,15 @@ export default function appsRouter() {
         })
     );
 
-    logger.info("adding the DELETE /apps/:appId/communities handler");
+    logger.info(
+        "adding the DELETE /apps/:appId/communities/:communityId handler"
+    );
     api.delete(
-        "/apps/:appId/communities",
+        "/apps/:appId/communities/:communityId",
         auth.authnTokenMiddleware,
         terrainHandler({
             method: "DELETE",
-            pathname: "/apps/:appId/communities",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            pathname: "/apps/:appId/communities/:communityId",
         })
     );
 

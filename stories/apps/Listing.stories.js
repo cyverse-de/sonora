@@ -35,13 +35,17 @@ import Listing from "components/apps/listing/Listing";
 
 import { UploadTrackingProvider } from "contexts/uploadTracking";
 import { UserProfileProvider, useUserProfile } from "contexts/userProfile";
-import { myCollectionList } from "../collections/CollectionMocks";
+import {
+    collectionApps,
+    devCollection,
+    myCollectionList,
+} from "../collections/CollectionMocks";
 
 export default {
     title: "Apps / Listing",
 };
 
-function ListingTest({ isAdminView, usageSummaryResponse }) {
+function ListingTest({ isAdminView, usageSummaryResponse, category }) {
     //Note: the params must exactly with original call made by react-query
     mockAxios.reset();
     mockAxios.onGet("/api/apps/categories?public=false").reply(200, categories);
@@ -72,6 +76,14 @@ function ListingTest({ isAdminView, usageSummaryResponse }) {
         console.log("Admin Update App", config.url, JSON.parse(config.data));
         return [200, {}];
     });
+
+    mockAxios
+        .onGet(
+            `/api/apps/communities/${encodeURIComponent(
+                devCollection.display_name
+            )}/apps`
+        )
+        .reply(200, collectionApps);
 
     mockAxios.onGet(/\/api\/apps*/).reply((config) => {
         console.log("Get Apps", config.url);
@@ -132,7 +144,7 @@ function ListingTest({ isAdminView, usageSummaryResponse }) {
 
     const selectedFilter = getFilters()[0];
 
-    const selectedCategory = {
+    const selectedCategory = category || {
         name: constants.BROWSE_ALL_APPS,
         id: constants.BROWSE_ALL_APPS_ID,
     };
@@ -175,13 +187,18 @@ function ListingTest({ isAdminView, usageSummaryResponse }) {
     );
 }
 
-const AppsListingTemplate = ({ isAdminView, usageSummaryResponse }) => {
+const AppsListingTemplate = ({
+    isAdminView,
+    usageSummaryResponse,
+    category,
+}) => {
     return (
         <UploadTrackingProvider>
             <UserProfileProvider>
                 <ListingTest
                     isAdminView={isAdminView}
                     usageSummaryResponse={usageSummaryResponse}
+                    category={category}
                 />
             </UserProfileProvider>
         </UploadTrackingProvider>
@@ -225,3 +242,18 @@ BasicSubscriptionWithAddonsListing.args = {
 };
 BasicSubscriptionWithAddonsListing.argTypes = argTypes;
 BasicSubscriptionWithAddonsListing.parameters = parameters;
+
+// Exercises the legacy `fullCollectionName` fallback in the apps listing, which
+// still resolves collection categories saved before the collection-ID cutover.
+export const LegacyCollectionListing = AppsListingTemplate.bind({});
+LegacyCollectionListing.args = {
+    ...args,
+    usageSummaryResponse,
+    category: {
+        id: constants.MY_COLLECTIONS,
+        name: devCollection.name,
+        fullCollectionName: devCollection.display_name,
+    },
+};
+LegacyCollectionListing.argTypes = argTypes;
+LegacyCollectionListing.parameters = parameters;

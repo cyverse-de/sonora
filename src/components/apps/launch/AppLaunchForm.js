@@ -169,6 +169,7 @@ const AppLaunchForm = (props) => {
             overall_job_type,
             groups,
             requirements,
+            max_time_limit_seconds,
         },
     } = props;
 
@@ -239,7 +240,7 @@ const AppLaunchForm = (props) => {
             <Formik
                 initialValues={initAppLaunchValues(t, props)}
                 initialTouched={{ launchSteps: [false, false, false, false] }}
-                validate={validate(t, hasParams)}
+                validate={validate(t, hasParams, max_time_limit_seconds)}
                 onSubmit={(values, { resetForm, setSubmitting }) => {
                     submitAnalysis(
                         formatSubmission(defaultOutputDir, values),
@@ -397,7 +398,10 @@ const AppLaunchForm = (props) => {
                                 {activeStepInfo === stepAnalysisInfo ? (
                                     <AnalysisInfoForm
                                         formId={formId}
-                                        appType={app_type}
+                                        overallJobType={overall_job_type}
+                                        maxTimeLimitSeconds={
+                                            max_time_limit_seconds
+                                        }
                                     />
                                 ) : activeStepInfo === stepParameters ? (
                                     values.groups?.map((group, index) => (

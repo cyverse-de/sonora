@@ -4,6 +4,7 @@
  * @author psarando
  */
 import AppParamTypes from "components/models/AppParamTypes";
+import { formatDuration as formatDurationStr } from "date-fns";
 
 /**
  * Initializes the submission and form values from the given props.
@@ -46,6 +47,7 @@ const initAppLaunchValues = (
             requirements,
             groups,
             mount_data_store,
+            time_limit_seconds,
         },
     }
 ) => {
@@ -92,6 +94,7 @@ const initAppLaunchValues = (
         app_version_id: version_id,
         system_id,
         mount_data_store: mount_data_store ?? true,
+        time_limit_seconds: time_limit_seconds || "",
         groups: initGroupValues(groups),
         limits: requirements,
         requirements: reqInitValues || [],
@@ -210,6 +213,7 @@ const formatSubmission = (
         app_id,
         app_version_id,
         mount_data_store,
+        time_limit_seconds,
         requirements,
         groups,
     }
@@ -234,6 +238,9 @@ const formatSubmission = (
         app_id,
         app_version_id,
         mount_data_store,
+        ...(time_limit_seconds && {
+            time_limit_seconds,
+        }),
         requirements: formattedRequirements,
         config: groups?.reduce(paramConfigsReducer, {}),
     };
@@ -294,4 +301,73 @@ const paramConfigsReducer = (configs, group) => {
     return configs;
 };
 
-export { formatSubmission, initAppLaunchValues, initGroupValues };
+const SECONDS_PER_MINUTE = 60;
+const SECONDS_PER_HOUR = 60 * SECONDS_PER_MINUTE;
+const SECONDS_PER_DAY = 24 * SECONDS_PER_HOUR;
+
+// Candidate initial duration limits in seconds, from shortest to longest.
+// buildDurationLimitList filters these to values that fit within the app's
+// max time limit and appends the exact max if it is not already present.
+const DURATION_LIMIT_LADDER = [
+    1 * SECONDS_PER_HOUR,
+    2 * SECONDS_PER_HOUR,
+    4 * SECONDS_PER_HOUR,
+    8 * SECONDS_PER_HOUR,
+    12 * SECONDS_PER_HOUR,
+    1 * SECONDS_PER_DAY,
+    2 * SECONDS_PER_DAY,
+    3 * SECONDS_PER_DAY,
+    4 * SECONDS_PER_DAY,
+    7 * SECONDS_PER_DAY,
+    14 * SECONDS_PER_DAY,
+    30 * SECONDS_PER_DAY,
+    60 * SECONDS_PER_DAY,
+    90 * SECONDS_PER_DAY,
+    180 * SECONDS_PER_DAY,
+    365 * SECONDS_PER_DAY,
+];
+
+/**
+ * Builds the list of initial duration options (in seconds) for an analysis,
+ * based on the app's max time limit.
+ *
+ * Returns the ladder of candidate durations that fit within the max time
+ * limit, with the exact max time limit appended if it is not already included.
+ *
+ * @param {number} maxSeconds - The app's max time limit in seconds.
+ * @returns {number[]} - Initial duration options in seconds.
+ */
+const buildDurationLimitList = (maxSeconds) => {
+    const limits = DURATION_LIMIT_LADDER.filter((value) => value <= maxSeconds);
+    const last = limits[limits.length - 1];
+    if (limits.length === 0 || last < maxSeconds) {
+        limits.push(maxSeconds);
+    }
+    return limits;
+};
+
+/**
+ * Formats a duration given in seconds as a human-readable string.
+ *
+ * @param {number} seconds - The duration in seconds.
+ * @returns {string} - The formatted duration (e.g. "12 hours", "3 days").
+ */
+const formatDuration = (seconds) => {
+    if (!seconds) {
+        return "";
+    }
+    const days = Math.floor(seconds / SECONDS_PER_DAY);
+    seconds %= SECONDS_PER_DAY;
+    const hours = Math.floor(seconds / SECONDS_PER_HOUR);
+    seconds %= SECONDS_PER_HOUR;
+    const minutes = Math.floor(seconds / SECONDS_PER_MINUTE);
+    return formatDurationStr({ days, hours, minutes });
+};
+
+export {
+    buildDurationLimitList,
+    formatDuration,
+    formatSubmission,
+    initAppLaunchValues,
+    initGroupValues,
+};

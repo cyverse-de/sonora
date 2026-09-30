@@ -245,7 +245,13 @@ const AppLaunchForm = (props) => {
                     resourcePresets,
                 })}
                 initialTouched={{ launchSteps: [false, false, false, false] }}
-                validate={validate(t, hasParams, max_time_limit_seconds)}
+                validate={validate(
+                    t,
+                    hasParams,
+                    max_time_limit_seconds,
+                    defaultMaxCPUCores,
+                    defaultMaxMemory
+                )}
                 onSubmit={(values, { resetForm, setSubmitting }) => {
                     submitAnalysis(
                         formatSubmission(defaultOutputDir, values),

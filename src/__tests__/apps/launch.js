@@ -7,6 +7,7 @@ import {
     formatDuration,
     formatSubmission,
     initAppLaunchValues,
+    shouldShowPreset,
 } from "components/apps/launch/formatters";
 import validate from "components/apps/launch/validate";
 
@@ -249,49 +250,159 @@ describe("initAppLaunchValues GPU fields", () => {
     });
 });
 
-// --- validate GPU tests ---
+// --- validate resource requirements tests ---
+// Validation checks user-chosen max_cpu_cores / max_gpus / min_memory_limit
+// against the tool-provided minimums and maximums from values.limits
+// (not the form-level min_cpu_cores / min_gpus, which are submission fields
+// overwritten at submit time by formatSubmission).
 
-describe("validate GPU min/max requirements", () => {
-    // validate(t, hasParams) returns a validation function
-    const validator = validate(t, true);
+describe("validate resource requirements against tool limits", () => {
+    // defaultMaxCPUCores=8, defaultMaxMemory=16 GiB
+    const validator = validate(t, true, undefined, 8, 16 * constants.ONE_GiB);
 
-    // Helper to build minimal form values with given requirements
-    const makeValues = (reqs) => ({
+    const makeValues = (reqs, limits) => ({
         name: "test_analysis",
         output_dir: "/iplant/home/testuser/analyses",
         requirements: reqs,
+        limits,
         groups: [],
     });
 
-    test("min_gpus > max_gpus produces error", () => {
-        const errors = validator(makeValues([{ min_gpus: 4, max_gpus: 2 }]));
+    // --- lower-bound checks ---
+
+    test("max_cpu_cores below tool min_cpu_cores produces error", () => {
+        const errors = validator(
+            makeValues(
+                [{ max_cpu_cores: 1, max_gpus: 0 }],
+                [{ min_cpu_cores: 2 }]
+            )
+        );
+        expect(errors.requirements).toBeDefined();
+        expect(errors.requirements[0].max_cpu_cores).toBeTruthy();
+    });
+
+    test("max_cpu_cores at tool min_cpu_cores produces no error", () => {
+        const errors = validator(
+            makeValues(
+                [{ max_cpu_cores: 2, max_gpus: 0 }],
+                [{ min_cpu_cores: 2 }]
+            )
+        );
+        const cpuErr = errors.requirements?.[0]?.max_cpu_cores;
+        expect(cpuErr).toBeFalsy();
+    });
+
+    test("max_gpus below tool min_gpus produces error", () => {
+        const errors = validator(
+            makeValues(
+                [{ max_cpu_cores: 4, max_gpus: 1 }],
+                [{ min_gpus: 2, max_gpus: 4 }]
+            )
+        );
         expect(errors.requirements).toBeDefined();
         expect(errors.requirements[0].max_gpus).toBeTruthy();
     });
 
-    test("min_gpus == max_gpus produces no GPU error", () => {
-        const errors = validator(makeValues([{ min_gpus: 2, max_gpus: 2 }]));
-        // No requirements errors at all, or no max_gpus error
+    test("max_gpus at tool min_gpus produces no error", () => {
+        const errors = validator(
+            makeValues(
+                [{ max_cpu_cores: 4, max_gpus: 2 }],
+                [{ min_gpus: 2, max_gpus: 4 }]
+            )
+        );
         const gpuErr = errors.requirements?.[0]?.max_gpus;
         expect(gpuErr).toBeFalsy();
     });
 
-    test("min_gpus = 0 skips GPU validation (falsy guard)", () => {
-        const errors = validator(makeValues([{ min_gpus: 0, max_gpus: 2 }]));
+    // --- upper-bound checks ---
+
+    test("max_cpu_cores above ceiling produces error", () => {
+        const errors = validator(
+            makeValues(
+                [{ max_cpu_cores: 16, max_gpus: 0 }],
+                [{ max_cpu_cores: 4 }]
+            )
+        );
+        expect(errors.requirements).toBeDefined();
+        expect(errors.requirements[0].max_cpu_cores).toBeTruthy();
+    });
+
+    test("max_cpu_cores at ceiling produces no error", () => {
+        const errors = validator(
+            makeValues(
+                [{ max_cpu_cores: 4, max_gpus: 0 }],
+                [{ max_cpu_cores: 4 }]
+            )
+        );
+        const cpuErr = errors.requirements?.[0]?.max_cpu_cores;
+        expect(cpuErr).toBeFalsy();
+    });
+
+    test("max_cpu_cores above config default (no tool limit) produces error", () => {
+        const errors = validator(
+            makeValues([{ max_cpu_cores: 16, max_gpus: 0 }], [{}])
+        );
+        expect(errors.requirements).toBeDefined();
+        expect(errors.requirements[0].max_cpu_cores).toBeTruthy();
+    });
+
+    test("min_memory_limit above ceiling produces error", () => {
+        const errors = validator(
+            makeValues(
+                [
+                    {
+                        max_cpu_cores: 4,
+                        min_memory_limit: 32 * constants.ONE_GiB,
+                    },
+                ],
+                [{ memory_limit: 8 * constants.ONE_GiB }]
+            )
+        );
+        expect(errors.requirements).toBeDefined();
+        expect(errors.requirements[0].min_memory_limit).toBeTruthy();
+    });
+
+    test("min_memory_limit at ceiling produces no error", () => {
+        const errors = validator(
+            makeValues(
+                [{ max_cpu_cores: 4, min_memory_limit: 8 * constants.ONE_GiB }],
+                [{ memory_limit: 8 * constants.ONE_GiB }]
+            )
+        );
+        const memErr = errors.requirements?.[0]?.min_memory_limit;
+        expect(memErr).toBeFalsy();
+    });
+
+    test("max_gpus above tool max_gpus produces error", () => {
+        const errors = validator(
+            makeValues([{ max_cpu_cores: 4, max_gpus: 4 }], [{ max_gpus: 2 }])
+        );
+        expect(errors.requirements).toBeDefined();
+        expect(errors.requirements[0].max_gpus).toBeTruthy();
+    });
+
+    test("max_gpus at tool max_gpus produces no error", () => {
+        const errors = validator(
+            makeValues([{ max_cpu_cores: 4, max_gpus: 2 }], [{ max_gpus: 2 }])
+        );
         const gpuErr = errors.requirements?.[0]?.max_gpus;
         expect(gpuErr).toBeFalsy();
     });
 
-    test("max_gpus = 0 skips GPU validation (falsy guard)", () => {
-        const errors = validator(makeValues([{ min_gpus: 4, max_gpus: 0 }]));
-        const gpuErr = errors.requirements?.[0]?.max_gpus;
-        expect(gpuErr).toBeFalsy();
+    // --- edge cases ---
+
+    test("no tool limits produces no error", () => {
+        const errors = validator(
+            makeValues([{ max_cpu_cores: 1, max_gpus: 0 }], [{}])
+        );
+        expect(errors.requirements).toBeUndefined();
     });
 
-    test("both min_gpus and max_gpus undefined skips GPU validation", () => {
-        const errors = validator(makeValues([{}]));
-        const gpuErr = errors.requirements?.[0]?.max_gpus;
-        expect(gpuErr).toBeFalsy();
+    test("no limits array produces no error", () => {
+        const errors = validator(
+            makeValues([{ max_cpu_cores: 1, max_gpus: 0 }], undefined)
+        );
+        expect(errors.requirements).toBeUndefined();
     });
 });
 
@@ -765,7 +876,7 @@ describe("initAppLaunchValues resource presets", () => {
         );
     });
 
-    test("relaunch: matches preset with GPUs when step has no GPU limit", () => {
+    test("relaunch: matches preset with GPUs when step allows GPUs", () => {
         const preset = {
             id: "preset-gpu2",
             label: "GPU-2",
@@ -776,13 +887,14 @@ describe("initAppLaunchValues resource presets", () => {
             is_default: false,
             is_enabled: true,
         };
-        // No max_gpus on the step, so effective GPUs = preset value (2).
+        // Step supports GPUs (max_gpus: 4), effective GPUs = min(2, 4) = 2.
         const desc = makePresetAppDesc(
             [
                 {
                     step_number: 0,
                     max_cpu_cores: 8,
                     memory_limit: 32 * constants.ONE_GiB,
+                    max_gpus: 4,
                     default_cpu_cores: 4,
                     default_memory: 16 * constants.ONE_GiB,
                     default_gpus: 2,
@@ -865,5 +977,175 @@ describe("formatSubmission strips resource_preset_id", () => {
         expect(result.requirements[0].resource_preset_id).toBeUndefined();
         expect(result.requirements[0].max_cpu_cores).toBe(4);
         expect(result.requirements[0].gpu_models).toEqual(["A100"]);
+    });
+});
+
+// --- shouldShowPreset filtering tests ---
+
+describe("shouldShowPreset", () => {
+    const basePreset = {
+        id: "preset-base",
+        label: "Base",
+        max_cpu_cores: 4,
+        min_memory_limit: 8 * constants.ONE_GiB,
+        max_gpus: 0,
+        time_limit_seconds: 7200,
+        is_default: false,
+        is_enabled: true,
+    };
+
+    test("hides GPU preset when app has no GPU support (max_gpus absent)", () => {
+        const gpuPreset = { ...basePreset, max_gpus: 1 };
+        const requirements = { step_number: 0, max_cpu_cores: 8 };
+        expect(shouldShowPreset(gpuPreset, requirements, 8, null)).toBe(false);
+    });
+
+    test("hides GPU preset when app has max_gpus: 0", () => {
+        const gpuPreset = { ...basePreset, max_gpus: 1 };
+        const requirements = {
+            step_number: 0,
+            max_cpu_cores: 8,
+            max_gpus: 0,
+        };
+        expect(shouldShowPreset(gpuPreset, requirements, 8, null)).toBe(false);
+    });
+
+    test("shows GPU preset when app supports GPUs", () => {
+        const gpuPreset = { ...basePreset, max_gpus: 1 };
+        const requirements = {
+            step_number: 0,
+            max_cpu_cores: 8,
+            max_gpus: 2,
+        };
+        expect(shouldShowPreset(gpuPreset, requirements, 8, null)).toBe(true);
+    });
+
+    test("hides preset where both CPU and memory exceed the ceiling", () => {
+        const largePreset = {
+            ...basePreset,
+            max_cpu_cores: 16,
+            min_memory_limit: 64 * constants.ONE_GiB,
+        };
+        const requirements = { step_number: 0 };
+        // Config ceiling: CPU=8, Memory=16 GiB. Preset exceeds both.
+        expect(
+            shouldShowPreset(
+                largePreset,
+                requirements,
+                8,
+                16 * constants.ONE_GiB
+            )
+        ).toBe(false);
+    });
+
+    test("shows preset where both CPU and memory equal the ceiling", () => {
+        const exactPreset = {
+            ...basePreset,
+            max_cpu_cores: 8,
+            min_memory_limit: 16 * constants.ONE_GiB,
+        };
+        const requirements = { step_number: 0 };
+        // Preset CPU == ceiling, memory == ceiling — still a valid choice
+        // (selects the maximum allowed values).
+        expect(
+            shouldShowPreset(
+                exactPreset,
+                requirements,
+                8,
+                16 * constants.ONE_GiB
+            )
+        ).toBe(true);
+    });
+
+    test("shows preset where only CPU exceeds ceiling (memory is below)", () => {
+        const cpuHighPreset = {
+            ...basePreset,
+            max_cpu_cores: 16,
+            min_memory_limit: 8 * constants.ONE_GiB,
+        };
+        const requirements = { step_number: 0 };
+        expect(
+            shouldShowPreset(
+                cpuHighPreset,
+                requirements,
+                8,
+                16 * constants.ONE_GiB
+            )
+        ).toBe(true);
+    });
+
+    test("shows preset where only memory exceeds ceiling (CPU is below)", () => {
+        const memHighPreset = {
+            ...basePreset,
+            max_cpu_cores: 4,
+            min_memory_limit: 64 * constants.ONE_GiB,
+        };
+        const requirements = { step_number: 0 };
+        expect(
+            shouldShowPreset(
+                memHighPreset,
+                requirements,
+                8,
+                16 * constants.ONE_GiB
+            )
+        ).toBe(true);
+    });
+
+    test("shows preset that fits within ceilings", () => {
+        const smallPreset = {
+            ...basePreset,
+            max_cpu_cores: 2,
+            min_memory_limit: 4 * constants.ONE_GiB,
+        };
+        const requirements = { step_number: 0 };
+        expect(
+            shouldShowPreset(
+                smallPreset,
+                requirements,
+                8,
+                16 * constants.ONE_GiB
+            )
+        ).toBe(true);
+    });
+
+    test("uses step max_cpu_cores as ceiling when present", () => {
+        // Step has max_cpu_cores: 4, so a preset with 4 CPU hits the ceiling.
+        // But memory is below the config ceiling, so it should be shown.
+        const preset = {
+            ...basePreset,
+            max_cpu_cores: 4,
+            min_memory_limit: 8 * constants.ONE_GiB,
+        };
+        const requirements = {
+            step_number: 0,
+            max_cpu_cores: 4,
+            memory_limit: 32 * constants.ONE_GiB,
+        };
+        expect(shouldShowPreset(preset, requirements, 8, null)).toBe(true);
+    });
+
+    test("hides preset when step ceiling is lower and both dimensions hit it", () => {
+        const preset = {
+            ...basePreset,
+            max_cpu_cores: 8,
+            min_memory_limit: 16 * constants.ONE_GiB,
+        };
+        const requirements = {
+            step_number: 0,
+            max_cpu_cores: 4,
+            memory_limit: 8 * constants.ONE_GiB,
+        };
+        expect(shouldShowPreset(preset, requirements, null, null)).toBe(false);
+    });
+
+    test("still applies base compatibility checks (min_gpus)", () => {
+        // Preset has 0 GPUs but tool requires min 1
+        const requirements = {
+            step_number: 0,
+            max_cpu_cores: 8,
+            min_gpus: 1,
+            max_gpus: 4,
+        };
+        expect(shouldShowPreset(basePreset, requirements, 8, null)).toBe(false);
     });
 });

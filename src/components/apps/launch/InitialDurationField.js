@@ -3,12 +3,12 @@
  * Stores the selected value (in seconds, or "" for "use default") as
  * `time_limit_seconds` in Formik state.
  *
- * When `lockedValue` is a number, the dropdown is disabled
- * (used when a resource preset locks the duration).
+ * When `disabled` is true, the dropdown is read-only
+ * (used when a resource preset is selected).
  */
 import React from "react";
 import { useTranslation } from "i18n";
-import { FastField, useFormikContext } from "formik";
+import { Field, useFormikContext } from "formik";
 
 import ids from "./ids";
 
@@ -19,11 +19,9 @@ import { buildDurationLimitList, formatDuration } from "./formatters";
 
 import { MenuItem } from "@mui/material";
 
-function InitialDurationField({ baseId, maxTimeLimitSeconds, lockedValue }) {
+function InitialDurationField({ baseId, maxTimeLimitSeconds, disabled }) {
     const { t } = useTranslation("launch");
     const { values } = useFormikContext();
-
-    const isLocked = typeof lockedValue === "number";
 
     const options = buildDurationLimitList(maxTimeLimitSeconds);
 
@@ -41,13 +39,13 @@ function InitialDurationField({ baseId, maxTimeLimitSeconds, lockedValue }) {
     }
 
     return (
-        <FastField
+        <Field
             id={buildID(baseId, ids.RESOURCE_REQUESTS.INITIAL_DURATION)}
             name="time_limit_seconds"
             label={t("initialDuration")}
             helperText={t("initialDurationHelp")}
             component={FormSelectField}
-            disabled={isLocked}
+            disabled={disabled}
         >
             <MenuItem key="initialDurationDefault" value="">
                 {t("initialDurationDefault")}
@@ -57,7 +55,7 @@ function InitialDurationField({ baseId, maxTimeLimitSeconds, lockedValue }) {
                     {formatDuration(value)}
                 </MenuItem>
             ))}
-        </FastField>
+        </Field>
     );
 }
 

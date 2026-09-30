@@ -17,8 +17,8 @@ import constants from "../../../constants";
 import {
     cpuCeiling,
     formatTimeLimitHHMM,
-    isPresetCompatible,
     memoryCeiling,
+    shouldShowPreset,
 } from "./formatters";
 import InitialDurationField from "./InitialDurationField";
 
@@ -36,19 +36,17 @@ import {
     Accordion,
     AccordionSummary,
     AccordionDetails,
+    Button,
     FormControl,
-    FormControlLabel,
-    Grid,
+    InputLabel,
     MenuItem,
     Paper,
-    Radio,
-    RadioGroup,
+    Select,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableRow,
-    Tooltip,
     Typography,
 } from "@mui/material";
 
@@ -89,12 +87,13 @@ function buildGpuLimitList(minValue, maxValue) {
 }
 
 /**
- * Picker for selecting a resource preset or "Custom" manual configuration.
- * Filters presets that don't meet the step's tool requirements.
+ * Picker for selecting a resource preset or switching to custom configuration.
+ * Renders a dropdown of admin-defined presets plus a "Customize" link below.
  *
- * Self-contained: reads/writes all affected Formik fields directly
- * (resource_preset_id, max_cpu_cores, min_memory_limit, max_gpus,
- * and time_limit_seconds for VICE apps). Can be rendered on any wizard step.
+ * When `showRemoteHint` is true (Analysis Info tab), custom mode shows a
+ * summary of current values with a hint to adjust on the Advanced Settings
+ * step. When false (Advanced Settings tab), it just says "Using custom
+ * settings" since the fields are right there.
  */
 const ResourcePresetPicker = ({
     resourcePresets,
@@ -104,6 +103,7 @@ const ResourcePresetPicker = ({
     defaultMaxMemory,
     maxTimeLimitSeconds,
     isVICE,
+    showRemoteHint,
 }) => {
     const { t } = useTranslation("launch");
     const { values, setFieldValue } = useFormikContext();
@@ -114,7 +114,12 @@ const ResourcePresetPicker = ({
     );
 
     const filteredPresets = resourcePresets.filter((preset) =>
-        isPresetCompatible(preset, requirements)
+        shouldShowPreset(
+            preset,
+            requirements,
+            defaultMaxCPUCores,
+            defaultMaxMemory
+        )
     );
 
     if (filteredPresets.length === 0) {
@@ -124,13 +129,11 @@ const ResourcePresetPicker = ({
     const { max_cpu_cores, memory_limit } = requirements;
 
     const applyPresetValues = (preset) => {
-        setFieldValue(
-            `requirements.${index}.max_cpu_cores`,
-            Math.min(
-                preset.max_cpu_cores,
-                cpuCeiling(max_cpu_cores, defaultMaxCPUCores)
-            )
+        const effectiveCpu = Math.min(
+            preset.max_cpu_cores,
+            cpuCeiling(max_cpu_cores, defaultMaxCPUCores)
         );
+        setFieldValue(`requirements.${index}.max_cpu_cores`, effectiveCpu);
         setFieldValue(
             `requirements.${index}.min_memory_limit`,
             Math.min(
@@ -149,43 +152,42 @@ const ResourcePresetPicker = ({
         }
     };
 
-    const getClampedTooltip = (preset) => {
-        const messages = [];
-        if (
-            requirements.max_cpu_cores &&
-            preset.max_cpu_cores > requirements.max_cpu_cores
-        ) {
-            messages.push(
-                t("presetClamped", {
-                    field: t("cpuCores"),
-                    original: preset.max_cpu_cores,
-                    effective: requirements.max_cpu_cores,
-                })
-            );
+    const presetLabel = (preset) => {
+        const effectiveCpu = Math.min(
+            preset.max_cpu_cores,
+            cpuCeiling(max_cpu_cores, defaultMaxCPUCores)
+        );
+        const effectiveMemory = Math.min(
+            preset.min_memory_limit,
+            memoryCeiling(memory_limit, defaultMaxMemory)
+        );
+        const hasGpu = preset.max_gpus > 0;
+        const hasTime = isVICE && !!preset.time_limit_seconds;
+        const labelParams = {
+            label: preset.label,
+            cpu: effectiveCpu,
+            memory: formatFileSize(effectiveMemory),
+            gpus: preset.max_gpus,
+            time: formatTimeLimitHHMM(preset.time_limit_seconds),
+        };
+
+        let labelKey = "presetLabel";
+        if (hasGpu && hasTime) {
+            labelKey = "presetLabelGpuTime";
+        } else if (hasGpu) {
+            labelKey = "presetLabelGpu";
+        } else if (hasTime) {
+            labelKey = "presetLabelTime";
         }
-        if (
-            requirements.memory_limit &&
-            preset.min_memory_limit > requirements.memory_limit
-        ) {
-            messages.push(
-                t("presetClamped", {
-                    field: t("minMemory"),
-                    original: numeral(preset.min_memory_limit).format("0 ib"),
-                    effective: numeral(requirements.memory_limit).format(
-                        "0 ib"
-                    ),
-                })
-            );
-        }
-        return messages.join("; ");
+
+        return t(labelKey, labelParams);
     };
 
-    const handleChange = (e) => {
+    const handleSelectChange = (e) => {
         const value = e.target.value;
-        if (value === "custom") {
-            setFieldValue(`requirements.${index}.resource_preset_id`, null);
-        } else {
-            const preset = filteredPresets.find((p) => p.id === value);
+        if (!value) return;
+        const preset = filteredPresets.find((p) => p.id === value);
+        if (preset) {
             setFieldValue(
                 `requirements.${index}.resource_preset_id`,
                 preset.id
@@ -194,58 +196,74 @@ const ResourcePresetPicker = ({
         }
     };
 
+    const handleCustomize = () => {
+        setFieldValue(`requirements.${index}.resource_preset_id`, null);
+    };
+
+    const isCustom = !selectedPresetId;
+
+    // Build a summary of current resource values for custom mode.
+    const currentCpu = getIn(values, `requirements.${index}.max_cpu_cores`);
+    const currentMemory = getIn(
+        values,
+        `requirements.${index}.min_memory_limit`
+    );
+    const customSummary = t("customResourcesSummary", {
+        cpu: currentCpu || 0,
+        memory: formatFileSize(currentMemory || 0),
+    });
+
     return (
         <FormControl sx={{ mb: 2, width: "100%" }}>
-            <Typography variant="subtitle2" sx={{ mb: 1 }}>
+            <InputLabel shrink htmlFor={`preset-select-${index}`}>
                 {t("resourcePreset")}
-            </Typography>
-            <RadioGroup
-                value={selectedPresetId || "custom"}
-                onChange={handleChange}
-            >
-                {filteredPresets.map((preset) => {
-                    const tooltip = getClampedTooltip(preset);
-                    const hasGpu = preset.max_gpus > 0;
-                    const hasTime = !!preset.time_limit_seconds;
-                    const labelParams = {
-                        label: preset.label,
-                        cpu: preset.max_cpu_cores,
-                        memory: formatFileSize(preset.min_memory_limit),
-                        gpus: preset.max_gpus,
-                        time: formatTimeLimitHHMM(preset.time_limit_seconds),
-                    };
-
-                    let labelKey = "presetLabel";
-                    if (hasGpu && hasTime) {
-                        labelKey = "presetLabelGpuTime";
-                    } else if (hasGpu) {
-                        labelKey = "presetLabelGpu";
-                    } else if (hasTime) {
-                        labelKey = "presetLabelTime";
+            </InputLabel>
+            <Select
+                id={`preset-select-${index}`}
+                value={selectedPresetId || ""}
+                onChange={handleSelectChange}
+                displayEmpty
+                variant="standard"
+                renderValue={(value) => {
+                    if (!value) {
+                        return (
+                            <Typography color="text.secondary">
+                                {t("presetPlaceholder")}
+                            </Typography>
+                        );
                     }
-
-                    const label = t(labelKey, labelParams);
-                    return (
-                        <Tooltip
-                            key={preset.id}
-                            title={tooltip}
-                            placement="right"
-                            disableHoverListener={!tooltip}
-                        >
-                            <FormControlLabel
-                                value={preset.id}
-                                control={<Radio size="small" />}
-                                label={label}
-                            />
-                        </Tooltip>
-                    );
-                })}
-                <FormControlLabel
-                    value="custom"
-                    control={<Radio size="small" />}
-                    label={t("customResources")}
-                />
-            </RadioGroup>
+                    const preset = filteredPresets.find((p) => p.id === value);
+                    return preset ? presetLabel(preset) : value;
+                }}
+                sx={{ mt: 2 }}
+            >
+                {filteredPresets.map((preset) => (
+                    <MenuItem key={preset.id} value={preset.id}>
+                        {presetLabel(preset)}
+                    </MenuItem>
+                ))}
+            </Select>
+            {isCustom ? (
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mt: 1 }}
+                >
+                    {showRemoteHint
+                        ? t("customResourcesAdjustRemote", {
+                              summary: customSummary,
+                          })
+                        : t("customResourcesAdjustHere")}
+                </Typography>
+            ) : (
+                <Button
+                    size="small"
+                    onClick={handleCustomize}
+                    sx={{ mt: 1, alignSelf: "flex-start" }}
+                >
+                    {t("customize")}
+                </Button>
+            )}
         </FormControl>
     );
 };
@@ -337,95 +355,84 @@ const StepResourceRequirementsForm = ({
                     isVICE={isVICE}
                 />
             )}
-            <Grid container spacing={1}>
-                <Grid size={12}>
-                    <Field
-                        id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
-                        name={`requirements.${index}.max_cpu_cores`}
-                        label={t("cpuCores")}
-                        component={FormSelectField}
-                        disabled={isPresetSelected}
-                    >
-                        {cpuCoreList.map((size, index) => (
-                            <MenuItem key={index} value={size}>
-                                {size}
-                            </MenuItem>
-                        ))}
-                    </Field>
-                </Grid>
-                <Grid size={12}>
-                    <Field
-                        id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_MEM)}
-                        name={`requirements.${index}.min_memory_limit`}
-                        label={t("minMemory")}
-                        component={FormSelectField}
-                        renderValue={formatGBValue}
-                        disabled={isPresetSelected}
-                    >
-                        {minMemoryList.map((size, index) => (
-                            <MenuItem key={index} value={size}>
-                                {formatGBListItem(size)}
-                            </MenuItem>
-                        ))}
-                    </Field>
-                </Grid>
-                <Grid size={12}>
-                    <FastField
-                        id={buildID(
-                            baseId,
-                            ids.RESOURCE_REQUESTS.MIN_DISK_SPACE
-                        )}
-                        name={`requirements.${index}.min_disk_space`}
-                        label={t("minDiskSpace")}
-                        component={FormSelectField}
-                        renderValue={formatGBValue}
-                    >
-                        {minDiskSpaceList.map((size, index) => (
-                            <MenuItem key={index} value={size}>
-                                {formatGBListItem(size)}
-                            </MenuItem>
-                        ))}
-                    </FastField>
-                </Grid>
-                {max_gpus > 0 && min_gpus !== max_gpus && (
-                    <Grid size={12}>
-                        <Field
-                            id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_GPU)}
-                            name={`requirements.${index}.max_gpus`}
-                            label={t("gpus")}
-                            component={FormSelectField}
-                            disabled={isPresetSelected}
-                        >
-                            {gpuList.map((size, index) => (
-                                <MenuItem key={index} value={size}>
-                                    {size}
-                                </MenuItem>
-                            ))}
-                        </Field>
-                    </Grid>
-                )}
-                {showGpuModelsSelector && (
-                    <Grid size={12}>
-                        <FastField
-                            id={buildID(
-                                baseId,
-                                ids.RESOURCE_REQUESTS.TOOL_GPU_MODELS
-                            )}
-                            name={`requirements.${index}.gpu_models`}
-                            label={t("gpuModels")}
-                            component={FormSelectField}
-                            multiple
-                            renderValue={(selected) => selected.join(", ")}
-                        >
-                            {availableGpuModels.map((model) => (
-                                <MenuItem key={model} value={model}>
-                                    {model}
-                                </MenuItem>
-                            ))}
-                        </FastField>
-                    </Grid>
-                )}
-            </Grid>
+            <Field
+                id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
+                name={`requirements.${index}.max_cpu_cores`}
+                label={t("cpuCores")}
+                component={FormSelectField}
+                disabled={isPresetSelected}
+            >
+                {cpuCoreList.map((size, index) => (
+                    <MenuItem key={index} value={size}>
+                        {size}
+                    </MenuItem>
+                ))}
+            </Field>
+            <Field
+                id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_MEM)}
+                name={`requirements.${index}.min_memory_limit`}
+                label={t("minMemory")}
+                component={FormSelectField}
+                renderValue={formatGBValue}
+                disabled={isPresetSelected}
+            >
+                {minMemoryList.map((size, index) => (
+                    <MenuItem key={index} value={size}>
+                        {formatGBListItem(size)}
+                    </MenuItem>
+                ))}
+            </Field>
+            <FastField
+                id={buildID(baseId, ids.RESOURCE_REQUESTS.MIN_DISK_SPACE)}
+                name={`requirements.${index}.min_disk_space`}
+                label={t("minDiskSpace")}
+                component={FormSelectField}
+                renderValue={formatGBValue}
+            >
+                {minDiskSpaceList.map((size, index) => (
+                    <MenuItem key={index} value={size}>
+                        {formatGBListItem(size)}
+                    </MenuItem>
+                ))}
+            </FastField>
+            {max_gpus > 0 && min_gpus !== max_gpus && (
+                <Field
+                    id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_GPU)}
+                    name={`requirements.${index}.max_gpus`}
+                    label={t("gpus")}
+                    component={FormSelectField}
+                    disabled={isPresetSelected}
+                >
+                    {gpuList.map((size, index) => (
+                        <MenuItem key={index} value={size}>
+                            {size}
+                        </MenuItem>
+                    ))}
+                </Field>
+            )}
+            {showGpuModelsSelector && (
+                <FastField
+                    id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_GPU_MODELS)}
+                    name={`requirements.${index}.gpu_models`}
+                    label={t("gpuModels")}
+                    component={FormSelectField}
+                    multiple
+                    renderValue={(selected) => selected.join(", ")}
+                >
+                    {availableGpuModels.map((model) => (
+                        <MenuItem key={model} value={model}>
+                            {model}
+                        </MenuItem>
+                    ))}
+                </FastField>
+            )}
+            {isVICE && maxTimeLimitSeconds && (
+                <InitialDurationField
+                    baseId={buildID(baseId, ids.RESOURCE_REQUESTS)}
+                    maxTimeLimitSeconds={maxTimeLimitSeconds}
+                    disabled={isPresetSelected}
+                />
+            )}
         </div>
     );
 };
@@ -445,19 +452,7 @@ const ResourceRequirementsForm = ({
 }) => {
     const { classes } = useStyles();
     const { t } = useTranslation("launch");
-    const { values } = useFormikContext();
     const isVICE = overallJobType === TOOL_TYPES.INTERACTIVE;
-
-    // Compute locked time limit from the selected preset (if any step has one).
-    const lockedTimeLimitSeconds = isVICE
-        ? values.requirements?.reduce((locked, req) => {
-              if (locked) return locked;
-              const p = resourcePresets?.find(
-                  (pr) => pr.id === req?.resource_preset_id
-              );
-              return p?.time_limit_seconds || null;
-          }, null)
-        : null;
 
     return (
         <>
@@ -547,13 +542,6 @@ const ResourceRequirementsForm = ({
                     )}
                 </AccordionDetails>
             </Accordion>
-            {isVICE && maxTimeLimitSeconds && (
-                <InitialDurationField
-                    baseId={buildID(baseId, ids.RESOURCE_REQUESTS)}
-                    maxTimeLimitSeconds={maxTimeLimitSeconds}
-                    lockedValue={lockedTimeLimitSeconds}
-                />
-            )}
             {isVICE && (
                 <FastField
                     id={buildID(baseId, ids.RESOURCE_REQUESTS.MOUNT_DATA_STORE)}

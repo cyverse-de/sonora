@@ -88,6 +88,7 @@ const AnalysisInfoForm = ({
                         defaultMaxMemory={defaultMaxMemory}
                         maxTimeLimitSeconds={maxTimeLimitSeconds}
                         isVICE={isVICE}
+                        showRemoteHint
                     />
                 </>
             )}

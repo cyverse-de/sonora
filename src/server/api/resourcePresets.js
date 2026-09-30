@@ -47,16 +47,6 @@ export default function resourcePresetsRouter() {
         })
     );
 
-    logger.info("adding the GET /admin/resource-presets/:id handler");
-    api.get(
-        "/admin/resource-presets/:id",
-        auth.authnTokenMiddleware,
-        terrainHandler({
-            method: "GET",
-            pathname: "/admin/resource-presets/:id",
-        })
-    );
-
     logger.info("adding the PATCH /admin/resource-presets/:id handler");
     api.patch(
         "/admin/resource-presets/:id",

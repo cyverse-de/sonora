@@ -86,6 +86,44 @@ const isPresetCompatible = (preset, requirements) => {
     return true;
 };
 
+/**
+ * Determine whether a preset should be shown in the launch wizard picker.
+ * Builds on isPresetCompatible (which checks tool minimums) and adds:
+ *   1. Hide GPU presets when GPUs are not enabled for the app.
+ *   2. Hide presets where both CPU and memory exceed the effective ceiling
+ *      (since the values would just be clamped down, making the preset
+ *      indistinguishable from a smaller one).
+ *
+ * @param {Object} preset - The resource preset.
+ * @param {Object} requirements - The step's tool requirements/ceilings.
+ * @param {number|null} defaultMaxCPUCores - Config max CPU limit.
+ * @param {number|null} defaultMaxMemory - Config max memory limit.
+ * @returns {boolean}
+ */
+const shouldShowPreset = (
+    preset,
+    requirements,
+    defaultMaxCPUCores,
+    defaultMaxMemory
+) => {
+    if (!isPresetCompatible(preset, requirements)) return false;
+
+    // Hide GPU presets when GPUs are not enabled for the app.
+    // max_gpus being absent (undefined/null) or 0 means no GPU support.
+    if (preset.max_gpus > 0 && !requirements.max_gpus) return false;
+
+    // Hide presets where both CPU and memory strictly exceed the ceiling,
+    // since both values would be clamped down and the preset is redundant
+    // with a smaller one (or Custom at the max).  A preset that matches
+    // the ceiling exactly is still useful — it selects the maximum allowed.
+    const maxCpu = cpuCeiling(requirements.max_cpu_cores, defaultMaxCPUCores);
+    const maxMem = memoryCeiling(requirements.memory_limit, defaultMaxMemory);
+    if (preset.max_cpu_cores > maxCpu && preset.min_memory_limit > maxMem)
+        return false;
+
+    return true;
+};
+
 const initAppLaunchValues = (
     t,
     {
@@ -146,7 +184,15 @@ const initAppLaunchValues = (
         if (!resourcePresets?.length) return null;
         return (
             resourcePresets.find((preset) => {
-                if (!isPresetCompatible(preset, step)) return false;
+                if (
+                    !shouldShowPreset(
+                        preset,
+                        step,
+                        defaultMaxCPUCores,
+                        defaultMaxMemory
+                    )
+                )
+                    return false;
                 const effective = effectivePresetValues(preset, step);
                 return (
                     effective.cpu === savedCpu &&
@@ -219,7 +265,12 @@ const initAppLaunchValues = (
             // Fresh launch: apply the default preset if compatible.
             const usePreset =
                 defaultPreset &&
-                isPresetCompatible(defaultPreset, stepRequirements);
+                shouldShowPreset(
+                    defaultPreset,
+                    stepRequirements,
+                    defaultMaxCPUCores,
+                    defaultMaxMemory
+                );
 
             if (usePreset) {
                 const effective = effectivePresetValues(
@@ -587,6 +638,6 @@ export {
     formatTimeLimitHHMM,
     initAppLaunchValues,
     initGroupValues,
-    isPresetCompatible,
     memoryCeiling,
+    shouldShowPreset,
 };

@@ -26,8 +26,6 @@ import { BagInfoProvider, useBagInfo } from "../src/contexts/bagInfo";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 
-import { withConsole } from "@storybook/addon-console";
-
 function MockUserProfile() {
     const [userProfile, setUserProfile] = useUserProfile();
     useEffect(() => {
@@ -73,7 +71,6 @@ const queryClient = new QueryClient({
 });
 
 export const decorators = [
-    (storyFn, context) => withConsole()(storyFn)(context),
     (Story) => (
         <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme}>

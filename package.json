@@ -149,11 +149,8 @@
         "@babel/cli": "^7.29.7",
         "@babel/core": "^7.29.7",
         "@babel/node": "^7.29.7",
-        "@chromatic-com/storybook": "^3.2.7",
-        "@storybook/addon-actions": "^8.6.17",
-        "@storybook/addon-console": "^3.0.0",
-        "@storybook/addon-essentials": "^8.6.17",
-        "@storybook/nextjs": "^8.6.17",
+        "@chromatic-com/storybook": "^5.3.1",
+        "@storybook/nextjs": "^10.6.1",
         "@tanstack/eslint-plugin-query": "^4.43.0",
         "axios-mock-adapter": "^1.18.1",
         "cross-env": "^6.0.3",
@@ -171,6 +168,7 @@
         "prettier": "3.8.1",
         "react-test-renderer": "^18.2.0",
         "rimraf": "^3.0.0",
+        "storybook": "^10.6.1",
         "webpack": "5.101.2"
     },
     "prettier": {

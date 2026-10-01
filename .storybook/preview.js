@@ -26,7 +26,7 @@ import { BagInfoProvider, useBagInfo } from "../src/contexts/bagInfo";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 
-import { withConsole } from "@storybook/addon-console";
+import { spyOn } from "storybook/test";
 
 function MockUserProfile() {
     const [userProfile, setUserProfile] = useUserProfile();
@@ -72,8 +72,14 @@ const queryClient = new QueryClient({
     },
 });
 
+// Log console output to the Actions panel (replaces @storybook/addon-console).
+export const beforeEach = () => {
+    spyOn(console, "log").mockName("console.log");
+    spyOn(console, "warn").mockName("console.warn");
+    spyOn(console, "error").mockName("console.error");
+};
+
 export const decorators = [
-    (storyFn, context) => withConsole()(storyFn)(context),
     (Story) => (
         <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme}>

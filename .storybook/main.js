@@ -3,11 +3,7 @@ const path = require("path");
 module.exports = {
     stories: ["../stories/**/*.@(mdx|stories.@(js))"],
     staticDirs: ["../public"],
-    addons: [
-        "@storybook/addon-essentials",
-        "@storybook/addon-actions",
-        "@chromatic-com/storybook",
-    ],
+    addons: ["@chromatic-com/storybook"],
 
     framework: {
         name: "@storybook/nextjs",

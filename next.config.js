@@ -8,6 +8,9 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 const ONE_GiB = 2 ** 30;
 
 module.exports = withBundleAnalyzer({
+    experimental: {
+        forceSwcTransforms: true,
+    },
     async rewrites() {
         return [
             {

@@ -26,6 +26,8 @@ import { BagInfoProvider, useBagInfo } from "../src/contexts/bagInfo";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 
+import { spyOn } from "storybook/test";
+
 function MockUserProfile() {
     const [userProfile, setUserProfile] = useUserProfile();
     useEffect(() => {
@@ -69,6 +71,13 @@ const queryClient = new QueryClient({
         queries: { refetchOnWindowFocus: false, retry: false },
     },
 });
+
+// Log console output to the Actions panel (replaces @storybook/addon-console).
+export const beforeEach = () => {
+    spyOn(console, "log").mockName("console.log");
+    spyOn(console, "warn").mockName("console.warn");
+    spyOn(console, "error").mockName("console.error");
+};
 
 export const decorators = [
     (Story) => (

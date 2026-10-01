@@ -152,6 +152,7 @@
         "@babel/node": "^7.29.7",
         "@chromatic-com/storybook": "^5.3.1",
         "@storybook/nextjs": "^10.6.1",
+        "@swc/helpers": "^0.5.5",
         "@tanstack/eslint-plugin-query": "^4.43.0",
         "axios-mock-adapter": "^1.18.1",
         "cross-env": "^6.0.3",

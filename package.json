@@ -43,7 +43,8 @@
     "eslintConfig": {
         "extends": [
             "eslint-config-next",
-            "plugin:jsx-a11y/recommended"
+            "plugin:jsx-a11y/recommended",
+            "plugin:storybook/recommended"
         ],
         "rules": {
             "@next/next/no-img-element": "off",
@@ -156,6 +157,7 @@
         "cross-env": "^6.0.3",
         "eslint": "^8.56.0",
         "eslint-config-next": "^14.2.35",
+        "eslint-plugin-storybook": "^10.6.1",
         "husky": "^4.0.10",
         "i18next-http-backend": "^3.0.5",
         "jest": "^30.4.2",

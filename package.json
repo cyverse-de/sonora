@@ -214,5 +214,14 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "allowScripts": {
+        "esbuild@0.25.12": true,
+        "unrs-resolver@1.11.1": true,
+        "husky@4.3.8": true,
+        "core-js": false,
+        "core-js-pure": false,
+        "chromedriver": false,
+        "fsevents": false
     }
 }

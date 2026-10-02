@@ -38,10 +38,12 @@ import {
     AccordionDetails,
     Button,
     FormControl,
+    FormHelperText,
     InputLabel,
     MenuItem,
     Paper,
     Select,
+    Stack,
     Table,
     TableBody,
     TableCell,
@@ -244,17 +246,17 @@ const ResourcePresetPicker = ({
                 ))}
             </Select>
             {isCustom ? (
-                <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ mt: 1 }}
-                >
+                <FormHelperText>
                     {showRemoteHint
                         ? t("customResourcesAdjustRemote", {
                               summary: customSummary,
                           })
                         : t("customResourcesAdjustHere")}
-                </Typography>
+                </FormHelperText>
+            ) : showRemoteHint ? (
+                <FormHelperText>
+                    {t("customResourcesHintRemote")}
+                </FormHelperText>
             ) : (
                 <Button
                     size="small"
@@ -355,84 +357,89 @@ const StepResourceRequirementsForm = ({
                     isVICE={isVICE}
                 />
             )}
-            <Field
-                id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
-                name={`requirements.${index}.max_cpu_cores`}
-                label={t("cpuCores")}
-                component={FormSelectField}
-                disabled={isPresetSelected}
-            >
-                {cpuCoreList.map((size, index) => (
-                    <MenuItem key={index} value={size}>
-                        {size}
-                    </MenuItem>
-                ))}
-            </Field>
-            <Field
-                id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_MEM)}
-                name={`requirements.${index}.min_memory_limit`}
-                label={t("minMemory")}
-                component={FormSelectField}
-                renderValue={formatGBValue}
-                disabled={isPresetSelected}
-            >
-                {minMemoryList.map((size, index) => (
-                    <MenuItem key={index} value={size}>
-                        {formatGBListItem(size)}
-                    </MenuItem>
-                ))}
-            </Field>
-            <FastField
-                id={buildID(baseId, ids.RESOURCE_REQUESTS.MIN_DISK_SPACE)}
-                name={`requirements.${index}.min_disk_space`}
-                label={t("minDiskSpace")}
-                component={FormSelectField}
-                renderValue={formatGBValue}
-            >
-                {minDiskSpaceList.map((size, index) => (
-                    <MenuItem key={index} value={size}>
-                        {formatGBListItem(size)}
-                    </MenuItem>
-                ))}
-            </FastField>
-            {max_gpus > 0 && min_gpus !== max_gpus && (
+            <Stack spacing={2}>
                 <Field
-                    id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_GPU)}
-                    name={`requirements.${index}.max_gpus`}
-                    label={t("gpus")}
+                    id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_CPU)}
+                    name={`requirements.${index}.max_cpu_cores`}
+                    label={t("cpuCores")}
                     component={FormSelectField}
                     disabled={isPresetSelected}
                 >
-                    {gpuList.map((size, index) => (
+                    {cpuCoreList.map((size, index) => (
                         <MenuItem key={index} value={size}>
                             {size}
                         </MenuItem>
                     ))}
                 </Field>
-            )}
-            {showGpuModelsSelector && (
-                <FastField
-                    id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_GPU_MODELS)}
-                    name={`requirements.${index}.gpu_models`}
-                    label={t("gpuModels")}
+                <Field
+                    id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_MEM)}
+                    name={`requirements.${index}.min_memory_limit`}
+                    label={t("minMemory")}
                     component={FormSelectField}
-                    multiple
-                    renderValue={(selected) => selected.join(", ")}
+                    renderValue={formatGBValue}
+                    disabled={isPresetSelected}
                 >
-                    {availableGpuModels.map((model) => (
-                        <MenuItem key={model} value={model}>
-                            {model}
+                    {minMemoryList.map((size, index) => (
+                        <MenuItem key={index} value={size}>
+                            {formatGBListItem(size)}
+                        </MenuItem>
+                    ))}
+                </Field>
+                <FastField
+                    id={buildID(baseId, ids.RESOURCE_REQUESTS.MIN_DISK_SPACE)}
+                    name={`requirements.${index}.min_disk_space`}
+                    label={t("minDiskSpace")}
+                    component={FormSelectField}
+                    renderValue={formatGBValue}
+                >
+                    {minDiskSpaceList.map((size, index) => (
+                        <MenuItem key={index} value={size}>
+                            {formatGBListItem(size)}
                         </MenuItem>
                     ))}
                 </FastField>
-            )}
-            {isVICE && maxTimeLimitSeconds && (
-                <InitialDurationField
-                    baseId={buildID(baseId, ids.RESOURCE_REQUESTS)}
-                    maxTimeLimitSeconds={maxTimeLimitSeconds}
-                    disabled={isPresetSelected}
-                />
-            )}
+                {max_gpus > 0 && min_gpus !== max_gpus && (
+                    <Field
+                        id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_GPU)}
+                        name={`requirements.${index}.max_gpus`}
+                        label={t("gpus")}
+                        component={FormSelectField}
+                        disabled={isPresetSelected}
+                    >
+                        {gpuList.map((size, index) => (
+                            <MenuItem key={index} value={size}>
+                                {size}
+                            </MenuItem>
+                        ))}
+                    </Field>
+                )}
+                {showGpuModelsSelector && (
+                    <FastField
+                        id={buildID(
+                            baseId,
+                            ids.RESOURCE_REQUESTS.TOOL_GPU_MODELS
+                        )}
+                        name={`requirements.${index}.gpu_models`}
+                        label={t("gpuModels")}
+                        component={FormSelectField}
+                        multiple
+                        renderValue={(selected) => selected.join(", ")}
+                    >
+                        {availableGpuModels.map((model) => (
+                            <MenuItem key={model} value={model}>
+                                {model}
+                            </MenuItem>
+                        ))}
+                    </FastField>
+                )}
+                {isVICE && maxTimeLimitSeconds && (
+                    <InitialDurationField
+                        baseId={buildID(baseId, ids.RESOURCE_REQUESTS)}
+                        maxTimeLimitSeconds={maxTimeLimitSeconds}
+                        disabled={isPresetSelected}
+                    />
+                )}
+            </Stack>
         </div>
     );
 };

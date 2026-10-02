@@ -77,6 +77,14 @@ const validateAbove = (value, min, t) => {
     return null;
 };
 
+const validateAtLeast = (value, min, t) => {
+    if (value < min) {
+        return t("validationAtLeast", { min });
+    }
+
+    return null;
+};
+
 const validateNotAbove = (value, max, t) => {
     if (value > max) {
         return t("validationNotAbove", { max });
@@ -256,9 +264,9 @@ const validate =
             values.requirements.forEach((req, i) => {
                 const limits = values.limits?.[i];
                 if (limits?.min_cpu_cores && req?.max_cpu_cores) {
-                    const err = validateNotAbove(
-                        limits.min_cpu_cores,
+                    const err = validateAtLeast(
                         req.max_cpu_cores,
+                        limits.min_cpu_cores,
                         t
                     );
                     if (err) {
@@ -300,9 +308,9 @@ const validate =
                     }
                 }
                 if (limits?.min_gpus && req?.max_gpus) {
-                    const err = validateNotAbove(
-                        limits.min_gpus,
+                    const err = validateAtLeast(
                         req.max_gpus,
+                        limits.min_gpus,
                         t
                     );
                     if (err) {

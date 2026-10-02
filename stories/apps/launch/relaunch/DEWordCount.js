@@ -2,6 +2,8 @@ import React from "react";
 
 import constants from "../../../../src/constants";
 
+import { mockResourcePresets } from "../constants";
+
 import AppLaunchStoryBase from "../AppLaunchStoryBase";
 import WordCountApp from "../data/WordCountApp";
 
@@ -50,6 +52,7 @@ export const DEWordCountRelaunch = () => {
             defaultMaxCPUCores={8}
             defaultMaxMemory={4 * constants.ONE_GiB}
             defaultMaxDiskSpace={64 * constants.ONE_GiB}
+            resourcePresets={mockResourcePresets}
         />
     );
 };

@@ -13,6 +13,7 @@ import { useTranslation } from "i18n";
 import useComponentHeight from "components/utils/useComponentHeight";
 
 import GlobalConstants from "../../../constants";
+import ToolTypes from "components/models/ToolTypes";
 
 import AppStepper, { StepperSkeleton } from "../AppStepper";
 import AppStepDisplay, { BottomNavigationSkeleton } from "../AppStepDisplay";
@@ -161,6 +162,7 @@ const AppLaunchForm = (props) => {
         defaultOutputDir,
         createSavedLaunch,
         submitAnalysis,
+        resourcePresets = [],
         app: {
             id: app_id,
             version_id,
@@ -238,9 +240,18 @@ const AppLaunchForm = (props) => {
     return (
         <>
             <Formik
-                initialValues={initAppLaunchValues(t, props)}
+                initialValues={initAppLaunchValues(t, {
+                    ...props,
+                    resourcePresets,
+                })}
                 initialTouched={{ launchSteps: [false, false, false, false] }}
-                validate={validate(t, hasParams, max_time_limit_seconds)}
+                validate={validate(
+                    t,
+                    hasParams,
+                    max_time_limit_seconds,
+                    defaultMaxCPUCores,
+                    defaultMaxMemory
+                )}
                 onSubmit={(values, { resetForm, setSubmitting }) => {
                     submitAnalysis(
                         formatSubmission(defaultOutputDir, values),
@@ -398,9 +409,17 @@ const AppLaunchForm = (props) => {
                                 {activeStepInfo === stepAnalysisInfo ? (
                                     <AnalysisInfoForm
                                         formId={formId}
-                                        overallJobType={overall_job_type}
+                                        resourcePresets={resourcePresets}
+                                        requirements={values.limits?.[0]}
+                                        singleStep={values.limits?.length === 1}
+                                        defaultMaxCPUCores={defaultMaxCPUCores}
+                                        defaultMaxMemory={defaultMaxMemory}
                                         maxTimeLimitSeconds={
                                             max_time_limit_seconds
+                                        }
+                                        isVICE={
+                                            overall_job_type ===
+                                            ToolTypes.INTERACTIVE
                                         }
                                     />
                                 ) : activeStepInfo === stepParameters ? (
@@ -429,6 +448,10 @@ const AppLaunchForm = (props) => {
                                             defaultMaxMemory={defaultMaxMemory}
                                             defaultMaxDiskSpace={
                                                 defaultMaxDiskSpace
+                                            }
+                                            resourcePresets={resourcePresets}
+                                            maxTimeLimitSeconds={
+                                                max_time_limit_seconds
                                             }
                                         />
                                     )

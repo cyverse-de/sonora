@@ -106,6 +106,28 @@ export default function AdminDrawerItems(props) {
                 </ListItemButton>
             </Tooltip>
 
+            <Tooltip title={t("resourcePresets")} placement="right" arrow>
+                <ListItemButton
+                    id={buildID(ids.DRAWER_MENU, ids.RESOURCE_PRESETS_ADMIN_MI)}
+                    className={cx(classes.nested, classes.listItem)}
+                    onClick={() =>
+                        router.push(
+                            "/" +
+                                NavigationConstants.ADMIN +
+                                "/" +
+                                NavigationConstants.RESOURCE_PRESETS
+                        )
+                    }
+                >
+                    <ListItemIcon>
+                        <LabelImportantIcon className={classes.icon} />
+                    </ListItemIcon>
+                    {open && (
+                        <ListItemText>{t("resourcePresets")}</ListItemText>
+                    )}
+                </ListItemButton>
+            </Tooltip>
+
             <Tooltip title={t("subscriptions")} placement="right" arrow>
                 <ListItemButton
                     id={buildID(ids.DRAWER_MENU, ids.TOOLS_ADMIN_MI)}

@@ -2,7 +2,11 @@ import React from "react";
 
 import constants from "../../../src/constants";
 
-import { createSavedLaunch, submitAnalysis } from "./constants";
+import {
+    createSavedLaunch,
+    mockResourcePresets,
+    submitAnalysis,
+} from "./constants";
 
 import AppLaunchStoryBase from "./AppLaunchStoryBase";
 import WordCountApp from "./data/WordCountApp";
@@ -64,6 +68,7 @@ export const DEWordCount = ({
             defaultMaxCPUCores={defaultMaxCPUCores}
             defaultMaxMemory={defaultMaxMemory}
             defaultMaxDiskSpace={defaultMaxDiskSpace}
+            resourcePresets={mockResourcePresets}
             computeLimitExceeded={computeLimitExceeded}
             submitAnalysis={(submission, onSuccess, onError) => {
                 setAppError(null);

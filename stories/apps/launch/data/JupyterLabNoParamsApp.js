@@ -12,6 +12,7 @@ const JupyterLabNoParamsApp = {
             default_cpu_cores: 8,
             default_memory: 32 * constants.ONE_GiB,
             default_disk_space: 128 * constants.ONE_GiB,
+            max_gpus: 2,
         },
     ],
 

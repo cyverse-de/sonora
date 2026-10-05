@@ -17,6 +17,7 @@ import oauthRouter from "./api/oauth";
 import pipelinesRouter from "./api/pipelines";
 import quickLaunchRouter from "./api/quickLaunch";
 import refGenomeRouter from "./api/referenceGenomes";
+import resourcePresetsRouter from "./api/resourcePresets";
 import sharingRouter from "./api/sharing";
 import subscriptionsRouter from "./api/subscriptions";
 import supportRouter from "./api/support";
@@ -148,6 +149,7 @@ app.prepare()
         server.use("/api", subscriptionsRouter());
         server.use("/api", supportRouter());
         server.use("/api", refGenomeRouter());
+        server.use("/api", resourcePresetsRouter());
         server.use("/api", tagsRouter());
         server.use("/api", toolsRouter());
         server.use("/api", userRouter());

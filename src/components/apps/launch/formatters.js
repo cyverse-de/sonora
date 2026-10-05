@@ -4,7 +4,32 @@
  * @author psarando
  */
 import AppParamTypes from "components/models/AppParamTypes";
+import TOOL_TYPES from "components/models/ToolTypes";
 import { formatDuration as formatDurationStr } from "date-fns";
+
+import constants from "../../../constants";
+
+/**
+ * Compute the effective CPU ceiling for a step, falling back through the
+ * step's own limit, a caller-provided config default, and finally a
+ * hard-coded 8.
+ *
+ * @param {number|null} stepMax - The step's max_cpu_cores.
+ * @param {number|null} configDefault - Configured max CPU cores for the context.
+ * @returns {number}
+ */
+const cpuCeiling = (stepMax, configDefault) => stepMax || configDefault || 8;
+
+/**
+ * Compute the effective memory ceiling for a step, falling back through the
+ * step's own limit, a caller-provided config default, and finally 16 GiB.
+ *
+ * @param {number|null} stepMax - The step's memory_limit.
+ * @param {number|null} configDefault - Configured max memory for the context.
+ * @returns {number}
+ */
+const memoryCeiling = (stepMax, configDefault) =>
+    stepMax || configDefault || 16 * constants.ONE_GiB;
 
 /**
  * Initializes the submission and form values from the given props.
@@ -30,6 +55,75 @@ import { formatDuration as formatDurationStr } from "date-fns";
  *
  * @returns Initial form and submission values.
  */
+/**
+ * Check if a resource preset is compatible with a step's tool requirements.
+ * A preset is incompatible if it cannot satisfy the tool's minimum resource
+ * requirements or exceeds its maximum GPU capacity.
+ *
+ * @param {Object} preset - The resource preset to check.
+ * @param {Object} requirements - The step's tool requirements (min_gpus,
+ *   max_gpus, min_cpu_cores, min_memory_limit).
+ * @returns {boolean} True if the preset is compatible with the step.
+ */
+const isPresetCompatible = (preset, requirements) => {
+    if (requirements.min_gpus && preset.max_gpus < requirements.min_gpus)
+        return false;
+    if (
+        requirements.max_gpus != null &&
+        preset.max_gpus > requirements.max_gpus
+    )
+        return false;
+    if (
+        requirements.min_cpu_cores &&
+        preset.max_cpu_cores < requirements.min_cpu_cores
+    )
+        return false;
+    if (
+        requirements.min_memory_limit &&
+        preset.min_memory_limit < requirements.min_memory_limit
+    )
+        return false;
+    return true;
+};
+
+/**
+ * Determine whether a preset should be shown in the launch wizard picker.
+ * Builds on isPresetCompatible (which checks tool minimums) and adds:
+ *   1. Hide GPU presets when GPUs are not enabled for the app.
+ *   2. Hide presets where both CPU and memory exceed the effective ceiling
+ *      (since the values would just be clamped down, making the preset
+ *      indistinguishable from a smaller one).
+ *
+ * @param {Object} preset - The resource preset.
+ * @param {Object} requirements - The step's tool requirements/ceilings.
+ * @param {number|null} defaultMaxCPUCores - Config max CPU limit.
+ * @param {number|null} defaultMaxMemory - Config max memory limit.
+ * @returns {boolean}
+ */
+const shouldShowPreset = (
+    preset,
+    requirements,
+    defaultMaxCPUCores,
+    defaultMaxMemory
+) => {
+    if (!isPresetCompatible(preset, requirements)) return false;
+
+    // Hide GPU presets when GPUs are not enabled for the app.
+    // max_gpus being absent (undefined/null) or 0 means no GPU support.
+    if (preset.max_gpus > 0 && !requirements.max_gpus) return false;
+
+    // Hide presets where both CPU and memory strictly exceed the ceiling,
+    // since both values would be clamped down and the preset is redundant
+    // with a smaller one (or Custom at the max).  A preset that matches
+    // the ceiling exactly is still useful — it selects the maximum allowed.
+    const maxCpu = cpuCeiling(requirements.max_cpu_cores, defaultMaxCPUCores);
+    const maxMem = memoryCeiling(requirements.memory_limit, defaultMaxMemory);
+    if (preset.max_cpu_cores > maxCpu && preset.min_memory_limit > maxMem)
+        return false;
+
+    return true;
+};
+
 const initAppLaunchValues = (
     t,
     {
@@ -37,8 +131,10 @@ const initAppLaunchValues = (
         notifyPeriodic,
         periodicPeriod,
         defaultSelectedMaxCpus,
-        defaultMaxCpuCores = defaultSelectedMaxCpus,
+        defaultMaxCPUCores = defaultSelectedMaxCpus,
+        defaultMaxMemory,
         defaultOutputDir,
+        resourcePresets,
         app: {
             id,
             version_id,
@@ -48,34 +144,162 @@ const initAppLaunchValues = (
             groups,
             mount_data_store,
             time_limit_seconds,
+            max_time_limit_seconds,
+            overall_job_type,
         },
     }
 ) => {
+    // Find the default resource preset if available.
+    const defaultPreset = resourcePresets?.find((p) => p.is_default);
+    const isVICE = overall_job_type === TOOL_TYPES.INTERACTIVE;
+
+    /**
+     * Compute a preset's effective (clamped) values for a given step.
+     * Uses the same fallback chain as the runtime picker (applyPresetValues in
+     * ResourceRequirements.js) so that reverse-matching on relaunch produces
+     * the same result as the original selection.
+     *
+     * @param {Object} preset - The resource preset.
+     * @param {Object} step - The step's tool requirements/ceilings.
+     * @returns {{ cpu: number, memory: number, gpus: number }}
+     */
+    const effectivePresetValues = (preset, step) => ({
+        cpu: Math.min(
+            preset.max_cpu_cores,
+            cpuCeiling(step.max_cpu_cores, defaultMaxCPUCores)
+        ),
+        memory: Math.min(
+            preset.min_memory_limit,
+            memoryCeiling(step.memory_limit, defaultMaxMemory)
+        ),
+        gpus:
+            step.max_gpus != null
+                ? Math.min(preset.max_gpus || 0, step.max_gpus)
+                : preset.max_gpus || 0,
+    });
+
+    // Try to find a preset whose effective values match the saved values
+    // from a previous submission (relaunch case).
+    const matchPresetForRelaunch = (savedCpu, savedMemory, savedGpus, step) => {
+        if (!resourcePresets?.length) return null;
+        return (
+            resourcePresets.find((preset) => {
+                if (
+                    !shouldShowPreset(
+                        preset,
+                        step,
+                        defaultMaxCPUCores,
+                        defaultMaxMemory
+                    )
+                )
+                    return false;
+                const effective = effectivePresetValues(preset, step);
+                return (
+                    effective.cpu === savedCpu &&
+                    effective.memory === savedMemory &&
+                    effective.gpus === savedGpus
+                );
+            }) || null
+        );
+    };
+
     // If no default_max_cpu_cores is returned from the API,
-    // then use the default from configs (if it's less than the actual max)
-    // so the max is not automatically submitted by the services.
+    // then use the default selected value from configs (if it's less than
+    // the tool's max) so the max is not automatically submitted by the
+    // services. This uses defaultSelectedMaxCpus (the conservative
+    // pre-selection), not defaultMaxCPUCores (the system ceiling).
+    const defaultCpuSelection = defaultSelectedMaxCpus || defaultMaxCPUCores;
     const reqInitValues = requirements?.map(
         ({
             step_number,
             max_cpu_cores,
-            default_max_cpu_cores = max_cpu_cores < defaultMaxCpuCores
+            memory_limit,
+            default_max_cpu_cores = max_cpu_cores < defaultCpuSelection
                 ? max_cpu_cores
-                : defaultMaxCpuCores,
+                : defaultCpuSelection,
             default_cpu_cores = 0,
             default_memory = 0,
             default_disk_space = 0,
             default_gpus = 0,
+            min_gpus,
+            max_gpus,
+            min_cpu_cores,
+            min_memory_limit,
             gpu_models,
             default_gpu_models = gpu_models || [],
-        }) => ({
-            step_number,
-            max_cpu_cores: default_max_cpu_cores,
-            min_cpu_cores: default_cpu_cores,
-            min_memory_limit: default_memory,
-            min_disk_space: default_disk_space,
-            max_gpus: default_gpus,
-            gpu_models: default_gpu_models,
-        })
+        }) => {
+            const stepRequirements = {
+                min_gpus,
+                max_gpus,
+                min_cpu_cores,
+                min_memory_limit,
+                max_cpu_cores,
+                memory_limit,
+            };
+
+            // Detect relaunch: when default_cpu_cores or default_memory are
+            // non-zero, these are the user's previously-submitted values.
+            const isRelaunch = default_cpu_cores > 0 || default_memory > 0;
+
+            if (isRelaunch) {
+                // Try to reverse-match saved values against a preset's
+                // effective (clamped) output for this step.
+                const matchedPreset = matchPresetForRelaunch(
+                    default_cpu_cores,
+                    default_memory,
+                    default_gpus,
+                    stepRequirements
+                );
+                return {
+                    step_number,
+                    max_cpu_cores: default_cpu_cores || default_max_cpu_cores,
+                    min_cpu_cores: default_cpu_cores,
+                    min_memory_limit: default_memory,
+                    min_disk_space: default_disk_space,
+                    max_gpus: default_gpus,
+                    gpu_models: default_gpu_models,
+                    resource_preset_id: matchedPreset ? matchedPreset.id : null,
+                };
+            }
+
+            // Fresh launch: apply the default preset if compatible.
+            const usePreset =
+                defaultPreset &&
+                shouldShowPreset(
+                    defaultPreset,
+                    stepRequirements,
+                    defaultMaxCPUCores,
+                    defaultMaxMemory
+                );
+
+            if (usePreset) {
+                const effective = effectivePresetValues(
+                    defaultPreset,
+                    stepRequirements
+                );
+                return {
+                    step_number,
+                    max_cpu_cores: effective.cpu,
+                    min_cpu_cores: default_cpu_cores,
+                    min_memory_limit: effective.memory,
+                    min_disk_space: default_disk_space,
+                    max_gpus: effective.gpus,
+                    gpu_models: default_gpu_models,
+                    resource_preset_id: defaultPreset.id,
+                };
+            }
+
+            return {
+                step_number,
+                max_cpu_cores: default_max_cpu_cores,
+                min_cpu_cores: default_cpu_cores,
+                min_memory_limit: default_memory,
+                min_disk_space: default_disk_space,
+                max_gpus: default_gpus,
+                gpu_models: default_gpu_models,
+                resource_preset_id: null,
+            };
+        }
     );
 
     return {
@@ -94,7 +318,30 @@ const initAppLaunchValues = (
         app_version_id: version_id,
         system_id,
         mount_data_store: mount_data_store ?? true,
-        time_limit_seconds: time_limit_seconds || "",
+        time_limit_seconds: (() => {
+            if (!isVICE) return time_limit_seconds || "";
+            // Find the first matched/applied preset that has a time limit.
+            const presetWithTime = reqInitValues?.reduce((found, r) => {
+                if (found) return found;
+                if (!r.resource_preset_id) return null;
+                return (
+                    resourcePresets?.find(
+                        (p) =>
+                            p.id === r.resource_preset_id &&
+                            p.time_limit_seconds
+                    ) || null
+                );
+            }, null);
+            if (presetWithTime) {
+                return max_time_limit_seconds
+                    ? Math.min(
+                          presetWithTime.time_limit_seconds,
+                          max_time_limit_seconds
+                      )
+                    : presetWithTime.time_limit_seconds;
+            }
+            return time_limit_seconds || "";
+        })(),
         groups: initGroupValues(groups),
         limits: requirements,
         requirements: reqInitValues || [],
@@ -218,12 +465,16 @@ const formatSubmission = (
         groups,
     }
 ) => {
-    const formattedRequirements = requirements.map((req) => ({
-        ...req,
-        min_cpu_cores: req.max_cpu_cores,
-        min_gpus: req.max_gpus,
-        gpu_models: req.gpu_models || [],
-    }));
+    const formattedRequirements = requirements.map(
+        // Destructure resource_preset_id out so it is excluded from the
+        // submission payload (it's only client-side)
+        ({ resource_preset_id, ...req }) => ({
+            ...req,
+            min_cpu_cores: req.max_cpu_cores,
+            min_gpus: req.max_gpus,
+            gpu_models: req.gpu_models || [],
+        })
+    );
 
     return {
         notify,
@@ -347,6 +598,21 @@ const buildDurationLimitList = (maxSeconds) => {
 };
 
 /**
+ * Formats a duration in seconds as a compact HH:MM string.
+ * Used for displaying preset time limits in the admin table and
+ * the launch wizard's preset picker.
+ *
+ * @param {number|null} seconds - The duration in seconds.
+ * @returns {string} - The formatted time (e.g. "02:00", "148:30") or "—" if null.
+ */
+const formatTimeLimitHHMM = (seconds) => {
+    if (seconds == null) return "—";
+    const hours = Math.floor(seconds / SECONDS_PER_HOUR);
+    const mins = Math.floor((seconds % SECONDS_PER_HOUR) / SECONDS_PER_MINUTE);
+    return [hours, mins].map((n) => String(n).padStart(2, "0")).join(":");
+};
+
+/**
  * Formats a duration given in seconds as a human-readable string.
  *
  * @param {number} seconds - The duration in seconds.
@@ -366,8 +632,12 @@ const formatDuration = (seconds) => {
 
 export {
     buildDurationLimitList,
+    cpuCeiling,
     formatDuration,
     formatSubmission,
+    formatTimeLimitHHMM,
     initAppLaunchValues,
     initGroupValues,
+    memoryCeiling,
+    shouldShowPreset,
 };

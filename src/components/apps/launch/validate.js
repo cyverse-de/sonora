@@ -8,7 +8,7 @@ import { validateDiskResourceName } from "components/data/utils";
 
 import AppParamTypes, { ValidatorTypes } from "components/models/AppParamTypes";
 
-import { formatDuration } from "./formatters";
+import { cpuCeiling, formatDuration, memoryCeiling } from "./formatters";
 
 /**
  * @param {*} value - The app parameter value to check.
@@ -72,6 +72,14 @@ const validateText = ({ value, validators }, t) => {
 const validateAbove = (value, min, t) => {
     if (value <= min) {
         return t("validationAbove", { min });
+    }
+
+    return null;
+};
+
+const validateAtLeast = (value, min, t) => {
+    if (value < min) {
+        return t("validationAtLeast", { min });
     }
 
     return null;
@@ -218,135 +226,192 @@ const validateDouble = ({ value, validators }, t) => {
  * May also contain custom error fields not found in `values`.
  * If an empty object is returned, then there were no errors.
  */
-const validate = (t, hasParams, maxTimeLimitSeconds) => (values) => {
-    const errors = {};
-    const launchStepErrors = [];
+const validate =
+    (t, hasParams, maxTimeLimitSeconds, defaultMaxCPUCores, defaultMaxMemory) =>
+    (values) => {
+        const errors = {};
+        const launchStepErrors = [];
 
-    if (!values.name) {
-        errors.name = t("required");
-        launchStepErrors[0] = true;
-    } else {
-        const nameError = validateDiskResourceName(values.name, t);
-        if (nameError) {
-            errors.name = nameError;
+        if (!values.name) {
+            errors.name = t("required");
+            launchStepErrors[0] = true;
+        } else {
+            const nameError = validateDiskResourceName(values.name, t);
+            if (nameError) {
+                errors.name = nameError;
+                launchStepErrors[0] = true;
+            }
+        }
+
+        if (!values.output_dir) {
+            errors.output_dir = t("required");
             launchStepErrors[0] = true;
         }
-    }
 
-    if (!values.output_dir) {
-        errors.output_dir = t("required");
-        launchStepErrors[0] = true;
-    }
-
-    if (
-        maxTimeLimitSeconds &&
-        values.time_limit_seconds &&
-        values.time_limit_seconds > maxTimeLimitSeconds
-    ) {
-        errors.time_limit_seconds = t("initialDurationInvalidMax", {
-            max: formatDuration(maxTimeLimitSeconds),
-        });
-        launchStepErrors[0] = true;
-    }
-
-    if (values.requirements) {
-        const reqErrors = [];
-        values.requirements.forEach((req, i) => {
-            if (req?.min_cpu_cores && req?.max_cpu_cores) {
-                const err = validateNotAbove(
-                    req.min_cpu_cores,
-                    req.max_cpu_cores,
-                    t
-                );
-                if (err) {
-                    reqErrors[i] = { max_cpu_cores: err };
-                }
-            }
-            if (req?.min_gpus && req?.max_gpus) {
-                const err = validateNotAbove(req.min_gpus, req.max_gpus, t);
-                if (err) {
-                    reqErrors[i] = {
-                        ...reqErrors[i],
-                        max_gpus: err,
-                    };
-                }
-            }
-        });
-        if (reqErrors?.length > 0) {
-            errors.requirements = reqErrors;
+        if (
+            maxTimeLimitSeconds &&
+            values.time_limit_seconds &&
+            values.time_limit_seconds > maxTimeLimitSeconds
+        ) {
+            errors.time_limit_seconds = t("initialDurationInvalidMax", {
+                max: formatDuration(maxTimeLimitSeconds),
+            });
             launchStepErrors[hasParams ? 2 : 1] = true;
         }
-    }
 
-    if (values.groups) {
-        const groupErrors = [];
-        values.groups.forEach((group, index) => {
-            const paramErrors = [];
-
-            if (group.parameters) {
-                group.parameters.forEach((param, paramIndex) => {
-                    let valueError = null;
-
-                    if (isEmptyParamValue(param.value)) {
-                        if (param.required) {
-                            valueError = t("required");
-                        }
-                    } else {
-                        switch (param.type) {
-                            case AppParamTypes.TEXT:
-                                valueError = validateText(param, t);
-                                break;
-
-                            case AppParamTypes.INTEGER:
-                                valueError = validateInteger(param, t);
-                                break;
-
-                            case AppParamTypes.DOUBLE:
-                                valueError = validateDouble(param, t);
-                                break;
-
-                            case AppParamTypes.FILE_OUTPUT:
-                            case AppParamTypes.FOLDER_OUTPUT:
-                                valueError = validateDiskResourceName(
-                                    param.value,
-                                    t
-                                );
-                                break;
-
-                            case AppParamTypes.MULTIFILE_OUTPUT:
-                                valueError = validateUnixGlob(param.value, t);
-                                break;
-
-                            default:
-                                break;
-                        }
+        if (values.requirements) {
+            const reqErrors = [];
+            values.requirements.forEach((req, i) => {
+                const limits = values.limits?.[i];
+                if (limits?.min_cpu_cores && req?.max_cpu_cores) {
+                    const err = validateAtLeast(
+                        req.max_cpu_cores,
+                        limits.min_cpu_cores,
+                        t
+                    );
+                    if (err) {
+                        reqErrors[i] = { max_cpu_cores: err };
                     }
-
-                    if (valueError) {
-                        paramErrors[paramIndex] = {
-                            value: valueError,
+                }
+                if (req?.max_cpu_cores) {
+                    const maxAllowed = cpuCeiling(
+                        limits?.max_cpu_cores,
+                        defaultMaxCPUCores
+                    );
+                    const err = validateNotAbove(
+                        req.max_cpu_cores,
+                        maxAllowed,
+                        t
+                    );
+                    if (err) {
+                        reqErrors[i] = {
+                            ...reqErrors[i],
+                            max_cpu_cores: err,
                         };
                     }
-                });
-
-                if (paramErrors.length > 0) {
-                    groupErrors[index] = { parameters: paramErrors };
                 }
+                if (req?.min_memory_limit) {
+                    const maxAllowed = memoryCeiling(
+                        limits?.memory_limit,
+                        defaultMaxMemory
+                    );
+                    const err = validateNotAbove(
+                        req.min_memory_limit,
+                        maxAllowed,
+                        t
+                    );
+                    if (err) {
+                        reqErrors[i] = {
+                            ...reqErrors[i],
+                            min_memory_limit: err,
+                        };
+                    }
+                }
+                if (limits?.min_gpus && req?.max_gpus) {
+                    const err = validateAtLeast(
+                        req.max_gpus,
+                        limits.min_gpus,
+                        t
+                    );
+                    if (err) {
+                        reqErrors[i] = {
+                            ...reqErrors[i],
+                            max_gpus: err,
+                        };
+                    }
+                }
+                if (limits?.max_gpus != null && req?.max_gpus) {
+                    const err = validateNotAbove(
+                        req.max_gpus,
+                        limits.max_gpus,
+                        t
+                    );
+                    if (err) {
+                        reqErrors[i] = {
+                            ...reqErrors[i],
+                            max_gpus: err,
+                        };
+                    }
+                }
+            });
+            if (reqErrors?.length > 0) {
+                errors.requirements = reqErrors;
+                launchStepErrors[hasParams ? 2 : 1] = true;
             }
-        });
-
-        if (groupErrors.length > 0) {
-            errors.groups = groupErrors;
-            launchStepErrors[1] = true;
         }
-    }
 
-    if (launchStepErrors.length > 0) {
-        errors.launchSteps = launchStepErrors;
-    }
+        if (values.groups) {
+            const groupErrors = [];
+            values.groups.forEach((group, index) => {
+                const paramErrors = [];
 
-    return errors;
-};
+                if (group.parameters) {
+                    group.parameters.forEach((param, paramIndex) => {
+                        let valueError = null;
+
+                        if (isEmptyParamValue(param.value)) {
+                            if (param.required) {
+                                valueError = t("required");
+                            }
+                        } else {
+                            switch (param.type) {
+                                case AppParamTypes.TEXT:
+                                    valueError = validateText(param, t);
+                                    break;
+
+                                case AppParamTypes.INTEGER:
+                                    valueError = validateInteger(param, t);
+                                    break;
+
+                                case AppParamTypes.DOUBLE:
+                                    valueError = validateDouble(param, t);
+                                    break;
+
+                                case AppParamTypes.FILE_OUTPUT:
+                                case AppParamTypes.FOLDER_OUTPUT:
+                                    valueError = validateDiskResourceName(
+                                        param.value,
+                                        t
+                                    );
+                                    break;
+
+                                case AppParamTypes.MULTIFILE_OUTPUT:
+                                    valueError = validateUnixGlob(
+                                        param.value,
+                                        t
+                                    );
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        }
+
+                        if (valueError) {
+                            paramErrors[paramIndex] = {
+                                value: valueError,
+                            };
+                        }
+                    });
+
+                    if (paramErrors.length > 0) {
+                        groupErrors[index] = { parameters: paramErrors };
+                    }
+                }
+            });
+
+            if (groupErrors.length > 0) {
+                errors.groups = groupErrors;
+                launchStepErrors[1] = true;
+            }
+        }
+
+        if (launchStepErrors.length > 0) {
+            errors.launchSteps = launchStepErrors;
+        }
+
+        return errors;
+    };
 
 export { isEmptyParamValue };
 export default validate;

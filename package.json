@@ -133,7 +133,7 @@
         "react-is": "^18.3.1",
         "react-joyride": "^3.0.0",
         "react-player": "^2.6.2",
-        "sanitize-html": "^2.17.7",
+        "sanitize-html": "^2.18.1",
         "showdown": "^1.9.1",
         "sockette": "^2.0.6",
         "tss-react": "^4.9.4",
@@ -151,7 +151,7 @@
         "@babel/core": "^7.29.7",
         "@babel/node": "^7.29.7",
         "@chromatic-com/storybook": "^5.3.1",
-        "@storybook/nextjs": "^10.6.1",
+        "@storybook/nextjs": "^10.6.2",
         "@swc/helpers": "^0.5.5",
         "@tanstack/eslint-plugin-query": "^4.43.0",
         "axios-mock-adapter": "^1.18.1",
@@ -171,7 +171,7 @@
         "prettier": "3.8.1",
         "react-test-renderer": "^18.2.0",
         "rimraf": "^3.0.0",
-        "storybook": "^10.6.1",
+        "storybook": "^10.6.2",
         "webpack": "5.101.2"
     },
     "prettier": {

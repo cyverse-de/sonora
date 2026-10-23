@@ -301,6 +301,7 @@ const StepResourceRequirementsForm = ({
     resourcePresets,
     maxTimeLimitSeconds,
     isVICE,
+    gpuLimitExceeded,
 }) => {
     const { t } = useTranslation("launch");
     const { values } = useFormikContext();
@@ -332,6 +333,10 @@ const StepResourceRequirementsForm = ({
     );
     const gpuMinValue = min_gpus ?? 0;
     const gpuList = buildGpuLimitList(gpuMinValue, max_gpus || 8);
+    // When gpuLimitExceeded and the field is optional (min_gpus === 0),
+    // restrict options to [0] so the user cannot select GPUs.
+    const effectiveGpuList =
+        gpuLimitExceeded && gpuMinValue === 0 ? [0] : gpuList;
 
     const currentMaxGpus =
         getIn(values, `requirements.${index}.max_gpus`) ?? max_gpus;
@@ -399,19 +404,26 @@ const StepResourceRequirementsForm = ({
                     ))}
                 </FastField>
                 {max_gpus > 0 && min_gpus !== max_gpus && (
-                    <Field
-                        id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_GPU)}
-                        name={`requirements.${index}.max_gpus`}
-                        label={t("gpus")}
-                        component={FormSelectField}
-                        disabled={isPresetSelected}
-                    >
-                        {gpuList.map((size, index) => (
-                            <MenuItem key={index} value={size}>
-                                {size}
-                            </MenuItem>
-                        ))}
-                    </Field>
+                    <>
+                        <Field
+                            id={buildID(baseId, ids.RESOURCE_REQUESTS.TOOL_GPU)}
+                            name={`requirements.${index}.max_gpus`}
+                            label={t("gpus")}
+                            component={FormSelectField}
+                            disabled={isPresetSelected || gpuLimitExceeded}
+                        >
+                            {effectiveGpuList.map((size, index) => (
+                                <MenuItem key={index} value={size}>
+                                    {size}
+                                </MenuItem>
+                            ))}
+                        </Field>
+                        {gpuLimitExceeded && (
+                            <FormHelperText error>
+                                {t("gpuLimitExceededResourceWarning")}
+                            </FormHelperText>
+                        )}
+                    </>
                 )}
                 {showGpuModelsSelector && (
                     <FastField
@@ -456,6 +468,7 @@ const ResourceRequirementsForm = ({
     limits,
     resourcePresets,
     maxTimeLimitSeconds,
+    gpuLimitExceeded,
 }) => {
     const { classes } = useStyles();
     const { t } = useTranslation("launch");
@@ -492,6 +505,7 @@ const ResourceRequirementsForm = ({
                             resourcePresets={resourcePresets}
                             maxTimeLimitSeconds={maxTimeLimitSeconds}
                             isVICE={isVICE}
+                            gpuLimitExceeded={gpuLimitExceeded}
                         />
                     ) : (
                         // For apps with more than 1 step,
@@ -541,6 +555,7 @@ const ResourceRequirementsForm = ({
                                                 maxTimeLimitSeconds
                                             }
                                             isVICE={isVICE}
+                                            gpuLimitExceeded={gpuLimitExceeded}
                                         />
                                     </AccordionDetails>
                                 </Accordion>

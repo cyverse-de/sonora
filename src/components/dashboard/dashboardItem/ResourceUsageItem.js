@@ -21,12 +21,14 @@ import DataConsumption from "./DataConsumption";
 import AnalysesStats from "./AnalysesStats";
 import LoginTable from "./LoginTable";
 import CPUConsumption from "./CPUConsumption";
+import GPUConsumption from "./GPUConsumption";
 import ExternalLink from "components/utils/ExternalLink";
 import ErrorTypographyWithDialog from "components/error/ErrorTypographyWithDialog";
 import { formatDateObject } from "components/utils/DateFormatter";
 
 import constants from "../../../constants";
 import { useConfig } from "contexts/config";
+import { getUserQuota } from "../../../common/resourceUsage";
 
 import { Skeleton } from "@mui/material";
 
@@ -50,7 +52,12 @@ export default function ResourceUsageItem(props) {
     const currentPlanName = subscription?.plan?.name;
     const dataUsage = resourceUsageSummary?.data_usage;
     const cpuUsage = resourceUsageSummary?.cpu_usage;
+    const gpuUsage = resourceUsageSummary?.gpu_usage;
     const usageSummaryErrors = resourceUsageSummary?.errors;
+    const gpuQuota = getUserQuota(
+        constants.GPU_HOURS_RESOURCE_NAME,
+        subscription
+    );
 
     return (
         <>
@@ -158,6 +165,25 @@ export default function ResourceUsageItem(props) {
                                 </Card>
                             </Grid>
                         )}
+
+                        {resourceUsageSummary &&
+                            (gpuUsage?.total > 0 || gpuQuota > 0) && (
+                                <Grid
+                                    size={{
+                                        xs: 12,
+                                        md: 6,
+                                    }}
+                                >
+                                    <Card>
+                                        <GPUConsumption
+                                            data={gpuUsage}
+                                            subscription={subscription}
+                                            isLoading={isLoading}
+                                            errors={usageSummaryErrors}
+                                        />
+                                    </Card>
+                                </Grid>
+                            )}
                         <Grid
                             size={{
                                 xs: 12,

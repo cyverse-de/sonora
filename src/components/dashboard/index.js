@@ -146,6 +146,7 @@ const Dashboard = (props) => {
         resourceUsageSummary,
         resourceUsageError,
         computeLimitExceeded,
+        gpuLimitExceeded,
     } = useResourceUsageSummary(showErrorAnnouncer);
 
     // State variables.
@@ -244,6 +245,7 @@ const Dashboard = (props) => {
                       setPendingAnalysis,
                       setTerminateAnalysis,
                       computeLimitExceeded,
+                      gpuLimitExceeded,
                   })
               )
         : [];

@@ -155,6 +155,7 @@ function Listing(props) {
     const {
         isFetchingUsageSummary,
         computeLimitExceeded,
+        gpuLimitExceeded,
         dataLimitExceeded,
         planCanShare,
     } = useResourceUsageSummary(
@@ -780,6 +781,7 @@ function Listing(props) {
                             instantLaunchDefaultsMapping
                         }
                         computeLimitExceeded={computeLimitExceeded}
+                        gpuLimitExceeded={gpuLimitExceeded}
                         planCanShare={planCanShare}
                         localContextsURIMap={localContextsURIMap}
                     />

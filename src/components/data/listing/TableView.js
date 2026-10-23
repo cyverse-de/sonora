@@ -63,6 +63,7 @@ function ResourceNameCell({
     resource,
     instantLaunch,
     computeLimitExceeded,
+    gpuLimitExceeded,
     handlePathChange,
     limitQueries,
     localContextsURIMap,
@@ -123,6 +124,7 @@ function ResourceNameCell({
                             marginLeft: theme.spacing(3),
                         }}
                         computeLimitExceeded={computeLimitExceeded}
+                        gpuLimitExceeded={gpuLimitExceeded}
                     />
                 )}
             </Stack>
@@ -241,6 +243,7 @@ function TableView(props) {
         onMoveSelected,
         instantLaunchDefaultsMapping,
         computeLimitExceeded,
+        gpuLimitExceeded,
         planCanShare,
         localContextsURIMap,
     } = props;
@@ -478,6 +481,7 @@ function TableView(props) {
                                             computeLimitExceeded={
                                                 computeLimitExceeded
                                             }
+                                            gpuLimitExceeded={gpuLimitExceeded}
                                             handlePathChange={handlePathChange}
                                             limitQueries={limitQueries}
                                             localContextsURIMap={

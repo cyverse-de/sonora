@@ -115,9 +115,6 @@ const options = (usage, quota, timestamp, title, theme, t) => {
                 },
             },
         },
-        y: {
-            stacked: false,
-        },
     };
 };
 

@@ -52,6 +52,7 @@ function useResourceUsageSummary(
 
     const dataUsage = resourceUsageSummary?.data_usage?.total || 0;
     const computeUsage = resourceUsageSummary?.cpu_usage?.total || 0;
+    const gpuUsage = resourceUsageSummary?.gpu_usage?.total || 0;
     const subscription = resourceUsageSummary?.subscription;
 
     const storageQuota = getUserQuota(
@@ -60,6 +61,12 @@ function useResourceUsageSummary(
     );
     const computeQuota = getUserQuota(
         constants.CPU_HOURS_RESOURCE_NAME,
+        subscription
+    );
+    // GPU quota returns 0 when no quota is set (no default fallback).
+    // A zero quota means unlimited — gpuLimitExceeded stays false.
+    const gpuQuota = getUserQuota(
+        constants.GPU_HOURS_RESOURCE_NAME,
         subscription
     );
 
@@ -77,6 +84,9 @@ function useResourceUsageSummary(
     const dataLimitExceeded = enforceSubscriptions && dataUsage >= storageQuota;
     const computeLimitExceeded =
         enforceSubscriptions && computeUsage >= computeQuota;
+    // GPU overage only applies when a quota has been set (gpuQuota > 0).
+    const gpuLimitExceeded =
+        enforceSubscriptions && gpuQuota > 0 && gpuUsage >= gpuQuota;
 
     const planCanShare =
         !enforceSubscriptions ||
@@ -90,12 +100,15 @@ function useResourceUsageSummary(
         planName,
         computeUsage,
         computeQuota,
+        gpuUsage,
+        gpuQuota,
         dataUsage,
         storageQuota,
         hasAddons,
         hasDataAddon,
         hasCPUAddon,
         computeLimitExceeded,
+        gpuLimitExceeded,
         dataLimitExceeded,
         planCanShare,
     };

@@ -98,6 +98,7 @@ function DrawerItems(props) {
         runningViceJobs,
         instantLaunches,
         computeLimitExceeded,
+        gpuLimitExceeded,
         dataUsagePercentage,
     } = props;
     const { t } = useTranslation(["common"]);
@@ -193,6 +194,7 @@ function DrawerItems(props) {
                     key={instantLaunch.id}
                     instantLaunch={instantLaunch}
                     computeLimitExceeded={computeLimitExceeded}
+                    gpuLimitExceeded={gpuLimitExceeded}
                     render={(onClick) => (
                         <DrawerItem
                             key={instantLaunch.id}

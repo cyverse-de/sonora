@@ -35,7 +35,7 @@ function Launch({ showErrorAnnouncer }) {
     const router = useRouter();
     const { systemId, appId } = router.query;
 
-    const { isFetchingUsageSummary, computeLimitExceeded } =
+    const { isFetchingUsageSummary, computeLimitExceeded, gpuLimitExceeded } =
         useResourceUsageSummary(showErrorAnnouncer);
 
     const launchId =
@@ -82,6 +82,7 @@ function Launch({ showErrorAnnouncer }) {
             runningJobs={runningJobs}
             pendingRequest={hasPendingRequest}
             computeLimitExceeded={computeLimitExceeded}
+            gpuLimitExceeded={gpuLimitExceeded}
         />
     );
 }

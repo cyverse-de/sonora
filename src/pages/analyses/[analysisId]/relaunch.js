@@ -35,7 +35,7 @@ const Relaunch = ({ showErrorAnnouncer }) => {
     const router = useRouter();
     const { analysisId } = router.query;
 
-    const { isFetchingUsageSummary, computeLimitExceeded } =
+    const { isFetchingUsageSummary, computeLimitExceeded, gpuLimitExceeded } =
         useResourceUsageSummary(showErrorAnnouncer);
 
     React.useEffect(() => {
@@ -79,6 +79,7 @@ const Relaunch = ({ showErrorAnnouncer }) => {
             runningJobs={runningJobs}
             pendingRequest={hasPendingRequest}
             computeLimitExceeded={computeLimitExceeded}
+            gpuLimitExceeded={gpuLimitExceeded}
         />
     );
 };

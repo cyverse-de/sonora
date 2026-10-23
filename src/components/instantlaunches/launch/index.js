@@ -34,7 +34,7 @@ const InstantLaunchStandalone = (props) => {
         () => getFullInstantLaunch(instant_launch_id)
     );
 
-    const { isFetchingUsageSummary, computeLimitExceeded } =
+    const { isFetchingUsageSummary, computeLimitExceeded, gpuLimitExceeded } =
         useResourceUsageSummary(showErrorAnnouncer);
 
     const { isFetching: isLoadingResource, error: resourceError } =
@@ -67,6 +67,7 @@ const InstantLaunchStandalone = (props) => {
                 instantLaunch={data}
                 resource={resource}
                 computeLimitExceeded={computeLimitExceeded}
+                gpuLimitExceeded={gpuLimitExceeded}
                 autolaunch={true}
             />
         );

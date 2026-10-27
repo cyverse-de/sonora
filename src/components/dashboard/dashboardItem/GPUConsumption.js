@@ -205,18 +205,16 @@ export default function GPUConsumption(props) {
     }
 
     return (
-        <>
-            <Bar
-                options={options(
-                    usage,
-                    quota,
-                    formatDateObject(new Date(data?.last_modified)),
-                    t("gpuConsumption"),
-                    theme,
-                    t
-                )}
-                data={getFormattedData(usage, quota, theme, t)}
-            />
-        </>
+        <Bar
+            options={options(
+                usage,
+                quota,
+                formatDateObject(new Date(data?.last_modified)),
+                t("gpuConsumption"),
+                theme,
+                t
+            )}
+            data={getFormattedData(usage, quota, theme, t)}
+        />
     );
 }

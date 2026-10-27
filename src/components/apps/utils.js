@@ -292,6 +292,15 @@ export const appUnavailable = (
     );
 };
 
+/**
+ * Returns true if the app has at least one step that requires GPUs
+ * (min_gpus > 0).
+ *
+ * @param {Object} app
+ */
+export const appRequiresGpu = (app) =>
+    app?.requirements?.some((req) => req.min_gpus > 0);
+
 export const getAppTypeDisplay = (app) => {
     if (app?.system_id?.toLowerCase() === SystemIds.tapis.toLowerCase()) {
         return AppType.tapis.display;

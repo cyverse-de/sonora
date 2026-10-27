@@ -52,7 +52,7 @@ function Listing(props) {
             })
     );
 
-    const { isFetchingUsageSummary, computeLimitExceeded } =
+    const { isFetchingUsageSummary, computeLimitExceeded, gpuLimitExceeded } =
         useResourceUsageSummary(showErrorAnnouncer);
 
     const columns = useMemo(() => {
@@ -67,6 +67,7 @@ function Listing(props) {
                         <InstantLaunchButtonWrapper
                             instantLaunch={instantLaunch}
                             computeLimitExceeded={computeLimitExceeded}
+                            gpuLimitExceeded={gpuLimitExceeded}
                             render={(onClick) => (
                                 <DELink
                                     onClick={onClick}
@@ -114,7 +115,7 @@ function Listing(props) {
                 },
             },
         ];
-    }, [baseId, t, computeLimitExceeded]);
+    }, [baseId, t, computeLimitExceeded, gpuLimitExceeded]);
 
     const isLoading = isQueryLoading([isFetching, isFetchingUsageSummary]);
 

@@ -128,6 +128,7 @@ function DEAppBar(props) {
         dataUsage,
         storageQuota,
         computeLimitExceeded,
+        gpuLimitExceeded,
     } = useResourceUsageSummary(showErrorAnnouncer);
     const userSubscription = resourceUsageSummary?.subscription;
     const dataUsagePercentage = formatUsagePercentage(dataUsage, storageQuota);
@@ -507,6 +508,7 @@ function DEAppBar(props) {
                     runningViceJobs={runningViceJobs}
                     instantLaunches={instantLaunches}
                     computeLimitExceeded={computeLimitExceeded}
+                    gpuLimitExceeded={gpuLimitExceeded}
                     dataUsagePercentage={dataUsagePercentage}
                 />
             </Drawer>

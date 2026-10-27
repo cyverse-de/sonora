@@ -42,6 +42,7 @@ function InstantLaunchButtonWrapper(props) {
     const {
         instantLaunch,
         computeLimitExceeded,
+        gpuLimitExceeded,
         resource = {},
         render,
         showErrorAnnouncer,
@@ -164,13 +165,18 @@ function InstantLaunchButtonWrapper(props) {
         if (userId) {
             if (computeLimitExceeded) {
                 showErrorAnnouncer(t("computeLimitExceededMsg"));
+                // TODO: This blanket-blocks all instant launches when GPU quota is exceeded,
+                // regardless of whether the app uses GPUs. App requirements are not available
+                // at click time. Revisit when GPU quotas are enforced.
+            } else if (gpuLimitExceeded) {
+                showErrorAnnouncer(t("gpuLimitExceededMsg"));
             } else {
                 setOpen(true);
             }
         } else {
             setSignInDlgOpen(true);
         }
-    }, [computeLimitExceeded, showErrorAnnouncer, t, userId]);
+    }, [computeLimitExceeded, gpuLimitExceeded, showErrorAnnouncer, t, userId]);
 
     useEffect(() => {
         if (autolaunch && !hasLaunched) {

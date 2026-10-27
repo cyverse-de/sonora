@@ -163,6 +163,7 @@ const AppLaunchForm = (props) => {
         createSavedLaunch,
         submitAnalysis,
         resourcePresets = [],
+        gpuLimitExceeded,
         app: {
             id: app_id,
             version_id,
@@ -453,6 +454,7 @@ const AppLaunchForm = (props) => {
                                             maxTimeLimitSeconds={
                                                 max_time_limit_seconds
                                             }
+                                            gpuLimitExceeded={gpuLimitExceeded}
                                         />
                                     )
                                 ) : activeStepInfo === stepReviewAndLaunch ? (

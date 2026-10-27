@@ -32,7 +32,7 @@ import { Info, MenuBook } from "@mui/icons-material";
 
 import { Skeleton } from "@mui/material";
 
-import { appUnavailable } from "../utils";
+import { appUnavailable, appRequiresGpu } from "../utils";
 
 import { useConfig } from "contexts/config";
 import ExternalLink from "components/utils/ExternalLink";
@@ -65,6 +65,7 @@ const UnavailableMsg = ({
     app,
     hasDeprecatedParams,
     computeLimitExceeded,
+    gpuLimitExceeded,
     baseId,
 }) => {
     let message = "";
@@ -121,6 +122,20 @@ const UnavailableMsg = ({
                 }}
             />
         );
+    } else if (gpuLimitExceeded) {
+        message = (
+            <Trans
+                t={t}
+                i18nKey="gpuLimitExceeded"
+                components={{
+                    buy: (
+                        <ExternalLink
+                            href={config?.subscriptions?.checkout_url}
+                        />
+                    ),
+                }}
+            />
+        );
     }
 
     return (
@@ -136,6 +151,7 @@ const AppInfo = (props) => {
         baseId,
         hasDeprecatedParams,
         computeLimitExceeded,
+        gpuLimitExceeded,
         loading,
         loadingError,
     } = props;
@@ -245,6 +261,19 @@ const AppInfo = (props) => {
                         baseId={baseId}
                     />
                 )}
+                {gpuLimitExceeded &&
+                    appRequiresGpu(app) &&
+                    !appUnavailable(
+                        app,
+                        hasDeprecatedParams,
+                        computeLimitExceeded
+                    ) && (
+                        <UnavailableMsg
+                            app={app}
+                            gpuLimitExceeded={gpuLimitExceeded}
+                            baseId={baseId}
+                        />
+                    )}
             </Box>
             <DetailsDrawer
                 appId={app?.id}

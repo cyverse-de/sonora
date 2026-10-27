@@ -14,12 +14,19 @@ import { DeprecatedParamTypes } from "components/models/AppParamTypes";
 
 import { Divider, Paper } from "@mui/material";
 
-import { appUnavailable } from "../utils";
+import { appUnavailable, appRequiresGpu } from "../utils";
 
 const deprecatedParamTypes = Object.values(DeprecatedParamTypes);
 
 function AppLaunchWizard(props) {
-    const { baseId, app, appError, loading, computeLimitExceeded } = props;
+    const {
+        baseId,
+        app,
+        appError,
+        loading,
+        computeLimitExceeded,
+        gpuLimitExceeded,
+    } = props;
 
     const hasDeprecatedParams = app?.groups?.find((group) =>
         group.parameters?.find((param) =>
@@ -36,6 +43,7 @@ function AppLaunchWizard(props) {
                 app={app}
                 hasDeprecatedParams={hasDeprecatedParams}
                 computeLimitExceeded={computeLimitExceeded}
+                gpuLimitExceeded={gpuLimitExceeded}
             />
             <Divider />
             {loading ? (
@@ -46,7 +54,10 @@ function AppLaunchWizard(props) {
                     app,
                     hasDeprecatedParams,
                     computeLimitExceeded
-                ) && <AppLaunchForm {...props} />
+                ) &&
+                !(gpuLimitExceeded && appRequiresGpu(app)) && (
+                    <AppLaunchForm {...props} />
+                )
             )}
         </Paper>
     );

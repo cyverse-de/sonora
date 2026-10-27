@@ -109,6 +109,7 @@ const InstantLaunchButton = ({
     style,
     color = "primary",
     computeLimitExceeded = false,
+    gpuLimitExceeded = false,
 }) => {
     const baseID = buildID(ids.BASE, ids.LAUNCH, ids.BUTTON);
 
@@ -117,6 +118,7 @@ const InstantLaunchButton = ({
             instantLaunch={instantLaunch}
             resource={resource}
             computeLimitExceeded={computeLimitExceeded}
+            gpuLimitExceeded={gpuLimitExceeded}
             render={(onClick) => (
                 <IconButton
                     id={baseID}

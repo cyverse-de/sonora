@@ -36,6 +36,7 @@ import { formatUsagePercentage } from "components/subscriptions/utils";
 import ExternalLink from "components/utils/ExternalLink";
 
 import { getUserQuota } from "../../../common/resourceUsage";
+import { getConsumptionDataLabels } from "./consumptionLabels";
 
 ChartJS.register(
     CategoryScale,
@@ -90,20 +91,11 @@ const options = (usage, quota, date, distance, title, theme, t) => {
                 xAlign: "right",
                 yAlign: "top",
             },
-            datalabels: {
-                display: () => (100 * usage) / quota > 20, //if usage > 20% of quota, show data labels
-                backgroundColor: function (context) {
-                    return context.dataset.backgroundColor;
-                },
-                borderRadius: 4,
-                color: theme.palette.primary.contrastText,
-                font: {
-                    weight: "bold",
-                },
-                formatter: (value) =>
+            datalabels: getConsumptionDataLabels(
+                (value) =>
                     `${formatFileSize(value)} of ${formatFileSize(quota)} used`,
-                padding: 1,
-            },
+                theme
+            ),
         },
         responsive: false,
         scales: {

@@ -27,6 +27,7 @@ import { formatDateObject } from "components/utils/DateFormatter";
 import { formatUsagePercentage } from "components/subscriptions/utils";
 
 import { getUserQuota } from "../../../common/resourceUsage";
+import { getConsumptionDataLabels } from "./consumptionLabels";
 
 ChartJS.register(
     CategoryScale,
@@ -106,23 +107,13 @@ const options = (usage, quota, timestamp, title, theme, t) => {
                 xAlign: "right",
                 yAlign: "top",
             },
-            datalabels: {
-                display: () =>
-                    quota === 0 ? true : (100 * usage) / quota > 20,
-                backgroundColor: function (context) {
-                    return context.dataset.backgroundColor;
-                },
-                borderRadius: 4,
-                color: theme.palette.primary.contrastText,
-                font: {
-                    weight: "bold",
-                },
-                formatter: (value) =>
+            datalabels: getConsumptionDataLabels(
+                (value) =>
                     quota === 0
                         ? `${t("gpuHoursUsedNoQuota", { value })}`
                         : `${t("gpuHoursUsed", { value, quota })}`,
-                padding: 1,
-            },
+                theme
+            ),
         },
         responsive: false,
         scales: {

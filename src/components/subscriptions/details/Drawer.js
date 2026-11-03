@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "i18n";
+import getConfig from "next/config";
 
 import {
     Box,
@@ -292,7 +293,10 @@ function SubscriptionDrawer(props) {
 function SubscriptionHeader(props) {
     const { portalId, username } = props;
     const { classes } = useStyles();
-    const baseURL = constants.DEFAULT_USER_PORTAL_URL;
+    const { publicRuntimeConfig = {} } = getConfig() || {};
+    const baseURL =
+        publicRuntimeConfig.USER_PORTAL_URL ||
+        constants.DEFAULT_USER_PORTAL_URL;
     const subURL = navigationConstants.ADMIN_USER_PORTAL_USERS;
     const linkToUserPortal = `${baseURL}${subURL}/${portalId}`;
     return (

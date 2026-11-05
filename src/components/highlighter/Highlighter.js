@@ -13,6 +13,7 @@ function Highlighter(props) {
     let { search, children } = props;
     return search ? (
         <Highlight
+            autoEscape
             highlightStyle={{
                 background: "#FF0",
             }}

@@ -4,7 +4,7 @@
  *
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { appWithTranslation, useTranslation } from "i18n";
 import "./styles.css";
@@ -97,8 +97,8 @@ function MyApp({ Component, pageProps }) {
 
     const { title } = pageProps;
 
-    useReportWebVitals((metric) => {
-        if (!config?.analytics?.enabled || !window.gtag) return;
+    const reportWebVitals = useCallback((metric) => {
+        if (!window.gtag) return;
 
         window.gtag("event", metric.name, {
             event_category:
@@ -111,15 +111,17 @@ function MyApp({ Component, pageProps }) {
             event_label: metric.id,
             non_interaction: true,
         });
-    });
+    }, []);
+
+    useReportWebVitals(reportWebVitals);
 
     useEffect(() => {
         if (!config?.analytics?.id) return;
 
-        const handleRouteChange = (url) => {
+        const handleRouteChange = () => {
             if (window.gtag) {
                 window.gtag("event", "page_view", {
-                    page_path: url,
+                    page_location: window.location.href,
                 });
             }
         };
@@ -133,7 +135,11 @@ function MyApp({ Component, pageProps }) {
         let cancelled = false;
 
         fetch("/api/config")
-            .then((res) => res.json())
+            .then((res) => {
+                if (!res.ok)
+                    throw new Error(`Config fetch failed: ${res.status}`);
+                return res.json();
+            })
             .then((data) => {
                 if (cancelled) return;
 
@@ -169,8 +175,13 @@ function MyApp({ Component, pageProps }) {
                     window.gtag = gtag;
                     gtag("js", new Date());
                     gtag("config", analyticsId, {
-                        page_path: window.location.pathname,
+                        page_location: window.location.href,
                     });
+                }
+            })
+            .catch((err) => {
+                if (!cancelled) {
+                    console.error("Failed to load app configuration:", err);
                 }
             });
 

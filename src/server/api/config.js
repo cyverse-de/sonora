@@ -115,7 +115,12 @@ function getPublicConfig() {
 }
 
 router.get("/config", (req, res) => {
-    res.json(getPublicConfig());
+    try {
+        res.json(getPublicConfig());
+    } catch (err) {
+        console.error("Failed to build client config:", err);
+        res.status(500).json({ error: "Failed to load configuration" });
+    }
 });
 
 export default router;

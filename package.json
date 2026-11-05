@@ -40,41 +40,6 @@
         "ext": "js",
         "exec": "run-p dev-server"
     },
-    "eslintConfig": {
-        "extends": [
-            "eslint-config-next",
-            "plugin:jsx-a11y/recommended",
-            "plugin:storybook/recommended"
-        ],
-        "rules": {
-            "@next/next/no-img-element": "off"
-        },
-        "overrides": [
-            {
-                "files": [
-                    "./stories/**/*.stories.js"
-                ],
-                "rules": {
-                    "import/no-anonymous-default-export": [
-                        "warn",
-                        {
-                            "allowArray": false,
-                            "allowArrowFunction": false,
-                            "allowAnonymousClass": false,
-                            "allowAnonymousFunction": false,
-                            "allowCallExpression": true,
-                            "allowNew": false,
-                            "allowLiteral": false,
-                            "allowObject": true
-                        }
-                    ]
-                }
-            }
-        ],
-        "plugins": [
-            "jsx-a11y"
-        ]
-    },
     "dependencies": {
         "@codemirror/lang-markdown": "^6.0.5",
         "@codemirror/lang-python": "^6.1.1",

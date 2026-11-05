@@ -1,10 +1,12 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import storybook from "eslint-plugin-storybook";
+import jsxA11y from "eslint-plugin-jsx-a11y";
 
 import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
 
 const eslintConfig = [
     ...nextCoreWebVitals,
+    { rules: { ...jsxA11y.flatConfigs.recommended.rules } },
     {
         ignores: [
             "node_modules/**",

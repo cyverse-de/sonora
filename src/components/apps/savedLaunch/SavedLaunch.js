@@ -19,7 +19,6 @@ const styles1 = (theme) => ({
 const SavedLaunch = React.forwardRef(function SavedLaunch(
     {
         id,
-        clickable = true,
         handleClick,
         handleDelete,
         isDefault,
@@ -51,7 +50,6 @@ const SavedLaunch = React.forwardRef(function SavedLaunch(
 
 SavedLaunch.propTypes = {
     id: PropTypes.string.isRequired,
-    clickable: PropTypes.bool,
     label: PropTypes.string.isRequired,
     handleDelete: PropTypes.func,
     handleClick: PropTypes.func,

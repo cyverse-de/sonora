@@ -1,8 +1,5 @@
-/**
- * @jest-environment jsdom
- */
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { EmotionCacheProvider } from "__mocks__/EmotionCacheProvider";
@@ -49,64 +46,64 @@ const TestProviderWrapper = ({ children }) => (
 );
 
 test("Subscription listing renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <SubscriptionListingTest />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("Subscription listing renders without subscriptions", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <EmptySubscriptionListingTest />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("Errored subscription listing renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <ErroredListingTest />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("Details drawer renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <DetailsDrawerTest />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("Edit subscription dialog renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <EditSubscriptionTest />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("Edit quotas dialog renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <EditQuotasTest />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("Edit subscription add-on dialog renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <EditAddonTest />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });

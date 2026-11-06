@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import UUID from "uuid/v4";
 
 import {
@@ -18,9 +18,7 @@ export default {
 const TestDispatch = () => {
     const dispatch = useUploadTrackingDispatch();
 
-    const [hasRun, setHasRun] = useState(false);
-
-    if (!hasRun) {
+    useEffect(() => {
         dispatch(
             addAction({
                 id: UUID(),
@@ -75,9 +73,7 @@ const TestDispatch = () => {
                 },
             })
         );
-
-        setHasRun(true);
-    }
+    }, [dispatch]);
 
     return <></>;
 };

@@ -1,31 +1,36 @@
 import React from "react";
-import { Highlight } from "react-highlighter-ts";
+import Highlight from "react-highlight-words";
 import PropTypes from "prop-types";
-import { withStyles } from "tss-react/mui";
-
 /**
- * @author aramsey
+ * @author aramsey, psarando
  * A function which will take a search term and some text,
- * and highlight the search term within the text
+ * and highlight the search term within the text.
+ *
+ * Note that children is expected to be a string, and not a React component.
  */
 
-const styles = (theme) => ({
-    highlightColor: {
-        background: "#FF0",
-    },
-});
 function Highlighter(props) {
-    let { search, children, classes } = props;
-    return (
-        <Highlight matchClass={classes.highlightColor} search={search}>
-            {children}
-        </Highlight>
+    let { search, children } = props;
+    return search ? (
+        <Highlight
+            autoEscape
+            highlightStyle={{
+                background: "#FF0",
+            }}
+            searchWords={[search]}
+            textToHighlight={children}
+        />
+    ) : (
+        children
     );
 }
 
 Highlighter.propTypes = {
-    search: PropTypes.any.isRequired,
-    children: PropTypes.any.isRequired,
+    search: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.instanceOf(RegExp),
+    ]),
+    children: PropTypes.string,
 };
 
-export default withStyles(Highlighter, styles);
+export default Highlighter;

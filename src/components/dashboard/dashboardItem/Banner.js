@@ -115,6 +115,7 @@ export default function Banner(props) {
                                 style={{
                                     margin: theme.spacing(0.4),
                                 }}
+                                // eslint-disable-next-line react-hooks/refs -- MUI ExternalLink href requires ref value
                                 href={userPortalURLRef.current}
                             >
                                 {t("signUp")} |

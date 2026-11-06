@@ -26,6 +26,7 @@ import { BagInfoProvider, useBagInfo } from "../src/contexts/bagInfo";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 
+import { definePreview } from "@storybook/nextjs";
 import { spyOn } from "storybook/test";
 
 function MockUserProfile() {
@@ -72,41 +73,44 @@ const queryClient = new QueryClient({
     },
 });
 
-// Log console output to the Actions panel (replaces @storybook/addon-console).
-export const beforeEach = () => {
-    spyOn(console, "log").mockName("console.log");
-    spyOn(console, "warn").mockName("console.warn");
-    spyOn(console, "error").mockName("console.error");
-};
+export default definePreview({
+    // Log console output to the Actions panel (replaces @storybook/addon-console).
+    async beforeEach() {
+        spyOn(console, "log").mockName("console.log");
+        spyOn(console, "warn").mockName("console.warn");
+        spyOn(console, "error").mockName("console.error");
+    },
 
-export const decorators = [
-    (Story) => (
-        <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={theme}>
-                <ConfigProvider>
-                    <MockConfig />
-                    <UserProfileProvider>
-                        <QueryClientProvider client={queryClient}>
-                            <MockUserProfile />
-                            <BootstrapInfoProvider>
-                                <MockBootstrapInfo />
+    decorators: [
+        (Story) => (
+            <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={theme}>
+                    <ConfigProvider>
+                        <MockConfig />
+                        <UserProfileProvider>
+                            <QueryClientProvider client={queryClient}>
+                                <MockUserProfile />
+                                <BootstrapInfoProvider>
+                                    <MockBootstrapInfo />
 
-                                <I18nProviderWrapper>
-                                    <BagInfoProvider>
-                                        <MockBagInfo />
-                                        <Story />
-                                    </BagInfoProvider>
-                                </I18nProviderWrapper>
+                                    <I18nProviderWrapper>
+                                        <BagInfoProvider>
+                                            <MockBagInfo />
+                                            <Story />
+                                        </BagInfoProvider>
+                                    </I18nProviderWrapper>
 
-                                <CyVerseAnnouncer />
-                            </BootstrapInfoProvider>
-                        </QueryClientProvider>
-                    </UserProfileProvider>
-                </ConfigProvider>
-            </ThemeProvider>
-        </StyledEngineProvider>
-    ),
-];
-export const parameters = {
-    chromatic: { delay: AXIOS_DELAY + 500 },
-};
+                                    <CyVerseAnnouncer />
+                                </BootstrapInfoProvider>
+                            </QueryClientProvider>
+                        </UserProfileProvider>
+                    </ConfigProvider>
+                </ThemeProvider>
+            </StyledEngineProvider>
+        ),
+    ],
+
+    parameters: {
+        chromatic: { delay: AXIOS_DELAY + 500 },
+    },
+});

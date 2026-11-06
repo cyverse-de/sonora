@@ -228,10 +228,12 @@ function SelectionToolbar(props) {
                     </Typography>
                 )}
                 <div className={classes.divider} />
+                {/* eslint-disable-next-line react-hooks/static-components -- Buttons is a stable local component */}
                 {!isMobile && <Buttons />}
             </Toolbar>
             {isMobile && (
                 <Toolbar>
+                    {/* eslint-disable-next-line react-hooks/static-components -- Buttons is a stable local component */}
                     <Buttons />
                 </Toolbar>
             )}

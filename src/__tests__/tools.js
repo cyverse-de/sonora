@@ -1,5 +1,5 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 
@@ -33,28 +33,28 @@ const TestProviderWrapper = ({ children }) => (
 );
 
 test("Tool Table View renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <ToolListingTest />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("Tool Table View renders without tools", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <EmptyToolListingTest />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("Errored Tool Listing renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <ErroredListingTest />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });

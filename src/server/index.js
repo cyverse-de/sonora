@@ -3,6 +3,7 @@ import next from "next";
 
 import analysesRouter from "./api/analyses";
 import appsRouter from "./api/apps";
+import clientConfigRouter from "./api/config";
 import bagsRouter from "./api/bags";
 import dashboardRouter from "./api/dashboard";
 import dataRouter from "./api/data";
@@ -42,6 +43,7 @@ import {
 
 export const app = next({
     dev: config.isDevelopment,
+    webpack: true,
 });
 const nextHandler = app.getRequestHandler();
 
@@ -131,6 +133,7 @@ app.prepare()
         // Mount a custom body request timeout handler for all routes.
         server.use(bodyTimeout(config.requestTimeoutDefault));
 
+        server.use("/api", clientConfigRouter);
         server.use("/api", appsRouter());
         server.use("/api", analysesRouter());
         server.use("/api", bagsRouter());

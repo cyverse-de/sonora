@@ -4,12 +4,10 @@
  *
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { appWithTranslation, useTranslation } from "i18n";
 import "./styles.css";
-
-import * as gtag from "../gtag";
 
 import DEAppBar from "components/layout/AppBar";
 import NavigationConstants from "common/NavigationConstants";
@@ -30,7 +28,7 @@ import constants from "../constants";
 
 import Head from "next/head";
 import { useRouter } from "next/router";
-import getConfig from "next/config";
+import { useReportWebVitals } from "next/web-vitals";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -78,35 +76,8 @@ const setupIntercom = (intercomAppId) => {
     }
 };
 
-// will be automatically called by nextjs
-// https://nextjs.org/docs/advanced-features/measuring-performance
-export function reportWebVitals({ id, name, label, value }) {
-    const { publicRuntimeConfig = {} } = getConfig() || {};
-    const analyticsEnabled = publicRuntimeConfig.ANALYTICS_ENABLED;
-    if (analyticsEnabled && window.gtag) {
-        console.log(
-            "Logging event id=>" +
-                id +
-                " name=>" +
-                name +
-                " label" +
-                label +
-                " value=>" +
-                value
-        );
-        window.gtag("event", name, {
-            event_category:
-                label === "web-vital" ? "Web Vitals" : "Next.js custom metric",
-            value: Math.round(name === "CLS" ? value * 1000 : value), // values must be integers
-            event_label: id, // id unique to current page load
-            non_interaction: true, // avoids affecting bounce rate.
-        });
-    }
-}
-
 function MyApp({ Component, pageProps }) {
     const { t } = useTranslation("common");
-    const { publicRuntimeConfig = {} } = getConfig() || {};
 
     const [appBarHeight, setAppBarRef] = useComponentHeight();
     const router = useRouter();
@@ -126,140 +97,98 @@ function MyApp({ Component, pageProps }) {
 
     const { title } = pageProps;
 
+    const reportWebVitals = useCallback((metric) => {
+        if (!window.gtag) return;
+
+        window.gtag("event", metric.name, {
+            event_category:
+                metric.label === "web-vital"
+                    ? "Web Vitals"
+                    : "Next.js custom metric",
+            value: Math.round(
+                metric.name === "CLS" ? metric.value * 1000 : metric.value
+            ),
+            event_label: metric.id,
+            non_interaction: true,
+        });
+    }, []);
+
+    useReportWebVitals(reportWebVitals);
+
     useEffect(() => {
-        const analytics_id = publicRuntimeConfig.ANALYTICS_ID;
-        const handleRouteChange = (url) => {
-            gtag.pageview(analytics_id, url);
+        if (!config?.analytics?.id) return;
+
+        const handleRouteChange = () => {
+            if (window.gtag) {
+                window.gtag("event", "page_view", {
+                    page_location: window.location.href,
+                });
+            }
         };
         router.events.on("routeChangeComplete", handleRouteChange);
         return () => {
             router.events.off("routeChangeComplete", handleRouteChange);
         };
-    }, [publicRuntimeConfig.ANALYTICS_ID, router.events]);
+    }, [config?.analytics?.id, router.events]);
 
-    React.useEffect(() => {
-        const intercom = {
-            appId: publicRuntimeConfig.INTERCOM_APP_ID,
-            enabled: publicRuntimeConfig.INTERCOM_ENABLED,
-            companyId: publicRuntimeConfig.INTERCOM_COMPANY_ID,
-            companyName: publicRuntimeConfig.INTERCOM_COMPANY_NAME,
-            userProfileUrl: publicRuntimeConfig.INTERCOM_USER_PROFILE_URL,
-        };
-        const admin = {
-            groups: publicRuntimeConfig.ADMIN_GROUPS,
-            group_attribute_name: publicRuntimeConfig.ADMIN_GROUP_ATTRIBUTE,
-        };
-        const analysis = {
-            supportUser: {
-                id: publicRuntimeConfig.ANALYSIS_SUPPORT_USER,
-                source_id: publicRuntimeConfig.ANALYSIS_SUPPORT_SOURCE_ID,
-            },
-        };
-        const irods = {
-            home_path: publicRuntimeConfig.IRODS_HOME_PATH,
-            trash_path: publicRuntimeConfig.IRODS_TRASH_PATH,
-            community_path: publicRuntimeConfig.IRODS_COMMUNITY_PATH,
-        };
-        const sessions = {
-            poll_interval_ms: publicRuntimeConfig.SESSION_POLL_INTERVAL_MS,
-        };
-        const tools = {
-            default_selected_max_cpus:
-                publicRuntimeConfig.TOOLS_DEFAULT_SELECTED_MAX_CPUS,
-            admin: {
-                max_cpu_limit: publicRuntimeConfig.TOOLS_ADMIN_MAX_CPU_LIMIT,
-                max_memory_limit:
-                    publicRuntimeConfig.TOOLS_ADMIN_MAX_MEMORY_LIMIT,
-                max_disk_limit: publicRuntimeConfig.TOOLS_ADMIN_MAX_DISK_LIMIT,
-                max_gpu_limit: publicRuntimeConfig.TOOLS_ADMIN_MAX_GPU_LIMIT,
-            },
-            private: {
-                max_cpu_limit: publicRuntimeConfig.TOOLS_PRIVATE_MAX_CPU_LIMIT,
-                max_memory_limit:
-                    publicRuntimeConfig.TOOLS_PRIVATE_MAX_MEMORY_LIMIT,
-                max_disk_limit:
-                    publicRuntimeConfig.TOOLS_PRIVATE_MAX_DISK_LIMIT,
-                max_gpu_limit: publicRuntimeConfig.TOOLS_PRIVATE_MAX_GPU_LIMIT,
-            },
-        };
-        const fileIdentifiers = {
-            htPathList: publicRuntimeConfig.HT_PATH_LIST_IDENTIFIER,
-            multiInputPathList:
-                publicRuntimeConfig.MULTI_INPUT_PATH_LIST_IDENTIFIER,
-        };
+    useEffect(() => {
+        let cancelled = false;
 
-        const vice = {
-            defaultImage: publicRuntimeConfig.VICE_DEFAULT_IMAGE,
-            defaultName: publicRuntimeConfig.VICE_DEFAULT_NAME,
-            defaultCasUrl: publicRuntimeConfig.VICE_DEFAULT_CAS_URL,
-            defaultCasValidate: publicRuntimeConfig.VICE_DEFAULT_CAS_VALIDATE,
-            concurrentJobs: publicRuntimeConfig.VICE_CONCURRENT_JOBS,
-            useCaseMinChars: publicRuntimeConfig.VICE_USE_CASE_MIN_CHARS,
-            initContainerName: publicRuntimeConfig.VICE_INIT_CONTAINER_NAME,
-            inputFilesContainerName:
-                publicRuntimeConfig.VICE_INPUT_FILES_CONTAINER_NAME,
-            viceProxyContainerName:
-                publicRuntimeConfig.VICE_VICE_PROXY_CONTAINER_NAME,
-            analysisContainerName:
-                publicRuntimeConfig.VICE_ANALYSIS_CONTAINER_NAME,
-            deploymentTimeoutMs: publicRuntimeConfig.VICE_DEPLOYMENT_TIMEOUT_MS,
-        };
+        fetch("/api/config")
+            .then((res) => {
+                if (!res.ok)
+                    throw new Error(`Config fetch failed: ${res.status}`);
+                return res.json();
+            })
+            .then((data) => {
+                if (cancelled) return;
 
-        const grouper = {
-            allUsers: publicRuntimeConfig.GROUPER_ALL_USERS,
-            admin: publicRuntimeConfig.GROUPER_ADMIN,
-        };
+                setConfig(data);
 
-        const subscriptions = {
-            checkout_url: publicRuntimeConfig.SUBSCRIPTIONS_CHECKOUT_URL,
-            enforce: publicRuntimeConfig.SUBSCRIPTIONS_ENFORCE,
-        };
-
-        const usernameSuffix = publicRuntimeConfig.USERNAME_SUFFIX;
-        const userPortalURL = publicRuntimeConfig.USER_PORTAL_URL;
-        const supportEmail = publicRuntimeConfig.SUPPORT_EMAIL;
-        const deFaq = publicRuntimeConfig.DE_FAQ;
-        const cyverseURL = publicRuntimeConfig.CYVERSE_URL;
-        const elasticEnabled = publicRuntimeConfig.ELASTIC_ENABLED;
-        const queriesConcurrencyLimit =
-            publicRuntimeConfig.QUERIES_CONCURRENCY_LIMIT;
-
-        setConfig({
-            intercom,
-            admin,
-            analysis,
-            irods,
-            sessions,
-            tools,
-            fileIdentifiers,
-            vice,
-            grouper,
-            subscriptions,
-            usernameSuffix,
-            userPortalURL,
-            supportEmail,
-            deFaq,
-            cyverseURL,
-            elasticEnabled,
-            queriesConcurrencyLimit,
-        });
-
-        const jssStyles = document.querySelector("#jss-server-side");
-        if (jssStyles) {
-            jssStyles.parentElement.removeChild(jssStyles);
-        }
-        if (intercom.enabled) {
-            setupIntercom(intercom.appId);
-            if (window.Intercom) {
-                window.Intercom(
-                    "onUnreadCountChange",
-                    function (newUnreadCount) {
-                        setUnReadCount(newUnreadCount);
+                const jssStyles = document.querySelector("#jss-server-side");
+                if (jssStyles) {
+                    jssStyles.parentElement.removeChild(jssStyles);
+                }
+                if (data.intercom?.enabled) {
+                    setupIntercom(data.intercom.appId);
+                    if (window.Intercom) {
+                        window.Intercom(
+                            "onUnreadCountChange",
+                            function (newUnreadCount) {
+                                setUnReadCount(newUnreadCount);
+                            }
+                        );
                     }
-                );
-            }
-        }
-    }, [publicRuntimeConfig]);
+                }
+
+                if (data.analytics?.enabled && data.analytics?.id) {
+                    const analyticsId = data.analytics.id;
+                    const script = document.createElement("script");
+                    script.async = true;
+                    script.src = `https://www.googletagmanager.com/gtag/js?id=${analyticsId}`;
+                    document.head.appendChild(script);
+
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag() {
+                        window.dataLayer.push(arguments);
+                    }
+                    window.gtag = gtag;
+                    gtag("js", new Date());
+                    gtag("config", analyticsId, {
+                        page_location: window.location.href,
+                    });
+                }
+            })
+            .catch((err) => {
+                if (!cancelled) {
+                    console.error("Failed to load app configuration:", err);
+                }
+            });
+
+        return () => {
+            cancelled = true;
+        };
+    }, []);
 
     return (
         <StyledEngineProvider injectFirst>

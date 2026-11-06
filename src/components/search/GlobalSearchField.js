@@ -206,9 +206,11 @@ const SearchOption = (props) => {
     });
 
     return onOptionSelected ? (
+        // eslint-disable-next-line react-hooks/static-components -- OptionLink is a stable local component
         <OptionLink />
     ) : (
         <Link href={href} as={as} passHref legacyBehavior>
+            {/* eslint-disable-next-line react-hooks/static-components -- OptionLink is a stable local component */}
             <OptionLink />
         </Link>
     );

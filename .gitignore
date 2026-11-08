@@ -139,3 +139,13 @@ public/locales*
 
 # skaffold build output
 build.json
+
+# --- Claude Code local settings & MCP configs (may contain secrets) ---
+# See the claude-project-template repo ("Claude Project Gitignore").
+.claude/settings.local.json
+.claude/*.local.json
+.claude/*.local.md
+CLAUDE.local.md
+.mcp.json
+.claude/mcp.json
+/claude_desktop_config.json

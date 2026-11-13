@@ -4,9 +4,7 @@
 import React from "react";
 
 import { useRouter } from "next/router";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
-import { RequiredNamespaces } from "i18n";
+import { commonServerSideProps } from "common/getServerSideProps";
 
 import OAuthCodeHandler from "components/oauth/OAuthCodeHandler";
 import OAuthErrorHandler from "components/oauth/OAuthErrorHandler";
@@ -56,10 +54,7 @@ function OAuthCallbackHandler() {
 export async function getServerSideProps({ locale }) {
     return {
         props: {
-            ...(await serverSideTranslations(locale, [
-                "oauth",
-                ...RequiredNamespaces,
-            ])),
+            ...(await commonServerSideProps(locale, ["oauth"])),
         },
     };
 }

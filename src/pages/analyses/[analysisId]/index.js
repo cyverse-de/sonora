@@ -7,9 +7,9 @@
 import React from "react";
 
 import { useRouter } from "next/router";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { commonServerSideProps } from "common/getServerSideProps";
 
-import { i18n, RequiredNamespaces } from "i18n";
+import { i18n } from "i18n";
 import AnalysisSubmissionLanding from "components/analyses/landing/AnalysisSubmissionLanding";
 
 /**
@@ -37,11 +37,8 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, [
-                // "analyses" already included by RequiredNamespaces
-                "dashboard",
-                ...RequiredNamespaces,
-            ])),
+            // "analyses" already included by commonServerSideProps
+            ...(await commonServerSideProps(locale, ["dashboard"])),
         },
     };
 }

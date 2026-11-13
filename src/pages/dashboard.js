@@ -1,8 +1,6 @@
 import React from "react";
 
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
-import { RequiredNamespaces } from "i18n";
+import { commonServerSideProps } from "common/getServerSideProps";
 import Dashboard from "components/dashboard";
 
 function DashboardPage() {
@@ -14,11 +12,7 @@ export async function getServerSideProps(context) {
 
     return {
         props: {
-            ...(await serverSideTranslations(locale, [
-                "dashboard",
-                "intro",
-                ...RequiredNamespaces,
-            ])),
+            ...(await commonServerSideProps(locale, ["dashboard", "intro"])),
         },
     };
 }

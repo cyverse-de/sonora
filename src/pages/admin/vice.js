@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import { useUserProfile } from "contexts/userProfile";
 import NotAuthorized from "components/error/NotAuthorized";
 
-import { i18n, RequiredNamespaces, useTranslation } from "i18n";
+import { i18n, useTranslation } from "i18n";
 
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { commonServerSideProps } from "common/getServerSideProps";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -243,10 +243,7 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, [
-                "vice-admin",
-                ...RequiredNamespaces,
-            ])),
+            ...(await commonServerSideProps(locale, ["vice-admin"])),
         },
     };
 }

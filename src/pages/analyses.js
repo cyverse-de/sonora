@@ -8,9 +8,9 @@
 import React, { useCallback } from "react";
 
 import { useRouter } from "next/router";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { commonServerSideProps } from "common/getServerSideProps";
 
-import { i18n, RequiredNamespaces, useTranslation } from "i18n";
+import { i18n, useTranslation } from "i18n";
 
 import constants from "../constants";
 
@@ -91,11 +91,8 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, [
-                "data",
-                // "analyses" already included by RequiredNamespaces
-                ...RequiredNamespaces,
-            ])),
+            // "analyses" already included by commonServerSideProps
+            ...(await commonServerSideProps(locale, ["data"])),
         },
     };
 }

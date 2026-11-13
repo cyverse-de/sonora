@@ -4,7 +4,8 @@
  * A banner to display for logged out users.
  *
  */
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import getConfig from "next/config";
 import Image from "next/image";
 import { useTranslation } from "i18n";
 import { useRouter } from "next/router";
@@ -32,16 +33,17 @@ export default function Banner(props) {
 
     const cyverse_url = config?.cyverseURL;
 
+    // Read straight from the runtime config rather than the config context:
+    // the context is populated from an effect in _app, so it is still null
+    // when this banner first renders and the link would point at the default.
+    const { publicRuntimeConfig = {} } = getConfig() || {};
+    const userPortalURL =
+        publicRuntimeConfig.USER_PORTAL_URL ||
+        constants.DEFAULT_USER_PORTAL_URL;
+
     const onLoginClick = (event) => {
         router.push(`/${NavigationConstants.LOGIN}${router.asPath}`);
     };
-
-    const userPortalURLRef = useRef(constants.DEFAULT_USER_PORTAL_URL);
-    useEffect(() => {
-        if (config?.userPortalURL) {
-            userPortalURLRef.current = config.userPortalURL;
-        }
-    }, [config]);
 
     return (
         <Paper>
@@ -115,7 +117,7 @@ export default function Banner(props) {
                                 style={{
                                     margin: theme.spacing(0.4),
                                 }}
-                                href={userPortalURLRef.current}
+                                href={userPortalURL}
                             >
                                 {t("signUp")} |
                             </ExternalLink>

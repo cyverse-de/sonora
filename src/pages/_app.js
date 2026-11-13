@@ -81,7 +81,7 @@ function MyApp({ Component, pageProps }) {
 
     const [appBarHeight, setAppBarRef] = useComponentHeight();
     const router = useRouter();
-    const [config, setConfig] = useState();
+    const config = pageProps.publicConfig;
     const pathname = router.pathname
         ? router.pathname.split(constants.PATH_SEPARATOR)[1]
         : NavigationConstants.DASHBOARD;
@@ -132,62 +132,23 @@ function MyApp({ Component, pageProps }) {
     }, [config?.analytics?.id, router.events]);
 
     useEffect(() => {
-        let cancelled = false;
+        const jssStyles = document.querySelector("#jss-server-side");
+        if (jssStyles) {
+            jssStyles.parentElement.removeChild(jssStyles);
+        }
 
-        fetch("/api/config")
-            .then((res) => {
-                if (!res.ok)
-                    throw new Error(`Config fetch failed: ${res.status}`);
-                return res.json();
-            })
-            .then((data) => {
-                if (cancelled) return;
-
-                setConfig(data);
-
-                const jssStyles = document.querySelector("#jss-server-side");
-                if (jssStyles) {
-                    jssStyles.parentElement.removeChild(jssStyles);
-                }
-                if (data.intercom?.enabled) {
-                    setupIntercom(data.intercom.appId);
-                    if (window.Intercom) {
-                        window.Intercom(
-                            "onUnreadCountChange",
-                            function (newUnreadCount) {
-                                setUnReadCount(newUnreadCount);
-                            }
-                        );
+        if (config?.intercom?.enabled) {
+            setupIntercom(config.intercom.appId);
+            if (window.Intercom) {
+                window.Intercom(
+                    "onUnreadCountChange",
+                    function (newUnreadCount) {
+                        setUnReadCount(newUnreadCount);
                     }
-                }
-
-                if (data.analytics?.enabled && data.analytics?.id) {
-                    const analyticsId = data.analytics.id;
-                    const script = document.createElement("script");
-                    script.async = true;
-                    script.src = `https://www.googletagmanager.com/gtag/js?id=${analyticsId}`;
-                    document.head.appendChild(script);
-
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag() {
-                        window.dataLayer.push(arguments);
-                    }
-                    window.gtag = gtag;
-                    gtag("js", new Date());
-                    gtag("config", analyticsId, {
-                        page_location: window.location.href,
-                    });
-                }
-            })
-            .catch((err) => {
-                if (!cancelled) {
-                    console.error("Failed to load app configuration:", err);
-                }
-            });
-
-        return () => {
-            cancelled = true;
-        };
+                );
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only; config values don't change between navigations
     }, []);
 
     return (

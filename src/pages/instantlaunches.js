@@ -5,9 +5,9 @@
  */
 import React from "react";
 
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { commonServerSideProps } from "common/getServerSideProps";
 
-import { i18n, RequiredNamespaces } from "i18n";
+import { i18n } from "i18n";
 import Listing from "components/instantlaunches/listing";
 
 export default function InstantLaunches() {
@@ -20,8 +20,8 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             title,
-            // "instantlaunches" already included by RequiredNamespaces
-            ...(await serverSideTranslations(locale, RequiredNamespaces)),
+            // "instantlaunches" already included by commonServerSideProps
+            ...(await commonServerSideProps(locale)),
         },
     };
 }

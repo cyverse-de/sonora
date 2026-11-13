@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { commonServerSideProps } from "common/getServerSideProps";
 
-import { i18n, RequiredNamespaces } from "i18n";
+import { i18n } from "i18n";
 import { useUserProfile } from "contexts/userProfile";
 import NotAuthorized from "components/error/NotAuthorized";
 
@@ -23,10 +23,7 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, [
-                "alerts-admin",
-                ...RequiredNamespaces,
-            ])),
+            ...(await commonServerSideProps(locale, ["alerts-admin"])),
         },
     };
 }

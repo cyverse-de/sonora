@@ -6,8 +6,7 @@ import React, { Fragment, useEffect } from "react";
 import { useUserProfile } from "contexts/userProfile";
 import { useConfig } from "contexts/config";
 import { getEncodedPath, getPageQueryParams } from "components/data/utils";
-import { RequiredNamespaces } from "i18n";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { commonServerSideProps } from "common/getServerSideProps";
 import { useRouter } from "next/router";
 
 /**
@@ -46,10 +45,7 @@ export default function Data() {
 export async function getServerSideProps({ locale }) {
     return {
         props: {
-            ...(await serverSideTranslations(locale, [
-                "data",
-                ...RequiredNamespaces,
-            ])),
+            ...(await commonServerSideProps(locale, ["data"])),
         },
     };
 }

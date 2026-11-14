@@ -26,10 +26,7 @@ function Highlighter(props) {
 }
 
 Highlighter.propTypes = {
-    search: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.instanceOf(RegExp),
-    ]),
+    search: PropTypes.string,
     children: PropTypes.string,
 };
 

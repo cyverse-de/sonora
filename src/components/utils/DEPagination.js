@@ -113,6 +113,7 @@ function ItemsPerPage(props) {
             </Tooltip>
             <Popper
                 open={open}
+                // eslint-disable-next-line react-hooks/refs -- MUI Popper anchorEl requires ref value
                 anchorEl={anchorRef.current}
                 role={undefined}
                 transition

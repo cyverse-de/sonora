@@ -1,5 +1,5 @@
 import React from "react";
-import TestRenderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { buildGpuLimitList } from "components/apps/launch/ResourceRequirements";
 import {
@@ -54,111 +54,111 @@ const TestProviderWrapper = ({ children }) => (
 );
 
 test("App Launch DEWordCount renders", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <DEWordCount />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("App Launch TapisWordCount renders", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <TapisWordCount />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("App Launch DeprecatedParams renders", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <DeprecatedParams />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("App Launch FlagParams renders", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <FlagParams />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("App Launch InputParams renders", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <InputParams />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("App Launch JupyterLabNoParams renders", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <JupyterLabNoParams />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("App Launch NumberParams renders", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <NumberParams />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("App Launch OutputParams renders", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <OutputParams />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("App Launch Pipeline renders", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <Pipeline />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("App Launch ReferenceGenomeParams renders", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <ReferenceGenomeParams />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("App Launch SelectParams renders", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <SelectParams />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("App Launch TextParams renders", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <TextParams />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 // --- GPU-related unit tests for initAppLaunchValues and validate ---

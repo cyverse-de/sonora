@@ -1,7 +1,7 @@
 import React from "react";
 
 import { mockAxios } from "../../stories/axiosMock";
-import TestRenderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import { ConfigProvider } from "contexts/config";
 import { UserProfileProvider } from "contexts/userProfile";
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
@@ -50,7 +50,7 @@ afterEach(() => {
 });
 
 test("renders Advanced Data Search without crashing", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <RQWrapper>
             <UserProfileProvider>
                 <I18nProviderWrapper>
@@ -61,7 +61,7 @@ test("renders Advanced Data Search without crashing", () => {
             </UserProfileProvider>
         </RQWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("tests data search Modified clause: default value is removed", () => {

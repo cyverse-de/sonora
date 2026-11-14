@@ -292,6 +292,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
     React.useEffect(() => {
         if (defaultsMapping.isError) {
             if (defaultsMapping.error.response.status === 404) {
+                // eslint-disable-next-line react-hooks/immutability -- pre-existing mutation of react-query result object
                 defaultsMapping.data = {};
                 defaultsMapping.isError = false;
                 setDoCreate(true);

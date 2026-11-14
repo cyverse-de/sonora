@@ -1,5 +1,5 @@
 import React from "react";
-import TestRenderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import { RQWrapper } from "../../__mocks__/RQWrapper";
 import { mockAxios } from "../../../stories/axiosMock";
 import {
@@ -18,23 +18,23 @@ afterEach(() => {
 });
 
 test("New App renders", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <RQWrapper>
             <I18nProviderWrapper>
                 <NewApp />
             </I18nProviderWrapper>
         </RQWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("Kitchen Sink Editor renders", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <RQWrapper>
             <I18nProviderWrapper>
                 <KitchenSinkEditor />
             </I18nProviderWrapper>
         </RQWrapper>
     );
-    component.unmount();
+    unmount();
 });

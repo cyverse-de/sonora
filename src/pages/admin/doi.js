@@ -8,8 +8,8 @@
 
 import React, { useCallback } from "react";
 import { useRouter } from "next/router";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { i18n, RequiredNamespaces } from "i18n";
+import { commonServerSideProps } from "common/getServerSideProps";
+import { i18n } from "i18n";
 import Listing from "components/doi/Listing";
 import NotAuthorized from "components/error/NotAuthorized";
 import { useUserProfile } from "contexts/userProfile";
@@ -78,11 +78,7 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, [
-                "doi",
-                "data",
-                ...RequiredNamespaces,
-            ])),
+            ...(await commonServerSideProps(locale, ["doi", "data"])),
         },
     };
 }

@@ -6,6 +6,7 @@ import Backend from "i18next-http-backend";
 
 import nextI18NextConfig from "../../next-i18next.config";
 
+// eslint-disable-next-line react-hooks/rules-of-hooks -- I18NextClient.use() is an i18next chain call, not a React hook
 I18NextClient.use(Backend)
     .use(initReactI18next)
     .init({

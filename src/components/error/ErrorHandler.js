@@ -7,6 +7,8 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "i18n";
 
+import { useConfig } from "contexts/config";
+
 import NavigationConstants from "../../common/NavigationConstants";
 import GridLabelValue from "../utils/GridLabelValue";
 import constants from "../../constants";
@@ -57,8 +59,13 @@ function ErrorHandler(props) {
     const { errorObject, baseId } = props;
     const { t } = useTranslation("util");
     const router = useRouter();
+    const [config] = useConfig();
     const { classes } = useStyles();
     const errBaseId = buildID(baseId, ids.ERROR_HANDLER);
+
+    const userPortalURL =
+        config?.userPortalURL || constants.DEFAULT_USER_PORTAL_URL;
+    const registerURL = `${userPortalURL}/register`;
 
     useEffect(() => {
         trackIntercomEvent(IntercomEvents.ENCOUNTERED_ERROR, errorObject);
@@ -125,7 +132,7 @@ function ErrorHandler(props) {
                             id={buildID(errBaseId, ids.REGISTER_LINK)}
                             color="primary"
                             onClick={() => {
-                                window.open(constants.USER_PORTAL);
+                                window.open(registerURL, "_blank");
                             }}
                             underline="hover"
                         >

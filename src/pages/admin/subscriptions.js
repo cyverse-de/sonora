@@ -9,9 +9,9 @@
 import React, { useState, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { commonServerSideProps } from "common/getServerSideProps";
 
-import { i18n, RequiredNamespaces, useTranslation } from "i18n";
+import { i18n, useTranslation } from "i18n";
 
 import Listing from "components/subscriptions/listing/Listing";
 import AddOnsListing from "components/subscriptions/addons/listing/Listing";
@@ -155,9 +155,8 @@ export async function getServerSideProps(context) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, [
+            ...(await commonServerSideProps(locale, [
                 "subscriptions",
-                ...RequiredNamespaces,
             ])),
         },
     };

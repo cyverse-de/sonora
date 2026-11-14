@@ -1,19 +1,19 @@
 import React from "react";
-import getConfig from "next/config";
+import publicConfig from "server/publicConfig";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { augmentDocumentWithEmotionCache } from "./_app";
 import theme from "../components/theme/default";
 
 class MyDocument extends Document {
     render() {
-        const { publicRuntimeConfig = {} } = getConfig() || {};
-        const analyticsEnabled = publicRuntimeConfig.ANALYTICS_ENABLED;
-        const analyticsId = publicRuntimeConfig.ANALYTICS_ID;
+        const analyticsId =
+            publicConfig.analytics?.enabled && publicConfig.analytics?.id;
+
         return (
             <Html lang="en">
                 <Head>
                     {/* Global Site Tag (gtag.js) - Google Analytics */}
-                    {analyticsEnabled && (
+                    {analyticsId && (
                         <>
                             <script
                                 async
@@ -22,14 +22,15 @@ class MyDocument extends Document {
                             <script
                                 dangerouslySetInnerHTML={{
                                     __html: `
-                                    window.dataLayer = window.dataLayer || [];
-                                    function gtag(){dataLayer.push(arguments);}
-                                    gtag('js', new Date());
+                                        window.dataLayer = window.dataLayer || [];
+                                        function gtag(){dataLayer.push(arguments);}
+                                        window.gtag = gtag;
+                                        gtag('js', new Date());
 
-                                    gtag('config', '${analyticsId}', {
-                                    page_path: window.location.pathname,
-                                    });
-                             `,
+                                        gtag('config', '${analyticsId}', {
+                                            page_location: window.location.href,
+                                        });
+                                    `,
                                 }}
                             />
                         </>

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Sonora is the UI for the CyVerse Discovery Environment, a scientific research platform. It's a Next.js (Pages Router) application with a custom Express server, using React 18 and MUI v6.
+Sonora is the UI for the CyVerse Discovery Environment, a scientific research platform. It's a Next.js (Pages Router) application with a custom Express server, using React 19 and MUI v7.
 
 ## Commands
 
@@ -24,6 +24,8 @@ Sonora is the UI for the CyVerse Discovery Environment, a scientific research pl
 The Express server (`src/server/`) acts as a BFF (Backend for Frontend) that proxies API calls to **Terrain** (the CyVerse backend service). Authentication is handled via Keycloak (OpenID Connect). The server also handles file uploads/downloads and WebSocket notifications.
 
 Client-side code calls `/api/*` endpoints which the Express server routes to Terrain. The proxy logic lives in `src/server/api/terrain.js`.
+
+Runtime configuration (formerly `publicRuntimeConfig`) is served by the Express endpoint `GET /api/config` (see `src/server/api/config.js`), which reads from `node-config` at request time. `_app.js` fetches this on mount and stores it in React state via `ConfigProvider`.
 
 ### Data Fetching Pattern
 
@@ -64,7 +66,7 @@ const { t } = useTranslation("namespace");
 
 ### Testing
 
-Tests in `src/__tests__/` render Storybook stories and create snapshots. Tests depend on mock data defined alongside stories in `stories/`.
+Tests in `src/__tests__/` render Storybook stories using `@testing-library/react`. Tests depend on mock data defined alongside stories in `stories/`. The jest config sets `testEnvironment: "jsdom"` globally; only files that must avoid the DOM (e.g. pure Node.js tests) need a `/** @jest-environment node */` docblock.
 
 ### Static IDs
 

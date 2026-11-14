@@ -5,9 +5,9 @@
 import React, { Fragment, useEffect } from "react";
 
 import { useRouter } from "next/router";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { commonServerSideProps } from "common/getServerSideProps";
 
-import { i18n, RequiredNamespaces } from "i18n";
+import { i18n } from "i18n";
 
 import constants from "../../constants";
 import {
@@ -56,10 +56,7 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, [
-                "data",
-                ...RequiredNamespaces,
-            ])),
+            ...(await commonServerSideProps(locale, ["data"])),
         },
     };
 }

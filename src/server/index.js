@@ -42,6 +42,7 @@ import {
 
 export const app = next({
     dev: config.isDevelopment,
+    webpack: true,
 });
 const nextHandler = app.getRequestHandler();
 

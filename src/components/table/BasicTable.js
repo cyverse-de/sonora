@@ -41,6 +41,7 @@ function BasicTable(props) {
         emptyDataMessage,
     } = props;
 
+    // eslint-disable-next-line react-hooks/incompatible-library -- @tanstack/react-table is not yet recognized by react-hooks v7
     const table = useReactTable({
         columns,
         data,

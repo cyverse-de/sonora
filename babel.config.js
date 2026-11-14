@@ -8,6 +8,9 @@ module.exports = {
                         node: "current",
                     },
                 },
+                "preset-react": {
+                    runtime: "automatic",
+                },
             },
         ],
     ],

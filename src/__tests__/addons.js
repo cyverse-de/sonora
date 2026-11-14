@@ -1,5 +1,5 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 
@@ -36,37 +36,37 @@ const TestProviderWrapper = ({ children }) => (
 );
 
 test("Available subscription add-ons listing renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <AvailableAddonsListingTest />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("Available subscription add-ons listing renders without add-ons", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <EmptyListingTest />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("Errored available add-ons listing renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <ErroredListingTest />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("Edit available add-on dialog renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <EditSubscriptionAddonsTest />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });

@@ -2,6 +2,14 @@ import config from "config";
 
 const ONE_GiB = 2 ** 30;
 
+const getConfigValue = (key, defaultValue) => {
+    if (config.has(key)) {
+        return config.get(key);
+    }
+
+    return defaultValue;
+};
+
 // Built once at module load. A missing required key will throw here,
 // crashing the pod at startup rather than serving 500s to every user.
 const publicConfig = {
@@ -28,41 +36,36 @@ const publicConfig = {
         community_path: config.get("irods.community_path"),
     },
     sessions: {
-        poll_interval_ms: config.has("sessions.poll_interval_ms")
-            ? config.get("sessions.poll_interval_ms")
-            : 5000,
+        poll_interval_ms: getConfigValue("sessions.poll_interval_ms", 5000),
     },
     tools: {
-        default_selected_max_cpus: config.has("tools.default_selected_max_cpus")
-            ? config.get("tools.default_selected_max_cpus")
-            : 4,
+        default_selected_max_cpus: getConfigValue(
+            "tools.default_selected_max_cpus",
+            4
+        ),
         admin: {
-            max_cpu_limit: config.has("tools.admin.max_cpu_limit")
-                ? config.get("tools.admin.max_cpu_limit")
-                : 8,
-            max_memory_limit: config.has("tools.admin.max_memory_limit")
-                ? config.get("tools.admin.max_memory_limit")
-                : 16 * ONE_GiB,
-            max_disk_limit: config.has("tools.admin.max_disk_limit")
-                ? config.get("tools.admin.max_disk_limit")
-                : 512 * ONE_GiB,
-            max_gpu_limit: config.has("tools.admin.max_gpu_limit")
-                ? config.get("tools.admin.max_gpu_limit")
-                : 0,
+            max_cpu_limit: getConfigValue("tools.admin.max_cpu_limit", 8),
+            max_memory_limit: getConfigValue(
+                "tools.admin.max_memory_limit",
+                16 * ONE_GiB
+            ),
+            max_disk_limit: getConfigValue(
+                "tools.admin.max_disk_limit",
+                512 * ONE_GiB
+            ),
+            max_gpu_limit: getConfigValue("tools.admin.max_gpu_limit", 0),
         },
         private: {
-            max_cpu_limit: config.has("tools.private.max_cpu_limit")
-                ? config.get("tools.private.max_cpu_limit")
-                : 8,
-            max_memory_limit: config.has("tools.private.max_memory_limit")
-                ? config.get("tools.private.max_memory_limit")
-                : 16 * ONE_GiB,
-            max_disk_limit: config.has("tools.private.max_disk_limit")
-                ? config.get("tools.private.max_disk_limit")
-                : 512 * ONE_GiB,
-            max_gpu_limit: config.has("tools.private.max_gpu_limit")
-                ? config.get("tools.private.max_gpu_limit")
-                : 0,
+            max_cpu_limit: getConfigValue("tools.private.max_cpu_limit", 8),
+            max_memory_limit: getConfigValue(
+                "tools.private.max_memory_limit",
+                16 * ONE_GiB
+            ),
+            max_disk_limit: getConfigValue(
+                "tools.private.max_disk_limit",
+                512 * ONE_GiB
+            ),
+            max_gpu_limit: getConfigValue("tools.private.max_gpu_limit", 0),
         },
     },
     fileIdentifiers: {
@@ -78,19 +81,13 @@ const publicConfig = {
         defaultName: config.get("vice.defaultName"),
         defaultCasUrl: config.get("vice.defaultCasUrl"),
         defaultCasValidate: config.get("vice.defaultCasValidate"),
-        concurrentJobs: config.has("vice.concurrentJobs")
-            ? config.get("vice.concurrentJobs")
-            : 2,
-        useCaseMinChars: config.has("vice.useCaseCharsMin")
-            ? config.get("vice.useCaseCharsMin")
-            : 60,
+        concurrentJobs: getConfigValue("vice.concurrentJobs", 2),
+        useCaseMinChars: getConfigValue("vice.useCaseCharsMin", 60),
         initContainerName: config.get("vice.initContainerName"),
         inputFilesContainerName: config.get("vice.inputFilesContainerName"),
         viceProxyContainerName: config.get("vice.viceProxyContainerName"),
         analysisContainerName: config.get("vice.analysisContainerName"),
-        deploymentTimeoutMs: config.has("vice.deploymentTimeoutMs")
-            ? config.get("vice.deploymentTimeoutMs")
-            : 180000,
+        deploymentTimeoutMs: getConfigValue("vice.deploymentTimeoutMs", 180000),
     },
     grouper: {
         allUsers: config.get("grouper.allUsers"),

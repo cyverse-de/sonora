@@ -109,6 +109,7 @@
         "@chromatic-com/storybook": "^5.3.1",
         "@storybook/nextjs": "^10.6.2",
         "@swc/helpers": "^0.5.5",
+        "@tanstack/eslint-plugin-query": "^5.107.1",
         "@testing-library/jest-dom": "^6.9.1",
         "@testing-library/react": "^16.3.2",
         "axios-mock-adapter": "^1.18.1",

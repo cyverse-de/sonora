@@ -1,11 +1,12 @@
 // For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import storybook from "eslint-plugin-storybook";
 import jsxA11y from "eslint-plugin-jsx-a11y";
-
 import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
+import pluginQuery from "@tanstack/eslint-plugin-query";
 
 const eslintConfig = [
     ...nextCoreWebVitals,
+    ...pluginQuery.configs["flat/recommended"],
     { rules: { ...jsxA11y.flatConfigs.recommended.rules } },
     {
         ignores: [
@@ -22,6 +23,8 @@ const eslintConfig = [
             // react-hooks v7 introduced set-state-in-effect; it flags existing
             // patterns that work correctly. Disable until the codebase is updated.
             "react-hooks/set-state-in-effect": "off",
+            "@tanstack/query/exhaustive-deps": "off",
+            "@tanstack/query/stable-query-client": "error",
         },
     },
     {

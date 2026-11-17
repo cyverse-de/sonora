@@ -189,6 +189,8 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
             )
     );
 
+    const { data: dashboardILsData } = dashboardILs;
+
     const navDrawerILs = useQuery(
         [
             LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
@@ -202,6 +204,8 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
             )
     );
 
+    const { data: navDrawerILsData } = navDrawerILs;
+
     const listingILs = useQuery(
         [
             LIST_INSTANT_LAUNCHES_BY_METADATA_KEY,
@@ -214,6 +218,8 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
                 instantLaunchListing
             )
     );
+
+    const { data: listingILsData } = listingILs;
 
     // Get QueryClient from the context
     const queryClient = useQueryClient();
@@ -343,15 +349,15 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
 
                     const inDashboard = isInDashboard(
                         il.id,
-                        dashboardILs.data.instant_launches
+                        dashboardILsData?.instant_launches
                     );
                     const inNavDrawer = isInNavDrawer(
                         il.id,
-                        navDrawerILs.data.instant_launches
+                        navDrawerILsData?.instant_launches
                     );
                     const inListing = isInListing(
                         il.id,
-                        listingILs.data.instant_launches
+                        listingILsData?.instant_launches
                     );
 
                     return (
@@ -404,15 +410,15 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
 
                     const inDashboard = isInDashboard(
                         il.id,
-                        dashboardILs.data.instant_launches
+                        dashboardILsData?.instant_launches
                     );
                     const inNavDrawer = isInNavDrawer(
                         il.id,
-                        navDrawerILs.data.instant_launches
+                        navDrawerILsData?.instant_launches
                     );
                     const inListing = isInListing(
                         il.id,
-                        listingILs.data.instant_launches
+                        listingILsData?.instant_launches
                     );
 
                     return (
@@ -481,10 +487,10 @@ const InstantLaunchList = ({ showErrorAnnouncer }) => {
         addToListingMutation,
         addToNavDrawerMutation,
         baseID,
-        dashboardILs,
+        dashboardILsData,
         deleteIL,
-        listingILs,
-        navDrawerILs,
+        listingILsData,
+        navDrawerILsData,
         removeFromDash,
         removeFromDrawerMutation,
         removeFromListingMutation,

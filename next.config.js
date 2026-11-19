@@ -16,14 +16,5 @@ module.exports = withBundleAnalyzer({
             },
         ];
     },
-    webpack: (config) => {
-        config.resolve.fallback = {
-            ...config.resolve.fallback,
-            fs: false,
-        };
-
-        return config;
-    },
-    turbopack: {},
     i18n,
 });

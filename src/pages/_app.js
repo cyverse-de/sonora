@@ -68,7 +68,11 @@ const setupIntercom = (intercomAppId) => {
             x.parentNode.insertBefore(s, x);
         }
 
-        if (window.attachEvent) {
+        // Setup can occur after the window load event, when the first page
+        // has no publicConfig and a client-side navigation supplies it.
+        if (document.readyState === "complete") {
+            loadWidget();
+        } else if (window.attachEvent) {
             window.attachEvent("onload", loadWidget);
         } else {
             window.addEventListener("load", loadWidget, false);
@@ -143,7 +147,9 @@ function MyApp({ Component, pageProps }) {
         if (jssStyles) {
             jssStyles.parentElement.removeChild(jssStyles);
         }
+    }, []);
 
+    useEffect(() => {
         if (config?.intercom?.enabled) {
             setupIntercom(config.intercom.appId);
             if (window.Intercom) {
@@ -155,8 +161,7 @@ function MyApp({ Component, pageProps }) {
                 );
             }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only; config values don't change between navigations
-    }, []);
+    }, [config?.intercom?.enabled, config?.intercom?.appId]);
 
     return (
         <StyledEngineProvider injectFirst>

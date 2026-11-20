@@ -118,7 +118,7 @@
         "eslint-config-next": "^16.4.6",
         "eslint-plugin-storybook": "^10.6.1",
         "husky": "^4.0.10",
-        "i18next-http-backend": "^3.0.5",
+        "i18next-http-backend": "^4.0.4",
         "jest": "^30.4.2",
         "jest-environment-jsdom": "^30.4.1",
         "jsdoc": "^4.0.4",

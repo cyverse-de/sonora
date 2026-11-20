@@ -27,7 +27,11 @@ import ParamPropertyForm from "./ParamPropertyForm";
 import AppStepper, { StepperSkeleton } from "../AppStepper";
 import AppStepDisplay, { BottomNavigationSkeleton } from "../AppStepDisplay";
 
-import { getAppEditPath, getAppLaunchPath } from "../utils";
+import {
+    getAppEditPath,
+    getAppLaunchPath,
+    sensitiveParamsUnsupported,
+} from "../utils";
 
 import VersionSelection from "components/apps/VersionSelection";
 
@@ -344,6 +348,21 @@ const AppEditor = (props) => {
                     editorStepErrors[0] = true;
                 }
 
+                // A work in progress may be saved before a tool is selected,
+                // but sensitive params can't be saved with a non-VICE tool.
+                const toolType = values.tools?.[0]?.type;
+                if (
+                    !cosmeticOnly &&
+                    toolType &&
+                    sensitiveParamsUnsupported(toolType, values.groups)
+                ) {
+                    errors.error = true;
+                    errors.sensitiveParams = t(
+                        "sensitiveParamsUnsupportedTool"
+                    );
+                    editorStepErrors[1] = true;
+                }
+
                 if (editorStepErrors.length > 0) {
                     errors.editorSteps = editorStepErrors;
                 }
@@ -507,6 +526,12 @@ const AppEditor = (props) => {
                                 onSave={handleSubmit}
                             />
                         </Grid>
+
+                        {errors.sensitiveParams && (
+                            <Typography variant="body2" color="error">
+                                {errors.sensitiveParams}
+                            </Typography>
+                        )}
 
                         {cosmeticOnly && (
                             <>

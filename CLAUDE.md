@@ -25,7 +25,8 @@ The Express server (`src/server/`) acts as a BFF (Backend for Frontend) that pro
 
 Client-side code calls `/api/*` endpoints which the Express server routes to Terrain. The proxy logic lives in `src/server/api/terrain.js`.
 
-Runtime configuration (formerly `publicRuntimeConfig`) is served by the Express endpoint `GET /api/config` (see `src/server/api/config.js`), which reads from `node-config` at request time. `_app.js` fetches this on mount and stores it in React state via `ConfigProvider`.
+Runtime configuration (formerly `publicRuntimeConfig`) is built from `node-config` in `src/server/publicConfig.js` and delivered as the `publicConfig` page prop by `commonServerSideProps` (`src/common/getServerSideProps.js`), which every page's `getServerSideProps` must spread. `_app.js` keeps the first `pageProps.publicConfig` it receives; `DEAppBar` then puts it into `ConfigProvider`.
+Pages without `getServerSideProps` (Next's built-in 404, `de.js`, `more.js`) receive no `publicConfig`, so client code must not assume config exists on first mount.
 
 ### Data Fetching Pattern
 

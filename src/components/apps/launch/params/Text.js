@@ -30,6 +30,8 @@ export default function Text({ param, ...props }) {
             label={param?.label}
             helperText={param?.description}
             required={param?.required}
+            type={param?.is_sensitive ? "password" : "text"}
+            autoComplete={param?.is_sensitive ? "new-password" : undefined}
             inputProps={getTextFieldInputProps(param)}
             {...props}
         />

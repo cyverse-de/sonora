@@ -399,7 +399,8 @@ const AppLaunchForm = (props) => {
                                                 setSavedLaunchSubmission(
                                                     formatSubmission(
                                                         defaultOutputDir,
-                                                        values
+                                                        values,
+                                                        { omitSensitive: true }
                                                     )
                                                 );
                                             }}

@@ -180,8 +180,17 @@ const ParamsReviewLabel = ({ error, label }) => {
 };
 
 const ParamsReviewValue = ({ param }) => {
-    const { value, type } = param;
+    const { value, type, is_sensitive } = param;
     const { classes } = useStyles();
+
+    if (is_sensitive) {
+        return (
+            <Typography className={classes.paramsReview}>
+                &bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;
+            </Typography>
+        );
+    }
+
     switch (type) {
         case AppParamTypes.FLAG:
             return (

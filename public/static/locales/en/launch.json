@@ -8,6 +8,7 @@
     "appDeprecated": "This application has been deprecated. If you need access to it, please <support>contact support</support>.",
     "appLoadingError": "Unable to load App. Please try again later.",
     "appParamsDeprecated": "This application uses 1 or more parameters that have been deprecated. If you still need access to this application, please <support>contact support</support>.",
+    "appSensitiveParamsUnsupported": "This app has sensitive parameters, which are only supported in interactive (VICE) apps, so it cannot be launched. If you need access to it, please <support>contact support</support>.",
     "appUnavailable": "This app is temporarily unavailable.",
     "computeLimitExceeded": "You have exceeded your compute limit. If you would like to run more analyses, please <buy>purchase a subscription</buy>.",
     "computeLimitExceededMsg": "You have exceeded your compute limit. If you would like to run more analyses, please purchase a subscription from the Discovery Environment dashboard.",

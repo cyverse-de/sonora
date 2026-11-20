@@ -12,6 +12,7 @@ import { useTranslation } from "i18n";
 import ids from "../ids";
 
 import DescriptionField from "./common/DescriptionField";
+import IsSensitiveField from "./common/IsSensitiveField";
 import LabelField from "./common/LabelField";
 import RequiredField from "./common/RequiredField";
 import VisibleField from "./common/VisibleField";
@@ -50,6 +51,12 @@ export default function EnvironmentVariablePropertyFields(props) {
             />
 
             <DescriptionField baseId={baseId} fieldName={fieldName} />
+
+            <IsSensitiveField
+                baseId={baseId}
+                fieldName={fieldName}
+                disabled={cosmeticOnly}
+            />
 
             <RequiredField
                 baseId={baseId}

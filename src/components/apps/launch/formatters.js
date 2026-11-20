@@ -443,6 +443,10 @@ const initGroupValues = (groups) =>
  * @param {string} formValues.app_id
  * @param {Object[]} formValues.requirements
  * @param {Object[]} formValues.groups
+ * @param {Object} [options]
+ * @param {boolean} [options.omitSensitive] - If true, sensitive parameter
+ * values are left out of the submission `config` (e.g. for saved launches,
+ * which must never store them).
  *
  * @returns The formatted submission for launching or saving as a saved launch.
  */
@@ -463,7 +467,8 @@ const formatSubmission = (
         time_limit_seconds,
         requirements,
         groups,
-    }
+    },
+    { omitSensitive = false } = {}
 ) => {
     const formattedRequirements = requirements.map(
         // Destructure resource_preset_id out so it is excluded from the
@@ -493,7 +498,11 @@ const formatSubmission = (
             time_limit_seconds,
         }),
         requirements: formattedRequirements,
-        config: groups?.reduce(paramConfigsReducer, {}),
+        config: groups?.reduce(
+            (configs, group) =>
+                paramConfigsReducer(configs, group, omitSensitive),
+            {}
+        ),
     };
 };
 
@@ -503,15 +512,16 @@ const formatSubmission = (
  * @param {Object} configs - Mapping of parameter IDs to parameter values.
  * @param {Object} group
  * @param {Object[]} group.parameters
+ * @param {boolean} omitSensitive - If true, skip sensitive parameters.
  *
  * @returns The formatted submission config
  * including the given group's parameter IDs to values.
  */
-const paramConfigsReducer = (configs, group) => {
+const paramConfigsReducer = (configs, group, omitSensitive) => {
     group.parameters.forEach((param) => {
-        const { id, type } = param;
+        const { id, type, is_sensitive } = param;
 
-        if (type !== AppParamTypes.INFO) {
+        if (type !== AppParamTypes.INFO && !(omitSensitive && is_sensitive)) {
             let { value } = param;
 
             switch (type) {

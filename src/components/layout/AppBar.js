@@ -158,7 +158,7 @@ function DEAppBar(props) {
     useQuery({
         queryKey: [USER_PROFILE_QUERY_KEY],
         queryFn: getUserProfile,
-        enabled: profileRefetchInterval != null,
+        enabled: true,
         onSuccess: updateUserProfile,
         refetchInterval: profileRefetchInterval,
     });

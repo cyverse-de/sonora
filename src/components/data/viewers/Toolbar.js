@@ -306,6 +306,7 @@ function ViewerToolbar(props) {
                             >
                                 <FormControlLabel
                                     control={
+                                        // eslint-disable-next-line react-hooks/static-components -- WrapSwitch is a stable local component
                                         <WrapSwitch
                                             id={buildID(
                                                 baseId,
@@ -328,6 +329,7 @@ function ViewerToolbar(props) {
                             >
                                 <FormControlLabel
                                     control={
+                                        // eslint-disable-next-line react-hooks/static-components -- LineNumberSwitch is a stable local component
                                         <LineNumberSwitch
                                             id={buildID(
                                                 baseId,
@@ -376,12 +378,14 @@ function ViewerToolbar(props) {
                             <>
                                 {isPathListViewer && (
                                     <>
+                                        {/* eslint-disable-next-line react-hooks/static-components -- ToolbarButton is a stable local component */}
                                         <ToolbarButton
                                             idExtension={ids.ADD_BTN}
                                             onClick={onAddRow}
                                             startIcon={<Add fontSize="small" />}
                                             text={t("add")}
                                         />
+                                        {/* eslint-disable-next-line react-hooks/static-components -- ToolbarButton is a stable local component */}
                                         <ToolbarButton
                                             idExtension={ids.DELETE_BTN}
                                             onClick={onDeleteRow}
@@ -393,6 +397,7 @@ function ViewerToolbar(props) {
                                         />
                                     </>
                                 )}
+                                {/* eslint-disable-next-line react-hooks/static-components -- ToolbarButton is a stable local component */}
                                 <ToolbarButton
                                     idExtension={ids.SAVE_BTN}
                                     onClick={saveFile}

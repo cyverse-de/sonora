@@ -1,8 +1,8 @@
 import React from "react";
 
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { commonServerSideProps } from "common/getServerSideProps";
 
-import { i18n, RequiredNamespaces } from "i18n";
+import { i18n } from "i18n";
 import Preferences from "../components/preferences/Preferences";
 
 export default function Settings() {
@@ -14,10 +14,7 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, [
-                "preferences",
-                ...RequiredNamespaces,
-            ])),
+            ...(await commonServerSideProps(locale, ["preferences"])),
         },
     };
 }

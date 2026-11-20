@@ -1,6 +1,6 @@
 import React from "react";
 
-import TestRenderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { mockAxios } from "../../../stories/axiosMock";
@@ -17,7 +17,7 @@ afterEach(() => {
 });
 
 test("renders Instant Launch Listing without crashing", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <RQWrapper>
             <I18nProviderWrapper>
                 <ConfigProvider>
@@ -26,5 +26,5 @@ test("renders Instant Launch Listing without crashing", () => {
             </I18nProviderWrapper>
         </RQWrapper>
     );
-    component.unmount();
+    unmount();
 });

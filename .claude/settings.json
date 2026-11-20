@@ -1,0 +1,20 @@
+{
+    "permissions": {
+        "allow": [
+            "Bash(npm run dev)",
+            "Bash(npm run build)",
+            "Bash(npm run build-storybook)",
+            "Bash(npm run check)",
+            "Bash(npm run check-format)",
+            "Bash(npm run check-styles)",
+            "Bash(npm run lint)",
+            "Bash(npm run format)",
+            "Bash(npm test)",
+            "Bash(npm ci)",
+            "Bash(npm install)",
+            "Bash(npx jest *)",
+            "Bash(curl -s http://localhost:3000*)",
+            "Bash(lsof -ti :3000)"
+        ]
+    }
+}

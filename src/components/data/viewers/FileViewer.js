@@ -393,6 +393,7 @@ export default function FileViewer(props) {
                     onNewFileSaved={onNewFileSaved}
                     createFileType={createFileType}
                 />
+                {/* eslint-disable-next-line react-hooks/static-components -- LoadMoreButton is a stable local component */}
                 <LoadMoreButton />
             </>
         );
@@ -420,6 +421,7 @@ export default function FileViewer(props) {
                         }
                     }}
                 />
+                {/* eslint-disable-next-line react-hooks/static-components -- LoadMoreButton is a stable local component */}
                 <LoadMoreButton />
             </>
         );
@@ -479,6 +481,7 @@ export default function FileViewer(props) {
                     onRefresh={() => refreshViewer(manifestKey)}
                     onNewFileSaved={onNewFileSaved}
                 />
+                {/* eslint-disable-next-line react-hooks/static-components -- LoadMoreButton is a stable local component */}
                 <LoadMoreButton />
             </>
         );

@@ -1,9 +1,5 @@
-/**
- * @jest-environment jsdom
- */
 import React from "react";
-import preloadAll from "jest-next-dynamic";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import DataDotMenu from "components/data/toolbar/DataDotMenu";
 import ResourceTypes from "components/models/ResourceTypes";
@@ -29,10 +25,6 @@ jest.mock("i18n", () => ({
 jest.mock("next/router", () => ({
     useRouter: () => ({ push: jest.fn() }),
 }));
-
-beforeAll(async () => {
-    await preloadAll();
-});
 
 const TestProviderWrapper = ({ children }) => (
     <RQWrapper>
@@ -72,7 +64,7 @@ const cases = [
 test.each(cases)(
     "DataDotMenu renders with $name",
     ({ selected, resources }) => {
-        const component = renderer.create(
+        const { container } = render(
             <TestProviderWrapper>
                 <DataDotMenu
                     baseId="data.toolbar"
@@ -86,11 +78,9 @@ test.each(cases)(
                 />
             </TestProviderWrapper>
         );
+
         // Guards against the suspend-forever trap above: if the component were
         // never rendered, there would be no tree to find the menu button in.
-        expect(component.root.findAllByType("button").length).toBeGreaterThan(
-            0
-        );
-        component.unmount();
+        expect(container.querySelectorAll("button").length).toBeGreaterThan(0);
     }
 );

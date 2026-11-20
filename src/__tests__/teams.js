@@ -1,8 +1,5 @@
-/**
- * @jest-environment jsdom
- */
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { View, SearchResults } from "../../stories/teams/Teams.stories";
 import { mockAxios } from "../../stories/axiosMock";
@@ -27,7 +24,7 @@ const GrouperAllUsersId = "GrouperAll";
 const GrouperAdminId = "de_grouper";
 
 test("Team view renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <RQWrapper>
             <UserProfileProvider>
                 <I18nProviderWrapper>
@@ -40,11 +37,11 @@ test("Team view renders", () => {
             </UserProfileProvider>
         </RQWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("Team search results renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <RQWrapper>
             <UserProfileProvider>
                 <I18nProviderWrapper>
@@ -55,7 +52,7 @@ test("Team search results renders", () => {
             </UserProfileProvider>
         </RQWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 function createPrivilegeList(privileges, userId) {

@@ -1,5 +1,5 @@
 import React from "react";
-import TestRenderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { AppsTableViewTest } from "../../stories/apps/TableView.stories";
 import { mockAxios } from "../../stories/axiosMock";
@@ -19,7 +19,7 @@ afterEach(() => {
 });
 
 test("App Table view renders", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <RQWrapper>
             <I18nProviderWrapper>
                 <UserProfileProvider>
@@ -30,11 +30,11 @@ test("App Table view renders", () => {
             </I18nProviderWrapper>
         </RQWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("App Listing view", () => {
-    const component = TestRenderer.create(
+    const { unmount } = render(
         <RQWrapper>
             <I18nProviderWrapper>
                 <BagInfoProvider>
@@ -43,5 +43,5 @@ test("App Listing view", () => {
             </I18nProviderWrapper>
         </RQWrapper>
     );
-    component.unmount();
+    unmount();
 });

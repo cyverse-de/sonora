@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { i18n, RequiredNamespaces } from "i18n";
+import { commonServerSideProps } from "common/getServerSideProps";
+import { i18n } from "i18n";
 import GlobalSearchField from "components/search/GlobalSearchField";
 import DetailedSearchResults from "components/search/detailed/DetailedSearchResults";
 import SEARCH_RESULTS_TABS from "components/search/detailed/tabs";
@@ -72,11 +72,10 @@ export async function getServerSideProps(context) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, [
+            ...(await commonServerSideProps(locale, [
                 "data",
                 "teams",
-                // "search" already included by RequiredNamespaces
-                ...RequiredNamespaces,
+                // "search" already included by commonServerSideProps
             ])),
         },
     };

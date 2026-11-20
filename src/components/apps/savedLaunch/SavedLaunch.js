@@ -16,8 +16,8 @@ const styles1 = (theme) => ({
     },
 });
 
-const SavedLaunch = React.forwardRef(function SavedLaunch(props, ref) {
-    const {
+const SavedLaunch = React.forwardRef(function SavedLaunch(
+    {
         id,
         handleClick,
         handleDelete,
@@ -26,7 +26,9 @@ const SavedLaunch = React.forwardRef(function SavedLaunch(props, ref) {
         classes,
         href,
         ...custom
-    } = props;
+    },
+    ref
+) {
     const color = isDefault || isPublic ? "primary" : "default";
     const icon = isPublic ? <PublicIcon /> : <LockIcon />;
     return (
@@ -46,13 +48,8 @@ const SavedLaunch = React.forwardRef(function SavedLaunch(props, ref) {
     );
 });
 
-SavedLaunch.defaultProps = {
-    clickable: true,
-};
-
 SavedLaunch.propTypes = {
     id: PropTypes.string.isRequired,
-    clickable: PropTypes.bool,
     label: PropTypes.string.isRequired,
     handleDelete: PropTypes.func,
     handleClick: PropTypes.func,

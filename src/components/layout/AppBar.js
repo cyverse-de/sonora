@@ -158,7 +158,7 @@ function DEAppBar(props) {
     useQuery({
         queryKey: [USER_PROFILE_QUERY_KEY],
         queryFn: getUserProfile,
-        enabled: profileRefetchInterval != null,
+        enabled: true,
         onSuccess: updateUserProfile,
         refetchInterval: profileRefetchInterval,
     });
@@ -283,12 +283,8 @@ function DEAppBar(props) {
         }
     }, [currentNotification, runningViceJobs, queryClient]);
 
-    let userPortalURLRef = useRef(constants.DEFAULT_USER_PORTAL_URL);
-    useEffect(() => {
-        if (config?.userPortalURL) {
-            userPortalURLRef.current = config.userPortalURL;
-        }
-    }, [config]);
+    let userPortalURL =
+        config?.userPortalURL || constants.DEFAULT_USER_PORTAL_URL;
 
     // This query is cached because after logging in we'll update the list based on the
     // incoming notifications instead of re-running this query
@@ -485,10 +481,7 @@ function DEAppBar(props) {
                                 subscription={userSubscription}
                                 onLogoutClick={onLogoutClick}
                                 onManageAccountClick={() =>
-                                    window.open(
-                                        userPortalURLRef.current,
-                                        "_blank"
-                                    )
+                                    window.open(userPortalURL, "_blank")
                                 }
                             />
                         ) : (
@@ -532,7 +525,7 @@ function DEAppBar(props) {
                     subscription={userSubscription}
                     onLogoutClick={onLogoutClick}
                     onManageAccountClick={() =>
-                        window.open(userPortalURLRef.current, "_blank")
+                        window.open(userPortalURL, "_blank")
                     }
                 />
             </Popover>

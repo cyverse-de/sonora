@@ -1,9 +1,5 @@
-/**
- * @jest-environment jsdom
- */
 import React from "react";
-import preloadAll from "jest-next-dynamic";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import { DataTableViewTest } from "../../stories/data/TableView.stories";
 import { PathListFileViewerTest } from "../../stories/data/viewers/PathListViewer.stories";
 import { PlainTextFileViewerTest } from "../../stories/data/viewers/TextViewer.stories";
@@ -14,10 +10,6 @@ import { RQWrapper } from "../__mocks__/RQWrapper";
 
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "components/theme/default";
-
-beforeAll(async () => {
-    await preloadAll();
-});
 
 const TestProviderWrapper = ({ children }) => (
     <RQWrapper>
@@ -32,34 +24,34 @@ const TestProviderWrapper = ({ children }) => (
 );
 
 test("Data Table View renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <RQWrapper>
             <TestProviderWrapper>
                 <DataTableViewTest />
             </TestProviderWrapper>
         </RQWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("Path List File Viewer renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <RQWrapper>
             <TestProviderWrapper>
                 <PathListFileViewerTest />
             </TestProviderWrapper>
         </RQWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("Plain text File Viewer renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <RQWrapper>
             <TestProviderWrapper>
                 <PlainTextFileViewerTest />
             </TestProviderWrapper>
         </RQWrapper>
     );
-    component.unmount();
+    unmount();
 });

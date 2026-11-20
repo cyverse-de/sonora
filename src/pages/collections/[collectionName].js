@@ -7,9 +7,8 @@
 import React from "react";
 
 import { useRouter } from "next/router";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
-import { i18n, RequiredNamespaces } from "i18n";
+import { i18n } from "i18n";
+import { commonServerSideProps } from "common/getServerSideProps";
 
 import CollectionForm from "components/collections/form";
 import NavigationConstants from "common/NavigationConstants";
@@ -44,9 +43,8 @@ export async function getServerSideProps(context) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, [
+            ...(await commonServerSideProps(locale, [
                 "collections",
-                ...RequiredNamespaces,
             ])),
         },
     };

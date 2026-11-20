@@ -7,10 +7,10 @@
 import React from "react";
 
 import { useRouter } from "next/router";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useQuery } from "@tanstack/react-query";
 
-import { i18n, RequiredNamespaces } from "i18n";
+import { i18n } from "i18n";
+import { commonServerSideProps } from "common/getServerSideProps";
 
 import {
     getAnalysisRelaunchInfo,
@@ -90,14 +90,13 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, [
+            ...(await commonServerSideProps(locale, [
                 "data",
                 "launch",
                 "preferences",
                 "upload",
                 "urlImport",
-                // "apps" and "analyses" already included by RequiredNamespaces
-                ...RequiredNamespaces,
+                // "apps" and "analyses" already included by commonServerSideProps
             ])),
         },
     };

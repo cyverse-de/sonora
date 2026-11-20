@@ -1,8 +1,5 @@
-/**
- * @jest-environment jsdom
- */
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { View } from "../../stories/collections/Collections.stories";
 import { mockAxios } from "../../stories/axiosMock";
@@ -23,7 +20,7 @@ afterEach(() => {
 });
 
 test("Collection view renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <RQWrapper>
             <UserProfileProvider>
                 <I18nProviderWrapper>
@@ -36,5 +33,5 @@ test("Collection view renders", () => {
             </UserProfileProvider>
         </RQWrapper>
     );
-    component.unmount();
+    unmount();
 });

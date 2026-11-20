@@ -1,6 +1,6 @@
 import React from "react";
 
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 
@@ -29,37 +29,37 @@ const TestProviderWrapper = ({ children }) => (
 );
 
 test("MetadataView renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <MetadataView />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("ReadOnlyMetadata renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <ReadOnlyMetadata />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("DataCiteMetadataView renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <DataCiteMetadataView />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });
 
 test("EmptyMetadata renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <TestProviderWrapper>
             <EmptyMetadata />
         </TestProviderWrapper>
     );
-    component.unmount();
+    unmount();
 });

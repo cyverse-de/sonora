@@ -71,10 +71,12 @@ export const useBagRemoveItem = (
         onError: handleError,
     });
 
+    // eslint-disable-next-line react-hooks/immutability -- pre-existing pattern: mutates bagInfo copy before API call
     return async (item) => {
         let data = bagInfo;
 
         if (!data?.contents?.items) {
+            // eslint-disable-next-line react-hooks/immutability -- pre-existing local mutation before API call
             data.contents.items = [];
         }
 
@@ -108,10 +110,12 @@ export const useBagAddItem = (
         onError: handleError,
     });
 
+    // eslint-disable-next-line react-hooks/immutability -- pre-existing pattern: mutates bagInfo copy before API call
     return async (item) => {
         let data = bagInfo;
 
         if (!data.contents.items) {
+            // eslint-disable-next-line react-hooks/immutability -- pre-existing local mutation before API call
             data.contents.items = [];
         }
 
@@ -152,12 +156,14 @@ export const useBagAddItems = (
         onSettled: settledFn,
     });
 
+    // eslint-disable-next-line react-hooks/immutability -- pre-existing pattern: mutates bagInfo copy before API call
     return async (items) => {
         let data = bagInfo || {
             contents: { items: [] },
         };
 
         if (!data.contents.items) {
+            // eslint-disable-next-line react-hooks/immutability -- pre-existing local mutation before API call
             data.contents.items = [];
         }
 

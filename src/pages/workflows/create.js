@@ -5,9 +5,9 @@
  */
 import React from "react";
 
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { commonServerSideProps } from "common/getServerSideProps";
 
-import { i18n, RequiredNamespaces } from "i18n";
+import { i18n } from "i18n";
 
 import WorkflowEditor from "components/apps/workflows/Editor";
 import NewWorkflowDefaults from "components/apps/workflows/NewWorkflowDefaults";
@@ -44,10 +44,9 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, [
+            ...(await commonServerSideProps(locale, [
                 "launch",
                 "workflows",
-                ...RequiredNamespaces,
             ])),
         },
     };

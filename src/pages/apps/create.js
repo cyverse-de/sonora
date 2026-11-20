@@ -5,9 +5,8 @@
  */
 import React from "react";
 
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
-import { i18n, RequiredNamespaces } from "i18n";
+import { i18n } from "i18n";
+import { commonServerSideProps } from "common/getServerSideProps";
 
 import AppEditor from "components/apps/editor";
 import NewAppDefaults from "components/apps/editor/NewAppDefaults";
@@ -44,7 +43,7 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, [
+            ...(await commonServerSideProps(locale, [
                 "app_editor",
                 "app_editor_help",
                 "app_param_types",
@@ -53,7 +52,6 @@ export async function getServerSideProps({ locale }) {
                 "tools",
                 "upload",
                 "urlImport",
-                ...RequiredNamespaces,
             ])),
         },
     };

@@ -6,10 +6,10 @@
 import React from "react";
 
 import { useRouter } from "next/router";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useQuery } from "@tanstack/react-query";
 
-import { i18n, RequiredNamespaces } from "i18n";
+import { i18n } from "i18n";
+import { commonServerSideProps } from "common/getServerSideProps";
 
 import ids from "components/apps/editor/ids";
 import VersionsOrderingForm from "components/apps/editor/VersionsOrderingForm";
@@ -49,9 +49,8 @@ export async function getServerSideProps({ locale }) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, [
+            ...(await commonServerSideProps(locale, [
                 "app_editor",
-                ...RequiredNamespaces,
             ])),
         },
     };

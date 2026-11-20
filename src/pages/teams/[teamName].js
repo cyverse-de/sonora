@@ -7,9 +7,9 @@
 import React from "react";
 
 import { useRouter } from "next/router";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { commonServerSideProps } from "common/getServerSideProps";
 
-import { i18n, RequiredNamespaces } from "i18n";
+import { i18n } from "i18n";
 
 import NavigationConstants from "common/NavigationConstants";
 import TeamForm from "components/teams/form";
@@ -42,10 +42,7 @@ export async function getServerSideProps(context) {
     return {
         props: {
             title,
-            ...(await serverSideTranslations(locale, [
-                "teams",
-                ...RequiredNamespaces,
-            ])),
+            ...(await commonServerSideProps(locale, ["teams"])),
         },
     };
 }

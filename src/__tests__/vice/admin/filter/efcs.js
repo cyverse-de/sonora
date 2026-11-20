@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import data from "./test_data";
 
 import efcs from "../../../../components/vice/admin/filter/efcs";

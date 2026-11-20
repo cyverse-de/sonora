@@ -1,8 +1,5 @@
-/**
- * @jest-environment jsdom
- */
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import { SearchField } from "../../stories/search/GlobalSearchField.stories";
 import { I18nProviderWrapper } from "__mocks__/i18nProviderWrapper";
 import { UserProfileProvider } from "../contexts/userProfile";
@@ -12,7 +9,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "components/theme/default";
 
 test("Search field renders", () => {
-    const component = renderer.create(
+    const { unmount } = render(
         <RQWrapper>
             <I18nProviderWrapper>
                 <UserProfileProvider>
@@ -25,5 +22,5 @@ test("Search field renders", () => {
             </I18nProviderWrapper>
         </RQWrapper>
     );
-    component.unmount();
+    unmount();
 });

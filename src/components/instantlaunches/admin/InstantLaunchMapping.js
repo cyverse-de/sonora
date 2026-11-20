@@ -262,9 +262,15 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
 
     const infoTypes = useQuery([INFO_TYPES_QUERY_KEY], getInfoTypes);
 
+    // A 404 means the mapping does not exist yet, so submitting the form must
+    // create it instead of updating it. This is not a user-facing error.
+    const doCreate = defaultsMapping.error?.response?.status === 404;
+    const mappingError = doCreate ? null : defaultsMapping.error;
+    const mapping = defaultsMapping.data?.mapping;
+    const entries = Object.entries(mapping ?? {});
+
     const handleDelete = async (mappingName) => {
-        const { [mappingName]: _, ...newMapping } =
-            defaultsMapping.data.mapping;
+        const { [mappingName]: _, ...newMapping } = mapping;
         return await updateDefaultsMapping(newMapping);
     };
 
@@ -287,18 +293,6 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
         onError: (error) => showErrorAnnouncer(t("createMappingError"), error),
     });
 
-    const [doCreate, setDoCreate] = React.useState(false);
-
-    React.useEffect(() => {
-        if (defaultsMapping.isError) {
-            if (defaultsMapping.error.response.status === 404) {
-                defaultsMapping.data = {};
-                defaultsMapping.isError = false;
-                setDoCreate(true);
-            }
-        }
-    }, [defaultsMapping]);
-
     const handleSubmit = (values, { resetForm }) => {
         // We're storing the index into the instantlaunches Array in the formik Values,
         // so we have to get it from the list.
@@ -316,7 +310,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
 
         // The full mapping.
         const m = {
-            ...defaultsMapping.data.mapping,
+            ...mapping,
             [values.mappingName]: {
                 pattern: values.pattern,
                 kind: values.patternKind,
@@ -339,7 +333,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
         infoTypes.isLoading;
 
     const isError =
-        defaultsMapping.isError ||
+        !!mappingError ||
         instantlaunches.isError ||
         allQL.isError ||
         infoTypes.isError;
@@ -357,7 +351,7 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
             ) : isError ? (
                 <WrappedErrorHandler
                     errorObject={
-                        defaultsMapping.error ||
+                        mappingError ||
                         instantlaunches.error ||
                         allQL.error ||
                         infoTypes.error
@@ -386,7 +380,6 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
 
                     <AddMappingForm
                         handleSubmit={handleSubmit}
-                        mapping={defaultsMapping}
                         instantlaunches={instantlaunches.data.instant_launches}
                         infoTypes={infoTypes.data.types}
                         t={t}
@@ -411,10 +404,8 @@ const InstantLaunchMappingEditor = ({ showErrorAnnouncer }) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {defaultsMapping?.data?.mapping &&
-                                    Object.entries(
-                                        defaultsMapping.data.mapping
-                                    ).map(([name, patternObj], index) => {
+                                {mapping &&
+                                    entries.map(([name, patternObj], index) => {
                                         const rowID = buildID(
                                             baseID,
                                             ids.TABLE,

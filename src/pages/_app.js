@@ -81,7 +81,14 @@ function MyApp({ Component, pageProps }) {
 
     const [appBarHeight, setAppBarRef] = useComponentHeight();
     const router = useRouter();
-    const config = pageProps.publicConfig;
+    const [config, setConfig] = useState(pageProps.publicConfig);
+
+    // Each client-side navigation delivers a new publicConfig object.
+    // Keep the first one, so that consumers do not see a config change.
+    if (!config && pageProps.publicConfig) {
+        setConfig(pageProps.publicConfig);
+    }
+
     const pathname = router.pathname
         ? router.pathname.split(constants.PATH_SEPARATOR)[1]
         : NavigationConstants.DASHBOARD;

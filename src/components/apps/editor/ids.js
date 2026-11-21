@@ -42,6 +42,7 @@ const ids = {
         DESCRIPTION: "description",
         FILE_INFO_TYPE: "fileInfoType",
         IMPLICIT: "isImplicit",
+        IS_SENSITIVE: "isSensitive",
         LABEL: "label",
         OMIT_IF_BLANK: "omitIfBlank",
         REPEAT_OPTION_FLAG: "repeatOptionFlag",

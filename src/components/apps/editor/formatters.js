@@ -185,6 +185,7 @@ const formatSubmission = ({ editorSteps, versions, ...app }) => {
                     isVisible,
                     required,
                     omit_if_blank,
+                    is_sensitive,
                     validators,
                     file_parameters,
                 } = formParam;
@@ -281,6 +282,15 @@ const formatSubmission = ({ editorSteps, versions, ...app }) => {
                             file_parameters,
                             // default values not yet supported
                             defaultValue: null,
+                        };
+
+                    case AppParamTypes.ENV_VAR:
+                        return {
+                            ...param,
+                            required,
+                            omit_if_blank,
+                            is_sensitive,
+                            defaultValue: defaultValue || null,
                         };
 
                     default:
@@ -401,6 +411,13 @@ const getNewParam = (paramType, label, key) => {
                 is_implicit: false,
                 repeat_option_flag: false,
             };
+            break;
+
+        case AppParamTypes.ENV_VAR:
+            newParam.defaultValue = "";
+            newParam.required = false;
+            newParam.omit_if_blank = false;
+            newParam.is_sensitive = false;
             break;
 
         default:

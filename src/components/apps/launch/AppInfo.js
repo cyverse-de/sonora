@@ -32,7 +32,11 @@ import { Info, MenuBook } from "@mui/icons-material";
 
 import { Skeleton } from "@mui/material";
 
-import { appUnavailable, appRequiresGpu } from "../utils";
+import {
+    appUnavailable,
+    appRequiresGpu,
+    sensitiveParamsUnsupported,
+} from "../utils";
 
 import { useConfig } from "contexts/config";
 import ExternalLink from "components/utils/ExternalLink";
@@ -91,6 +95,23 @@ const UnavailableMsg = ({
         );
     } else if (app?.disabled) {
         message = t("appUnavailable");
+    } else if (sensitiveParamsUnsupported(app?.overall_job_type, app?.groups)) {
+        message = (
+            <Trans
+                t={t}
+                i18nKey="appSensitiveParamsUnsupported"
+                components={{
+                    support: (
+                        <Link
+                            id={buildID(baseId, ids.BUTTONS.CONTACT_SUPPORT)}
+                            component="button"
+                            onClick={intercomShow}
+                            underline="hover"
+                        />
+                    ),
+                }}
+            />
+        );
     } else if (hasDeprecatedParams) {
         message = (
             <Trans

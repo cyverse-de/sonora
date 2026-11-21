@@ -279,6 +279,28 @@ export const formatAppDoc = (
     return doc;
 };
 
+/**
+ * Returns true if any parameter in the given app groups is marked sensitive.
+ *
+ * @param {Object[]} groups The app's parameter groups.
+ */
+export const hasSensitiveParams = (groups) =>
+    !!groups?.some((group) =>
+        group.parameters?.some((param) => param.is_sensitive)
+    );
+
+/**
+ * Sensitive parameters are only delivered to interactive (VICE) analyses,
+ * so any other job type with sensitive parameters would silently lose them.
+ *
+ * @param {string} jobType The app's `overall_job_type`, or its tool's `type`.
+ * @param {Object[]} groups The app's parameter groups.
+ * @returns {boolean} True if the groups have sensitive parameters
+ * and the job type is not interactive.
+ */
+export const sensitiveParamsUnsupported = (jobType, groups) =>
+    jobType !== ToolTypes.INTERACTIVE && hasSensitiveParams(groups);
+
 export const appUnavailable = (
     app,
     hasDeprecatedParams,
@@ -287,6 +309,7 @@ export const appUnavailable = (
     return (
         app?.deleted ||
         app?.disabled ||
+        sensitiveParamsUnsupported(app?.overall_job_type, app?.groups) ||
         hasDeprecatedParams ||
         computeLimitExceeded
     );

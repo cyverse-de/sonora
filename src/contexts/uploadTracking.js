@@ -10,7 +10,6 @@
  */
 
 import React from "react";
-import UUID from "uuid/v4";
 
 export const KindFile = "file";
 export const KindURL = "url";
@@ -50,7 +49,7 @@ export const trackableUpload = ({
         console.log("no-op cancelFn called");
     },
 }) => ({
-    id: UUID(),
+    id: crypto.randomUUID(),
     kind,
     isUploading,
     hasUploaded,

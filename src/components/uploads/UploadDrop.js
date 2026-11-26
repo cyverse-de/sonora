@@ -6,8 +6,6 @@
  * @module uploads/UploadDrop
  */
 
-import UUID from "uuid/v4";
-
 import { addAction } from "../../contexts/uploadTracking";
 
 /**
@@ -36,7 +34,7 @@ const KindFile = "File";
  */
 
 export const trackUpload = (uploadFile, destinationPath, dispatch) => {
-    const newID = UUID();
+    const newID = crypto.randomUUID();
 
     dispatch(
         addAction({

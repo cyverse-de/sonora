@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import UUID from "uuid/v4";
 
 import {
     UploadTrackingProvider,
@@ -21,7 +20,7 @@ const TestDispatch = () => {
     useEffect(() => {
         dispatch(
             addAction({
-                id: UUID(),
+                id: crypto.randomUUID(),
                 parentPath:
                     "/iplant/home/ipcdev/test-0/foo/bar/baz/blippy/this/should/be/really/long",
                 filename: "fake-upload-0",
@@ -35,7 +34,7 @@ const TestDispatch = () => {
 
         dispatch(
             addAction({
-                id: UUID(),
+                id: crypto.randomUUID(),
                 parentPath: "/iplant/home/ipcdev/test-1",
                 filename: "fake-upload-1",
                 isUploading: false,
@@ -48,7 +47,7 @@ const TestDispatch = () => {
 
         dispatch(
             addAction({
-                id: UUID(),
+                id: crypto.randomUUID(),
                 parentPath: "/iplant/home/ipcdev/test-2",
                 filename: "fake-upload-2",
                 isUploading: false,
@@ -63,7 +62,7 @@ const TestDispatch = () => {
 
         dispatch(
             addAction({
-                id: UUID(),
+                id: crypto.randomUUID(),
                 parentPath: "/iplant/home/ipcdev/test-3",
                 filename: "fake-upload-3",
                 isUploading: false,

@@ -7,7 +7,6 @@
 import * as http from "http";
 import * as ws from "ws";
 import amqplib from "amqplib";
-import UUID from "uuid/v4";
 
 import NavigationConstants from "../common/NavigationConstants";
 import * as authn from "./auth";
@@ -100,7 +99,7 @@ export function getNotifications(user, ws) {
         return;
     }
 
-    const QUEUE = NOTIFICATION_QUEUE + user + "." + UUID();
+    const QUEUE = NOTIFICATION_QUEUE + user + "." + crypto.randomUUID();
 
     const connectionCleanUp = () => {
         msgChannel?.cancel(consumerTag);

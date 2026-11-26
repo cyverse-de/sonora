@@ -1,15 +1,14 @@
 /**
- * @author sriram
+ * @author sriram, psarando
  *
  * Handles proxying file downloads from Terrain.
  *
  * @module downloads
  */
-import request from "postman-request";
 import path from "path";
-import logger from "../logging";
 
 import { terrainURL } from "../configuration";
+import { streamTerrainRequest } from "./terrainStream";
 
 /**
  * Express handler for file download requests. The response from this
@@ -41,7 +40,7 @@ const handler = async (req, res) => {
         apiURL.search = "path=" + filePath;
     }
 
-    req.pipe(doDownloadFromTerrain(userID, accessToken, apiURL)).pipe(res);
+    await doDownloadFromTerrain(req, res, userID, accessToken, apiURL);
 };
 
 /**
@@ -74,24 +73,24 @@ const metadataTemplateCSVhandler = async (req, res) => {
         "zip-csv"
     );
 
-    req.pipe(doDownloadFromTerrain(userID, accessToken, apiURL)).pipe(res);
+    await doDownloadFromTerrain(req, res, userID, accessToken, apiURL);
 };
 
-const doDownloadFromTerrain = (userID, accessToken, apiURL) => {
-    logger.info(`TERRAIN ${userID} GET ${apiURL.href}`);
-    const requestOptions = {
-        method: "GET",
-        url: apiURL,
-        headers: {
-            Accept: "application/octet-stream",
-        },
-        disableUrlEncoding: true,
+const doDownloadFromTerrain = (req, res, userID, accessToken, apiURL) => {
+    const headers = {
+        Accept: "application/octet-stream",
     };
     if (accessToken) {
-        requestOptions.headers["Authorization"] = `Bearer ${accessToken.token}`;
+        headers["Authorization"] = `Bearer ${accessToken.token}`;
     }
-    return request(requestOptions).on("error", function (err) {
-        logger.error(err);
+
+    // Media viewers send Range requests to seek in a file.
+    return streamTerrainRequest(req, res, {
+        userID,
+        method: "GET",
+        apiURL,
+        headers,
+        forwardHeaders: ["range", "if-range"],
     });
 };
 

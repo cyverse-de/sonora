@@ -1,16 +1,15 @@
 /**
- * @author johnworth
+ * @author johnworth, psarando
  *
  * Handles proxying file uploads to Terrain.
  *
  * @module uploads
  */
-import request from "postman-request";
 import querystring from "querystring";
 import path from "path";
-import logger from "../logging";
 
 import { terrainURL } from "../configuration";
+import { streamTerrainRequest } from "./terrainStream";
 
 /**
  * Express handler for file upload requests. The response from this
@@ -40,36 +39,36 @@ const handler = async (req, res) => {
         return;
     }
 
-    req.pipe(doUploadToTerrain(userID, accessToken, destination)).pipe(res);
+    await doUploadToTerrain(req, res, userID, accessToken, destination);
 };
 
 /**
- * Formats the URL and returns the request() response.
+ * Formats the URL and streams the upload to Terrain.
  *
+ * @param {object} req - An Express request.
+ * @param {object} res - An Express response.
  * @param {string} userID - The userID passed in with the request.
  * @param {string} accessToken - The access token used for Terrain auth.
  * @param {string} destination - The destination directory path in the data store.
- * @returns {object}
+ * @returns {Promise}
  */
-const doUploadToTerrain = (userID, accessToken, destination) => {
+const doUploadToTerrain = (req, res, userID, accessToken, destination) => {
     const apiURL = new URL(terrainURL);
     apiURL.pathname = path.join(apiURL.pathname, "/secured/fileio/upload");
     apiURL.search = querystring.stringify({
         dest: destination,
     });
 
-    const requestOptions = {
+    return streamTerrainRequest(req, res, {
+        userID,
         method: "POST",
-        url: apiURL,
+        apiURL,
         headers: {
             Authorization: `Bearer ${accessToken.token}`,
         },
-        disableUrlEncoding: true,
-    };
-
-    logger.info(`TERRAIN ${userID} POST ${apiURL.href}`);
-
-    return request(requestOptions);
+        forwardHeaders: ["content-type", "content-length"],
+        body: req,
+    });
 };
 
 export default handler;
